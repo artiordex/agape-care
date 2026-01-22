@@ -1,0 +1,50 @@
+{
+  "extends": "../../tsconfig.app.json",
+
+  "compilerOptions": {
+    "composite": true,
+    "incremental": true,
+    "tsBuildInfoFile": "../../dist/packages/ui/.tsbuildinfo",
+
+    "rootDir": "./src",
+    "outDir": "../../dist/packages/ui",
+    "declarationDir": "../../dist/packages/ui",
+
+    "jsx": "react-jsx",
+
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "exactOptionalPropertyTypes": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+
+    "types": [],
+
+    "baseUrl": "./",
+    "paths": {
+      "@agape-care/ui/*": ["src/*"]
+    },
+
+    "noEmitOnError": false
+  },
+
+  "include": ["src/**/*"],
+  "exclude": ["dist", "node_modules", "**/*.test.*", "**/*.spec.*"],
+
+  "references": [
+    { "path": "../core" },
+    { "path": "../configs" },
+    { "path": "../logger" }
+  ]
+}

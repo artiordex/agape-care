@@ -1,0 +1,78 @@
+# Description : CODEOWNERS - 📌 ConnectWon Monorepo
+# 작성 목적   : Pull Request 생성 시 자동 리뷰어 및 책임자 지정 설정
+# Maintainer  : @artiordex (Full-Stack Lead
+# Author : Shiwoo Min
+# Date : 2025-09-16
+
+# 전체 코드 기본 책임자
+* @artiordex @snmaterial13
+
+# Backend / NestJS API
+/apps/api/           @artiordex @snmaterial13
+
+# Frontend / Admin Dashboard
+/apps/admin/         @artiordex @snmaterial13
+
+# Frontend / User Web (Next.js)
+/apps/web/           @artiordex @snmaterial13
+
+# Worker / Background Jobs
+/apps/worker/        @artiordex
+
+# E2E 테스트 (Playwright)
+/apps/e2e/           @artiordex @snmaterial13
+
+# 공용 패키지 (Shared Packages)
+/packages/core/          @artiordex
+/packages/api-contract/  @artiordex
+/packages/client/        @artiordex
+/packages/configs/       @artiordex
+/packages/database/      @artiordex
+/packages/logger/        @artiordex
+/packages/sdk/           @artiordex
+/packages/server/        @artiordex
+/packages/ui/            @artiordex
+
+# 내부 도구 및 스크립트
+/tools/              @artiordex
+/test/               @artiordex
+
+# 문서 관련
+/docs/               @artiordex @snmaterial13
+
+# Nx / 워크스페이스 설정 파일
+/nx.json             @artiordex
+/package.json        @artiordex
+/pnpm-workspace.yaml @artiordex
+/tsconfig.json       @artiordex
+/tsconfig.base.json  @artiordex
+
+# DevOps / 인프라 관련 설정
+/infra/              @artiordex
+/infra/docker/       @artiordex
+/infra/database/     @artiordex
+/infra/monitoring/   @artiordex
+/infra/k8s/          @artiordex
+/infra/n8n/          @artiordex
+
+# CI/CD 파이프라인
+/.github/workflows/  @artiordex
+/.github/CODEOWNERS  @artiordex
+
+# 환경 및 린트 설정 파일
+/.husky/             @artiordex
+/.changeset/         @artiordex
+/.cz-config.cjs      @artiordex
+/.hintrc             @artiordex
+/.pnpmrc             @artiordex
+/prettier.config.mjs @artiordex
+/eslint.config.mjs   @artiordex
+
+# Firebase / Cloud 설정
+/firebase.json       @artiordex
+/.firebaserc         @artiordex
+
+# 기타 문서
+/README.md           @artiordex @snmaterial13
+/LICENSE             @artiordex
+/PROJECT-ARCH.md     @artiordex 

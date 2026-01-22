@@ -1,0 +1,82 @@
+{
+  "name": "@agape-care/ui",
+  "version": "1.0.0",
+  "description": "Agape-Care UI 컴포넌트 라이브러리 (React / Tailwind 기반)",
+  "private": true,
+  "type": "module",
+  "sideEffects": ["./dist/**/*.css"],
+
+  "files": ["dist"],
+
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./ui-types": {
+      "types": "./dist/ui-types.d.ts",
+      "import": "./dist/ui-types.js"
+    },
+    "./tailwind-config": {
+      "import": "./dist/tailwind.config.mjs"
+    },
+    "./styles/*": "./dist/styles/*",
+    "./package.json": "./package.json"
+  },
+
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsc -p tsconfig.json",
+    "postbuild": "shx mkdir -p ./dist && shx cp ./tailwind.config.mjs ./dist/ && shx cp -r ./public ./dist/ && shx cp -r ./src/styles ./dist/styles",
+    "type-check": "tsc --noEmit -p tsconfig.json",
+    "prepublishOnly": "pnpm run clean && pnpm run build"
+  },
+
+  "dependencies": {
+    "@agape-care/configs": "workspace:*",
+    "@fontsource/inter": "^5.2.7",
+    "@fontsource/poppins": "^5.2.6",
+    "@heroicons/react": "^2.2.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.10",
+    "lucide-react": "^0.544.0",
+    "react-icons": "^5.5.0",
+    "tailwind-merge": "^2.6.0"
+  },
+
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "recharts": { "optional": true }
+  },
+
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "@tailwindcss/typography": "^0.5.19",
+    "@types/react": "^18.3.7",
+    "@types/react-dom": "^18.3.0",
+    "@types/recharts": "^2.0.1",
+    "eslint": "^9.36.0",
+    "rimraf": "^6.0.1",
+    "shx": "^0.3.4",
+    "typescript": "5.6.3"
+  },
+
+  "nx": {
+    "implicitDependencies": ["configs", "core", "logger"]
+  },
+
+  "engines": {
+    "node": ">=20.11"
+  }
+}

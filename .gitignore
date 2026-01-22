@@ -1,9 +1,129 @@
-# Dependencies
-.psci_modules
-.spago
-bower_components
-node_modules
+# Description : .gitignore - 📌 Git 추적 제외 파일 목록
+# Author : Shiwoo Min
+# Date : 2026-01-22
 
-# Generated files
-.psci
-output
+# 로그 및 진단 파일
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# 런타임 / 프로세스 관련
+
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# 빌드 및 커버리지 결과
+lib-cov
+coverage
+*.lcov
+.nyc_output
+build/
+dist/
+dist/apps/
+dist/packages/
+
+# 의존성 및 캐시
+node_modules/
+jspm_packages/
+web_modules/
+bower_components
+.lock-wscript
+.npm
+.nx
+.eslintcache
+.stylelintcache
+
+# IDE / 도구 캐시
+.idea/
+.vscode-test/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 환경 / 보안
+.env
+.env.*
+!.env.example
+.secrets
+poetry/
+.poetry/
+__pycache__/
+*.pyc
+*.pyo
+
+# 빌드 시스템별 산출물
+.next
+out
+.nuxt
+.cache
+.temp
+.tmp
+.vuepress/dist
+.svelte-kit/
+.vitepress/dist
+.vitepress/cache
+.docusaurus
+.serverless/
+.fusebox/
+.dynamodb/
+
+# Firebase / Docker / Nx
+.firebase/
+infra/docker/tmp/
+infra/docker/logs/
+infra/docker/.env
+docker-compose.override.yml
+docker-compose.local.yml
+Dockerfile*
+.docker/
+
+# 테스트 / Vitest / Playwright
+vitest.config.ts
+test/
+test-results/
+e2e-artifacts/
+playwright-report/
+coverage/
+*.spec.ts
+*.test.ts
+*.spec.tsx
+*.test.tsx
+
+# TypeScript / Prisma
+*.tsbuildinfo
+/packages/database/generated/
+
+# Yarn / PNPM / Nx / CI 캐시
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnpm-store/
+node_modules/.cache/
+node_modules/.cache/nx/
+node_modules/.vite/
+node_modules/.turbo/
+
+# OS / 편집기 임시파일
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Python / 기타 언어
+*.egg-info/
+build/
+dist/
+__pycache__/
+*.pyc
+*.pyo

@@ -1,0 +1,55 @@
+{
+  "name": "@agape-care/api-contract",
+  "version": "1.0.0",
+  "description": "Agape-Care 요양원 ERP용 API 계약 패키지 (Zod / OpenAPI / 타입 공유)",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+
+  "files": ["dist"],
+
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./types": {
+      "types": "./dist/api-contract-types.d.ts",
+      "import": "./dist/api-contract-types.js"
+    },
+    "./package.json": "./package.json"
+  },
+
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc --watch -p tsconfig.json",
+    "type-check": "tsc --noEmit -p tsconfig.json",
+    "gen:openapi": "tsx src/openapi/emit.ts",
+    "prepublishOnly": "pnpm run clean && pnpm run build"
+  },
+
+  "dependencies": {
+    "swagger-ui-dist": "^5.29.0"
+  },
+
+  "peerDependencies": {
+    "@ts-rest/core": "^3.52.1",
+    "zod": "^3.23.8"
+  },
+
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "openapi-types": "^12.1.3",
+    "typescript": "^5.6.3",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.19.3"
+  },
+
+  "engines": {
+    "node": ">=20.11.0"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "name": "database",
+  "sourceRoot": "packages/database/src",
+  "projectType": "library",
+  "tags": ["type:lib", "layer:backend"],
+
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "options": {
+        "main": "packages/database/src/index.ts",
+        "outputPath": "dist/packages/database",
+        "tsConfig": "packages/database/tsconfig.json",
+        "assets": [
+          "packages/database/package.json",
+          "packages/database/prisma/schema.prisma"
+        ]
+      },
+      "outputs": ["{options.outputPath}"]
+    },
+
+    "prisma:generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run generate",
+        "cwd": "packages/database"
+      }
+    },
+
+    "prisma:migrate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run migrate",
+        "cwd": "packages/database"
+      }
+    },
+
+    "prisma:migrate:deploy": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run migrate:deploy",
+        "cwd": "packages/database"
+      }
+    },
+
+    "prisma:studio": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm run studio",
+        "cwd": "packages/database"
+      }
+    },
+
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["packages/database/**/*.ts"]
+      }
+    },
+
+    "test": {
+      "executor": "@nx/vite:test",
+      "options": {
+        "passWithNoTests": true
+      }
+    }
+  },
+
+  "implicitDependencies": ["core", "logger"]
+}

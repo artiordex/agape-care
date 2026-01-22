@@ -1,0 +1,16 @@
+{
+  "extends": ["recommended"],
+  "hints": {
+    "axe/aria": [
+      "default",
+      {
+        "aria-valid-attr-value": "warn"
+      }
+    ],
+    "axe/color-contrast": "warn",
+    "axe/button-name": "warn",
+    "axe/image-alt": "warn",
+    "axe/link-name": "warn",
+    "no-inline-styles": "warn"
+  }
+}

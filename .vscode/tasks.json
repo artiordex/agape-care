@@ -1,0 +1,182 @@
+/**
+ * Description : tasks.json - 📌 VS Code 자동화 작업 설정 (Agape-Care ERP)
+ * Author : Shiwoo Min
+ * Date : 2026-01-22
+ * Note : Vite + React(Web) + NestJS(API) + Prisma + Vitest 기반
+ */
+{
+  "version": "2.0.0",
+
+  "presentation": {
+    "echo": true,
+    "reveal": "always",
+    "panel": "shared"
+  },
+
+  "runOptions": {
+    "reevaluateOnRerun": true
+  },
+
+  "tasks": [
+    /* Dev Servers */
+    {
+      "label": "Dev: Web (Vite)",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["dev"],
+      "isBackground": true,
+      "problemMatcher": [],
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+
+    {
+      "label": "Dev: API (NestJS)",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["dev:api"],
+      "isBackground": true,
+      "problemMatcher": [],
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+
+    {
+      "label": "Dev: All",
+      "type": "shell",
+      "dependsOn": ["Dev: Web (Vite)", "Dev: API (NestJS)"],
+      "command": "echo",
+      "args": ["Agape-Care dev servers running"],
+      "isBackground": true,
+      "problemMatcher": []
+    },
+
+    /* Testing (Vitest) */
+    {
+      "label": "Test: Unit (Vitest)",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["test"],
+      "group": "test",
+      "problemMatcher": [],
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+
+    {
+      "label": "Test: Unit (Vitest Watch)",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["test", "--watch"],
+      "isBackground": true,
+      "group": "test",
+      "problemMatcher": [],
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+
+    /* Lint / Type */
+    {
+      "label": "Lint: Check",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["lint"],
+      "group": "test",
+      "problemMatcher": ["$eslint-stylish"],
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+
+    {
+      "label": "Lint: Fix",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["lint:fix"],
+      "group": "build",
+      "problemMatcher": ["$eslint-stylish"],
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+
+    {
+      "label": "Type: Check",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["type-check"],
+      "group": "test",
+      "problemMatcher": ["$tsc"],
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+
+    /* Database (Prisma) */
+    {
+      "label": "DB: Migrate",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["db:migrate"],
+      "group": "build",
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+
+    {
+      "label": "DB: Seed",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["db:seed"],
+      "group": "build",
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+
+    {
+      "label": "DB: Reset",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["db:reset"],
+      "group": "build",
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+
+    {
+      "label": "DB: Studio",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["db:studio"],
+      "isBackground": true,
+      "group": "build",
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+
+    /* Build / Utils */
+    {
+      "label": "Build: Web (Vite)",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["build"],
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": [],
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+
+    {
+      "label": "Build: API (NestJS)",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["build:api"],
+      "group": "build",
+      "problemMatcher": ["$tsc"],
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+
+    {
+      "label": "Install: Dependencies",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["install"],
+      "group": "build",
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+
+    {
+      "label": "Clean: Cache",
+      "type": "shell",
+      "command": "pnpm",
+      "args": ["clean"],
+      "group": "build",
+      "options": { "cwd": "${workspaceFolder}" }
+    }
+  ]
+}

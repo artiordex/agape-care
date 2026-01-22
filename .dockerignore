@@ -1,0 +1,97 @@
+/**
+ * Description : .dockerignore - 📌 도커 빌드 시 제외할 파일 및 디렉토리
+ * Author : Shiwoo Min
+ * Date : 2028-01-22
+ */
+
+# Node.js 관련
+node_modules
+
+# Build artifacts
+dist
+build
+.next
+out
+
+# Package manager caches
+.pnpm
+.pnpm-store
+.cache
+.yarn
+.npm
+
+# Logs / temp
+*.log
+*.tmp
+*.temp
+*.tsbuildinfo
+
+# IDE / OS
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+*.swp
+*.swo
+
+# Git
+.git
+.gitignore
+
+# Tests / coverage
+coverage
+test-results
+.nyc_output
+playwright-report
+cypress
+test
+
+# Allowed (whitelist)
+!packages/*/src
+!packages/*/package.json
+!packages/*/tsconfig.json
+!packages/*/*.ts
+!packages/*/*.d.ts
+!packages/*/prisma/**
+# Tailwind / PostCSS / Config 허용
+!packages/*/tailwind.config.*
+!packages/*/postcss.config.*
+!packages/*/next.config.*
+!packages/*/*.json
+
+!apps/*/src
+!apps/*/public
+!apps/*/package.json
+!apps/*/next.config.*
+!apps/*/tailwind.config.*
+!apps/*/postcss.config.*
+!apps/*/tsconfig.json
+
+!infra
+!pnpm-lock.yaml
+!package.json
+!pnpm-workspace.yaml
+!nx.json
+!tsconfig*.json
+
+# Nx / Turborepo
+.nx
+.turbo
+
+# Docs
+README.md
+*.md
+LICENSE
+
+# Docker
+docker-compose.override.yml
+docker-compose.*.yml
+
+# Misc
+tmp
+docs
+
+# TypeScript build cache
+*.tsbuildinfo

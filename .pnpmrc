@@ -1,0 +1,123 @@
+# Description : .pnpmrc - 📌 PNPM 워크스페이스 패키지 호이스팅 설정
+# Author : Shiwoo Min
+# Date  : 2025-09-12
+# 09-17 - 스타일링, 테스트, 코드 품질, ORM/DB 관련 패키지 호이스팅 추가
+# 09-18 - TypeScript 라이브러리 오류 해결을 위한 shamefully-hoist 설정 추가
+# 09-22 - pnpm v10 deploy 정책 대응 (inject-workspace-packages 추가)
+# 09-22 - Docker 빌드 최적화 설정 추가 (네트워크, 캐시, 재시도)
+# 10-08 - pnpm v10 호환성 수정 (shamefully-hoist/symlink 설정 제거, React/Next 호이스팅 추가)
+# NOTE :
+#   - public-hoist-pattern 설정을 통해 특정 패키지들을 루트 node_modules로 끌어올려
+#     모든 워크스페이스에서 공유 사용 (중복 설치 방지, 버전 일관성 유지)
+#   - auto-install-peers 설정을 통해 peer dependencies 자동 설치 활성화
+#   - pnpm v10 이상에서는 node-linker=hoisted 로 통합 (shamefully-hoist 불필요)
+#   - symlink=false 설정은 pnpm v10 이상에서 워크스페이스 링크를 깨뜨릴 수 있으므로 제거
+#   - nxCloudAccessToken은 .env 파일에서 로드하도록 변경 (보안 강화)
+
+# 공통 호이스팅 패턴
+
+# 모든 @types/* 패키지들
+public-hoist-pattern[]=*@types/*
+
+# TypeScript 컴파일러 및 관련 도구들 공통 사용
+public-hoist-pattern[]=typescript
+public-hoist-pattern[]=ts-node
+public-hoist-pattern[]=tsx
+
+# React / Next 환경 통일 (중복 React 인스턴스 방지)
+public-hoist-pattern[]=react
+public-hoist-pattern[]=react-dom
+public-hoist-pattern[]=next
+
+# ESLint 관련 패키지들 (플러그인, 설정 등) 통일
+public-hoist-pattern[]=eslint*
+
+# Prettier 포맷터 공통 사용
+public-hoist-pattern[]=prettier
+
+# Vitest 테스트 프레임워크 공유
+public-hoist-pattern[]=vitest
+
+# Vite 빌드 도구 공유
+public-hoist-pattern[]=vite
+
+# Playwright E2E 테스트 도구 및 관련 패키지들
+public-hoist-pattern[]=playwright*
+
+# NestJS 프레임워크 호이스팅
+public-hoist-pattern[]=@nestjs/*
+
+# 스타일링 (Tailwind / PostCSS)
+public-hoist-pattern[]=tailwindcss
+public-hoist-pattern[]=postcss
+
+# 코드 품질 도구 (Lint-Staged / Husky)
+public-hoist-pattern[]=lint-staged
+public-hoist-pattern[]=husky
+
+# ORM/DB
+public-hoist-pattern[]=prisma
+
+# 공용 유틸리티 (Zod, Dayjs 등)
+public-hoist-pattern[]=zod
+public-hoist-pattern[]=dayjs
+
+# peer dependencies 자동 설치
+auto-install-peers=true
+
+# 호이스팅 및 링크 방식
+# - pnpm v10 이상에서는 node-linker=hoisted 가 권장
+# - shamefully-hoist 는 중복 옵션으로 제거
+# - symlink=false 설정은 비권장 (워크스페이스 링크 깨질 수 있음)
+node-linker=hoisted
+link-workspace-packages=true
+prefer-workspace-packages=true
+inject-workspace-packages=true
+ignore-workspace-root-check=true
+
+# Docker 빌드 최적화 설정
+# - Docker 빌드 중 네트워크 타임아웃 및 패키지 재시도 강화
+# - 네트워크 동시성(network-concurrency)을 약간 높여 빌드 속도 개선
+
+# 네트워크 설정 (Docker 빌드 시 타임아웃 방지)
+network-timeout=300000
+fetch-timeout=300000
+network-concurrency=8
+
+# 재시도 설정 (네트워크 불안정 상황 대응)
+fetch-retries=5
+fetch-retry-mintimeout=10000
+fetch-retry-maxtimeout=120000
+
+# 레지스트리 설정
+registry=https://registry.npmjs.org/
+
+# 캐시 설정 (Docker 레이어 캐싱 최적화)
+store-dir=.pnpm-store
+cache-dir=.pnpm-cache
+
+# 로그 레벨 (빌드 디버깅용)
+loglevel=info
+progress=true
+
+# 패키지 관리 정책
+# - pnpm v10 이상에서는 package-manager-strict 옵션 제거
+# - 대신 ignore-workspace-root-check 로 루트 스크립트 허용
+# - save-exact=false 유지 (버전 안정성 + 유연성)
+save-exact=false
+audit-level=moderate
+fund=false
+
+# 워크스페이스 설정
+# - link-workspace-packages 활성화 시 내부 패키지 자동 연결
+# - prefer-workspace-packages 로 workspace 우선 설치
+link-workspace-packages=true
+prefer-workspace-packages=true
+
+# 빌드 최적화
+# - package-import-method=auto : pnpm이 자동으로 최적 방식 선택
+package-import-method=auto
+
+# CI/CD 안정성
+# - frozen-lockfile=false : CI/CD 환경에서 버전 유연성 허용
+frozen-lockfile=false

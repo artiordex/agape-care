@@ -1,0 +1,246 @@
+/**
+ * Description : settings.json - 📌 VS Code 설정 파일 (ConnectWon Monorepo)
+ * Author : Shiwoo Min
+ * Date : 2026-01-22
+ * Nx 경고 차단, ESLint/Prettier 충돌 방지, VSCode 성능 최적화
+ */
+{
+  // 탭 크기
+  "editor.tabSize": 2,
+
+  // 탭 대신 공백 사용
+  "editor.insertSpaces": true,
+
+  // 파일마다 다른 들여쓰기 감지 방지
+  "editor.detectIndentation": false,
+
+  // 저장 시 자동 포맷팅
+  "editor.formatOnSave": true,
+
+  // 붙여넣기 시 자동 포맷팅
+  "editor.formatOnPaste": true,
+
+  // Prettier 사용
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // 문자열 입력 시 자동 완성 활성화
+  "editor.quickSuggestions": {
+    "comments": false,
+    "strings": true,
+    "other": true
+  },
+
+  // 120자 길이의 가이드 라인(ESLint max-len과 일치)
+  "editor.rulers": [120],
+
+  // 중괄호 가이드라인
+  "editor.guides.bracketPairs": true,
+
+  // 중괄호 색상 구별
+  "editor.bracketPairColorization.enabled": true,
+
+  // 코드 미니맵 표시
+  "editor.minimap.enabled": true,
+
+  // 긴 코드 자동 줄 바꿈
+  "editor.wordWrap": "on",
+
+  // AI 코드 추천 (GitHub Copilot, CodeWhisperer 등 사용 가능)
+  "editor.inlineSuggest.enabled": true,
+
+  // 일정 시간 후 자동 저장
+  "files.autoSave": "afterDelay",
+
+  // 저장 시 불필요한 공백 제거
+  "files.trimTrailingWhitespace": true,
+
+  // 파일 끝에 빈 줄 추가
+  "files.insertFinalNewline": true,
+
+  // 숨길 파일/폴더 설정(탐색기 성능 최적화)
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/out": true,
+    "**/build": true,
+    "**/.next": true,
+    "**/.nx": true,
+    "**/coverage": true,
+    "**/generated": true,
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/.vscode": false
+  },
+
+  // 검색에서 제외(대형 레포 성능 최적화)
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/out": true,
+    "**/build": true,
+    "**/.next": true,
+    "**/.nx": true,
+    "**/coverage": true,
+    "**/generated": true
+  },
+
+  // 파일 이동 시 import 경로 자동 업데이트
+  "typescript.updateImportsOnFileMove.enabled": "always",
+
+  // 저장 시 import 자동 정리 (중복 제거 + eslint fix)
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // TypeScript import 자동 완성 관련 설정
+  "typescript.suggest.autoImports": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifierEnding": "auto",
+
+  // 자동 타입 획득 방지(불필요 네트워크 차단)
+  "typescript.suggestionActions.enabled": false,
+
+  // 워크스페이스 TypeScript 사용
+  "typescript.tsdk": "node_modules/typescript/lib",
+
+  // 워크스페이스 TS 사용 유도
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // TS 서버 메모리 늘리기(모노레포 안정성)
+  "typescript.tsserver.maxTsServerMemory": 4096,
+
+  // ESLint가 모노레포 하위 워크스페이스를 자동 인식
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+
+  // ESLint 유효성 검사 언어(React TSX 포함)
+  "eslint.validate": ["typescript", "typescriptreact", "javascript"],
+
+  // ESLint Flat Config 사용 (eslint.config.mjs)
+  "eslint.useFlatConfig": true,
+
+  // ESLint 저장 모드 (문제 있는 부분만 자동 수정)
+  "eslint.codeActionsOnSave.mode": "problems",
+
+  // ESLint 포맷 비활성화 (Prettier가 포맷 담당)
+  "eslint.format.enable": false,
+
+  // Prettier 설정 파일이 있을 때만 포맷(팀 일관성)
+  "prettier.requireConfig": true,
+
+  // JSON 스키마 유효성 검사 비활성화 (Nx 관련 경고 제거)
+  "json.validate.enable": false,
+
+  // TS 서버 로그 비활성화 (성능 향상)
+  "typescript.tsserver.log": "off",
+
+  // 프로젝트 진단 비활성(노이즈 감소)
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+
+  // CSS 유효성 검사 비활성(충돌 방지)
+  "css.validate": false,
+
+  // Nx Console AI 규칙 사용
+  "nxConsole.generateAiAgentRules": true,
+
+  // Nx Console 텔레메트리 비활성화
+  "nxConsole.enableTelemetry": false,
+
+  // YAML 관련 스키마 검증 비활성화 (GitHub Actions 경고 제거)
+  "yaml.customTags": [
+    "!secrets scalar",
+    "!secrets mapping",
+    "!env scalar",
+    "!env mapping"
+  ],
+
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "file:///d:/kosa-mvp-connectwon/.github/workflows/*.yml"
+  },
+  "yaml.validate": false,
+  "yaml.validation": true,
+  "yaml.format.enable": true,
+
+  // tailwind CSS IntelliSense 활성화
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
+  },
+
+  // 스펠링 검사 제외 경로
+  "cSpell.ignorePaths": [
+    "pnpm-lock.yaml",
+    "settings.json",
+    "extensions.json",
+    "docs/*",
+    "infra/database/*"
+  ],
+
+  // 스펠링 검사 제외 단어 목록
+  "cSpell.userWords": [
+    "ShiwooMin",
+    "Artiordex",
+    "trivago",
+    "Make-DirsAndFiles",
+    "VERCEL",
+    "healthcheck",
+    "initdb",
+    "CITEXT",
+    "Sparkline",
+    "subdirs",
+    "traceparent",
+    "Retryable",
+    "maxsize",
+    "autoincrement",
+    "winston",
+    "Timestamptz",
+    "logform",
+    "loggers",
+    "apikey",
+    "smhd",
+    "huggingface",
+    "Vite",
+  ],
+
+  // 파일을 새 탭에서 열기
+  "workbench.editor.enablePreview": false,
+
+  // 열린 탭 표시
+  "workbench.editor.showTabs": "multiple",
+
+  // 아이콘 테마
+  "workbench.iconTheme": "material-icon-theme",
+
+  // VS Code 테마
+  "workbench.colorTheme": "Copilot Theme",
+
+  // Playwright 테스트 결과 자동 열기
+  "playwright.reuseBrowser": true,
+
+  // Windows에서 기본 터미널 설정 (Git Bash 추천)
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+
+  // Linux 기본 터미널 (bash)
+  "terminal.integrated.defaultProfile.linux": "bash",
+
+  // macOS에서 기본 터미널 셸을 zsh로 설정
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.profiles.osx": {
+    "zsh": { "path": "/bin/zsh" }
+  },
+
+  // 터미널 글자 크기
+  "terminal.integrated.fontSize": 14,
+
+  // 터미널 스크롤 백 로그 길이
+  "terminal.integrated.scrollback": 10000,
+
+  // 터미널 탭 활성화
+  "terminal.integrated.tabs.enabled": true,
+
+  // 터미널에서 선택하면 자동 복사
+  "terminal.integrated.copyOnSelection": true,
+
+  // Git 저장소 변경사항 자동 가져오기
+  "git.autofetch": true
+}

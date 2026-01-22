@@ -1,0 +1,54 @@
+{
+  "name": "@connectwon/api",
+  "sourceRoot": "apps/api/src",
+  "projectType": "application",
+  "tags": ["type:app", "layer:backend", "platform:node"],
+
+  "__comment_targets": "Nx 빌드/테스트/린트 설정",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "options": {
+        "main": "apps/api/src/main.ts",
+        "tsConfig": "apps/api/tsconfig.json",
+        "outputPath": "dist/apps/api",
+        "assets": ["apps/api/src/**/*.json"]
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "options": {
+        "buildTarget": "@connectwon/api:build",
+        "inspect": true,
+        "port": 8000
+      },
+      "configurations": {
+        "production": {
+          "inspect": false,
+          "watch": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["apps/api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "options": {
+        "vitestConfig": "../../vitest.config.ts",
+        "passWithNoTests": true
+      },
+      "outputs": ["{workspaceRoot}/coverage/apps/api"]
+    }
+  },
+
+  "implicitDependencies": [
+    "@connectwon/core",
+    "@connectwon/database",
+    "@connectwon/logger",
+    "@connectwon/api-contract"
+  ]
+}

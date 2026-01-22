@@ -1,0 +1,41 @@
+# Description : pnpm-workspace.yaml - 📌 모노레포 워크스페이스 패키지 정의
+# Author : Shiwoo Min
+# Date : 2026-01-22
+# pnpm nx run-many -t build - 모든 패키지 빌드
+# npx tsc --noEmit - 모든 패키지 타입체크
+# pnpm nx graph - 의존성 그래프 시각화
+# 빌드 - pnpm --filter @connectwon/* build
+# 개발 - pnpm --filter @connectwon/* dev
+# 워커 (백그라운드 작업) - pnpm --filter @connectwon/worker start
+# 전체 의존성 확인 - pnpm list -r
+# cd E:/kosa-mvp-connectwon/dist/packages
+
+packages:
+  # Applications
+  - 'apps/admin'         # 관리자 대시보드 (Admin Dashboard)
+  - 'apps/api'           # REST API 서버 (Backend API Server)
+  - 'apps/web'           # 사용자 웹 앱 (Frontend Web App)
+  - 'apps/worker'        # 백그라운드 작업 처리 (Background Job Worker)
+
+  # Shared Packages
+  - 'packages/api-contract'  # API 스키마 정의 (API Schema & Types)
+  - 'packages/configs'       # 환경설정 관리 (Configuration Management)
+  - 'packages/core'          # 핵심 비즈니스 로직 (Core Business Logic)
+  - 'packages/logger'        # 로깅 시스템 (Logging System)
+  - 'packages/sdk'           # 클라이언트 SDK (Client SDK)
+  - 'packages/client'        # 클라이언트 유틸리티 (Client Utilities)
+  - 'packages/server'        # 서버 유틸리티 (Server Utilities)
+  - 'packages/database'      # 데이터베이스 ORM (Database & ORM)
+  - 'packages/ui'            # UI 컴포넌트 라이브러리 (UI Components)
+
+  # Infra / Tooling
+  - 'infra/**'               # 인프라 구성 (Docker, Compose, Cloud Run 설정)
+  - 'tools/**'               # 내부 스크립트, 자동화 도구 (Build, Deploy 등)
+
+  # Firebase Hosting 빌드 출력 경로 (Optional: Firebase CLI 최적화용)
+  - 'apps/web/out'           # Firebase용 정적 빌드 아웃풋
+  - 'apps/admin/out'         # Firebase용 정적 빌드 아웃풋
+
+  # Dist 빌드 결과 (Docker, Cloud Run 빌드 시 참조)
+  - 'dist/apps/*'
+  - 'dist/packages/*'

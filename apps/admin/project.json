@@ -1,0 +1,42 @@
+{
+  "name": "@agape-care/admin",
+  "sourceRoot": "apps/admin/src",
+  "projectType": "application",
+  "tags": ["type:app", "layer:frontend", "platform:nextjs"],
+
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "options": {
+        "outputPath": "dist/apps/admin",
+        "root": "apps/admin",
+        "env": {
+          "NEXT_PUBLIC_APP_TYPE": "admin"
+        }
+      }
+    },
+
+    "serve": {
+      "executor": "@nx/next:server",
+      "options": {
+        "buildTarget": "@agape-care/admin:build",
+        "dev": true,
+        "port": 3001
+      }
+    },
+
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["apps/admin/**/*.ts", "apps/admin/**/*.tsx"]
+      }
+    }
+  },
+
+  "implicitDependencies": [
+    "@agape-care/ui",
+    "@agape-care/client",
+    "@agape-care/api-contract",
+    "@agape-care/configs"
+  ]
+}

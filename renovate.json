@@ -1,0 +1,190 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Agape-Care 요양원 ERP 모노레포를 위한 Renovate 설정 파일",
+  "extends": [
+    "config:base",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":separateMultipleMajorReleases",
+    ":automergeDisabled",
+    "group:monorepos"
+  ],
+  "enabledManagers": ["npm", "pnpm"],
+  "timezone": "Asia/Seoul",
+  "npm": {
+    "pnpm": { "enabled": true }
+  },
+  "postUpdateOptions": ["pnpmDedupe"],
+  "ignorePaths": ["docs/**", "dist/**", "apps/**/out/**", "apps/**/.next/**"],
+  "packageRules": [
+    {
+      "description": "패치 및 마이너 버전은 자동 병합 허용",
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
+      "description": "Agape-Care 관리자 시스템 (Admin) 그룹 관리",
+      "matchPaths": ["apps/admin/**"],
+      "groupName": "admin-app",
+      "separateMajorMinor": false
+    },
+    {
+      "description": "Agape-Care 웹사이트 (Web) 그룹 관리",
+      "matchPaths": ["apps/web/**"],
+      "groupName": "web-app",
+      "separateMajorMinor": false
+    },
+    {
+      "description": "Agape-Care API 서버 (API) 그룹 관리",
+      "matchPaths": ["apps/api/**"],
+      "groupName": "api-app",
+      "separateMajorMinor": false
+    },
+    {
+      "description": "Agape-Care 워커 (Worker) 그룹 관리",
+      "matchPaths": ["apps/worker/**"],
+      "groupName": "worker-app",
+      "separateMajorMinor": false
+    },
+    {
+      "description": "Next.js 관련 종속성 그룹 관리",
+      "matchPackagePatterns": [
+        "^next",
+        "^@next/",
+        "^eslint-config-next"
+      ],
+      "groupName": "nextjs",
+      "schedule": ["on saturday"]
+    },
+    {
+      "description": "React 생태계 종속성 그룹 관리",
+      "matchPackagePatterns": [
+        "^react",
+        "^@types/react",
+        "^react-dom",
+        "^@types/react-dom"
+      ],
+      "groupName": "react",
+      "schedule": ["on saturday"]
+    },
+    {
+      "description": "UI 라이브러리 그룹 관리 (Radix UI, Tailwind 등)",
+      "matchPackagePatterns": [
+        "^@radix-ui/",
+        "^tailwindcss",
+        "^@tailwindcss/",
+        "^lucide-react",
+        "^framer-motion"
+      ],
+      "groupName": "ui-libs",
+      "schedule": ["on saturday"]
+    },
+    {
+      "description": "데이터베이스 및 ORM 관련 종속성",
+      "matchPackagePatterns": [
+        "^prisma",
+        "^@prisma/",
+        "^@supabase/",
+        "^firebase"
+      ],
+      "groupName": "database",
+      "schedule": ["on saturday"]
+    },
+    {
+      "description": "인증 및 보안 관련 종속성",
+      "matchPackagePatterns": [
+        "^next-auth",
+        "^@auth/",
+        "^bcryptjs",
+        "^jsonwebtoken",
+        "^crypto-js"
+      ],
+      "groupName": "auth-security",
+      "schedule": ["on saturday"]
+    },
+    {
+      "description": "차트 및 데이터 시각화 관련 종속성",
+      "matchPackagePatterns": [
+        "^recharts",
+        "^chart.js",
+        "^react-chartjs-2",
+        "^@tanstack/react-table",
+        "^@tanstack/react-query"
+      ],
+      "groupName": "charts-data",
+      "schedule": ["on saturday"]
+    },
+    {
+      "description": "의료/요양원 특화 라이브러리",
+      "matchPackagePatterns": [
+        "^react-big-calendar",
+        "^fullcalendar",
+        "^@fullcalendar/",
+        "^react-signature-canvas",
+        "^react-webcam",
+        "^react-pdf",
+        "^jspdf"
+      ],
+      "groupName": "healthcare-libs",
+      "schedule": ["on saturday"]
+    },
+    {
+      "description": "개발 인프라 관련 종속성 (Docker, Firebase, Husky 등) 관리",
+      "matchPackagePatterns": [
+        "^firebase",
+        "^docker",
+        "^husky",
+        "^lint-staged",
+        "^prettier",
+        "^eslint",
+        "^typescript",
+        "^@types/"
+      ],
+      "groupName": "dev-infra",
+      "schedule": ["on saturday"]
+    },
+    {
+      "description": "Node.js 서버 관련 종속성",
+      "matchPackagePatterns": [
+        "^@nestjs/",
+        "^nest",
+        "^nodemailer",
+        "^multer",
+        "^socket.io",
+        "^node-cron"
+      ],
+      "groupName": "nodejs-server",
+      "schedule": ["on saturday"]
+    },
+    {
+      "description": "테스팅 관련 종속성",
+      "matchPackagePatterns": [
+        "^jest",
+        "^@testing-library/",
+        "^@storybook/"
+      ],
+      "groupName": "testing",
+      "schedule": ["on saturday"]
+    }
+  ],
+  "lockFileMaintenance": {
+    "description": "pnpm-lock.yaml 자동 유지 관리 (매주 토요일 실행)",
+    "enabled": true,
+    "schedule": ["on saturday"],
+    "branchTopic": "lockfile-maintenance",
+    "commitMessageAction": "refresh",
+    "automerge": true
+  },
+  "semanticCommits": "enabled",
+  "commitMessagePrefix": "chore(deps): ",
+  "dependencyDashboardTitle": "Agape-Care Dependency Dashboard",
+  "prTitle": "chore(deps): {{#if isSingleVersion}}update {{depName}} to {{newVersion}}{{else}}update dependencies{{/if}}",
+  "prBodyTemplate": "이 PR은 Agape-Care 요양원 ERP 시스템의 종속성을 업데이트합니다.\n\n{{#if hasReleaseNotes}}\n---\n\n{{{releaseNotes}}}\n{{/if}}\n\n{{#if hasWarnings}}\n---\n\n⚠️ **경고사항:**\n{{#each warnings}}\n- {{this}}\n{{/each}}\n{{/if}}",
+  "vulnerabilityAlerts": {
+    "description": "보안 취약점 알림 활성화 (의료 정보 보안을 위해 중요)",
+    "enabled": true,
+    "schedule": ["at any time"],
+    "automerge": false
+  }
+}
