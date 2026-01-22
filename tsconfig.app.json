@@ -1,0 +1,86 @@
+/**
+ * Description : tsconfig.app.json - 📌 Agape-Care 애플리케이션 TypeScript 설정
+ * Author : Shiwoo Min
+ * Date : 2026-01-22
+ * 요양원 ERP 시스템 프론트엔드 애플리케이션용 설정
+ */
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "NodeNext",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": false,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* JSON 모듈 지원 */
+    "resolveJsonModule": true,
+    "allowJs": true,
+
+    /* CJS/ESM 호환 */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    /* 격리된 모듈 */
+    "isolatedModules": true,
+
+    /* 대소문자 일관성 */
+    "forceConsistentCasingInFileNames": true,
+
+    /* 요양원 ERP 개발환경을 위한 완화된 Linting */
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitAny": false,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": false,
+    "noImplicitThis": true,
+    "useUnknownInCatchVariables": true,
+    "alwaysStrict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": false,
+
+    /* 경로 매핑 - 요양원 ERP 구조 */
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/pages/*": ["./src/pages/*"],
+      "@/mocks/*": ["./src/mocks/*"],
+      "@/i18n/*": ["./src/i18n/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/utils/*": ["./src/utils/*"],
+
+      // Apps 참조 (모노레포)
+      "@agape-care/admin": ["./apps/admin/src"],
+      "@agape-care/web": ["./apps/web/src"],
+      "@agape-care/api": ["./apps/api/src"],
+      "@agape-care/worker": ["./apps/worker/src"]
+    }
+  },
+
+  "include": [
+    "src/**/*",
+    "vite-env.d.ts",
+    "**/*.tsx",
+    "**/*.ts",
+    "**/*.js",
+    "**/*.jsx"
+  ],
+
+  "exclude": [
+    "node_modules",
+    "dist",
+    "apps/*/node_modules",
+    "apps/*/dist",
+    "**/*.test.*",
+    "**/*.spec.*"
+  ]
+}

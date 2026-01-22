@@ -1,0 +1,73 @@
+/**
+ * Description : tsconfig.node.json - 📌 Agape-Care Node.js 환경 TypeScript 설정
+ * Author : Shiwoo Min
+ * Date : 2026-01-22
+ * Vite 설정 및 Node.js 도구용 TypeScript 설정
+ */
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "NodeNext",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* JSON 모듈 지원 */
+    "resolveJsonModule": true,
+    "allowJs": true,
+
+    /* CJS/ESM 호환 */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+
+    /* 격리된 모듈 */
+    "isolatedModules": true,
+
+    /* 대소문자 일관성 */
+    "forceConsistentCasingInFileNames": true,
+
+    /* 엄격한 Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+
+    /* 경로 매핑 */
+    "paths": {
+      "@/*": ["./src/*"],
+      "@agape-care/admin": ["./apps/admin/src"],
+      "@agape-care/web": ["./apps/web/src"],
+      "@agape-care/api": ["./apps/api/src"],
+      "@agape-care/worker": ["./apps/worker/src"]
+    }
+  },
+
+  "include": [
+    "vite.config.ts",
+    "postcss.config.ts",
+    "tailwind.config.ts",
+    "eslint.config.mjs",
+    "prettier.config.mjs",
+    "apps/*/vite.config.ts",
+    "apps/*/next.config.mjs",
+    "apps/*/postcss.config.mjs",
+    "infra/**/*.ts",
+    "**/*.config.*"
+  ],
+
+  "exclude": [
+    "src/**/*",
+    "apps/*/src/**/*",
+    "node_modules",
+    "dist"
+  ]
+}

@@ -1,0 +1,67 @@
+/**
+ * Description : extensions.json - 📌 VS Code 확장 프로그램 추천 목록 (ConnectWon)
+ * Author : Shiwoo Min
+ * Date : 2025-01-22
+ * Note : Next.js + NestJS + Prisma + Nx + Docker + Firebase 통합 환경에 맞춘 실전형 구성
+ */
+{
+  "recommendations": [
+
+    // 코드 품질 / 포맷 / 정적 분석
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "sonarsource.sonarlint-vscode",
+
+    // 문서 / README / 주석 관리
+    "streetsidesoftware.code-spell-checker",
+    "streetsidesoftware.code-spell-checker-korean",
+    "yzhang.markdown-all-in-one",
+    "DavidAnson.vscode-markdownlint",
+
+    // UI / Tailwind / JSX 생산성
+    "bradlc.vscode-tailwindcss",
+    "austenc.tailwind-docs",
+    "formulahendry.auto-rename-tag",
+    "oderwat.indent-rainbow",
+
+    // Git / 협업
+    "eamodio.gitlens",
+    "mhutchie.git-graph",
+    "github.vscode-github-actions",
+
+    // AI / 생산성 보조
+    "GitHub.copilot",
+    "GitHub.copilot-chat",
+
+    // Database / Prisma / SQL (ERP 핵심)
+    "prisma.prisma",
+    "mtxr.sqltools",
+    "cweijan.vscode-database-client2",
+
+    // 테스트
+    "vitest.explorer",
+    "ms-playwright.playwright",
+
+    // API / HTTP 테스트
+    "humao.rest-client",
+    "rangav.vscode-thunder-client",
+
+    // Infra / Docker / 운영
+    "ms-azuretools.vscode-docker",
+    "ms-vscode-remote.remote-containers",
+
+    // 보안 / 민감정보 보호
+    "tamj0rd2.vscode-secretlint",
+
+    // i18n (요양원 다국어 대응 가능성)
+    "lokalise.i18n-ally",
+
+    // YAML / 설정 파일
+    "redhat.vscode-yaml",
+
+    // 개발 편의성
+    "usernamehw.errorlens",
+    "gruntfuggly.todo-tree",
+    "PKief.material-icon-theme"
+  ]
+}

@@ -1,0 +1,52 @@
+/**
+ * Description : tsconfig.json - 📌 Configs 공통 설정 패키지
+ * Author : Shiwoo Min
+ * Date  : 2025-10-09
+ *
+ * Environment :
+ *  - Docker / Cloud Run / Firebase / Azure / Local 개발환경 완전 호환
+ *  - ESM 기반 (NodeNext) + 번들러 호환 (Nx tsc executor)
+ *
+ * Note :
+ *  - outDir/declarationDir 통합
+ *  - Node 환경용 Config 전용 (no JSX)
+ */
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+
+    // 경로
+    "rootDir": "./src",
+    "outDir": "../../dist/packages/configs",
+    "declarationDir": "../../dist/packages/configs",
+    "tsBuildInfoFile": "../../dist/packages/configs/.tsbuildinfo",
+
+    // ESM + 번들러 해석
+    "target": "es2022",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+
+    // 선언 파일/소스맵
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "incremental": true,
+
+    // Node 전용 라이브러리
+    "lib": ["es2022"],
+    "types": ["node"],
+
+    // 품질 설정
+    "resolveJsonModule": true,
+    "exactOptionalPropertyTypes": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "stripInternal": true
+  },
+
+  // JSON 파일 포함
+  "include": ["src/**/*", "src/**/*.json"],
+  "exclude": ["dist", "node_modules"]
+}

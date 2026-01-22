@@ -1,0 +1,62 @@
+{
+  "name": "ui",
+  "projectType": "library",
+  "sourceRoot": "packages/ui/src",
+  "root": "packages/ui",
+  "tags": ["type:lib", "layer:frontend"],
+
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "options": {
+        "main": "packages/ui/src/index.ts",
+        "outputPath": "dist/packages/ui",
+        "tsConfig": "packages/ui/tsconfig.json",
+        "assets": [
+          "packages/ui/package.json",
+          {
+            "glob": "*.css",
+            "input": "packages/ui/src/styles",
+            "output": "styles"
+          },
+          {
+            "glob": "tailwind.config.*",
+            "input": "packages/ui",
+            "output": "."
+          },
+          {
+            "glob": "**/*",
+            "input": "packages/ui/public",
+            "output": "public"
+          }
+        ]
+      },
+      "dependsOn": ["^build"],
+      "outputs": ["{options.outputPath}"]
+    },
+
+    "type-check": {
+      "executor": "@nx/js:tsc",
+      "options": {
+        "tsConfig": "packages/ui/tsconfig.json",
+        "noEmit": true
+      }
+    },
+
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["packages/ui/**/*.{ts,tsx}"]
+      }
+    },
+
+    "test": {
+      "executor": "@nx/vite:test",
+      "options": {
+        "passWithNoTests": true
+      }
+    }
+  },
+
+  "implicitDependencies": ["configs", "core", "logger"]
+}

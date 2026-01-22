@@ -1,0 +1,53 @@
+{
+  "name": "@connectwon/web",
+  "sourceRoot": "apps/web/src",
+  "projectType": "application",
+  "tags": ["type:app", "layer:frontend", "platform:nextjs"],
+
+  "__comment_targets": "Next.js 빌드/서버/테스트 설정",
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "options": {
+        "outputPath": "dist/apps/web",
+        "root": "apps/web",
+        "env": {
+          "NEXT_PUBLIC_APP_TYPE": "web"
+        }
+      }
+    },
+
+    "serve": {
+      "executor": "@nx/next:server",
+      "options": {
+        "buildTarget": "@connectwon/web:build",
+        "dev": true,
+        "port": 3000,
+        "env": {
+          "NEXT_PUBLIC_APP_TYPE": "web"
+        }
+      }
+    },
+
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": {
+        "lintFilePatterns": ["apps/web/**/*.ts", "apps/web/**/*.tsx"]
+      }
+    },
+
+    "test": {
+      "executor": "@nx/vite:test",
+      "options": {
+        "passWithNoTests": true
+      }
+    }
+  },
+
+  "implicitDependencies": [
+    "@connectwon/ui",
+    "@connectwon/client",
+    "@connectwon/api-contract",
+    "@connectwon/configs",
+  ]
+}

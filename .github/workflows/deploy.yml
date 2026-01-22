@@ -1,0 +1,121 @@
+# Description : deploy.yml - 📌 Agape-Care 변경된 앱 Docker 빌드 & 푸시
+# Author : Shiwoo Min
+# Date : 2026-01-22
+# - Agape-Care monorepo 구조 대응
+# - 변경된 앱만 멀티아키(amd64/arm64) 빌드
+# - GHCR 기반 이미지 푸시
+# - fail-fast 비활성화로 서비스 단위 독립 배포
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NS: artiordex/agape-care
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [api, admin, web, worker]
+
+    steps:
+      # Checkout
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 변경 감지 (서비스별)
+      - name: Detect changes
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            api:
+              - 'apps/api/**'
+              - 'packages/**'
+              - 'infra/docker/Dockerfile.api'
+            admin:
+              - 'apps/admin/**'
+              - 'packages/**'
+              - 'infra/docker/Dockerfile.admin'
+            web:
+              - 'apps/web/**'
+              - 'packages/**'
+              - 'infra/docker/Dockerfile.web'
+            worker:
+              - 'apps/worker/**'
+              - 'packages/**'
+              - 'infra/docker/Dockerfile.worker'
+
+      # 빌드 여부 판단
+      - name: Check build gate
+        id: gate
+        shell: bash
+        run: |
+          if [ "${{ steps.changes.outputs[matrix.service] }}" != "true" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # QEMU (멀티아키)
+      - name: Setup QEMU
+        if: steps.gate.outputs.skip != 'true'
+        uses: docker/setup-qemu-action@v3
+
+      # Buildx
+      - name: Setup Docker Buildx
+        if: steps.gate.outputs.skip != 'true'
+        uses: docker/setup-buildx-action@v3
+
+      # GHCR 로그인
+      - name: Login to GHCR
+        if: steps.gate.outputs.skip != 'true'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Docker 메타데이터
+      - name: Extract Docker metadata
+        if: steps.gate.outputs.skip != 'true'
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NS }}/${{ matrix.service }}
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      # Build & Push
+      - name: Build & Push Docker image
+        if: steps.gate.outputs.skip != 'true'
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: infra/docker/Dockerfile.${{ matrix.service }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+          # 서비스 단위 캐시 분리
+          cache-from: type=gha,scope=agape-${{ matrix.service }}
+          cache-to: type=gha,scope=agape-${{ matrix.service }},mode=max
+
+          # 멀티 아키텍처
+          platforms: linux/amd64,linux/arm64
+
+          # 보안 메타 비활성화 (속도/단순화)
+          provenance: false
+          sbom: false

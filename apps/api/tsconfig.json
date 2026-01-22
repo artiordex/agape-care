@@ -1,0 +1,69 @@
+/**
+ * Description : tsconfig.json - 📌 ConnectWon NestJS 기반 API 서버 (TypeScript 설정)
+ * Author : Shiwoo Min
+ * Date : 2025-09-06
+ * 09-12 - NodeNext + ES2022 조합 (NestJS ESM 완전 호환)
+ * 09-22 - 소스맵 + 증분 빌드 활성화 (Cloud Run 디버깅 대응)
+ * 10-09 - Docker / Cloud Run / Firebase / Azure / Local 완전 호환 버전
+ */
+
+{
+  // 루트의 tsconfig.base.json 상속
+  "extends": "../../tsconfig.base.json",
+
+  "compilerOptions": {
+    // 빌드 입출력
+    "rootDir": "./src",
+    "outDir": "../../dist/apps/api",
+    "tsBuildInfoFile": "../../dist/apps/api/.tsbuildinfo",
+
+    // 모듈 시스템 및 타겟
+    "target": "es2022",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "lib": ["es2022"],
+    "types": ["node"],
+
+    // ESM 호환
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+
+    // 선언 및 디버깅
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "inlineSources": false,
+
+    // 성능 및 안정성
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+
+    // NestJS 데코레이터 호환
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "isolatedModules": false,
+
+    // 경로 해석 (Nx 자동 처리)
+    "baseUrl": ".",
+    "paths": {
+      "@connectwon/*": ["../../packages/*/src"]
+    },
+
+    // 엄격성
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
+  },
+
+  "include": ["src/**/*", "src/**/*.d.ts"],
+  "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"],
+
+  "references": [
+    { "path": "../../packages/core" },
+    { "path": "../../packages/database" },
+    { "path": "../../packages/logger" },
+    { "path": "../../packages/api-contract" }
+  ]
+}

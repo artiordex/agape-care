@@ -1,0 +1,109 @@
+/**
+ * Description : launch.json - 📌 VS Code 디버그 & 테스트 설정 (Agape-Care)
+ * Author : Shiwoo Min
+ * Date : 2026-01-22
+ * Note : Vite + React + NestJS + Vitest + Playwright 실사용 기준
+ */
+{
+  "version": "0.2.0",
+  "configurations": [
+
+    // Vitest: 현재 파일 디버그
+    {
+      "name": "Vitest - Current File (debug)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": [
+        "run",
+        "${file}",
+        "--no-threads",
+        "--watch=false",
+        "--config",
+        "vitest.config.ts"
+      ],
+      "envFile": "${workspaceFolder}/.env.test",
+      "env": {
+        "NODE_ENV": "test"
+      },
+      "sourceMaps": true,
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"]
+    },
+
+    // Vitest: 전체 테스트 1회 실행
+    {
+      "name": "Vitest - Run All",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": [
+        "run",
+        "--watch=false",
+        "--config",
+        "vitest.config.ts"
+      ],
+      "envFile": "${workspaceFolder}/.env.test",
+      "env": {
+        "NODE_ENV": "test"
+      },
+      "sourceMaps": true,
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"]
+    },
+
+    // Vitest: Watch 모드
+    {
+      "name": "Vitest - Watch",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": [
+        "watch",
+        "--config",
+        "vitest.config.ts"
+      ],
+      "envFile": "${workspaceFolder}/.env.test",
+      "env": {
+        "NODE_ENV": "test"
+      },
+      "sourceMaps": true,
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "skipFiles": ["<node_internals>/**"]
+    },
+
+    // NestJS API 디버그 (apps/api)
+    {
+      "name": "NestJS API - Debug",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "node",
+      "args": [
+        "--inspect",
+        "-r",
+        "ts-node/register",
+        "-r",
+        "tsconfig-paths/register",
+        "apps/api/src/main.ts"
+      ],
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "cwd": "${workspaceFolder}",
+      "sourceMaps": true,
+      "autoAttachChildProcesses": true,
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ]
+}
