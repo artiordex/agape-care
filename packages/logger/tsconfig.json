@@ -1,39 +1,20 @@
 {
+  "extends": "../../tsconfig.base.json",
+
   "compilerOptions": {
     "composite": true,
-
     "rootDir": "./src",
     "outDir": "../../dist/packages/logger",
     "declarationDir": "../../dist/packages/logger",
     "tsBuildInfoFile": "../../dist/packages/logger/.tsbuildinfo",
 
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "lib": ["ES2022"],
-    "verbatimModuleSyntax": true,
-
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true,
-    "incremental": true,
-
-    "types": ["node"],
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "exactOptionalPropertyTypes": true,
-
-    "baseUrl": "./",
-    "paths": {
-      "@agape-care/logger/*": ["src/*"],
-      "@agape-care/logger-types": ["src/logger-types.ts"]
-    }
+    "sourceMap": true
   },
 
   "include": ["src/**/*"],
-  "exclude": ["dist", "node_modules", "**/*.test.*", "**/*.spec.*"]
+  "exclude": ["dist", "node_modules"],
+
+  "references": []
 }

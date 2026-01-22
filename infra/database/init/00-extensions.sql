@@ -1,6 +1,6 @@
 -- Description : 00-extensions.sql - 📌 PostgreSQL 초기화 시 가장 먼저 실행되는 스크립트
 -- Author : Shiwoo Min
--- Date : 2025-09-07
+-- Date : 2026-01-22
 
 -- 필수 확장 (ESSENTIAL EXTENSIONS)
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";   -- UUID 생성 함수

@@ -1,132 +1,33 @@
 /**
- * Description : tsconfig.json - 📌 Agape-Care 모노레포 전체 통합 TypeScript 설정
+ * Description : tsconfig.json - 📌 Agape-Care 모노레포 루트 TypeScript 설정
  * Author : Shiwoo Min
  * Date : 2026-01-22
  * 요양원 ERP 시스템용 모노레포 TypeScript 구성
  */
 {
+  "extends": "./tsconfig.base.json",
+
   "compilerOptions": {
-    // 절대경로 import 기준
-    "baseUrl": ".",
-
-    // 런타임 타깃/라이브러리 (Node.js 20+)
-    "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-
-    // 서버/라이브러리 기본값 (ESM/Node.js)
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "resolvePackageJsonExports": true,
-    "resolvePackageJsonImports": true,
-
-    // 타입 검사 관련
-    "strict": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "moduleDetection": "force",
-
-    // CJS/ESM 상호운용
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "verbatimModuleSyntax": false,
-
-    // 대소문자 일관성 검사
-    "forceConsistentCasingInFileNames": true,
-
-    // 디버깅 지원
-    "sourceMap": true,
-    "inlineSources": false,
-
-    // JS 파일도 컴파일
-    "allowJs": true,
-    "checkJs": false,
-
-    // Project References / 빌드 캐시
-    "declaration": true,
-    "declarationMap": true,
-    "isolatedModules": true,
-    "incremental": true,
-    "composite": true,
-
-    // 산출물 생성 금지 (루트는 타입체크 전용)
-    "noEmit": true,
-
-    // 엄격 옵션
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "exactOptionalPropertyTypes": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noUncheckedIndexedAccess": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
-
-    /**
-     * 경로 매핑 (Agape-Care 모노레포 구조)
-     */
-    "paths": {
-      // Apps
-      "@agape-care/admin": [
-        "apps/admin/src/index.ts",
-        "dist/apps/admin/index.d.ts"
-      ],
-      "@agape-care/admin/*": [
-        "apps/admin/src/*",
-        "dist/apps/admin/*"
-      ],
-
-      "@agape-care/web": [
-        "apps/web/src/index.ts",
-        "dist/apps/web/index.d.ts"
-      ],
-      "@agape-care/web/*": [
-        "apps/web/src/*",
-        "dist/apps/web/*"
-      ],
-
-      "@agape-care/api": [
-        "apps/api/src/index.ts",
-        "dist/apps/api/index.d.ts"
-      ],
-      "@agape-care/api/*": [
-        "apps/api/src/*",
-        "dist/apps/api/*"
-      ],
-
-      "@agape-care/worker": [
-        "apps/worker/src/index.ts",
-        "dist/apps/worker/index.d.ts"
-      ],
-      "@agape-care/worker/*": [
-        "apps/worker/src/*",
-        "dist/apps/worker/*"
-      ],
-
-      // 루트 src (요양원 ERP 컴포넌트)
-      "@/*": ["./src/*"],
-      "@/components/*": ["./src/components/*"],
-      "@/pages/*": ["./src/pages/*"],
-      "@/mocks/*": ["./src/mocks/*"],
-      "@/i18n/*": ["./src/i18n/*"]
-    }
+    "composite": false,
+    "noEmit": true
   },
 
-  // 루트는 직접 소스 포함하지 않음
   "files": [],
   "include": [],
 
-  // Project References (모노레포 구성요소)
   "references": [
-    // apps
+    { "path": "./tsconfig.node.json" },
     { "path": "./apps/admin" },
     { "path": "./apps/web" },
     { "path": "./apps/api" },
     { "path": "./apps/worker" },
-
-    // infra
-    { "path": "./infra/n8n" }
+    { "path": "./packages/api-contract" },
+    { "path": "./packages/client" },
+    { "path": "./packages/configs" },
+    { "path": "./packages/core" },
+    { "path": "./packages/database" },
+    { "path": "./packages/logger" },
+    { "path": "./packages/server" },
+    { "path": "./packages/ui" }
   ]
 }

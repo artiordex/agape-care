@@ -1,137 +1,32 @@
 /**
- * Description : tsconfig.json - 📌 Next.js 기반 Web 애플리케이션 (TypeScript 설정)
+ * Description : tsconfig.json - 📌 Agape-Care 요양원 Web (Next.js)
  * Author : Shiwoo Min
- * Date : 2025-09-06
- * 10-10 - ESLint typed lint 호환성 개선 (NodeNext 해석 유지 + isolatedModules 완화 + include 강화)
- */{
-  "extends": "../../tsconfig.base.json",
+ * Updated : 2026-01-22
+ */
+
+{
+  "extends": "../../tsconfig.app.json",
+
   "compilerOptions": {
-    // Next.js가 빌드/트랜스파일 처리 → TS는 타입체크 전용
     "noEmit": true,
-    // NodeNext 조합 (패키지 exports 해석)
-    "target": "es2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    // Next가 JSX 변환 담당 → preserve
     "jsx": "preserve",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    // Web 전용 baseUrl 및 경로 alias (루트 기준)
+    "plugins": [{ "name": "next" }],
+
     "baseUrl": ".",
     "paths": {
-      "@connectwon/core": [
-        "../../dist/packages/core/index.d.ts",
-        "../../dist/packages/core/index.js"
-      ],
-      "@connectwon/core/*": [
-        "../../dist/packages/core/*"
-      ],
-      "@connectwon/configs": [
-        "../../dist/packages/configs/index.d.ts",
-        "../../dist/packages/configs/index.js"
-      ],
-      "@connectwon/configs/*": [
-        "../../dist/packages/configs/*"
-      ],
-      "@connectwon/logger": [
-        "../../dist/packages/logger/index.d.ts",
-        "../../dist/packages/logger/index.js"
-      ],
-      "@connectwon/logger/*": [
-        "../../dist/packages/logger/*"
-      ],
-      "@connectwon/client": [
-        "../../dist/packages/client/index.d.ts",
-        "../../dist/packages/client/index.js"
-      ],
-      "@connectwon/client/*": [
-        "../../dist/packages/client/*"
-      ],
-      "@connectwon/ui": [
-        "../../dist/packages/ui/index.d.ts",
-        "../../dist/packages/ui/index.js"
-      ],
-      "@connectwon/ui/*": [
-        "../../dist/packages/ui/*"
-      ],
-      "@connectwon/sdk": [
-        "../../dist/packages/sdk/index.d.ts",
-        "../../dist/packages/sdk/index.js"
-      ],
-      "@connectwon/sdk/*": [
-        "../../dist/packages/sdk/*"
-      ],
-      "@connectwon/api-contract": [
-        "../../dist/packages/api-contract/index.d.ts",
-        "../../dist/packages/api-contract/index.js"
-      ],
-      "@connectwon/api-contract/*": [
-        "../../dist/packages/api-contract/*"
-      ],
-      // Web 전용 로컬 alias (src 기준)
-      "components/*": [
-        "src/components/*"
-      ],
-      "data/*": [
-        "src/data/*"
-      ],
-      "lib/*": [
-        "src/lib/*"
-      ]
+      "components/*": ["src/components/*"],
+      "data/*": ["src/data/*"],
+      "lib/*": ["src/lib/*"]
     },
-    // DOM 및 ES2022 API 사용
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "es2022"
-    ],
-    "typeRoots": [
-      "../../node_modules/@types"
-    ],
-    "types": [
-      "node",
-      "react",
-      "react-dom"
-    ],
-    // 호환성 옵션
-    "verbatimModuleSyntax": false,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    // ESLint typed lint 대응 — isolatedModules 완화
-    "isolatedModules": true,
-    // Strict 설정
-    "strict": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    // 빌드 캐시
-    "incremental": true,
+
     "tsBuildInfoFile": "./.next/.tsbuildinfo"
   },
+
   "include": [
-    "./.next/types/**/*.ts",
-    "./next-env.d.ts",
-    "./server.ts",
-    "./src/**/*.d.ts",
-    // 괄호 폴더(app/(auth) 등) 대응
-    "./src/**/*.ts",
-    "./src/**/*.tsx",
-    "./src/app/**/(*).ts",
-    "./src/app/**/(*).tsx",
-    "./src/app/**/(*)/*.ts",
-    "./src/app/**/(*)/*.tsx",
-    "./src/web-types.d.ts",
+    "src/**/*",
+    "next-env.d.ts",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    ".next",
-    "out",
-    "dist"
-  ]
+
+  "exclude": ["node_modules", ".next", "dist", "out"]
 }

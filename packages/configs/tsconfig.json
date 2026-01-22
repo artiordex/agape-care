@@ -1,32 +1,20 @@
 {
+  "extends": "../../tsconfig.base.json",
+
   "compilerOptions": {
     "composite": true,
-
     "rootDir": "./src",
     "outDir": "../../dist/packages/configs",
     "declarationDir": "../../dist/packages/configs",
     "tsBuildInfoFile": "../../dist/packages/configs/.tsbuildinfo",
 
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "lib": ["ES2022"],
-    "verbatimModuleSyntax": true,
-
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true,
-    "incremental": true,
-
-    "types": ["node"],
-    "resolveJsonModule": true,
-
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "exactOptionalPropertyTypes": true,
-    "stripInternal": true
+    "sourceMap": true
   },
 
   "include": ["src/**/*", "src/**/*.json"],
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules"],
+
+  "references": []
 }

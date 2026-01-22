@@ -3,35 +3,14 @@
 
   "compilerOptions": {
     "composite": true,
-
     "rootDir": "./src",
     "outDir": "../../dist/packages/client",
     "declarationDir": "../../dist/packages/client",
     "tsBuildInfoFile": "../../dist/packages/client/.tsbuildinfo",
 
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "verbatimModuleSyntax": true,
-
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true,
-    "incremental": true,
-
-    "jsx": "react-jsx",
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
-
-    "types": ["node", "react", "react-dom"],
-
-    "allowJs": true,
-    "checkJs": false,
-    "resolveJsonModule": true,
-
-    "exactOptionalPropertyTypes": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "noEmitOnError": false
+    "sourceMap": true
   },
 
   "include": ["src/**/*"],

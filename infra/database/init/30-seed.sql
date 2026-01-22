@@ -1,92 +1,126 @@
--- Description : 30-seed.sql - 📌 ConnectWon 개발/테스트용 Seed Data
+-- Description : 30-seed.sql - 📌 Agape-Care / ConnectWon 요양원 ERP Seed Data
 -- Author : Shiwoo Min
--- Date : 2025-09-27
+-- Date : 2026-01-23
+-- Note : 개발·테스트용 기본 데이터
 
--- USERS (Admin, Creator, 일반 유저)
+-- ========== USERS (관리자, 직원계정) ==========
 INSERT INTO users (id, email, name, role_flags) VALUES
-  (1, 'admin@connectwon.com', 'Admin User', 0),  -- Admin
-  (2, 'creator@connectwon.com', 'Creator User', 2), -- Creator
-  (3, 'member@connectwon.com', 'Member User', 1);  -- 일반 사용자
+  (1, 'admin@care.com', '관리자', 99),
+  (2, 'director@care.com', '원장', 4),
+  (3, 'nurse1@care.com', '간호사A', 2),
+  (4, 'caregiver1@care.com', '요양보호사A', 1),
+  (5, 'cook1@care.com', '조리사A', 1);
 
--- AUTH_PROVIDERS (local 로그인)
-INSERT INTO auth_providers (user_id, provider, provider_sub, password_hash) VALUES
-  (1, 'local', NULL, '$argon2id$v=19$m=65536,t=3,p=4$dummyhashAdmin'),
-  (2, 'local', NULL, '$argon2id$v=19$m=65536,t=3,p=4$dummyhashCreator'),
-  (3, 'google', 'sub-member', '');
+-- ========== AUTH_PROVIDERS ==========
+INSERT INTO auth_providers (user_id, provider, password_hash)
+VALUES
+  (1, 'local', '$argon2id$v=19$m=65536,t=3,p=4$admin'),
+  (2, 'local', '$argon2id$v=19$m=65536,t=3,p=4$director'),
+  (3, 'local', '$argon2id$v=19$m=65536,t=3,p=4$nurse1'),
+  (4, 'local', '$argon2id$v=19$m=65536,t=3,p=4$caregiver1');
 
--- VENUES (지점 3개: 광명, 강남, 마포)
-INSERT INTO venues (id, name, address, opening_hours, blackout_rules) VALUES
-  (1, '광명 Branch', 'Gwangmyeong, Korea', '{"mon-fri":"09:00-18:00"}', '{}'),
-  (2, '강남 Branch', 'Gangnam, Seoul', '{"mon-fri":"09:00-18:00"}', '{}'),
-  (3, '마포 Branch', 'Mapo, Seoul', '{"mon-fri":"09:00-18:00"}', '{}');
+-- ========== FACILITY_INFO (요양원 기본 정보) ==========
+INSERT INTO facility_info (id, name, address, phone, homepage, capacity, created_at)
+VALUES
+  (1, '아가페-케어 요양원', '경기 광명시 소하동 123-4', '02-000-1234', 'https://agape-care.com', 29, now());
 
--- ROOMS (광명점 샘플)
-INSERT INTO rooms (id, venue_id, name, capacity, status) VALUES
-  (1, 1, '회의실 1', 10, 'ACTIVE'),
-  (2, 1, '회의실 2', 15, 'ACTIVE'),
-  (3, 1, '회의실 3', 12, 'ACTIVE'),
-  (4, 1, '커뮤니티 라운지', 40, 'ACTIVE'),
-  (5, 1, 'SW 개발실', 29, 'ACTIVE'),
-  (6, 1, '릴렉스존', 9, 'ACTIVE'),
-  (7, 1, '폰부스 1', 1, 'ACTIVE'),
-  (8, 1, '폰부스 2', 1, 'ACTIVE'),
-  (9, 1, '입주기업공간', 20, 'INACTIVE');
+-- ========== ROOMS (방 정보) ==========
+INSERT INTO rooms (id, name, room_type, bed_count, floor, status)
+VALUES
+  (1, '101호', '4인실', 4, 1, 'ACTIVE'),
+  (2, '102호', '4인실', 4, 1, 'ACTIVE'),
+  (3, '201호', '3인실', 3, 2, 'ACTIVE');
 
--- PROGRAMS (회사 운영 vs 크리에이터 운영)
-INSERT INTO programs (id, created_by_user_id, title, description, category) VALUES
-  (1, 1, 'AI 창업 특강', 'ConnectWon 주관: 스타트업 창업자를 위한 AI 트렌드 강연', 'SEMINAR'),
-  (2, 2, '디자인 스프린트 워크숍', 'Creator 주관: 3일간 집중 디자인 스프린트 실습', 'WORKSHOP');
+-- ========== RESIDENTS (입소자) ==========
+INSERT INTO residents (id, name, gender, birth_date, admission_date, room_id, guardian_name, guardian_phone)
+VALUES
+  (1, '김입소', 'F', '1943-02-11', '2025-12-01', 1, '김보호', '010-1234-1000'),
+  (2, '박어르신', 'M', '1940-07-22', '2025-12-15', 2, '박가족', '010-2222-3333'),
+  (3, '최어르신', 'F', '1939-11-18', '2026-01-04', 3, '최가족', '010-3333-4444');
 
--- SESSIONS (광명점 예약 공간 활용)
-INSERT INTO sessions (id, program_id, starts_at, ends_at, capacity, status, location_text) VALUES
-  (1, 1, '2025-10-02 10:00:00+09', '2025-10-02 12:00:00+09', 40, 'SCHEDULED', '광명점 커뮤니티 라운지'),
-  (2, 2, '2025-10-03 14:00:00+09', '2025-10-03 17:00:00+09', 15, 'SCHEDULED', '광명점 회의실 2');
+-- ========== STAFF (직원) ==========
+INSERT INTO staff (id, name, role, phone, hire_date, status)
+VALUES
+  (1, '홍간호', 'NURSE', '010-4444-5555', '2024-03-01', 'ACTIVE'),
+  (2, '이요양', 'CAREGIVER', '010-6666-7777', '2024-09-10', 'ACTIVE'),
+  (3, '조조리', 'COOK', '010-8888-9999', '2025-04-20', 'ACTIVE');
 
--- ROOM_RESERVATIONS (세션과 매핑)
-INSERT INTO room_reservations (id, room_id, user_id, starts_at, ends_at, purpose, status) VALUES
-  (1, 4, 1, '2025-10-02 10:00:00+09', '2025-10-02 12:00:00+09', 'AI 창업 특강 진행', 'CONFIRMED'),
-  (2, 2, 2, '2025-10-03 14:00:00+09', '2025-10-03 17:00:00+09', '디자인 스프린트 워크숍', 'CONFIRMED');
+-- ========== MEAL_PLANS (식단표) ==========
+INSERT INTO meal_plans (id, meal_date, meal_type, menu, calories)
+VALUES
+  (1, '2026-01-23', 'BREAKFAST', '쇠고기미역국, 계란말이, 김', 520),
+  (2, '2026-01-23', 'LUNCH', '된장찌개, 생선구이, 나물', 680),
+  (3, '2026-01-23', 'DINNER', '떡국, 고기산적, 깍두기', 610);
 
--- 세션과 예약 1:1 연결
-UPDATE sessions SET room_reservation_id = 1 WHERE id = 1;
-UPDATE sessions SET room_reservation_id = 2 WHERE id = 2;
-UPDATE room_reservations SET session_id = 1 WHERE id = 1;
-UPDATE room_reservations SET session_id = 2 WHERE id = 2;
+-- ========== PROGRAMS (프로그램) ==========
+INSERT INTO programs (id, title, description, category)
+VALUES
+  (1, '인지 프로그램', '기억력·주의력 향상 프로그램', 'COGNITIVE'),
+  (2, '노래교실', '음악을 통한 정서 안정 프로그램', 'MUSIC'),
+  (3, '종이접기', '소근육 발달 및 인지 기능 자극', 'CRAFT');
 
--- PROGRAM_PARTICIPANTS (참가자)
-INSERT INTO program_participants (session_id, user_id, role, status) VALUES
-  (1, 2, 'ATTENDEE', 'CONFIRMED'), -- Creator가 Admin 세션 참가
-  (2, 3, 'ATTENDEE', 'CONFIRMED'); -- Member가 Creator 세션 참가
+-- ========== PROGRAM_SESSIONS ==========
+INSERT INTO program_sessions (id, program_id, session_date, starts_at, ends_at, instructor)
+VALUES
+  (1, 1, '2026-01-22', '10:00', '11:00', '홍간호'),
+  (2, 2, '2026-01-22', '14:00', '15:00', '문화강사A');
 
--- DEVICES (광명점만)
-INSERT INTO devices (id, name, type, specs, status) VALUES
-  (1, '갤럭시 Z폴드6', 'MOBILE', '{"manufacturer":"Samsung","os":"Android","network":"Cellular+Wi-Fi"}', 'AVAILABLE'),
-  (2, '아이패드 프로 11(M4)', 'TABLET', '{"manufacturer":"Apple","os":"iPadOS","network":"Wi-Fi"}', 'AVAILABLE'),
-  (3, '아이폰 16 프로', 'MOBILE', '{"manufacturer":"Apple","os":"iOS","network":"Cellular+Wi-Fi"}', 'AVAILABLE'),
-  (4, '아이폰 16 프로맥스', 'MOBILE', '{"manufacturer":"Apple","os":"iOS","network":"Cellular+Wi-Fi"}', 'AVAILABLE'),
-  (5, '맥북 프로 16"', 'LAPTOP', '{"manufacturer":"Apple","cpu":"M3 Pro","ram":"32GB"}', 'AVAILABLE'),
-  (6, '고성능 워크스테이션', 'PC', '{"cpu":"Intel Xeon","gpu":"RTX 4090","ram":"128GB"}', 'AVAILABLE'),
-  (7, 'iMac 24"', 'IMAC', '{"cpu":"M3","ram":"16GB"}', 'AVAILABLE'),
-  (8, 'GPU 서버 A', 'SERVER', '{"gpu":"A100","ram":"256GB"}', 'AVAILABLE');
+-- ========== ATTENDANCE (근태 기록) ==========
+INSERT INTO attendance (staff_id, work_date, check_in, check_out, status)
+VALUES
+  (1, '2026-01-22', '09:00', '18:00', 'NORMAL'),
+  (2, '2026-01-22', '09:00', '18:00', 'NORMAL');
 
--- DEVICE_RENTALS (샘플 대여)
-INSERT INTO device_rentals (id, device_id, user_id, starts_at, ends_at, status) VALUES
-  (1, 1, 3, '2025-10-01 09:00:00+09', '2025-10-01 18:00:00+09', 'APPROVED');
+-- ========== NOTIFICATIONS ==========
+INSERT INTO notifications (user_id, type, title, message)
+VALUES
+  (1, 'system', '시스템 점검 알림', '오늘 23:00~24:00 점검 예정입니다'),
+  (3, 'program', '프로그램 참여 안내', '오늘 노래교실이 진행됩니다.');
 
--- AI_INTERACTIONS (샘플 로그)
-INSERT INTO ai_interactions (user_id, program_id, session_id, provider, model, kind, prompt_tokens, completion_tokens, cost, status) VALUES
-  (3, 2, 2, 'OpenAI', 'gpt-4', 'recommendation', 150, 300, 0.0050, 'OK');
+-- ========== BOARD (공지사항 게시판) ==========
+INSERT INTO board_posts (id, author_id, title, content, category)
+VALUES
+  (1, 1, '1월 프로그램 안내', '이번 달 진행되는 주요 프로그램 안내드립니다.', 'NOTICE'),
+  (2, 2, '설 연휴 운영 공지', '설 연휴 기간 운영 일정 안내입니다.', 'NOTICE');
 
--- REVIEWS (샘플 리뷰)
-INSERT INTO reviews (user_id, target_type, target_id, rating, comment) VALUES
-  (3, 'program', 2, 5, '정말 유익한 워크숍이었습니다!');
+-- ========== GALLERY (이미지 게시판) ==========
+INSERT INTO gallery (id, author_id, title, description)
+VALUES
+  (1, 1, '2026년 신년 행사', '사진으로 보는 신년 맞이 행사'),
+  (2, 3, '인지 프로그램 활동', '오늘 진행된 인지 활동 모습');
 
--- NOTIFICATIONS (샘플 알림)
-INSERT INTO notifications (user_id, type, title, message) VALUES
-  (3, 'reservation', '회의실 예약 확정', '디자인 스프린트 워크숍 예약이 확정되었습니다.');
+INSERT INTO gallery_images (gallery_id, image_url, caption)
+VALUES
+  (1, '/uploads/gallery/1/img1.jpg', '신년 축하 현수막'),
+  (1, '/uploads/gallery/1/img2.jpg', '어르신 합동사진'),
+  (2, '/uploads/gallery/2/img1.jpg', '종이접기 활동 모습');
+
+-- ========== ACCOUNTING (회계 계정 & 지출) ==========
+INSERT INTO accounting_accounts (id, code, name, category)
+VALUES
+  (1, '5100', '식자재비', 'EXPENSE'),
+  (2, '5200', '간호재료비', 'EXPENSE'),
+  (3, '6100', '요양보험수익', 'INCOME');
+
+INSERT INTO accounting_expenses (account_id, amount, description, expense_date)
+VALUES
+  (1, 120000, '식자재 구입', '2026-01-20'),
+  (2, 88000, '기저귀 구매', '2026-01-18');
+
+-- ========== CONSULTATION (상담일지) ==========
+INSERT INTO consultations (resident_id, staff_id, consult_date, notes)
+VALUES
+  (1, 1, '2026-01-20', '상태 양호. 수면 패턴 안정적 유지 중'),
+  (2, 1, '2026-01-20', '식욕 저하 있어 경과 관찰 필요');
+
+-- ========== DEVICE_LOGS (기기 기록 – 선택사항) ==========
+INSERT INTO device_logs (staff_id, log_type, message)
+VALUES
+  (1, 'INFO', '혈압측정기 교체 완료'),
+  (2, 'WARNING', '휠체어 바퀴 점검 필요');
 
 -- 완료 로그
 DO $$
 BEGIN
-    RAISE NOTICE 'Seed data inserted successfully (MVP Config, 광명점 중심)';
+    RAISE NOTICE 'Seed data inserted successfully (Agape-Care)';
 END$$;

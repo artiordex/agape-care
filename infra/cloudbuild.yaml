@@ -1,91 +1,113 @@
-# Description : cloudbuild.yaml - 📌 ConnectWon CI/CD 파이프라인
+# Description : cloudbuild.yaml - 📌 Agape-Care CI/CD Pipeline
 # Author : Shiwoo Min
-# Date : 2025-10-08
-# 수동 실행 : gcloud builds submit --config infra/cloudbuild.yaml .
+# Updated : 2026-01-22
+# Manual Run:
+#   gcloud builds submit --config infra/cloudbuild.yaml .
 
 steps:
-  # 1. pnpm install
+  # 1. Install Dependencies (pnpm)
   - name: 'gcr.io/cloud-builders/pnpm'
     entrypoint: pnpm
     args: ['install', '--frozen-lockfile']
 
-  # 2. API 빌드 및 푸시
+  # 2. API Build & Push
   - name: 'gcr.io/cloud-builders/docker'
     args:
-      ['build', '-f', 'infra/docker/Dockerfile.api', '-t', 'asia-northeast3-docker.pkg.dev/connectwon-prod/connectwon/connectwon-api:$SHORT_SHA', '.']
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      ['push', 'asia-northeast3-docker.pkg.dev/connectwon-prod/connectwon/connectwon-api:$SHORT_SHA']
+      [
+        'build',
+        '-f',
+        'infra/docker/Dockerfile.api',
+        '-t',
+        'asia-northeast3-docker.pkg.dev/agape-care-prod/agape-care/agape-care-api:$SHORT_SHA',
+        '.',
+      ]
 
-  # 3. Web 빌드 및 푸시
   - name: 'gcr.io/cloud-builders/docker'
-    args:
-      ['build', '-f', 'infra/docker/Dockerfile.web', '-t', 'asia-northeast3-docker.pkg.dev/connectwon-prod/connectwon/connectwon-web:$SHORT_SHA', '.']
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      ['push', 'asia-northeast3-docker.pkg.dev/connectwon-prod/connectwon/connectwon-web:$SHORT_SHA']
+    args: ['push', 'asia-northeast3-docker.pkg.dev/agape-care-prod/agape-care/agape-care-api:$SHORT_SHA']
 
-  # 4. Worker 빌드 및 푸시
+  # 3. Web Build & Push
   - name: 'gcr.io/cloud-builders/docker'
     args:
-      ['build', '-f', 'infra/docker/Dockerfile.worker', '-t', 'asia-northeast3-docker.pkg.dev/connectwon-prod/connectwon/connectwon-worker:$SHORT_SHA', '.']
-  - name: 'gcr.io/cloud-builders/docker'
-    args:
-      ['push', 'asia-northeast3-docker.pkg.dev/connectwon-prod/connectwon/connectwon-worker:$SHORT_SHA']
+      [
+        'build',
+        '-f',
+        'infra/docker/Dockerfile.web',
+        '-t',
+        'asia-northeast3-docker.pkg.dev/agape-care-prod/agape-care/agape-care-web:$SHORT_SHA',
+        '.',
+      ]
 
-  # 5. E2E 테스트 실행
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'asia-northeast3-docker.pkg.dev/agape-care-prod/agape-care/agape-care-web:$SHORT_SHA']
+
+  # 4. Worker Build & Push
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-f',
+        'infra/docker/Dockerfile.worker',
+        '-t',
+        'asia-northeast3-docker.pkg.dev/agape-care-prod/agape-care/agape-care-worker:$SHORT_SHA',
+        '.',
+      ]
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'asia-northeast3-docker.pkg.dev/agape-care-prod/agape-care/agape-care-worker:$SHORT_SHA']
+
+  # 5. E2E Tests
   - name: 'mcr.microsoft.com/playwright:v1.51.1-jammy'
     entrypoint: /bin/sh
     args:
       - '-c'
       - |
         echo "Running E2E tests..."
-        pnpm nx run @connectwon/e2e:test:ci || exit 1
+        pnpm nx run @agape-care/e2e:test:ci || exit 1
 
-  # 6. Cloud Run 배포 - API
+  # 6. Deploy: API → Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
       [
         'run',
         'deploy',
-        'connectwon-api',
-        '--image=asia-northeast3-docker.pkg.dev/connectwon-prod/connectwon/connectwon-api:$SHORT_SHA',
+        'agape-care-api',
+        '--image=asia-northeast3-docker.pkg.dev/agape-care-prod/agape-care/agape-care-api:$SHORT_SHA',
         '--region=asia-northeast3',
         '--platform=managed',
         '--allow-unauthenticated',
       ]
 
-  # 7. Cloud Run 배포 - Web
+  # 7. Deploy: Web → Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
       [
         'run',
         'deploy',
-        'connectwon-web',
-        '--image=asia-northeast3-docker.pkg.dev/connectwon-prod/connectwon/connectwon-web:$SHORT_SHA',
+        'agape-care-web',
+        '--image=asia-northeast3-docker.pkg.dev/agape-care-prod/agape-care/agape-care-web:$SHORT_SHA',
         '--region=asia-northeast3',
         '--platform=managed',
         '--allow-unauthenticated',
       ]
 
-  # 8. Cloud Run 배포 - Worker
+  # 8. Deploy: Worker → Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
     args:
       [
         'run',
         'deploy',
-        'connectwon-worker',
-        '--image=asia-northeast3-docker.pkg.dev/connectwon-prod/connectwon/connectwon-worker:$SHORT_SHA',
+        'agape-care-worker',
+        '--image=asia-northeast3-docker.pkg.dev/agape-care-prod/agape-care/agape-care-worker:$SHORT_SHA',
         '--region=asia-northeast3',
         '--platform=managed',
       ]
 
 images:
-  - 'asia-northeast3-docker.pkg.dev/connectwon-prod/connectwon/connectwon-api:$SHORT_SHA'
-  - 'asia-northeast3-docker.pkg.dev/connectwon-prod/connectwon/connectwon-web:$SHORT_SHA'
-  - 'asia-northeast3-docker.pkg.dev/connectwon-prod/connectwon/connectwon-worker:$SHORT_SHA'
+  - 'asia-northeast3-docker.pkg.dev/agape-care-prod/agape-care/agape-care-api:$SHORT_SHA'
+  - 'asia-northeast3-docker.pkg.dev/agape-care-prod/agape-care/agape-care-web:$SHORT_SHA'
+  - 'asia-northeast3-docker.pkg.dev/agape-care-prod/agape-care/agape-care-worker:$SHORT_SHA'
 
 timeout: 3600s

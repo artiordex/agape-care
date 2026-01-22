@@ -1,52 +1,47 @@
-/**
- * Description : tsconfig.json - 📌 Configs 공통 설정 패키지
- * Author : Shiwoo Min
- * Date  : 2025-10-09
- *
- * Environment :
- *  - Docker / Cloud Run / Firebase / Azure / Local 개발환경 완전 호환
- *  - ESM 기반 (NodeNext) + 번들러 호환 (Nx tsc executor)
- *
- * Note :
- *  - outDir/declarationDir 통합
- *  - Node 환경용 Config 전용 (no JSX)
- */
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "composite": true,
+  "name": "@agape-care/configs",
+  "version": "1.0.0",
+  "description": "Agape-Care 공통 설정/환경변수/런타임 구성 라이브러리",
+  "private": true,
+  "author": "Shiwoo Min <artiordex@gmail.com>",
+  "type": "module",
+  "sideEffects": false,
 
-    // 경로
-    "rootDir": "./src",
-    "outDir": "../../dist/packages/configs",
-    "declarationDir": "../../dist/packages/configs",
-    "tsBuildInfoFile": "../../dist/packages/configs/.tsbuildinfo",
+  "files": ["dist"],
 
-    // ESM + 번들러 해석
-    "target": "es2022",
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "verbatimModuleSyntax": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
 
-    // 선언 파일/소스맵
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "incremental": true,
-
-    // Node 전용 라이브러리
-    "lib": ["es2022"],
-    "types": ["node"],
-
-    // 품질 설정
-    "resolveJsonModule": true,
-    "exactOptionalPropertyTypes": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "stripInternal": true
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
   },
 
-  // JSON 파일 포함
-  "include": ["src/**/*", "src/**/*.json"],
-  "exclude": ["dist", "node_modules"]
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json -w",
+    "type-check": "tsc --noEmit -p tsconfig.json",
+    "prepublishOnly": "pnpm run clean && pnpm run build"
+  },
+
+  "engines": {
+    "node": ">=20.11.0"
+  },
+
+  "dependencies": {
+    "@t3-oss/env-core": "^0.10.0",
+    "@t3-oss/env-nextjs": "^0.10.0",
+    "dotenv": "^16.4.5",
+    "zod": "^3.23.8"
+  },
+
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@types/node": "^24.3.1",
+    "rimraf": "^6.0.1"
+  }
 }

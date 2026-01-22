@@ -59,7 +59,7 @@
 
   // 숨길 파일/폴더 설정(탐색기 성능 최적화)
   "files.exclude": {
-    "**/node_modules": true,
+    "**/node_modules": false,
     "**/dist": true,
     "**/out": true,
     "**/build": true,
@@ -147,12 +147,7 @@
   "nxConsole.enableTelemetry": false,
 
   // YAML 관련 스키마 검증 비활성화 (GitHub Actions 경고 제거)
-  "yaml.customTags": [
-    "!secrets scalar",
-    "!secrets mapping",
-    "!env scalar",
-    "!env mapping"
-  ],
+  "yaml.customTags": ["!secrets scalar", "!secrets mapping", "!env scalar", "!env mapping"],
 
   "yaml.schemas": {
     "https://json.schemastore.org/github-workflow.json": "file:///d:/kosa-mvp-connectwon/.github/workflows/*.yml"
@@ -199,7 +194,7 @@
     "apikey",
     "smhd",
     "huggingface",
-    "Vite",
+    "Vite"
   ],
 
   // 파일을 새 탭에서 열기

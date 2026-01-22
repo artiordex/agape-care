@@ -1,57 +1,31 @@
 /**
- * Description : tsconfig.json - 📌 BullMQ 기반 Worker (TypeScript 설정)
+ * Description : tsconfig.json - 📌 Agape-Care Worker (BullMQ)
  * Author : Shiwoo Min
- * Date : 2025-09-06
- * 09-12 : NodeNext/ES2022, d.ts/소스맵/증분빌드, 서버전용 lib로 정리
- * 10-09 : Docker / Cloud Run / Firebase / Azure / Local 완전 호환 버전
+ * Updated : 2026-01-22
  */
+
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.node.json",
 
   "compilerOptions": {
-    // 출력 설정
     "rootDir": "./src",
     "outDir": "../../dist/apps/worker",
+    "tsBuildInfoFile": "../../dist/apps/worker/.tsbuildinfo",
 
-    // ES2022 + NodeNext 모듈 시스템
-    "target": "es2022",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "lib": ["es2022"],
-    "types": ["node"],
-
-    // 선언 파일 및 디버깅
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
 
-    // 증분 빌드
-    "incremental": true,
-    "tsBuildInfoFile": "../../dist/apps/worker/.tsbuildinfo",
-
-    // 모듈 상호 운용성
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-
-    // 배포 안전성
-    "isolatedModules": false,
-    "exactOptionalPropertyTypes": false,
-
-    // 모노레포 경로 매핑 (nx build 시 자동 처리됨)
-    "baseUrl": "."
+    "isolatedModules": false
   },
 
-  "include": ["src/**/*", "**/*.d.ts"],
-  "exclude": ["node_modules", "dist", "**/*.test.*", "**/*.spec.*", "coverage"],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"],
 
   "references": [
     { "path": "../../packages/core" },
     { "path": "../../packages/database" },
     { "path": "../../packages/logger" },
-    { "path": "../../packages/api-contract" },
-    { "path": "../../packages/sdk" }
+    { "path": "../../packages/api-contract" }
   ]
 }

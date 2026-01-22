@@ -1,34 +1,38 @@
 {
-  "name": "@connectwon/n8n",
+  "name": "@agape-care/n8n",
   "sourceRoot": "infra/n8n",
   "projectType": "application",
   "tags": ["type:infra", "layer:automation"],
+
   "targets": {
     "setup": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pnpm --filter @connectwon/n8n run setup",
+        "command": "pnpm --filter @agape-care/n8n run setup",
         "cwd": "infra/n8n"
       }
     },
+
     "deploy": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pnpm --filter @connectwon/n8n run deploy",
+        "command": "pnpm --filter @agape-care/n8n run deploy",
         "cwd": "infra/n8n"
       }
     },
+
     "dev": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pnpm --filter @connectwon/n8n run dev",
+        "command": "pnpm --filter @agape-care/n8n run dev",
         "cwd": "infra/n8n"
       }
     },
+
     "start": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "pnpm --filter @connectwon/n8n run start",
+        "command": "pnpm --filter @agape-care/n8n run start",
         "cwd": "infra/n8n"
       }
     }

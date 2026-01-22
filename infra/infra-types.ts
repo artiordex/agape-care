@@ -1,8 +1,7 @@
 /**
  * Description : infra-types.ts - 📌 infra/ 모듈 타입정의
  * Author : Shiwoo Min
- * Date : 2025-09-07
- * 09-16 - 보안 및 안정성 강화
+ * Date : 2026-01-22
  */
 
 // URL 표기 문자열

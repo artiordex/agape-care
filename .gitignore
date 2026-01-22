@@ -86,7 +86,6 @@ Dockerfile*
 .docker/
 
 # 테스트 / Vitest / Playwright
-vitest.config.ts
 test/
 test-results/
 e2e-artifacts/

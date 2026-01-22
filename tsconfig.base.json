@@ -1,0 +1,61 @@
+/**
+ * Description : tsconfig.base.json - 📌 Agape-Care 모노레포 루트 TypeScript 설정
+ * Author : Shiwoo Min
+ * Date : 2026-01-22
+ *
+ * Supports:
+ *  - Next.js 15 (NodeNext)
+ *  - Vite / Vitest (브라우저 + Node 혼합 타입)
+ *  - NestJS (ESM)
+ *  - 모노레포 Workspace 패키지 경로 alias
+ */
+
+{
+  "compilerOptions": {
+    /* 기본 ESM 환경 */
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+
+    "module": "ESNext",
+    "moduleResolution": "NodeNext",
+
+    /* Node/Vite/Vitest 타입 지원 */
+    "types": ["node", "vitest", "vite/client"],
+
+    /* 모듈 호환성 */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+
+    /* Strict 옵션 */
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+
+    /* Declaration / SourceMap */
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "incremental": true,
+
+    /* 모노레포 Alias */
+    "baseUrl": ".",
+    "paths": {
+      "@agape-care/api-contract/*": ["./packages/api-contract/src/*"],
+      "@agape-care/client/*": ["./packages/client/src/*"],
+      "@agape-care/configs/*": ["./packages/configs/src/*"],
+      "@agape-care/core/*": ["./packages/core/src/*"],
+      "@agape-care/database/*": ["./packages/database/src/*"],
+      "@agape-care/logger/*": ["./packages/logger/src/*"],
+      "@agape-care/server/*": ["./packages/server/src/*"],
+      "@agape-care/ui/*": ["./packages/ui/src/*"]
+    }
+  },
+
+  "exclude": ["node_modules", "dist", "build", ".next", "out"]
+}

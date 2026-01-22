@@ -1,116 +1,33 @@
+/**
+ * Description : tsconfig.json - 📌 Agape-Care 요양원 Admin (Next.js)
+ * Author : Shiwoo Min
+ * Updated : 2026-01-22
+ */
+
 {
-  /**
-   * Description : tsconfig.json - 📌 Agape-Care 요양원 Admin (Next.js)
-   * Author : Shiwoo Min
-   * Updated : 2026-01-22
-   *
-   * Role :
-   *  - Next.js가 빌드/번들 담당
-   *  - TypeScript는 타입체크 전용
-   *  - dist/packages 기반 Agape-Care 공용 패키지 소비
-   */
+  "extends": "../../tsconfig.app.json",
 
   "compilerOptions": {
-    /* 기본 역할 */
     "noEmit": true,
-
-    /* Next.js / Node ESM 해석 */
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-
-    /* JSX는 Next가 처리 */
     "jsx": "preserve",
     "plugins": [{ "name": "next" }],
 
-    /* 경로 기준 */
     "baseUrl": ".",
-
     "paths": {
-      /* Agape-Care 공용 패키지 (dist 기준) */
-      "@agape-care/core": [
-        "../../dist/packages/core/index.d.ts"
-      ],
-      "@agape-care/core/*": [
-        "../../dist/packages/core/*"
-      ],
-
-      "@agape-care/configs": [
-        "../../dist/packages/configs/index.d.ts"
-      ],
-      "@agape-care/configs/*": [
-        "../../dist/packages/configs/*"
-      ],
-
-      "@agape-care/logger": [
-        "../../dist/packages/logger/index.d.ts"
-      ],
-      "@agape-care/logger/*": [
-        "../../dist/packages/logger/*"
-      ],
-
-      "@agape-care/client": [
-        "../../dist/packages/client/index.d.ts"
-      ],
-      "@agape-care/client/*": [
-        "../../dist/packages/client/*"
-      ],
-
-      "@agape-care/ui": [
-        "../../dist/packages/ui/index.d.ts"
-      ],
-      "@agape-care/ui/*": [
-        "../../dist/packages/ui/*"
-      ],
-
-      "@agape-care/api-contract": [
-        "../../dist/packages/api-contract/index.d.ts"
-      ],
-      "@agape-care/api-contract/*": [
-        "../../dist/packages/api-contract/*"
-      ],
-
-      /* Admin 로컬 alias (src 기준) */
       "@/components/*": ["src/components/*"],
       "@/data/*": ["src/data/*"],
       "@/lib/*": ["src/lib/*"],
       "@/utils/*": ["src/utils/*"]
     },
 
-    /* 환경 라이브러리 */
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "types": ["node", "react", "react-dom"],
-
-    /* 안정성 / 호환성 */
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "forceConsistentCasingInFileNames": true,
-
-    /* CJS ↔ ESM */
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-
-    /* Strict (요양원 ERP 실무 균형형) */
-    "strict": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-
-    /* 캐시 */
-    "incremental": true,
     "tsBuildInfoFile": "./.next/.tsbuildinfo"
   },
 
   "include": [
-    "src/next-env.d.ts",
     "src/**/*",
+    "src/next-env.d.ts",
     ".next/types/**/*.ts"
-, "src/my-page", "src/login", "src/dashboard", "src/components"  ],
+  ],
 
-  "exclude": [
-    "node_modules",
-    ".next",
-    "out",
-    "dist"
-  ]
+  "exclude": ["node_modules", ".next", "dist", "out"]
 }

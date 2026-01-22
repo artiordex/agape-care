@@ -1,6 +1,6 @@
 # Description : .wslconfig - 📌 WSL2 시스템 리소스 및 동작 설정
 # Author : Shiwoo Min
-# Date : 2025-09-24
+# Date : 2026-01-22
 # Memo : %UserProfile%\.wslconfig (C:\Users\[Username]\.wslconfig)
 #        swapFile=%USERPROFILE%\\AppData\\Local\\Temp\\swap.vhdx
 
