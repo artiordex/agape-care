@@ -1,3 +1,5 @@
+'use client';
+
 import { useRef, useState } from 'react';
 
 interface Post {
@@ -24,70 +26,56 @@ export default function EditPostModal({ post, onClose, onSuccess }: EditPostModa
     title: post.title,
     content: post.content,
   });
-  const [images, setImages] = useState<string[]>(post.image_urls || []);
+  const [existingImages, setExistingImages] = useState<string[]>(post.image_urls || []);
+  const [newImages, setNewImages] = useState<File[]>([]);
+  const [newImagePreviewUrls, setNewImagePreviewUrls] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const supabaseUrl = import.meta.env.VITE_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = import.meta.env.VITE_PUBLIC_SUPABASE_ANON_KEY;
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const totalImageCount = existingImages.length + newImages.length;
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    if (images.length + files.length > 5) {
+    if (totalImageCount + files.length > 5) {
       setError('이미지는 최대 5개까지 업로드할 수 있습니다.');
       return;
     }
 
-    setUploading(true);
-    setError('');
+    const validFiles: File[] = [];
+    const previewUrls: string[] = [];
 
-    try {
-      const uploadedUrls: string[] = [];
-
-      for (const file of Array.from(files)) {
-        if (file.size > 5 * 1024 * 1024) {
-          setError('이미지 크기는 5MB 이하여야 합니다.');
-          continue;
-        }
-
-        const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}-${file.name}`;
-
-        const response = await fetch(`${supabaseUrl}/storage/v1/object/free-board/${fileName}`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${supabaseAnonKey}`,
-          },
-          body: file,
-        });
-
-        if (response.ok) {
-          const publicUrl = `${supabaseUrl}/storage/v1/object/public/free-board/${fileName}`;
-          uploadedUrls.push(publicUrl);
-        } else {
-          // If a specific file fails, capture its error but continue with others
-          const errData = await response.json().catch(() => ({}));
-          console.error(`이미지 업로드 실패 (${file.name}):`, errData);
-          setError(prev =>
-            prev ? `${prev} ${file.name} 업로드에 실패했습니다.` : `${file.name} 업로드에 실패했습니다.`,
-          );
-        }
+    Array.from(files).forEach(file => {
+      if (file.size > 5 * 1024 * 1024) {
+        setError('이미지 크기는 5MB 이하여야 합니다.');
+        return;
       }
 
-      setImages(prev => [...prev, ...uploadedUrls]);
-    } catch (err) {
-      console.error('이미지 업로드 중 오류 발생:', err);
-      setError('이미지 업로드에 실패했습니다.');
-    } finally {
-      setUploading(false);
-    }
+      validFiles.push(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        previewUrls.push(reader.result as string);
+        if (previewUrls.length === validFiles.length) {
+          setNewImages(prev => [...prev, ...validFiles]);
+          setNewImagePreviewUrls(prev => [...prev, ...previewUrls]);
+        }
+      };
+      reader.readAsDataURL(file);
+    });
   };
 
-  const handleRemoveImage = (index: number) => {
-    setImages(prev => prev.filter((_, i) => i !== index));
+  const handleRemoveExistingImage = (index: number) => {
+    setExistingImages(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleRemoveNewImage = (index: number) => {
+    setNewImages(prev => prev.filter((_, i) => i !== index));
+    setNewImagePreviewUrls(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -104,27 +92,40 @@ export default function EditPostModal({ post, onClose, onSuccess }: EditPostModa
       return;
     }
 
+    if (!apiUrl) {
+      setError('API URL이 설정되지 않았습니다.');
+      return;
+    }
+
     setSubmitting(true);
 
     try {
-      const response = await fetch(`${supabaseUrl}/functions/v1/free-board-posts`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: post.id,
-          password,
-          title: formData.title,
-          content: formData.content,
-          imageUrls: images,
-        }),
+      const formDataToSend = new FormData();
+      formDataToSend.append('password', password);
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('content', formData.content);
+
+      // 기존 이미지 URL들을 JSON 문자열로 전송
+      formDataToSend.append('existing_images', JSON.stringify(existingImages));
+
+      // 새로운 이미지 파일들 추가
+      newImages.forEach(image => {
+        formDataToSend.append('images', image);
       });
+
+      const response = await fetch(`${apiUrl}/board/posts/${post.id}`, {
+        method: 'PUT',
+        body: formDataToSend,
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
 
-      if (!response.ok) {
-        setError(data.error || '게시글 수정에 실패했습니다.');
+      if (data.error) {
+        setError(data.error);
         return;
       }
 
@@ -144,7 +145,7 @@ export default function EditPostModal({ post, onClose, onSuccess }: EditPostModa
           <h2 className="text-2xl font-bold text-gray-900">게시글 수정</h2>
           <button
             onClick={onClose}
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full transition-colors hover:bg-gray-100"
+            className="flex h-10 w-10 items-center justify-center rounded-full transition-colors hover:bg-gray-100"
           >
             <i className="ri-close-line text-2xl text-gray-600" />
           </button>
@@ -199,24 +200,49 @@ export default function EditPostModal({ post, onClose, onSuccess }: EditPostModa
               이미지 첨부 (최대 5개, 각 5MB 이하)
             </label>
             <div className="flex flex-wrap gap-4">
-              {images.map((url, index) => (
-                <div key={index} className="relative h-32 w-32 overflow-hidden rounded-lg border-2 border-gray-200">
-                  <img src={url} alt={`Upload ${index + 1}`} className="h-full w-full object-cover" />
+              {/* 기존 이미지 */}
+              {existingImages.map((url, index) => (
+                <div
+                  key={`existing-${index}`}
+                  className="relative h-32 w-32 overflow-hidden rounded-lg border-2 border-gray-200"
+                >
+                  <img src={url} alt={`Existing ${index + 1}`} className="h-full w-full object-cover" />
                   <button
                     type="button"
-                    onClick={() => handleRemoveImage(index)}
-                    className="absolute right-1 top-1 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full bg-red-500 text-white hover:bg-red-600"
+                    onClick={() => handleRemoveExistingImage(index)}
+                    className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white hover:bg-red-600"
                   >
                     <i className="ri-close-line text-sm" />
                   </button>
                 </div>
               ))}
-              {images.length < 5 && (
+
+              {/* 새로 추가한 이미지 */}
+              {newImagePreviewUrls.map((url, index) => (
+                <div
+                  key={`new-${index}`}
+                  className="relative h-32 w-32 overflow-hidden rounded-lg border-2 border-amber-200"
+                >
+                  <img src={url} alt={`New ${index + 1}`} className="h-full w-full object-cover" />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveNewImage(index)}
+                    className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-red-500 text-white hover:bg-red-600"
+                  >
+                    <i className="ri-close-line text-sm" />
+                  </button>
+                  <div className="absolute bottom-1 left-1 rounded bg-amber-500 px-1 py-0.5 text-xs text-white">
+                    New
+                  </div>
+                </div>
+              ))}
+
+              {totalImageCount < 5 && (
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading}
-                  className="flex h-32 w-32 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 transition-colors hover:border-amber-500 hover:bg-amber-50 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex h-32 w-32 flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 transition-colors hover:border-amber-500 hover:bg-amber-50 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {uploading ? (
                     <div className="h-8 w-8 animate-spin rounded-full border-4 border-amber-600 border-t-transparent" />
@@ -243,14 +269,14 @@ export default function EditPostModal({ post, onClose, onSuccess }: EditPostModa
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 cursor-pointer whitespace-nowrap rounded-lg border border-gray-300 px-6 py-3 text-gray-700 transition-colors hover:bg-gray-50"
+              className="flex-1 whitespace-nowrap rounded-lg border border-gray-300 px-6 py-3 text-gray-700 transition-colors hover:bg-gray-50"
             >
               취소
             </button>
             <button
               type="submit"
               disabled={submitting || uploading}
-              className="flex-1 cursor-pointer whitespace-nowrap rounded-lg bg-amber-600 px-6 py-3 text-white transition-colors hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex-1 whitespace-nowrap rounded-lg bg-amber-600 px-6 py-3 text-white transition-colors hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {submitting ? '수정 중...' : '수정하기'}
             </button>

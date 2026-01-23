@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef,useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -289,17 +289,6 @@ export default function Navbar() {
                         </Link>
                       ))}
                     </div>
-
-                    <div className="mt-4 border-t border-gray-100 pt-4">
-                      <Link
-                        href="#services"
-                        className="flex cursor-pointer items-center justify-center gap-2 text-sm font-medium text-[#5C8D5A] transition-colors hover:text-[#4A7548]"
-                        onClick={() => setIsServicesDropdownOpen(false)}
-                      >
-                        <span>전체 서비스 보기</span>
-                        <i className="ri-arrow-right-line" />
-                      </Link>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -444,17 +433,6 @@ export default function Navbar() {
                           </div>
                         </Link>
                       ))}
-                    </div>
-
-                    <div className="mt-4 border-t border-gray-100 pt-4">
-                      <Link
-                        href="/communities"
-                        className="flex cursor-pointer items-center justify-center gap-2 text-sm font-medium text-[#5C8D5A] transition-colors hover:text-[#4A7548]"
-                        onClick={() => setIsNoticeDropdownOpen(false)}
-                      >
-                        <span>전체 알림마당 보기</span>
-                        <i className="ri-arrow-right-line" />
-                      </Link>
                     </div>
                   </div>
                 </div>

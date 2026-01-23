@@ -16,7 +16,7 @@
     "target": "ES2022",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
 
-    "module": "ESNext",
+    "module": "NodeNext",
     "moduleResolution": "NodeNext",
 
     /* Node/Vite/Vitest 타입 지원 */

@@ -27,7 +27,6 @@ module.exports = {
     { name: 'apps/admin' },
     { name: 'apps/api' },
     { name: 'apps/web' },
-    { name: 'apps/e2e' },
     { name: 'apps/worker' },
     // Packages
     { name: 'packages/api-contract' },

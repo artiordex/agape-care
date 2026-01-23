@@ -208,10 +208,7 @@ export default [
       'react/jsx-props-no-spreading': 'off',
       'react/require-default-props': 'off',
       'react/jsx-filename-extension': ['error', { extensions: ['.tsx', '.jsx'] }],
-      'react/function-component-definition': [
-        'error',
-        { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' },
-      ],
+      'react/function-component-definition': 'off',
       'react/self-closing-comp': 'error',
       'react/jsx-boolean-value': ['error', 'never'],
       'react/jsx-curly-brace-presence': ['error', { props: 'never', children: 'never' }],
@@ -223,7 +220,7 @@ export default [
       ...nextPlugin.configs['core-web-vitals'].rules,
 
       '@next/next/no-html-link-for-pages': 'off',
-      '@next/next/no-img-element': 'warn',
+      '@next/next/no-img-element': 'off',
 
       'no-restricted-imports': [
         'error',

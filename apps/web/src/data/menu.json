@@ -97,25 +97,25 @@
       "name": "입소안내",
       "description": "입소 절차 안내",
       "icon": "ri-door-open-line",
-      "path": "/admission"
+      "path": "/guide/admission"
     },
     {
       "name": "입소 비용 안내",
       "description": "등급별 비용 안내",
       "icon": "ri-money-dollar-circle-line",
-      "path": "/cost"
+      "path": "/guide/cost"
     },
     {
       "name": "면회 안내",
       "description": "면회 시간 및 예약",
       "icon": "ri-parent-line",
-      "path": "/visit"
+      "path": "/guide/visit"
     },
     {
       "name": "상담신청",
       "description": "입소 상담 신청",
       "icon": "ri-customer-service-line",
-      "path": "#contact"
+      "path": "/guide/contact"
     }
   ],
 
@@ -124,31 +124,31 @@
       "name": "공지사항",
       "description": "중요 공지사항",
       "icon": "ri-megaphone-line",
-      "path": "/communities?category=공지사항"
+      "path": "/notices/announcements"
     },
     {
       "name": "게시판",
       "description": "다양한 소식",
       "icon": "ri-article-line",
-      "path": "/communities"
+      "path": "/notices/board"
     },
     {
       "name": "갤러리",
       "description": "활동 사진",
       "icon": "ri-image-line",
-      "path": "/communities?category=갤러리"
+      "path": "/notices/gallery"
     },
     {
       "name": "식단표",
-      "description": "주간 식단",
+      "description": "식단표 안내",
       "icon": "ri-restaurant-line",
-      "path": "/communities?category=식단표"
+      "path": "/notices/meal-plan"
     },
     {
       "name": "프로그램 일정표",
       "description": "월간 일정",
       "icon": "ri-calendar-check-line",
-      "path": "/communities?category=프로그램"
+      "path": "/notices/program-schedule"
     }
   ],
 
@@ -183,20 +183,20 @@
     {
       "title": "이용안내",
       "items": [
-        { "name": "입소안내", "path": "#admission" },
-        { "name": "입소 비용 안내", "path": "/cost" },
-        { "name": "면회 안내", "path": "/visit" },
-        { "name": "상담신청", "path": "#contact" }
+        { "name": "입소안내", "path": "/guide/admission" },
+        { "name": "입소 비용 안내", "path": "/guide/cost" },
+        { "name": "면회 안내", "path": "/guide/visit" },
+        { "name": "상담신청", "path": "/guide/contact" }
       ]
     },
     {
       "title": "알림마당",
       "items": [
-        { "name": "공지사항", "path": "/communities?category=공지사항" },
-        { "name": "게시판", "path": "/communities?category=게시판" },
-        { "name": "갤러리", "path": "/communities?category=갤러리" },
-        { "name": "식단표", "path": "/communities?category=식단표" },
-        { "name": "프로그램 일정표", "path": "/communities?category=프로그램" }
+        { "name": "공지사항", "path": "/notices/announcements" },
+        { "name": "게시판", "path": "/notices/board" },
+        { "name": "갤러리", "path": "/notices/gallery" },
+        { "name": "식단표", "path": "/notices/meal-plan" },
+        { "name": "프로그램 일정표", "path": "/notices/program-schedule" }
       ]
     }
   ]

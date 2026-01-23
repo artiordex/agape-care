@@ -110,6 +110,7 @@
         "date-fns": "^4.1.0",
         "date-fns-tz": "^3.2.0",
         "dayjs": "^1.11.13",
+        "dotenv": "^16.4.5",
         "firebase": "^12.3.0",
         "framer-motion": "^12.23.15",
         "fullcalendar": "^6.1.15",

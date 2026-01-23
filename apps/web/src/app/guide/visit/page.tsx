@@ -1,12 +1,13 @@
-import { motion } from 'framer-motion';
+'use client';
+
 import { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import FloatingSidebar from '../../components/FloatingSidebar';
-import Footer from '../../components/Footer';
-import Navbar from '../../components/navbar/Navbar';
+
+import { motion } from 'framer-motion';
 
 export default function VisitPage() {
   const [ref1, inView1] = useInView({ triggerOnce: true, threshold: 0.1 });
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -87,12 +88,9 @@ export default function VisitPage() {
 
   return (
     <div className="min-h-screen bg-white pb-16 lg:pb-0">
-      <Navbar />
-      <FloatingSidebar />
-
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-teal-50 via-white to-amber-50 pb-20 pt-32">
-        <div className="absolute inset-0 bg-[url('https://readdy.ai/api/search-image?query=warm%20family%20visiting%20elderly%20person%20in%20comfortable%20care%20facility%20reception%20area%20with%20natural%20lighting%20happy%20reunion%20moment%20modern%20welcoming%20interior%20design%20peaceful%20atmosphere%20with%20plants%20and%20comfortable%20seating&width=1920&height=600&seq=visit-hero-bg&orientation=landscape')] bg-cover bg-center opacity-5"></div>
+        <div className="absolute inset-0 bg-[url('https://readdy.ai/api/search-image?query=warm%20family%20visiting%20elderly%20person%20in%20comfortable%20care%20facility%20reception%20area%20with%20natural%20lighting%20happy%20reunion%20moment%20modern%20welcoming%20interior%20design%20peaceful%20atmosphere%20with%20plants%20and%20comfortable%20seating&width=1920&height=600&seq=visit-hero-bg&orientation=landscape')] bg-cover bg-center opacity-5" />
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -101,7 +99,7 @@ export default function VisitPage() {
             className="text-center"
           >
             <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow-sm">
-              <i className="ri-parent-line text-xl text-[#5C8D5A]"></i>
+              <i className="ri-parent-line text-xl text-[#5C8D5A]" />
               <span className="text-sm font-semibold text-gray-700">면회안내</span>
             </div>
             <h1 className="mb-6 text-4xl font-bold text-gray-900 md:text-5xl">면회 안내 및 예약</h1>
@@ -140,7 +138,7 @@ export default function VisitPage() {
                 <div
                   className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${rule.color} mx-auto mb-6 flex items-center justify-center`}
                 >
-                  <i className={`${rule.icon} text-3xl text-white`}></i>
+                  <i className={`${rule.icon} text-3xl text-white`} />
                 </div>
                 <div className="text-center">
                   <h3 className="mb-3 text-lg font-bold text-gray-900">{rule.title}</h3>
@@ -153,13 +151,13 @@ export default function VisitPage() {
           <div className="mt-12 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 p-8 shadow-md">
             <div className="flex items-start gap-4">
               <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100">
-                <i className="ri-information-line text-2xl text-blue-600"></i>
+                <i className="ri-information-line text-2xl text-blue-600" />
               </div>
               <div>
                 <h4 className="mb-2 text-lg font-bold text-gray-900">면회 시간 안내</h4>
                 <p className="leading-relaxed text-gray-600">
-                  어르신의 건강과 휴식을 위해 면회 시간을 준수해주시기 바랍니다. 특별한 사정이 있으신 경우 사전에
-                  연락주시면 조정 가능합니다. 주말 및 공휴일 면회는 반드시 사전 예약이 필요합니다.
+                  어르신의 건강과 휴식을 위해 면회 시간을 준수해주시기 바랍니다. 주말 및 공휴일 면회는 반드시 사전
+                  예약이 필요합니다.
                 </p>
               </div>
             </div>
@@ -190,13 +188,13 @@ export default function VisitPage() {
                 className="rounded-2xl bg-white p-8 shadow-lg transition-all hover:shadow-xl"
               >
                 <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-teal-50 to-amber-50">
-                  <i className={`${guideline.icon} text-3xl text-[#5C8D5A]`}></i>
+                  <i className={`${guideline.icon} text-3xl text-[#5C8D5A]`} />
                 </div>
                 <h3 className="mb-4 text-xl font-bold text-gray-900">{guideline.title}</h3>
                 <ul className="space-y-3">
                   {guideline.items.map((item, itemIndex) => (
                     <li key={itemIndex} className="flex items-start gap-3">
-                      <i className="ri-checkbox-circle-fill mt-1 flex-shrink-0 text-[#5C8D5A]"></i>
+                      <i className="ri-checkbox-circle-fill mt-1 flex-shrink-0 text-[#5C8D5A]" />
                       <span className="text-sm leading-relaxed text-gray-700">{item}</span>
                     </li>
                   ))}
@@ -222,6 +220,7 @@ export default function VisitPage() {
 
           <div className="rounded-2xl bg-gradient-to-br from-teal-50 to-amber-50 p-8 shadow-xl md:p-10">
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* 이름 + 연락처 */}
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div>
                   <label className="mb-2 block text-sm font-bold text-gray-900">
@@ -233,7 +232,7 @@ export default function VisitPage() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-[#5C8D5A]"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:ring-2 focus:ring-[#5C8D5A]"
                     placeholder="홍길동"
                   />
                 </div>
@@ -248,12 +247,13 @@ export default function VisitPage() {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-[#5C8D5A]"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:ring-2 focus:ring-[#5C8D5A]"
                     placeholder="010-1234-5678"
                   />
                 </div>
               </div>
 
+              {/* 대상 어르신 이름 */}
               <div>
                 <label className="mb-2 block text-sm font-bold text-gray-900">
                   면회 대상 어르신 성함 <span className="text-red-500">*</span>
@@ -264,11 +264,12 @@ export default function VisitPage() {
                   value={formData.residentName}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-[#5C8D5A]"
+                  className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:ring-2 focus:ring-[#5C8D5A]"
                   placeholder="어르신 성함을 입력해주세요"
                 />
               </div>
 
+              {/* 날짜 + 시간 */}
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div>
                   <label className="mb-2 block text-sm font-bold text-gray-900">
@@ -280,7 +281,7 @@ export default function VisitPage() {
                     value={formData.visitDate}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-[#5C8D5A]"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:ring-2 focus:ring-[#5C8D5A]"
                   />
                 </div>
 
@@ -293,7 +294,7 @@ export default function VisitPage() {
                     value={formData.visitTime}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-[#5C8D5A]"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:ring-2 focus:ring-[#5C8D5A]"
                   >
                     <option value="">시간 선택</option>
                     <option value="10:00">오전 10시</option>
@@ -308,6 +309,7 @@ export default function VisitPage() {
                 </div>
               </div>
 
+              {/* 방문 인원 + 목적 */}
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div>
                   <label className="mb-2 block text-sm font-bold text-gray-900">
@@ -318,7 +320,7 @@ export default function VisitPage() {
                     value={formData.visitors}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-[#5C8D5A]"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:ring-2 focus:ring-[#5C8D5A]"
                   >
                     <option value="1">1명</option>
                     <option value="2">2명</option>
@@ -332,7 +334,7 @@ export default function VisitPage() {
                     name="purpose"
                     value={formData.purpose}
                     onChange={handleChange}
-                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-[#5C8D5A]"
+                    className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:ring-2 focus:ring-[#5C8D5A]"
                   >
                     <option value="">선택</option>
                     <option value="일반면회">일반 면회</option>
@@ -343,6 +345,7 @@ export default function VisitPage() {
                 </div>
               </div>
 
+              {/* 요청사항 */}
               <div>
                 <label className="mb-2 block text-sm font-bold text-gray-900">추가 요청사항</label>
                 <textarea
@@ -350,14 +353,15 @@ export default function VisitPage() {
                   value={formData.message}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full resize-none rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:border-transparent focus:ring-2 focus:ring-[#5C8D5A]"
+                  className="w-full resize-none rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none transition-all focus:ring-2 focus:ring-[#5C8D5A]"
                   placeholder="추가로 전달하실 내용이 있으시면 작성해주세요"
-                ></textarea>
+                />
               </div>
 
+              {/* 안내 박스 */}
               <div className="rounded-lg border border-gray-200 bg-white p-4">
                 <div className="flex items-start gap-3">
-                  <i className="ri-information-line mt-0.5 text-xl text-[#5C8D5A]"></i>
+                  <i className="ri-information-line mt-0.5 text-xl text-[#5C8D5A]" />
                   <p className="text-sm leading-relaxed text-gray-600">
                     예약 신청 후 담당자가 확인하여 연락드립니다. 긴급한 경우 직접 전화로 문의해주세요.
                   </p>
@@ -368,7 +372,7 @@ export default function VisitPage() {
                 type="submit"
                 className="w-full whitespace-nowrap rounded-xl bg-[#5C8D5A] px-8 py-4 font-bold text-white shadow-lg transition-all hover:bg-[#4A7548]"
               >
-                <i className="ri-calendar-check-line mr-2"></i>
+                <i className="ri-calendar-check-line mr-2" />
                 면회 예약 신청하기
               </button>
             </form>
@@ -376,7 +380,7 @@ export default function VisitPage() {
         </div>
       </section>
 
-      {/* 연락처 정보 */}
+      {/* 문의 섹션 */}
       <section className="bg-gradient-to-br from-teal-50 to-amber-50 py-20">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-2xl bg-white p-8 shadow-xl md:p-10">
@@ -391,7 +395,7 @@ export default function VisitPage() {
                 className="flex cursor-pointer items-center gap-4 rounded-xl bg-gradient-to-br from-teal-50 to-amber-50 p-6 transition-all hover:shadow-lg"
               >
                 <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-[#5C8D5A]">
-                  <i className="ri-phone-line text-2xl text-white"></i>
+                  <i className="ri-phone-line text-2xl text-white" />
                 </div>
                 <div>
                   <div className="mb-1 text-sm text-gray-600">전화 문의</div>
@@ -401,7 +405,7 @@ export default function VisitPage() {
 
               <div className="flex items-center gap-4 rounded-xl bg-gradient-to-br from-teal-50 to-amber-50 p-6">
                 <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-xl bg-[#5C8D5A]">
-                  <i className="ri-time-line text-2xl text-white"></i>
+                  <i className="ri-time-line text-2xl text-white" />
                 </div>
                 <div>
                   <div className="mb-1 text-sm text-gray-600">운영 시간</div>
@@ -412,8 +416,6 @@ export default function VisitPage() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

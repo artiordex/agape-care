@@ -23,7 +23,7 @@ export default function BoardPage() {
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     fetchPosts();
@@ -32,10 +32,26 @@ export default function BoardPage() {
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${supabaseUrl}/functions/v1/free-board-posts`);
-      const data = await response.json();
 
-      setPosts(Array.isArray(data) ? data : []);
+      if (!apiUrl) {
+        console.error('API URL이 설정되지 않았습니다');
+        setPosts([]);
+        return;
+      }
+
+      const response = await fetch(`${apiUrl}/board/posts`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setPosts(Array.isArray(data) ? data : data.posts || []);
     } catch (error) {
       console.error('게시글 로딩 실패:', error);
       setPosts([]);
@@ -69,15 +85,15 @@ export default function BoardPage() {
       {/* 헤더 */}
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="mb-2 text-4xl font-bold text-gray-900">자유게시판</h1>
+          <h1 className="mb-2 text-4xl font-bold text-gray-900">자유 게시판</h1>
           <p className="text-gray-600">누구나 자유롭게 글을 작성할 수 있습니다</p>
         </div>
 
         <button
           onClick={() => setShowWriteModal(true)}
-          className="flex cursor-pointer items-center gap-2 whitespace-nowrap rounded-lg bg-amber-600 px-6 py-3 text-white transition-colors hover:bg-amber-700"
+          className="flex items-center gap-2 whitespace-nowrap rounded-lg bg-amber-600 px-6 py-3 text-white transition-colors hover:bg-amber-700"
         >
-          <i className="ri-edit-line text-xl"></i>
+          <i className="ri-edit-line text-xl" />
           글쓰기
         </button>
       </div>
@@ -85,11 +101,11 @@ export default function BoardPage() {
       {/* 게시글 목록 */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <div className="h-12 w-12 animate-spin rounded-full border-4 border-amber-600 border-t-transparent"></div>
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-amber-600 border-t-transparent" />
         </div>
       ) : posts.length === 0 ? (
         <div className="py-20 text-center">
-          <i className="ri-article-line mb-4 text-6xl text-gray-300"></i>
+          <i className="ri-article-line mb-4 text-6xl text-gray-300" />
           <p className="text-lg text-gray-500">첫 번째 글을 작성해보세요!</p>
         </div>
       ) : (
@@ -111,17 +127,17 @@ export default function BoardPage() {
 
                     <div className="flex items-center gap-4 text-sm text-gray-500">
                       <span className="flex items-center gap-1">
-                        <i className="ri-user-line"></i>
+                        <i className="ri-user-line" />
                         {post.writer_name}
                       </span>
 
                       <span className="flex items-center gap-1">
-                        <i className="ri-eye-line"></i>
+                        <i className="ri-eye-line" />
                         {post.view_count}
                       </span>
 
                       <span className="flex items-center gap-1">
-                        <i className="ri-time-line"></i>
+                        <i className="ri-time-line" />
                         {new Date(post.created_at).toLocaleDateString('ko-KR')}
                       </span>
                     </div>

@@ -1,7 +1,6 @@
 'use client';
 
 import FloatingSidebar from '@/components/FloatingSidebar';
-import Footer from '@/components/Footer';
 import Navbar from '@/components/navbar/Navbar';
 
 import CommonAreas from './section/CommonAreas';
@@ -22,8 +21,6 @@ export default function FacilityPage() {
       <RoomTypes />
       <CommonAreas />
       <SafetyFeatures />
-
-      <Footer />
     </div>
   );
 }
