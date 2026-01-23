@@ -3,30 +3,24 @@
  * Author : Shiwoo Min
  * Updated : 2026-01-22
  */
-
 {
   "extends": "../../tsconfig.app.json",
-
   "compilerOptions": {
     "noEmit": true,
     "jsx": "preserve",
     "plugins": [{ "name": "next" }],
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
 
     "baseUrl": ".",
     "paths": {
-      "components/*": ["src/components/*"],
-      "data/*": ["src/data/*"],
-      "lib/*": ["src/lib/*"]
+      "@/*": ["src/*"],
+      "@/components/*": ["src/components/*"],
+      "@/data/*": ["src/data/*"],
+      "@/lib/*": ["src/lib/*"]
     },
-
     "tsBuildInfoFile": "./.next/.tsbuildinfo"
   },
-
-  "include": [
-    "src/**/*",
-    "next-env.d.ts",
-    ".next/types/**/*.ts"
-  ],
-
+  "include": ["src/**/*", "next-env.d.ts", ".next/types/**/*.ts", "../admin/src/app/mobile"],
   "exclude": ["node_modules", ".next", "dist", "out"]
 }

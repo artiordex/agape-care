@@ -1,0 +1,203 @@
+{
+  "introSubMenu": [
+    {
+      "name": "인사말",
+      "description": "센터장 인사말",
+      "icon": "ri-message-3-line",
+      "path": "/intro/introduction"
+    },
+    {
+      "name": "연혁",
+      "description": "우리의 발자취",
+      "icon": "ri-time-line",
+      "path": "/intro/history"
+    },
+    {
+      "name": "직원소개",
+      "description": "전문 케어팀",
+      "icon": "ri-team-line",
+      "path": "/intro/staff"
+    },
+    {
+      "name": "오시는 길",
+      "description": "찾아오시는 길",
+      "icon": "ri-map-pin-line",
+      "path": "/intro/location"
+    }
+  ],
+
+  "servicesSubMenu": [
+    {
+      "name": "인지관리프로그램",
+      "description": "기억력 향상 프로그램",
+      "icon": "ri-brain-line",
+      "path": "/services/cognitive-program"
+    },
+    {
+      "name": "여가활동 프로그램",
+      "description": "즐거운 여가 활동",
+      "icon": "ri-music-2-line",
+      "path": "/services/leisure-program"
+    },
+    {
+      "name": "의료지원간호서비스",
+      "description": "24시간 의료 지원",
+      "icon": "ri-heart-pulse-line",
+      "path": "/services/medical-nursing"
+    },
+    {
+      "name": "재활치료서비스",
+      "description": "체계적인 재활 치료",
+      "icon": "ri-wheelchair-line",
+      "path": "/services/rehabilitation"
+    },
+    {
+      "name": "보육훈련 3단계 프로그램",
+      "description": "단계별 맞춤 케어",
+      "icon": "ri-shield-star-line",
+      "path": "/services/training-program"
+    },
+    {
+      "name": "영양관리",
+      "description": "맞춤형 영양 식단",
+      "icon": "ri-restaurant-line",
+      "path": "/services/nutrition-care"
+    },
+    {
+      "name": "입소절차안내",
+      "description": "입소 절차 상세 안내",
+      "icon": "ri-file-list-3-line",
+      "path": "/services/admission-process"
+    },
+    {
+      "name": "하루 일과 / 생활안내",
+      "description": "규칙적인 일상 생활",
+      "icon": "ri-calendar-line",
+      "path": "/services/daily-life"
+    },
+    {
+      "name": "개별 케어 서비스",
+      "description": "맞춤형 개인 케어",
+      "icon": "ri-user-heart-line",
+      "path": "/services/individual-care"
+    }
+  ],
+
+  "facilitySubMenu": [
+    {
+      "name": "시설안내",
+      "description": "시설 전체 안내",
+      "icon": "ri-building-line",
+      "path": "/facility"
+    }
+  ],
+
+  "admissionSubMenu": [
+    {
+      "name": "입소안내",
+      "description": "입소 절차 안내",
+      "icon": "ri-door-open-line",
+      "path": "/admission"
+    },
+    {
+      "name": "입소 비용 안내",
+      "description": "등급별 비용 안내",
+      "icon": "ri-money-dollar-circle-line",
+      "path": "/cost"
+    },
+    {
+      "name": "면회 안내",
+      "description": "면회 시간 및 예약",
+      "icon": "ri-parent-line",
+      "path": "/visit"
+    },
+    {
+      "name": "상담신청",
+      "description": "입소 상담 신청",
+      "icon": "ri-customer-service-line",
+      "path": "#contact"
+    }
+  ],
+
+  "noticeSubMenu": [
+    {
+      "name": "공지사항",
+      "description": "중요 공지사항",
+      "icon": "ri-megaphone-line",
+      "path": "/communities?category=공지사항"
+    },
+    {
+      "name": "게시판",
+      "description": "다양한 소식",
+      "icon": "ri-article-line",
+      "path": "/communities"
+    },
+    {
+      "name": "갤러리",
+      "description": "활동 사진",
+      "icon": "ri-image-line",
+      "path": "/communities?category=갤러리"
+    },
+    {
+      "name": "식단표",
+      "description": "주간 식단",
+      "icon": "ri-restaurant-line",
+      "path": "/communities?category=식단표"
+    },
+    {
+      "name": "프로그램 일정표",
+      "description": "월간 일정",
+      "icon": "ri-calendar-check-line",
+      "path": "/communities?category=프로그램"
+    }
+  ],
+
+  "allMenuData": [
+    {
+      "title": "센터소개",
+      "items": [
+        { "name": "인사말", "path": "/intro/greeting" },
+        { "name": "연혁", "path": "/intro/history" },
+        { "name": "직원소개", "path": "/intro/staff" },
+        { "name": "오시는 길", "path": "/intro/location" }
+      ]
+    },
+    {
+      "title": "서비스안내",
+      "items": [
+        { "name": "인지관리프로그램", "path": "/services/cognitive-program" },
+        { "name": "여가활동 프로그램", "path": "/services/leisure-program" },
+        { "name": "의료지원간호서비스", "path": "/services/medical-nursing" },
+        { "name": "재활치료서비스", "path": "/services/rehabilitation" },
+        { "name": "보육훈련 3단계 프로그램", "path": "/services/training-program" },
+        { "name": "영양관리", "path": "/services/nutrition-care" },
+        { "name": "입소절차안내", "path": "/services/admission-process" },
+        { "name": "하루 일과 / 생활안내", "path": "/services/daily-life" },
+        { "name": "개별 케어 서비스", "path": "/services/individual-care" }
+      ]
+    },
+    {
+      "title": "시설안내",
+      "items": [{ "name": "시설안내", "path": "/facility" }]
+    },
+    {
+      "title": "이용안내",
+      "items": [
+        { "name": "입소안내", "path": "#admission" },
+        { "name": "입소 비용 안내", "path": "/cost" },
+        { "name": "면회 안내", "path": "/visit" },
+        { "name": "상담신청", "path": "#contact" }
+      ]
+    },
+    {
+      "title": "알림마당",
+      "items": [
+        { "name": "공지사항", "path": "/communities?category=공지사항" },
+        { "name": "게시판", "path": "/communities?category=게시판" },
+        { "name": "갤러리", "path": "/communities?category=갤러리" },
+        { "name": "식단표", "path": "/communities?category=식단표" },
+        { "name": "프로그램 일정표", "path": "/communities?category=프로그램" }
+      ]
+    }
+  ]
+}

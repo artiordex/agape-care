@@ -1,30 +1,30 @@
-import { RouteObject } from 'react-router-dom';
 import { lazy } from 'react';
+import { RouteObject } from 'react-router-dom';
 
-const HomePage = lazy(() => import('../pages/home/page'));
-const IntroPage = lazy(() => import('../pages/intro/page'));
-const IntroHistoryPage = lazy(() => import('../pages/intro/history/page'));
-const IntroStaffPage = lazy(() => import('../pages/intro/staff/page'));
-const FacilityPage = lazy(() => import('../pages/facility/page'));
-const CommunitiesPage = lazy(() => import('../pages/communities/page'));
-const CommunityDetailPage = lazy(() => import('../pages/communities/detail/page'));
-const BoardPage = lazy(() => import('../pages/board/page'));
-const GalleryPage = lazy(() => import('../pages/gallery/page'));
-const MealPlanPage = lazy(() => import('../pages/meal-plan/page'));
-const ProgramSchedulePage = lazy(() => import('../pages/program-schedule/page'));
-const CognitiveProgramPage = lazy(() => import('../pages/services/cognitive-program/page'));
-const LeisureProgramPage = lazy(() => import('../pages/services/leisure-program/page'));
-const MedicalNursingPage = lazy(() => import('../pages/services/medical-nursing/page'));
-const RehabilitationPage = lazy(() => import('../pages/services/rehabilitation/page'));
-const NutritionCarePage = lazy(() => import('../pages/services/nutrition-care/page'));
-const AdmissionProcessPage = lazy(() => import('../pages/services/admission-process/page'));
-const StepCareProgramPage = lazy(() => import('../pages/services/step-care-program/page'));
-const FamilySupportPage = lazy(() => import('../pages/services/family-support/page'));
-const DailyLifePage = lazy(() => import('../pages/services/daily-life/page'));
-const IndividualCarePage = lazy(() => import('../pages/services/individual-care/page'));
-const CostPage = lazy(() => import('../pages/cost/page'));
-const VisitPage = lazy(() => import('../pages/visit/page'));
-const NotFound = lazy(() => import('../pages/NotFound'));
+const HomePage = lazy(() => import('../app/home/page'));
+const IntroPage = lazy(() => import('../app/intro/page'));
+const IntroHistoryPage = lazy(() => import('../app/intro/history/page'));
+const IntroStaffPage = lazy(() => import('../app/intro/staff/page'));
+const FacilityPage = lazy(() => import('../app/facility/page'));
+const CommunitiesPage = lazy(() => import('../app/communities/page'));
+const CommunityDetailPage = lazy(() => import('../app/communities/detail/page'));
+const BoardPage = lazy(() => import('../app/notices/board/page'));
+const GalleryPage = lazy(() => import('../app/gallery/page'));
+const MealPlanPage = lazy(() => import('../app/notices/meal-plan/page'));
+const ProgramSchedulePage = lazy(() => import('../app/notices/program-schedule/page'));
+const CognitiveProgramPage = lazy(() => import('../app/services/cognitive-program/page'));
+const LeisureProgramPage = lazy(() => import('../app/services/leisure-program/page'));
+const MedicalNursingPage = lazy(() => import('../app/services/medical-nursing/page'));
+const RehabilitationPage = lazy(() => import('../app/services/rehabilitation/page'));
+const NutritionCarePage = lazy(() => import('../app/services/nutrition-care/page'));
+const AdmissionProcessPage = lazy(() => import('../app/services/admission-process/page'));
+const StepCareProgramPage = lazy(() => import('../app/services/step-care-program/page'));
+const FamilySupportPage = lazy(() => import('../app/services/family-support/page'));
+const DailyLifePage = lazy(() => import('../app/services/daily-life/page'));
+const IndividualCarePage = lazy(() => import('../app/services/individual-care/page'));
+const CostPage = lazy(() => import('../app/cost/page'));
+const VisitPage = lazy(() => import('../app/visit/page'));
+const NotFound = lazy(() => import('../app/not-found'));
 
 // Admin Pages
 const AdminLoginPage = lazy(() => import('../pages/admin/login/page'));
@@ -32,7 +32,7 @@ const AdminDashboardPage = lazy(() => import('../pages/admin/dashboard/page'));
 const AdminMyPage = lazy(() => import('../pages/admin/my-page/page'));
 
 // Mobile Pages
-const MobileAttendancePage = lazy(() => import('../pages/mobile/attendance/page'));
+const MobileAttendancePage = lazy(() => import('../../../admin/src/app/mobile/attendance/page'));
 
 const routes: RouteObject[] = [
   {

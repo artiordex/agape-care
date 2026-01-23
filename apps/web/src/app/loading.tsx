@@ -32,9 +32,9 @@ export default function Loading() {
 
         {/* 도트 스피너 */}
         <div className="flex space-x-3">
-          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce"></div>
-          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.2s]"></div>
-          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.4s]"></div>
+          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce"/>
+          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.2s]"/>
+          <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce [animation-delay:-0.4s]"/>
         </div>
 
         {/* 로딩 메시지 - 단계별 변경 */}
