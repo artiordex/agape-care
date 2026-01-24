@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
+import { payrollSettings, monthlyPayrollResults, payrollHistory, holidays2026 } from '../../../../mocks/payroll';
 import * as XLSX from 'xlsx';
-import { monthlyPayrollResults, payrollHistory, payrollSettings } from '../../../../../src/mocks/payroll';
 
 const PayrollManagement: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'settings' | 'calculation' | 'history'>('calculation');
@@ -36,7 +36,7 @@ const PayrollManagement: React.FC = () => {
       overtimePay = workRecord.overtimeHours * setting.hourlyWage * (1 + setting.overtimeRate);
       nightPay = workRecord.nightHours * setting.hourlyWage * (1 + setting.nightBonusRate);
       holidayPay = workRecord.holidayHours * setting.hourlyWage * (1 + setting.holidayRate);
-
+      
       // 주휴수당 (주 15시간 이상 근무 시)
       if (setting.weeklyAllowance && workRecord.regularHours >= 60) {
         const weeklyWorkHours = workRecord.regularHours / 4;
@@ -45,7 +45,7 @@ const PayrollManagement: React.FC = () => {
     } else {
       // 월급제
       basePay = setting.monthlyWage;
-
+      
       // 통상시급 계산 (월급 ÷ 209시간)
       const hourlyRate = setting.monthlyWage / 209;
       overtimePay = workRecord.overtimeHours * hourlyRate * (1 + setting.overtimeRate);
@@ -54,7 +54,7 @@ const PayrollManagement: React.FC = () => {
     }
 
     const totalPay = basePay + overtimePay + nightPay + holidayPay + weeklyAllowance +
-                     setting.mealAllowance + setting.transportAllowance +
+                     setting.mealAllowance + setting.transportAllowance + 
                      setting.positionAllowance + setting.riskAllowance + setting.longevityAllowance;
 
     // 4대보험 계산
@@ -102,7 +102,7 @@ const PayrollManagement: React.FC = () => {
   // 엑셀 다운로드
   const handleExcelDownload = () => {
     const results = monthlyPayrollResults.filter(r => r.month === selectedMonth);
-
+    
     const excelData = results.map(r => ({
       '직원명': r.employeeName,
       '직종': r.position,
@@ -258,11 +258,11 @@ const PayrollManagement: React.FC = () => {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {results.map((result) => {
-                    const allowances = result.overtimePay + result.nightPay + result.holidayPay +
-                                     result.weeklyAllowance + result.mealAllowance +
-                                     result.transportAllowance + result.positionAllowance +
+                    const allowances = result.overtimePay + result.nightPay + result.holidayPay + 
+                                     result.weeklyAllowance + result.mealAllowance + 
+                                     result.transportAllowance + result.positionAllowance + 
                                      result.riskAllowance + result.longevityAllowance;
-
+                    
                     return (
                       <tr key={result.employeeId} className="hover:bg-gray-50">
                         <td className="px-4 py-4 whitespace-nowrap">
@@ -293,7 +293,7 @@ const PayrollManagement: React.FC = () => {
                         </td>
                         <td className="px-4 py-4 whitespace-nowrap text-center">
                           <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            result.status === 'paid'
+                            result.status === 'paid' 
                               ? 'bg-green-100 text-green-800'
                               : result.status === 'calculated'
                               ? 'bg-blue-100 text-blue-800'
@@ -344,7 +344,7 @@ const PayrollManagement: React.FC = () => {
                       </div>
                     </div>
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      setting.employmentType === 'hourly'
+                      setting.employmentType === 'hourly' 
                         ? 'bg-blue-100 text-blue-800'
                         : 'bg-purple-100 text-purple-800'
                     }`}>
@@ -356,7 +356,7 @@ const PayrollManagement: React.FC = () => {
                     <div>
                       <div className="text-xs text-gray-500 mb-1">기본급</div>
                       <div className="text-sm font-semibold text-gray-900">
-                        {setting.employmentType === 'hourly'
+                        {setting.employmentType === 'hourly' 
                           ? `${setting.hourlyWage.toLocaleString()}원/시간`
                           : `${setting.monthlyWage.toLocaleString()}원/월`}
                       </div>
@@ -454,7 +454,7 @@ const PayrollManagement: React.FC = () => {
                       </div>
                     </div>
                     <span className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                      history.status === 'completed'
+                      history.status === 'completed' 
                         ? 'bg-green-100 text-green-800'
                         : 'bg-yellow-100 text-yellow-800'
                     }`}>

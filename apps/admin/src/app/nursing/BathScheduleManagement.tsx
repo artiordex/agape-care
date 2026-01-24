@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '../../../../../src/supabaseClient';
+import { useState, useEffect } from 'react';
+import { supabase } from '../../../supabaseClient';
 
 interface BathEvent {
   id?: number;
@@ -36,7 +36,7 @@ export default function BathScheduleManagement() {
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [showEventModal, setShowEventModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<BathEvent | null>(null);
-
+  
   // 표시 옵션
   const [showSchedule, setShowSchedule] = useState(true);
   const [showCompleted, setShowCompleted] = useState(true);
@@ -223,7 +223,7 @@ export default function BathScheduleManagement() {
       <div className="w-80 bg-white border-r border-gray-200 flex flex-col">
         <div className="p-4 border-b border-gray-200">
           <h2 className="text-lg font-bold text-gray-900 mb-4">수급자 목록</h2>
-
+          
           {/* 표시 옵션 */}
           <div className="space-y-2 mb-4">
             <label className="flex items-center gap-2 text-sm">

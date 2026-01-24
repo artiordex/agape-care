@@ -1,7 +1,7 @@
-import heic2any from 'heic2any';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../../../../supabaseClient';
 import * as XLSX from 'xlsx';
-import { supabase } from '../../../../../src/supabaseClient';
+import heic2any from 'heic2any';
 
 interface MealImage {
   id: string;
@@ -32,7 +32,7 @@ export default function MealPlanManagementAdvanced() {
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [editingMeal, setEditingMeal] = useState<MealPlan | null>(null);
-
+  
   // Form fields
   const [breakfast, setBreakfast] = useState('');
   const [lunch, setLunch] = useState('');
@@ -98,7 +98,7 @@ export default function MealPlanManagementAdvanced() {
   const handleDateClick = (date: Date) => {
     const dateStr = date.toISOString().split('T')[0];
     const existingMeal = mealPlans.find(m => m.date === dateStr);
-
+    
     if (existingMeal) {
       openEditModal(existingMeal);
     } else {
@@ -319,7 +319,7 @@ export default function MealPlanManagementAdvanced() {
     try {
       for (const item of excelData) {
         const existingMeal = mealPlans.find(m => m.date === item.date);
-
+        
         const mealData = {
           date: item.date,
           breakfast: item.breakfast,
@@ -372,7 +372,7 @@ export default function MealPlanManagementAdvanced() {
     const ws = XLSX.utils.aoa_to_sheet(template);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, '식단표');
-
+    
     const fileName = `식단표_템플릿_${currentMonth.getFullYear()}년_${currentMonth.getMonth() + 1}월.xlsx`;
     XLSX.writeFile(wb, fileName);
   };
@@ -380,7 +380,7 @@ export default function MealPlanManagementAdvanced() {
   // 엑셀 파일 파싱
   const parseExcelFile = (file: File) => {
     const reader = new FileReader();
-
+    
     reader.onload = (e) => {
       try {
         const data = e.target?.result;
@@ -391,22 +391,22 @@ export default function MealPlanManagementAdvanced() {
 
         // 헤더 자동 매칭
         const headers = jsonData[0] as string[];
-        const dateIndex = headers.findIndex(h =>
+        const dateIndex = headers.findIndex(h => 
           ['날짜', '일자', 'Date', 'Day', 'date'].includes(h)
         );
-        const breakfastIndex = headers.findIndex(h =>
+        const breakfastIndex = headers.findIndex(h => 
           ['아침', '조식', 'Breakfast', 'breakfast'].includes(h)
         );
-        const lunchIndex = headers.findIndex(h =>
+        const lunchIndex = headers.findIndex(h => 
           ['점심', '중식', 'Lunch', 'lunch'].includes(h)
         );
-        const dinnerIndex = headers.findIndex(h =>
+        const dinnerIndex = headers.findIndex(h => 
           ['저녁', '석식', 'Dinner', 'dinner'].includes(h)
         );
-        const memoIndex = headers.findIndex(h =>
+        const memoIndex = headers.findIndex(h => 
           ['메모', '비고', 'Note', 'note', 'Memo', 'memo'].includes(h)
         );
-        const managerIndex = headers.findIndex(h =>
+        const managerIndex = headers.findIndex(h => 
           ['영양사', '담당', '작성자', 'Manager', 'manager'].includes(h)
         );
 
@@ -422,7 +422,7 @@ export default function MealPlanManagementAdvanced() {
           if (!row[dateIndex]) continue; // 빈 행 무시
 
           let dateStr = String(row[dateIndex]).trim();
-
+          
           // 날짜 형식 변환
           if (/^\d{1,2}$/.test(dateStr)) {
             // "1", "15" 같은 숫자만 있는 경우
@@ -455,7 +455,7 @@ export default function MealPlanManagementAdvanced() {
         parsed.forEach(item => {
           dateCount.set(item.date, (dateCount.get(item.date) || 0) + 1);
         });
-
+        
         const duplicates = Array.from(dateCount.entries()).filter(([_, count]) => count > 1);
         if (duplicates.length > 0) {
           const duplicateDates = duplicates.map(([date]) => date).join(', ');
@@ -467,7 +467,7 @@ export default function MealPlanManagementAdvanced() {
         setParsedData(parsed);
         setPreviewData(parsed);
         setShowExcelUpload(true);
-
+        
       } catch (error) {
         console.error('엑셀 파싱 오류:', error);
         alert('엑셀 파일을 읽는 중 오류가 발생했습니다.');
@@ -490,10 +490,10 @@ export default function MealPlanManagementAdvanced() {
   const applyTemporary = () => {
     setMealPlans(prevPlans => {
       const newPlans = [...prevPlans];
-
+      
       parsedData.forEach(item => {
         const existingIndex = newPlans.findIndex(p => p.date === item.date);
-
+        
         if (existingIndex !== -1) {
           // 기존 데이터 업데이트 (images 유지)
           newPlans[existingIndex] = {
@@ -541,7 +541,7 @@ export default function MealPlanManagementAdvanced() {
   // 저장 확정
   const saveToDatabase = async () => {
     try {
-      const dataToSave = saveMode === 'selective'
+      const dataToSave = saveMode === 'selective' 
         ? parsedData.filter(item => selectedDates.has(item.date))
         : parsedData;
 

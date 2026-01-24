@@ -14,20 +14,20 @@
 
     "baseUrl": ".",
     "paths": {
+      "@/app/*": ["src/app/*"],
       "@/components/*": ["src/components/*"],
       "@/data/*": ["src/data/*"],
       "@/lib/*": ["src/lib/*"],
-      "@/utils/*": ["src/utils/*"]
+      "@/utils/*": ["src/utils/*"],
+      "@/hooks/*": ["src/hooks/*"],
+      "@/styles/*": ["src/styles/*"],
+      "@/providers/*": ["src/providers/*"]
     },
 
     "tsBuildInfoFile": "./.next/.tsbuildinfo"
   },
 
-  "include": [
-    "src/**/*",
-    "src/next-env.d.ts",
-    ".next/types/**/*.ts"
-  ],
+  "include": ["src/**/*", "src/next-env.d.ts", ".next/types/**/*.ts", "global.d.ts"],
 
   "exclude": ["node_modules", ".next", "dist", "out"]
 }

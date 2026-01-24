@@ -1,5 +1,8 @@
+
 import { useState } from 'react';
-import { burdenRateHistory, burdenRateTypes } from '../../../../../src/mocks/residents-management';
+// Import 경로 수정: residents-management → residents
+import { mockResidents } from '../../../../mocks/residents';
+import { burdenRateHistory, burdenRateTypes } from '../../../../mocks/residents-management';
 
 export default function BurdenRateManagement() {
   const [selectedResidentId, setSelectedResidentId] = useState('R001');

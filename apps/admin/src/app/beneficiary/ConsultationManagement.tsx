@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { mockConsultationCategories, mockConsultationMethods, mockConsultations, mockQuarterlySummary } from '../../../../../src/mocks/consultations';
+import { mockQuarterlySummary, mockConsultations, mockConsultationCategories, mockConsultationMethods } from '../../../../mocks/consultations';
 
 type TabType = 'consultation' | 'interview';
 type ViewMode = 'quarterly' | 'list' | 'create' | 'detail';
@@ -22,7 +22,7 @@ export default function ConsultationManagement() {
   const [selectedYear, setSelectedYear] = useState(2025);
   const [selectedRecipient, setSelectedRecipient] = useState<SelectedRecipient | null>(null);
   const [selectedConsultation, setSelectedConsultation] = useState<any>(null);
-
+  
   // 필터 상태
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [filterRoom, setFilterRoom] = useState<string>('all');
@@ -717,8 +717,8 @@ export default function ConsultationManagement() {
                 <div>
                   <label className="block text-sm font-medium text-gray-500 mb-1">상담대상</label>
                   <p className="text-base text-gray-900">
-                    {selectedConsultation.targetType === 'recipient'
-                      ? '수급자'
+                    {selectedConsultation.targetType === 'recipient' 
+                      ? '수급자' 
                       : `보호자 (${selectedConsultation.guardianName})`}
                   </p>
                 </div>

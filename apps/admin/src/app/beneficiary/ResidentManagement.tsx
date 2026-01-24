@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { residentsData } from '../../../../../src/mocks/residents';
+import { useState, useEffect } from 'react';
+import { residentsData } from '../../../../mocks/residents';
 
 interface Guardian {
   name: string;
@@ -612,7 +612,7 @@ export default function ResidentManagement() {
 
   const handleSaveEdit = () => {
     if (editFormData) {
-      const updatedResidents = residents.map(r =>
+      const updatedResidents = residents.map(r => 
         r.id === editFormData.id ? editFormData : r
       );
       setResidents(updatedResidents);
@@ -759,7 +759,7 @@ export default function ResidentManagement() {
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <button
+                      <button 
                         onClick={handleEditClick}
                         className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors text-sm font-medium whitespace-nowrap cursor-pointer"
                       >
@@ -866,7 +866,7 @@ export default function ResidentManagement() {
                   <i className="ri-edit-line"></i>
                   입소자 정보 수정
                 </h3>
-                <button
+                <button 
                   onClick={() => setShowEditModal(false)}
                   className="text-white hover:bg-white/20 rounded-lg p-2 transition-colors cursor-pointer"
                 >

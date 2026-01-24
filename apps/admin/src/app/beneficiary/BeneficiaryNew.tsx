@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { mockResidents } from '../../../../mocks/residents';
 
 interface FormData {
   name: string;

@@ -1,6 +1,5 @@
-
 import { useState } from 'react';
-import { residentsData } from '../../../../../src/mocks/residents-management';
+import { residentsData } from '../../../../mocks/residents';
 
 interface Resident {
   id: number;

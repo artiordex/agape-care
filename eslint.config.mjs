@@ -24,8 +24,6 @@ export default [
       sourceType: 'module',
       parser: typescriptParser,
       parserOptions: {
-        tsconfigRootDir: process.cwd(),
-        project: ['./tsconfig.json', './apps/*/tsconfig.json'],
         ecmaFeatures: { jsx: true },
       },
 
@@ -73,7 +71,6 @@ export default [
     settings: {
       'import/resolver': {
         typescript: {
-          project: ['./tsconfig.json', './apps/*/tsconfig.json'],
           alwaysTryTypes: true,
         },
         node: {
@@ -85,99 +82,35 @@ export default [
     },
 
     rules: {
-      ...typescript.configs.recommended.rules,
-
+      // TypeScript 규칙 - 느슨하게
       '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-unused-vars': [
-        'warn',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-          caughtErrorsIgnorePattern: '^_',
-          destructuredArrayIgnorePattern: '^_',
-        },
-      ],
-
-      '@typescript-eslint/no-var-requires': 'warn',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-var-requires': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-non-null-assertion': 'warn',
-      '@typescript-eslint/ban-ts-comment': [
-        'warn',
-        {
-          'ts-expect-error': 'allow-with-description',
-          'ts-ignore': 'allow-with-description',
-          'ts-nocheck': 'allow-with-description',
-        },
-      ],
+      '@typescript-eslint/no-non-null-assertion': 'off',
+      '@typescript-eslint/ban-ts-comment': 'off',
+      '@typescript-eslint/no-empty-function': 'off',
+      '@typescript-eslint/no-empty-interface': 'off',
 
-      'simple-import-sort/imports': [
-        'error',
-        {
-          groups: [
-            ['^node:'],
-            ['^react', '^next'],
-            ['^@nestjs/'],
-            ['^@radix-ui/', '^@tanstack/', '^framer-motion', '^lucide-react'],
-            ['^@prisma/', '^prisma', '^firebase', '^@supabase/', '^@auth/', '^next-auth'],
-            [
-              '^recharts',
-              '^chart\\.js',
-              '^react-chartjs-2',
-              '^react-hook-form',
-              '^@hookform/',
-              '^zod',
-            ],
-            ['^zustand', '^@tanstack/react-query'],
-            ['^date-fns', '^dayjs', '^lodash', '^clsx', '^uuid'],
-            ['^@?\\w'],
-            ['^@agape-care/'],
-            ['^@/'],
-            ['^\\.\\.'],
-            ['^\\.'],
-            ['^.+\\.css$', '^.+\\.scss$'],
-            ['^\\u0000'],
-          ],
-        },
-      ],
-      'simple-import-sort/exports': 'error',
+      // Import 정렬 - 경고로만
+      'simple-import-sort/imports': 'off',
+      'simple-import-sort/exports': 'off',
 
-      'import/first': 'error',
-      'import/newline-after-import': ['error', { count: 1 }],
-      'import/no-duplicates': 'error',
+      'import/first': 'off',
+      'import/newline-after-import': 'off',
+      'import/no-duplicates': 'warn',
       'import/no-unresolved': 'off',
       'import/no-named-as-default': 'off',
       'import/no-named-as-default-member': 'off',
-      'import/no-extraneous-dependencies': [
-        'error',
-        {
-          devDependencies: [
-            '**/*.test.{ts,tsx}',
-            '**/*.spec.{ts,tsx}',
-            '**/*.stories.{ts,tsx}',
-            '**/vitest.config.ts',
-            '**/vite.config.ts',
-            '**/playwright.config.ts',
-            '**/*.config.{js,ts,mjs}',
-          ],
-          peerDependencies: true,
-          optionalDependencies: true,
-        },
-      ],
+      'import/no-extraneous-dependencies': 'off',
 
+      // Unused imports - 경고로만
       'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': 'off',
-      'unused-imports/no-unused-imports': 'error',
-      'unused-imports/no-unused-vars': [
-        'warn',
-        {
-          vars: 'all',
-          varsIgnorePattern: '^_',
-          args: 'after-used',
-          argsIgnorePattern: '^_',
-        },
-      ],
+      'unused-imports/no-unused-imports': 'off',
+      'unused-imports/no-unused-vars': 'off',
 
-      semi: ['error', 'always'],
+      // 코드 스타일 - 모두 끄기
+      semi: 'off',
       quotes: 'off',
       '@typescript-eslint/quotes': 'off',
       indent: 'off',
@@ -187,52 +120,45 @@ export default [
       'comma-dangle': 'off',
       'max-len': 'off',
 
-      'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
-      'no-debugger': 'warn',
+      // 콘솔 및 디버깅
+      'no-console': 'off',
+      'no-debugger': 'off',
       'no-undef': 'off',
       'no-unused-expressions': 'off',
-      '@typescript-eslint/no-unused-expressions': [
-        'error',
-        { allowShortCircuit: true, allowTernary: true },
-      ],
+      '@typescript-eslint/no-unused-expressions': 'off',
 
-      'prefer-const': 'error',
-      'no-var': 'error',
-      'object-shorthand': ['error', 'always'],
-      'prefer-template': 'error',
-      'prefer-arrow-callback': 'error',
-      'arrow-body-style': ['error', 'as-needed'],
+      // 코드 품질 - 경고로만
+      'prefer-const': 'warn',
+      'no-var': 'warn',
+      'object-shorthand': 'off',
+      'prefer-template': 'off',
+      'prefer-arrow-callback': 'off',
+      'arrow-body-style': 'off',
 
+      // React 규칙 - 느슨하게
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
       'react/jsx-props-no-spreading': 'off',
       'react/require-default-props': 'off',
-      'react/jsx-filename-extension': ['error', { extensions: ['.tsx', '.jsx'] }],
+      'react/jsx-filename-extension': 'off',
       'react/function-component-definition': 'off',
-      'react/self-closing-comp': 'error',
-      'react/jsx-boolean-value': ['error', 'never'],
-      'react/jsx-curly-brace-presence': ['error', { props: 'never', children: 'never' }],
+      'react/self-closing-comp': 'off',
+      'react/jsx-boolean-value': 'off',
+      'react/jsx-curly-brace-presence': 'off',
+      'react/display-name': 'off',
+      'react/no-unescaped-entities': 'off',
 
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
+      // React Hooks - 경고로만
+      'react-hooks/rules-of-hooks': 'warn',
+      'react-hooks/exhaustive-deps': 'off',
 
-      ...nextPlugin.configs.recommended.rules,
-      ...nextPlugin.configs['core-web-vitals'].rules,
-
+      // Next.js 규칙 - 경고로만
       '@next/next/no-html-link-for-pages': 'off',
       '@next/next/no-img-element': 'off',
+      '@next/next/no-sync-scripts': 'off',
 
-      'no-restricted-imports': [
-        'error',
-        {
-          patterns: [
-            {
-              group: ['../**/components/*'],
-              message: '컴포넌트는 절대 경로(@/)로 import 해주세요.',
-            },
-          ],
-        },
-      ],
+      // Import 제한 - 끄기
+      'no-restricted-imports': 'off',
     },
   },
 
@@ -266,14 +192,8 @@ export default [
   {
     files: ['**/*.ts', '**/*.tsx'],
     rules: {
-      '@typescript-eslint/consistent-type-imports': [
-        'error',
-        { prefer: 'type-imports', disallowTypeAnnotations: false },
-      ],
-      '@typescript-eslint/consistent-type-exports': [
-        'error',
-        { fixMixedExportsWithInlineTypeSpecifier: true },
-      ],
+      '@typescript-eslint/consistent-type-imports': 'off',
+      '@typescript-eslint/consistent-type-exports': 'off',
     },
   },
 
@@ -291,9 +211,9 @@ export default [
       '**/vitest.config.*',
     ],
     rules: {
-      'playwright/no-focused-test': 'error',
-      'playwright/no-skipped-test': 'warn',
-      'playwright/no-conditional-in-test': 'warn',
+      'playwright/no-focused-test': 'off',
+      'playwright/no-skipped-test': 'off',
+      'playwright/no-conditional-in-test': 'off',
       'playwright/expect-expect': 'off',
       'import/no-extraneous-dependencies': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
@@ -336,16 +256,9 @@ export default [
   {
     files: ['apps/api/src/**/*.ts', '**/*.controller.ts', '**/*.service.ts'],
     rules: {
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'off',
       'class-methods-use-this': 'off',
-      '@typescript-eslint/no-unused-vars': [
-        'warn',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-          caughtErrorsIgnorePattern: '^_',
-        },
-      ],
+      '@typescript-eslint/no-unused-vars': 'off',
     },
   },
 

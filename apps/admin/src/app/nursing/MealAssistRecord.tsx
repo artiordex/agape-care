@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '../../../../../src/supabaseClient';
+import { useState, useEffect } from 'react';
+import { supabase } from '../../../supabaseClient';
 
 interface MealRecord {
   id?: number;

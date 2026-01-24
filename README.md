@@ -661,3 +661,808 @@ chore: 빌드/설정 변경
 [홈페이지](https://agape-care.com) • [문서](https://docs.agape-care.com) • [데모](https://demo.agape-care.com)
 
 </div>
+
+```
+agape-care
+├─ .changeset
+│  ├─ config.json
+│  └─ README.md
+├─ .cz-config.cjs
+├─ .dockerignore
+├─ .hintrc
+├─ .husky
+│  └─ _
+│     ├─ applypatch-msg
+│     ├─ commit-msg
+│     ├─ h
+│     ├─ husky.sh
+│     ├─ post-applypatch
+│     ├─ post-commit
+│     ├─ post-merge
+│     ├─ post-rewrite
+│     ├─ pre-applypatch
+│     ├─ pre-auto-gc
+│     ├─ pre-commit
+│     ├─ pre-merge-commit
+│     ├─ pre-push
+│     ├─ pre-rebase
+│     └─ prepare-commit-msg
+├─ .pnpmrc
+├─ apps
+│  ├─ admin
+│  │  ├─ global.d.ts
+│  │  ├─ index.css
+│  │  ├─ index.html
+│  │  ├─ next-env.d.ts
+│  │  ├─ next.config.mjs
+│  │  ├─ package.json
+│  │  ├─ postcss.config.mjs
+│  │  ├─ project.json
+│  │  ├─ public
+│  │  ├─ server.ts
+│  │  ├─ src
+│  │  │  ├─ app
+│  │  │  │  ├─ accounting
+│  │  │  │  │  ├─ AccountingManagement.tsx
+│  │  │  │  │  ├─ AccountManagement.tsx
+│  │  │  │  │  ├─ ClosingManagement.tsx
+│  │  │  │  │  ├─ InsuranceClaimManagement.tsx
+│  │  │  │  │  ├─ JournalManagement.tsx
+│  │  │  │  │  └─ PayrollManagement.tsx
+│  │  │  │  ├─ api
+│  │  │  │  │  ├─ auth
+│  │  │  │  │  ├─ proxy
+│  │  │  │  │  │  └─ [...path]
+│  │  │  │  │  └─ webhooks
+│  │  │  │  │     └─ stripe
+│  │  │  │  ├─ beneficiary
+│  │  │  │  │  ├─ BeneficiaryDetail.tsx
+│  │  │  │  │  ├─ BeneficiaryList.tsx
+│  │  │  │  │  ├─ BeneficiaryNew.tsx
+│  │  │  │  │  ├─ BurdenRateManagement.tsx
+│  │  │  │  │  ├─ ConsultationManagement.tsx
+│  │  │  │  │  ├─ ConsultationRequestManagement.tsx
+│  │  │  │  │  ├─ OutingManagement.tsx
+│  │  │  │  │  ├─ ResidentManagement.tsx
+│  │  │  │  │  └─ ResidentRegistration.tsx
+│  │  │  │  ├─ contents
+│  │  │  │  │  ├─ ContentManagement.tsx
+│  │  │  │  │  ├─ FamilyCommunication.tsx
+│  │  │  │  │  ├─ FreeBoardAdmin.tsx
+│  │  │  │  │  ├─ FreeBoardManagement.tsx
+│  │  │  │  │  ├─ GalleryManagement.tsx
+│  │  │  │  │  ├─ InformationManagement.tsx
+│  │  │  │  │  ├─ MealPlanManagement.tsx
+│  │  │  │  │  ├─ MealPlanManagementAdvanced.tsx
+│  │  │  │  │  ├─ NoticeManagement.tsx
+│  │  │  │  │  ├─ PartnerManagement.tsx
+│  │  │  │  │  ├─ PopupManagement.tsx
+│  │  │  │  │  ├─ ProgramAlbumManagement.tsx
+│  │  │  │  │  └─ ProgramManagement.tsx
+│  │  │  │  ├─ error.tsx
+│  │  │  │  ├─ globals.css
+│  │  │  │  ├─ homepage
+│  │  │  │  │  ├─ BasicInfoEditor.tsx
+│  │  │  │  │  ├─ CostConsultationEditor.tsx
+│  │  │  │  │  ├─ DesignInfoEditor.tsx
+│  │  │  │  │  ├─ DonationVolunteerEditor.tsx
+│  │  │  │  │  ├─ IntroEditor.tsx
+│  │  │  │  │  ├─ MenuSettingsEditor.tsx
+│  │  │  │  │  └─ ServiceEditor.tsx
+│  │  │  │  ├─ loading.tsx
+│  │  │  │  ├─ login
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ my-page
+│  │  │  │  │  ├─ components
+│  │  │  │  │  │  ├─ MusculoskeletalTab.tsx
+│  │  │  │  │  │  ├─ NotificationsTab.tsx
+│  │  │  │  │  │  ├─ ScheduleTab.tsx
+│  │  │  │  │  │  └─ SettingsTab.tsx
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ not-found.tsx
+│  │  │  │  ├─ notifications
+│  │  │  │  │  ├─ NotificationDashboard.tsx
+│  │  │  │  │  └─ NotificationSend.tsx
+│  │  │  │  ├─ nursing
+│  │  │  │  │  ├─ BathScheduleManagement.tsx
+│  │  │  │  │  ├─ CareHistory.tsx
+│  │  │  │  │  ├─ CareRecordAnalytics.tsx
+│  │  │  │  │  ├─ CareRecordManagement.tsx
+│  │  │  │  │  ├─ DailyCareRecord.tsx
+│  │  │  │  │  ├─ MealAssistRecord.tsx
+│  │  │  │  │  ├─ MedicationManagement.tsx
+│  │  │  │  │  ├─ MedicationManagementAdvanced.tsx
+│  │  │  │  │  ├─ NeedsAssessment.tsx
+│  │  │  │  │  ├─ NeedsAssessmentAdvanced.tsx
+│  │  │  │  │  ├─ NursingRecord.tsx
+│  │  │  │  │  ├─ ReportClinic.tsx
+│  │  │  │  │  ├─ ReportElimination.tsx
+│  │  │  │  │  ├─ ReportMedication.tsx
+│  │  │  │  │  ├─ ReportNursing.tsx
+│  │  │  │  │  └─ ReportPressureUlcer.tsx
+│  │  │  │  ├─ operations
+│  │  │  │  │  ├─ AssetManagement.tsx
+│  │  │  │  │  ├─ CCTVDeviceManagement.tsx
+│  │  │  │  │  ├─ CCTVRoomConsent.tsx
+│  │  │  │  │  ├─ CCTVViewLog.tsx
+│  │  │  │  │  ├─ CCTVWeeklyCheck.tsx
+│  │  │  │  │  ├─ GrievanceManagement.tsx
+│  │  │  │  │  ├─ InspectionManagement.tsx
+│  │  │  │  │  ├─ InventoryManagement.tsx
+│  │  │  │  │  ├─ SpecialRoomUse.tsx
+│  │  │  │  │  ├─ TransportService.tsx
+│  │  │  │  │  └─ VehicleManagement.tsx
+│  │  │  │  ├─ page.tsx
+│  │  │  │  ├─ settings
+│  │  │  │  │  ├─ FacilityInfo.tsx
+│  │  │  │  │  ├─ RBACManagement.tsx
+│  │  │  │  │  ├─ ServicesManagement.tsx
+│  │  │  │  │  └─ SiteSettings.tsx
+│  │  │  │  └─ staff
+│  │  │  │     ├─ AttendanceManagement.tsx
+│  │  │  │     ├─ EducationManagement.tsx
+│  │  │  │     ├─ MeetingManagement.tsx
+│  │  │  │     ├─ RepeatWorkTemplate.tsx
+│  │  │  │     ├─ StaffManagement.tsx
+│  │  │  │     ├─ StaffWorkStatus.tsx
+│  │  │  │     ├─ WeeklyWorkTemplate.tsx
+│  │  │  │     ├─ WorkScheduleCalendar.tsx
+│  │  │  │     └─ WorkScheduleManagement.tsx
+│  │  │  ├─ components
+│  │  │  │  ├─ AppShell.tsx
+│  │  │  │  ├─ Header.tsx
+│  │  │  │  └─ Sidebar.tsx
+│  │  │  └─ data
+│  │  │     └─ menu.json
+│  │  └─ tsconfig.json
+│  ├─ api
+│  │  ├─ ecosystem.config.js
+│  │  ├─ nest-cli.json
+│  │  ├─ package.json
+│  │  ├─ project.json
+│  │  ├─ src
+│  │  │  ├─ app.module.ts
+│  │  │  ├─ main.ts
+│  │  │  └─ modules
+│  │  │     ├─ admin
+│  │  │     │  ├─ admin.controller.ts
+│  │  │     │  ├─ admin.interface.ts
+│  │  │     │  ├─ admin.module.ts
+│  │  │     │  └─ admin.service.ts
+│  │  │     ├─ ai
+│  │  │     │  ├─ ai.controller.ts
+│  │  │     │  ├─ ai.interface.ts
+│  │  │     │  ├─ ai.module.ts
+│  │  │     │  ├─ ai.processor.ts
+│  │  │     │  └─ ai.service.ts
+│  │  │     ├─ auth
+│  │  │     │  ├─ auth.controller.ts
+│  │  │     │  ├─ auth.interface.ts
+│  │  │     │  ├─ auth.module.ts
+│  │  │     │  ├─ auth.processor.ts
+│  │  │     │  └─ auth.service.ts
+│  │  │     ├─ index.ts
+│  │  │     ├─ mypage
+│  │  │     │  ├─ mypage.controller.ts
+│  │  │     │  ├─ mypage.interface.ts
+│  │  │     │  ├─ mypage.module.ts
+│  │  │     │  ├─ mypage.processor.ts
+│  │  │     │  └─ mypage.service.ts
+│  │  │     ├─ payments
+│  │  │     │  ├─ payment.controller.ts
+│  │  │     │  ├─ payment.interface.ts
+│  │  │     │  ├─ payment.module.ts
+│  │  │     │  ├─ payment.processor.ts
+│  │  │     │  └─ payment.service.ts
+│  │  │     ├─ programs
+│  │  │     │  ├─ program.controller.ts
+│  │  │     │  ├─ program.interface.ts
+│  │  │     │  ├─ program.module.ts
+│  │  │     │  ├─ program.processor.ts
+│  │  │     │  └─ program.service.ts
+│  │  │     ├─ reservations
+│  │  │     │  ├─ reservation.controller.ts
+│  │  │     │  ├─ reservation.interface.ts
+│  │  │     │  ├─ reservation.module.ts
+│  │  │     │  ├─ reservation.processor.ts
+│  │  │     │  └─ reservation.service.ts
+│  │  │     ├─ users
+│  │  │     │  ├─ user.controller.ts
+│  │  │     │  ├─ user.interface.ts
+│  │  │     │  ├─ user.module.ts
+│  │  │     │  └─ user.service.ts
+│  │  │     └─ venues
+│  │  │        ├─ venue.controller.ts
+│  │  │        ├─ venue.interface.ts
+│  │  │        ├─ venue.module.ts
+│  │  │        └─ venue.service.ts
+│  │  └─ tsconfig.json
+│  ├─ web
+│  │  ├─ index.css
+│  │  ├─ index.html
+│  │  ├─ next-env.d.ts
+│  │  ├─ next.config.mjs
+│  │  ├─ package.json
+│  │  ├─ postcss.config.mjs
+│  │  ├─ project.json
+│  │  ├─ server.ts
+│  │  ├─ src
+│  │  │  ├─ app
+│  │  │  │  ├─ admission
+│  │  │  │  │  └─ page.tsx
+│  │  │  │  ├─ error.tsx
+│  │  │  │  ├─ facility
+│  │  │  │  │  ├─ page.tsx
+│  │  │  │  │  └─ section
+│  │  │  │  │     ├─ CommonAreas.tsx
+│  │  │  │  │     ├─ FacilityHero.tsx
+│  │  │  │  │     ├─ FloorGuide.tsx
+│  │  │  │  │     ├─ RoomTypes.tsx
+│  │  │  │  │     └─ SafetyFeatures.tsx
+│  │  │  │  ├─ globals.css
+│  │  │  │  ├─ guide
+│  │  │  │  │  ├─ cost
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ visit
+│  │  │  │  │     └─ page.tsx
+│  │  │  │  ├─ intro
+│  │  │  │  │  ├─ corporation
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ greeting
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ history
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ introduction
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ location
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ staff
+│  │  │  │  │     └─ page.tsx
+│  │  │  │  ├─ loading.tsx
+│  │  │  │  ├─ not-found.tsx
+│  │  │  │  ├─ notices
+│  │  │  │  │  ├─ announcements
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ board
+│  │  │  │  │  │  ├─ DeleteConfirmModal.tsx
+│  │  │  │  │  │  ├─ EditPostModal.tsx
+│  │  │  │  │  │  ├─ page.tsx
+│  │  │  │  │  │  ├─ PostDetailModal.tsx
+│  │  │  │  │  │  └─ WritePostModal.tsx
+│  │  │  │  │  ├─ communities
+│  │  │  │  │  │  ├─ detail
+│  │  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ gallery
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ meal-plan
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ program-schedule
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ programs
+│  │  │  │  │     └─ page.tsx
+│  │  │  │  ├─ page.tsx
+│  │  │  │  ├─ section
+│  │  │  │  │  ├─ AdmissionProcessSection.tsx
+│  │  │  │  │  ├─ ConsultationSection.tsx
+│  │  │  │  │  ├─ ContactSection.tsx
+│  │  │  │  │  ├─ FeaturesSection.tsx
+│  │  │  │  │  ├─ HeroSection.tsx
+│  │  │  │  │  ├─ IntroSection.tsx
+│  │  │  │  │  ├─ NewsSection.tsx
+│  │  │  │  │  └─ ServicesSection.tsx
+│  │  │  │  └─ services
+│  │  │  │     ├─ admission-process
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ cognitive-program
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ daily-life
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ family-support
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ individual-care
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ leisure-program
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ medical-nursing
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ nutrition-care
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ rehabilitation
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     └─ step-care-program
+│  │  │  │        └─ page.tsx
+│  │  │  ├─ components
+│  │  │  │  ├─ AppShell.tsx
+│  │  │  │  ├─ FloatingSidebar.tsx
+│  │  │  │  ├─ Footer.tsx
+│  │  │  │  ├─ navbar
+│  │  │  │  │  ├─ AllMenu.tsx
+│  │  │  │  │  ├─ DesktopDropdown.tsx
+│  │  │  │  │  ├─ MobileMenu.tsx
+│  │  │  │  │  └─ Navbar.tsx
+│  │  │  │  └─ NoticeSidebar.tsx
+│  │  │  ├─ data
+│  │  │  │  └─ menu.json
+│  │  │  ├─ global.d.ts
+│  │  │  ├─ lib
+│  │  │  │  ├─ email.ts
+│  │  │  │  ├─ huggingface.ts
+│  │  │  │  ├─ security-demo.ts
+│  │  │  │  └─ security-store.ts
+│  │  │  ├─ mocks
+│  │  │  │  ├─ accounting.ts
+│  │  │  │  ├─ board.ts
+│  │  │  │  ├─ communities.ts
+│  │  │  │  ├─ communityDetail.ts
+│  │  │  │  ├─ consultations.ts
+│  │  │  │  ├─ gallery.ts
+│  │  │  │  ├─ mealPlan.ts
+│  │  │  │  ├─ payroll.ts
+│  │  │  │  ├─ programSchedule.ts
+│  │  │  │  ├─ residents-management.ts
+│  │  │  │  └─ residents.ts
+│  │  │  ├─ next-env.d.ts
+│  │  │  ├─ providers
+│  │  │  │  └─ RootProvider.tsx
+│  │  │  ├─ public
+│  │  │  │  └─ policies
+│  │  │  │     └─ privacy.html
+│  │  │  ├─ web-types.d.ts
+│  │  │  └─ web-types.ts
+│  │  └─ tsconfig.json
+│  └─ worker
+│     ├─ package.json
+│     ├─ project.json
+│     ├─ src
+│     │  ├─ events
+│     │  │  ├─ notification.ts
+│     │  │  └─ reservation.ts
+│     │  ├─ main.ts
+│     │  ├─ metrics.ts
+│     │  ├─ processors
+│     │  │  ├─ notification.ts
+│     │  │  └─ reservation.ts
+│     │  └─ schedules
+│     │     └─ scheduler.ts
+│     └─ tsconfig.json
+├─ docs
+│  ├─ assets
+│  │  └─ ConnectWon.png
+│  ├─ database-schema-accounting-erp.md
+│  ├─ database-schema-attendance.md
+│  ├─ database-schema-consultation.md
+│  ├─ database-schema-notifications.md
+│  ├─ guideline
+│  │  ├─ 01_프로젝트아키텍처.md
+│  │  ├─ 02_개발환경설정.md
+│  │  ├─ 03_외부라이브러리목록.md
+│  │  ├─ 04_의존성관리가이드.md
+│  │  └─ 05_배포및운영가이드.md
+│  └─ study
+│     ├─ 01_프로젝트소개.md
+│     ├─ 02_비즈니스모델.md
+│     ├─ 03_서비스플로우.md
+│     ├─ 04_도메인정의.md
+│     ├─ 05_기술스택개요.md
+│     ├─ 06_모노레포구조.md
+│     ├─ 07_전체아키텍처.md
+│     ├─ 08_도메인모듈패턴.md
+│     ├─ 09_데이터베이스설계.md
+│     ├─ 10_개발환경설정.md
+│     ├─ 11_코딩컨벤션.md
+│     ├─ 12_Git워크플로우.md
+│     ├─ 13_AI_API통합가이드.md
+│     ├─ 14_AI_서비스플로우.md
+│     ├─ 15_REST_API문서.md
+│     ├─ 16_인증권한.md
+│     ├─ 17_배포가이드.md
+│     ├─ 18_기술스택가이드.md
+│     ├─ 19_트러블슈팅건.md
+│     └─ 20_참고자료.md
+├─ eslint.config.mjs
+├─ infra
+│  ├─ cloudbuild.yaml
+│  ├─ database
+│  │  ├─ conf
+│  │  │  ├─ pg_hba.conf
+│  │  │  └─ postgresql.conf
+│  │  └─ init
+│  │     ├─ 00-extensions.sql
+│  │     ├─ 20-ddl.sql
+│  │     ├─ 30-seed.sql
+│  │     └─ 99-final-setup.sql
+│  ├─ docker
+│  │  ├─ .wslconfig
+│  │  ├─ docker-compose.yml
+│  │  └─ nginx.conf
+│  ├─ infra-types.ts
+│  └─ n8n
+│     ├─ package.json
+│     └─ project.json
+├─ LICENSE
+├─ nx.json
+├─ package.json
+├─ packages
+│  ├─ api-contract
+│  │  ├─ package.json
+│  │  ├─ project.json
+│  │  ├─ src
+│  │  │  ├─ api-contract-types.ts
+│  │  │  ├─ client.ts
+│  │  │  ├─ contracts
+│  │  │  │  ├─ ai.contract.ts
+│  │  │  │  ├─ auth.contract.ts
+│  │  │  │  ├─ common.contract.ts
+│  │  │  │  ├─ payment.contract.ts
+│  │  │  │  ├─ program.contract.ts
+│  │  │  │  └─ venue.contract.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ openapi
+│  │  │  │  ├─ document.ts
+│  │  │  │  ├─ emit.ts
+│  │  │  │  ├─ registry.ts
+│  │  │  │  └─ setup.ts
+│  │  │  └─ schemas
+│  │  │     ├─ ai.schema.ts
+│  │  │     ├─ auth.schema.ts
+│  │  │     ├─ common.schema.ts
+│  │  │     ├─ payment.schema.ts
+│  │  │     ├─ program.schema.ts
+│  │  │     └─ venue.schema.ts
+│  │  └─ tsconfig.json
+│  ├─ client
+│  │  ├─ package.json
+│  │  ├─ project.json
+│  │  ├─ src
+│  │  │  ├─ client-types.ts
+│  │  │  ├─ hooks
+│  │  │  │  ├─ useAuth.ts
+│  │  │  │  ├─ useDebounce.ts
+│  │  │  │  ├─ useInfiniteScroll.ts
+│  │  │  │  ├─ useMediaQuery.ts
+│  │  │  │  ├─ useOnlineStatus.ts
+│  │  │  │  └─ useToggle.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ mock-types.ts
+│  │  │  ├─ mocks
+│  │  │  │  ├─ browser.ts
+│  │  │  │  ├─ data
+│  │  │  │  │  ├─ admin
+│  │  │  │  │  │  ├─ activities.json
+│  │  │  │  │  │  ├─ reports.json
+│  │  │  │  │  │  └─ stats.json
+│  │  │  │  │  ├─ ai
+│  │  │  │  │  │  ├─ interactions.json
+│  │  │  │  │  │  ├─ recommendations.json
+│  │  │  │  │  │  └─ sentiments.json
+│  │  │  │  │  ├─ index.ts
+│  │  │  │  │  ├─ memberships
+│  │  │  │  │  │  ├─ comparisons.json
+│  │  │  │  │  │  ├─ plans.json
+│  │  │  │  │  │  └─ subscriptions.json
+│  │  │  │  │  ├─ notifications
+│  │  │  │  │  │  └─ notifications.json
+│  │  │  │  │  ├─ payments
+│  │  │  │  │  │  └─ payments.json
+│  │  │  │  │  ├─ posts
+│  │  │  │  │  │  ├─ comments.json
+│  │  │  │  │  │  └─ posts.json
+│  │  │  │  │  ├─ programs
+│  │  │  │  │  │  ├─ programs.json
+│  │  │  │  │  │  ├─ reviews.json
+│  │  │  │  │  │  └─ sessions.json
+│  │  │  │  │  ├─ reservations
+│  │  │  │  │  │  ├─ attendance.json
+│  │  │  │  │  │  ├─ reservations.json
+│  │  │  │  │  │  └─ scheduler.json
+│  │  │  │  │  ├─ users
+│  │  │  │  │  │  ├─ activities.json
+│  │  │  │  │  │  ├─ creators.json
+│  │  │  │  │  │  ├─ profiles.json
+│  │  │  │  │  │  ├─ stats.json
+│  │  │  │  │  │  └─ users.json
+│  │  │  │  │  └─ venues
+│  │  │  │  │     ├─ equipment.json
+│  │  │  │  │     ├─ equipmentRentals.json
+│  │  │  │  │     ├─ inventories.json
+│  │  │  │  │     ├─ rooms.json
+│  │  │  │  │     └─ venues.json
+│  │  │  │  ├─ db
+│  │  │  │  │  ├─ index.ts
+│  │  │  │  │  ├─ schema.ts
+│  │  │  │  │  └─ seeds.ts
+│  │  │  │  ├─ generators
+│  │  │  │  │  ├─ admin.generator.ts
+│  │  │  │  │  ├─ ai.generator.ts
+│  │  │  │  │  ├─ equipment.generator.ts
+│  │  │  │  │  ├─ index.ts
+│  │  │  │  │  ├─ membership.generator.ts
+│  │  │  │  │  ├─ notification.generator.ts
+│  │  │  │  │  ├─ payment.generator.ts
+│  │  │  │  │  ├─ post.generator.ts
+│  │  │  │  │  ├─ program.generator.ts
+│  │  │  │  │  ├─ reservation.generator.ts
+│  │  │  │  │  ├─ scheduler.generator.ts
+│  │  │  │  │  ├─ user.generator.ts
+│  │  │  │  │  └─ venue.generator.ts
+│  │  │  │  ├─ handlers
+│  │  │  │  │  ├─ admin
+│  │  │  │  │  │  ├─ dashboard.handler.ts
+│  │  │  │  │  │  ├─ program-management.handler.ts
+│  │  │  │  │  │  ├─ report-management.handler.ts
+│  │  │  │  │  │  ├─ user-management.handler.ts
+│  │  │  │  │  │  └─ venue-management.handler.ts
+│  │  │  │  │  ├─ ai
+│  │  │  │  │  │  ├─ ai.handler.ts
+│  │  │  │  │  │  ├─ chat.handler.ts
+│  │  │  │  │  │  ├─ moderation.handler.ts
+│  │  │  │  │  │  ├─ recommendation.handler.ts
+│  │  │  │  │  │  └─ summary.handler.ts
+│  │  │  │  │  ├─ auth
+│  │  │  │  │  │  ├─ auth.handler.ts
+│  │  │  │  │  │  ├─ session.handler.ts
+│  │  │  │  │  │  └─ sso.handler.ts
+│  │  │  │  │  ├─ index.ts
+│  │  │  │  │  ├─ memberships
+│  │  │  │  │  │  ├─ benefit.handler.ts
+│  │  │  │  │  │  └─ membership.handler.ts
+│  │  │  │  │  ├─ notifications
+│  │  │  │  │  │  ├─ message.handler.ts
+│  │  │  │  │  │  ├─ notification.handler.ts
+│  │  │  │  │  │  └─ slack.handler.ts
+│  │  │  │  │  ├─ payments
+│  │  │  │  │  │  ├─ payment.handler.ts
+│  │  │  │  │  │  ├─ receipt.handler.ts
+│  │  │  │  │  │  └─ subscription.handler.ts
+│  │  │  │  │  ├─ posts
+│  │  │  │  │  │  ├─ comment.handler.ts
+│  │  │  │  │  │  ├─ post.handler.ts
+│  │  │  │  │  │  └─ report.handler.ts
+│  │  │  │  │  ├─ programs
+│  │  │  │  │  │  ├─ participant.handler.ts
+│  │  │  │  │  │  ├─ program.handler.ts
+│  │  │  │  │  │  ├─ review.handler.ts
+│  │  │  │  │  │  └─ session.handler.ts
+│  │  │  │  │  ├─ users
+│  │  │  │  │  │  ├─ activity.handler.ts
+│  │  │  │  │  │  ├─ creator.handler.ts
+│  │  │  │  │  │  ├─ profile.handler.ts
+│  │  │  │  │  │  └─ user.handler.ts
+│  │  │  │  │  └─ venues
+│  │  │  │  │     ├─ equipment.handler.ts
+│  │  │  │  │     ├─ reservation.handler.ts
+│  │  │  │  │     ├─ room.handler.ts
+│  │  │  │  │     ├─ scheduler.handler.ts
+│  │  │  │  │     └─ venue.handler.ts
+│  │  │  │  ├─ index.ts
+│  │  │  │  └─ utils
+│  │  │  │     ├─ delay.ts
+│  │  │  │     ├─ pagination.ts
+│  │  │  │     ├─ response.ts
+│  │  │  │     └─ search.ts
+│  │  │  └─ providers
+│  │  │     ├─ AuthProvider.tsx
+│  │  │     ├─ firebase-init.ts
+│  │  │     ├─ firebase.ts
+│  │  │     ├─ FirebaseProvider.tsx
+│  │  │     ├─ QueryProvider.tsx
+│  │  │     └─ RootProvider.tsx
+│  │  └─ tsconfig.json
+│  ├─ configs
+│  │  ├─ package.json
+│  │  ├─ project.json
+│  │  ├─ src
+│  │  │  ├─ eslint
+│  │  │  │  └─ base.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ testing
+│  │  │  │  ├─ playwright.ts
+│  │  │  │  └─ vitest.ts
+│  │  │  └─ typescript
+│  │  │     ├─ base.json
+│  │  │     ├─ node.json
+│  │  │     └─ web.json
+│  │  └─ tsconfig.json
+│  ├─ core
+│  │  ├─ package.json
+│  │  ├─ project.json
+│  │  ├─ src
+│  │  │  ├─ application
+│  │  │  │  ├─ policies
+│  │  │  │  │  ├─ overbooking.policies.ts
+│  │  │  │  │  └─ waitlist.policy.ts
+│  │  │  │  └─ usecases
+│  │  │  │     ├─ program.usecase.ts
+│  │  │  │     ├─ reservation.usecase.ts
+│  │  │  │     └─ schedule.usecase.ts
+│  │  │  ├─ connectwon-env.ts
+│  │  │  ├─ core-types.ts
+│  │  │  ├─ domain
+│  │  │  │  └─ value-objects.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ locales
+│  │  │  │  ├─ en.json
+│  │  │  │  ├─ ja.json
+│  │  │  │  ├─ ko.json
+│  │  │  │  └─ vi.json
+│  │  │  ├─ ports
+│  │  │  │  ├─ ai.port.ts
+│  │  │  │  ├─ cache.port.ts
+│  │  │  │  ├─ db.port.ts
+│  │  │  │  ├─ device.port.ts
+│  │  │  │  ├─ notification.port.ts
+│  │  │  │  ├─ program.port.ts
+│  │  │  │  ├─ review.port.ts
+│  │  │  │  ├─ room.port.ts
+│  │  │  │  ├─ search.port.ts
+│  │  │  │  ├─ session.port.ts
+│  │  │  │  ├─ time.port.ts
+│  │  │  │  ├─ user.port.ts
+│  │  │  │  └─ venue.port.ts
+│  │  │  └─ queue
+│  │  │     ├─ bull.queue.ts
+│  │  │     ├─ manager.queue.ts
+│  │  │     ├─ processor.queue.ts
+│  │  │     └─ scheduler.queue.ts
+│  │  └─ tsconfig.json
+│  ├─ database
+│  │  ├─ package.json
+│  │  ├─ prisma
+│  │  │  └─ schema.prisma
+│  │  ├─ project.json
+│  │  ├─ src
+│  │  │  ├─ adapters
+│  │  │  │  ├─ ai.adapter.ts
+│  │  │  │  ├─ db.adapter.ts
+│  │  │  │  ├─ device.adapter.ts
+│  │  │  │  ├─ program.adapter.ts
+│  │  │  │  ├─ review.adapter.ts
+│  │  │  │  ├─ room.adapter.ts
+│  │  │  │  ├─ user-activity.adapter.ts
+│  │  │  │  ├─ user.adapter.ts
+│  │  │  │  └─ venue.adapter.ts
+│  │  │  ├─ client.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ test-smoke.ts
+│  │  │  └─ utils.ts
+│  │  └─ tsconfig.json
+│  ├─ logger
+│  │  ├─ package.json
+│  │  ├─ project.json
+│  │  ├─ src
+│  │  │  ├─ console.ts
+│  │  │  ├─ file.ts
+│  │  │  ├─ http.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ logger-types.ts
+│  │  │  ├─ logger.ts
+│  │  │  ├─ pretty.ts
+│  │  │  └─ slack.ts
+│  │  └─ tsconfig.json
+│  ├─ server
+│  │  ├─ package.json
+│  │  ├─ project.json
+│  │  ├─ src
+│  │  │  ├─ adapters
+│  │  │  │  ├─ anthropic.adapter.ts
+│  │  │  │  ├─ auth.adapter.ts
+│  │  │  │  ├─ cache.adapter.ts
+│  │  │  │  ├─ clock.adapter.ts
+│  │  │  │  ├─ email.adapter.ts
+│  │  │  │  ├─ huggingface.adapter.ts
+│  │  │  │  ├─ openai.adapter.ts
+│  │  │  │  ├─ search.adapter.ts
+│  │  │  │  ├─ session.adapter.ts
+│  │  │  │  └─ slack.adapter.ts
+│  │  │  ├─ application.module.ts
+│  │  │  ├─ decorators
+│  │  │  │  ├─ api-response.ts
+│  │  │  │  ├─ permissions.ts
+│  │  │  │  └─ program.ts
+│  │  │  ├─ filters
+│  │  │  │  └─ http-exception.filter.ts
+│  │  │  ├─ guards
+│  │  │  │  ├─ auth.guard.ts
+│  │  │  │  └─ role.guard.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ instrument.ts
+│  │  │  ├─ interceptors
+│  │  │  │  └─ response.interceptor.ts
+│  │  │  ├─ middleware
+│  │  │  │  ├─ auth.middleware.ts
+│  │  │  │  └─ cookie.middleware.ts
+│  │  │  ├─ pipes
+│  │  │  │  └─ validation.pipe.ts
+│  │  │  ├─ plugins
+│  │  │  │  └─ swagger.ts
+│  │  │  ├─ rsc-cache.ts
+│  │  │  ├─ server-types.ts
+│  │  │  └─ services
+│  │  │     └─ ai.service.ts
+│  │  └─ tsconfig.json
+│  └─ ui
+│     ├─ package.json
+│     ├─ project.json
+│     ├─ public
+│     │  ├─ favicon
+│     │  ├─ fonts
+│     │  ├─ icons
+│     │  └─ images
+│     ├─ src
+│     │  ├─ animations
+│     │  │  └─ Animation.tsx
+│     │  ├─ charts
+│     │  │  ├─ AreaChart.tsx
+│     │  │  ├─ BarChart.tsx
+│     │  │  ├─ DonutChart.tsx
+│     │  │  ├─ FunnelChart.tsx
+│     │  │  ├─ GaugeChart.tsx
+│     │  │  ├─ LineChart.tsx
+│     │  │  ├─ PieChart.tsx
+│     │  │  ├─ ProgressChart.tsx
+│     │  │  ├─ SparklineChart.tsx
+│     │  │  └─ WaterfallChart.tsx
+│     │  ├─ components
+│     │  │  ├─ Button.tsx
+│     │  │  ├─ Card.tsx
+│     │  │  ├─ Checkbox.tsx
+│     │  │  ├─ Divider.tsx
+│     │  │  ├─ Drawer.tsx
+│     │  │  ├─ EmptyState.tsx
+│     │  │  ├─ ErrorPage.tsx
+│     │  │  ├─ Field.tsx
+│     │  │  ├─ Form.tsx
+│     │  │  ├─ Input.tsx
+│     │  │  ├─ LoadingPage.tsx
+│     │  │  ├─ LoadingSpinner.tsx
+│     │  │  ├─ Modal.tsx
+│     │  │  ├─ RadioGroup.tsx
+│     │  │  ├─ Select.tsx
+│     │  │  ├─ Textarea.tsx
+│     │  │  └─ Toolbar.tsx
+│     │  ├─ hooks
+│     │  │  ├─ useBoolean.ts
+│     │  │  ├─ useDebounce.ts
+│     │  │  ├─ useDisclosure.ts
+│     │  │  ├─ useEventListener.ts
+│     │  │  ├─ useIsMounted.ts
+│     │  │  ├─ useMediaQuery.ts
+│     │  │  ├─ useOnClickOutside.ts
+│     │  │  └─ useThrottle.ts
+│     │  ├─ index.ts
+│     │  ├─ styles
+│     │  │  ├─ animations.css
+│     │  │  └─ customs.css
+│     │  ├─ templates
+│     │  │  ├─ error.tsx
+│     │  │  └─ loading.tsx
+│     │  ├─ ui-types.ts
+│     │  └─ utils
+│     │     └─ cn.ts
+│     ├─ tailwind.config.mjs
+│     └─ tsconfig.json
+├─ pnpm-lock.yaml
+├─ pnpm-workspace.yaml
+├─ postcss.config.ts
+├─ prettier.config.mjs
+├─ PROJECT-ARCH.md
+├─ README.md
+├─ renovate.json
+├─ tools
+│  ├─ services
+│  │  ├─ postbuild.ts
+│  │  └─ webhook-catcher.ts
+│  ├─ testkit
+│  │  ├─ setup.ts
+│  │  └─ test-artifacts.ts
+│  ├─ tool-types.ts
+│  └─ utils
+│     └─ assert.ts
+├─ tsconfig.app.json
+├─ tsconfig.base.json
+├─ tsconfig.json
+├─ tsconfig.node.json
+└─ vitest.config.ts
+
+```

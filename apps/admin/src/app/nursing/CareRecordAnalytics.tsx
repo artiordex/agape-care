@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '../../../../../src/supabaseClient';
+import { useState, useEffect } from 'react';
+import { supabase } from '../../../supabaseClient';
 
 type TabType = 'special_notes' | 'meal_toilet' | 'facility_meals' | 'beneficiary_meals' | 'meal_actions' | 'diaper_usage';
 
@@ -142,19 +142,19 @@ export default function CareRecordAnalytics() {
           const benMeals = meals.filter(m => m.beneficiary_id === ben.id);
           return {
             beneficiary_name: ben.name,
-            regular: benMeals.filter(m =>
+            regular: benMeals.filter(m => 
               m.breakfast_type === 'regular' || m.lunch_type === 'regular' || m.dinner_type === 'regular'
             ).length,
-            porridge: benMeals.filter(m =>
+            porridge: benMeals.filter(m => 
               m.breakfast_type === 'porridge' || m.lunch_type === 'porridge' || m.dinner_type === 'porridge'
             ).length,
-            soft: benMeals.filter(m =>
+            soft: benMeals.filter(m => 
               m.breakfast_type === 'soft' || m.lunch_type === 'soft' || m.dinner_type === 'soft'
             ).length,
-            diabetic: benMeals.filter(m =>
+            diabetic: benMeals.filter(m => 
               m.breakfast_type === 'diabetic' || m.lunch_type === 'diabetic' || m.dinner_type === 'diabetic'
             ).length,
-            therapeutic: benMeals.filter(m =>
+            therapeutic: benMeals.filter(m => 
               m.breakfast_type === 'therapeutic' || m.lunch_type === 'therapeutic' || m.dinner_type === 'therapeutic'
             ).length,
           };

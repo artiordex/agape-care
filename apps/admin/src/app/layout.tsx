@@ -1,46 +1,26 @@
 /**
- * Description : layout.tsx - 📌 ConnectWon 관리자 Root Layout
+ * Description : layout.tsx - 📌 아가페 요양원 관리자 Root Layout
  * Author : Shiwoo Min
- * Date : 2025-10-07
+ * Date : 2026-01-23
  */
-import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
-// TODO: Firebase 임시 주석처리
-// import { RootProvider } from '../providers/RootProvider';
+import AppShell from '@/components/AppShell';
+import type { Metadata } from 'next';
 import './globals.css';
 
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-});
-
 export const metadata: Metadata = {
-  title: '커넥트원 - 관리자 화면',
-  description: '커넥트원 관리자 전용 관리 시스템',
-  icons: {
-    icon: [
-      { url: '/favicon/favicon.ico' },
-      { url: '/favicon/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-    ],
-    apple: [{ url: '/favicon/apple-touch-icon.png', sizes: '180x180' }],
-  },
+  title: 'Agape Care 요양원 관리자 대시보드',
+  description: 'Agape Care 요양원 관리자 대시보드',
 };
 
-// Viewport 설정
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
-};
-
-// RootLayout
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
-      <body className={`${inter.className} bg-gray-100`}>
-        {children}
+      <head>
+        {/* Remix Icon CDN */}
+        <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet" />
+      </head>
+      <body className="antialiased">
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

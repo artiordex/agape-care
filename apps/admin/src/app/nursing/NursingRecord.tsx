@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { supabase } from '../../../../../src/supabaseClient';
+import { useState, useEffect } from 'react';
+import { supabase } from '../../../supabaseClient';
 
 interface VitalRecord {
   id?: number;
@@ -44,7 +44,7 @@ export default function NursingRecord() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
   const [selectedBeneficiary, setSelectedBeneficiary] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<'nursing' | 'medication'>('nursing');
-
+  
   // 바이탈 데이터
   const [vitals, setVitals] = useState<VitalRecord[]>([]);
   const [newVital, setNewVital] = useState<VitalRecord>({
@@ -95,7 +95,7 @@ export default function NursingRecord() {
 
   const loadVitals = async () => {
     if (!selectedBeneficiary) return;
-
+    
     try {
       const { data } = await supabase
         .from('care_vitals')
@@ -461,7 +461,7 @@ export default function NursingRecord() {
                   {/* 건강관리 기록 */}
                   <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                     <h3 className="text-lg font-bold text-gray-900 mb-4">건강관리 기록</h3>
-
+                    
                     <div className="grid grid-cols-3 gap-4 mb-6">
                       {healthIssues.map((issue) => (
                         <label key={issue.code} className="flex items-center gap-2 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">

@@ -1,5 +1,10 @@
-import { useEffect, useState } from 'react';
-import { residentsData } from '../../../../../src/mocks/residents-management';
+import React, { useState, useEffect } from 'react';
+import { mockResidents } from '../../../../mocks/residents';
+import { residentsData } from '../../../../mocks/residents-management';
+
+interface BeneficiaryDetailProps {
+  residentId?: string;
+}
 
 interface Guardian {
   name: string;
@@ -54,11 +59,11 @@ interface Beneficiary {
   bloodSugar: string;
   height: number;
   weight: number;
-  guardians: Guardian[];
-  admissionHistory: AdmissionHistory[];
+  guardians?: Guardian[];
+  admissionHistory?: AdmissionHistory[];
 }
 
-export default function BeneficiaryDetail() {
+export default function BeneficiaryDetail({ residentId }: BeneficiaryDetailProps) {
   const [beneficiary, setBeneficiary] = useState<Beneficiary | null>(null);
   const [activeTab, setActiveTab] = useState('basic');
   const [showEditModal, setShowEditModal] = useState(false);
@@ -67,11 +72,40 @@ export default function BeneficiaryDetail() {
     // URL에서 ID 가져오기
     const urlParams = new URLSearchParams(window.location.search);
     const id = urlParams.get('id');
-
+    
     if (id) {
       const found = residentsData.find(r => r.id === parseInt(id));
       if (found) {
-        setBeneficiary(found as Beneficiary);
+        // Mock 보호자 정보 추가
+        const beneficiaryWithGuardians = {
+          ...found,
+          guardians: [
+            {
+              name: '김보호자',
+              relation: '자녀',
+              phone: '010-1111-2222',
+              email: 'guardian@email.com',
+              address: '서울시 강남구 테헤란로 123',
+              receiveNotice: true,
+              receiveSMS: true,
+              receiveEmail: true,
+              receiveMail: false
+            }
+          ],
+          admissionHistory: [
+            {
+              id: 1,
+              type: '최초입소',
+              date: '2023-01-15',
+              time: '14:00',
+              reason: '가족돌봄 어려움',
+              settlement: '완료',
+              createdAt: '2023-01-15',
+              hasRecord: true
+            }
+          ]
+        };
+        setBeneficiary(beneficiaryWithGuardians as Beneficiary);
       }
     }
   }, []);
@@ -161,7 +195,7 @@ export default function BeneficiaryDetail() {
             <div className="bg-white rounded-lg p-6 border border-gray-200">
               <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
                 <i className="ri-hospital-line text-teal-600"></i>
-                건강 및 기능 상태
+                건康 및 기능 상태
               </h3>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -478,7 +512,7 @@ export default function BeneficiaryDetail() {
                 </div>
               </div>
               <div className="flex gap-2">
-                <button
+                <button 
                   onClick={() => setShowEditModal(true)}
                   className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors text-sm font-medium whitespace-nowrap cursor-pointer"
                 >
@@ -572,7 +606,7 @@ export default function BeneficiaryDetail() {
             </button>
           </div>
           <div className="space-y-4">
-            {beneficiary.guardians.map((guardian, idx) => (
+            {beneficiary.guardians?.map((guardian, idx) => (
               <div key={idx} className="bg-gray-50 rounded-lg p-4">
                 <div className="flex justify-between items-start mb-3">
                   <div>
@@ -635,7 +669,7 @@ export default function BeneficiaryDetail() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {beneficiary.admissionHistory.map((history, idx) => (
+                {beneficiary.admissionHistory?.map((history, idx) => (
                   <tr key={history.id} className="hover:bg-gray-50">
                     <td className="px-4 py-3 text-sm text-gray-900">{idx + 1}</td>
                     <td className="px-4 py-3">

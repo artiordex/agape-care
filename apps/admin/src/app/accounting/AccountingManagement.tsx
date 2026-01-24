@@ -1,29 +1,33 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { 
+  accountingTransactions,
+  accountingCategories,
+  paymentMethods,
+  monthlySummary
+} from '../../../../mocks/accounting';
 import * as XLSX from 'xlsx';
-import { accountingCategories, accountingTransactions, monthlySummary, paymentMethods } from '../../../../../src/mocks/accounting';
 
 // 새로운 ERP 컴포넌트 import
+import JournalManagement from './JournalManagement';
 import AccountManagement from './AccountManagement';
 import ClosingManagement from './ClosingManagement';
-import JournalManagement from './JournalManagement';
-import PartnerManagement from './PartnerManagement';
 
 export default function AccountingManagement() {
   const [selectedMonth, setSelectedMonth] = useState('2026-01');
   const [activeTab, setActiveTab] = useState<'dashboard' | 'journal' | 'account' | 'partner' | 'closing' | 'transactions' | 'statistics'>('dashboard');
   const [quickJournalType, setQuickJournalType] = useState<string | null>(null);
-
+  
   // 필터 상태 추가
   const [filterType, setFilterType] = useState<'all' | 'income' | 'expense'>('all');
   const [filterCategory, setFilterCategory] = useState<string>('all');
-
+  
   // 모달 상태 추가
   const [showAddModal, setShowAddModal] = useState(false);
   const [transactionType, setTransactionType] = useState<'income' | 'expense'>('income');
 
   // 현재 월 데이터
   const currentSummary = monthlySummary[selectedMonth as keyof typeof monthlySummary] || monthlySummary['2026-01'];
-
+  
   // 필터링된 거래 내역
   const filteredTransactions = accountingTransactions.filter(t => {
     const matchMonth = t.date.startsWith(selectedMonth);
@@ -36,7 +40,7 @@ export default function AccountingManagement() {
   const getCategoryStats = (type: 'income' | 'expense') => {
     const categories = type === 'income' ? currentSummary.incomeByCategory : currentSummary.expenseByCategory;
     const total = type === 'income' ? currentSummary.totalIncome : currentSummary.totalExpense;
-
+    
     return Object.entries(categories).map(([category, amount]) => ({
       category,
       amount,
@@ -63,7 +67,7 @@ export default function AccountingManagement() {
     const ws = XLSX.utils.json_to_sheet(excelData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, '회계내역');
-
+    
     // 요약 시트 추가
     const summaryData = [
       { '항목': '총 수입', '금액': currentSummary.totalIncome },
@@ -72,7 +76,7 @@ export default function AccountingManagement() {
     ];
     const wsSummary = XLSX.utils.json_to_sheet(summaryData);
     XLSX.utils.book_append_sheet(wb, wsSummary, '요약');
-
+    
     XLSX.writeFile(wb, `회계내역_${selectedMonth}.xlsx`);
   };
 
@@ -95,10 +99,6 @@ export default function AccountingManagement() {
 
   if (activeTab === 'account') {
     return <AccountManagement />;
-  }
-
-  if (activeTab === 'partner') {
-    return <PartnerManagement />;
   }
 
   if (activeTab === 'closing') {
@@ -184,17 +184,6 @@ export default function AccountingManagement() {
             계정과목
           </button>
           <button
-            onClick={() => setActiveTab('partner')}
-            className={`px-6 py-4 font-medium whitespace-nowrap cursor-pointer transition-colors ${
-              activeTab === 'partner'
-                ? 'text-teal-600 border-b-2 border-teal-600'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            <i className="ri-building-line mr-2"></i>
-            거래처
-          </button>
-          <button
             onClick={() => setActiveTab('closing')}
             className={`px-6 py-4 font-medium whitespace-nowrap cursor-pointer transition-colors ${
               activeTab === 'closing'
@@ -266,8 +255,8 @@ export default function AccountingManagement() {
                 </div>
 
                 <div className={`bg-gradient-to-br ${
-                  currentSummary.balance >= 0
-                    ? 'from-teal-500 to-emerald-600'
+                  currentSummary.balance >= 0 
+                    ? 'from-teal-500 to-emerald-600' 
                     : 'from-orange-500 to-red-600'
                 } rounded-xl p-6 text-white shadow-lg`}>
                   <div className="flex items-center justify-between mb-4">
@@ -302,7 +291,7 @@ export default function AccountingManagement() {
                         <div className="flex items-center gap-3 flex-1">
                           <span className="text-sm text-gray-700">{stat.category}</span>
                           <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
-                            <div
+                            <div 
                               className="h-full bg-gradient-to-r from-blue-400 to-blue-600 rounded-full"
                               style={{ width: `${stat.percentage}%` }}
                             ></div>
@@ -333,7 +322,7 @@ export default function AccountingManagement() {
                         <div className="flex items-center gap-3 flex-1">
                           <span className="text-sm text-gray-700">{stat.category}</span>
                           <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
-                            <div
+                            <div 
                               className="h-full bg-gradient-to-r from-red-400 to-red-600 rounded-full"
                               style={{ width: `${stat.percentage}%` }}
                             ></div>
@@ -367,12 +356,12 @@ export default function AccountingManagement() {
                     <div key={transaction.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                       <div className="flex items-center gap-4">
                         <div className={`w-10 h-10 flex items-center justify-center rounded-lg ${
-                          transaction.type === 'income'
+                          transaction.type === 'income' 
                             ? 'bg-blue-100 text-blue-600'
                             : 'bg-red-100 text-red-600'
                         }`}>
                           <i className={`${
-                            transaction.type === 'income'
+                            transaction.type === 'income' 
                               ? 'ri-arrow-down-circle-fill'
                               : 'ri-arrow-up-circle-fill'
                           } text-xl`}></i>
@@ -542,14 +531,14 @@ export default function AccountingManagement() {
                           </span>
                         </div>
                         <div className="flex gap-2 h-8">
-                          <div
+                          <div 
                             className="bg-blue-500 rounded flex items-center justify-center text-white text-xs font-medium"
                             style={{ width: `${(data.totalIncome / 35000000) * 100}%` }}
                             title={`수입: ${data.totalIncome.toLocaleString()}원`}
                           >
                             {data.totalIncome >= 10000000 && `${(data.totalIncome / 10000).toFixed(0)}만`}
                           </div>
-                          <div
+                          <div 
                             className="bg-red-500 rounded flex items-center justify-center text-white text-xs font-medium"
                             style={{ width: `${(data.totalExpense / 35000000) * 100}%` }}
                             title={`지출: ${data.totalExpense.toLocaleString()}원`}
