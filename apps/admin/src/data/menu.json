@@ -5,7 +5,7 @@
       "name": "대시보드",
       "description": "전체 현황 및 통계",
       "icon": "ri-dashboard-line",
-      "path": "/",
+      "path": "/dashboard",
       "spa": true,
       "folder": "dashboard",
       "component": "DashboardOverview"
@@ -16,14 +16,14 @@
       "name": "수급자 관리",
       "description": "수급자 정보 및 관리",
       "icon": "ri-user-heart-line",
-      "path": "/admin/beneficiary",
+      "path": "/beneficiary",
       "children": [
         {
           "id": "beneficiary-list",
           "name": "수급자 목록",
           "description": "전체 수급자 조회",
           "icon": "ri-list-check",
-          "path": "/admin/beneficiary/list",
+          "path": "/beneficiary/list",
           "spa": true,
           "folder": "beneficiary",
           "component": "ResidentManagement"
@@ -33,7 +33,7 @@
           "name": "수급자 신규등록",
           "description": "신규 수급자 등록",
           "icon": "ri-user-add-line",
-          "path": "/admin/beneficiary/new",
+          "path": "/beneficiary/new",
           "spa": true,
           "folder": "beneficiary",
           "component": "BeneficiaryNew"
@@ -43,7 +43,7 @@
           "name": "수급자 상세",
           "description": "수급자 상세 정보",
           "icon": "ri-user-line",
-          "path": "/admin/beneficiary/detail",
+          "path": "/beneficiary/detail",
           "hidden": true,
           "spa": true,
           "folder": "beneficiary",
@@ -54,7 +54,7 @@
           "name": "외출/외박 관리",
           "description": "외출/외박 기록 관리",
           "icon": "ri-walk-line",
-          "path": "/admin/beneficiary/outing",
+          "path": "/beneficiary/outing",
           "spa": true,
           "folder": "beneficiary",
           "component": "OutingManagement"
@@ -64,7 +64,7 @@
           "name": "청구/본인부담금",
           "description": "청구 및 본인부담금 관리",
           "icon": "ri-bill-line",
-          "path": "/admin/beneficiary/billing",
+          "path": "/beneficiary/billing",
           "status": "pending",
           "spa": true,
           "folder": "beneficiary",
@@ -75,27 +75,26 @@
           "name": "상담일지/면담일지",
           "description": "상담 및 면담 기록",
           "icon": "ri-chat-1-line",
-          "path": "/admin/beneficiary/consultation",
+          "path": "/beneficiary/consultation",
           "spa": true,
           "folder": "beneficiary",
           "component": "ConsultationManagement"
         }
       ]
     },
-
     {
       "id": "care",
       "name": "요양 관리",
       "description": "요양 케어 및 기록",
       "icon": "ri-heart-pulse-line",
-      "path": "/admin/care",
+      "path": "/care",
       "children": [
         {
           "id": "daily-care",
           "name": "일일 케어 기록",
           "description": "일일 케어 작성",
           "icon": "ri-file-edit-line",
-          "path": "/admin/care/daily",
+          "path": "/care/daily",
           "spa": true,
           "folder": "care",
           "component": "DailyCareRecord"
@@ -105,7 +104,7 @@
           "name": "케어 기록 조회",
           "description": "케어 기록 검색",
           "icon": "ri-search-line",
-          "path": "/admin/care/records",
+          "path": "/care/records",
           "spa": true,
           "folder": "care",
           "component": "CareRecordManagement"
@@ -115,7 +114,7 @@
           "name": "케어 이력",
           "description": "케어 전체 이력",
           "icon": "ri-history-line",
-          "path": "/admin/care/history",
+          "path": "/care/history",
           "spa": true,
           "folder": "care",
           "component": "CareHistory"
@@ -125,7 +124,7 @@
           "name": "투약 관리",
           "description": "투약 기록 및 관리",
           "icon": "ri-capsule-line",
-          "path": "/admin/care/medication",
+          "path": "/care/medication",
           "spa": true,
           "folder": "care",
           "component": "MedicationManagement"
@@ -135,7 +134,7 @@
           "name": "욕구사정 평가",
           "description": "욕구사정 평가서",
           "icon": "ri-survey-line",
-          "path": "/admin/care/needs-assessment",
+          "path": "/care/needs-assessment",
           "spa": true,
           "folder": "care",
           "component": "NeedsAssessment"
@@ -146,7 +145,7 @@
           "name": "요양 리포트",
           "description": "각종 리포트",
           "icon": "ri-file-chart-line",
-          "path": "/admin/care/reports",
+          "path": "/care/reports",
           "isGroup": true
         },
 
@@ -155,7 +154,7 @@
           "name": "배설 기록",
           "description": "배설 관리 기록",
           "icon": "ri-file-list-line",
-          "path": "/admin/care/report/elimination",
+          "path": "/care/report/elimination",
           "parentGroup": "care-reports",
           "spa": true,
           "folder": "care/reports",
@@ -166,7 +165,7 @@
           "name": "간호 기록",
           "description": "간호 관리 기록",
           "icon": "ri-nurse-line",
-          "path": "/admin/care/report/nursing",
+          "path": "/care/report/nursing",
           "parentGroup": "care-reports",
           "spa": true,
           "folder": "care/reports",
@@ -177,7 +176,7 @@
           "name": "욕창 관리",
           "description": "욕창 예방 및 관리",
           "icon": "ri-medicine-bottle-line",
-          "path": "/admin/care/report/pressure-ulcer",
+          "path": "/care/report/pressure-ulcer",
           "parentGroup": "care-reports",
           "spa": true,
           "folder": "care/reports",
@@ -188,7 +187,7 @@
           "name": "진료 기록",
           "description": "진료 및 처방 기록",
           "icon": "ri-stethoscope-line",
-          "path": "/admin/care/report/clinic",
+          "path": "/care/report/clinic",
           "parentGroup": "care-reports",
           "spa": true,
           "folder": "care/reports",
@@ -199,7 +198,7 @@
           "name": "투약 기록",
           "description": "투약 관리 리포트",
           "icon": "ri-syringe-line",
-          "path": "/admin/care/report/medication",
+          "path": "/care/report/medication",
           "parentGroup": "care-reports",
           "spa": true,
           "folder": "care/reports",
@@ -213,14 +212,14 @@
       "name": "운영관리",
       "description": "시설 운영 및 관리",
       "icon": "ri-settings-4-line",
-      "path": "/admin/operations",
+      "path": "/operations",
       "children": [
         {
           "id": "vehicle-management",
           "name": "차량관리",
           "description": "차량 운행 및 관리",
           "icon": "ri-car-line",
-          "path": "/admin/operations/vehicle",
+          "path": "/operations/vehicle",
           "spa": true,
           "folder": "operations",
           "component": "VehicleManagement"
@@ -230,7 +229,7 @@
           "name": "비품관리",
           "description": "비품 재고 관리",
           "icon": "ri-archive-line",
-          "path": "/admin/operations/asset",
+          "path": "/operations/asset",
           "spa": true,
           "folder": "operations",
           "component": "AssetManagement"
@@ -240,7 +239,7 @@
           "name": "CCTV 설치·운영 관리",
           "description": "CCTV 설치 현황",
           "icon": "ri-camera-line",
-          "path": "/admin/operations/cctv/device",
+          "path": "/operations/cctv/device",
           "spa": true,
           "folder": "operations",
           "component": "CCTVDeviceManagement"
@@ -250,7 +249,7 @@
           "name": "CCTV 주간 점검대장",
           "description": "CCTV 주간 점검",
           "icon": "ri-checkbox-circle-line",
-          "path": "/admin/operations/cctv/weekly-check",
+          "path": "/operations/cctv/weekly-check",
           "spa": true,
           "folder": "operations",
           "component": "CCTVWeeklyCheck"
@@ -260,7 +259,7 @@
           "name": "CCTV 침실 촬영 동의서",
           "description": "침실 촬영 동의 관리",
           "icon": "ri-file-text-line",
-          "path": "/admin/operations/cctv/room-consent",
+          "path": "/operations/cctv/room-consent",
           "spa": true,
           "folder": "operations",
           "component": "CCTVRoomConsent"
@@ -270,7 +269,7 @@
           "name": "CCTV 영상정보 열람대장",
           "description": "영상 열람 기록",
           "icon": "ri-eye-line",
-          "path": "/admin/operations/cctv/view-log",
+          "path": "/operations/cctv/view-log",
           "spa": true,
           "folder": "operations",
           "component": "CCTVViewLog"
@@ -280,7 +279,7 @@
           "name": "교통관리",
           "description": "차량 운행 관리",
           "icon": "ri-bus-line",
-          "path": "/admin/operations/transport",
+          "path": "/operations/transport",
           "spa": true,
           "folder": "operations",
           "component": "TransportService"
@@ -290,7 +289,7 @@
           "name": "특별침실 사용기록",
           "description": "특별침실 관리",
           "icon": "ri-hotel-bed-line",
-          "path": "/admin/operations/special-room",
+          "path": "/operations/special-room",
           "spa": true,
           "folder": "operations",
           "component": "SpecialRoomUse"
@@ -300,7 +299,7 @@
           "name": "고충처리 관리",
           "description": "고충 접수 및 처리",
           "icon": "ri-customer-service-2-line",
-          "path": "/admin/operations/grievance",
+          "path": "/operations/grievance",
           "spa": true,
           "folder": "operations",
           "component": "GrievanceManagement"
@@ -313,14 +312,14 @@
       "name": "직원 관리",
       "description": "직원 정보 및 근무",
       "icon": "ri-team-line",
-      "path": "/admin/staff",
+      "path": "/staff",
       "children": [
         {
           "id": "staff-list",
           "name": "직원 목록",
           "description": "전체 직원 조회",
           "icon": "ri-group-line",
-          "path": "/admin/staff/list",
+          "path": "/staff/list",
           "spa": true,
           "folder": "staff",
           "component": "StaffManagement"
@@ -330,7 +329,7 @@
           "name": "출퇴근 기록 관리",
           "description": "출퇴근 기록",
           "icon": "ri-time-line",
-          "path": "/admin/staff/attendance",
+          "path": "/staff/attendance",
           "spa": true,
           "folder": "staff",
           "component": "AttendanceManagement"
@@ -340,7 +339,7 @@
           "name": "근무일정 관리",
           "description": "근무 스케줄 관리",
           "icon": "ri-calendar-line",
-          "path": "/admin/staff/schedule",
+          "path": "/staff/schedule",
           "spa": true,
           "folder": "staff",
           "component": "WorkScheduleManagement"
@@ -350,7 +349,7 @@
           "name": "근무현황 조회",
           "description": "근무 현황 통계",
           "icon": "ri-bar-chart-line",
-          "path": "/admin/staff/work-status",
+          "path": "/staff/work-status",
           "spa": true,
           "folder": "staff",
           "component": "StaffWorkStatus"
@@ -359,18 +358,18 @@
     },
 
     {
-      "id": "accounting",
+      "id": "account",
       "name": "회계/청구",
       "description": "회계 및 급여 관리",
       "icon": "ri-money-dollar-circle-line",
-      "path": "/admin/accounting",
+      "path": "/accounting",
       "children": [
         {
           "id": "accounting",
           "name": "회계 관리",
           "description": "수입/지출 관리",
           "icon": "ri-wallet-line",
-          "path": "/admin/accounting/main",
+          "path": "/accounting/main",
           "spa": true,
           "folder": "accounting",
           "component": "AccountingManagement"
@@ -380,7 +379,7 @@
           "name": "급여 청구",
           "description": "보험 급여 청구",
           "icon": "ri-bank-card-line",
-          "path": "/admin/accounting/insurance-claim",
+          "path": "/accounting/insurance-claim",
           "spa": true,
           "folder": "accounting",
           "component": "InsuranceClaimManagement"
@@ -390,7 +389,7 @@
           "name": "급여 관리",
           "description": "직원 급여 관리",
           "icon": "ri-money-cny-circle-line",
-          "path": "/admin/accounting/payroll",
+          "path": "/accounting/payroll",
           "spa": true,
           "folder": "accounting",
           "component": "PayrollManagement"
@@ -399,20 +398,20 @@
     },
 
     {
-      "id": "content",
+      "id": "contents",
       "name": "콘텐츠 관리",
       "description": "게시판 및 콘텐츠",
       "icon": "ri-file-text-line",
-      "path": "/admin/content",
+      "path": "/contents",
       "children": [
         {
           "id": "notice",
           "name": "공지사항 관리",
           "description": "공지사항 작성/관리",
           "icon": "ri-megaphone-line",
-          "path": "/admin/content/notice",
+          "path": "/contents/notice",
           "spa": true,
-          "folder": "content",
+          "folder": "contents",
           "component": "NoticeManagement"
         },
         {
@@ -420,9 +419,9 @@
           "name": "자유게시판 관리",
           "description": "자유게시판 관리",
           "icon": "ri-article-line",
-          "path": "/admin/content/free-board",
+          "path": "/contents/free-board",
           "spa": true,
-          "folder": "content",
+          "folder": "contents",
           "component": "FreeBoardManagement"
         },
         {
@@ -430,9 +429,9 @@
           "name": "갤러리 관리",
           "description": "사진 갤러리 관리",
           "icon": "ri-image-line",
-          "path": "/admin/content/gallery",
+          "path": "/contents/gallery",
           "spa": true,
-          "folder": "content",
+          "folder": "contents",
           "component": "GalleryManagement"
         },
         {
@@ -440,9 +439,9 @@
           "name": "식단표 관리",
           "description": "식단표 작성/관리",
           "icon": "ri-restaurant-line",
-          "path": "/admin/content/meal-plan",
+          "path": "/contents/meal-plan",
           "spa": true,
-          "folder": "content",
+          "folder": "contents",
           "component": "MealPlanManagementAdvanced"
         },
         {
@@ -450,9 +449,9 @@
           "name": "프로그램 관리",
           "description": "프로그램 일정 관리",
           "icon": "ri-calendar-check-line",
-          "path": "/admin/content/program",
+          "path": "/contents/program",
           "spa": true,
-          "folder": "content",
+          "folder": "contents",
           "component": "ProgramManagement"
         },
 
@@ -461,7 +460,7 @@
           "name": "게시판 관리",
           "description": "게시판 설정",
           "icon": "ri-layout-grid-line",
-          "path": "/admin/content/board-management",
+          "path": "/contents/board-management",
           "isGroup": true
         },
 
@@ -470,10 +469,10 @@
           "name": "프로그램 참여앨범",
           "description": "프로그램 사진 앨범",
           "icon": "ri-camera-3-line",
-          "path": "/admin/content/program-album",
+          "path": "/contents/board-management/program-album",
           "parentGroup": "board-management",
           "spa": true,
-          "folder": "content",
+          "folder": "contents",
           "component": "ProgramAlbumManagement"
         },
         {
@@ -481,10 +480,10 @@
           "name": "상담신청",
           "description": "상담 신청 관리",
           "icon": "ri-question-answer-line",
-          "path": "/admin/content/consultation-requests",
+          "path": "/contents/board-management/consultation-requests",
           "parentGroup": "board-management",
           "spa": true,
-          "folder": "content",
+          "folder": "contents",
           "component": "ConsultationRequestManagement"
         },
         {
@@ -492,10 +491,10 @@
           "name": "팝업관리",
           "description": "팝업 설정 관리",
           "icon": "ri-window-line",
-          "path": "/admin/content/popup",
+          "path": "/contents/popup",
           "parentGroup": "board-management",
           "spa": true,
-          "folder": "content",
+          "folder": "contents",
           "component": "PopupManagement"
         },
 
@@ -504,7 +503,7 @@
           "name": "홈페이지편집",
           "description": "웹사이트 편집",
           "icon": "ri-edit-box-line",
-          "path": "/admin/content/website-editor",
+          "path": "/contents/website-editor",
           "isGroup": true
         },
 
@@ -513,10 +512,10 @@
           "name": "기본 정보",
           "description": "시설 기본 정보",
           "icon": "ri-information-line",
-          "path": "/admin/content/website/basic",
+          "path": "/contents/website/basic",
           "parentGroup": "website-editor",
           "spa": true,
-          "folder": "content/website",
+          "folder": "contents/website",
           "component": "BasicInfoEditor"
         },
         {
@@ -524,10 +523,10 @@
           "name": "디자인 정보",
           "description": "디자인 설정",
           "icon": "ri-palette-line",
-          "path": "/admin/content/website/design",
+          "path": "/contents/website/design",
           "parentGroup": "website-editor",
           "spa": true,
-          "folder": "content/website",
+          "folder": "contents/website",
           "component": "DesignInfoEditor"
         },
         {
@@ -535,10 +534,10 @@
           "name": "메뉴사용 설정",
           "description": "메뉴 노출 설정",
           "icon": "ri-menu-line",
-          "path": "/admin/content/website/menu",
+          "path": "/contents/website/menu",
           "parentGroup": "website-editor",
           "spa": true,
-          "folder": "content/website",
+          "folder": "contents/website",
           "component": "MenuSettingsEditor"
         },
         {
@@ -546,10 +545,10 @@
           "name": "기관 소개",
           "description": "기관 소개 편집",
           "icon": "ri-building-2-line",
-          "path": "/admin/content/website/intro",
+          "path": "/contents/website/intro",
           "parentGroup": "website-editor",
           "spa": true,
-          "folder": "content/website",
+          "folder": "contents/website",
           "component": "IntroEditor"
         },
         {
@@ -557,10 +556,10 @@
           "name": "서비스 안내",
           "description": "서비스 안내 편집",
           "icon": "ri-service-line",
-          "path": "/admin/content/website/service",
+          "path": "/contents/website/service",
           "parentGroup": "website-editor",
           "spa": true,
-          "folder": "content/website",
+          "folder": "contents/website",
           "component": "ServiceEditor"
         },
         {
@@ -568,10 +567,10 @@
           "name": "비용 및 상담 신청",
           "description": "비용/상담 페이지",
           "icon": "ri-price-tag-3-line",
-          "path": "/admin/content/website/cost",
+          "path": "/contents/website/cost",
           "parentGroup": "website-editor",
           "spa": true,
-          "folder": "content/website",
+          "folder": "contents/website",
           "component": "CostConsultationEditor"
         },
         {
@@ -579,10 +578,10 @@
           "name": "후원 및 자원봉사",
           "description": "후원/봉사 페이지",
           "icon": "ri-heart-3-line",
-          "path": "/admin/content/website/donation",
+          "path": "/contents/website/donation",
           "parentGroup": "website-editor",
           "spa": true,
-          "folder": "content/website",
+          "folder": "contents/website",
           "component": "DonationVolunteerEditor"
         }
       ]
@@ -593,14 +592,14 @@
       "name": "부가서비스",
       "description": "알림 및 부가 서비스",
       "icon": "ri-service-line",
-      "path": "/admin/services",
+      "path": "/additional-services",
       "children": [
         {
           "id": "sms-service",
           "name": "문자메시지 발송",
           "description": "SMS 발송 서비스",
           "icon": "ri-message-2-line",
-          "path": "/admin/services/sms",
+          "path": "/additional-services/sms",
           "status": "pending",
           "spa": true
         },
@@ -609,7 +608,7 @@
           "name": "알림 관리",
           "description": "통합 알림 관리",
           "icon": "ri-notification-3-line",
-          "path": "/admin/services/notification",
+          "path": "/additional-services/notification",
           "isGroup": true
         },
         {
@@ -617,7 +616,7 @@
           "name": "알림 대시보드",
           "description": "알림 현황 대시보드",
           "icon": "ri-dashboard-2-line",
-          "path": "/admin/services/notification/dashboard",
+          "path": "/additional-services/notification/dashboard",
           "parentGroup": "notification-management",
           "spa": true,
           "folder": "notifications",
@@ -628,7 +627,7 @@
           "name": "발송 작성/즉시발송",
           "description": "즉시 알림 발송",
           "icon": "ri-send-plane-line",
-          "path": "/admin/services/notification/send",
+          "path": "/additional-services/notification/send",
           "parentGroup": "notification-management",
           "spa": true,
           "folder": "notifications",
@@ -639,7 +638,7 @@
           "name": "예약 발송 관리",
           "description": "예약 발송 설정",
           "icon": "ri-calendar-schedule-line",
-          "path": "/admin/services/notification/scheduled",
+          "path": "/additional-services/notification/scheduled",
           "parentGroup": "notification-management",
           "status": "pending",
           "spa": true
@@ -649,7 +648,7 @@
           "name": "템플릿 관리",
           "description": "알림 템플릿 관리",
           "icon": "ri-file-list-3-line",
-          "path": "/admin/services/notification/templates",
+          "path": "/additional-services/notification/templates",
           "parentGroup": "notification-management",
           "status": "pending",
           "spa": true
@@ -659,7 +658,7 @@
           "name": "대상자/수신자 그룹",
           "description": "수신자 그룹 관리",
           "icon": "ri-group-line",
-          "path": "/admin/services/notification/recipients",
+          "path": "/additional-services/notification/recipients",
           "parentGroup": "notification-management",
           "status": "pending",
           "spa": true
@@ -669,7 +668,7 @@
           "name": "발송 로그/이력 조회",
           "description": "발송 이력 조회",
           "icon": "ri-file-list-line",
-          "path": "/admin/services/notification/logs",
+          "path": "/additional-services/notification/logs",
           "parentGroup": "notification-management",
           "status": "pending",
           "spa": true
@@ -679,7 +678,7 @@
           "name": "채널 연동 설정",
           "description": "SMS/Band/카카오 연동",
           "icon": "ri-settings-3-line",
-          "path": "/admin/services/notification/settings",
+          "path": "/additional-services/notification/settings",
           "parentGroup": "notification-management",
           "status": "pending",
           "spa": true
@@ -692,14 +691,14 @@
       "name": "시스템 설정",
       "description": "시스템 환경 설정",
       "icon": "ri-settings-3-line",
-      "path": "/admin/settings",
+      "path": "/settings",
       "children": [
         {
           "id": "rbac",
           "name": "권한 관리",
           "description": "사용자 권한 관리",
           "icon": "ri-shield-user-line",
-          "path": "/admin/settings/rbac",
+          "path": "/settings/rbac",
           "spa": true,
           "folder": "settings",
           "component": "RBACManagement"
@@ -709,7 +708,7 @@
           "name": "시설 정보 관리",
           "description": "시설 기본 정보",
           "icon": "ri-building-4-line",
-          "path": "/admin/settings/facility",
+          "path": "/settings/facility",
           "spa": true,
           "folder": "settings",
           "component": "FacilityInfo"
@@ -719,7 +718,7 @@
           "name": "사이트 설정",
           "description": "사이트 환경 설정",
           "icon": "ri-global-line",
-          "path": "/admin/settings/site",
+          "path": "/settings/site",
           "spa": true,
           "folder": "settings",
           "component": "SiteSettings"

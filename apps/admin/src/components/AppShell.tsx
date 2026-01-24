@@ -80,12 +80,12 @@ export default function AppShell({ children }: AppShellProps) {
     }
 
     // 특수 케이스: 내 정보
-    if (menuId === 'my-page') {
+    if (menuId === 'mypage') {
       setActiveMenu(menuId);
       if (isClient) {
         localStorage.setItem('active-menu', menuId);
       }
-      router.push('/my-page');
+      router.push('/mypage');
       setIsMobileMenuOpen(false);
       return;
     }

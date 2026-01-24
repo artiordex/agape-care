@@ -479,7 +479,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onMenuClick, activeMenu, is
                 onClick={e => {
                   e.preventDefault();
                   e.stopPropagation();
-                  onMenuClick('my-page');
+                  onMenuClick('mypage');
                 }}
                 className="flex-1 cursor-pointer whitespace-nowrap rounded-lg bg-gray-50 px-3 py-2 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-100"
               >
