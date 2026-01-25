@@ -47,10 +47,5 @@
     }
   },
 
-  "implicitDependencies": [
-    "@agape-care/core",
-    "@agape-care/database",
-    "@agape-care/logger",
-    "@agape-care/api-contract"
-  ]
+  "implicitDependencies": ["database", "logger", "api-contract"]
 }

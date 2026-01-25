@@ -43,10 +43,5 @@
     }
   },
 
-  "implicitDependencies": [
-    "@agape-care/ui",
-    "@agape-care/client",
-    "@agape-care/api-contract",
-    "@agape-care/configs"
-  ]
+  "implicitDependencies": ["ui", "api-contract"]
 }

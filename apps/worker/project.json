@@ -11,10 +11,7 @@
         "main": "apps/worker/src/main.ts",
         "tsConfig": "apps/worker/tsconfig.json",
         "outputPath": "dist/apps/worker",
-        "assets": [
-          "apps/worker/src/**/*.json",
-          "apps/worker/package.json"
-        ]
+        "assets": ["apps/worker/src/**/*.json", "apps/worker/package.json"]
       },
       "outputs": ["{workspaceRoot}/dist/apps/worker"]
     },
@@ -68,10 +65,5 @@
     }
   },
 
-  "implicitDependencies": [
-    "@agape-care/core",
-    "@agape-care/database",
-    "@agape-care/logger",
-    "@agape-care/api-contract",
-  ]
+  "implicitDependencies": ["database", "logger", "api-contract"]
 }

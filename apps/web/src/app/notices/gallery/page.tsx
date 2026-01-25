@@ -1,10 +1,44 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
-
 import NoticeSidebar from '@/components/NoticeSidebar';
-import { galleryMock } from '@/mocks/gallery';
+import Link from 'next/link';
+import { useState } from 'react';
+
+/* mock 제거 — 하드코딩된 갤러리 데이터 */
+const galleryItems = [
+  {
+    id: 1,
+    title: '어르신 생신 행사 🎉',
+    category: '행사',
+    date: '2026-01-10',
+    description: '어르신 생신을 축하드리는 행사 사진입니다.',
+    images: ['/img/gallery/sample-1.jpg'],
+  },
+  {
+    id: 2,
+    title: '점심 식사 시간 🍱',
+    category: '일상',
+    date: '2026-01-07',
+    description: '맛있는 점심을 드시는 모습입니다.',
+    images: ['/img/gallery/sample-2.jpg', '/img/gallery/sample-3.jpg'],
+  },
+  {
+    id: 3,
+    title: '인지 프로그램 활동',
+    category: '인지프로그램',
+    date: '2026-01-03',
+    description: '어르신들의 인지 기능 향상 활동입니다.',
+    images: ['/img/gallery/sample-4.jpg'],
+  },
+  {
+    id: 4,
+    title: '산책하는 모습 🌿',
+    category: '여가활동',
+    date: '2025-12-30',
+    description: '날씨 좋은 날 야외 산책 사진입니다.',
+    images: ['/img/gallery/sample-5.jpg'],
+  },
+];
 
 export default function GalleryPage() {
   const [selectedCategory, setSelectedCategory] = useState('전체');
@@ -12,16 +46,18 @@ export default function GalleryPage() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
   const [selectedTitle, setSelectedTitle] = useState('');
-  const itemsPerPage = 9;
 
+  const itemsPerPage = 9;
   const categories = ['전체', '행사', '일상', '인지프로그램', '여가활동'];
 
-  const filteredItems = galleryMock.filter(item => selectedCategory === '전체' || item.category === selectedCategory);
+  const filteredItems =
+    selectedCategory === '전체' ? galleryItems : galleryItems.filter(item => item.category === selectedCategory);
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentItems = filteredItems.slice(startIndex, endIndex);
+  const currentItems = filteredItems.slice(
+    (currentPage - 1) * itemsPerPage,
+    (currentPage - 1) * itemsPerPage + itemsPerPage,
+  );
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;
@@ -29,14 +65,9 @@ export default function GalleryPage() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-    setCurrentPage(1);
-  };
-
-  const openLightbox = (image: string, title: string) => {
-    if (!image) return;
-    setSelectedImage(image);
+  const openLightbox = (src: string, title: string) => {
+    if (!src) return;
+    setSelectedImage(src);
     setSelectedTitle(title);
     setLightboxOpen(true);
     document.body.style.overflow = 'hidden';
@@ -66,7 +97,7 @@ export default function GalleryPage() {
       <div className="mb-8 border-b border-gray-100 bg-gradient-to-br from-rose-50 via-white to-teal-50 py-16">
         <div className="text-center">
           <h1 className="mb-4 text-4xl font-bold text-gray-900 md:text-5xl">갤러리</h1>
-          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-gray-600">어르신들의 활동 순간을 기록합니다</p>
+          <p className="mx-auto max-w-2xl text-lg text-gray-600">어르신들의 활동 순간을 기록합니다</p>
         </div>
       </div>
 
@@ -84,7 +115,6 @@ export default function GalleryPage() {
       </div>
 
       <div className="flex flex-col gap-8 lg:flex-row">
-        {/* Sidebar */}
         <NoticeSidebar />
 
         {/* Main Content */}
@@ -92,17 +122,20 @@ export default function GalleryPage() {
           {/* Category Filter */}
           <div className="mb-12">
             <div className="flex flex-wrap gap-3">
-              {categories.map(category => (
+              {categories.map(cat => (
                 <button
-                  key={category}
-                  onClick={() => handleCategoryChange(category)}
+                  key={cat}
+                  onClick={() => {
+                    setSelectedCategory(cat);
+                    setCurrentPage(1);
+                  }}
                   className={`rounded-full px-6 py-2.5 font-medium transition-all ${
-                    selectedCategory === category
+                    selectedCategory === cat
                       ? 'bg-rose-600 text-white shadow-md'
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
-                  {category}
+                  {cat}
                 </button>
               ))}
             </div>
@@ -116,20 +149,20 @@ export default function GalleryPage() {
                   key={item.id}
                   className="group overflow-hidden rounded-xl border border-gray-200 bg-white transition-all hover:shadow-lg"
                 >
-                  {/* Image */}
                   <div
                     className="relative h-64 cursor-pointer overflow-hidden"
-                    onClick={() => openLightbox(item.images?.[0] || '', item.title || '')}
+                    onClick={() => openLightbox(item.images[0], item.title)}
                   >
                     <img
-                      src={item.images?.[0] || ''}
-                      alt={item.title || '갤러리 이미지'}
+                      src={item.images[0]}
+                      alt={item.title}
                       className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                       onError={e => {
                         e.currentTarget.src = '/placeholder-image.jpg';
                       }}
                     />
-                    {item.images && item.images.length > 1 && (
+
+                    {item.images.length > 1 && (
                       <div className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-black/70 px-3 py-1.5 text-xs text-white">
                         <i className="ri-image-line" />
                         <span>{item.images.length}</span>
@@ -147,15 +180,13 @@ export default function GalleryPage() {
                       {item.category}
                     </span>
 
-                    <h3 className="mb-2 mt-2 line-clamp-1 text-lg font-bold text-gray-900">
-                      {item.title || '제목 없음'}
-                    </h3>
+                    <h3 className="mb-2 mt-2 line-clamp-1 text-lg font-bold text-gray-900">{item.title}</h3>
 
-                    <p className="mb-3 line-clamp-2 text-sm text-gray-600">{item.description || '설명 없음'}</p>
+                    <p className="mb-3 line-clamp-2 text-sm text-gray-600">{item.description}</p>
 
                     <div className="flex items-center gap-2 text-sm text-gray-500">
                       <i className="ri-calendar-line" />
-                      <span>{item.date || '날짜 정보 없음'}</span>
+                      <span>{item.date}</span>
                     </div>
                   </div>
                 </div>
@@ -227,9 +258,11 @@ export default function GalleryPage() {
               src={selectedImage || '/placeholder-image.jpg'}
               alt={selectedTitle}
               className="max-h-[80vh] w-full rounded-lg object-contain"
-              onError={e => (e.currentTarget.src = '/placeholder-image.jpg')}
+              onError={e => {
+                e.currentTarget.src = '/placeholder-image.jpg';
+              }}
             />
-            <p className="mt-4 text-center text-lg text-white">{selectedTitle || '제목 없음'}</p>
+            <p className="mt-4 text-center text-lg text-white">{selectedTitle}</p>
           </div>
         </div>
       )}

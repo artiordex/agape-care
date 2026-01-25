@@ -13,21 +13,9 @@
     "sourceMap": true
   },
 
-  "include": [
-    "src/**/*",
-    "prisma/**/*.ts",
-    "prisma/seed.ts"
-  ],
+  "include": ["src/**/*", "prisma/**/*.ts", "prisma/seed.ts"],
 
-  "exclude": [
-    "dist",
-    "node_modules",
-    "src/generated",
-    "prisma/migrations"
-  ],
+  "exclude": ["dist", "node_modules", "src/generated", "prisma/migrations"],
 
-  "references": [
-    { "path": "../core" },
-    { "path": "../logger" }
-  ]
+  "references": [{ "path": "../logger" }]
 }

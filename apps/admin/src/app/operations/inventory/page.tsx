@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface InventoryItem {
   id: string;
@@ -13,44 +13,51 @@ interface InventoryItem {
   notes: string;
 }
 
+const DEFAULT_ITEMS: InventoryItem[] = [
+  {
+    id: '1',
+    name: '성인용 기저귀 (대형)',
+    category: '위생용품',
+    quantity: 450,
+    unit: '개',
+    minStock: 200,
+    lastUpdated: '2025-01-15',
+    notes: '월 평균 사용량: 800개',
+  },
+  {
+    id: '2',
+    name: '물티슈',
+    category: '위생용품',
+    quantity: 85,
+    unit: '팩',
+    minStock: 50,
+    lastUpdated: '2025-01-14',
+    notes: '',
+  },
+  {
+    id: '3',
+    name: '세제 (대용량)',
+    category: '청소용품',
+    quantity: 12,
+    unit: '통',
+    minStock: 5,
+    lastUpdated: '2025-01-10',
+    notes: '',
+  },
+];
+
 export default function InventoryManagement() {
-  const [items, setItems] = useState<InventoryItem[]>(() => {
+  const [items, setItems] = useState<InventoryItem[]>(DEFAULT_ITEMS);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // 🔥 localStorage는 useEffect에서만 접근
+  useEffect(() => {
     const saved = localStorage.getItem('inventory_items');
-    return saved
-      ? JSON.parse(saved)
-      : [
-          {
-            id: '1',
-            name: '성인용 기저귀 (대형)',
-            category: '위생용품',
-            quantity: 450,
-            unit: '개',
-            minStock: 200,
-            lastUpdated: '2025-01-15',
-            notes: '월 평균 사용량: 800개',
-          },
-          {
-            id: '2',
-            name: '물티슈',
-            category: '위생용품',
-            quantity: 85,
-            unit: '팩',
-            minStock: 50,
-            lastUpdated: '2025-01-14',
-            notes: '',
-          },
-          {
-            id: '3',
-            name: '세제 (대용량)',
-            category: '청소용품',
-            quantity: 12,
-            unit: '통',
-            minStock: 5,
-            lastUpdated: '2025-01-10',
-            notes: '',
-          },
-        ];
-  });
+    if (saved) {
+      setItems(JSON.parse(saved));
+    }
+    setIsLoaded(true);
+  }, []);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('전체');
@@ -69,7 +76,9 @@ export default function InventoryManagement() {
   });
 
   const saveToStorage = (data: InventoryItem[]) => {
-    localStorage.setItem('inventory_items', JSON.stringify(data));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('inventory_items', JSON.stringify(data));
+    }
     setItems(data);
   };
 
@@ -151,8 +160,18 @@ export default function InventoryManagement() {
 
   const lowStockItems = items.filter(item => item.quantity <= item.minStock);
 
+  // 🔥 로딩 중일 때 표시
+  if (!isLoaded) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="text-gray-500">로딩 중...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6">
+      {/* 나머지 코드는 동일 */}
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">재고/소모품 관리</h1>
@@ -277,7 +296,7 @@ export default function InventoryManagement() {
         </div>
       </div>
 
-      {/* 모달 */}
+      {/* 모달 - 나머지 코드 동일 */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
           <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg bg-white shadow-xl">

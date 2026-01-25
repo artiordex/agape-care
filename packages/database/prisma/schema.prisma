@@ -1,322 +1,1162 @@
 /**
- * description : schema.prisma - 📌 Prisma 데이터베이스 스키마
+ * description : schema.prisma - 📌 Prisma 데이터베이스 스키마 (61 Tables)
  * author : Shiwoo Min
- * date : 2025-09-24
- * 09-28 : DDL과 일치하도록 모든 테이블 추가 및 수정
+ * date : 2026-01-24
+ * note : Agape-Care ERP - 61개 테이블 DDL 기반
  * 명령어 : pnpm prisma generate
  */
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
-/**
- * USERS
- * 사용자 기본 정보
- */
-model User {
+// 1. 조직 / 직원 (4 Tables)
+model Department {
+  id          BigInt   @id @default(autoincrement())
+  code        String   @unique
+  name        String
+  description String?
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  employees Employee[]
+
+  @@map("departments")
+}
+
+model EmployeeRole {
+  id          BigInt   @id @default(autoincrement())
+  code        String   @unique
+  name        String
+  description String?
+  permissions Json     @default("{}") @db.JsonB
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  employees Employee[]
+
+  @@map("employee_roles")
+}
+
+model Employee {
   id           BigInt    @id @default(autoincrement())
+  departmentId BigInt?   @map("department_id")
+  roleId       BigInt?   @map("role_id")
   email        String?   @unique @db.Citext
-  name         String?
+  passwordHash String?   @map("password_hash")
+  name         String
+  phoneNumber  String?   @map("phone_number")
+  hireDate     DateTime? @map("hire_date") @db.Date
+  resignDate   DateTime? @map("resign_date") @db.Date
+  status       String    @default("ACTIVE")
+  isAdmin      Boolean   @default(false) @map("is_admin")
+  meta         Json      @default("{}") @db.JsonB
   lastLoginAt  DateTime? @map("last_login_at") @db.Timestamptz
-  roleFlags    Int       @default(0) @map("role_flags")
-  preferences  Json      @default("{}") @db.JsonB
   createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt    DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+  programAttendance ProgramAttendance[]
+  department Department?   @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  role       EmployeeRole? @relation(fields: [roleId], references: [id], onDelete: SetNull)
 
-  /// Relations
-  authProviders        AuthProvider[]
-  createdPrograms      Program[]            @relation("ProgramCreator")
-  roomReservations     RoomReservation[]
-  programParticipants  ProgramParticipant[]
-  deviceRentals        DeviceRental[]
-  aiInteractions       AiInteraction[]
-  userActivities       UserActivity[]
-  reviews              Review[]
-  notifications        Notification[]
+  // 역방향 관계들
+  educations              EmployeeEducation[]
+  healthNotesRecorded     ResidentHealthNote[]     @relation("HealthNoteRecorder")
+  vitalsRecorded          ResidentVital[]          @relation("VitalRecorder")
+  carePlansCreated        CarePlan[]               @relation("CarePlanCreator")
+  consultationsCounseled  ConsultationRecord[]     @relation("ConsultationCounselor")
+  incidentsReported       Incident[]               @relation("IncidentReporter")
+  careTasksAssigned       CareTask[]               @relation("CareTaskAssignee")
+  mealPlansCreated        MealPlan[]
+  programsCreated         Program[]
+  noticesCreated          Notice[]                 @relation("NoticeCreator")
+  boardPostsAuthored      BoardPost[]
+  boardCommentsAuthored   BoardComment[]
+  galleryItemsCreated     GalleryItem[]
+  popupBannersCreated     PopupBanner[]
+  websiteSettingsUpdated  WebsiteSetting[]         @relation("SettingUpdater")
+  attendanceRecords       AttendanceRecord[]
+  shiftAssignments        ShiftAssignment[]
+  leaveRequests           LeaveRequest[]
+  leaveApprovalsGiven     LeaveApproval[]
+  transactionsCreated     Transaction[]
+  payrollRecords          PayrollRecord[]
+  insuranceClaimsCreated  InsuranceClaim[]
+  insuranceClaimHistoryChanged InsuranceClaimHistory[]
+  inventoryTransactionsCreated InventoryTransaction[]
+  transportRequestsAsDriver    TransportRequest[]   @relation("TransportDriver")
+  transportRequestsCreated     TransportRequest[]   @relation("TransportCreator")
+  cctvViewLogsAsViewer    CctvViewLog[]            @relation("CctvViewer")
+  cctvViewLogsApproved    CctvViewLog[]            @relation("CctvApprover")
+  grievancesAssigned      Grievance[]              @relation("GrievanceAssignee")
+  inspectionsPerformed    FacilityInspection[]     @relation("InspectionInspector")
+  smsLogsSent             SmsSendLog[]
+  filesCreated            FileStorage[]            @relation("FileCreator")
+  auditLogsAsActor        AuditLog[]               @relation("AuditActor")
 
-  @@map("users")
+  @@map("employees")
 }
 
-/**
- * AUTH_PROVIDERS
- * 모든 인증 수단(local, google, kakao, github 등)을 통합 관리
- */
-model AuthProvider {
-  id           BigInt   @id @default(autoincrement())
-  userId       BigInt   @map("user_id")
-  provider     String
-  providerSub  String?  @map("provider_sub")
-  passwordHash String?  @map("password_hash")
-  meta         Json     @default("{}") @db.JsonB
-  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
-
-  /// Relations
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerSub], map: "uq_provider_sub")
-  /// NOTE: uq_user_local (user_id unique where provider=local) → 수동 validation 필요
-  @@map("auth_providers")
-}
-
-/**
- * PROGRAMS
- */
-model Program {
-  id               BigInt   @id @default(autoincrement())
+model EmployeeEducation {
+  id               BigInt    @id @default(autoincrement())
+  employeeId       BigInt    @map("employee_id")
+  educationDate    DateTime  @map("education_date") @db.Date
   title            String
-  description      String?
-  createdByUserId  BigInt?  @map("created_by_user_id")
   category         String?
-  meta             Json     @default("{}") @db.JsonB
-  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt        DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  durationHours    Decimal?  @map("duration_hours") @db.Decimal(4, 1)
+  instructor       String?
+  completionStatus String    @default("COMPLETED") @map("completion_status")
+  notes            String?
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime  @updatedAt @map("updated_at") @db.Timestamptz
 
-  /// Relations
-  createdBy      User?             @relation("ProgramCreator", fields: [createdByUserId], references: [id], onDelete: SetNull)
-  sessions       Session[]
-  aiInteractions AiInteraction[]
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@index([employeeId, educationDate(sort: Desc)])
+  @@map("employee_educations")
+}
+
+// 2. 입소자 / 건강정보 (6 Tables)
+model Resident {
+  id             BigInt    @id @default(autoincrement())
+  code           String    @unique
+  name           String
+  birthday       DateTime? @db.Date
+  gender         String?
+  nationalIdHash String?   @map("national_id_hash")
+  admissionDate  DateTime? @map("admission_date") @db.Date
+  dischargeDate  DateTime? @map("discharge_date") @db.Date
+  status         String    @default("ADMITTED")
+  guardianName   String?   @map("guardian_name")
+  guardianPhone  String?   @map("guardian_phone")
+  memo           String?
+  meta           Json      @default("{}") @db.JsonB
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  rooms             ResidentRoom[]
+  contacts          ResidentContact[]
+  healthNotes       ResidentHealthNote[]
+  medications       ResidentMedication[]
+  vitals            ResidentVital[]
+  programAttendance ProgramAttendance[]
+  carePlans         CarePlan[]
+  consultations     ConsultationRecord[]
+  incidents         Incident[]
+  careTasks         CareTask[]
+  invoices          InvoiceHeader[]
+  insuranceClaims   InsuranceClaim[]
+  transportRequests TransportRequest[]
+  grievances        Grievance[]
+
+  @@map("residents")
+}
+
+model ResidentRoom {
+  id         BigInt    @id @default(autoincrement())
+  residentId BigInt    @map("resident_id")
+  roomLabel  String    @map("room_label")
+  bedLabel   String?   @map("bed_label")
+  startsAt   DateTime  @map("starts_at") @db.Date
+  endsAt     DateTime? @map("ends_at") @db.Date
+  isPrimary  Boolean   @default(true) @map("is_primary")
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  resident Resident @relation(fields: [residentId], references: [id], onDelete: Cascade)
+
+  @@index([residentId, startsAt])
+  @@map("resident_rooms")
+}
+
+model ResidentContact {
+  id           BigInt   @id @default(autoincrement())
+  residentId   BigInt   @map("resident_id")
+  name         String
+  relationship String?
+  phoneNumber  String?  @map("phone_number")
+  isPrimary    Boolean  @default(false) @map("is_primary")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  resident Resident @relation(fields: [residentId], references: [id], onDelete: Cascade)
+
+  @@map("resident_contacts")
+}
+
+model ResidentHealthNote {
+  id         BigInt   @id @default(autoincrement())
+  residentId BigInt   @map("resident_id")
+  recordedBy BigInt?  @map("recorded_by")
+  noteType   String   @default("GENERAL") @map("note_type")
+  content    String
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  resident Resident  @relation(fields: [residentId], references: [id], onDelete: Cascade)
+  recorder Employee? @relation("HealthNoteRecorder", fields: [recordedBy], references: [id], onDelete: SetNull)
+
+  @@map("resident_health_notes")
+}
+
+model ResidentMedication {
+  id           BigInt    @id @default(autoincrement())
+  residentId   BigInt    @map("resident_id")
+  prescribedBy String?   @map("prescribed_by")
+  drugName     String    @map("drug_name")
+  dosage       String
+  schedule     String?
+  startDate    DateTime  @map("start_date") @db.Date
+  endDate      DateTime? @map("end_date") @db.Date
+  notes        String?
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  resident Resident @relation(fields: [residentId], references: [id], onDelete: Cascade)
+
+  @@map("resident_medications")
+}
+
+model ResidentVital {
+  id              BigInt    @id @default(autoincrement())
+  residentId      BigInt    @map("resident_id")
+  recordedBy      BigInt?   @map("recorded_by")
+  measuredAt      DateTime  @default(now()) @map("measured_at") @db.Timestamptz
+  systolicBp      Int?      @map("systolic_bp")
+  diastolicBp     Int?      @map("diastolic_bp")
+  heartRate       Int?      @map("heart_rate")
+  temperature     Decimal?  @db.Decimal(4, 1)
+  respiratoryRate Int?      @map("respiratory_rate")
+  spo2            Int?
+  notes           String?
+
+  resident Resident  @relation(fields: [residentId], references: [id], onDelete: Cascade)
+  recorder Employee? @relation("VitalRecorder", fields: [recordedBy], references: [id], onDelete: SetNull)
+
+  @@index([residentId, measuredAt(sort: Desc)])
+  @@map("resident_vitals")
+}
+
+// 3. 식단 / 프로그램 (5 Tables)
+model MealPlan {
+  id            BigInt   @id @default(autoincrement())
+  facilityCode  String   @default("DEFAULT") @map("facility_code")
+  weekStartDate DateTime @map("week_start_date") @db.Date
+  createdBy     BigInt?  @map("created_by")
+  status        String   @default("DRAFT")
+  notes         String?
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  creator Employee?      @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+  items   MealPlanItem[]
+
+  @@unique([facilityCode, weekStartDate])
+  @@map("meal_plans")
+}
+
+model MealPlanItem {
+  id         BigInt   @id @default(autoincrement())
+  mealPlanId BigInt   @map("meal_plan_id")
+  mealDate   DateTime @map("meal_date") @db.Date
+  mealType   String   @map("meal_type")
+  mainMenu   String   @map("main_menu")
+  sideMenu   String?  @map("side_menu")
+  soup       String?
+  dessert    String?
+  calories   Int?
+  notes      String?
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  plan MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
+
+  @@index([mealPlanId, mealDate, mealType])
+  @@map("meal_plan_items")
+}
+
+model Program {
+  id          BigInt   @id @default(autoincrement())
+  title       String
+  description String?
+  category    String?
+  isActive    Boolean  @default(true) @map("is_active")
+  createdBy   BigInt?  @map("created_by")
+  meta        Json     @default("{}") @db.JsonB
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt      @map("updated_at") @db.Timestamptz
+
+  creator    Employee?           @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+  schedules  ProgramSchedule[]
 
   @@map("programs")
 }
 
-/**
- * SESSIONS
- */
-model Session {
-  id                BigInt    @id @default(autoincrement())
-  programId         BigInt    @map("program_id")
-  startsAt          DateTime  @map("starts_at") @db.Timestamptz
-  endsAt            DateTime  @map("ends_at") @db.Timestamptz
-  capacity          Int?
-  participantFee    Int?      @map("participant_fee")
-  status            String    @default("SCHEDULED")
-  roomReservationId BigInt?   @unique @map("room_reservation_id")
-  locationText      String?   @map("location_text")
-  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt         DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
-
-  /// Relations
-  program         Program              @relation(fields: [programId], references: [id], onDelete: Cascade)
-  roomReservation RoomReservation?     @relation(fields: [roomReservationId], references: [id], onDelete: SetNull)
-  participants    ProgramParticipant[]
-  aiInteractions  AiInteraction[]
-
-  @@map("sessions")
-}
-
-/**
- * VENUES
- */
-model Venue {
-  id            BigInt   @id @default(autoincrement())
-  name          String
-  address       String?
-  openingHours  Json?    @map("opening_hours") @db.JsonB
-  blackoutRules Json?    @map("blackout_rules") @db.JsonB
-  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt     DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
-
-  /// Relations
-  rooms Room[]
-
-  @@map("venues")
-}
-
-/**
- * ROOMS
- */
-model Room {
-  id        BigInt   @id @default(autoincrement())
-  venueId   BigInt   @map("venue_id")
-  name      String
-  capacity  Int?
-  status    String   @default("ACTIVE")
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
-
-  /// Relations
-  venue        Venue             @relation(fields: [venueId], references: [id], onDelete: Cascade)
-  reservations RoomReservation[]
-
-  @@unique([venueId, name], map: "rooms_uniq_per_venue")
-  @@map("rooms")
-}
-
-/**
- * ROOM_RESERVATIONS
- */
-model RoomReservation {
-  id        BigInt    @id @default(autoincrement())
-  roomId    BigInt    @map("room_id")
-  userId    BigInt?   @map("user_id")
-  startsAt  DateTime  @map("starts_at") @db.Timestamptz
-  endsAt    DateTime  @map("ends_at") @db.Timestamptz
-  /// period은 generated column이므로 Prisma에서 제외
-  purpose   String?
-  status    String    @default("PENDING")
-  meta      Json      @default("{}") @db.JsonB
-  sessionId BigInt?   @unique @map("session_id")
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
-
-  /// Relations
-  room    Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  user    User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
-  session Session?
-
-  @@map("room_reservations")
-}
-
-/**
- * PROGRAM_PARTICIPANTS
- */
-model ProgramParticipant {
-  id        BigInt    @id @default(autoincrement())
-  sessionId BigInt    @map("session_id")
-  userId    BigInt    @map("user_id")
-  role      String    @default("ATTENDEE")
-  status    String    @default("APPLIED")
-  joinedAt  DateTime? @default(now()) @map("joined_at") @db.Timestamptz
-
-  /// Relations
-  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([sessionId, userId], map: "program_participants_uniq")
-  @@map("program_participants")
-}
-
-/**
- * DEVICES
- * 대여 가능한 장비
- */
-model Device {
-  id        BigInt   @id @default(autoincrement())
-  name      String
-  type      String?
-  specs     Json     @default("{}") @db.JsonB
-  status    String   @default("AVAILABLE")
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
-
-  /// Relations
-  rentals DeviceRental[]
-
-  @@map("devices")
-}
-
-/**
- * DEVICE_RENTALS
- * 장비 대여 내역
- */
-model DeviceRental {
-  id        BigInt   @id @default(autoincrement())
-  deviceId  BigInt   @map("device_id")
-  userId    BigInt   @map("user_id")
-  startsAt  DateTime @map("starts_at") @db.Timestamptz
-  endsAt    DateTime @map("ends_at") @db.Timestamptz
-  status    String   @default("PENDING")
-  meta      Json     @default("{}") @db.JsonB
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
-
-  /// Relations
-  device Device @relation(fields: [deviceId], references: [id], onDelete: Cascade)
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("device_rentals")
-}
-
-/**
- * AI_INTERACTIONS
- * AI 사용 로그 및 비용 추적
- */
-model AiInteraction {
-  id               BigInt    @id @default(autoincrement())
-  userId           BigInt?   @map("user_id")
-  programId        BigInt?   @map("program_id")
-  sessionId        BigInt?   @map("session_id")
-  provider         String
-  model            String
-  kind             String
-  promptTokens     Int       @default(0) @map("prompt_tokens")
-  completionTokens Int       @default(0) @map("completion_tokens")
-  cost             Decimal   @default(0) @db.Decimal(12, 6)
-  status           String    @default("OK")
-  traceId          String?   @map("trace_id")
-  meta             Json      @default("{}") @db.JsonB
-  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz
-
-  /// Relations
-  user    User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
-  program Program? @relation(fields: [programId], references: [id], onDelete: SetNull)
-  session Session? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
-
-  @@map("ai_interactions")
-}
-
-/**
- * USER_ACTIVITIES
- * 사용자 활동 로그 (AI 추천용)
- */
-model UserActivity {
+model ProgramSchedule {
   id         BigInt   @id @default(autoincrement())
-  userId     BigInt?  @map("user_id")
+  programId  BigInt   @map("program_id")
+  startsAt   DateTime @map("starts_at") @db.Timestamptz
+  endsAt     DateTime @map("ends_at") @db.Timestamptz
+  location   String?
+  capacity   Int?
+  status     String   @default("PLANNED")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  program    Program             @relation(fields: [programId], references: [id], onDelete: Cascade)
+  attendance ProgramAttendance[]
+
+  @@index([programId, startsAt])
+  @@map("program_schedules")
+}
+
+model ProgramAttendance {
+  id         BigInt    @id @default(autoincrement())
+  scheduleId BigInt    @map("schedule_id")
+  residentId BigInt?   @map("resident_id")
+  employeeId BigInt?   @map("employee_id")
+  role       String    @default("PARTICIPANT")
+  attended   Boolean   @default(false)
+  checkedAt  DateTime? @map("checked_at") @db.Timestamptz
+  notes      String?
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  schedule ProgramSchedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  resident Resident?       @relation(fields: [residentId], references: [id], onDelete: Cascade)
+  employee Employee?       @relation(fields: [employeeId], references: [id], onDelete: SetNull)
+
+  @@unique([scheduleId, residentId])
+  @@map("program_attendance")
+}
+
+// 4. 케어 플랜 / 상담 / 사건 (6 Tables)
+model CarePlan {
+  id          BigInt    @id @default(autoincrement())
+  residentId  BigInt    @map("resident_id")
+  createdBy   BigInt?   @map("created_by")
+  title       String
+  goalSummary String?   @map("goal_summary")
+  startDate   DateTime  @map("start_date") @db.Date
+  endDate     DateTime? @map("end_date") @db.Date
+  status      String    @default("ACTIVE")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  resident Resident       @relation(fields: [residentId], references: [id], onDelete: Cascade)
+  creator  Employee?      @relation("CarePlanCreator", fields: [createdBy], references: [id], onDelete: SetNull)
+  items    CarePlanItem[]
+
+  @@map("care_plans")
+}
+
+model CarePlanItem {
+  id          BigInt   @id @default(autoincrement())
+  carePlanId  BigInt   @map("care_plan_id")
+  sequenceNo  Int      @map("sequence_no")
+  description String
+  frequency   String?
+  notes       String?
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  carePlan CarePlan @relation(fields: [carePlanId], references: [id], onDelete: Cascade)
+
+  @@unique([carePlanId, sequenceNo])
+  @@map("care_plan_items")
+}
+
+model ConsultationRecord {
+  id           BigInt    @id @default(autoincrement())
+  residentId   BigInt    @map("resident_id")
+  counselorId  BigInt?   @map("counselor_id")
+  consultedAt  DateTime  @default(now()) @map("consulted_at") @db.Timestamptz
+  type         String    @default("GENERAL")
+  channel      String?
+  summary      String
+  details      String?
+  followUpDate DateTime? @map("follow_up_date") @db.Date
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  resident  Resident             @relation(fields: [residentId], references: [id], onDelete: Cascade)
+  counselor Employee?            @relation("ConsultationCounselor", fields: [counselorId], references: [id], onDelete: SetNull)
+  files     ConsultationFile[]
+
+  @@map("consultation_records")
+}
+
+model ConsultationFile {
+  id             BigInt   @id @default(autoincrement())
+  consultationId BigInt   @map("consultation_id")
+  fileId         BigInt   @map("file_id")
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  consultation ConsultationRecord @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+  file         FileStorage        @relation("ConsultationFiles", fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@map("consultation_files")
+}
+
+model Incident {
+  id          BigInt   @id @default(autoincrement())
+  residentId  BigInt?  @map("resident_id")
+  reportedBy  BigInt?  @map("reported_by")
+  occurredAt  DateTime @map("occurred_at") @db.Timestamptz
+  severity    String
+  title       String
+  description String
+  location    String?
+  status      String   @default("OPEN")
+  actionTaken String?  @map("action_taken")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  resident Resident?       @relation(fields: [residentId], references: [id], onDelete: SetNull)
+  reporter Employee?       @relation("IncidentReporter", fields: [reportedBy], references: [id], onDelete: SetNull)
+  files    IncidentFile[]
+
+  @@map("incidents")
+}
+
+model IncidentFile {
+  id         BigInt   @id @default(autoincrement())
+  incidentId BigInt   @map("incident_id")
+  fileId     BigInt   @map("file_id")
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  incident Incident    @relation(fields: [incidentId], references: [id], onDelete: Cascade)
+  file     FileStorage @relation("IncidentFiles", fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@map("incident_files")
+}
+
+model CareTask {
+  id          BigInt    @id @default(autoincrement())
+  residentId  BigInt    @map("resident_id")
+  assignedTo  BigInt?   @map("assigned_to")
+  dueAt       DateTime? @map("due_at") @db.Timestamptz
+  title       String
+  description String?
+  status      String    @default("PENDING")
+  priority    String    @default("NORMAL")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  resident Resident  @relation(fields: [residentId], references: [id], onDelete: Cascade)
+  assignee Employee? @relation("CareTaskAssignee", fields: [assignedTo], references: [id], onDelete: SetNull)
+
+  @@map("care_tasks")
+}
+
+// 5. 공지 / 게시판 / 갤러리 (9 Tables)
+model Notice {
+  id          BigInt    @id @default(autoincrement())
+  title       String
+  content     String
+  category    String?   @default("GENERAL")
+  isPinned    Boolean   @default(false) @map("is_pinned")
+  isActive    Boolean   @default(true) @map("is_active")
+  publishedAt DateTime? @map("published_at") @db.Timestamptz
+  createdBy   BigInt?   @map("created_by")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  creator Employee?    @relation("NoticeCreator", fields: [createdBy], references: [id], onDelete: SetNull)
+  files   NoticeFile[]
+
+  @@map("notices")
+}
+
+model NoticeFile {
+  id        BigInt   @id @default(autoincrement())
+  noticeId  BigInt   @map("notice_id")
+  fileId    BigInt   @map("file_id")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  notice Notice      @relation(fields: [noticeId], references: [id], onDelete: Cascade)
+  file   FileStorage @relation("NoticeFiles", fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@map("notice_files")
+}
+
+model BoardPost {
+  id        BigInt   @id @default(autoincrement())
+  boardKey  String   @map("board_key")
+  title     String
+  content   String
+  authorId  BigInt?  @map("author_id")
+  viewCount Int      @default(0) @map("view_count")
+  isPinned  Boolean  @default(false) @map("is_pinned")
+  isLocked  Boolean  @default(false) @map("is_locked")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  author   Employee?      @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  files    BoardFile[]
+  comments BoardComment[]
+
+  @@index([boardKey, createdAt(sort: Desc)])
+  @@map("board_posts")
+}
+
+model BoardFile {
+  id        BigInt   @id @default(autoincrement())
+  postId    BigInt   @map("post_id")
+  fileId    BigInt   @map("file_id")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  post BoardPost   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  file FileStorage @relation("BoardFiles", fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@map("board_files")
+}
+
+model BoardComment {
+  id        BigInt   @id @default(autoincrement())
+  postId    BigInt   @map("post_id")
+  parentId  BigInt?  @map("parent_id")
+  authorId  BigInt?  @map("author_id")
+  content   String
+  isDeleted Boolean  @default(false) @map("is_deleted")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  post    BoardPost      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author  Employee?      @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  parent  BoardComment?  @relation("BoardCommentParent", fields: [parentId], references: [id], onDelete: Cascade)
+  replies BoardComment[] @relation("BoardCommentParent")
+
+  @@map("board_comments")
+}
+
+model GalleryItem {
+  id          BigInt    @id @default(autoincrement())
+  title       String?
+  description String?
+  eventDate   DateTime? @map("event_date") @db.Date
+  createdBy   BigInt?   @map("created_by")
+  isPublic    Boolean   @default(true) @map("is_public")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  creator Employee?     @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+  files   GalleryFile[]
+
+  @@map("gallery_items")
+}
+
+model GalleryFile {
+  id        BigInt   @id @default(autoincrement())
+  galleryId BigInt   @map("gallery_id")
+  fileId    BigInt   @map("file_id")
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  gallery GalleryItem @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+  file    FileStorage @relation("GalleryFiles", fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@map("gallery_files")
+}
+
+model PopupBanner {
+  id          BigInt   @id @default(autoincrement())
+  title       String
+  content     String?
+  imageUrl    String?  @map("image_url")
+  linkUrl     String?  @map("link_url")
+  displayType String   @default("POPUP") @map("display_type")
+  position    String?
+  width       Int?
+  height      Int?
+  startDate   DateTime @map("start_date") @db.Date
+  endDate     DateTime @map("end_date") @db.Date
+  isActive    Boolean  @default(true) @map("is_active")
+  showOnce    Boolean  @default(false) @map("show_once")
+  priority    Int      @default(0)
+  createdBy   BigInt?  @map("created_by")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  creator Employee? @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+
+  @@index([isActive, startDate, endDate])
+  @@map("popup_banners")
+}
+
+model WebsiteSetting {
+  id          BigInt   @id @default(autoincrement())
+  category    String
+  key         String
+  value       Json     @default("{}") @db.JsonB
+  description String?
+  isActive    Boolean  @default(true) @map("is_active")
+  updatedBy   BigInt?  @map("updated_by")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  updater Employee? @relation("SettingUpdater", fields: [updatedBy], references: [id], onDelete: SetNull)
+
+  @@unique([category, key])
+  @@index([category, isActive])
+  @@map("website_settings")
+}
+
+// 6. 출결 / 근무표 (5 Tables)
+model AttendanceRecord {
+  id         BigInt    @id @default(autoincrement())
+  employeeId BigInt    @map("employee_id")
+  workDate   DateTime  @map("work_date") @db.Date
+  checkInAt  DateTime? @map("check_in_at") @db.Timestamptz
+  checkOutAt DateTime? @map("check_out_at") @db.Timestamptz
+  status     String    @default("PRESENT")
+  notes      String?
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@unique([employeeId, workDate])
+  @@map("attendance_records")
+}
+
+model ShiftTemplate {
+  id        BigInt   @id @default(autoincrement())
+  code      String   @unique
+  name      String
+  startTime DateTime @map("start_time") @db.Time
+  endTime   DateTime @map("end_time") @db.Time
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  assignments ShiftAssignment[]
+
+  @@map("shift_templates")
+}
+
+model ShiftAssignment {
+  id              BigInt    @id @default(autoincrement())
+  employeeId      BigInt    @map("employee_id")
+  workDate        DateTime  @map("work_date") @db.Date
+  shiftTemplateId BigInt?   @map("shift_template_id")
+  startsAt        DateTime  @map("starts_at") @db.Timestamptz
+  endsAt          DateTime  @map("ends_at") @db.Timestamptz
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  employee      Employee       @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  shiftTemplate ShiftTemplate? @relation(fields: [shiftTemplateId], references: [id], onDelete: SetNull)
+
+  @@unique([employeeId, workDate])
+  @@map("shift_assignments")
+}
+
+model LeaveRequest {
+  id          BigInt   @id @default(autoincrement())
+  employeeId  BigInt   @map("employee_id")
+  requestedAt DateTime @default(now()) @map("requested_at") @db.Timestamptz
+  startDate   DateTime @map("start_date") @db.Date
+  endDate     DateTime @map("end_date") @db.Date
+  type        String
+  reason      String?
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  employee  Employee        @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  approvals LeaveApproval[]
+
+  @@map("leave_requests")
+}
+
+model LeaveApproval {
+  id             BigInt    @id @default(autoincrement())
+  leaveRequestId BigInt    @map("leave_request_id")
+  approvedBy     BigInt?   @map("approved_by")
+  approvedAt     DateTime? @map("approved_at") @db.Timestamptz
+  decision       String
+  comment        String?
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  leaveRequest LeaveRequest @relation(fields: [leaveRequestId], references: [id], onDelete: Cascade)
+  approver     Employee?    @relation(fields: [approvedBy], references: [id], onDelete: SetNull)
+
+  @@map("leave_approvals")
+}
+
+// 7. 회계 / 급여 / 매입 (11 Tables)
+model AccountCategory {
+  id        BigInt   @id @default(autoincrement())
+  code      String   @unique
+  name      String
+  kind      String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  accounts Account[]
+
+  @@map("account_categories")
+}
+
+model Account {
+  id          BigInt   @id @default(autoincrement())
+  categoryId  BigInt?  @map("category_id")
+  code        String   @unique
+  name        String
+  description String?
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  category AccountCategory?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  items    TransactionItem[]
+
+  @@map("accounts")
+}
+
+model Supplier {
+  id          BigInt   @id @default(autoincrement())
+  name        String
+  businessNo  String?  @map("business_no")
+  phoneNumber String?  @map("phone_number")
+  email       String?  @db.Citext
+  address     String?
+  memo        String?
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  transactions          Transaction[]
+  inventoryTransactions InventoryTransaction[]
+
+  @@map("suppliers")
+}
+
+model Transaction {
+  id          BigInt   @id @default(autoincrement())
+  txnDate     DateTime @map("txn_date") @db.Date
+  description String?
+  referenceNo String?  @map("reference_no")
+  supplierId  BigInt?  @map("supplier_id")
+  createdBy   BigInt?  @map("created_by")
+  totalAmount Decimal  @default(0) @map("total_amount") @db.Decimal(14, 2)
+  currency    String   @default("KRW")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  supplier Supplier?         @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  creator  Employee?         @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+  items    TransactionItem[]
+
+  @@index([txnDate(sort: Desc)])
+  @@map("transactions")
+}
+
+model TransactionItem {
+  id            BigInt   @id @default(autoincrement())
+  transactionId BigInt   @map("transaction_id")
+  accountId     BigInt   @map("account_id")
+  lineNo        Int      @map("line_no")
+  description   String?
+  debitAmount   Decimal  @default(0) @map("debit_amount") @db.Decimal(14, 2)
+  creditAmount  Decimal  @default(0) @map("credit_amount") @db.Decimal(14, 2)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  account     Account     @relation(fields: [accountId], references: [id], onDelete: Restrict)
+
+  @@unique([transactionId, lineNo])
+  @@map("transaction_items")
+}
+
+model PayrollRecord {
+  id             BigInt    @id @default(autoincrement())
+  employeeId     BigInt    @map("employee_id")
+  periodStart    DateTime  @map("period_start") @db.Date
+  periodEnd      DateTime  @map("period_end") @db.Date
+  baseSalary     Decimal   @default(0) @map("base_salary") @db.Decimal(14, 2)
+  totalAllowance Decimal   @default(0) @map("total_allowance") @db.Decimal(14, 2)
+  totalDeduction Decimal   @default(0) @map("total_deduction") @db.Decimal(14, 2)
+  netPay         Decimal   @default(0) @map("net_pay") @db.Decimal(14, 2)
+  paidAt         DateTime? @map("paid_at") @db.Timestamptz
+  status         String    @default("PENDING")
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  employee Employee      @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  items    PayrollItem[]
+
+  @@map("payroll_records")
+}
+
+model PayrollItem {
+  id        BigInt   @id @default(autoincrement())
+  payrollId BigInt   @map("payroll_id")
+  kind      String
+  name      String
+  amount    Decimal  @db.Decimal(14, 2)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  payroll PayrollRecord @relation(fields: [payrollId], references: [id], onDelete: Cascade)
+
+  @@map("payroll_items")
+}
+
+model InvoiceHeader {
+  id          BigInt    @id @default(autoincrement())
+  invoiceNo   String    @unique @map("invoice_no")
+  residentId  BigInt?   @map("resident_id")
+  issueDate   DateTime  @map("issue_date") @db.Date
+  dueDate     DateTime? @map("due_date") @db.Date
+  totalAmount Decimal   @default(0) @map("total_amount") @db.Decimal(14, 2)
+  status      String    @default("DRAFT")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  resident Resident?     @relation(fields: [residentId], references: [id], onDelete: SetNull)
+  items    InvoiceItem[]
+
+  @@map("invoice_headers")
+}
+
+model InvoiceItem {
+  id          BigInt   @id @default(autoincrement())
+  invoiceId   BigInt   @map("invoice_id")
+  lineNo      Int      @map("line_no")
+  description String
+  quantity    Decimal  @default(1) @db.Decimal(10, 2)
+  unitPrice   Decimal  @default(0) @map("unit_price") @db.Decimal(14, 2)
+  amount      Decimal  @default(0) @db.Decimal(14, 2)
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  invoice InvoiceHeader @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@unique([invoiceId, lineNo])
+  @@map("invoice_items")
+}
+
+model InsuranceClaim {
+  id             BigInt    @id @default(autoincrement())
+  claimNo        String    @unique @map("claim_no")
+  residentId     BigInt    @map("resident_id")
+  claimMonth     DateTime  @map("claim_month") @db.Date
+  claimType      String    @map("claim_type")
+  totalAmount    Decimal   @default(0) @map("total_amount") @db.Decimal(14, 2)
+  approvedAmount Decimal?  @map("approved_amount") @db.Decimal(14, 2)
+  submittedAt    DateTime? @map("submitted_at") @db.Timestamptz
+  approvedAt     DateTime? @map("approved_at") @db.Timestamptz
+  paidAt         DateTime? @map("paid_at") @db.Timestamptz
+  status         String    @default("DRAFT")
+  rejectReason   String?   @map("reject_reason")
+  notes          String?
+  createdBy      BigInt?   @map("created_by")
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  resident Resident                @relation(fields: [residentId], references: [id], onDelete: Cascade)
+  creator  Employee?               @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+  items    InsuranceClaimItem[]
+  history  InsuranceClaimHistory[]
+
+  @@index([residentId, claimMonth(sort: Desc)])
+  @@index([status, claimMonth(sort: Desc)])
+  @@map("insurance_claims")
+}
+
+model InsuranceClaimItem {
+  id          BigInt   @id @default(autoincrement())
+  claimId     BigInt   @map("claim_id")
+  serviceDate DateTime @map("service_date") @db.Date
+  serviceCode String   @map("service_code")
+  serviceName String   @map("service_name")
+  quantity    Decimal  @default(1) @db.Decimal(10, 2)
+  unitPrice   Decimal  @default(0) @map("unit_price") @db.Decimal(14, 2)
+  amount      Decimal  @default(0) @db.Decimal(14, 2)
+  copayAmount Decimal  @default(0) @map("copay_amount") @db.Decimal(14, 2)
+  notes       String?
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  claim InsuranceClaim @relation(fields: [claimId], references: [id], onDelete: Cascade)
+
+  @@index([claimId, serviceDate])
+  @@map("insurance_claim_items")
+}
+
+model InsuranceClaimHistory {
+  id        BigInt   @id @default(autoincrement())
+  claimId   BigInt   @map("claim_id")
+  status    String
+  changedBy BigInt?  @map("changed_by")
+  comment   String?
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  claim   InsuranceClaim @relation(fields: [claimId], references: [id], onDelete: Cascade)
+  changer Employee?      @relation(fields: [changedBy], references: [id], onDelete: SetNull)
+
+  @@index([claimId, createdAt(sort: Desc)])
+  @@map("insurance_claim_history")
+}
+
+// 8. 운영 관리 (8 Tables)
+model InventoryItem {
+  id              BigInt   @id @default(autoincrement())
+  code            String   @unique
+  name            String
+  category        String
+  unit            String
+  currentStock    Decimal  @default(0) @map("current_stock") @db.Decimal(10, 2)
+  minStock        Decimal? @map("min_stock") @db.Decimal(10, 2)
+  maxStock        Decimal? @map("max_stock") @db.Decimal(10, 2)
+  unitPrice       Decimal? @map("unit_price") @db.Decimal(14, 2)
+  storageLocation String?  @map("storage_location")
+  isActive        Boolean  @default(true) @map("is_active")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  transactions InventoryTransaction[]
+
+  @@index([category, isActive])
+  @@map("inventory_items")
+}
+
+model InventoryTransaction {
+  id          BigInt   @id @default(autoincrement())
+  itemId      BigInt   @map("item_id")
+  txnDate     DateTime @map("txn_date") @db.Date
+  txnType     String   @map("txn_type")
+  quantity    Decimal  @db.Decimal(10, 2)
+  unitPrice   Decimal? @map("unit_price") @db.Decimal(14, 2)
+  totalAmount Decimal? @map("total_amount") @db.Decimal(14, 2)
+  supplierId  BigInt?  @map("supplier_id")
+  referenceNo String?  @map("reference_no")
+  notes       String?
+  createdBy   BigInt?  @map("created_by")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  item     InventoryItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  supplier Supplier?     @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  creator  Employee?     @relation(fields: [createdBy], references: [id], onDelete: SetNull)
+
+  @@index([itemId, txnDate(sort: Desc)])
+  @@map("inventory_transactions")
+}
+
+model Vehicle {
+  id               BigInt    @id @default(autoincrement())
+  vehicleNo        String    @unique @map("vehicle_no")
+  vehicleType      String    @map("vehicle_type")
+  model            String?
+  manufacturer     String?
+  year             Int?
+  capacity         Int?
+  purchaseDate     DateTime? @map("purchase_date") @db.Date
+  lastInspection   DateTime? @map("last_inspection") @db.Date
+  insuranceExpires DateTime? @map("insurance_expires") @db.Date
+  mileage          Int?
+  status           String    @default("ACTIVE")
+  notes            String?
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt        DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  requests TransportRequest[]
+
+  @@map("vehicles")
+}
+
+model TransportRequest {
+  id              BigInt    @id @default(autoincrement())
+  residentId      BigInt    @map("resident_id")
+  vehicleId       BigInt?   @map("vehicle_id")
+  driverId        BigInt?   @map("driver_id")
+  requestDate     DateTime  @map("request_date") @db.Timestamptz
+  pickupLocation  String    @map("pickup_location")
+  destination     String
+  purpose         String?
+  status          String    @default("PENDING")
+  actualDeparture DateTime? @map("actual_departure") @db.Timestamptz
+  actualArrival   DateTime? @map("actual_arrival") @db.Timestamptz
+  notes           String?
+  createdBy       BigInt?   @map("created_by")
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  resident Resident  @relation(fields: [residentId], references: [id], onDelete: Cascade)
+  vehicle  Vehicle?  @relation(fields: [vehicleId], references: [id], onDelete: SetNull)
+  driver   Employee? @relation("TransportDriver", fields: [driverId], references: [id], onDelete: SetNull)
+  creator  Employee? @relation("TransportCreator", fields: [createdBy], references: [id], onDelete: SetNull)
+
+  @@index([requestDate(sort: Desc)])
+  @@map("transport_requests")
+}
+
+model CctvDevice {
+  id            BigInt    @id @default(autoincrement())
+  deviceNo      String    @unique @map("device_no")
+  location      String
+  ipAddress     String?   @map("ip_address")
+  model         String?
+  installDate   DateTime? @map("install_date") @db.Date
+  lastCheckDate DateTime? @map("last_check_date") @db.Date
+  status        String    @default("ACTIVE")
+  notes         String?
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt     DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  logs CctvViewLog[]
+
+  @@map("cctv_devices")
+}
+
+model CctvViewLog {
+  id         BigInt    @id @default(autoincrement())
+  deviceId   BigInt    @map("device_id")
+  viewerId   BigInt    @map("viewer_id")
+  viewStart  DateTime  @map("view_start") @db.Timestamptz
+  viewEnd    DateTime? @map("view_end") @db.Timestamptz
+  purpose    String
+  approvedBy BigInt?   @map("approved_by")
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  device   CctvDevice @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  viewer   Employee   @relation("CctvViewer", fields: [viewerId], references: [id], onDelete: Cascade)
+  approver Employee?  @relation("CctvApprover", fields: [approvedBy], references: [id], onDelete: SetNull)
+
+  @@index([deviceId, viewStart(sort: Desc)])
+  @@index([viewerId, viewStart(sort: Desc)])
+  @@map("cctv_view_logs")
+}
+
+model Grievance {
+  id                  BigInt    @id @default(autoincrement())
+  grievanceNo         String    @unique @map("grievance_no")
+  complainantName     String    @map("complainant_name")
+  complainantPhone    String?   @map("complainant_phone")
+  complainantRelation String?   @map("complainant_relation")
+  residentId          BigInt?   @map("resident_id")
+  category            String
+  title               String
+  content             String
+  receivedAt          DateTime  @default(now()) @map("received_at") @db.Timestamptz
+  receivedMethod      String?   @map("received_method")
+  assignedTo          BigInt?   @map("assigned_to")
+  status              String    @default("RECEIVED")
+  response            String?
+  resolvedAt          DateTime? @map("resolved_at") @db.Timestamptz
+  createdAt           DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt           DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  resident Resident? @relation(fields: [residentId], references: [id], onDelete: SetNull)
+  assignee Employee? @relation("GrievanceAssignee", fields: [assignedTo], references: [id], onDelete: SetNull)
+
+  @@index([status, receivedAt(sort: Desc)])
+  @@map("grievances")
+}
+
+model FacilityInspection {
+  id                 BigInt    @id @default(autoincrement())
+  inspectionDate     DateTime  @map("inspection_date") @db.Date
+  inspectionType     String    @map("inspection_type")
+  inspectorId        BigInt?   @map("inspector_id")
+  location           String?
+  checklist          Json?     @db.JsonB
+  findings           String?
+  correctiveActions  String?   @map("corrective_actions")
+  status             String    @default("PENDING")
+  nextInspectionDate DateTime? @map("next_inspection_date") @db.Date
+  createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt          DateTime  @updatedAt @map("updated_at") @db.Timestamptz
+
+  inspector Employee? @relation("InspectionInspector", fields: [inspectorId], references: [id], onDelete: SetNull)
+
+  @@index([inspectionDate(sort: Desc)])
+  @@map("facility_inspections")
+}
+
+model SmsSendLog {
+  id             BigInt    @id @default(autoincrement())
+  recipientPhone String    @map("recipient_phone")
+  recipientName  String?   @map("recipient_name")
+  message        String
+  sendType       String    @map("send_type")
+  scheduledAt    DateTime? @map("scheduled_at") @db.Timestamptz
+  sentAt         DateTime? @map("sent_at") @db.Timestamptz
+  status         String    @default("PENDING")
+  errorMessage   String?   @map("error_message")
+  smsCount       Int       @default(1) @map("sms_count")
+  cost           Decimal?  @db.Decimal(10, 2)
+  resultCode     String?   @map("result_code")
+  senderId       BigInt?   @map("sender_id")
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  sender Employee? @relation(fields: [senderId], references: [id], onDelete: SetNull)
+
+  @@index([status, scheduledAt(sort: Desc)])
+  @@index([sentAt(sort: Desc)])
+  @@map("sms_send_logs")
+}
+
+// 9. 공통 파일 / 로그 / 설정 / 알림 큐 (4 Tables)
+model FileStorage {
+  id           BigInt   @id @default(autoincrement())
+  bucket       String   @default("default")
+  path         String
+  originalName String?  @map("original_name")
+  mimeType     String?  @map("mime_type")
+  sizeBytes    BigInt?  @map("size_bytes")
+  checksum     String?
+  createdBy    BigInt?  @map("created_by")
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  creator           Employee?           @relation("FileCreator", fields: [createdBy], references: [id], onDelete: SetNull)
+  consultationFiles ConsultationFile[]  @relation("ConsultationFiles")
+  incidentFiles     IncidentFile[]      @relation("IncidentFiles")
+  noticeFiles       NoticeFile[]        @relation("NoticeFiles")
+  boardFiles        BoardFile[]         @relation("BoardFiles")
+  galleryFiles      GalleryFile[]       @relation("GalleryFiles")
+
+  @@unique([bucket, path])
+  @@map("file_storage")
+}
+
+model AuditLog {
+  id         BigInt   @id @default(autoincrement())
+  actorId    BigInt?  @map("actor_id")
   action     String
   entityType String?  @map("entity_type")
   entityId   BigInt?  @map("entity_id")
-  meta       Json     @default("{}") @db.JsonB
+  changes    Json?    @db.JsonB
+  ipAddress  String?  @map("ip_address")
+  userAgent  String?  @map("user_agent")
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
 
-  /// Relations
-  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  actor Employee? @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
 
-  @@map("user_activities")
+  @@index([entityType, entityId])
+  @@map("audit_logs")
 }
 
-/**
- * REVIEWS
- * 리뷰 시스템
- */
-model Review {
-  id         BigInt   @id @default(autoincrement())
-  userId     BigInt   @map("user_id")
-  targetType String   @map("target_type")
-  targetId   BigInt   @map("target_id")
-  rating     Int
-  comment    String?
-  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz
-  updatedAt  DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+model SystemSetting {
+  key         String   @id
+  value       Json     @db.JsonB
+  description String?
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
 
-  /// Relations
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, targetType, targetId], map: "reviews_unique_per_target")
-  @@map("reviews")
+  @@map("system_settings")
 }
 
-/**
- * NOTIFICATIONS
- * 알림 시스템
- */
-model Notification {
-  id        BigInt   @id @default(autoincrement())
-  userId    BigInt   @map("user_id")
-  type      String
-  title     String
-  message   String?
-  isRead    Boolean  @default(false) @map("is_read")
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz
+model NotificationQueue {
+  id           BigInt    @id @default(autoincrement())
+  channel      String
+  targetType   String    @map("target_type")
+  targetId     BigInt?   @map("target_id")
+  title        String?
+  body         String?
+  payload      Json      @default("{}") @db.JsonB
+  scheduledAt  DateTime  @default(now()) @map("scheduled_at") @db.Timestamptz
+  sentAt       DateTime? @map("sent_at") @db.Timestamptz
+  status       String    @default("PENDING")
+  errorMessage String?   @map("error_message")
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz
 
-  /// Relations
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("notifications")
+  @@index([status, scheduledAt])
+  @@map("notification_queue")
 }

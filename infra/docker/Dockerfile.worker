@@ -1,0 +1,63 @@
+# ---------------------------------------------------------
+# Description : Dockerfile.worker - 📌 ConnectWon Worker (NestJS)
+# Author      : Shiwoo Min
+# Date        : 2026-01-25
+# ---------------------------------------------------------
+
+# ---------------------------------------------------------
+# Worker Build Stage
+# ---------------------------------------------------------
+FROM node:20-slim AS build
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    python3 make g++ libcairo2-dev libpango1.0-dev libjpeg-dev \
+    libgif-dev libpixman-1-dev libglib2.0-dev openssl && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN npm install -g pnpm
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
+     tsconfig.json tsconfig.base.json ./
+
+COPY apps ./apps
+COPY packages ./packages
+
+# prepare(husky) 실행 제거
+RUN sed -i 's/"prepare":.*//' package.json
+
+RUN pnpm install --filter worker... --frozen-lockfile --ignore-scripts
+
+# Prisma generate (optional)
+RUN pnpm --filter worker exec prisma generate || true
+
+RUN pnpm --filter @agape-care/worker build
+
+
+# ---------------------------------------------------------
+# Runtime
+# ---------------------------------------------------------
+FROM node:20-slim
+WORKDIR /app
+ENV NODE_ENV=production
+
+RUN apt-get update && apt-get install -y \
+    libcairo2 libpango-1.0-0 libjpeg62-turbo libgif7 \
+    libpixman-1-0 libglib2.0-0 openssl && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN npm install -g pnpm
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
+     tsconfig.json tsconfig.base.json ./
+
+COPY apps/worker ./apps/worker
+COPY packages ./packages
+
+RUN sed -i 's/"prepare":.*//' package.json
+
+RUN pnpm install --filter worker... --prod --frozen-lockfile --ignore-scripts
+
+COPY --from=build /app/apps/worker/dist ./apps/worker/dist
+
+CMD ["node", "apps/worker/dist/main.js"]

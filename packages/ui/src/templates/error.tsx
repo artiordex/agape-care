@@ -4,7 +4,7 @@
  * Date : 2025-09-11
  */
 'use client';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ErrorPage } from '../components/ErrorPage.js';
 
 // 글로벌 에러 페이지 컴포넌트

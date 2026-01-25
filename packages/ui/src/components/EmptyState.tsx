@@ -3,6 +3,7 @@
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */
+import React from 'react';
 import { type EmptyStateProps } from '../ui-types.js';
 
 // 빈 상태 페이지 컴포넌트
@@ -14,7 +15,7 @@ export function EmptyState({
   className = '',
 }: EmptyStateProps) {
   const defaultIcon = (
-    <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -30,16 +31,16 @@ export function EmptyState({
       <div className="mb-4">{icon || defaultIcon}</div>
 
       {/* 제목 */}
-      <h3 className="text-lg font-medium text-gray-900 mb-2">{title}</h3>
+      <h3 className="mb-2 text-lg font-medium text-gray-900">{title}</h3>
 
       {/* 설명 */}
-      <p className="text-gray-500 mb-6 max-w-sm">{description}</p>
+      <p className="mb-6 max-w-sm text-gray-500">{description}</p>
 
       {/* 액션 버튼 */}
       {action && (
         <button
           onClick={action.onClick}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          className="rounded-lg bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
         >
           {action.label}
         </button>

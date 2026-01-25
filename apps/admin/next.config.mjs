@@ -12,24 +12,18 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  output: 'standalone', // 👈 export → standalone으로 변경
 
-  transpilePackages: [
-    '@agape-care/ui',
-    '@agape-care/client'
-  ],
+  transpilePackages: ['@agape-care/ui'],
 
-  webpack: (config) => {
+  webpack: config => {
     const distBase = path.resolve(__dirname, '../../dist/packages');
 
     config.resolve.alias = {
       ...config.resolve.alias,
       '@agape-care/ui': path.join(distBase, 'ui'),
-      '@agape-care/client': path.join(distBase, 'client'),
-      '@agape-care/core': path.join(distBase, 'core'),
-      '@agape-care/configs': path.join(distBase, 'configs'),
       '@agape-care/logger': path.join(distBase, 'logger'),
-      '@agape-care/api-contract': path.join(distBase, 'api-contract')
+      '@agape-care/api-contract': path.join(distBase, 'api-contract'),
     };
 
     return config;
@@ -41,20 +35,18 @@ const nextConfig = {
     unoptimized: true,
     remotePatterns: [
       { protocol: 'https', hostname: 'avatars.githubusercontent.com' },
-      { protocol: 'https', hostname: 'lh3.googleusercontent.com' }
-    ]
+      { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
+    ],
   },
 
   async rewrites() {
     const rules = [];
-
     if (process.env.NODE_ENV === 'development') {
       rules.push({
         source: '/api/:path*',
-        destination: `${process.env.API_URL || 'http://localhost:8000'}/api/:path*`
+        destination: `${process.env.API_URL || 'http://localhost:8000'}/api/:path*`,
       });
     }
-
     return rules;
   },
 
@@ -64,7 +56,9 @@ const nextConfig = {
   poweredByHeader: false,
 
   typescript: { ignoreBuildErrors: true },
-  eslint: { ignoreDuringBuilds: true }
+  eslint: { ignoreDuringBuilds: true },
+
+  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
 };
 
 export default nextConfig;

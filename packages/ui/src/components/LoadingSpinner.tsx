@@ -3,6 +3,7 @@
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */
+import React from 'react';
 import { type LoadingSpinnerProps } from '../ui-types.js';
 
 // 로딩 스피너 컴포넌트

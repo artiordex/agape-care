@@ -3,9 +3,9 @@
  * Author : Shiwoo Min
  * Date : 2025-09-25
  */
-import { forwardRef } from 'react';
-import type { StackProps } from '../ui-types.js';
 import { cva } from 'class-variance-authority';
+import React, { forwardRef } from 'react';
+import type { StackProps } from '../ui-types.js';
 
 // 스택 variant 스타일 정의
 const stackVariants = cva('flex', {
@@ -54,9 +54,17 @@ const stackVariants = cva('flex', {
 });
 
 // 스택 컴포넌트 정의
-const Stack = forwardRef<HTMLDivElement, StackProps>(({ className = '', direction, spacing, align, justify, wrap, ...props }, ref) => {
-  return <div ref={ref} className={`${stackVariants({ direction, spacing, align, justify, wrap })} ${className}`} {...props} />;
-});
+const Stack = forwardRef<HTMLDivElement, StackProps>(
+  ({ className = '', direction, spacing, align, justify, wrap, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={`${stackVariants({ direction, spacing, align, justify, wrap })} ${className}`}
+        {...props}
+      />
+    );
+  },
+);
 
 Stack.displayName = 'Stack';
 

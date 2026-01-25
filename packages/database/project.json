@@ -11,10 +11,7 @@
         "main": "packages/database/src/index.ts",
         "outputPath": "dist/packages/database",
         "tsConfig": "packages/database/tsconfig.json",
-        "assets": [
-          "packages/database/package.json",
-          "packages/database/prisma/schema.prisma"
-        ]
+        "assets": ["packages/database/package.json", "packages/database/prisma/schema.prisma"]
       },
       "outputs": ["{options.outputPath}"]
     },
@@ -66,5 +63,5 @@
     }
   },
 
-  "implicitDependencies": ["core", "logger"]
+  "implicitDependencies": ["logger"]
 }

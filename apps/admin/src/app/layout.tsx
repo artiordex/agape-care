@@ -3,6 +3,8 @@
  * Author : Shiwoo Min
  * Date : 2026-01-23
  */
+export const dynamic = 'force-dynamic';
+
 import AppShell from '@/components/AppShell';
 import type { Metadata } from 'next';
 import './globals.css';

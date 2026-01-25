@@ -2,32 +2,56 @@
  * Description : tsconfig.json - 📌 Agape-Care 요양원 Admin (Next.js)
  * Author : Shiwoo Min
  * Updated : 2026-01-22
- */
-
-{
-  "extends": "../../tsconfig.app.json",
-
+ */{
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true,
     "jsx": "preserve",
-    "plugins": [{ "name": "next" }],
-
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "baseUrl": ".",
     "paths": {
-      "@/app/*": ["src/app/*"],
-      "@/components/*": ["src/components/*"],
-      "@/data/*": ["src/data/*"],
-      "@/lib/*": ["src/lib/*"],
-      "@/utils/*": ["src/utils/*"],
-      "@/hooks/*": ["src/hooks/*"],
-      "@/styles/*": ["src/styles/*"],
-      "@/providers/*": ["src/providers/*"]
+      "@/app/*": [
+        "src/app/*"
+      ],
+      "@/components/*": [
+        "src/components/*"
+      ],
+      "@/data/*": [
+        "src/data/*"
+      ],
+      "@/lib/*": [
+        "src/lib/*"
+      ],
+      "@/utils/*": [
+        "src/utils/*"
+      ],
+      "@/hooks/*": [
+        "src/hooks/*"
+      ],
+      "@/styles/*": [
+        "src/styles/*"
+      ],
+      "@/providers/*": [
+        "src/providers/*"
+      ]
     },
-
-    "tsBuildInfoFile": "./.next/.tsbuildinfo"
+    "tsBuildInfoFile": "./.next/.tsbuildinfo",
+    "allowJs": true
   },
-
-  "include": ["src/**/*", "src/next-env.d.ts", ".next/types/**/*.ts", "global.d.ts"],
-
-  "exclude": ["node_modules", ".next", "dist", "out"]
+  "include": [
+    "src/**/*",
+    "src/next-env.d.ts",
+    ".next/types/**/*.ts",
+    "global.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    "dist",
+    "out"
+  ]
 }

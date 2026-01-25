@@ -71,7 +71,7 @@ const Footer = () => (
 
       <div className="mt-12 border-t border-[#E5E1D8] pt-8">
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p className="text-sm text-gray-500">© 2025 요양센터. All rights reserved.</p>
+          <p className="text-sm text-gray-500">© 2026 아가페 요양원. All rights reserved.</p>
           <div className="flex gap-6">
             <Link
               href="/privacy"
@@ -79,15 +79,6 @@ const Footer = () => (
             >
               개인정보처리방침
             </Link>
-
-            <a
-              href="https://readdy.ai/?ref=logo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cursor-pointer text-sm text-gray-500 transition-colors hover:text-[#5C8D5A]"
-            >
-              Powered by Readdy
-            </a>
           </div>
         </div>
       </div>

@@ -3,9 +3,9 @@
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */
-import { forwardRef } from 'react';
-import { type ButtonProps } from '../ui-types.js';
 import { cva } from 'class-variance-authority';
+import React, { forwardRef } from 'react';
+import { type ButtonProps } from '../ui-types.js';
 
 // 버튼 variant 스타일 정의
 const buttonVariants = cva(
@@ -47,15 +47,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {loading && (
           <svg className="mr-2 h-4 w-4 animate-spin" viewBox="0 0 24 24">
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-              fill="none"
-            />
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
             <path
               className="opacity-75"
               fill="currentColor"

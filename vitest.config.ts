@@ -142,7 +142,6 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
       '@/components': path.resolve(__dirname, './src/components'),
       '@/pages': path.resolve(__dirname, './src/pages'),
-      '@/mocks': path.resolve(__dirname, './src/mocks'),
       '@/i18n': path.resolve(__dirname, './src/i18n'),
       '@agape-care/admin': path.resolve(__dirname, './apps/admin/src'),
       '@agape-care/web': path.resolve(__dirname, './apps/web/src'),

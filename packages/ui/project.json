@@ -58,5 +58,5 @@
     }
   },
 
-  "implicitDependencies": ["configs", "core", "logger"]
+  "implicitDependencies": ["logger"]
 }

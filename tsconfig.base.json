@@ -47,12 +47,8 @@
     "baseUrl": ".",
     "paths": {
       "@agape-care/api-contract/*": ["./packages/api-contract/src/*"],
-      "@agape-care/client/*": ["./packages/client/src/*"],
-      "@agape-care/configs/*": ["./packages/configs/src/*"],
-      "@agape-care/core/*": ["./packages/core/src/*"],
       "@agape-care/database/*": ["./packages/database/src/*"],
       "@agape-care/logger/*": ["./packages/logger/src/*"],
-      "@agape-care/server/*": ["./packages/server/src/*"],
       "@agape-care/ui/*": ["./packages/ui/src/*"]
     }
   },

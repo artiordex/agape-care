@@ -3,7 +3,7 @@
  * Author : Shiwoo Min
  * Date : 2025-09-19
  */
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { QuickMenuItem, QuickMenuProps } from '../ui-types.js';
 
 const defaultMenuItems: QuickMenuItem[] = [

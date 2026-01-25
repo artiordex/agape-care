@@ -2,9 +2,9 @@
 # Author : Shiwoo Min
 # Updated : 2026-01-22
 # Build & Run Infra Only:
-#   docker compose -p agape-care --env-file .env -f infra/docker/docker-compose.yml up -d postgres redis redisinsight prometheus grafana n8n
+# docker compose -p agape-care --env-file .env -f infra/docker/docker-compose.yml up -d postgres redis redisinsight prometheus grafana n8n
 # Full Build:
-#   docker compose -p agape-care --env-file .env -f infra/docker/docker-compose.yml up -d
+# docker compose -p agape-care --env-file .env -f infra/docker/docker-compose.yml up -d
 
 services:
   # Next.js Web Frontend
@@ -268,70 +268,6 @@ services:
       retries: 10
     networks:
       - agape-care-network
-
-  # Prometheus
-  prometheus:
-    image: prom/prometheus:v2.54.1
-    container_name: agape-care-prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-    volumes:
-      - ../monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - ../monitoring/alerts.yml:/etc/prometheus/alerts.yml:ro
-    ports:
-      - '0.0.0.0:9090:9090'
-    restart: unless-stopped
-    networks:
-      - agape-care-network
-
-  # Grafana
-  grafana:
-    image: grafana/grafana:10.4.5
-    container_name: agape-care-grafana
-    ports:
-      - '0.0.0.0:${GF_SERVER_HTTP_PORT:-3030}:3000'
-    env_file:
-      - ../../.env
-    environment:
-      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER:-admin}
-      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
-      - GF_SECURITY_SECRET_KEY=${GF_SECURITY_SECRET_KEY}
-      - GF_SERVER_HTTP_PORT=3000
-      - GF_SERVER_ROOT_URL=http://localhost:${GF_SERVER_HTTP_PORT:-3030}
-    volumes:
-      - ../monitoring/grafana.ini:/etc/grafana/grafana.ini:ro
-      - ../monitoring/dashboards.json:/var/lib/grafana/dashboards/dashboards.json:ro
-    restart: unless-stopped
-    depends_on:
-      prometheus:
-        condition: service_started
-    networks:
-      - agape-care-network
-
-  # Playwright E2E
-  e2e:
-    build:
-      context: ../../
-      dockerfile: infra/docker/Dockerfile.e2e
-    container_name: agape-care-e2e
-    env_file:
-      - ../../.env
-    networks:
-      - agape-care-network
-    environment:
-      - BASE_URL=http://web:3000
-      - ADMIN_BASE_URL=http://admin:3001
-      - API_URL=http://api:8000
-    depends_on:
-      web:
-        condition: service_healthy
-      api:
-        condition: service_healthy
-      admin:
-        condition: service_healthy
-    shm_size: '1gb'
-    volumes:
-      - ../../apps/e2e/test-results:/app/apps/e2e/test-results
 
   # Nginx Reverse Proxy
   nginx:

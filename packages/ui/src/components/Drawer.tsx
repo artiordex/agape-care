@@ -3,10 +3,10 @@
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */
-import { useEffect } from 'react';
+import { cva } from 'class-variance-authority';
+import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import type { DrawerProps } from '../ui-types.js';
-import { cva } from 'class-variance-authority';
 
 // 드로어 variant 스타일 정의
 const drawerVariants = cva(
@@ -28,7 +28,7 @@ const drawerVariants = cva(
       side: 'right',
       size: 'md',
     },
-  }
+  },
 );
 
 // 드로어 컴포넌트 정의
@@ -71,15 +71,14 @@ export function Drawer({
 
   if (!isOpen) return null;
 
-  const translateClass = side === 'left'
-    ? isOpen ? 'translate-x-0' : '-translate-x-full'
-    : isOpen ? 'translate-x-0' : 'translate-x-full';
+  const translateClass =
+    side === 'left' ? (isOpen ? 'translate-x-0' : '-translate-x-full') : isOpen ? 'translate-x-0' : 'translate-x-full';
 
   return createPortal(
     <div className="fixed inset-0 z-50">
       {/* Overlay */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-fade-in"
+        className="animate-fade-in absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={closeOnOverlay ? onClose : undefined}
         aria-hidden="true"
       />
@@ -94,33 +93,26 @@ export function Drawer({
       >
         {/* Header */}
         {title && (
-          <div className="flex items-center justify-between p-6 border-b border-border">
-            <h2 id="drawer-title" className="text-lg font-semibold text-text">
+          <div className="border-border flex items-center justify-between border-b p-6">
+            <h2 id="drawer-title" className="text-text text-lg font-semibold">
               {title}
             </h2>
             <button
               onClick={onClose}
-              className="text-text-muted hover:text-text transition-colors p-1 rounded-md hover:bg-bg-soft"
+              className="text-text-muted hover:text-text hover:bg-bg-soft rounded-md p-1 transition-colors"
               aria-label="닫기"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
         )}
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6">
-          {children}
-        </div>
+        <div className="flex-1 overflow-y-auto p-6">{children}</div>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }

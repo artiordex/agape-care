@@ -3,6 +3,7 @@
  * Author : Shiwoo Min
  * Date : 2025-09-19
  */
+import React from 'react';
 import type { AppShellProps } from '../ui-types.js';
 
 /**
@@ -21,13 +22,15 @@ const DefaultHeader: React.FC<{ variant: string }> = ({ variant }) => {
   };
 
   return (
-    <header className={`h-16 px-4 flex items-center justify-between shrink-0 ${variantStyles[variant as keyof typeof variantStyles]}`}>
+    <header
+      className={`flex h-16 shrink-0 items-center justify-between px-4 ${variantStyles[variant as keyof typeof variantStyles]}`}
+    >
       {/* 좌측: 로고 + 네비게이션 */}
       <div className="flex items-center space-x-4">
         <div className="flex items-center">
-          <div className="w-8 h-8 rounded bg-gray-200 dark:bg-gray-700" />
+          <div className="h-8 w-8 rounded bg-gray-200 dark:bg-gray-700" />
         </div>
-        <nav className="hidden md:flex items-center space-x-1">{/* 메뉴 자리 */}</nav>
+        <nav className="hidden items-center space-x-1 md:flex">{/* 메뉴 자리 */}</nav>
       </div>
 
       {/* 우측: 액션 버튼 */}
@@ -43,25 +46,25 @@ const DefaultSidebar: React.FC<{ variant: string }> = ({ variant }) => {
   if (variant !== 'admin') return null; // 관리자가 아니면 사이드바 없음
 
   return (
-    <aside className="w-64 bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 shrink-0">
-      <div className="flex flex-col h-full">
+    <aside className="w-64 shrink-0 border-r border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-800">
+      <div className="flex h-full flex-col">
         {/* 사이드바 헤더 */}
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-          <div className="w-full h-8 bg-gray-200 dark:bg-gray-700 rounded" />
+        <div className="border-b border-gray-200 p-4 dark:border-gray-700">
+          <div className="h-8 w-full rounded bg-gray-200 dark:bg-gray-700" />
         </div>
 
         {/* 사이드바 네비게이션 */}
         <nav className="flex-1 p-4">
           <div className="space-y-2">
             {[...Array(5)].map((_, i) => (
-              <div key={i} className="w-full h-10 bg-gray-200 dark:bg-gray-700 rounded" />
+              <div key={i} className="h-10 w-full rounded bg-gray-200 dark:bg-gray-700" />
             ))}
           </div>
         </nav>
 
         {/* 사이드바 푸터 */}
-        <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-          <div className="w-full h-10 bg-gray-200 dark:bg-gray-700 rounded" />
+        <div className="border-t border-gray-200 p-4 dark:border-gray-700">
+          <div className="h-10 w-full rounded bg-gray-200 dark:bg-gray-700" />
         </div>
       </div>
     </aside>
@@ -79,8 +82,8 @@ const DefaultFooter: React.FC<{ variant: string }> = ({ variant }) => {
 
   return (
     <footer className={`shrink-0 px-4 py-6 ${variantStyles[variant as keyof typeof variantStyles]}`}>
-      <div className="max-w-7xl mx-auto text-center">
-        <div className="w-48 h-4 bg-gray-200 dark:bg-gray-700 rounded mx-auto" />
+      <div className="mx-auto max-w-7xl text-center">
+        <div className="mx-auto h-4 w-48 rounded bg-gray-200 dark:bg-gray-700" />
       </div>
     </footer>
   );
@@ -122,7 +125,7 @@ export const AppShell: React.FC<AppShellProps> = ({
     return (
       <div className={`${layoutStyles.auth} ${className || ''}`}>
         {showHeader && (headerSlot || <DefaultHeader variant={variant} />)}
-        <main className={`flex-1 flex items-center justify-center p-4 ${mainStyles.auth}`}>{children}</main>
+        <main className={`flex flex-1 items-center justify-center p-4 ${mainStyles.auth}`}>{children}</main>
         {showFooter && (footerSlot || <DefaultFooter variant={variant} />)}
       </div>
     );

@@ -1,0 +1,16 @@
+# Description : Dockerfile.db - 📌 db docker build
+# Author : Shiwoo Min
+# Date : 2026-01-25
+
+# Postgres 이미지
+FROM cgr.dev/chainguard/postgres:latest AS db
+
+# 타임존 설정
+ENV TZ=Asia/Seoul
+
+# 설정 파일 복사
+COPY infra/database/conf/postgresql.conf /etc/postgresql/postgresql.conf
+COPY infra/database/conf/pg_hba.conf     /etc/postgresql/pg_hba.conf
+
+# 초기화 스크립트 복사
+COPY infra/database/init/ /docker-entrypoint-initdb.d/

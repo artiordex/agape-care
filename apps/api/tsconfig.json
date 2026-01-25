@@ -5,7 +5,7 @@
  */
 
 {
-  "extends": "../../tsconfig.node.json",
+  "extends": "../../tsconfig.base.json",
 
   "compilerOptions": {
     "rootDir": "./src",
@@ -24,7 +24,6 @@
   "exclude": ["node_modules", "dist"],
 
   "references": [
-    { "path": "../../packages/core" },
     { "path": "../../packages/database" },
     { "path": "../../packages/logger" },
     { "path": "../../packages/api-contract" }

@@ -3,9 +3,9 @@
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */
-import { forwardRef } from 'react';
-import type { DividerProps } from '../ui-types.js';
 import { cva } from 'class-variance-authority';
+import React, { forwardRef } from 'react';
+import type { DividerProps } from '../ui-types.js';
 
 // 구분선 variant 스타일 정의
 const dividerVariants = cva('border-border', {
@@ -74,23 +74,15 @@ export const Divider = forwardRef<HTMLDivElement, DividerProps>(
           className={`flex items-center ${spacing === 'sm' ? 'my-2' : spacing === 'lg' ? 'my-6' : 'my-4'} ${className}`}
           {...props}
         >
-          <div
-            className={`flex-1 ${dividerVariants({ orientation, variant, spacing: undefined })}`}
-          />
-          <span className="px-3 text-sm text-text-muted bg-bg">{label}</span>
-          <div
-            className={`flex-1 ${dividerVariants({ orientation, variant, spacing: undefined })}`}
-          />
+          <div className={`flex-1 ${dividerVariants({ orientation, variant, spacing: undefined })}`} />
+          <span className="text-text-muted bg-bg px-3 text-sm">{label}</span>
+          <div className={`flex-1 ${dividerVariants({ orientation, variant, spacing: undefined })}`} />
         </div>
       );
     }
 
     return (
-      <div
-        ref={ref}
-        className={`${dividerVariants({ orientation, variant, spacing })} ${className}`}
-        {...props}
-      />
+      <div ref={ref} className={`${dividerVariants({ orientation, variant, spacing })} ${className}`} {...props} />
     );
   },
 );

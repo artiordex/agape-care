@@ -1,0 +1,41 @@
+# ---------------------------------------------------------
+# Description : Dockerfile.admin - 📌 ConnectWon Admin (Next.js)
+# Author      : Shiwoo Min
+# Date        : 2026-01-25
+# Build       : docker compose -p connectwon --env-file .env \
+#               -f infra/docker/docker-compose.yml up -d --build admin
+# ---------------------------------------------------------
+
+# ---------------------------------------------------------
+# Admin Build Stage (Next.js)
+# ---------------------------------------------------------
+FROM node:20-alpine AS build
+WORKDIR /app
+
+RUN npm install -g pnpm
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
+     tsconfig.json tsconfig.base.json ./
+
+COPY apps ./apps
+COPY packages ./packages
+
+RUN pnpm install --filter admin... --frozen-lockfile
+
+RUN pnpm --filter @agape-care/admin build
+
+
+# ---------------------------------------------------------
+# Runtime (nginx)
+# ---------------------------------------------------------
+FROM nginx:stable-alpine
+WORKDIR /usr/share/nginx/html
+
+COPY infra/docker/nginx.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=build /app/apps/admin/.next ./_next
+COPY --from=build /app/apps/admin/public ./public
+COPY --from=build /app/apps/admin/out ./
+
+EXPOSE 3002
+CMD ["nginx", "-g", "daemon off;"]

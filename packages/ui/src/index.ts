@@ -6,18 +6,6 @@
 // animations
 export * from './animations/Animation.js';
 
-// charts
-export * from './charts/AreaChart.js';
-export * from './charts/BarChart.js';
-export * from './charts/DonutChart.js';
-export * from './charts/FunnelChart.js';
-export * from './charts/GaugeChart.js';
-export * from './charts/LineChart.js';
-export * from './charts/PieChart.js';
-export * from './charts/ProgressChart.js';
-export * from './charts/SparklineChart.js';
-export * from './charts/WaterfallChart.js';
-
 // components
 export * from './components/Button.js';
 export * from './components/Card.js';
@@ -49,7 +37,6 @@ export * from './hooks/useThrottle.js';
 
 // layout
 export * from './layout/AppShell.js';
-export * from './layout/Chatbot.js';
 export * from './layout/Container.js';
 export * from './layout/Footer.js';
 export * from './layout/Grid.js';

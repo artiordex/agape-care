@@ -1,23 +1,12 @@
 /**
- * Description : next.config.mjs - 📌 Web 앱 Next.js 설정 (Firebase Hosting / Cloud Run 완전 호환)
+ * Description : next.config.mjs - 📌 Web 앱 Next.js 설정
  * Author : Shiwoo Min
- * Date : 2025-10-09
- *
- * Environment :
- *  - Firebase Hosting : 정적 export 모드 (output: 'export')
- *  - Cloud Run / Docker : SSR standalone 모드
- *  - Azure / Local : next dev / start 병행 지원
- *
- * Notes :
- *  - @connectwon/ui/dist/public 자산 직접 참조
- *  - Firebase Hosting export 모드 자동 인식
- *  - Cloud Run에서는 SSR 모드 자동 빌드
- *  - appDir 활성화 (Next.js 13+ App Router 완전 지원)
+ * Date : 2026-01-25
  */
 
+import 'dotenv/config';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import 'dotenv/config';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,26 +27,16 @@ const nextConfig = {
   output: IS_FIREBASE ? 'export' : 'standalone',
 
   // 내부 패키지 빌드 대상 (Nx 모노레포 패키지)
-  transpilePackages: [
-    '@connectwon/ui',
-    '@connectwon/api-contract',
-    '@connectwon/client',
-    '@connectwon/configs',
-    '@connectwon/sdk',
-  ],
+  transpilePackages: ['@agape-care/ui', '@agape-care/api-contract'],
 
   // Webpack alias 설정 (dist/packages 기반)
-  webpack: (config) => {
+  webpack: config => {
     const aliasBase = path.resolve(__dirname, '../../dist/packages');
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@connectwon/ui': path.join(aliasBase, 'ui'),
-      '@connectwon/client': path.join(aliasBase, 'client'),
-      '@connectwon/configs': path.join(aliasBase, 'configs'),
-      '@connectwon/core': path.join(aliasBase, 'core'),
-      '@connectwon/sdk': path.join(aliasBase, 'sdk'),
-      '@connectwon/api-contract': path.join(aliasBase, 'api-contract'),
-      '@connectwon/logger': path.join(aliasBase, 'logger'),
+      '@agape-care/ui': path.join(aliasBase, 'ui'),
+      '@agape-care/api-contract': path.join(aliasBase, 'api-contract'),
+      '@agape-care/logger': path.join(aliasBase, 'logger'),
     };
     return config;
   },

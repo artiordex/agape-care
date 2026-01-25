@@ -11,12 +11,7 @@ packages:
 
   # Shared Internal Packages
   - 'packages/api-contract'   # API 스키마 & 타입 정의
-  - 'packages/configs'        # 환경설정 관리
-  - 'packages/core'           # 핵심 비즈니스 로직
   - 'packages/logger'         # 로깅 시스템
-  - 'packages/sdk'            # 클라이언트 SDK
-  - 'packages/client'         # 클라이언트 유틸리티
-  - 'packages/server'         # 서버 유틸리티
   - 'packages/database'       # 데이터베이스 & ORM
   - 'packages/ui'             # UI 컴포넌트 라이브러리
 

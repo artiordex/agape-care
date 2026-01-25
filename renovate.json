@@ -97,8 +97,6 @@
       "matchPackagePatterns": [
         "^prisma$",
         "^@prisma/",
-        "^@supabase/",
-        "^firebase$"
       ],
       "groupName": "database",
       "schedule": ["on saturday at 03:00"]

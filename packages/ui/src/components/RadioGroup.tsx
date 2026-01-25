@@ -3,9 +3,9 @@
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */
-import { forwardRef, useState } from 'react';
-import { type RadioGroupProps } from '../ui-types.js';
 import { cva } from 'class-variance-authority';
+import React, { forwardRef, useState } from 'react';
+import { type RadioGroupProps } from '../ui-types.js';
 
 // 라디오 버튼 variant 스타일 정의
 const radioVariants = cva(
@@ -55,11 +55,9 @@ export const RadioGroup = forwardRef<HTMLInputElement, RadioGroupProps>(
 
     return (
       <div className={`space-y-2 ${className}`}>
-        {label && <label className="text-sm font-medium leading-none text-text">{label}</label>}
+        {label && <label className="text-text text-sm font-medium leading-none">{label}</label>}
 
-        <div
-          className={`space-y-2 ${orientation === 'horizontal' ? 'flex space-x-6 space-y-0' : ''}`}
-        >
+        <div className={`space-y-2 ${orientation === 'horizontal' ? 'flex space-x-6 space-y-0' : ''}`}>
           {options.map(option => (
             <div key={option.value} className="flex items-start space-x-2">
               <input
@@ -73,25 +71,21 @@ export const RadioGroup = forwardRef<HTMLInputElement, RadioGroupProps>(
                 className={radioVariants({ size })}
                 {...props}
               />
-              <div className="flex-1 min-w-0">
+              <div className="min-w-0 flex-1">
                 <label
-                  className="text-sm font-medium text-text cursor-pointer"
+                  className="text-text cursor-pointer text-sm font-medium"
                   onClick={() => !option.disabled && handleChange(option.value)}
                 >
                   {option.label}
                 </label>
-                {option.description && (
-                  <p className="text-sm text-text-muted">{option.description}</p>
-                )}
+                {option.description && <p className="text-text-muted text-sm">{option.description}</p>}
               </div>
             </div>
           ))}
         </div>
 
         {(error || helperText) && (
-          <p className={`text-sm ${error ? 'text-error' : 'text-text-muted'}`}>
-            {error || helperText}
-          </p>
+          <p className={`text-sm ${error ? 'text-error' : 'text-text-muted'}`}>{error || helperText}</p>
         )}
       </div>
     );

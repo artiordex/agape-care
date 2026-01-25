@@ -1,0 +1,63 @@
+# ---------------------------------------------------------
+# Description : Dockerfile.api - 📌 ConnectWon API (NestJS)
+# Author      : Shiwoo Min
+# Date        : 2026-01-25
+#
+# - pnpm 기반 모노레포
+# - Nx 기반 NestJS API 빌드 지원
+# - Build Stage: devDependencies 포함
+# - Runtime Stage: production only
+# ---------------------------------------------------------
+
+# ---------------------------------------------------------
+# API Build Stage (NestJS + Nx)
+# ---------------------------------------------------------
+FROM node:20-alpine AS build
+WORKDIR /app
+
+RUN npm install -g pnpm
+
+# 루트 파일 복사
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
+     tsconfig.json tsconfig.base.json ./
+
+# workspace 복사
+COPY apps ./apps
+COPY packages ./packages
+
+# devDependencies 포함 설치 (Nx 빌드에 필요)
+RUN pnpm install --workspace-root --no-frozen-lockfile
+
+# Nx API 빌드
+RUN pnpm exec nx build @agape-care/api
+
+# 빌드 결과 확인 (디버깅용 - 나중에 제거 가능)
+RUN echo "Build output:" && ls -la dist/
+
+
+# ---------------------------------------------------------
+# Runtime Stage (prod only)
+# ---------------------------------------------------------
+FROM node:20-alpine
+WORKDIR /app
+ENV NODE_ENV=production
+
+RUN npm install -g pnpm
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
+     tsconfig.json tsconfig.base.json ./
+
+COPY apps/api ./apps/api
+COPY packages ./packages
+
+# production install only
+RUN pnpm install --filter api... --prod --no-frozen-lockfile --ignore-scripts
+
+# Nx 빌드 결과는 dist/apps/api에 생성됨
+COPY --from=build /app/dist/apps/api ./dist/apps/api
+
+# node_modules도 복사 (필요한 경우)
+COPY --from=build /app/node_modules ./node_modules
+
+EXPOSE 8000
+CMD ["node", "dist/apps/api/main.js"]

@@ -3,6 +3,7 @@
  * Author : Shiwoo Min
  * Date : 2025-09-11
  */
+import React from 'react';
 import { type LoadingPageProps } from '../ui-types.js';
 import { LoadingSpinner } from './LoadingSpinner.js';
 

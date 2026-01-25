@@ -3,7 +3,7 @@
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { type FormProps } from '../ui-types.js';
 
 // 폼 컴포넌트 정의

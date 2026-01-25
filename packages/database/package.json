@@ -34,7 +34,6 @@
   },
 
   "dependencies": {
-    "@agape-care/core": "workspace:*",
     "@prisma/client": "^6.0.1",
     "prisma": "^6.0.1",
     "dayjs": "^1.11.10",
@@ -53,7 +52,7 @@
   },
 
   "nx": {
-    "implicitDependencies": ["core", "logger"],
+    "implicitDependencies": ["logger"],
     "targets": {
       "build": {
         "dependsOn": ["^build"]

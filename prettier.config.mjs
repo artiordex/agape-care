@@ -84,17 +84,6 @@ export default {
       },
     },
     {
-      // Mock 데이터
-      files: [
-        'src/mocks/**/*.ts',
-        'apps/admin/src/data/**/*.json',
-      ],
-      options: {
-        printWidth: 100,
-        tabWidth: 2,
-      },
-    },
-    {
       // 설정 파일들
       files: [
         '*.config.{js,ts,mjs}',

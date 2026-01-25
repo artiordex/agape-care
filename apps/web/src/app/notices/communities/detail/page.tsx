@@ -3,15 +3,76 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
-import { communityDetailMock } from '@/mocks/communityDetail';
+const communityDetails = [
+  {
+    id: '1',
+    title: '2026년 1월 프로그램 안내',
+    category: '공지사항',
+    date: '2026-01-10',
+    author: '관리자',
+    views: 102,
+    image: '/img/communities/notice-1.jpg',
+    content: `1월 프로그램은 인지활동, 여가활동, 건강관리 등 다양한 프로그램이 진행될 예정입니다.
+
+어르신들의 참여를 독려하며 즐거운 시간이 되도록 최선을 다하겠습니다.`,
+    tags: ['1월프로그램', '공지'],
+    prevPost: { id: '0', title: '이전 글이 없습니다.' },
+    nextPost: { id: '2', title: '신년맞이 특별 행사 개최' },
+  },
+  {
+    id: '2',
+    title: '신년맞이 특별 행사 개최',
+    category: '활동소식',
+    date: '2026-01-05',
+    author: '홍길동 사회복지사',
+    views: 87,
+    image: '/img/communities/activity-1.jpg',
+    content: `새해를 맞이하여 어르신들과 함께 작은 행사를 진행했습니다.
+
+풍성한 이벤트와 프로그램으로 모두가 즐거운 시간을 보냈습니다.`,
+    tags: ['행사', '신년'],
+    prevPost: { id: '1', title: '2026년 1월 프로그램 안내' },
+    nextPost: { id: '3', title: '1월 생신잔치 안내' },
+  },
+  {
+    id: '3',
+    title: '1월 생신잔치 안내',
+    category: '이벤트',
+    date: '2026-01-02',
+    author: '관리자',
+    views: 143,
+    image: '/img/communities/event-1.jpg',
+    content: `1월 생신을 맞으신 어르신들의 생신잔치가 진행될 예정입니다.
+
+모두 함께 축하해 주시고 따뜻한 시간을 보낼 수 있도록 마련했습니다.`,
+    tags: ['생신잔치', '1월'],
+    prevPost: { id: '2', title: '신년맞이 특별 행사 개최' },
+    nextPost: { id: '4', title: '겨울철 감기 예방 안내' },
+  },
+  {
+    id: '4',
+    title: '겨울철 감기 예방 안내',
+    category: '공지사항',
+    date: '2025-12-29',
+    author: '간호팀',
+    views: 210,
+    image: '/img/communities/notice-2.jpg',
+    content: `감기 예방을 위한 안내입니다.
+
+손 씻기, 마스크 착용, 적정 실내온도 유지에 적극 협조 부탁드립니다.`,
+    tags: ['감기예방', '공지'],
+    prevPost: { id: '3', title: '1월 생신잔치 안내' },
+    nextPost: null,
+  },
+];
 
 export default function CommunityDetailPage() {
   const search = useSearchParams();
   const id = search.get('id') || '1';
 
-  const article = communityDetailMock.find(item => item.id === id) ?? communityDetailMock[0];
+  // 상세 정보 찾기
+  const article = communityDetails.find(item => item.id === id) ?? communityDetails[0];
 
-  // article이 완전히 없는 경우 대비 (TypeScript 경고 제거 + 안정성 확보)
   if (!article) {
     return (
       <div className="mx-auto max-w-5xl px-6 py-20">
@@ -69,7 +130,11 @@ export default function CommunityDetailPage() {
       {/* Image */}
       {article.image && (
         <div className="mb-10 overflow-hidden rounded-xl">
-          <img src={article.image} className="h-[400px] w-full object-cover" />
+          <img
+            src={article.image}
+            className="h-[400px] w-full object-cover"
+            onError={e => (e.currentTarget.src = '/placeholder-image.jpg')}
+          />
         </div>
       )}
 
@@ -93,7 +158,7 @@ export default function CommunityDetailPage() {
 
       {/* Prev / Next Navigation */}
       <div className="mt-16 flex flex-col gap-4 border-t border-gray-200 pt-8 sm:flex-row">
-        {article.prevPost && (
+        {article.prevPost && article.prevPost.id !== '0' && (
           <Link
             href={`/communities/detail?id=${article.prevPost.id}`}
             className="group flex flex-1 items-center gap-3 rounded-xl bg-gray-50 px-6 py-4 hover:bg-gray-100"

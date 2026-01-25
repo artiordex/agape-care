@@ -13,7 +13,7 @@ type SlideItem = {
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // 🔒 명확하게 SlideItem[] 로 타입 지정 (undefined 포함 X)
+  // 명확하게 SlideItem[] 로 타입 지정 (undefined 포함 X)
   const slides: SlideItem[] = [
     {
       image:

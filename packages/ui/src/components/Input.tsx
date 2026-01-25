@@ -3,9 +3,9 @@
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */
-import { forwardRef } from 'react';
-import { type InputProps } from '../ui-types.js';
 import { cva } from 'class-variance-authority';
+import React, { forwardRef } from 'react';
+import { type InputProps } from '../ui-types.js';
 
 // 입력 필드 variant 스타일 정의
 const inputVariants = cva(
@@ -42,15 +42,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {label}
           </label>
         )}
-        <input
-          ref={ref}
-          className={`${inputVariants({ variant: inputVariant, size })} ${className}`}
-          {...props}
-        />
+        <input ref={ref} className={`${inputVariants({ variant: inputVariant, size })} ${className}`} {...props} />
         {(error || helperText) && (
-          <p className={`text-sm ${error ? 'text-error' : 'text-text-muted'}`}>
-            {error || helperText}
-          </p>
+          <p className={`text-sm ${error ? 'text-error' : 'text-text-muted'}`}>{error || helperText}</p>
         )}
       </div>
     );

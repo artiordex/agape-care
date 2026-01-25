@@ -9,25 +9,23 @@
 
   "compilerOptions": {
     "composite": false,
-    "noEmit": true
+    "noEmit": true,
+
+    // JSX 설정
+    "jsx": "react-jsx"
   },
 
   "files": [],
   "include": [],
 
   "references": [
-    { "path": "./tsconfig.node.json" },
     { "path": "./apps/admin" },
     { "path": "./apps/web" },
     { "path": "./apps/api" },
     { "path": "./apps/worker" },
     { "path": "./packages/api-contract" },
-    { "path": "./packages/client" },
-    { "path": "./packages/configs" },
-    { "path": "./packages/core" },
     { "path": "./packages/database" },
     { "path": "./packages/logger" },
-    { "path": "./packages/server" },
     { "path": "./packages/ui" }
   ]
 }

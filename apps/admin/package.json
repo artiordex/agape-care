@@ -18,8 +18,6 @@
   },
   "dependencies": {
     "@agape-care/api-contract": "workspace:*",
-    "@agape-care/client": "workspace:*",
-    "@agape-care/configs": "workspace:*",
     "@agape-care/ui": "workspace:*",
     "@hookform/resolvers": "^3.3.0",
     "@tanstack/react-query": "^5.0.0",

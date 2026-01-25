@@ -3,6 +3,7 @@
  * Author : Shiwoo Min
  * Date : 2025-10-07
  */
+import React from 'react';
 import type { FooterProps } from '../ui-types.js';
 
 interface InternalLinkProps {

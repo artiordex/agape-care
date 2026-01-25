@@ -3,7 +3,7 @@
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import { type CheckboxProps } from '../ui-types.js';
 import { cva } from 'class-variance-authority';
 

@@ -3,7 +3,7 @@
  * Author : Shiwoo Min
  * Date : 2025-10-07
  */
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 import type { CommonHeaderProps, PageHeaderProps } from '../ui-types.js';
 
 interface HeaderLinkProps {
@@ -11,11 +11,11 @@ interface HeaderLinkProps {
   children: React.ReactNode;
   className?: string;
   ariaLabel?: string;
-  ariaCurrent?: 'page' | undefined; // ✅ 타입 좁힘 (문자열 전체 X)
+  ariaCurrent?: 'page' | undefined;
   external?: boolean;
 }
 
-// ✅ 기본 <a> 링크 — Next.js 없이도 작동
+// 기본 <a> 링크 — Next.js 없이도 작동
 const DefaultLink = ({ href, children, className, ariaLabel, ariaCurrent, external }: HeaderLinkProps) =>
   external ? (
     <a href={href} target="_blank" rel="noopener noreferrer" aria-label={ariaLabel} aria-current={ariaCurrent} className={className}>

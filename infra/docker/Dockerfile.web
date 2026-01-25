@@ -1,0 +1,44 @@
+# ---------------------------------------------------------
+# Author : Shiwoo Min
+# Date   : 2026-01-25
+# Build  : docker compose -p connectwon --env-file .env \
+#          -f infra/docker/docker-compose.yml up -d --build web
+# ---------------------------------------------------------
+
+# ---------------------------------------------------------
+# Web Build Stage (Next.js + pnpm)
+# ---------------------------------------------------------
+FROM node:20-alpine AS build
+WORKDIR /app
+
+RUN npm install -g pnpm
+
+# 루트 메타파일 복사
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
+     tsconfig.json tsconfig.base.json ./
+
+# workspace 복사
+COPY apps ./apps
+COPY packages ./packages
+
+# 설치
+RUN pnpm install --filter web... --frozen-lockfile
+
+# Next.js 빌드
+RUN pnpm --filter @agape-care/web build
+
+
+# ---------------------------------------------------------
+# Runtime Stage (nginx)
+# ---------------------------------------------------------
+FROM nginx:stable-alpine
+WORKDIR /usr/share/nginx/html
+
+COPY infra/docker/nginx.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=build /app/apps/web/.next ./_next
+COPY --from=build /app/apps/web/public ./public
+COPY --from=build /app/apps/web/out ./
+
+EXPOSE 3001
+CMD ["nginx", "-g", "daemon off;"]

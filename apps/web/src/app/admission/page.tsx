@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
@@ -94,9 +96,6 @@ export default function AdmissionPage() {
 
   return (
     <div className="min-h-screen bg-white pb-16 lg:pb-0">
-      <Navbar />
-      <FloatingSidebar />
-
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-teal-50 via-white to-amber-50 pb-20 pt-32">
         <div className="absolute inset-0 bg-[url('https://readdy.ai/api/search-image?query=peaceful%20elderly%20care%20facility%20entrance%20with%20warm%20welcoming%20atmosphere%20soft%20natural%20lighting%20modern%20clean%20interior%20design%20comfortable%20reception%20area%20with%20plants%20and%20natural%20elements%20professional%20healthcare%20environment&width=1920&height=600&seq=admission-hero-bg&orientation=landscape')] bg-cover bg-center opacity-5"></div>
@@ -375,8 +374,6 @@ export default function AdmissionPage() {
           </motion.div>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }

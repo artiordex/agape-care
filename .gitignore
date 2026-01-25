@@ -82,7 +82,6 @@ infra/docker/logs/
 infra/docker/.env
 docker-compose.override.yml
 docker-compose.local.yml
-Dockerfile*
 .docker/
 
 # 테스트 / Vitest / Playwright

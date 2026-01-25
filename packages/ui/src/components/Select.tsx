@@ -3,9 +3,9 @@
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */
-import { forwardRef } from 'react';
-import { type SelectProps } from '../ui-types.js';
 import { cva } from 'class-variance-authority';
+import React, { forwardRef } from 'react';
+import { type SelectProps } from '../ui-types.js';
 
 // 선택 드롭다운 variant 스타일 정의
 const selectVariants = cva(
@@ -32,10 +32,7 @@ const selectVariants = cva(
 
 // 선택 드롭다운 props 타입 정의
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-  (
-    { className = '', variant, size, options, error, label, helperText, placeholder, ...props },
-    ref,
-  ) => {
+  ({ className = '', variant, size, options, error, label, helperText, placeholder, ...props }, ref) => {
     const selectVariant = error ? 'error' : variant;
 
     return (
@@ -46,11 +43,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           </label>
         )}
         <div className="relative">
-          <select
-            ref={ref}
-            className={`${selectVariants({ variant: selectVariant, size })} ${className}`}
-            {...props}
-          >
+          <select ref={ref} className={`${selectVariants({ variant: selectVariant, size })} ${className}`} {...props}>
             {placeholder && (
               <option value="" disabled>
                 {placeholder}
@@ -64,9 +57,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           </select>
         </div>
         {(error || helperText) && (
-          <p className={`text-sm ${error ? 'text-error' : 'text-text-muted'}`}>
-            {error || helperText}
-          </p>
+          <p className={`text-sm ${error ? 'text-error' : 'text-text-muted'}`}>{error || helperText}</p>
         )}
       </div>
     );

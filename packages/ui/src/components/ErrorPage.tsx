@@ -3,6 +3,7 @@
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */
+import React from 'react';
 import { type ErrorPageProps } from '../ui-types.js';
 
 // 범용 에러 페이지 컴포넌트

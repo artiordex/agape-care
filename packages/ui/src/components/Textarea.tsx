@@ -3,9 +3,9 @@
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */
-import { forwardRef } from 'react';
-import { type TextareaProps } from '../ui-types.js';
 import { cva } from 'class-variance-authority';
+import React, { forwardRef } from 'react';
+import { type TextareaProps } from '../ui-types.js';
 
 // 텍스트 영역 variant 스타일 정의
 const textareaVariants = cva(
@@ -49,9 +49,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           {...props}
         />
         {(error || helperText) && (
-          <p className={`text-sm ${error ? 'text-error' : 'text-text-muted'}`}>
-            {error || helperText}
-          </p>
+          <p className={`text-sm ${error ? 'text-error' : 'text-text-muted'}`}>{error || helperText}</p>
         )}
       </div>
     );

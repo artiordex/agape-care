@@ -5,6 +5,7 @@
  */
 import { forwardRef, type HTMLAttributes } from 'react';
 import type { CardContentProps, CardDescriptionProps, CardFooterProps, CardProps, CardTitleProps } from '../ui-types.js';
+import React from 'react';
 
 // Card 컴포넌트
 export const Card = forwardRef<HTMLDivElement, CardProps>(({ className = '', ...props }, ref) => (

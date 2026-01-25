@@ -95,15 +95,6 @@
       "cache": false
     },
 
-    "e2e": {
-      "inputs": ["default", "^production"],
-      "outputs": [
-        "{projectRoot}/test-results",
-        "{projectRoot}/playwright-report"
-      ],
-      "cache": false
-    },
-
     "type-check": {
       "inputs": [
         "default",

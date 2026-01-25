@@ -2,25 +2,46 @@
  * Description : tsconfig.json - 📌 Agape-Care 요양원 Web (Next.js)
  * Author : Shiwoo Min
  * Updated : 2026-01-22
- */
-{
-  "extends": "../../tsconfig.app.json",
+ */{
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true,
     "jsx": "preserve",
-    "plugins": [{ "name": "next" }],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "resolveJsonModule": true,
     "esModuleInterop": true,
-
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@/components/*": ["src/components/*"],
-      "@/data/*": ["src/data/*"],
-      "@/lib/*": ["src/lib/*"]
+      "@/*": [
+        "src/*"
+      ],
+      "@/components/*": [
+        "src/components/*"
+      ],
+      "@/data/*": [
+        "src/data/*"
+      ],
+      "@/lib/*": [
+        "src/lib/*"
+      ]
     },
-    "tsBuildInfoFile": "./.next/.tsbuildinfo"
+    "tsBuildInfoFile": "./.next/.tsbuildinfo",
+    "allowJs": true
   },
-  "include": ["src/**/*", "next-env.d.ts", ".next/types/**/*.ts", "../admin/src/app/mobile"],
-  "exclude": ["node_modules", ".next", "dist", "out"]
+  "include": [
+    "src/**/*",
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "../admin/src/app/mobile"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    "dist",
+    "out"
+  ]
 }

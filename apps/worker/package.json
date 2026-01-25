@@ -28,7 +28,6 @@
   },
 
   "dependencies": {
-    "@agape-care/core": "workspace:*",
     "@agape-care/database": "workspace:*",
     "@agape-care/logger": "workspace:*",
     "@agape-care/api-contract": "workspace:*",

@@ -5,6 +5,7 @@
  */
 import type { ReactNode } from 'react';
 import type { SidebarItem, SidebarNavProps } from '../ui-types.js';
+import React from 'react';
 
 const renderIcon = (icon?: ReactNode | string, collapsed?: boolean) => {
   if (!icon) return null;

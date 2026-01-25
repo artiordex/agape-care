@@ -3,9 +3,9 @@
  * Author : Shiwoo Min
  * Date : 2025-09-25
  */
-import { forwardRef } from 'react';
-import type { ContainerProps } from '../ui-types.js';
 import { cva } from 'class-variance-authority';
+import React, { forwardRef } from 'react';
+import type { ContainerProps } from '../ui-types.js';
 
 // 컨테이너 variant 스타일 정의
 const containerVariants = cva('w-full mx-auto px-4', {
@@ -33,17 +33,19 @@ const containerVariants = cva('w-full mx-auto px-4', {
 });
 
 // 컨테이너 컴포넌트 정의
-const Container = forwardRef<HTMLDivElement, ContainerProps>(({ className = '', size, padding, centered = false, children, ...props }, ref) => {
-  return (
-    <div
-      ref={ref}
-      className={`${containerVariants({ size, padding })} ${centered ? 'flex items-center justify-center min-h-screen' : ''} ${className}`}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-});
+const Container = forwardRef<HTMLDivElement, ContainerProps>(
+  ({ className = '', size, padding, centered = false, children, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={`${containerVariants({ size, padding })} ${centered ? 'flex min-h-screen items-center justify-center' : ''} ${className}`}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  },
+);
 
 Container.displayName = 'Container';
 
