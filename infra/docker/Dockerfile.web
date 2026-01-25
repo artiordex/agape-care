@@ -1,13 +1,8 @@
-# ---------------------------------------------------------
+# Description : Dockerfile.web - 📌 Agape Care Web (Next.js)
 # Author : Shiwoo Min
-# Date   : 2026-01-25
-# Build  : docker compose -p connectwon --env-file .env \
-#          -f infra/docker/docker-compose.yml up -d --build web
-# ---------------------------------------------------------
+# Date : 2026-01-25
 
-# ---------------------------------------------------------
-# Web Build Stage (Next.js + pnpm)
-# ---------------------------------------------------------
+# Build Stage (Next.js + pnpm)
 FROM node:20-alpine AS build
 WORKDIR /app
 
@@ -15,30 +10,29 @@ RUN npm install -g pnpm
 
 # 루트 메타파일 복사
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
-     tsconfig.json tsconfig.base.json ./
+    tsconfig.json tsconfig.base.json ./
 
 # workspace 복사
 COPY apps ./apps
 COPY packages ./packages
 
-# 설치
+# web 전용 workspace 의존성 설치
 RUN pnpm install --filter web... --frozen-lockfile
 
-# Next.js 빌드
+# Next.js standalone으로 빌드
 RUN pnpm --filter @agape-care/web build
 
+# Runtime Stage (standalone)
+FROM node:20-alpine AS runner
+WORKDIR /app
 
-# ---------------------------------------------------------
-# Runtime Stage (nginx)
-# ---------------------------------------------------------
-FROM nginx:stable-alpine
-WORKDIR /usr/share/nginx/html
-
-COPY infra/docker/nginx.conf /etc/nginx/conf.d/default.conf
-
-COPY --from=build /app/apps/web/.next ./_next
+# Next.js standalone 서버 파일들
+COPY --from=build /app/apps/web/.next/standalone ./
+COPY --from=build /app/apps/web/.next/static ./.next/static
 COPY --from=build /app/apps/web/public ./public
-COPY --from=build /app/apps/web/out ./
 
-EXPOSE 3001
-CMD ["nginx", "-g", "daemon off;"]
+# Web 포트
+EXPOSE 3000
+
+# Next.js standalone 서버 실행
+CMD ["node", "server.js"]

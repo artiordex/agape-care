@@ -8,7 +8,8 @@
   "type": "module",
   "workspaces": [
     "apps/*",
-    "infra/*"
+    "infra/*",
+    "packages/*"
   ],
   "engines": {
     "node": ">=20.11.0",

@@ -1,63 +1,62 @@
-# ---------------------------------------------------------
-# Description : Dockerfile.worker - 📌 ConnectWon Worker (NestJS)
-# Author      : Shiwoo Min
-# Date        : 2026-01-25
-# ---------------------------------------------------------
+# Description : Dockerfile.worker - 📌 Agape Care Worker (NestJS)
+# Author : Shiwoo Min
+# Date : 2026-01-25
 
-# ---------------------------------------------------------
 # Worker Build Stage
-# ---------------------------------------------------------
-FROM node:20-slim AS build
+FROM node:20-slim AS deps
 WORKDIR /app
 
 RUN apt-get update && apt-get install -y \
-    python3 make g++ libcairo2-dev libpango1.0-dev libjpeg-dev \
-    libgif-dev libpixman-1-dev libglib2.0-dev openssl && \
-    rm -rf /var/lib/apt/lists/*
+    python3 make g++ libcairo2-dev libpango1.0-dev \
+    libjpeg-dev libgif-dev libpixman-1-dev libglib2.0-dev openssl \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g pnpm
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
-     tsconfig.json tsconfig.base.json ./
+    tsconfig.json tsconfig.base.json ./
 
 COPY apps ./apps
 COPY packages ./packages
 
-# prepare(husky) 실행 제거
-RUN sed -i 's/"prepare":.*//' package.json
+# Husky 비활성화
+ENV HUSKY=0
 
-RUN pnpm install --filter worker... --frozen-lockfile --ignore-scripts
+# worker workspace 설치
+RUN pnpm install --filter worker... --frozen-lockfile
 
-# Prisma generate (optional)
-RUN pnpm --filter worker exec prisma generate || true
+# Builder
+FROM node:20-slim AS builder
+WORKDIR /app
 
-RUN pnpm --filter @agape-care/worker build
+COPY --from=deps /app ./
 
+# Prisma generate (있으면 실행, 없으면 무시)
+RUN pnpm --filter @agape-care/worker exec prisma generate || true
 
-# ---------------------------------------------------------
-# Runtime
-# ---------------------------------------------------------
-FROM node:20-slim
+# Worker 빌드
+RUN pnpm exec nx build @agape-care/worker
+
+# Runtime (Production)
+FROM node:20-slim AS runner
 WORKDIR /app
 ENV NODE_ENV=production
+ENV HUSKY=0
 
+# 런타임에 필요한 최소 native libs
 RUN apt-get update && apt-get install -y \
     libcairo2 libpango-1.0-0 libjpeg62-turbo libgif7 \
-    libpixman-1-0 libglib2.0-0 openssl && \
-    rm -rf /var/lib/apt/lists/*
+    libpixman-1-0 libglib2.0-0 openssl \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g pnpm
 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
-     tsconfig.json tsconfig.base.json ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-COPY apps/worker ./apps/worker
-COPY packages ./packages
+# production deps 설치 (husky 무시)
+RUN pnpm install --filter worker... --prod --frozen-lockfile
 
-RUN sed -i 's/"prepare":.*//' package.json
+# 빌드 산출물만 복사
+COPY --from=builder /app/dist/apps/worker ./dist
 
-RUN pnpm install --filter worker... --prod --frozen-lockfile --ignore-scripts
-
-COPY --from=build /app/apps/worker/dist ./apps/worker/dist
-
-CMD ["node", "apps/worker/dist/main.js"]
+CMD ["node", "dist/main.js"]

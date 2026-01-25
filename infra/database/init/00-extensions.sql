@@ -14,9 +14,10 @@ CREATE EXTENSION IF NOT EXISTS "pg_trgm";     -- Trigram 유사도 (퍼지 검�
 -- 최소 검증 (MINIMAL VERIFICATION)
 DO $$
 DECLARE
+    ext TEXT;
     missing TEXT := '';
 BEGIN
-    FOR ext IN SELECT unnest(ARRAY['uuid-ossp','citext','btree_gist'])
+    FOREACH ext IN ARRAY ARRAY['uuid-ossp','citext','btree_gist']
     LOOP
         IF NOT EXISTS (SELECT 1 FROM pg_extension WHERE extname = ext) THEN
             missing := missing || ext || ', ';

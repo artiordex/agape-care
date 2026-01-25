@@ -10,7 +10,7 @@ DO $$
 DECLARE
     rec RECORD;
 BEGIN
-    RAISE NOTICE '📌 Start: Sequence Reset';
+    RAISE NOTICE 'Start: Sequence Reset';
 
     FOR rec IN
         SELECT sequence_name, table_name, column_name
@@ -25,25 +25,25 @@ BEGIN
         RAISE NOTICE '  - 시퀀스 초기화 완료: %', rec.sequence_name;
     END LOOP;
 
-    RAISE NOTICE '📌 Sequence Reset Completed';
+    RAISE NOTICE 'Sequence Reset Completed';
 END$$;
 
 -- 통계 업데이트 (ANALYZE)
 
 DO $$
 BEGIN
-    RAISE NOTICE '📌 Updating table statistics...';
+    RAISE NOTICE 'Updating table statistics...';
 
     ANALYZE;
 
-    RAISE NOTICE '📌 Statistics Updated';
+    RAISE NOTICE 'Statistics Updated';
 END$$;
 
 -- 주요 인덱스 생성 (성능 최적화)
 
 DO $$
 BEGIN
-    RAISE NOTICE '📌 Creating optimized indexes...';
+    RAISE NOTICE 'Creating optimized indexes...';
 
     -- Residents (입소자)
     CREATE INDEX IF NOT EXISTS idx_residents_status ON residents(status);
@@ -137,14 +137,14 @@ BEGIN
     CREATE INDEX IF NOT EXISTS idx_file_storage_created_by ON file_storage(created_by);
     CREATE INDEX IF NOT EXISTS idx_file_storage_created_at ON file_storage(created_at DESC);
 
-    RAISE NOTICE '📌 Index creation finished';
+    RAISE NOTICE 'Index creation finished';
 END$$;
 
 -- 데이터 유효성 제약조건 (추가 검증)
 
 DO $$
 BEGIN
-    RAISE NOTICE '📌 Adding constraints...';
+    RAISE NOTICE 'Adding constraints...';
 
     -- Residents: 성별 체크
     BEGIN
@@ -195,22 +195,23 @@ BEGIN
         RAISE NOTICE '  - chk_insurance_claims_status skip: %', SQLERRM;
     END;
 
-    RAISE NOTICE '📌 Constraints updated';
+    RAISE NOTICE 'Constraints updated';
 END$$;
 
--- app_user 계정 생성 및 권한 부여
+-- app_user 계정 생성 및 권한 부여 (pgcrypto 없이 동작)
 
 DO $$
 DECLARE
     db_name TEXT;
     app_pass TEXT;
 BEGIN
-    RAISE NOTICE '📌 Creating app_user...';
+    RAISE NOTICE 'Creating app_user...';
 
     SELECT current_database() INTO db_name;
 
     IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname='app_user') THEN
-        app_pass := encode(gen_random_bytes(16), 'hex');
+        -- pgcrypto 없이 랜덤 패스워드 생성 (md5 + random + timestamp)
+        app_pass := md5(random()::text || clock_timestamp()::text);
 
         EXECUTE format('CREATE ROLE app_user LOGIN PASSWORD %L', app_pass);
         EXECUTE format('GRANT CONNECT ON DATABASE %I TO app_user', db_name);
@@ -222,9 +223,10 @@ BEGIN
         ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO app_user;
         ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT USAGE, SELECT ON SEQUENCES TO app_user;
 
-        RAISE NOTICE '📌 app_user created. Password: %', app_pass;
+        RAISE NOTICE 'app_user created. Password: %', app_pass;
+        RAISE NOTICE 'IMPORTANT: Change this password immediately in production!';
     ELSE
-        RAISE NOTICE '📌 app_user already exists';
+        RAISE NOTICE 'app_user already exists';
     END IF;
 END$$;
 
@@ -232,7 +234,7 @@ END$$;
 
 DO $$
 BEGIN
-    RAISE NOTICE '📌 Creating views...';
+    RAISE NOTICE 'Creating views...';
 
     -- 입소자 + 방 정보 뷰
     CREATE OR REPLACE VIEW v_resident_rooms AS
@@ -377,7 +379,7 @@ BEGIN
     WHERE g.status IN ('RECEIVED', 'PROCESSING')
     ORDER BY g.received_at DESC;
 
-    RAISE NOTICE '📌 Views created';
+    RAISE NOTICE 'Views created';
 END$$;
 
 -- 최종 검증 및 상태 출력
@@ -390,7 +392,7 @@ DECLARE
     s_count INT;
     c_count INT;
 BEGIN
-    RAISE NOTICE '📌 Final Verification...';
+    RAISE NOTICE 'Final Verification...';
 
     SELECT COUNT(*) INTO t_count
     FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';
