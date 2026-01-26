@@ -4,7 +4,7 @@ agape-care
 │  ├─ config.json
 │  └─ README.md
 ├─ .cz-config.cjs
-├─ .firebaserc
+├─ .dockerignore
 ├─ .hintrc
 ├─ .husky
 │  └─ _
@@ -26,176 +26,193 @@ agape-care
 ├─ .pnpmrc
 ├─ apps
 │  ├─ admin
+│  │  ├─ global.d.ts
+│  │  ├─ index.css
+│  │  ├─ index.html
 │  │  ├─ next-env.d.ts
 │  │  ├─ next.config.mjs
 │  │  ├─ package.json
 │  │  ├─ postcss.config.mjs
 │  │  ├─ project.json
 │  │  ├─ public
-│  │  │  ├─ favicon
-│  │  │  │  ├─ android-chrome-192x192.png
-│  │  │  │  ├─ android-chrome-512x512.png
-│  │  │  │  ├─ apple-touch-icon.png
-│  │  │  │  ├─ favicon-16x16.png
-│  │  │  │  ├─ favicon-32x32.png
-│  │  │  │  ├─ favicon.ico
-│  │  │  │  └─ site.webmanifest
-│  │  │  └─ images
-│  │  │     ├─ avatar.png
-│  │  │     ├─ footer_logo.png
-│  │  │     ├─ header_logo.png
-│  │  │     ├─ logo.png
-│  │  │     ├─ venue_sp_1.jpg
-│  │  │     ├─ venue_sp_2.jpg
-│  │  │     └─ venue_sp_3.jpg
 │  │  ├─ server.ts
 │  │  ├─ src
 │  │  │  ├─ app
-│  │  │  │  ├─ (auth)
-│  │  │  │  │  └─ login
+│  │  │  │  ├─ accounting
+│  │  │  │  │  ├─ insurance-claim
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ main
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ payroll
 │  │  │  │  │     └─ page.tsx
-│  │  │  │  ├─ (protected)
-│  │  │  │  │  ├─ board
-│  │  │  │  │  │  ├─ BoardManagement.tsx
-│  │  │  │  │  │  ├─ ContentCreation.tsx
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  ├─ dashboard
-│  │  │  │  │  │  ├─ AiDashboard.tsx
-│  │  │  │  │  │  ├─ AnalyticsDashboard.tsx
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  ├─ facilities
-│  │  │  │  │  │  ├─ equipments
-│  │  │  │  │  │  │  ├─ add
-│  │  │  │  │  │  │  │  ├─ EquipmentAddForm.tsx
-│  │  │  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  │  │  ├─ Equipment.tsx
-│  │  │  │  │  │  │  ├─ page.tsx
-│  │  │  │  │  │  │  └─ [id]
-│  │  │  │  │  │  │     ├─ edit
-│  │  │  │  │  │  │     │  ├─ EquipmentEditForm.tsx
-│  │  │  │  │  │  │     │  └─ page.tsx
-│  │  │  │  │  │  │     └─ EquipmentDetail.tsx
-│  │  │  │  │  │  ├─ page.tsx
-│  │  │  │  │  │  ├─ rooms
-│  │  │  │  │  │  │  ├─ add
-│  │  │  │  │  │  │  │  ├─ page.tsx
-│  │  │  │  │  │  │  │  └─ RoomAddForm.tsx
-│  │  │  │  │  │  │  ├─ page.tsx
-│  │  │  │  │  │  │  ├─ Room.tsx
-│  │  │  │  │  │  │  └─ [id]
-│  │  │  │  │  │  │     ├─ edit
-│  │  │  │  │  │  │     │  ├─ page.tsx
-│  │  │  │  │  │  │     │  └─ RoomEditForm.tsx
-│  │  │  │  │  │  │     ├─ page.tsx
-│  │  │  │  │  │  │     └─ RoomDetail.tsx
-│  │  │  │  │  │  └─ venues
-│  │  │  │  │  │     ├─ add
-│  │  │  │  │  │     │  ├─ page.tsx
-│  │  │  │  │  │     │  └─ VenueAddForm.tsx
-│  │  │  │  │  │     ├─ page.tsx
-│  │  │  │  │  │     ├─ Venue.tsx
-│  │  │  │  │  │     └─ [id]
-│  │  │  │  │  │        ├─ edit
-│  │  │  │  │  │        │  ├─ page.tsx
-│  │  │  │  │  │        │  └─ VenueEditForm.tsx
-│  │  │  │  │  │        ├─ page.tsx
-│  │  │  │  │  │        └─ VenueDetail.tsx
-│  │  │  │  │  ├─ feedback
-│  │  │  │  │  │  └─ Feedback.tsx
-│  │  │  │  │  ├─ help
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  ├─ profile
-│  │  │  │  │  │  ├─ edit
+│  │  │  │  ├─ additional-services
+│  │  │  │  │  ├─ notice
+│  │  │  │  │  │  └─ NoticeManagement.tsx
+│  │  │  │  │  ├─ notification
+│  │  │  │  │  │  ├─ dashboard
 │  │  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  │  ├─ recipients
+│  │  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  │  ├─ scheduled
+│  │  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  │  ├─ send
+│  │  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  │  ├─ settings
+│  │  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  │  └─ templates
+│  │  │  │  │  │     └─ page.tsx
+│  │  │  │  │  └─ sms
+│  │  │  │  │     └─ page.tsx
+│  │  │  │  ├─ beneficiary
+│  │  │  │  │  ├─ billing
 │  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  ├─ programs
-│  │  │  │  │  │  ├─ add
-│  │  │  │  │  │  │  ├─ page.tsx
-│  │  │  │  │  │  │  └─ Post.tsx
-│  │  │  │  │  │  ├─ OfflineProgram.tsx
-│  │  │  │  │  │  ├─ OnlineProgram.tsx
-│  │  │  │  │  │  ├─ page.tsx
-│  │  │  │  │  │  └─ [id]
-│  │  │  │  │  │     ├─ edit
-│  │  │  │  │  │     │  └─ page.tsx
-│  │  │  │  │  │     └─ sessions
-│  │  │  │  │  │        └─ page.tsx
-│  │  │  │  │  ├─ reservations
-│  │  │  │  │  │  ├─ page.tsx
-│  │  │  │  │  │  ├─ ProgramReservation.tsx
-│  │  │  │  │  │  ├─ Reservation.tsx
-│  │  │  │  │  │  ├─ Scheduler.tsx
-│  │  │  │  │  │  └─ SpaceReservation.tsx
-│  │  │  │  │  ├─ settings
-│  │  │  │  │  │  ├─ Contact.tsx
+│  │  │  │  │  ├─ consultation
 │  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  └─ users
-│  │  │  │  │     ├─ page.tsx
-│  │  │  │  │     └─ UserSettings.tsx
-│  │  │  │  ├─ (public)
+│  │  │  │  │  ├─ detail
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ list
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ new
+│  │  │  │  │     └─ page.tsx
+│  │  │  │  ├─ care
+│  │  │  │  │  ├─ BathScheduleManagement.tsx
+│  │  │  │  │  ├─ CareRecordAnalytics.tsx
+│  │  │  │  │  ├─ CareRecordManagement.tsx
+│  │  │  │  │  ├─ daily
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ DailyCareRecord.tsx
+│  │  │  │  │  ├─ history
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ MealAssistRecord.tsx
+│  │  │  │  │  ├─ medication
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ MedicationManagementAdvanced.tsx
+│  │  │  │  │  ├─ needs-assessment
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ NeedsAssessment.tsx
+│  │  │  │  │  ├─ NeedsAssessmentAdvanced.tsx
+│  │  │  │  │  ├─ records
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ report
+│  │  │  │  │     ├─ clinic
+│  │  │  │  │     │  └─ page.tsx
+│  │  │  │  │     ├─ elimination
+│  │  │  │  │     │  └─ page.tsx
+│  │  │  │  │     ├─ medication
+│  │  │  │  │     │  └─ page.tsx
+│  │  │  │  │     ├─ nursing
+│  │  │  │  │     │  └─ page.tsx
+│  │  │  │  │     └─ pressure-ulcer
+│  │  │  │  │        └─ page.tsx
+│  │  │  │  ├─ contents
+│  │  │  │  │  ├─ board-management
+│  │  │  │  │  │  ├─ consultation-requests
+│  │  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  │  └─ program-album
+│  │  │  │  │  │     └─ page.tsx
+│  │  │  │  │  ├─ free-board
+│  │  │  │  │  │  ├─ FreeBoardAdmin.tsx
+│  │  │  │  │  │  ├─ FreeBoardManagement.tsx
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ gallery
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ meal-plan
+│  │  │  │  │  │  ├─ MonthlyMealPlan.tsx
+│  │  │  │  │  │  ├─ page.tsx
+│  │  │  │  │  │  └─ WeeklyMealPlan.tsx
+│  │  │  │  │  ├─ page.tsx
+│  │  │  │  │  ├─ popup
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ program
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ website
+│  │  │  │  │     ├─ basic
+│  │  │  │  │     │  └─ page.tsx
+│  │  │  │  │     ├─ cost
+│  │  │  │  │     │  └─ page.tsx
+│  │  │  │  │     ├─ design
+│  │  │  │  │     │  └─ page.tsx
+│  │  │  │  │     ├─ donation
+│  │  │  │  │     │  └─ page.tsx
+│  │  │  │  │     ├─ intro
+│  │  │  │  │     │  └─ page.tsx
+│  │  │  │  │     ├─ menu
+│  │  │  │  │     │  └─ page.tsx
+│  │  │  │  │     └─ service
+│  │  │  │  │        └─ page.tsx
+│  │  │  │  ├─ dashboard
 │  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ api
-│  │  │  │  │  ├─ auth
-│  │  │  │  │  ├─ proxy
-│  │  │  │  │  │  └─ [...path]
-│  │  │  │  │  └─ webhooks
-│  │  │  │  │     └─ stripe
 │  │  │  │  ├─ error.tsx
 │  │  │  │  ├─ globals.css
-│  │  │  │  ├─ lib
 │  │  │  │  ├─ loading.tsx
-│  │  │  │  ├─ not-found.tsx
-│  │  │  │  ├─ reservation
-│  │  │  │  │  └─ [id]
-│  │  │  │  ├─ test-firebase
+│  │  │  │  ├─ login
 │  │  │  │  │  └─ page.tsx
-│  │  │  │  ├─ users
-│  │  │  │  │  └─ [id]
-│  │  │  │  │     └─ edit
-│  │  │  │  └─ venues
-│  │  │  │     └─ [id]
-│  │  │  │        └─ edit
+│  │  │  │  ├─ mypage
+│  │  │  │  │  ├─ MusculoskeletalTab.tsx
+│  │  │  │  │  ├─ NotificationsTab.tsx
+│  │  │  │  │  ├─ page.tsx
+│  │  │  │  │  ├─ ScheduleTab.tsx
+│  │  │  │  │  └─ SettingsTab.tsx
+│  │  │  │  ├─ not-found.tsx
+│  │  │  │  ├─ operations
+│  │  │  │  │  ├─ asset
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ cctv
+│  │  │  │  │  │  ├─ device
+│  │  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  │  ├─ room-consent
+│  │  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  │  ├─ transport
+│  │  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  │  ├─ view-log
+│  │  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  │  └─ weekly-check
+│  │  │  │  │  │     └─ page.tsx
+│  │  │  │  │  ├─ grievance
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ inspection
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ inventory
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ partner
+│  │  │  │  │  ├─ special-room
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ transport
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ vehicle
+│  │  │  │  │     ├─ page.tsx
+│  │  │  │  │     └─ VehicleManagement.tsx
+│  │  │  │  ├─ page.tsx
+│  │  │  │  ├─ settings
+│  │  │  │  │  ├─ facility
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ rbac
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ site
+│  │  │  │  │     └─ page.tsx
+│  │  │  │  └─ staff
+│  │  │  │     ├─ attendance
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ eduction
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ list
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ meeting
+│  │  │  │     │  ├─ page.tsx
+│  │  │  │     │  ├─ RepeatWorkTemplate.tsx
+│  │  │  │     │  ├─ WeeklyWorkTemplate.tsx
+│  │  │  │     │  ├─ WorkScheduleCalendar.tsx
+│  │  │  │     │  └─ WorkScheduleManagement.tsx
+│  │  │  │     ├─ schedule
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     └─ work-status
+│  │  │  │        └─ page.tsx
 │  │  │  ├─ components
-│  │  │  │  ├─ ai
-│  │  │  │  │  ├─ AutomationTasks.tsx
-│  │  │  │  │  ├─ PredictionAnalysis.tsx
-│  │  │  │  │  ├─ SentimentAnalysis.tsx
-│  │  │  │  │  └─ TimeSlotEfficiency.tsx
 │  │  │  │  ├─ AppShell.tsx
 │  │  │  │  ├─ Header.tsx
-│  │  │  │  ├─ n8n
-│  │  │  │  │  ├─ ApiConnections.tsx
-│  │  │  │  │  ├─ AutomationTriggers.tsx
-│  │  │  │  │  ├─ NotificationCenter.tsx
-│  │  │  │  │  ├─ SlackIntegration.tsx
-│  │  │  │  │  ├─ WebhookManager.tsx
-│  │  │  │  │  └─ WorkflowAutomation.tsx
-│  │  │  │  ├─ Pagination.tsx
-│  │  │  │  ├─ PeriodFilter.tsx
-│  │  │  │  ├─ RealTimeStats.tsx
-│  │  │  │  ├─ RoomUsagePrediction.tsx
-│  │  │  │  ├─ Sidebar.tsx
-│  │  │  │  └─ WeeklyTrends.tsx
-│  │  │  ├─ data
-│  │  │  │  ├─ comments.json
-│  │  │  │  ├─ content.json
-│  │  │  │  ├─ devices.json
-│  │  │  │  ├─ equipment-with-venues.json
-│  │  │  │  ├─ equipmentRentals.json
-│  │  │  │  ├─ features.json
-│  │  │  │  ├─ hero.json
-│  │  │  │  ├─ insights.json
-│  │  │  │  ├─ inventories.json
-│  │  │  │  ├─ menu.json
-│  │  │  │  ├─ partners.json
-│  │  │  │  ├─ posts.json
-│  │  │  │  ├─ programs.json
-│  │  │  │  ├─ rooms-by-venue.json
-│  │  │  │  ├─ rooms.json
-│  │  │  │  ├─ users.json
-│  │  │  │  └─ venues.json
-│  │  │  └─ providers
-│  │  │     └─ RootProvider.tsx
+│  │  │  │  └─ Sidebar.tsx
+│  │  │  └─ data
+│  │  │     └─ menu.json
 │  │  └─ tsconfig.json
 │  ├─ api
 │  │  ├─ ecosystem.config.js
@@ -207,22 +224,7 @@ agape-care
 │  │  │  ├─ main.ts
 │  │  │  └─ modules
 │  │  │     ├─ admin
-│  │  │     │  ├─ admin.controller.ts
-│  │  │     │  ├─ admin.interface.ts
-│  │  │     │  ├─ admin.module.ts
-│  │  │     │  └─ admin.service.ts
-│  │  │     ├─ ai
-│  │  │     │  ├─ ai.controller.ts
-│  │  │     │  ├─ ai.interface.ts
-│  │  │     │  ├─ ai.module.ts
-│  │  │     │  ├─ ai.processor.ts
-│  │  │     │  └─ ai.service.ts
 │  │  │     ├─ auth
-│  │  │     │  ├─ auth.controller.ts
-│  │  │     │  ├─ auth.interface.ts
-│  │  │     │  ├─ auth.module.ts
-│  │  │     │  ├─ auth.processor.ts
-│  │  │     │  └─ auth.service.ts
 │  │  │     ├─ index.ts
 │  │  │     ├─ mypage
 │  │  │     │  ├─ mypage.controller.ts
@@ -230,148 +232,120 @@ agape-care
 │  │  │     │  ├─ mypage.module.ts
 │  │  │     │  ├─ mypage.processor.ts
 │  │  │     │  └─ mypage.service.ts
-│  │  │     ├─ payments
-│  │  │     │  ├─ payment.controller.ts
-│  │  │     │  ├─ payment.interface.ts
-│  │  │     │  ├─ payment.module.ts
-│  │  │     │  ├─ payment.processor.ts
-│  │  │     │  └─ payment.service.ts
 │  │  │     ├─ programs
-│  │  │     │  ├─ program.controller.ts
-│  │  │     │  ├─ program.interface.ts
-│  │  │     │  ├─ program.module.ts
-│  │  │     │  ├─ program.processor.ts
-│  │  │     │  └─ program.service.ts
-│  │  │     ├─ reservations
-│  │  │     │  ├─ reservation.controller.ts
-│  │  │     │  ├─ reservation.interface.ts
-│  │  │     │  ├─ reservation.module.ts
-│  │  │     │  ├─ reservation.processor.ts
-│  │  │     │  └─ reservation.service.ts
-│  │  │     ├─ users
-│  │  │     │  ├─ user.controller.ts
-│  │  │     │  ├─ user.interface.ts
-│  │  │     │  ├─ user.module.ts
-│  │  │     │  └─ user.service.ts
-│  │  │     └─ venues
-│  │  │        ├─ venue.controller.ts
-│  │  │        ├─ venue.interface.ts
-│  │  │        ├─ venue.module.ts
-│  │  │        └─ venue.service.ts
+│  │  │     └─ users
 │  │  └─ tsconfig.json
 │  ├─ web
+│  │  ├─ index.css
+│  │  ├─ index.html
 │  │  ├─ next-env.d.ts
 │  │  ├─ next.config.mjs
 │  │  ├─ package.json
 │  │  ├─ postcss.config.mjs
 │  │  ├─ project.json
 │  │  ├─ public
-│  │  │  ├─ favicon
-│  │  │  │  ├─ android-chrome-192x192.png
-│  │  │  │  ├─ android-chrome-512x512.png
-│  │  │  │  ├─ apple-touch-icon.png
-│  │  │  │  ├─ favicon-16x16.png
-│  │  │  │  ├─ favicon-32x32.png
-│  │  │  │  ├─ favicon.ico
-│  │  │  │  └─ site.webmanifest
-│  │  │  ├─ images
-│  │  │  │  ├─ avatar.png
-│  │  │  │  ├─ creator_hero_bg.jpg
-│  │  │  │  ├─ cta_sec_bk.jpg
-│  │  │  │  ├─ facilities_hero_bg.jpg
-│  │  │  │  ├─ feature_sp_1.png
-│  │  │  │  ├─ feature_sp_2.png
-│  │  │  │  ├─ feature_sp_3.png
-│  │  │  │  ├─ footer_logo.png
-│  │  │  │  ├─ header_logo.png
-│  │  │  │  ├─ hero_sp_1.png
-│  │  │  │  ├─ hero_sp_2.png
-│  │  │  │  ├─ hero_sp_3.png
-│  │  │  │  ├─ image.png
-│  │  │  │  ├─ logo.png
-│  │  │  │  ├─ program_hero_bg.png
-│  │  │  │  ├─ room_sp_1.jpg
-│  │  │  │  ├─ room_sp_2.jpg
-│  │  │  │  ├─ room_sp_3.jpg
-│  │  │  │  ├─ room_sp_4.jpg
-│  │  │  │  ├─ social_hero_bk.jpg
-│  │  │  │  ├─ venue_sp_1.jpg
-│  │  │  │  ├─ venue_sp_2.jpg
-│  │  │  │  └─ venue_sp_3.jpg
-│  │  │  └─ policies
-│  │  │     ├─ privacy.html
-│  │  │     └─ terms.html
 │  │  ├─ server.ts
 │  │  ├─ src
 │  │  │  ├─ app
-│  │  │  │  ├─ (auth)
-│  │  │  │  │  ├─ callback
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  ├─ login
-│  │  │  │  │  │  ├─ login.tsx
-│  │  │  │  │  │  ├─ page.tsx
-│  │  │  │  │  │  └─ SSO.tsx
-│  │  │  │  │  ├─ onboarding
-│  │  │  │  │  │  ├─ Onboarding.tsx
-│  │  │  │  │  │  └─ page.tsx
-│  │  │  │  │  └─ signup
-│  │  │  │  │     ├─ page.tsx
-│  │  │  │  │     └─ Signup.tsx
-│  │  │  │  ├─ (protected)
-│  │  │  │  │  └─ mypage
-│  │  │  │  │     ├─ MyPageMainContent.tsx
-│  │  │  │  │     ├─ MyPageSidebar.tsx
-│  │  │  │  │     ├─ notifications
-│  │  │  │  │     │  └─ page.tsx
-│  │  │  │  │     ├─ page.tsx
-│  │  │  │  │     ├─ points
-│  │  │  │  │     │  └─ page.tsx
-│  │  │  │  │     ├─ profile
-│  │  │  │  │     │  └─ page.tsx
-│  │  │  │  │     ├─ programs
-│  │  │  │  │     │  └─ page.tsx
-│  │  │  │  │     ├─ reservations
-│  │  │  │  │     │  └─ page.tsx
-│  │  │  │  │     ├─ reviews
-│  │  │  │  │     │  └─ page.tsx
-│  │  │  │  │     └─ security
-│  │  │  │  │        └─ page.tsx
-│  │  │  │  ├─ api
-│  │  │  │  │  ├─ auth
-│  │  │  │  │  ├─ proxy
-│  │  │  │  │  │  └─ [...path]
-│  │  │  │  │  ├─ translate
-│  │  │  │  │  └─ webhooks
-│  │  │  │  │     └─ stripe
+│  │  │  │  ├─ admission
+│  │  │  │  │  └─ page.tsx
 │  │  │  │  ├─ error.tsx
+│  │  │  │  ├─ facility
+│  │  │  │  │  ├─ page.tsx
+│  │  │  │  │  └─ section
+│  │  │  │  │     ├─ CommonAreas.tsx
+│  │  │  │  │     ├─ FacilityHero.tsx
+│  │  │  │  │     ├─ FloorGuide.tsx
+│  │  │  │  │     ├─ RoomTypes.tsx
+│  │  │  │  │     └─ SafetyFeatures.tsx
 │  │  │  │  ├─ globals.css
+│  │  │  │  ├─ guide
+│  │  │  │  │  ├─ cost
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ visit
+│  │  │  │  │     └─ page.tsx
+│  │  │  │  ├─ intro
+│  │  │  │  │  ├─ corporation
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ greeting
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ history
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ introduction
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ location
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ staff
+│  │  │  │  │     └─ page.tsx
 │  │  │  │  ├─ loading.tsx
 │  │  │  │  ├─ not-found.tsx
-│  │  │  │  └─ page.tsx
+│  │  │  │  ├─ notices
+│  │  │  │  │  ├─ announcements
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ board
+│  │  │  │  │  │  ├─ DeleteConfirmModal.tsx
+│  │  │  │  │  │  ├─ EditPostModal.tsx
+│  │  │  │  │  │  ├─ page.tsx
+│  │  │  │  │  │  ├─ PostDetailModal.tsx
+│  │  │  │  │  │  └─ WritePostModal.tsx
+│  │  │  │  │  ├─ communities
+│  │  │  │  │  │  ├─ detail
+│  │  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ gallery
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ meal-plan
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  ├─ program-schedule
+│  │  │  │  │  │  └─ page.tsx
+│  │  │  │  │  └─ programs
+│  │  │  │  │     └─ page.tsx
+│  │  │  │  ├─ page.tsx
+│  │  │  │  ├─ section
+│  │  │  │  │  ├─ AdmissionProcessSection.tsx
+│  │  │  │  │  ├─ ConsultationSection.tsx
+│  │  │  │  │  ├─ ContactSection.tsx
+│  │  │  │  │  ├─ FeaturesSection.tsx
+│  │  │  │  │  ├─ HeroSection.tsx
+│  │  │  │  │  ├─ IntroSection.tsx
+│  │  │  │  │  ├─ NewsSection.tsx
+│  │  │  │  │  └─ ServicesSection.tsx
+│  │  │  │  └─ services
+│  │  │  │     ├─ admission-process
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ cognitive-program
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ daily-life
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ family-support
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ individual-care
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ leisure-program
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ medical-nursing
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ nutrition-care
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     ├─ rehabilitation
+│  │  │  │     │  └─ page.tsx
+│  │  │  │     └─ step-care-program
+│  │  │  │        └─ page.tsx
 │  │  │  ├─ components
-│  │  │  │  ├─ ai
-│  │  │  │  │  └─ AIChat.tsx
-│  │  │  │  ├─ AIInsights.tsx
 │  │  │  │  ├─ AppShell.tsx
+│  │  │  │  ├─ FloatingSidebar.tsx
 │  │  │  │  ├─ Footer.tsx
-│  │  │  │  ├─ Header.tsx
-│  │  │  │  ├─ home
-│  │  │  │  │  ├─ AIViewSection.tsx
-│  │  │  │  │  ├─ CTASection.tsx
-│  │  │  │  │  ├─ FacilitiesSection.tsx
-│  │  │  │  │  ├─ FeatureSection.tsx
-│  │  │  │  │  ├─ InsightSection.tsx
-│  │  │  │  │  ├─ MainHeroSection.tsx
-│  │  │  │  │  ├─ PartnerSlideSection.tsx
-│  │  │  │  │  ├─ ProgramSection.tsx
-│  │  │  │  │  └─ QuickMenuSection.tsx
-│  │  │  │  ├─ Input.tsx
-│  │  │  │  ├─ Pagination.tsx
-│  │  │  │  ├─ QuickFab.tsx
-│  │  │  │  ├─ TermsModal.tsx
-│  │  │  │  └─ Toast.tsx
+│  │  │  │  ├─ navbar
+│  │  │  │  │  ├─ AllMenu.tsx
+│  │  │  │  │  ├─ DesktopDropdown.tsx
+│  │  │  │  │  ├─ MobileMenu.tsx
+│  │  │  │  │  └─ Navbar.tsx
+│  │  │  │  └─ NoticeSidebar.tsx
 │  │  │  ├─ data
+│  │  │  │  └─ menu.json
 │  │  │  ├─ global.d.ts
+│  │  │  ├─ image
+│  │  │  │  └─ logo.png
 │  │  │  ├─ lib
 │  │  │  │  ├─ email.ts
 │  │  │  │  ├─ huggingface.ts
@@ -380,6 +354,9 @@ agape-care
 │  │  │  ├─ next-env.d.ts
 │  │  │  ├─ providers
 │  │  │  │  └─ RootProvider.tsx
+│  │  │  ├─ public
+│  │  │  │  └─ policies
+│  │  │  │     └─ privacy.html
 │  │  │  ├─ web-types.d.ts
 │  │  │  └─ web-types.ts
 │  │  └─ tsconfig.json
@@ -388,19 +365,12 @@ agape-care
 │     ├─ project.json
 │     ├─ src
 │     │  ├─ events
-│     │  │  ├─ notification.ts
-│     │  │  └─ reservation.ts
-│     │  ├─ main.ts
 │     │  ├─ metrics.ts
 │     │  ├─ processors
-│     │  │  ├─ notification.ts
-│     │  │  └─ reservation.ts
 │     │  └─ schedules
-│     │     └─ scheduler.ts
 │     └─ tsconfig.json
 ├─ docs
 │  ├─ assets
-│  │  └─ ConnectWon.png
 │  ├─ database-schema-accounting-erp.md
 │  ├─ database-schema-attendance.md
 │  ├─ database-schema-consultation.md
@@ -433,10 +403,7 @@ agape-care
 │     ├─ 19_트러블슈팅건.md
 │     └─ 20_참고자료.md
 ├─ eslint.config.mjs
-├─ firebase.json
-├─ index.html
 ├─ infra
-│  ├─ cloudbuild.yaml
 │  ├─ database
 │  │  ├─ conf
 │  │  │  ├─ pg_hba.conf
@@ -449,6 +416,11 @@ agape-care
 │  ├─ docker
 │  │  ├─ .wslconfig
 │  │  ├─ docker-compose.yml
+│  │  ├─ Dockerfile.admin
+│  │  ├─ Dockerfile.api
+│  │  ├─ Dockerfile.db
+│  │  ├─ Dockerfile.web
+│  │  ├─ Dockerfile.worker
 │  │  └─ nginx.conf
 │  ├─ infra-types.ts
 │  └─ n8n
@@ -457,7 +429,83 @@ agape-care
 ├─ LICENSE
 ├─ nx.json
 ├─ package.json
-├─ packages.json
+├─ packages
+│  ├─ api-contract
+│  │  ├─ package.json
+│  │  ├─ project.json
+│  │  ├─ src
+│  │  │  ├─ api-contract-types.ts
+│  │  │  ├─ contracts
+│  │  │  └─ schemas
+│  │  └─ tsconfig.json
+│  ├─ database
+│  │  ├─ package.json
+│  │  ├─ prisma
+│  │  │  └─ schema.prisma
+│  │  ├─ project.json
+│  │  ├─ src
+│  │  │  ├─ adapters
+│  │  │  └─ index.ts
+│  │  └─ tsconfig.json
+│  ├─ logger
+│  │  ├─ package.json
+│  │  ├─ project.json
+│  │  ├─ src
+│  │  │  ├─ console.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ logger-types.ts
+│  │  │  └─ logger.ts
+│  │  └─ tsconfig.json
+│  └─ ui
+│     ├─ package.json
+│     ├─ project.json
+│     ├─ public
+│     │  ├─ favicon
+│     │  ├─ fonts
+│     │  ├─ icons
+│     │  └─ images
+│     ├─ src
+│     │  ├─ animations
+│     │  │  └─ Animation.tsx
+│     │  ├─ components
+│     │  │  ├─ Button.tsx
+│     │  │  ├─ Card.tsx
+│     │  │  ├─ Checkbox.tsx
+│     │  │  ├─ Divider.tsx
+│     │  │  ├─ Drawer.tsx
+│     │  │  ├─ EmptyState.tsx
+│     │  │  ├─ ErrorPage.tsx
+│     │  │  ├─ Field.tsx
+│     │  │  ├─ Form.tsx
+│     │  │  ├─ Input.tsx
+│     │  │  ├─ LoadingPage.tsx
+│     │  │  ├─ LoadingSpinner.tsx
+│     │  │  ├─ Modal.tsx
+│     │  │  ├─ RadioGroup.tsx
+│     │  │  ├─ Select.tsx
+│     │  │  ├─ Textarea.tsx
+│     │  │  └─ Toolbar.tsx
+│     │  ├─ hooks
+│     │  │  ├─ useBoolean.ts
+│     │  │  ├─ useDebounce.ts
+│     │  │  ├─ useDisclosure.ts
+│     │  │  ├─ useEventListener.ts
+│     │  │  ├─ useIsMounted.ts
+│     │  │  ├─ useMediaQuery.ts
+│     │  │  ├─ useOnClickOutside.ts
+│     │  │  └─ useThrottle.ts
+│     │  ├─ index.ts
+│     │  ├─ styles
+│     │  │  ├─ animations.css
+│     │  │  └─ customs.css
+│     │  ├─ templates
+│     │  │  ├─ error.tsx
+│     │  │  └─ loading.tsx
+│     │  ├─ ui-types.ts
+│     │  └─ utils
+│     │     └─ cn.ts
+│     ├─ tailwind.config.mjs
+│     └─ tsconfig.json
 ├─ pnpm-lock.yaml
 ├─ pnpm-workspace.yaml
 ├─ postcss.config.ts
@@ -465,231 +513,15 @@ agape-care
 ├─ PROJECT-ARCH.md
 ├─ README.md
 ├─ renovate.json
-├─ setup-structure.ps1
-├─ src
-│  ├─ App.tsx
-│  ├─ components
-│  │  └─ feature
-│  │     ├─ FloatingSidebar.tsx
-│  │     ├─ Footer.tsx
-│  │     ├─ Navbar.tsx
-│  │     ├─ NoticeSidebar.tsx
-│  │     └─ ServiceSidebar.tsx
-│  ├─ i18n
-│  │  ├─ index.ts
-│  │  └─ local
-│  │     └─ index.ts
-│  ├─ index.css
-│  ├─ main.tsx
-│  ├─ mocks
-│  │  ├─ accounting.ts
-│  │  ├─ board.ts
-│  │  ├─ communities.ts
-│  │  ├─ communityDetail.ts
-│  │  ├─ consultations.ts
-│  │  ├─ gallery.ts
-│  │  ├─ mealPlan.ts
-│  │  ├─ payroll.ts
-│  │  ├─ programSchedule.ts
-│  │  ├─ residents-management.ts
-│  │  └─ residents.ts
-│  ├─ pages
-│  │  ├─ admin
-│  │  │  ├─ components
-│  │  │  │  ├─ AccountingManagement.tsx
-│  │  │  │  ├─ AccountManagement.tsx
-│  │  │  │  ├─ AdminHeader.tsx
-│  │  │  │  ├─ AdminSidebar.tsx
-│  │  │  │  ├─ AssetManagement.tsx
-│  │  │  │  ├─ AttendanceManagement.tsx
-│  │  │  │  ├─ BasicInfoEditor.tsx
-│  │  │  │  ├─ BathScheduleManagement.tsx
-│  │  │  │  ├─ BeneficiaryDetail.tsx
-│  │  │  │  ├─ BeneficiaryList.tsx
-│  │  │  │  ├─ BeneficiaryNew.tsx
-│  │  │  │  ├─ BurdenRateManagement.tsx
-│  │  │  │  ├─ CareHistory.tsx
-│  │  │  │  ├─ CareRecordAnalytics.tsx
-│  │  │  │  ├─ CareRecordManagement.tsx
-│  │  │  │  ├─ CCTVDeviceManagement.tsx
-│  │  │  │  ├─ CCTVRoomConsent.tsx
-│  │  │  │  ├─ CCTVViewLog.tsx
-│  │  │  │  ├─ CCTVWeeklyCheck.tsx
-│  │  │  │  ├─ ClosingManagement.tsx
-│  │  │  │  ├─ ConsultationManagement.tsx
-│  │  │  │  ├─ ConsultationRequestManagement.tsx
-│  │  │  │  ├─ ContentManagement.tsx
-│  │  │  │  ├─ CostConsultationEditor.tsx
-│  │  │  │  ├─ DailyCareRecord.tsx
-│  │  │  │  ├─ DashboardOverview.tsx
-│  │  │  │  ├─ DesignInfoEditor.tsx
-│  │  │  │  ├─ DonationVolunteerEditor.tsx
-│  │  │  │  ├─ EducationManagement.tsx
-│  │  │  │  ├─ FacilityInfo.tsx
-│  │  │  │  ├─ FamilyCommunication.tsx
-│  │  │  │  ├─ FreeBoardAdmin.tsx
-│  │  │  │  ├─ FreeBoardManagement.tsx
-│  │  │  │  ├─ GalleryManagement.tsx
-│  │  │  │  ├─ GrievanceManagement.tsx
-│  │  │  │  ├─ InformationManagement.tsx
-│  │  │  │  ├─ InspectionManagement.tsx
-│  │  │  │  ├─ InsuranceClaimManagement.tsx
-│  │  │  │  ├─ IntroEditor.tsx
-│  │  │  │  ├─ InventoryManagement.tsx
-│  │  │  │  ├─ JournalManagement.tsx
-│  │  │  │  ├─ MealAssistRecord.tsx
-│  │  │  │  ├─ MealPlanManagement.tsx
-│  │  │  │  ├─ MealPlanManagementAdvanced.tsx
-│  │  │  │  ├─ MedicationManagement.tsx
-│  │  │  │  ├─ MedicationManagementAdvanced.tsx
-│  │  │  │  ├─ MeetingManagement.tsx
-│  │  │  │  ├─ MenuSettingsEditor.tsx
-│  │  │  │  ├─ NeedsAssessment.tsx
-│  │  │  │  ├─ NeedsAssessmentAdvanced.tsx
-│  │  │  │  ├─ NoticeManagement.tsx
-│  │  │  │  ├─ NotificationDashboard.tsx
-│  │  │  │  ├─ NotificationSend.tsx
-│  │  │  │  ├─ NursingRecord.tsx
-│  │  │  │  ├─ OutingManagement.tsx
-│  │  │  │  ├─ PartnerManagement.tsx
-│  │  │  │  ├─ PayrollManagement.tsx
-│  │  │  │  ├─ PopupManagement.tsx
-│  │  │  │  ├─ ProgramAlbumManagement.tsx
-│  │  │  │  ├─ ProgramManagement.tsx
-│  │  │  │  ├─ RBACManagement.tsx
-│  │  │  │  ├─ RepeatWorkTemplate.tsx
-│  │  │  │  ├─ ReportClinic.tsx
-│  │  │  │  ├─ ReportElimination.tsx
-│  │  │  │  ├─ ReportMedication.tsx
-│  │  │  │  ├─ ReportNursing.tsx
-│  │  │  │  ├─ ReportPressureUlcer.tsx
-│  │  │  │  ├─ ResidentManagement.tsx
-│  │  │  │  ├─ ResidentRegistration.tsx
-│  │  │  │  ├─ ServiceEditor.tsx
-│  │  │  │  ├─ ServicesManagement.tsx
-│  │  │  │  ├─ SiteSettings.tsx
-│  │  │  │  ├─ SpecialRoomUse.tsx
-│  │  │  │  ├─ StaffManagement.tsx
-│  │  │  │  ├─ StaffWorkStatus.tsx
-│  │  │  │  ├─ TransportService.tsx
-│  │  │  │  ├─ VehicleManagement.tsx
-│  │  │  │  ├─ WeeklyWorkTemplate.tsx
-│  │  │  │  ├─ WorkScheduleCalendar.tsx
-│  │  │  │  └─ WorkScheduleManagement.tsx
-│  │  │  ├─ dashboard
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ login
-│  │  │  │  └─ page.tsx
-│  │  │  └─ my-page
-│  │  │     ├─ components
-│  │  │     │  ├─ MusculoskeletalTab.tsx
-│  │  │     │  ├─ NotificationsTab.tsx
-│  │  │     │  ├─ ScheduleTab.tsx
-│  │  │     │  └─ SettingsTab.tsx
-│  │  │     └─ page.tsx
-│  │  ├─ admission
-│  │  │  └─ page.tsx
-│  │  ├─ board
-│  │  │  ├─ components
-│  │  │  │  ├─ DeleteConfirmModal.tsx
-│  │  │  │  ├─ EditPostModal.tsx
-│  │  │  │  ├─ PostDetailModal.tsx
-│  │  │  │  └─ WritePostModal.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ communities
-│  │  │  ├─ detail
-│  │  │  │  └─ page.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ corporation
-│  │  │  └─ page.tsx
-│  │  ├─ cost
-│  │  │  └─ page.tsx
-│  │  ├─ facility
-│  │  │  ├─ components
-│  │  │  │  ├─ CommonAreas.tsx
-│  │  │  │  ├─ FacilityHero.tsx
-│  │  │  │  ├─ FloorGuide.tsx
-│  │  │  │  ├─ RoomTypes.tsx
-│  │  │  │  └─ SafetyFeatures.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ gallery
-│  │  │  └─ page.tsx
-│  │  ├─ home
-│  │  │  ├─ components
-│  │  │  │  ├─ AdmissionProcessSection.tsx
-│  │  │  │  ├─ ConsultationSection.tsx
-│  │  │  │  ├─ ContactSection.tsx
-│  │  │  │  ├─ FeaturesSection.tsx
-│  │  │  │  ├─ HeroSection.tsx
-│  │  │  │  ├─ IntroSection.tsx
-│  │  │  │  ├─ LocationSection.tsx
-│  │  │  │  ├─ NewsSection.tsx
-│  │  │  │  └─ ServicesSection.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ intro
-│  │  │  ├─ components
-│  │  │  │  ├─ DirectorMessage.tsx
-│  │  │  │  ├─ IntroHero.tsx
-│  │  │  │  ├─ OrganizationChart.tsx
-│  │  │  │  └─ PhilosophySection.tsx
-│  │  │  ├─ history
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ page.tsx
-│  │  │  └─ staff
-│  │  │     └─ page.tsx
-│  │  ├─ meal-plan
-│  │  │  └─ page.tsx
-│  │  ├─ mobile
-│  │  │  └─ attendance
-│  │  │     └─ page.tsx
-│  │  ├─ NotFound.tsx
-│  │  ├─ notice
-│  │  │  └─ page.tsx
-│  │  ├─ program-schedule
-│  │  │  └─ page.tsx
-│  │  ├─ programs
-│  │  │  └─ page.tsx
-│  │  ├─ services
-│  │  │  ├─ admission-process
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ cognitive-program
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ daily-life
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ family-support
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ individual-care
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ leisure-program
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ medical-nursing
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ nutrition-care
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ rehabilitation
-│  │  │  │  └─ page.tsx
-│  │  │  ├─ step-care-program
-│  │  │  │  └─ page.tsx
-│  │  │  └─ training-program
-│  │  │     ├─ components
-│  │  │     │  ├─ Breadcrumb.tsx
-│  │  │     │  ├─ ConsultationCTA.tsx
-│  │  │     │  ├─ LegalNotice.tsx
-│  │  │     │  ├─ ProgramBenefits.tsx
-│  │  │     │  ├─ ProgramOverview.tsx
-│  │  │     │  ├─ RelatedServices.tsx
-│  │  │     │  ├─ ServiceHero.tsx
-│  │  │     │  ├─ StageDetails.tsx
-│  │  │     │  └─ TestimonialsGallery.tsx
-│  │  │     └─ page.tsx
-│  │  └─ visit
-│  │     └─ page.tsx
-│  └─ supabaseClient.ts
-├─ tsconfig.app.json
+├─ tmp
+│  ├─ apps
+│  │  ├─ api
+│  │  └─ worker
+│  └─ packages
+│     ├─ database
+│     └─ ui
 ├─ tsconfig.base.json
 ├─ tsconfig.json
-├─ tsconfig.node.json
-├─ tsconfigs.json
-└─ vite.config.ts
+└─ vitest.config.ts
 
 ```

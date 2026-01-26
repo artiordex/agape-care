@@ -1,5 +1,5 @@
 {
-  "name": "database",
+  "name": "@agape-care/database",
   "sourceRoot": "packages/database/src",
   "projectType": "library",
   "tags": ["type:lib", "layer:backend"],

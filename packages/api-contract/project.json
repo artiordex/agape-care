@@ -1,5 +1,5 @@
 {
-  "name": "api-contract",
+  "name": "@agape-care/api-contract",
   "sourceRoot": "packages/api-contract/src",
   "projectType": "library",
   "tags": ["type:lib", "layer:shared"],

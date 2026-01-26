@@ -11,7 +11,14 @@
         "main": "apps/worker/src/main.ts",
         "tsConfig": "apps/worker/tsconfig.json",
         "outputPath": "dist/apps/worker",
-        "assets": ["apps/worker/src/**/*.json", "apps/worker/package.json"]
+        "assets": [
+          "apps/worker/src/**/*.json",
+          {
+            "input": "apps/worker",
+            "glob": "package.json",
+            "output": "."
+          }
+        ]
       },
       "outputs": ["{workspaceRoot}/dist/apps/worker"]
     },
@@ -20,13 +27,13 @@
       "executor": "@nx/js:node",
       "options": {
         "buildTarget": "@agape-care/worker:build",
-        "inspect": true,
-        "watch": true
+        "watch": true,
+        "inspect": false
       },
       "configurations": {
         "production": {
-          "inspect": false,
-          "watch": false
+          "watch": false,
+          "inspect": false
         }
       }
     },
@@ -43,9 +50,8 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["apps/worker/**/*.{ts,tsx,js,jsx}"]
-      },
-      "outputs": ["{options.outputFile}"]
+        "lintFilePatterns": ["apps/worker/**/*.ts"]
+      }
     },
 
     "type-check": {
@@ -65,5 +71,9 @@
     }
   },
 
-  "implicitDependencies": ["database", "logger", "api-contract"]
+  "implicitDependencies": [
+    "@agape-care/database",
+    "@agape-care/logger",
+    "@agape-care/api-contract"
+  ]
 }

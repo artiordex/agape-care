@@ -1,5 +1,5 @@
 {
-  "name": "logger",
+  "name": "@agape-care/logger",
   "version": "1.0.0",
   "description": "Agape-Care 로깅 모듈 (Winston 기반 - Cloud/Local/Container 공용)",
   "private": true,

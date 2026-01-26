@@ -1,5 +1,5 @@
 {
-  "name": "ui",
+  "name": "@agape-care/ui",
   "projectType": "library",
   "sourceRoot": "packages/ui/src",
   "root": "packages/ui",
