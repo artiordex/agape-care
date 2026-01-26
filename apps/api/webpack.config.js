@@ -1,12 +1,8 @@
-import { composePlugins, withNx } from '@nx/webpack';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const { composePlugins, withNx } = require('@nx/webpack');
+const path = require('path');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-export default composePlugins(withNx(), config => {
-  // tsconfig paths를 webpack alias로 변환
+module.exports = composePlugins(withNx(), config => {
+  // paths alias 설정
   config.resolve = {
     ...config.resolve,
     alias: {
@@ -18,7 +14,18 @@ export default composePlugins(withNx(), config => {
       '@agape-care/database': path.resolve(__dirname, '../../packages/database/src/index.ts'),
       '@agape-care/logger': path.resolve(__dirname, '../../packages/logger/src/index.ts'),
     },
+    extensions: ['.ts', '.js', '.json'],
   };
+
+  // 네이티브 모듈 externals 설정
+  config.externals = [
+    /^@nestjs/,
+    /^@prisma/,
+    'bcrypt',
+    'bcryptjs',
+    'class-transformer',
+    'class-validator',
+  ];
 
   return config;
 });

@@ -1,7 +1,7 @@
 /**
- * Description : app.module.ts - 📌 Agape-Care 요양원 ERP 기본 NestJS 루트 모듈
+ * Description : app.module.ts - 📌 Agape-Care Minimal Auth API
  * Author : Shiwoo Min
- * Date : 2026-01-25
+ * Date : 2026-01-26
  */
 
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
@@ -9,10 +9,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { HealthModule } from './modules/health/health.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { LoggerModule } from '@agape-care/logger';
+import { DatabaseModule } from '@agape-care/database';
 
 @Module({
   imports: [
-    /* 환경 변수 설정 (전역) */
+    /* 환경 설정 */
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env.local', '.env'],
@@ -20,26 +24,33 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
       expandVariables: true,
     }),
 
-    /* 스케줄러 모듈 (크론/배치 작업) */
+    /* DB 연결 */
+    DatabaseModule,
+
+    /* 로깅 */
+    LoggerModule,
+
+    /* 스케줄러 (필요 없으면 제거 가능) */
     ScheduleModule.forRoot(),
 
-    /* API Rate Limit (요청 제한) */
+    /* API Rate Limit */
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => [
         {
-          ttl: config.get('THROTTLE_TTL') || 60000, // 기본: 60초
-          limit: config.get('THROTTLE_LIMIT') || 100, // 기본: 100회
+          ttl: config.get('THROTTLE_TTL') || 60000,
+          limit: config.get('THROTTLE_LIMIT') || 100,
         },
       ],
     }),
+    AuthModule,
+    HealthModule,
   ],
 
   controllers: [],
 
   providers: [
-    /* 전역 Rate Limiting Guard */
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
@@ -47,16 +58,13 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
   ],
 })
 export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    // 기본 버전에서는 미들웨어 없음
-  }
+  configure(consumer: MiddlewareConsumer) {}
 
   async onModuleInit() {
-    console.log('Agape-Care ERP API (Minimal Version) Starting...');
-    console.log('Environment:', process.env.NODE_ENV || 'development');
+    console.log('Agape-Care Auth API Starting...');
   }
 
   async onModuleDestroy() {
-    console.log('Agape-Care ERP API Server Shutting down...');
+    console.log('Agape-Care API Shutting down...');
   }
 }

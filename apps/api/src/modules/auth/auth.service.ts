@@ -1,21 +1,31 @@
+/**
+ * Description : auth.service.ts - 📌 인증 서비스 (로그인 / 토큰 / 사용자 정보)
+ * Author : Shiwoo Min
+ * Date : 2026-01-26
+ */
+
+import type { AuthUser, LoginRequest, LoginResponse } from '@agape-care/api-contract';
+import { PrismaService } from '@agape-care/database';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { prisma } from '@agape-care/database';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import type { LoginRequest, LoginResponse, AuthUser } from '@agape-care/api-contract';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private jwtService: JwtService,
-    private configService: ConfigService,
+    private readonly prisma: PrismaService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
 
+  /**
+   * 로그인 처리
+   */
   async login(loginDto: LoginRequest): Promise<LoginResponse> {
     const { email, password } = loginDto;
 
-    const employee = await prisma.employee.findUnique({
+    const employee = await this.prisma.employee.findUnique({
       where: { email: email.toLowerCase() },
     });
 
@@ -24,7 +34,6 @@ export class AuthService {
     }
 
     const isPasswordValid = await bcrypt.compare(password, employee.passwordHash);
-
     if (!isPasswordValid) {
       throw new UnauthorizedException('이메일 또는 비밀번호가 올바르지 않습니다');
     }
@@ -33,7 +42,8 @@ export class AuthService {
       throw new UnauthorizedException('비활성화된 계정입니다');
     }
 
-    await prisma.employee.update({
+    // 마지막 로그인 타임스탬프 업데이트
+    await this.prisma.employee.update({
       where: { id: employee.id },
       data: { lastLoginAt: new Date() },
     });
@@ -57,9 +67,14 @@ export class AuthService {
     };
   }
 
-  async refreshToken(userId: string): Promise<{ accessToken: string; refreshToken: string }> {
-    const employee = await prisma.employee.findUnique({
-      where: { id: BigInt(userId) },
+  /**
+   * 리프레시 토큰 → 새로운 AccessToken 발급
+   */
+  async refreshToken(userId: string) {
+    const id = BigInt(userId);
+
+    const employee = await this.prisma.employee.findUnique({
+      where: { id },
     });
 
     if (!employee || employee.status !== 'ACTIVE') {
@@ -69,9 +84,14 @@ export class AuthService {
     return this.generateTokens(userId, employee.email!);
   }
 
+  /**
+   * 현재 사용자 정보 조회
+   */
   async getMe(userId: string) {
-    const employee = await prisma.employee.findUnique({
-      where: { id: BigInt(userId) },
+    const id = BigInt(userId);
+
+    const employee = await this.prisma.employee.findUnique({
+      where: { id },
       select: {
         id: true,
         email: true,
@@ -98,25 +118,34 @@ export class AuthService {
     };
   }
 
+  /**
+   * JWT 액세스/리프레시 토큰 생성
+   */
   private async generateTokens(userId: string, email: string) {
     const payload = { sub: userId, email };
 
-    const accessToken = this.jwtService.sign(payload, {
-      secret: this.configService.get('JWT_SECRET'),
-      expiresIn: this.configService.get('JWT_EXPIRES_IN'),
+    const accessToken = this.jwtService.sign(payload as any, {
+      secret: this.configService.get<string>('JWT_SECRET')!,
+      // 타입스크립트가 StringValue를 요구해서 any로 살짝 눌러줌
+      expiresIn: this.configService.get('JWT_EXPIRES_IN') as any,
     });
 
-    const refreshToken = this.jwtService.sign(payload, {
-      secret: this.configService.get('JWT_REFRESH_SECRET'),
-      expiresIn: this.configService.get('JWT_REFRESH_EXPIRES_IN'),
+    const refreshToken = this.jwtService.sign(payload as any, {
+      secret: this.configService.get<string>('JWT_REFRESH_SECRET')!,
+      expiresIn: this.configService.get('JWT_REFRESH_EXPIRES_IN') as any,
     });
 
     return { accessToken, refreshToken };
   }
 
+  /**
+   * JWT Strategy에서 사용되는 유저 검증
+   */
   async validateUser(userId: string) {
-    const employee = await prisma.employee.findUnique({
-      where: { id: BigInt(userId) },
+    const id = BigInt(userId);
+
+    const employee = await this.prisma.employee.findUnique({
+      where: { id },
     });
 
     if (!employee || employee.status !== 'ACTIVE') {
