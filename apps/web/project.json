@@ -1,40 +1,38 @@
 {
   "name": "@agape-care/web",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/web/src",
   "projectType": "application",
-  "tags": ["type:app", "layer:frontend", "platform:nextjs"],
-
+  "tags": ["type:app", "layer:frontend", "nextjs", "web"],
   "targets": {
-    "build": {
-      "executor": "@nx/next:build",
+    "dev": {
+      "command": "pnpm --filter @agape-care/web dev",
       "options": {
-        "outputPath": "dist/apps/web",
-        "root": "apps/web",
-        "env": {
-          "NEXT_PUBLIC_APP_TYPE": "web"
-        }
+        "cwd": "apps/web"
       }
     },
-
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{workspaceRoot}/dist/apps/web"],
+      "options": {
+        "root": "apps/web",
+        "outputPath": "dist/apps/web"
+      }
+    },
     "serve": {
       "executor": "@nx/next:server",
       "options": {
         "buildTarget": "@agape-care/web:build",
         "dev": true,
-        "port": 3000,
-        "env": {
-          "NEXT_PUBLIC_APP_TYPE": "web"
-        }
+        "port": 3000
       }
     },
-
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
-        "lintFilePatterns": ["apps/web/**/*.ts", "apps/web/**/*.tsx"]
+        "lintFilePatterns": ["apps/web/**/*.{ts,tsx,js,jsx}"]
       }
     },
-
     "test": {
       "executor": "@nx/vite:test",
       "options": {
@@ -42,6 +40,5 @@
       }
     }
   },
-
-  "implicitDependencies": ["ui", "api-contract"]
+  "implicitDependencies": ["@agape-care/ui", "@agape-care/api-contract"]
 }
