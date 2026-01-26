@@ -5,12 +5,12 @@
   "private": true,
   "type": "module",
   "sideEffects": false,
-
-  "files": ["dist", "prisma"],
-
+  "files": [
+    "dist",
+    "prisma"
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -18,48 +18,44 @@
     },
     "./package.json": "./package.json"
   },
-
   "scripts": {
     "clean": "rimraf dist",
     "build": "tsc -p tsconfig.json",
     "type-check": "tsc --noEmit -p tsconfig.json",
-
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
     "studio": "prisma studio",
     "seed": "tsx prisma/seed.ts",
-
     "prepublishOnly": "pnpm run clean && pnpm run build"
   },
-
   "dependencies": {
-    "@prisma/client": "^6.0.1",
-    "prisma": "^6.0.1",
+    "@prisma/client": "^7.3.0",
     "dayjs": "^1.11.10",
+    "prisma": "^7.3.0",
     "zod": "^3.23.8"
   },
-
   "peerDependencies": {
     "typescript": "5.6.3"
   },
-
   "devDependencies": {
     "@types/node": "^24.3.1",
     "rimraf": "^6.0.1",
     "tsx": "^4.19.3",
     "typescript": "5.6.3"
   },
-
   "nx": {
-    "implicitDependencies": ["logger"],
+    "implicitDependencies": [
+      "logger"
+    ],
     "targets": {
       "build": {
-        "dependsOn": ["^build"]
+        "dependsOn": [
+          "^build"
+        ]
       }
     }
   },
-
   "engines": {
     "node": ">=20.11.0"
   }

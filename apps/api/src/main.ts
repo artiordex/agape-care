@@ -2,8 +2,10 @@
  * Description : main.ts - 📌 Minimal NestJS API bootstrap
  * Author : Shiwoo Min
  * Date : 2026-01-25
+ * Updated : 2026-01-26
  */
 
+import 'tsconfig-paths/register';
 import { NestFactory } from '@nestjs/core';
 import 'reflect-metadata';
 import { AppModule } from './app.module';
@@ -21,7 +23,7 @@ async function bootstrap() {
   // 서버 실행
   await app.listen(port);
 
-  console.log(`Agape-Care API Server (minimal) running on http://localhost:${port}`);
+  console.log(`Agape-Care API Server running on http://localhost:${port}`);
 
   // Graceful shutdown
   process.on('SIGTERM', async () => {

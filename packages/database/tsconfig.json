@@ -13,7 +13,7 @@
     "sourceMap": true
   },
 
-  "include": ["src/**/*", "prisma/**/*.ts", "prisma/seed.ts"],
+  "include": ["src/**/*"],
 
   "exclude": ["dist", "node_modules", "src/generated", "prisma/migrations"],
 

@@ -1,0 +1,105 @@
+### ==================== 변수 설정 ====================
+@baseUrl = http://localhost:8000
+@accessToken =
+@refreshToken =
+
+
+### ==================== 1. 로그인 (샘플 데이터) ====================
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@agape-care.kr",
+  "password": "password123"
+}
+
+### ==================== 토큰 추출 ====================
+@accessToken = {{login.response.body.accessToken}}
+@refreshToken = {{login.response.body.refreshToken}}
+
+
+### ==================== 2. 내 정보 조회 ====================
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{accessToken}}
+
+
+### ==================== 3. 다른 직원 계정으로 로그인 ====================
+
+### 원장
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "director@agape-care.kr",
+  "password": "password123"
+}
+
+### 간호사
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "nurse1@agape-care.kr",
+  "password": "password123"
+}
+
+### 요양보호사
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "care1@agape-care.kr",
+  "password": "password123"
+}
+
+### 사회복지사
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "social1@agape-care.kr",
+  "password": "password123"
+}
+
+
+### ==================== 4. 토큰 갱신 ====================
+POST {{baseUrl}}/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+
+### ==================== 5. 로그아웃 ====================
+POST {{baseUrl}}/auth/logout
+Authorization: Bearer {{accessToken}}
+
+
+### ==================== 실패 케이스 ====================
+
+### 잘못된 이메일
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "wrong@email.com",
+  "password": "password123"
+}
+
+### 잘못된 비밀번호
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@agape-care.kr",
+  "password": "wrongpassword"
+}
+
+### 토큰 없이 접근
+GET {{baseUrl}}/auth/me
+
+### 잘못된 토큰
+GET {{baseUrl}}/auth/me
+Authorization: Bearer invalid_token_here

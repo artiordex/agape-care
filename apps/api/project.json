@@ -25,7 +25,8 @@
       "executor": "@nx/js:node",
       "options": {
         "buildTarget": "@agape-care/api:build",
-        "watch": true
+        "watch": true,
+        "runtimeArgs": ["-r", "tsconfig-paths/register"]
       },
       "configurations": {
         "production": {

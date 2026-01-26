@@ -223,18 +223,149 @@ agape-care
 │  │  │  ├─ app.module.ts
 │  │  │  ├─ main.ts
 │  │  │  └─ modules
-│  │  │     ├─ admin
+│  │  │     ├─ accounting
+│  │  │     │  ├─ account
+│  │  │     │  │  └─ account.service.ts
+│  │  │     │  ├─ accounting.controller.ts
+│  │  │     │  ├─ accounting.module.ts
+│  │  │     │  ├─ accounting.service.ts
+│  │  │     │  ├─ insurance-claim
+│  │  │     │  │  └─ insurance-claim.service.ts
+│  │  │     │  ├─ invoice
+│  │  │     │  │  └─ invoice.service.ts
+│  │  │     │  ├─ payroll
+│  │  │     │  │  └─ payroll.service.ts
+│  │  │     │  ├─ supplier
+│  │  │     │  │  └─ supplier.service.ts
+│  │  │     │  └─ transaction
+│  │  │     │     └─ transaction.service.ts
+│  │  │     ├─ attendance
+│  │  │     │  ├─ attendance.controller.ts
+│  │  │     │  ├─ attendance.module.ts
+│  │  │     │  ├─ attendance.service.ts
+│  │  │     │  ├─ leave
+│  │  │     │  │  └─ leave.service.ts
+│  │  │     │  └─ shift
+│  │  │     │     └─ shift.service.ts
 │  │  │     ├─ auth
+│  │  │     │  ├─ auth.controller.ts
+│  │  │     │  ├─ auth.module.ts
+│  │  │     │  ├─ auth.service.ts
+│  │  │     │  ├─ decorators
+│  │  │     │  │  ├─ current-user.decorator.ts
+│  │  │     │  │  └─ roles.decorator.ts
+│  │  │     │  ├─ guards
+│  │  │     │  │  ├─ jwt-auth.guard.ts
+│  │  │     │  │  ├─ jwt-refresh.guard.ts
+│  │  │     │  │  └─ roles.guard.ts
+│  │  │     │  └─ strategies
+│  │  │     │     ├─ jwt-refresh.strategy.ts
+│  │  │     │     └─ jwt.strategy.ts
+│  │  │     ├─ care
+│  │  │     │  ├─ care.controller.ts
+│  │  │     │  ├─ care.module.ts
+│  │  │     │  ├─ care.service.ts
+│  │  │     │  ├─ consultation
+│  │  │     │  │  └─ consultation.service.ts
+│  │  │     │  ├─ incident
+│  │  │     │  │  └─ incident.service.ts
+│  │  │     │  ├─ plan
+│  │  │     │  │  └─ care-plan.service.ts
+│  │  │     │  └─ task
+│  │  │     │     └─ care-task.service.ts
+│  │  │     ├─ common
+│  │  │     │  ├─ decorators
+│  │  │     │  │  └─ api-paginated-response.decorator.ts
+│  │  │     │  ├─ filters
+│  │  │     │  │  ├─ http-exception.filter.ts
+│  │  │     │  │  └─ prisma-exception.filter.ts
+│  │  │     │  ├─ interceptors
+│  │  │     │  │  ├─ logging.interceptor.ts
+│  │  │     │  │  └─ transform.interceptor.ts
+│  │  │     │  ├─ middleware
+│  │  │     │  │  └─ logger.middleware.ts
+│  │  │     │  └─ pipes
+│  │  │     │     └─ validation.pipe.ts
+│  │  │     ├─ content
+│  │  │     │  ├─ board
+│  │  │     │  │  └─ board.service.ts
+│  │  │     │  ├─ content.controller.ts
+│  │  │     │  ├─ content.module.ts
+│  │  │     │  ├─ content.service.ts
+│  │  │     │  ├─ gallery
+│  │  │     │  │  └─ gallery.service.ts
+│  │  │     │  ├─ notice
+│  │  │     │  │  └─ notice.service.ts
+│  │  │     │  ├─ popup
+│  │  │     │  │  └─ popup.service.ts
+│  │  │     │  └─ website
+│  │  │     │     └─ website.service.ts
+│  │  │     ├─ department
+│  │  │     │  ├─ department.controller.ts
+│  │  │     │  ├─ department.module.ts
+│  │  │     │  └─ department.service.ts
+│  │  │     ├─ employee
+│  │  │     │  ├─ employee.controller.ts
+│  │  │     │  ├─ employee.module.ts
+│  │  │     │  └─ employee.service.ts
 │  │  │     ├─ index.ts
-│  │  │     ├─ mypage
-│  │  │     │  ├─ mypage.controller.ts
-│  │  │     │  ├─ mypage.interface.ts
-│  │  │     │  ├─ mypage.module.ts
-│  │  │     │  ├─ mypage.processor.ts
-│  │  │     │  └─ mypage.service.ts
-│  │  │     ├─ programs
-│  │  │     └─ users
-│  │  └─ tsconfig.json
+│  │  │     ├─ meal
+│  │  │     │  ├─ meal.controller.ts
+│  │  │     │  ├─ meal.module.ts
+│  │  │     │  ├─ meal.service.ts
+│  │  │     │  └─ plan
+│  │  │     │     └─ meal-plan.service.ts
+│  │  │     ├─ notification
+│  │  │     │  ├─ notification.controller.ts
+│  │  │     │  ├─ notification.module.ts
+│  │  │     │  └─ notification.service.ts
+│  │  │     ├─ operations
+│  │  │     │  ├─ cctv
+│  │  │     │  │  └─ cctv.service.ts
+│  │  │     │  ├─ grievance
+│  │  │     │  │  └─ grievance.service.ts
+│  │  │     │  ├─ inspection
+│  │  │     │  │  └─ inspection.service.ts
+│  │  │     │  ├─ inventory
+│  │  │     │  │  └─ inventory.service.ts
+│  │  │     │  ├─ operations.controller.ts
+│  │  │     │  ├─ operations.module.ts
+│  │  │     │  ├─ operations.service.ts
+│  │  │     │  ├─ sms
+│  │  │     │  │  └─ sms.service.ts
+│  │  │     │  ├─ transport
+│  │  │     │  │  └─ transport.service.ts
+│  │  │     │  └─ vehicle
+│  │  │     │     └─ vehicle.service.ts
+│  │  │     ├─ program
+│  │  │     │  ├─ attendance
+│  │  │     │  │  └─ attendance.service.ts
+│  │  │     │  ├─ program.controller.ts
+│  │  │     │  ├─ program.module.ts
+│  │  │     │  ├─ program.service.ts
+│  │  │     │  └─ schedule
+│  │  │     │     └─ schedule.service.ts
+│  │  │     ├─ resident
+│  │  │     │  ├─ contact
+│  │  │     │  │  └─ contact.service.ts
+│  │  │     │  ├─ health
+│  │  │     │  │  └─ health.service.ts
+│  │  │     │  ├─ medication
+│  │  │     │  │  └─ medication.service.ts
+│  │  │     │  ├─ resident.controller.ts
+│  │  │     │  ├─ resident.module.ts
+│  │  │     │  ├─ resident.service.ts
+│  │  │     │  ├─ room
+│  │  │     │  │  └─ room.service.ts
+│  │  │     │  └─ vital
+│  │  │     │     └─ vital.service.ts
+│  │  │     └─ role
+│  │  │        ├─ role.controller.ts
+│  │  │        ├─ role.module.ts
+│  │  │        └─ role.service.ts
+│  │  ├─ test.http
+│  │  ├─ tsconfig.json
+│  │  └─ webpack.config.mjs
 │  ├─ web
 │  │  ├─ index.css
 │  │  ├─ index.html
@@ -365,6 +496,7 @@ agape-care
 │     ├─ project.json
 │     ├─ src
 │     │  ├─ events
+│     │  ├─ main.ts
 │     │  ├─ metrics.ts
 │     │  ├─ processors
 │     │  └─ schedules
@@ -436,15 +568,96 @@ agape-care
 │  │  ├─ src
 │  │  │  ├─ api-contract-types.ts
 │  │  │  ├─ contracts
+│  │  │  │  ├─ accounting.contract.ts
+│  │  │  │  ├─ attendance.contract.ts
+│  │  │  │  ├─ auth.contract.ts
+│  │  │  │  ├─ care.contract.ts
+│  │  │  │  ├─ content.contract.ts
+│  │  │  │  ├─ employee.contract.ts
+│  │  │  │  ├─ index.ts
+│  │  │  │  ├─ meal.contract.ts
+│  │  │  │  ├─ notification.contract.ts
+│  │  │  │  ├─ operations.contract.ts
+│  │  │  │  ├─ program.contract.ts
+│  │  │  │  └─ resident.contract.ts
+│  │  │  ├─ index.ts
 │  │  │  └─ schemas
+│  │  │     ├─ accounting
+│  │  │     │  ├─ account-category.schema.ts
+│  │  │     │  ├─ account.schema.ts
+│  │  │     │  ├─ insurance-claim.schema.ts
+│  │  │     │  ├─ invoice.schema.ts
+│  │  │     │  ├─ payroll.schema.ts
+│  │  │     │  ├─ supplier.schema.ts
+│  │  │     │  └─ transaction.schema.ts
+│  │  │     ├─ attendance
+│  │  │     │  ├─ attendance-record.schema.ts
+│  │  │     │  ├─ leave-approval.schema.ts
+│  │  │     │  ├─ leave-request.schema.ts
+│  │  │     │  ├─ shift-assignment.schema.ts
+│  │  │     │  └─ shift-template.schema.ts
+│  │  │     ├─ auth
+│  │  │     │  ├─ auth.schema.ts
+│  │  │     │  └─ index.ts
+│  │  │     ├─ care
+│  │  │     │  ├─ care-plan-item.schema.ts
+│  │  │     │  ├─ care-plan.schema.ts
+│  │  │     │  ├─ care-task.schema.ts
+│  │  │     │  ├─ consultation.schema.ts
+│  │  │     │  └─ incident.schema.ts
+│  │  │     ├─ common
+│  │  │     │  ├─ audit.schema.ts
+│  │  │     │  ├─ date.schema.ts
+│  │  │     │  ├─ file.schema.ts
+│  │  │     │  ├─ index.ts
+│  │  │     │  ├─ pagination.schema.ts
+│  │  │     │  ├─ response.schema.ts
+│  │  │     │  └─ system-setting.schema.ts
+│  │  │     ├─ content
+│  │  │     │  ├─ board-comment.schema.ts
+│  │  │     │  ├─ board-post.schema.ts
+│  │  │     │  ├─ gallery.schema.ts
+│  │  │     │  ├─ notice.schema.ts
+│  │  │     │  ├─ popup-banner.schema.ts
+│  │  │     │  └─ website-setting.schema.ts
+│  │  │     ├─ employee
+│  │  │     │  ├─ department.schema.ts
+│  │  │     │  ├─ education.schema.ts
+│  │  │     │  ├─ employee.schema.ts
+│  │  │     │  └─ role.schema.ts
+│  │  │     ├─ index.ts
+│  │  │     ├─ meal
+│  │  │     │  ├─ meal-plan-item.schema.ts
+│  │  │     │  └─ meal-plan.schema.ts
+│  │  │     ├─ notification
+│  │  │     │  └─ notification.schema.ts
+│  │  │     ├─ operations
+│  │  │     │  ├─ cctv.schema.ts
+│  │  │     │  ├─ grievance.schema.ts
+│  │  │     │  ├─ inspection.schema.ts
+│  │  │     │  ├─ inventory.schema.ts
+│  │  │     │  ├─ sms.schema.ts
+│  │  │     │  ├─ transport.schema.ts
+│  │  │     │  └─ vehicle.schema.ts
+│  │  │     ├─ program
+│  │  │     │  ├─ attendance.schema.ts
+│  │  │     │  ├─ program.schema.ts
+│  │  │     │  └─ schedule.schema.ts
+│  │  │     └─ resident
+│  │  │        ├─ contact.schema.ts
+│  │  │        ├─ health-note.schema.ts
+│  │  │        ├─ medication.schema.ts
+│  │  │        ├─ resident.schema.ts
+│  │  │        ├─ room.schema.ts
+│  │  │        └─ vital.schema.ts
 │  │  └─ tsconfig.json
 │  ├─ database
 │  │  ├─ package.json
 │  │  ├─ prisma
+│  │  │  ├─ prisma.config.ts
 │  │  │  └─ schema.prisma
 │  │  ├─ project.json
 │  │  ├─ src
-│  │  │  ├─ adapters
 │  │  │  └─ index.ts
 │  │  └─ tsconfig.json
 │  ├─ logger
@@ -513,13 +726,9 @@ agape-care
 ├─ PROJECT-ARCH.md
 ├─ README.md
 ├─ renovate.json
-├─ tmp
-│  ├─ apps
-│  │  ├─ api
-│  │  └─ worker
-│  └─ packages
-│     ├─ database
-│     └─ ui
+├─ scripts
+│  ├─ setup-api-contract.ps1
+│  └─ setup-api-modules.ps1
 ├─ tsconfig.base.json
 ├─ tsconfig.json
 └─ vitest.config.ts
