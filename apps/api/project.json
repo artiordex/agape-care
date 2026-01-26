@@ -11,7 +11,13 @@
         "main": "apps/api/src/main.ts",
         "tsConfig": "apps/api/tsconfig.json",
         "outputPath": "dist/apps/api",
-        "assets": ["apps/api/src/**/*.json"]
+        "assets": [
+          {
+            "input": "apps/api/src",
+            "glob": "**/*.json",
+            "output": "."
+          }
+        ]
       }
     },
 
@@ -19,12 +25,10 @@
       "executor": "@nx/js:node",
       "options": {
         "buildTarget": "@agape-care/api:build",
-        "inspect": true,
-        "port": 8000
+        "watch": true
       },
       "configurations": {
         "production": {
-          "inspect": false,
           "watch": false
         }
       }
@@ -47,5 +51,5 @@
     }
   },
 
-  "implicitDependencies": ["database", "logger", "api-contract"]
+  "implicitDependencies": ["@agape-care/database", "@agape-care/logger", "@agape-care/api-contract"]
 }

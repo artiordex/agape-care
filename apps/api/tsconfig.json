@@ -6,18 +6,15 @@
 
 {
   "extends": "../../tsconfig.base.json",
-
   "compilerOptions": {
-    "rootDir": "./src",
+    "rootDir": "src",
     "outDir": "../../dist/apps/api",
-    "tsBuildInfoFile": "../../dist/apps/api/.tsbuildinfo",
-
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": true,
+    "tsBuildInfoFile": "../../dist/apps/api/.tsbuildinfo"
   },
 
   "include": ["src/**/*"],
