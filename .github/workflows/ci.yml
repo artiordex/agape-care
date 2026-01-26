@@ -1,6 +1,6 @@
 # Description : ci.yml - 📌 Agape-Care CI 파이프라인
 # Author : Shiwoo Min
-# Date : 2026-01-22
+# Date : 2026-01-27
 # - Agape-Care monorepo 구조(apps/*, packages/*) 대응
 # - pnpm + Vitest 기반 테스트
 # - Nx 선택 사용 가능, 없어도 동작하도록 구성
@@ -14,7 +14,7 @@ on:
     branches: [main, develop]
 
 env:
-  NODE_VERSION: "20.x"
+  NODE_VERSION: '22.x'
 
 jobs:
   ci:
@@ -30,12 +30,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: "pnpm"
+          cache: 'pnpm'
 
-      # pnpm 설치
+      # pnpm 설치 (버전 명시 필요)
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
+          version: 9
           run_install: false
 
       # pnpm store 캐시 경로 확인
@@ -85,6 +86,7 @@ jobs:
         with:
           name: build-output
           path: |
+            apps/web/.next
+            apps/admin/.next
             apps/**/out
-            apps/**/.next
           retention-days: 1
