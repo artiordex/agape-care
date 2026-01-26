@@ -5,48 +5,42 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3001",
-    "build": "next build",
-    "start": "next start --port 3001",
-    "export": "next build && next export",
-    "serve": "node server.js",
-    "lint": "next lint",
-    "type-check": "pnpm -w exec tsc --noEmit -p tsconfig.json",
-    "clean": "pnpm -w exec rimraf .next dist"
-  },
-  "engines": {
-    "node": ">=20.11"
+    "build": "nx build admin",
+    "start": "nx serve admin",
+    "lint": "nx lint admin",
+    "type-check": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
     "@agape-care/api-contract": "workspace:*",
     "@agape-care/ui": "workspace:*",
-    "@hookform/resolvers": "^3.3.0",
-    "@tanstack/react-query": "^5.0.0",
-    "@tanstack/react-table": "^8.0.0",
+    "@hookform/resolvers": "^3.7.0",
+    "@tanstack/react-query": "^5.61.0",
+    "@tanstack/react-table": "^8.20.5",
     "axios": "^1.6.0",
-    "clsx": "^2.0.0",
-    "date-fns": "^3.0.0",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "framer-motion": "^12.23.15",
     "heic2any": "^0.0.4",
-    "next": "15.1.6",
-    "next-auth": "^4.24.11",
+    "next": "^15.0.3",
+    "next-auth": "5.0.0-beta.20",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.62.0",
-    "react-hot-toast": "^2.6.0",
+    "react-hot-toast": "^2.4.1",
     "react-icons": "^5.5.0",
-    "react-select": "^5.8.0",
-    "recharts": "^2.10.0",
-    "zod": "^3.22.0"
+    "react-select": "^5.8.2",
+    "recharts": "^2.14.1",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
-    "@types/react": "18.3.7",
-    "@types/react-dom": "18.3.0",
+    "@types/react": "^18.3.7",
+    "@types/react-dom": "^18.3.0",
     "autoprefixer": "^10.4.21",
-    "eslint": "^9.36.0",
-    "eslint-config-next": "15.1.6",
+    "eslint": "^9.9.0",
+    "eslint-config-next": "^15.0.3",
     "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.13",
-    "typescript": "^5.3.3"
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3"
   }
 }

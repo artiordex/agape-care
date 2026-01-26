@@ -1,18 +1,16 @@
-/**
- * Description : tsconfig.json - 📌 Agape-Care 요양원 Admin (Next.js)
- * Author : Shiwoo Min
- * Updated : 2026-01-22
- */{
+{
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true,
+    "baseUrl": ".",
     "jsx": "preserve",
+    "allowJs": false,
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "baseUrl": ".",
+    // 앱 내부 전용 경로 alias
     "paths": {
       "@/app/*": [
         "src/app/*"
@@ -39,14 +37,14 @@
         "src/providers/*"
       ]
     },
-    "tsBuildInfoFile": "./.next/.tsbuildinfo",
-    "allowJs": true
+    // Next.js incremental build
+    "tsBuildInfoFile": "./.next/tsconfig.tsbuildinfo"
   },
   "include": [
-    "src/**/*",
-    "src/next-env.d.ts",
-    ".next/types/**/*.ts",
-    "global.d.ts"
+    "next-env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
