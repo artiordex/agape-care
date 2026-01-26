@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@agape-care/api-contract": [
+        "dist/packages/api-contract",
+        "packages/api-contract/dist",
+        "packages/api-contract/.next",
+        "packages/api-contract/out"
+      ],
+      "@agape-care/database": [
+        "dist/packages/database"
+      ],
+      "@agape-care/logger": [
+        "dist/packages/logger",
+        "packages/logger/dist",
+        "packages/logger/.next",
+        "packages/logger/out"
+      ],
+      "@agape-care/ui": [
+        "dist/packages/ui/src/index.ts"
+      ]
+    }
+  },
+  "extends": "..\\..\\..\\..\\apps\\worker\\tsconfig.json"
+}
