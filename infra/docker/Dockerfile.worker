@@ -4,57 +4,62 @@
 # docker build --no-cache -f infra/docker/Dockerfile.worker -t agape-care-worker .
 
 # Build Stage
-FROM node:22-slim AS builder
+FROM node:22-alpine AS builder
 WORKDIR /app
-
-# devDependencies 설치되도록 지정
-ENV NODE_ENV=development
 ENV HUSKY=0
 
-# nest-cli PATH 문제 해결 (pnpm workspace 환경에서 필수)
-ENV PATH="/app/node_modules/.bin:/app/apps/worker/node_modules/.bin:$PATH"
-
-RUN apt-get update && apt-get install -y \
-    python3 make g++ pkg-config libcairo2-dev libpango1.0-dev \
-    libjpeg-dev libgif-dev libpixman-1-dev libglib2.0-dev openssl \
-    && rm -rf /var/lib/apt/lists/*
-
 RUN npm install -g pnpm
+RUN apk add --no-cache python3 make g++ pkgconfig cairo-dev pango-dev libjpeg-turbo-dev giflib-dev pixman-dev
 
-# root 설정 파일들
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
     tsconfig.json tsconfig.base.json ./
 
-# workspace 구조
-COPY apps ./apps
+COPY apps/worker ./apps/worker
 COPY packages ./packages
 COPY infra/database ./infra/database
 
-# Dependencies install
 RUN pnpm install --frozen-lockfile
 
-# Prisma generate
+# Prisma Generate
+ENV DATABASE_URL="postgresql://dummy:dummy@dummy:5432/dummy"
 RUN pnpm db:generate || true
 
-# Nx build (Nest CLI PATH 설정 덕분에 nest build 문제 해결됨)
 RUN pnpm nx build @agape-care/worker
 
-# Runtime Stage
-FROM node:22-slim AS runner
+# Production Dependencies Stage (pnpm deploy 사용)
+FROM node:22-alpine AS deps
 WORKDIR /app
-
-ENV NODE_ENV=production
 ENV HUSKY=0
 
-RUN apt-get update && apt-get install -y \
-    libcairo2 libpango-1.0-0 libjpeg62-turbo libgif7 \
-    libpixman-1-0 libglib2.0-0 openssl \
-    && rm -rf /var/lib/apt/lists/*
+RUN npm install -g pnpm
 
-# Only runtime needs
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/packages ./packages
-COPY --from=builder /app/dist/apps/worker ./dist
-COPY --from=builder /app/package.json ./package.json
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/worker/package.json ./apps/worker/
+COPY packages/database/package.json ./packages/database/
+COPY packages/logger/package.json ./packages/logger/
+COPY packages/api-contract/package.json ./packages/api-contract/
+
+# pnpm deploy로 worker에 필요한 것만 추출
+RUN pnpm --filter @agape-care/worker --prod --ignore-scripts deploy /tmp/worker-deploy
+
+# Prisma Generate (deploy된 폴더에서)
+WORKDIR /tmp/worker-deploy
+RUN pnpm exec prisma generate || true
+
+# Runtime Stage
+FROM node:22-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+
+RUN apk add --no-cache cairo pango libjpeg-turbo giflib pixman
+
+# Deploy된 node_modules만 복사 (Prisma client 포함됨)
+COPY --from=deps /tmp/worker-deploy/node_modules ./node_modules
+
+# 빌드 결과물 복사
+COPY --from=builder /app/dist/apps/worker/ ./dist
+
+# package.json 복사
+COPY --from=deps /tmp/worker-deploy/package.json ./package.json
 
 CMD ["node", "dist/main.js"]
