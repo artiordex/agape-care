@@ -1,42 +1,19 @@
-/**
- * Description : tsconfig.json - 📌 Agape-Care 요양원 API 서버 (NestJS)
- * Author : Shiwoo Min
- * Updated : 2026-01-26
- */
-
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    /* NestJS는 CommonJS 사용 */
-    "module": "commonjs",
-    "moduleResolution": "node",
-
-    // "rootDir": "src",  // ← 제거! (외부 패키지 참조 때문)
-    "outDir": "../../dist/apps/api",
-
-    /* NestJS 필수 옵션 */
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-
-    "declaration": false,
-    "declarationMap": false,
-    "sourceMap": true,
-    "tsBuildInfoFile": "../../dist/apps/api/.tsbuildinfo",
-
-    /* 타입 해결 */
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
-
-    /* API 전용 paths - 소스 파일 직접 참조 */
-    "baseUrl": ".",
+    "module": "esnext",
+    "moduleResolution": "Bundler",
+    "outDir": "./dist",
+    "baseUrl": "../../",
     "paths": {
-      "@agape-care/api-contract": ["../../packages/api-contract/src/index.ts"],
-      "@agape-care/database": ["../../packages/database/src/index.ts"],
-      "@agape-care/logger": ["../../packages/logger/src/index.ts"]
-    }
+      "@agape-care/api-contract": ["packages/api-contract/src/index.ts"],
+      "@agape-care/database": ["packages/database/src/index.ts"],
+      "@agape-care/logger": ["packages/logger/src/index.ts"]
+    },
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "types": ["node"]
   },
-
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.spec.ts"]
+  "exclude": ["node_modules", "dist"]
 }

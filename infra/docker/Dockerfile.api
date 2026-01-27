@@ -36,6 +36,11 @@ RUN pnpm nx build @agape-care/api
 RUN echo "=== Prisma client location ===" && \
     find /app -name ".prisma" -type d || echo "No .prisma found"
 
+RUN echo "=== Builder Output Contents: /app/apps/api/dist ==="
+RUN ls -R /app/apps/api/dist || echo "/app/apps/api/dist not found"
+RUN echo "=== Builder Output Contents: /app/dist ==="
+RUN ls -R /app/dist || echo "/app/dist not found"
+
 # Runtime Stage
 FROM node:22-alpine AS runner
 WORKDIR /app
@@ -54,7 +59,10 @@ COPY --from=builder /app/packages ./packages
 # COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
 # 빌드 결과물 복사
-COPY --from=builder /app/dist/apps/api ./dist
+COPY --from=builder /app/apps/api/dist ./dist
+
+RUN echo "=== Runner Dist Contents ==="
+RUN ls -R ./dist
 
 # package.json 복사
 COPY --from=builder /app/package.json ./package.json

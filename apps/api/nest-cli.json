@@ -1,23 +1,23 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/api/src",
+  "sourceRoot": "src",
   "entryFile": "main",
   "monorepo": true,
   "monorepoRoot": "../../",
   "compilerOptions": {
     "deleteOutDir": true,
     "watchAssets": true,
-    "webpack": false,
-    "tsConfigPath": "apps/api/tsconfig.json",
+    "webpack": true,
+    "tsConfigPath": "tsconfig.json",
     "assets": [
       {
         "include": "src/**/*.json",
-        "outDir": "../../dist/apps/api"
+        "outDir": "./dist"
       },
       {
         "include": "src/**/*.md",
-        "outDir": "../../dist/apps/api"
+        "outDir": "./dist"
       }
     ]
   },

@@ -1,22 +1,16 @@
 {
   "name": "@agape-care/api",
-  "sourceRoot": "apps/api/src",
+  "sourceRoot": "src",
   "projectType": "application",
   "tags": ["type:app", "layer:backend", "platform:node"],
 
   "targets": {
     "build": {
-      "executor": "@nx/webpack:webpack",
-      "dependsOn": ["^build"],
-      "outputs": ["{options.outputPath}"],
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
       "options": {
-        "target": "node",
-        "compiler": "tsc",
-        "outputPath": "dist/apps/api",
-        "main": "apps/api/src/main.ts",
-        "tsConfig": "apps/api/tsconfig.json",
-        "webpackConfig": "apps/api/webpack.config.js",
-        "generatePackageJson": true
+        "command": "nest build",
+        "cwd": "apps/api"
       }
     },
 
@@ -26,12 +20,6 @@
       "options": {
         "buildTarget": "@agape-care/api:build",
         "watch": true
-      },
-      "configurations": {
-        "production": {
-          "buildTarget": "@agape-care/api:build:production",
-          "watch": false
-        }
       }
     },
 
