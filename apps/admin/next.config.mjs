@@ -1,7 +1,7 @@
 /**
  * Description : next.config.mjs - 📌 Admin 앱 Next.js 설정 (Docker / Cloud Run 배포용)
  * Author : Shiwoo Min
- * Date : 2026-01-22
+ * Date : 2026-01-27
  */
 import 'dotenv/config';
 import path from 'node:path';
@@ -13,6 +13,9 @@ const __dirname = path.dirname(__filename);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone', // 👈 export → standalone으로 변경
+
+  // NX monorepo 구조에서 빌드 출력 경로 명시
+  distDir: '../../dist/apps/admin/.next',
 
   transpilePackages: ['@agape-care/ui'],
 

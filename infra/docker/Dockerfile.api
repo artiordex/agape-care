@@ -1,47 +1,63 @@
 # Description : Dockerfile.api - 📌 Agape Care API (NestJS)
 # Author : Shiwoo Min
 # Date : 2026-01-25
+# docker build -f infra/docker/Dockerfile.api -t agape-care-api . --progress=plain
+# docker build --no-cache -f infra/docker/Dockerfile.api -t agape-care-api . --progress=plain
 
-# Base: deps install (devDependencies 포함)
-FROM node:20-alpine AS deps
+# Build Stage
+FROM node:22-alpine AS builder
 WORKDIR /app
-ENV HUSKY=0 
+ENV HUSKY=0
 
 RUN npm install -g pnpm
+RUN apk add --no-cache python3 make g++ pkgconfig cairo-dev pango-dev libjpeg-turbo-dev giflib-dev pixman-dev
 
-# 루트 메타파일 복사
+# Root workspace files
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
     tsconfig.json tsconfig.base.json ./
 
-# workspace 복사
+# Workspace packages
 COPY apps ./apps
 COPY packages ./packages
 
-# api 전용 workspace 의존성 설치
-RUN pnpm install --filter api... --frozen-lockfile
+# Prisma schema 복사
+COPY infra/database ./infra/database
 
-# NestJS API 앱을 빌드
-FROM node:20-alpine AS builder
-WORKDIR /app
+# 전체 workspace 의존성 설치
+RUN pnpm install --frozen-lockfile
 
-COPY --from=deps /app ./
+# Prisma generate
+RUN pnpm db:generate || true
 
 # API 빌드
-RUN pnpm exec nx build @agape-care/api
+RUN pnpm nx build @agape-care/api
 
-# Runtime (production)
-FROM node:20-alpine AS runner
+# Prisma client 위치 확인 (디버깅)
+RUN echo "=== Prisma client location ===" && \
+    find /app -name ".prisma" -type d || echo "No .prisma found"
+
+# Runtime Stage
+FROM node:22-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
+ENV HUSKY=0
 
-RUN npm install -g pnpm
+RUN apk add --no-cache cairo pango libjpeg-turbo giflib pixman
 
-# package.json만 복사해서 prod deps 설치
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN pnpm install --prod --frozen-lockfile
+# node_modules 전체 복사
+COPY --from=builder /app/node_modules ./node_modules
 
-# 빌드 산출물 복사
+# 내부 패키지 복사
+COPY --from=builder /app/packages ./packages
+
+# Prisma client 복사 (선택적 - 없어도 node_modules에 포함됨)
+# COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+
+# 빌드 결과물 복사
 COPY --from=builder /app/dist/apps/api ./dist
+
+# package.json 복사
+COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 8000
 

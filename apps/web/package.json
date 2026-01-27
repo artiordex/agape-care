@@ -5,9 +5,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3000",
-    "build": "nx build @agape-care/web",
-    "start": "nx serve @agape-care/web --prod",
-    "lint": "nx lint @agape-care/web",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
     "type-check": "pnpm -w exec tsc --noEmit -p tsconfig.json",
     "clean": "rimraf .next dist"
   },

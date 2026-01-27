@@ -1,18 +1,260 @@
 /**
- * @description 게시판, 공지사항, 갤러리 Mock 데이터
+ * @description 콘텐츠 관리 Mock 데이터
+ * @author Shiwoo Min
+ * @date 2026-01-27
  */
 
-export const mockBoardPosts = [
-  { id: '1', category: '자유게시판', title: '입소 후 생활이 궁금합니다', author: '김**' },
-  { id: '2', category: '건의사항', title: '주말 면회 시간 연장 건의드립니다', author: '이**' },
-]; //
-
 export const mockNotices = [
-  { id: '1', category: '공지사항', title: '2024년 4월 입소 상담 안내', views: 245 },
-  { id: '2', category: '활동소식', title: '봄맞이 원예 프로그램 진행', views: 312 },
-]; //
+  {
+    id: '1',
+    category: 'GENERAL' as const,
+    title: '2월 가족 면회 안내',
+    content: '2월 가족 면회는 매주 토요일 오후 2시부터 4시까지 진행됩니다. 사전 예약 필수입니다.',
+    authorId: '2',
+    authorName: '김원장',
+    isPinned: true,
+    viewCount: 45,
+    publishedAt: '2026-01-25T10:00:00Z',
+    createdAt: '2026-01-25T09:30:00Z',
+    updatedAt: '2026-01-25T10:00:00Z',
+  },
+  {
+    id: '2',
+    category: 'SAFETY' as const,
+    title: '소방 안전 점검 실시 안내',
+    content:
+      '1월 30일(목) 오전 10시부터 12시까지 소방 안전 점검이 실시됩니다. 점검 시간 동안 화재 경보가 울릴 수 있으니 놀라지 마시기 바랍니다.',
+    authorId: '2',
+    authorName: '김원장',
+    isPinned: true,
+    viewCount: 78,
+    publishedAt: '2026-01-20T14:00:00Z',
+    createdAt: '2026-01-20T13:00:00Z',
+    updatedAt: '2026-01-20T14:00:00Z',
+  },
+  {
+    id: '3',
+    category: 'EVENT' as const,
+    title: '설날 행사 안내',
+    content: '1월 29일(수) 설날 맞이 떡국 나눔 행사가 있습니다. 점심 식사 시간에 전통 떡국을 제공해 드립니다.',
+    authorId: '2',
+    authorName: '김원장',
+    isPinned: false,
+    viewCount: 102,
+    publishedAt: '2026-01-15T10:00:00Z',
+    createdAt: '2026-01-15T09:00:00Z',
+    updatedAt: '2026-01-15T10:00:00Z',
+  },
+  {
+    id: '4',
+    category: 'HEALTH' as const,
+    title: '겨울철 독감 예방 안내',
+    content: '겨울철 독감 예방을 위해 손씻기를 생활화하고, 기침 시 마스크를 착용해 주시기 바랍니다.',
+    authorId: '3',
+    authorName: '박간호사',
+    isPinned: false,
+    viewCount: 35,
+    publishedAt: '2026-01-10T11:00:00Z',
+    createdAt: '2026-01-10T10:30:00Z',
+    updatedAt: '2026-01-10T11:00:00Z',
+  },
+];
+
+export const mockBoardPosts = [
+  {
+    id: '1',
+    boardType: 'FAQ' as const,
+    title: '입소 절차는 어떻게 되나요?',
+    content: '입소 상담 → 방문 및 시설 안내 → 계약서 작성 → 입소일 결정 → 입소의 순서로 진행됩니다.',
+    authorId: '2',
+    authorName: '김원장',
+    viewCount: 156,
+    commentCount: 3,
+    isNotice: true,
+    publishedAt: '2025-12-01T10:00:00Z',
+    createdAt: '2025-12-01T09:00:00Z',
+    updatedAt: '2026-01-15T14:00:00Z',
+  },
+  {
+    id: '2',
+    boardType: 'FAQ' as const,
+    title: '면회 시간은 언제인가요?',
+    content: '면회는 매주 토요일 오후 2시부터 4시까지 가능합니다. 사전 예약이 필요합니다.',
+    authorId: '2',
+    authorName: '김원장',
+    viewCount: 89,
+    commentCount: 1,
+    isNotice: true,
+    publishedAt: '2025-12-01T10:30:00Z',
+    createdAt: '2025-12-01T10:00:00Z',
+    updatedAt: '2025-12-01T10:30:00Z',
+  },
+  {
+    id: '3',
+    boardType: 'SUGGESTION' as const,
+    title: '산책로에 벤치 추가 건의',
+    content: '산책로에 휴식을 위한 벤치를 더 설치해 주시면 좋겠습니다.',
+    authorId: null,
+    authorName: '익명',
+    viewCount: 42,
+    commentCount: 1,
+    isNotice: false,
+    publishedAt: '2026-01-20T15:00:00Z',
+    createdAt: '2026-01-20T15:00:00Z',
+    updatedAt: '2026-01-22T10:00:00Z',
+  },
+];
+
+export const mockBoardComments = [
+  {
+    id: '1',
+    postId: '1',
+    parentCommentId: null,
+    content: '상담 시 준비해야 할 서류가 있나요?',
+    authorId: null,
+    authorName: '익명',
+    createdAt: '2025-12-05T14:00:00Z',
+    updatedAt: '2025-12-05T14:00:00Z',
+  },
+  {
+    id: '2',
+    postId: '1',
+    parentCommentId: '1',
+    content: '건강보험증, 주민등록등본, 장기요양인정서를 준비해 주시면 됩니다.',
+    authorId: '2',
+    authorName: '김원장',
+    createdAt: '2025-12-05T15:00:00Z',
+    updatedAt: '2025-12-05T15:00:00Z',
+  },
+  {
+    id: '3',
+    postId: '3',
+    parentCommentId: null,
+    content: '좋은 의견 감사합니다. 검토 후 설치하도록 하겠습니다.',
+    authorId: '2',
+    authorName: '김원장',
+    createdAt: '2026-01-22T10:00:00Z',
+    updatedAt: '2026-01-22T10:00:00Z',
+  },
+];
 
 export const mockGalleryItems = [
-  { id: '1', category: '행사', title: '2024년 설날 한마당 행사', date: '2024-02-10' },
-  { id: '2', category: '일상', title: '아침 산책 프로그램', date: '2024-03-01' },
-]; //
+  {
+    id: '1',
+    category: 'EVENT' as const,
+    title: '2026년 신년 행사',
+    description: '새해를 맞이하여 떡국 나눔 행사를 진행했습니다.',
+    eventDate: '2026-01-01',
+    photographerId: '4',
+    photographerName: '이요양사',
+    viewCount: 125,
+    publishedAt: '2026-01-02T10:00:00Z',
+    createdAt: '2026-01-02T09:00:00Z',
+    updatedAt: '2026-01-02T10:00:00Z',
+  },
+  {
+    id: '2',
+    category: 'ACTIVITY' as const,
+    title: '인지활동 프로그램',
+    description: '1월 정기 인지활동 프로그램 모습입니다.',
+    eventDate: '2026-01-15',
+    photographerId: '3',
+    photographerName: '박간호사',
+    viewCount: 68,
+    publishedAt: '2026-01-16T14:00:00Z',
+    createdAt: '2026-01-16T13:00:00Z',
+    updatedAt: '2026-01-16T14:00:00Z',
+  },
+  {
+    id: '3',
+    category: 'DAILY' as const,
+    title: '일상의 행복',
+    description: '어르신들의 즐거운 일상 모습입니다.',
+    eventDate: '2026-01-20',
+    photographerId: '5',
+    photographerName: '최요양사',
+    viewCount: 89,
+    publishedAt: '2026-01-21T10:00:00Z',
+    createdAt: '2026-01-21T09:00:00Z',
+    updatedAt: '2026-01-21T10:00:00Z',
+  },
+];
+
+export const mockPopupBanners = [
+  {
+    id: '1',
+    title: '설날 연휴 안내',
+    content: '1월 28일(화)~30일(목)은 설날 연휴입니다.',
+    imageUrl: '/images/banners/lunar-new-year.jpg',
+    linkUrl: null,
+    startDate: '2026-01-20',
+    endDate: '2026-01-30',
+    displayOrder: 1,
+    isActive: true,
+    createdBy: '2',
+    createdByName: '김원장',
+    createdAt: '2026-01-20T09:00:00Z',
+    updatedAt: '2026-01-20T09:00:00Z',
+  },
+  {
+    id: '2',
+    title: '가족 면회 예약 안내',
+    content: '2월 면회 예약을 받습니다. 사전 예약 필수!',
+    imageUrl: '/images/banners/visit-reservation.jpg',
+    linkUrl: '/reservations/visit',
+    startDate: '2026-01-25',
+    endDate: '2026-02-28',
+    displayOrder: 2,
+    isActive: true,
+    createdBy: '2',
+    createdByName: '김원장',
+    createdAt: '2026-01-25T10:00:00Z',
+    updatedAt: '2026-01-25T10:00:00Z',
+  },
+];
+
+export const mockWebsiteSettings = {
+  siteName: '아가페요양원',
+  siteDescription: '사랑과 정성으로 어르신을 모시는 요양원',
+  contactPhone: '02-1234-5678',
+  contactEmail: 'info@agape-care.kr',
+  address: '서울시 강남구 테헤란로 123',
+  operatingHours: '24시간 365일',
+  visitingHours: '매주 토요일 14:00~16:00',
+  logoUrl: '/images/logo.png',
+  faviconUrl: '/images/favicon.ico',
+  meta: {
+    keywords: '요양원, 노인요양, 장기요양, 아가페',
+    ogImage: '/images/og-image.jpg',
+    googleAnalyticsId: 'UA-XXXXXXXXX-X',
+  },
+};
+
+export const mockContentStats = {
+  notices: {
+    total: 4,
+    pinned: 2,
+    thisMonth: 3,
+    totalViews: 260,
+  },
+  boardPosts: {
+    total: 3,
+    byType: {
+      FAQ: 2,
+      SUGGESTION: 1,
+      QNA: 0,
+    },
+    totalViews: 287,
+    totalComments: 5,
+  },
+  gallery: {
+    total: 3,
+    byCategory: {
+      EVENT: 1,
+      ACTIVITY: 1,
+      DAILY: 1,
+    },
+    totalViews: 282,
+  },
+  activeBanners: 2,
+};

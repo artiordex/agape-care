@@ -1,9 +1,10 @@
 /**
  * Description : next.config.mjs - 📌 Web 앱 Next.js 설정
  * Author : Shiwoo Min
- * Date : 2026-01-25
+ * Date : 2026-01-27
  */
 
+import { withNx } from '@nx/next';
 import 'dotenv/config';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -16,17 +17,15 @@ const IS_FIREBASE = process.env.FIREBASE === 'true';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // App Router 활성화
   experimental: {
     appDir: true,
   },
 
-  // 빌드 모드
-  // Firebase → export
-  // Docker / 로컬 / Cloud → standalone
   output: IS_FIREBASE ? 'export' : 'standalone',
 
-  // 이미지 설정
+  // NX monorepo 구조에서 빌드 출력 경로 명시
+  distDir: '../../dist/apps/web/.next',
+
   images: {
     unoptimized: IS_FIREBASE,
     domains: ['localhost', 'your-domain.com', 'api.dicebear.com'],
@@ -40,19 +39,17 @@ const nextConfig = {
     ],
   },
 
-  // ui 정적 자산 경로 매핑
   async rewrites() {
     return [{ source: '/ui/:path*', destination: '/_next/static/ui/:path*' }];
   },
 
-  // 퍼포먼스 / 안전성
   reactStrictMode: false,
   poweredByHeader: false,
   compress: true,
 
-  // 타입스크립트 / ESLint 빌드 무시 (CI/CD 용)
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
 };
 
-export default nextConfig;
+// 핵심: Nx 래퍼 적용
+export default withNx(nextConfig);

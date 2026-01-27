@@ -33,10 +33,12 @@
     "allowJs": true
   },
   "include": [
-    "src/**/*",
-    "next-env.d.ts",
+    "../../dist/apps/web/.next/types/**/*.ts",
+    "../admin/src/app/mobile",
     ".next/types/**/*.ts",
-    "../admin/src/app/mobile"
+    "next-env.d.ts",
+    "src/**/*",
+    "../../dist/dist/apps/web/.next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

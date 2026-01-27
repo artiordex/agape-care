@@ -1,38 +1,52 @@
 # Description : Dockerfile.admin - 📌 Agape Care Admin (Next.js Standalone)
 # Author : Shiwoo Min
 # Date : 2026-01-25
+# docker build -f infra/docker/Dockerfile.admin -t agape-care-admin . --progress=plain
+# Admin (포트 3001 매핑)
+# docker run -d -p 3001:3001 --name agape-admin agape-care-admin
 
-# Build Stage (Next.js + pnpm)
-FROM node:20-alpine AS build
+# Build Stage
+FROM node:22-alpine AS build
 WORKDIR /app
+
+# husky 비활성화
+ENV HUSKY=0
 
 RUN npm install -g pnpm
 
-# 루트 메타파일 복사
+# Root workspace files
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
     tsconfig.json tsconfig.base.json ./
 
-# workspace 복사
+# Workspace packages
 COPY apps ./apps
 COPY packages ./packages
 
-# admin 전용 workspace 의존성 설치
-RUN pnpm install --filter admin... --frozen-lockfile
+# 전체 workspace 의존성 설치 (필터 제거)
+RUN pnpm install --frozen-lockfile
 
-# Next.js Admin 앱을 standalone으로 빌드
-RUN pnpm --filter @agape-care/admin build
+# Build admin (Next.js standalone)
+RUN pnpm nx build @agape-care/admin --skip-nx-cache
 
-# Runtime Stage (Next.js Standalone)
-FROM node:20-alpine AS runner
+# Runtime Stage
+FROM node:22-alpine AS runner
 WORKDIR /app
 
-# Next.js standalone 서버 파일들
-COPY --from=build /app/apps/admin/.next/standalone ./
-COPY --from=build /app/apps/admin/.next/static ./.next/static
-COPY --from=build /app/apps/admin/public ./public
+ENV NODE_ENV=production
+ENV PORT=3001
+ENV HOSTNAME="0.0.0.0"
 
-# Admin 포트
+# standalone 빌드 결과물 전체를 복사 (monorepo 구조 유지)
+COPY --from=build /app/dist/apps/admin/.next/standalone ./
+
+# Next.js static assets
+COPY --from=build /app/dist/apps/admin/.next/static ./.next/static
+COPY --from=build /app/dist/apps/admin/.next/static ./apps/admin/.next/static
+
+# public 폴더가 비어있을 경우를 대비해 빈 폴더 생성
+RUN mkdir -p ./apps/admin/public
+
 EXPOSE 3001
 
-# Next.js standalone 서버 실행
-CMD ["node", "server.js"]
+# monorepo 구조에 맞게 실행
+CMD ["node", "apps/admin/server.js"]

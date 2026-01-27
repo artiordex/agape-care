@@ -5,9 +5,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3001",
-    "build": "nx build admin",
-    "start": "nx serve admin",
-    "lint": "nx lint admin",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
     "type-check": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {

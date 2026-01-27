@@ -14,9 +14,11 @@
     "build": {
       "executor": "@nx/next:build",
       "outputs": ["{workspaceRoot}/dist/apps/web"],
+      "dependsOn": ["^build"],
       "options": {
         "root": "apps/web",
-        "outputPath": "dist/apps/web"
+        "outputPath": "dist/apps/web",
+        "standalone": true
       }
     },
     "serve": {
