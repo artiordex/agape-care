@@ -192,8 +192,18 @@ export default function Navbar() {
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
-            <Link href="/" className="flex items-center gap-3">
-              <img src="/images/logo.png" alt="요양센터 로고" className="h-12 w-auto" />
+            <Link href="/" className="group flex cursor-pointer items-center gap-3">
+              {/* 로고 이미지 */}
+              <img
+                src="/images/logo.png"
+                alt="아가페 요양원 로고"
+                className="h-12 w-auto transition-transform group-hover:scale-105"
+              />
+
+              {/* 텍스트 로고 (더 크게!) */}
+              <span className="text-2xl font-bold tracking-tight text-[#5C8D5A] transition-colors group-hover:text-[#4A6F47]">
+                아가페 요양원
+              </span>
             </Link>
 
             {/* 데스크탑 메뉴 */}

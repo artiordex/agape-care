@@ -58,7 +58,7 @@ export default function CorporationEssentialSection() {
         <div className="mb-20 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {corporationInfo.map((info, index) => (
             <motion.div
-              key={index}
+              key={info.label}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: index * 0.1 }}
@@ -91,7 +91,7 @@ export default function CorporationEssentialSection() {
         <div className="mx-auto mb-20 max-w-3xl">
           {facilities.map((facility, index) => (
             <motion.div
-              key={index}
+              key={facility.name}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
@@ -146,7 +146,7 @@ export default function CorporationEssentialSection() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {operationStatus.map((item, index) => (
             <motion.div
-              key={index}
+              key={item.title}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: index * 0.1 }}
