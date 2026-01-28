@@ -9,8 +9,12 @@ export default function DesktopDropdown({ visible, items, showMore = false }: an
     >
       <div className="p-4">
         <div className="flex flex-col gap-3">
-          {items.map((item: any, i: number) => (
-            <Link key={i} href={item.path} className="group flex items-start gap-3 rounded-lg p-3 hover:bg-teal-50">
+          {items.map((item: any) => (
+            <Link
+              key={item.name}
+              href={item.path}
+              className="group flex items-start gap-3 rounded-lg p-3 hover:bg-teal-50"
+            >
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-50">
                 <i className={`${item.icon} text-xl text-[#5C8D5A]`} />
               </div>

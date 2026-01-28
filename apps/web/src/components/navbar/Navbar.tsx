@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
 
 import menu from '@/data/menu.json';
 
@@ -88,9 +88,9 @@ export default function Navbar() {
     };
   }, []);
 
-  // 전체 메뉴 오픈 시 스크롤 방지
+  // 전체 메뉴 또는 모바일 메뉴 오픈 시 스크롤 방지
   useEffect(() => {
-    if (isAllMenuOpen) {
+    if (isAllMenuOpen || isMobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -98,7 +98,7 @@ export default function Navbar() {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [isAllMenuOpen]);
+  }, [isAllMenuOpen, isMobileMenuOpen]);
 
   // 모바일 메뉴가 닫힐 때 아코디언도 초기화
   useEffect(() => {
@@ -178,6 +178,11 @@ export default function Navbar() {
 
   const isActive = (path: string) => pathname === path;
 
+  // 서브메뉴에 속하는지 확인하는 함수
+  const isInSubmenu = (submenu: any[]) => {
+    return submenu.some((item: any) => pathname === item.path || pathname.startsWith(item.path + '/'));
+  };
+
   return (
     <>
       <nav
@@ -188,11 +193,7 @@ export default function Navbar() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-20 items-center justify-between">
             <Link href="/" className="flex items-center gap-3">
-              <img
-                src="https://public.readdy.ai/ai/img_res/48e38bd6-8359-445e-830a-806edba46b51.png"
-                alt="요양센터 로고"
-                className="h-12 w-auto"
-              />
+              <img src="/images/logo.png" alt="요양센터 로고" className="h-12 w-auto" />
             </Link>
 
             {/* 데스크탑 메뉴 */}
@@ -203,15 +204,17 @@ export default function Navbar() {
                 className="relative"
                 onMouseEnter={handleIntroMouseEnter}
                 onMouseLeave={handleIntroMouseLeave}
+                onFocus={handleIntroMouseEnter}
+                onBlur={handleIntroMouseLeave}
+                role="group"
               >
-                <Link
-                  href="/intro"
+                <button
                   className={`whitespace-nowrap text-[17px] font-semibold transition-colors ${
-                    isActive('/intro') ? 'text-[#5C8D5A]' : 'text-gray-800 hover:text-[#5C8D5A]'
+                    isInSubmenu(introSubMenu) ? 'text-[#5C8D5A]' : 'text-gray-800 hover:text-[#5C8D5A]'
                   }`}
                 >
                   센터소개
-                </Link>
+                </button>
 
                 <div
                   className={`absolute left-1/2 top-full mt-2 w-[280px] -translate-x-1/2 rounded-xl border border-gray-100 bg-white shadow-xl transition-all duration-300 ${
@@ -223,9 +226,9 @@ export default function Navbar() {
                 >
                   <div className="p-6">
                     <div className="flex flex-col gap-3">
-                      {introSubMenu.map((item: any, index: number) => (
+                      {introSubMenu.map((item: any) => (
                         <Link
-                          key={index}
+                          key={item.name}
                           href={item.path}
                           className="group flex cursor-pointer items-start gap-4 rounded-lg p-4 transition-all duration-200 hover:bg-gradient-to-br hover:from-teal-50 hover:to-amber-50"
                           onClick={() => setIsIntroDropdownOpen(false)}
@@ -252,13 +255,17 @@ export default function Navbar() {
                 className="relative"
                 onMouseEnter={handleServicesMouseEnter}
                 onMouseLeave={handleServicesMouseLeave}
+                onFocus={handleServicesMouseEnter}
+                onBlur={handleServicesMouseLeave}
+                role="group"
               >
-                <Link
-                  href="/services/training-program"
-                  className="cursor-pointer whitespace-nowrap text-[17px] font-semibold text-gray-800 transition-colors hover:text-[#5C8D5A]"
+                <button
+                  className={`cursor-pointer whitespace-nowrap text-[17px] font-semibold transition-colors ${
+                    isInSubmenu(servicesSubMenu) ? 'text-[#5C8D5A]' : 'text-gray-800 hover:text-[#5C8D5A]'
+                  }`}
                 >
                   서비스안내
-                </Link>
+                </button>
 
                 <div
                   className={`absolute left-1/2 top-full mt-2 w-[280px] -translate-x-1/2 rounded-xl border border-gray-100 bg-white shadow-xl transition-all duration-300 ${
@@ -270,9 +277,9 @@ export default function Navbar() {
                 >
                   <div className="p-6">
                     <div className="flex flex-col gap-3">
-                      {servicesSubMenu.map((item: any, index: number) => (
+                      {servicesSubMenu.map((item: any) => (
                         <Link
-                          key={index}
+                          key={item.name}
                           href={item.path}
                           className="group flex cursor-pointer items-start gap-4 rounded-lg p-4 transition-all duration-200 hover:bg-gradient-to-br hover:from-teal-50 hover:to-amber-50"
                           onClick={() => setIsServicesDropdownOpen(false)}
@@ -299,11 +306,14 @@ export default function Navbar() {
                 className="relative"
                 onMouseEnter={handleFacilityMouseEnter}
                 onMouseLeave={handleFacilityMouseLeave}
+                onFocus={handleFacilityMouseEnter}
+                onBlur={handleFacilityMouseLeave}
+                role="group"
               >
                 <Link
                   href="/facility"
                   className={`whitespace-nowrap text-[17px] font-semibold transition-colors ${
-                    isActive('/facility') ? 'text-[#5C8D5A]' : 'text-gray-800 hover:text-[#5C8D5A]'
+                    isInSubmenu(facilitySubMenu) ? 'text-[#5C8D5A]' : 'text-gray-800 hover:text-[#5C8D5A]'
                   }`}
                 >
                   시설안내
@@ -319,9 +329,9 @@ export default function Navbar() {
                 >
                   <div className="p-6">
                     <div className="flex flex-col gap-3">
-                      {facilitySubMenu.map((item: any, index: number) => (
+                      {facilitySubMenu.map((item: any) => (
                         <Link
-                          key={index}
+                          key={item.name}
                           href={item.path}
                           className="group flex cursor-pointer items-start gap-4 rounded-lg p-4 transition-all duration-200 hover:bg-gradient-to-br hover:from-teal-50 hover:to-amber-50"
                           onClick={() => setIsFacilityDropdownOpen(false)}
@@ -348,13 +358,17 @@ export default function Navbar() {
                 className="relative"
                 onMouseEnter={handleAdmissionMouseEnter}
                 onMouseLeave={handleAdmissionMouseLeave}
+                onFocus={handleAdmissionMouseEnter}
+                onBlur={handleAdmissionMouseLeave}
+                role="group"
               >
-                <Link
-                  href="#admission"
-                  className="cursor-pointer whitespace-nowrap text-[17px] font-semibold text-gray-800 transition-colors hover:text-[#5C8D5A]"
+                <button
+                  className={`cursor-pointer whitespace-nowrap text-[17px] font-semibold transition-colors ${
+                    isInSubmenu(admissionSubMenu) ? 'text-[#5C8D5A]' : 'text-gray-800 hover:text-[#5C8D5A]'
+                  }`}
                 >
                   이용안내
-                </Link>
+                </button>
 
                 <div
                   className={`absolute left-1/2 top-full mt-2 w-[280px] -translate-x-1/2 rounded-xl border border-gray-100 bg-white shadow-xl transition-all duration-300 ${
@@ -366,9 +380,9 @@ export default function Navbar() {
                 >
                   <div className="p-6">
                     <div className="flex flex-col gap-3">
-                      {admissionSubMenu.map((item: any, index: number) => (
+                      {admissionSubMenu.map((item: any) => (
                         <Link
-                          key={index}
+                          key={item.name}
                           href={item.path}
                           className="group flex cursor-pointer items-start gap-4 rounded-lg p-4 transition-all duration-200 hover:bg-gradient-to-br hover:from-teal-50 hover:to-amber-50"
                           onClick={() => setIsAdmissionDropdownOpen(false)}
@@ -395,15 +409,17 @@ export default function Navbar() {
                 className="relative"
                 onMouseEnter={handleNoticeMouseEnter}
                 onMouseLeave={handleNoticeMouseLeave}
+                onFocus={handleNoticeMouseEnter}
+                onBlur={handleNoticeMouseLeave}
+                role="group"
               >
-                <Link
-                  href="/communities"
+                <button
                   className={`whitespace-nowrap text-[17px] font-semibold transition-colors ${
-                    isActive('/communities') ? 'text-[#5C8D5A]' : 'text-gray-800 hover:text-[#5C8D5A]'
+                    isInSubmenu(noticeSubMenu) ? 'text-[#5C8D5A]' : 'text-gray-800 hover:text-[#5C8D5A]'
                   }`}
                 >
                   알림마당
-                </Link>
+                </button>
 
                 <div
                   className={`absolute left-1/2 top-full mt-2 w-[280px] -translate-x-1/2 rounded-xl border border-gray-100 bg-white shadow-xl transition-all duration-300 ${
@@ -415,9 +431,9 @@ export default function Navbar() {
                 >
                   <div className="p-6">
                     <div className="flex flex-col gap-3">
-                      {noticeSubMenu.map((item: any, index: number) => (
+                      {noticeSubMenu.map((item: any) => (
                         <Link
-                          key={index}
+                          key={item.name}
                           href={item.path}
                           className="group flex cursor-pointer items-start gap-4 rounded-lg p-4 transition-all duration-200 hover:bg-gradient-to-br hover:from-teal-50 hover:to-amber-50"
                           onClick={() => setIsNoticeDropdownOpen(false)}
@@ -469,15 +485,11 @@ export default function Navbar() {
 
         {/* 모바일 전체 오버레이 메뉴 */}
         {isMobileMenuOpen && (
-          <div className="fixed inset-0 z-[60] overflow-y-auto bg-white lg:hidden">
+          <div className="fixed inset-0 z-[60] flex flex-col bg-white lg:hidden">
             {/* 모바일 메뉴 헤더 */}
-            <div className="flex h-20 items-center justify-between border-b border-gray-200 px-4">
+            <div className="flex h-20 flex-shrink-0 items-center justify-between border-b border-gray-200 px-4">
               <Link href="/" className="flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
-                <img
-                  src="https://public.readdy.ai/ai/img_res/48e38bd6-8359-445e-830a-806edba46b51.png"
-                  alt="요양센터 로고"
-                  className="h-12 w-auto"
-                />
+                <img src="/images/logo.png" alt="요양센터 로고" className="h-12 w-auto" />
               </Link>
               <button className="p-2" onClick={() => setIsMobileMenuOpen(false)} aria-label="메뉴 닫기">
                 <i className="ri-close-line text-3xl text-gray-800" />
@@ -485,7 +497,7 @@ export default function Navbar() {
             </div>
 
             {/* 모바일 메뉴 콘텐츠 */}
-            <div className="space-y-6 px-6 py-8">
+            <div className="flex-1 space-y-6 overflow-y-auto px-6 py-8">
               {/* Mobile 센터소개 */}
               <div className="space-y-3">
                 <button
@@ -508,9 +520,9 @@ export default function Navbar() {
                   aria-hidden={!mobileIntroOpen}
                 >
                   <div className="space-y-3 border-l-2 border-[#5C8D5A]/30 pl-4 pt-2">
-                    {introSubMenu.map((item: any, index: number) => (
+                    {introSubMenu.map((item: any) => (
                       <Link
-                        key={index}
+                        key={item.name}
                         href={item.path}
                         className="flex cursor-pointer items-center gap-3 rounded-lg px-4 py-3 text-base text-gray-700 transition-all hover:bg-gradient-to-br hover:from-teal-50 hover:to-amber-50 hover:text-[#5C8D5A]"
                         onClick={() => setIsMobileMenuOpen(false)}
@@ -545,9 +557,9 @@ export default function Navbar() {
                   aria-hidden={!mobileServicesOpen}
                 >
                   <div className="space-y-3 border-l-2 border-[#5C8D5A]/30 pl-4 pt-2">
-                    {servicesSubMenu.map((item: any, index: number) => (
+                    {servicesSubMenu.map((item: any) => (
                       <Link
-                        key={index}
+                        key={item.name}
                         href={item.path}
                         className="flex cursor-pointer items-center gap-3 rounded-lg px-4 py-3 text-base text-gray-700 transition-all hover:bg-gradient-to-br hover:from-teal-50 hover:to-amber-50 hover:text-[#5C8D5A]"
                         onClick={() => setIsMobileMenuOpen(false)}
@@ -582,9 +594,9 @@ export default function Navbar() {
                   aria-hidden={!mobileFacilityOpen}
                 >
                   <div className="space-y-3 border-l-2 border-[#5C8D5A]/30 pl-4 pt-2">
-                    {facilitySubMenu.map((item: any, index: number) => (
+                    {facilitySubMenu.map((item: any) => (
                       <Link
-                        key={index}
+                        key={item.name}
                         href={item.path}
                         className="flex cursor-pointer items-center gap-3 rounded-lg px-4 py-3 text-base text-gray-700 transition-all hover:bg-gradient-to-br hover:from-teal-50 hover:to-amber-50 hover:text-[#5C8D5A]"
                         onClick={() => setIsMobileMenuOpen(false)}
@@ -619,9 +631,9 @@ export default function Navbar() {
                   aria-hidden={!mobileAdmissionOpen}
                 >
                   <div className="space-y-3 border-l-2 border-[#5C8D5A]/30 pl-4 pt-2">
-                    {admissionSubMenu.map((item: any, index: number) => (
+                    {admissionSubMenu.map((item: any) => (
                       <Link
-                        key={index}
+                        key={item.name}
                         href={item.path}
                         className="flex cursor-pointer items-center gap-3 rounded-lg px-4 py-3 text-base text-gray-700 transition-all hover:bg-gradient-to-br hover:from-teal-50 hover:to-amber-50 hover:text-[#5C8D5A]"
                         onClick={() => setIsMobileMenuOpen(false)}
@@ -656,9 +668,9 @@ export default function Navbar() {
                   aria-hidden={!mobileNoticeOpen}
                 >
                   <div className="space-y-3 border-l-2 border-[#5C8D5A]/30 pl-4 pt-2">
-                    {noticeSubMenu.map((item: any, index: number) => (
+                    {noticeSubMenu.map((item: any) => (
                       <Link
-                        key={index}
+                        key={item.name}
                         href={item.path}
                         className="flex cursor-pointer items-center gap-3 rounded-lg px-4 py-3 text-base text-gray-700 transition-all hover:bg-gradient-to-br hover:from-teal-50 hover:to-amber-50 hover:text-[#5C8D5A]"
                         onClick={() => setIsMobileMenuOpen(false)}
@@ -728,12 +740,12 @@ export default function Navbar() {
 
             {/* 메뉴 그리드 - Desktop */}
             <div className="hidden gap-8 p-12 md:grid md:grid-cols-5">
-              {allMenuData.map((category: any, index: number) => (
-                <div key={index} className="space-y-4">
+              {allMenuData.map((category: any) => (
+                <div key={category.title} className="space-y-4">
                   <h3 className="border-b-2 border-[#5C8D5A] pb-3 text-lg font-bold text-gray-900">{category.title}</h3>
                   <ul className="space-y-3">
-                    {category.items.map((item: any, itemIndex: number) => (
-                      <li key={itemIndex}>
+                    {category.items.map((item: any) => (
+                      <li key={item.name}>
                         <Link
                           href={item.path}
                           onClick={() => setIsAllMenuOpen(false)}
@@ -750,15 +762,15 @@ export default function Navbar() {
 
             {/* 메뉴 아코디언 - Mobile */}
             <div className="space-y-4 p-6 md:hidden">
-              {allMenuData.map((category: any, index: number) => (
-                <details key={index} className="group">
+              {allMenuData.map((category: any) => (
+                <details key={category.title} className="group">
                   <summary className="flex cursor-pointer list-none items-center justify-between rounded-lg bg-gradient-to-br from-teal-50 to-amber-50 px-4 py-3">
                     <h3 className="text-base font-bold text-gray-900">{category.title}</h3>
                     <i className="ri-arrow-down-s-line text-xl text-gray-600 transition-transform group-open:rotate-180" />
                   </summary>
                   <ul className="ml-4 mt-2 space-y-2 border-l-2 border-gray-200 pl-4">
-                    {category.items.map((item: any, itemIndex: number) => (
-                      <li key={itemIndex}>
+                    {category.items.map((item: any) => (
+                      <li key={item.name}>
                         <Link
                           href={item.path}
                           onClick={() => setIsAllMenuOpen(false)}

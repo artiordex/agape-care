@@ -6,7 +6,7 @@ import FloatingSidebar from '@/components/FloatingSidebar';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/navbar/Navbar';
 
-export default function AppShell({ children }: { children: ReactNode }) {
+export default function AppShell({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <div className="flex min-h-screen flex-col bg-white text-gray-900">
       {/* 상단 네비게이션 */}

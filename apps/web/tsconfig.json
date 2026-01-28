@@ -2,7 +2,8 @@
  * Description : tsconfig.json - 📌 Agape-Care 요양원 Web (Next.js)
  * Author : Shiwoo Min
  * Updated : 2026-01-22
- */ {
+ */
+{
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true,

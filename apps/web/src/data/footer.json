@@ -1,0 +1,29 @@
+{
+  "topLinks": [
+    { "label": "관리자 페이지 접속", "href": "/admin" },
+    { "label": "개인정보 처리방침", "href": "/privacy" },
+    { "label": "서비스 급여 종류 : 노인요양시설, 가정방문급여" }
+  ],
+
+  "branding": {
+    "logo": "/images/logo.png",
+    "alt": "요양센터 로고",
+    "name": "아가페 요양원",
+    "description": [""]
+  },
+
+  "institutionInfo": {
+    "ceo": "아가페 요양원",
+    "phone": "5556660606",
+    "fax": "02-6008-2514",
+    "email": "sskang@hangang.com"
+  },
+
+  "addressInfo": {
+    "zipcode": "07071",
+    "address": "서울 동작구 보라매로5길 15 (신대방동, 전문건설회관빌딩) 17층 한강시스템 주식회사",
+    "businessNumber": "000-00-00000"
+  },
+
+  "copy": "Copyright ⓒ 아가페 요양원 All rights reserved."
+}

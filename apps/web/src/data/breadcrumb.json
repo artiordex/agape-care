@@ -1,0 +1,123 @@
+{
+  "intro": {
+    "introduction": [
+      { "label": "홈", "href": "/" },
+      { "label": "센터소개", "href": "/intro" },
+      { "label": "인사말" }
+    ],
+    "history": [
+      { "label": "홈", "href": "/" },
+      { "label": "센터소개", "href": "/intro" },
+      { "label": "연혁" }
+    ],
+    "staff": [
+      { "label": "홈", "href": "/" },
+      { "label": "센터소개", "href": "/intro" },
+      { "label": "직원소개" }
+    ],
+    "location": [
+      { "label": "홈", "href": "/" },
+      { "label": "센터소개", "href": "/intro" },
+      { "label": "오시는 길" }
+    ]
+  },
+  "services": {
+    "cognitive-program": [
+      { "label": "홈", "href": "/" },
+      { "label": "서비스안내", "href": "/services" },
+      { "label": "인지관리프로그램" }
+    ],
+    "leisure-program": [
+      { "label": "홈", "href": "/" },
+      { "label": "서비스안내", "href": "/services" },
+      { "label": "여가활동 프로그램" }
+    ],
+    "medical-nursing": [
+      { "label": "홈", "href": "/" },
+      { "label": "서비스안내", "href": "/services" },
+      { "label": "의료지원간호서비스" }
+    ],
+    "rehabilitation": [
+      { "label": "홈", "href": "/" },
+      { "label": "서비스안내", "href": "/services" },
+      { "label": "재활치료서비스" }
+    ],
+    "training-program": [
+      { "label": "홈", "href": "/" },
+      { "label": "서비스안내", "href": "/services" },
+      { "label": "보육훈련 3단계 프로그램" }
+    ],
+    "nutrition-care": [
+      { "label": "홈", "href": "/" },
+      { "label": "서비스안내", "href": "/services" },
+      { "label": "영양관리" }
+    ],
+    "admission-process": [
+      { "label": "홈", "href": "/" },
+      { "label": "서비스안내", "href": "/services" },
+      { "label": "입소절차안내" }
+    ],
+    "daily-life": [
+      { "label": "홈", "href": "/" },
+      { "label": "서비스안내", "href": "/services" },
+      { "label": "하루 일과 / 생활안내" }
+    ],
+    "individual-care": [
+      { "label": "홈", "href": "/" },
+      { "label": "서비스안내", "href": "/services" },
+      { "label": "개별 케어 서비스" }
+    ]
+  },
+  "facility": {
+    "main": [{ "label": "홈", "href": "/" }, { "label": "시설안내" }]
+  },
+  "guide": {
+    "admission": [
+      { "label": "홈", "href": "/" },
+      { "label": "이용안내", "href": "/guide" },
+      { "label": "입소안내" }
+    ],
+    "cost": [
+      { "label": "홈", "href": "/" },
+      { "label": "이용안내", "href": "/guide" },
+      { "label": "입소 비용 안내" }
+    ],
+    "visit": [
+      { "label": "홈", "href": "/" },
+      { "label": "이용안내", "href": "/guide" },
+      { "label": "면회 안내" }
+    ],
+    "contact": [
+      { "label": "홈", "href": "/" },
+      { "label": "이용안내", "href": "/guide" },
+      { "label": "상담신청" }
+    ]
+  },
+  "notices": {
+    "announcements": [
+      { "label": "홈", "href": "/" },
+      { "label": "알림마당", "href": "/notices" },
+      { "label": "공지사항" }
+    ],
+    "board": [
+      { "label": "홈", "href": "/" },
+      { "label": "알림마당", "href": "/notices" },
+      { "label": "게시판" }
+    ],
+    "gallery": [
+      { "label": "홈", "href": "/" },
+      { "label": "알림마당", "href": "/notices" },
+      { "label": "갤러리" }
+    ],
+    "meal-plan": [
+      { "label": "홈", "href": "/" },
+      { "label": "알림마당", "href": "/notices" },
+      { "label": "식단표" }
+    ],
+    "program-schedule": [
+      { "label": "홈", "href": "/" },
+      { "label": "알림마당", "href": "/notices" },
+      { "label": "프로그램 일정표" }
+    ]
+  }
+}

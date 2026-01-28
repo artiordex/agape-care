@@ -1,88 +1,70 @@
 'use client';
 
+import footerData from '@/data/footer.json';
+import Image from 'next/image';
 import Link from 'next/link';
 
-const Footer = () => (
-  <footer className="border-t border-[#E5E1D8] bg-[#F5F3EE]">
-    <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
-        <div>
-          <img
-            src="https://public.readdy.ai/ai/img_res/48e38bd6-8359-445e-830a-806edba46b51.png"
-            alt="요양센터 로고"
-            className="mb-4 h-12 w-auto"
-          />
-          <p className="text-sm leading-relaxed text-gray-600">
-            가족을 돌보는 마음으로
-            <br />
-            안전하고 따뜻하게 모십니다
-          </p>
-        </div>
+const Footer = () => {
+  const { topLinks, branding, institutionInfo, addressInfo, copy } = footerData;
 
-        <div>
-          <h3 className="mb-4 text-base font-semibold text-gray-800">빠른 메뉴</h3>
-          <ul className="space-y-3">
-            <li>
-              <Link
-                href="/intro"
-                className="cursor-pointer text-sm text-gray-600 transition-colors hover:text-[#5C8D5A]"
-              >
-                센터소개
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/facility"
-                className="cursor-pointer text-sm text-gray-600 transition-colors hover:text-[#5C8D5A]"
-              >
-                시설안내
-              </Link>
-            </li>
-          </ul>
-        </div>
+  return (
+    <footer className="border-t border-[#E5E1D8] bg-[#F5F3EE] py-12">
+      <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 sm:px-6 lg:px-8">
+        {/* Top Links */}
+        <ul className="flex flex-wrap items-center text-sm text-gray-700">
+          {topLinks.map((item, idx) => (
+            <li key={item.label} className="flex items-center">
+              {item.href ? (
+                <Link href={item.href} className="cursor-pointer px-1 hover:text-[#5C8D5A]">
+                  {item.label}
+                </Link>
+              ) : (
+                <span className="px-1">{item.label}</span>
+              )}
 
-        <div>
-          <h3 className="mb-4 text-base font-semibold text-gray-800">고객센터</h3>
-          <ul className="space-y-3">
-            <li className="text-sm text-gray-600">
-              <i className="ri-phone-line mr-2 text-[#5C8D5A]" />
-              02-1234-5678
+              {/* 구분자 */}
+              {idx < topLinks.length - 1 && <span className="px-2 text-gray-400">|</span>}
             </li>
-            <li className="text-sm text-gray-600">
-              <i className="ri-time-line mr-2 text-[#5C8D5A]" />
-              평일 09:00 - 18:00
-            </li>
-            <li className="text-sm text-gray-600">
-              <i className="ri-mail-line mr-2 text-[#5C8D5A]" />
-              contact@nursingcare.com
-            </li>
-          </ul>
-        </div>
+          ))}
+        </ul>
 
-        <div>
-          <h3 className="mb-4 text-base font-semibold text-gray-800">오시는 길</h3>
-          <p className="text-sm leading-relaxed text-gray-600">
-            서울특별시 강남구 테헤란로 123
-            <br />
-            요양센터빌딩 2층
-          </p>
-        </div>
-      </div>
+        {/* Branding + Info */}
+        <div className="flex flex-col justify-between gap-10 md:flex-row">
+          {/* Left Branding */}
+          <div className="max-w-sm">
+            <div className="mb-3 flex items-center gap-3">
+              <Image src={branding.logo} alt={branding.alt} width={48} height={48} className="object-contain" />
+              <span className="text-lg font-semibold text-gray-900">{branding.name}</span>
+            </div>
 
-      <div className="mt-12 border-t border-[#E5E1D8] pt-8">
-        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-          <p className="text-sm text-gray-500">© 2026 아가페 요양원. All rights reserved.</p>
-          <div className="flex gap-6">
-            <Link
-              href="/privacy"
-              className="cursor-pointer text-sm text-gray-500 transition-colors hover:text-[#5C8D5A]"
-            >
-              개인정보처리방침
-            </Link>
+            <p className="text-sm leading-relaxed text-gray-700">
+              {branding.description.map((line, idx) => (
+                <span key={line}>
+                  {line}
+                  {idx < branding.description.length - 1 && <br />}
+                </span>
+              ))}
+            </p>
+          </div>
+
+          {/* Right Info */}
+          <div className="flex-1 text-sm leading-relaxed text-gray-700 md:text-right">
+            <p>
+              대표자 : {institutionInfo.ceo} &nbsp;/&nbsp; 전화 : {institutionInfo.phone} &nbsp;/&nbsp; 팩스 :{' '}
+              {institutionInfo.fax} &nbsp;/&nbsp; 이메일 : {institutionInfo.email}
+            </p>
+
+            <p className="mt-1">
+              주소 : (우 {addressInfo.zipcode}) {addressInfo.address} &nbsp;/&nbsp; 사업자등록번호 :{' '}
+              {addressInfo.businessNumber}
+            </p>
+
+            <p className="mt-3 text-gray-500">{copy}</p>
           </div>
         </div>
       </div>
-    </div>
-  </footer>
-);
+    </footer>
+  );
+};
+
 export default Footer;
