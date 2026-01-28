@@ -11,7 +11,7 @@ import NewsSection from './section/NewsSection';
 import ServicesSection from './section/ServicesSection';
 
 // Intersection Observer Scroll Animation
-function AnimatedSection({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+function AnimatedSection({ children, delay = 0 }: Readonly<{ children: React.ReactNode; delay?: number }>) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -19,7 +19,7 @@ function AnimatedSection({ children, delay = 0 }: { children: React.ReactNode; d
     const observer = new IntersectionObserver(
       entries => {
         const entry = entries[0];
-        if (entry && entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           setTimeout(() => setIsVisible(true), delay);
         }
       },
@@ -32,7 +32,7 @@ function AnimatedSection({ children, delay = 0 }: { children: React.ReactNode; d
 
     return () => {
       if (ref.current) {
-        observer.unobserve(ref.current); // ✔ return void
+        observer.unobserve(ref.current);
       }
     };
   }, [delay]);

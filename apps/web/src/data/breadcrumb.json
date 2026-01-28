@@ -1,23 +1,28 @@
 {
   "intro": {
+    "greeting": [
+      { "label": "홈", "href": "/" },
+      { "label": "기관소개", "href": "/intro" },
+      { "label": "인사말" }
+    ],
     "introduction": [
       { "label": "홈", "href": "/" },
-      { "label": "센터소개", "href": "/intro" },
+      { "label": "기관소개", "href": "/intro" },
       { "label": "인사말" }
     ],
     "history": [
       { "label": "홈", "href": "/" },
-      { "label": "센터소개", "href": "/intro" },
+      { "label": "기관소개", "href": "/intro" },
       { "label": "연혁" }
     ],
     "staff": [
       { "label": "홈", "href": "/" },
-      { "label": "센터소개", "href": "/intro" },
+      { "label": "기관소개", "href": "/intro" },
       { "label": "직원소개" }
     ],
     "location": [
       { "label": "홈", "href": "/" },
-      { "label": "센터소개", "href": "/intro" },
+      { "label": "기관소개", "href": "/intro" },
       { "label": "오시는 길" }
     ]
   },

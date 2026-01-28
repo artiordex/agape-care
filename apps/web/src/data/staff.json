@@ -1,0 +1,84 @@
+{
+  "managementTeam": [
+    {
+      "name": "김영희",
+      "position": "시설장",
+      "image": "images/staff/1.jpg",
+      "credentials": ["사회복지사 1급", "요양시설 운영 15년"],
+      "description": "어르신들의 행복한 노후를 위해 헌신하겠습니다"
+    },
+    {
+      "name": "박민수",
+      "position": "사무국장",
+      "image": "images/staff/2.jpg",
+      "credentials": ["행정관리 전문가", "시설운영 10년"],
+      "description": "효율적인 시설 운영으로 최상의 서비스를 제공합니다"
+    }
+  ],
+
+  "medicalTeam": [
+    {
+      "name": "이수진",
+      "position": "간호팀장",
+      "image": "images/staff/3.jpg",
+      "credentials": ["간호사 면허", "노인간호 전문"],
+      "specialty": "건강관리 및 의료지원"
+    },
+    {
+      "name": "최동욱",
+      "position": "물리치료사",
+      "image": "images/staff/4.jpg",
+      "credentials": ["물리치료사 면허", "재활치료 전문"],
+      "specialty": "재활 및 운동치료"
+    },
+    {
+      "name": "정미영",
+      "position": "영양사",
+      "image": "images/staff/5.jpg",
+      "credentials": ["영양사 면허", "임상영양 전문"],
+      "specialty": "맞춤형 영양관리"
+    }
+  ],
+
+  "careTeam": [
+    {
+      "name": "강은미",
+      "position": "요양보호사",
+      "image": "images/staff/6.jpg",
+      "credentials": ["요양보호사 자격증", "경력 8년"]
+    },
+    {
+      "name": "윤지혜",
+      "position": "요양보호사",
+      "image": "images/staff/7.jpg",
+      "credentials": ["요양보호사 자격증", "경력 5년"]
+    },
+    {
+      "name": "김태현",
+      "position": "요양보호사",
+      "image": "images/staff/8.jpg",
+      "credentials": ["요양보호사 자격증", "경력 6년"]
+    },
+    {
+      "name": "송미란",
+      "position": "요양보호사",
+      "image": "images/staff/9.jpg",
+      "credentials": ["요양보호사 자격증", "경력 10년"]
+    }
+  ],
+
+  "supportTeam": [
+    {
+      "name": "한지원",
+      "position": "사회복지사",
+      "image": "images/staff/10.jpg",
+      "credentials": ["사회복지사 2급", "상담 전문"]
+    },
+    {
+      "name": "조현우",
+      "position": "프로그램 강사",
+      "image": "images/staff/11.jpg",
+      "credentials": ["레크리에이션 지도사", "음악치료사"]
+    }
+  ]
+}

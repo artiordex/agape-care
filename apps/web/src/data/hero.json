@@ -1,9 +1,14 @@
 {
   "intro": {
-    "introduction": {
+    "greeting": {
       "title": "인사말",
       "description": "아가페요양센터는 어르신들의 행복하고 건강한 노후를 위해 최선을 다하고 있습니다.",
       "image": "/images/hero/intro-greeting.jpg"
+    },
+    "introduction": {
+      "title": "센터소개",
+      "description": "아가페요양센터는 어르신들의 행복하고 건강한 노후를 위해 최선을 다하고 있습니다.",
+      "image": "/images/hero/intro-introduction.jpg"
     },
     "history": {
       "title": "연혁",

@@ -198,7 +198,7 @@ export default function Navbar() {
 
             {/* 데스크탑 메뉴 */}
             <div className="hidden items-center gap-8 lg:flex">
-              {/* 센터소개 */}
+              {/* 기관소개 */}
               <div
                 ref={introDropdownRef}
                 className="relative"
@@ -213,7 +213,7 @@ export default function Navbar() {
                     isInSubmenu(introSubMenu) ? 'text-[#5C8D5A]' : 'text-gray-800 hover:text-[#5C8D5A]'
                   }`}
                 >
-                  센터소개
+                  기관소개
                 </button>
 
                 <div

@@ -4,6 +4,12 @@
       "name": "인사말",
       "description": "센터장 인사말",
       "icon": "ri-message-3-line",
+      "path": "/intro/greeting"
+    },
+    {
+      "name": "센터소개",
+      "description": "센터소개",
+      "icon": "ri-message-3-line",
       "path": "/intro/introduction"
     },
     {
@@ -154,9 +160,10 @@
 
   "allMenuData": [
     {
-      "title": "센터소개",
+      "title": "기관소개",
       "items": [
         { "name": "인사말", "path": "/intro/greeting" },
+        { "name": "센터소개", "path": "/intro/introduction" },
         { "name": "연혁", "path": "/intro/history" },
         { "name": "직원소개", "path": "/intro/staff" },
         { "name": "오시는 길", "path": "/intro/location" }

@@ -13,7 +13,7 @@ export default function AppShell({ children }: Readonly<{ children: ReactNode }>
       <Navbar />
 
       {/* 본문 영역 */}
-      <main className="min-h-screen bg-white">{children}</main>
+      <main className="min-h-screen bg-white pt-20">{children}</main>
 
       {/* 우측 고정 사이드바 */}
       <FloatingSidebar />
