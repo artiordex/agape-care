@@ -465,7 +465,7 @@ export default function Navbar() {
               </div>
 
               <Link
-                href="#contact"
+                href="/guide/contact"
                 className="cursor-pointer whitespace-nowrap rounded-lg bg-[#5C8D5A] px-6 py-3 font-semibold text-white transition-all hover:bg-[#4A7548]"
               >
                 상담신청

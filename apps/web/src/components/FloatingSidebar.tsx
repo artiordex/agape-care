@@ -38,7 +38,7 @@ const FloatingSidebar = () => (
 
       {/* 상담문의 버튼 */}
       <a
-        href="#contact"
+        href="/guide/contact"
         className="flex h-16 w-44 cursor-pointer items-center gap-3 rounded-b-xl bg-[#E59A00] px-4 text-base font-semibold text-white shadow-lg transition-colors duration-300 hover:bg-[#c98200]"
         aria-label="상담문의 바로가기"
       >
