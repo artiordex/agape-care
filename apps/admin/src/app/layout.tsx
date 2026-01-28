@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: 'Agape Care 요양원 관리자 대시보드',
 };
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ko">
       <head>

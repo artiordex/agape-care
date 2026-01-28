@@ -1,0 +1,62 @@
+{
+  "stats": [
+    {
+      "id": "resident",
+      "title": "현재 입소자",
+      "value": "29 / 29명",
+      "icon": "ri-user-line",
+      "color": "from-blue-500 to-blue-600",
+      "change": "+3명"
+    },
+    {
+      "id": "schedule",
+      "title": "오늘의 일정",
+      "value": "12건",
+      "icon": "ri-calendar-line",
+      "color": "from-green-500 to-green-600",
+      "change": "진행 중"
+    },
+    {
+      "id": "alert",
+      "title": "긴급 알림",
+      "value": "2건",
+      "icon": "ri-alert-line",
+      "color": "from-red-500 to-red-600",
+      "change": "확인 필요"
+    },
+    {
+      "id": "staff",
+      "title": "직원 출근",
+      "value": "22 / 25명",
+      "icon": "ri-team-line",
+      "color": "from-purple-500 to-purple-600",
+      "change": "정상"
+    }
+  ],
+
+  "quickActions": [
+    {
+      "label": "입소자 등록",
+      "icon": "ri-user-add-line",
+      "color": "from-blue-500 to-blue-600",
+      "path": "/admin/beneficiary/new"
+    },
+    {
+      "label": "일정 추가",
+      "icon": "ri-calendar-event-line",
+      "color": "from-green-500 to-green-600",
+      "action": "addSchedule"
+    },
+    {
+      "label": "공지 작성",
+      "icon": "ri-file-edit-line",
+      "color": "from-purple-500 to-purple-600",
+      "path": "/admin/content/notice"
+    },
+    {
+      "label": "보고서 생성",
+      "icon": "ri-file-chart-line",
+      "color": "from-orange-500 to-orange-600"
+    }
+  ]
+}

@@ -26,10 +26,195 @@ interface AdminSidebarProps {
   onMenuClick: (menuId: string) => void;
   isMobileMenuOpen?: boolean;
   onCloseMobileMenu?: () => void;
+  collapsed: boolean;
+  onToggleCollapse: () => void;
 }
 
-const AdminSidebar: React.FC<AdminSidebarProps> = ({ onMenuClick, activeMenu, isMobileMenuOpen = false, onCloseMobileMenu }) => {
-  const [collapsed, setCollapsed] = useState(false);
+interface SidebarGroupProps {
+  group: SubMenuItem;
+  parentChildren: SubMenuItem[];
+  openMenus: { [key: string]: boolean };
+  activeMenu: string;
+  toggleMenu: (id: string) => void;
+  onMenuClick: (id: string) => void;
+}
+
+const SidebarGroup: React.FC<SidebarGroupProps> = ({ group, parentChildren, openMenus, activeMenu, toggleMenu, onMenuClick }) => {
+  const groupId = group.id;
+  const isGroupOpen = openMenus[groupId];
+  const groupChildren = parentChildren.filter(c => c.parentGroup === groupId);
+  const isGroupActive = groupChildren.some(gc => gc.id === activeMenu);
+
+  return (
+    <div key={group.id}>
+      <button
+        type="button"
+        onClick={e => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleMenu(groupId);
+        }}
+        className={clsx(
+          'flex w-full cursor-pointer items-center justify-between px-4 py-2.5 pl-12 text-left text-sm font-semibold transition-colors',
+          isGroupActive ? 'bg-emerald-50/50 text-emerald-600' : 'text-gray-700 hover:bg-gray-100',
+        )}
+      >
+        <span className="flex items-center gap-2">
+          <i className={`ri-folder-${isGroupOpen ? 'open-' : ''}line text-base`}></i>
+          {group.name}
+        </span>
+        <i className={`ri-arrow-${isGroupOpen ? 'down' : 'right'}-s-line text-xs transition-transform duration-200`}></i>
+      </button>
+      {isGroupOpen && (
+        <div className="ml-12 border-l-2 border-emerald-200 bg-white">
+          {groupChildren.map(groupChild => (
+            <button
+              key={groupChild.id}
+              type="button"
+              onClick={e => {
+                e.preventDefault();
+                e.stopPropagation();
+                onMenuClick(groupChild.id);
+              }}
+              className={clsx(
+                'w-full cursor-pointer px-4 py-2.5 pl-6 text-left text-sm transition-all duration-200',
+                activeMenu === groupChild.id
+                  ? 'border-l-4 border-emerald-600 bg-emerald-50 font-semibold text-emerald-600'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-emerald-600',
+              )}
+            >
+              {groupChild.name}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+interface SidebarItemProps {
+  item: MenuItem;
+  activeMenu: string;
+  openMenus: { [key: string]: boolean };
+  collapsed: boolean;
+  toggleMenu: (id: string) => void;
+  onMenuClick: (id: string) => void;
+  handleMouseEnter: (e: React.MouseEvent, label: string) => void;
+  handleMouseLeave: () => void;
+}
+
+const SidebarItem: React.FC<SidebarItemProps> = ({
+  item,
+  activeMenu,
+  openMenus,
+  collapsed,
+  toggleMenu,
+  onMenuClick,
+  handleMouseEnter,
+  handleMouseLeave,
+}) => {
+  const hasChildren = item.children && item.children.length > 0;
+  const isOpen = openMenus[item.id];
+
+  const isActive =
+    activeMenu === item.id ||
+    (hasChildren &&
+      item.children!.some(child => {
+        if (child.isGroup) {
+          const groupChildren = item.children!.filter(c => c.parentGroup === child.id);
+          return groupChildren.some(gc => gc.id === activeMenu);
+        }
+        return child.id === activeMenu;
+      }));
+
+  return (
+    <div key={item.id} className="relative">
+      {/* 메인 메뉴 */}
+      <button
+        type="button"
+        onClick={e => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (hasChildren) {
+            toggleMenu(item.id);
+          } else {
+            onMenuClick(item.id);
+          }
+        }}
+        onMouseEnter={e => handleMouseEnter(e, item.name)}
+        onMouseLeave={handleMouseLeave}
+        className={clsx(
+          'flex w-full cursor-pointer items-center transition-all duration-200',
+          collapsed ? 'justify-center px-0 py-3' : 'justify-between px-4 py-3',
+          isActive ? 'border-r-4 border-emerald-600 bg-emerald-50 text-emerald-600' : 'text-gray-700 hover:bg-gray-50',
+        )}
+        aria-label={item.name}
+      >
+        <div className={clsx('flex items-center', collapsed ? 'justify-center' : 'gap-3')}>
+          <i className={clsx(item.icon, 'flex-shrink-0 text-xl', isActive && 'text-emerald-600')}></i>
+          {!collapsed && <span className={clsx('font-medium transition-all duration-200', isActive && 'font-semibold')}>{item.name}</span>}
+        </div>
+
+        {!collapsed && hasChildren && (
+          <i className={`ri-arrow-${isOpen ? 'down' : 'right'}-s-line text-gray-400 transition-transform duration-200`}></i>
+        )}
+      </button>
+
+      {/* 서브메뉴 */}
+      {hasChildren && isOpen && !collapsed && (
+        <div className="bg-gray-50">
+          {item.children!.map(child => {
+            // 그룹 메뉴
+            if (child.isGroup) {
+              return (
+                <SidebarGroup
+                  key={child.id}
+                  group={child}
+                  parentChildren={item.children!}
+                  openMenus={openMenus}
+                  activeMenu={activeMenu}
+                  toggleMenu={toggleMenu}
+                  onMenuClick={onMenuClick}
+                />
+              );
+            }
+
+            // 일반 서브메뉴
+            if (!child.parentGroup) {
+              return (
+                <button
+                  key={child.id}
+                  type="button"
+                  onClick={e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    onMenuClick(child.id);
+                  }}
+                  className={clsx(
+                    'w-full cursor-pointer px-4 py-2.5 pl-12 text-left text-sm transition-colors',
+                    activeMenu === child.id ? 'bg-emerald-50 font-medium text-emerald-600' : 'text-gray-600 hover:bg-gray-100',
+                  )}
+                >
+                  {child.name}
+                </button>
+              );
+            }
+            return null;
+          })}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const AdminSidebar: React.FC<AdminSidebarProps> = ({
+  onMenuClick,
+  activeMenu,
+  isMobileMenuOpen = false,
+  onCloseMobileMenu,
+  collapsed,
+  onToggleCollapse,
+}) => {
   const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
   const [isClient, setIsClient] = useState(false);
 
@@ -44,19 +229,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onMenuClick, activeMenu, is
     role: '시설장',
     roleLevel: '관리자 권한',
     lastLogin: new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' }),
-    avatar:
-      'https://readdy.ai/api/search-image?query=professional%20korean%20senior%20care%20facility%20director%20portrait%20clean%20white%20background%20confident%20friendly%20healthcare%20administrator&width=80&height=80&seq=admin-prof-001&orientation=squarish',
+    avatar: '/images/admin-avatar.png',
   });
 
-  // 클라이언트 마운트 후 localStorage에서 복원
+  // 클라이언트 마운트 후 localStorage에서 복원 (collapsed 제외)
   useEffect(() => {
     setIsClient(true);
-
-    const savedCollapsed = localStorage.getItem('sidebar-collapsed');
-    if (savedCollapsed) {
-      setCollapsed(savedCollapsed === 'true');
-    }
-
     const savedOpenMenus = localStorage.getItem('sidebar-open-menus');
     if (savedOpenMenus) {
       setOpenMenus(JSON.parse(savedOpenMenus));
@@ -70,13 +248,6 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onMenuClick, activeMenu, is
     }
   }, [openMenus, isClient]);
 
-  // localStorage 저장
-  useEffect(() => {
-    if (isClient) {
-      localStorage.setItem('sidebar-collapsed', String(collapsed));
-    }
-  }, [collapsed, isClient]);
-
   // 모바일 체크
   useEffect(() => {
     const checkMobile = () => {
@@ -89,48 +260,57 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onMenuClick, activeMenu, is
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // 모바일 아닐 때만 collapsed 상태 적용
+  const effectiveCollapsed = isMobile ? false : collapsed;
+
   // activeMenu 기반으로 상위 메뉴/그룹 자동 열기
   useLayoutEffect(() => {
     if (!activeMenu) return;
 
-    setOpenMenus(prev => {
-      const updated = { ...prev };
+    const calculateOpenMenus = (currentOpenMenus: { [key: string]: boolean }) => {
+      const updated = { ...currentOpenMenus };
 
       menuData.menus.forEach((item: any) => {
         if (!item.children || item.children.length === 0) return;
 
         // 일반 서브메뉴 처리
-        const hasActiveChild = item.children.some((c: any) => c.id === activeMenu);
-        if (hasActiveChild) {
+        if (item.children.some((c: any) => c.id === activeMenu)) {
           updated[item.id] = true;
         }
 
         // 그룹 서브메뉴 처리
-        item.children.forEach((child: any) => {
-          if (child.isGroup) {
-            const groupChildren = item.children!.filter((gc: any) => gc.parentGroup === child.id);
-            const isGroupActive = groupChildren.some((gc: any) => gc.id === activeMenu);
-
-            if (isGroupActive) {
-              updated[item.id] = true;
-              updated[child.id] = true;
-            }
-          }
+        const hasActiveGroupChild = item.children.some((child: any) => {
+          if (!child.isGroup) return false;
+          const groupChildren = item.children!.filter((gc: any) => gc.parentGroup === child.id);
+          return groupChildren.some((gc: any) => gc.id === activeMenu);
         });
-      });
 
+        if (hasActiveGroupChild) {
+          item.children.forEach((child: any) => {
+            if (child.isGroup) {
+              const groupChildren = item.children!.filter((gc: any) => gc.parentGroup === child.id);
+              if (groupChildren.some((gc: any) => gc.id === activeMenu)) {
+                updated[item.id] = true;
+                updated[child.id] = true;
+              }
+            }
+          });
+        }
+      });
       return updated;
-    });
+    };
+
+    setOpenMenus(prev => calculateOpenMenus(prev));
   }, [activeMenu]);
 
   // 축소/확장 토글
   const toggleSidebar = () => {
-    setCollapsed(prev => !prev);
+    onToggleCollapse();
   };
 
   // 메뉴 토글
   const toggleMenu = (menuId: string) => {
-    if (collapsed) return;
+    if (effectiveCollapsed) return;
     setOpenMenus(prev => ({
       ...prev,
       [menuId]: !prev[menuId],
@@ -139,7 +319,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onMenuClick, activeMenu, is
 
   // 툴팁 표시
   const handleMouseEnter = (e: React.MouseEvent, label: string) => {
-    if (!collapsed) return;
+    if (!effectiveCollapsed) return;
     const rect = e.currentTarget.getBoundingClientRect();
     setTooltipPosition({
       top: rect.top + rect.height / 2,
@@ -152,143 +332,6 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onMenuClick, activeMenu, is
     setHoveredMenu(null);
   };
 
-  // 메뉴 아이템 렌더링
-  const renderMenuItem = (item: MenuItem) => {
-    const hasChildren = item.children && item.children.length > 0;
-    const isOpen = openMenus[item.id];
-
-    const isActive =
-      activeMenu === item.id ||
-      (hasChildren &&
-        item.children!.some(child => {
-          if (child.isGroup) {
-            const groupChildren = item.children!.filter(c => c.parentGroup === child.id);
-            return groupChildren.some(gc => gc.id === activeMenu);
-          }
-          return child.id === activeMenu;
-        }));
-
-    return (
-      <div key={item.id} className="relative">
-        {/* 메인 메뉴 */}
-        <button
-          type="button"
-          onClick={e => {
-            e.preventDefault();
-            e.stopPropagation();
-            if (hasChildren) {
-              toggleMenu(item.id);
-            } else {
-              onMenuClick(item.id);
-            }
-          }}
-          onMouseEnter={e => handleMouseEnter(e, item.name)}
-          onMouseLeave={handleMouseLeave}
-          className={clsx(
-            'flex w-full cursor-pointer items-center transition-all duration-200',
-            collapsed ? 'justify-center px-0 py-3' : 'justify-between px-4 py-3',
-            isActive ? 'border-r-4 border-emerald-600 bg-emerald-50 text-emerald-600' : 'text-gray-700 hover:bg-gray-50',
-          )}
-          aria-label={item.name}
-        >
-          <div className={clsx('flex items-center', collapsed ? 'justify-center' : 'gap-3')}>
-            <i className={clsx(item.icon, 'flex-shrink-0 text-xl', isActive && 'text-emerald-600')}></i>
-            {!collapsed && (
-              <span className={clsx('font-medium transition-all duration-200', isActive && 'font-semibold')}>{item.name}</span>
-            )}
-          </div>
-
-          {!collapsed && hasChildren && (
-            <i className={`ri-arrow-${isOpen ? 'down' : 'right'}-s-line text-gray-400 transition-transform duration-200`}></i>
-          )}
-        </button>
-
-        {/* 서브메뉴 */}
-        {hasChildren && isOpen && !collapsed && (
-          <div className="bg-gray-50">
-            {item.children!.map(child => {
-              // 그룹 메뉴
-              if (child.isGroup) {
-                const groupId = child.id;
-                const isGroupOpen = openMenus[groupId];
-                const groupChildren = item.children!.filter(c => c.parentGroup === groupId);
-                const isGroupActive = groupChildren.some(gc => gc.id === activeMenu);
-
-                return (
-                  <div key={child.id}>
-                    <button
-                      type="button"
-                      onClick={e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        toggleMenu(groupId);
-                      }}
-                      className={clsx(
-                        'flex w-full cursor-pointer items-center justify-between px-4 py-2.5 pl-12 text-left text-sm font-semibold transition-colors',
-                        isGroupActive ? 'bg-emerald-50/50 text-emerald-600' : 'text-gray-700 hover:bg-gray-100',
-                      )}
-                    >
-                      <span className="flex items-center gap-2">
-                        <i className={`ri-folder-${isGroupOpen ? 'open-' : ''}line text-base`}></i>
-                        {child.name}
-                      </span>
-                      <i className={`ri-arrow-${isGroupOpen ? 'down' : 'right'}-s-line text-xs transition-transform duration-200`}></i>
-                    </button>
-                    {isGroupOpen && (
-                      <div className="ml-12 border-l-2 border-emerald-200 bg-white">
-                        {groupChildren.map(groupChild => (
-                          <button
-                            key={groupChild.id}
-                            type="button"
-                            onClick={e => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              onMenuClick(groupChild.id);
-                            }}
-                            className={clsx(
-                              'w-full cursor-pointer px-4 py-2.5 pl-6 text-left text-sm transition-all duration-200',
-                              activeMenu === groupChild.id
-                                ? 'border-l-4 border-emerald-600 bg-emerald-50 font-semibold text-emerald-600'
-                                : 'text-gray-600 hover:bg-gray-50 hover:text-emerald-600',
-                            )}
-                          >
-                            {groupChild.name}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              }
-
-              // 일반 서브메뉴
-              if (!child.parentGroup) {
-                return (
-                  <button
-                    key={child.id}
-                    type="button"
-                    onClick={e => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      onMenuClick(child.id);
-                    }}
-                    className={clsx(
-                      'w-full cursor-pointer px-4 py-2.5 pl-12 text-left text-sm transition-colors',
-                      activeMenu === child.id ? 'bg-emerald-50 font-medium text-emerald-600' : 'text-gray-600 hover:bg-gray-100',
-                    )}
-                  >
-                    {child.name}
-                  </button>
-                );
-              }
-              return null;
-            })}
-          </div>
-        )}
-      </div>
-    );
-  };
-
   return (
     <>
       {/* 사이드바 컨테이너 */}
@@ -298,7 +341,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onMenuClick, activeMenu, is
           'fixed bottom-0 left-0 top-0 z-50 w-[80vw] max-w-[360px]',
           isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full',
           'md:relative md:flex-shrink-0 md:translate-x-0',
-          collapsed ? 'md:w-[70px]' : 'md:w-[260px]',
+          effectiveCollapsed ? 'md:w-[70px]' : 'md:w-[260px]',
         )}
         role="dialog"
         aria-modal={isMobileMenuOpen ? 'true' : undefined}
@@ -327,7 +370,9 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onMenuClick, activeMenu, is
         </div>
 
         {/* 데스크톱 전용 햄버거 버튼 */}
-        <div className={clsx('hidden border-b border-gray-200 py-4 md:block', collapsed ? 'px-0' : 'px-4')}>
+        <div
+          className={clsx('hidden h-16 items-center border-b border-gray-200 md:flex', effectiveCollapsed ? 'justify-center px-0' : 'px-4')}
+        >
           <button
             type="button"
             onClick={e => {
@@ -335,47 +380,19 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onMenuClick, activeMenu, is
               e.stopPropagation();
               toggleSidebar();
             }}
-            aria-label={collapsed ? '사이드바 확장' : '사이드바 축소'}
-            title={collapsed ? '사이드바 확장' : '사이드바 축소'}
+            onMouseEnter={e => handleMouseEnter(e, effectiveCollapsed ? '사이드바 확장' : '사이드바 축소')}
+            onMouseLeave={handleMouseLeave}
+            aria-label={effectiveCollapsed ? '사이드바 확장' : '사이드바 축소'}
             className={clsx(
-              'flex cursor-pointer items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 text-gray-700 transition-all duration-200 hover:bg-gray-200',
-              collapsed ? 'mx-auto' : 'w-full justify-center',
+              'flex cursor-pointer items-center transition-opacity hover:opacity-80',
+              effectiveCollapsed ? 'justify-center' : 'gap-3',
             )}
           >
-            <i className={`ri-menu-${collapsed ? 'unfold' : 'fold'}-line text-xl`}></i>
-            {!collapsed && <span className="whitespace-nowrap text-sm font-medium">접기</span>}
-          </button>
-        </div>
-
-        {/* 데스크톱 전용 로고 영역 */}
-        <div className={clsx('hidden border-b border-gray-200 py-4 md:block', collapsed ? 'px-0' : 'px-4')}>
-          <div
-            className={clsx('flex cursor-pointer items-center transition-opacity hover:opacity-80', collapsed ? 'justify-center' : 'gap-3')}
-            onClick={e => {
-              e.preventDefault();
-              e.stopPropagation();
-              toggleSidebar();
-            }}
-            role="button"
-            aria-label="사이드바 접기/펴기"
-            tabIndex={0}
-            onKeyDown={e => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                toggleSidebar();
-              }
-            }}
-          >
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 shadow-md">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 shadow-md">
               <i className="ri-hospital-line text-xl text-white"></i>
             </div>
-            {!collapsed && (
-              <div className="flex items-center gap-2">
-                <span className="whitespace-nowrap text-lg font-bold text-gray-900">아가페 요양원</span>
-                <i className="ri-arrow-left-s-line text-sm text-gray-400"></i>
-              </div>
-            )}
-          </div>
+            {!effectiveCollapsed && <span className="text-lg font-bold text-gray-900">아가페 요양원</span>}
+          </button>
         </div>
 
         {/* 메뉴 영역 */}
@@ -405,12 +422,24 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onMenuClick, activeMenu, is
               </div>
             )}
 
-            {menuData.menus.map((item: any) => renderMenuItem(item as MenuItem))}
+            {menuData.menus.map((item: any) => (
+              <SidebarItem
+                key={item.id}
+                item={item as MenuItem}
+                activeMenu={activeMenu}
+                openMenus={openMenus}
+                collapsed={effectiveCollapsed}
+                toggleMenu={toggleMenu}
+                onMenuClick={onMenuClick}
+                handleMouseEnter={handleMouseEnter}
+                handleMouseLeave={handleMouseLeave}
+              />
+            ))}
           </nav>
 
           {/* 홈페이지 바로가기 */}
           <div className="flex-shrink-0 border-t border-gray-200">
-            <div className={clsx('bg-white', collapsed ? 'p-0' : 'p-4')}>
+            <div className={clsx('bg-white', effectiveCollapsed ? 'p-0' : 'p-2')}>
               <button
                 type="button"
                 onClick={e => {
@@ -422,23 +451,23 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onMenuClick, activeMenu, is
                 onMouseLeave={handleMouseLeave}
                 className={clsx(
                   'flex w-full cursor-pointer items-center rounded-lg text-gray-700 transition-all duration-200 hover:bg-gray-50',
-                  collapsed ? 'justify-center px-0 py-3' : 'justify-start gap-3 px-4 py-3',
+                  effectiveCollapsed ? 'justify-center px-0 py-3' : 'justify-start gap-3 px-4 py-3',
                 )}
                 aria-label="홈페이지 바로가기"
               >
                 <i className="ri-home-line flex-shrink-0 text-xl"></i>
-                {!collapsed && <span className="font-medium">홈페이지 바로가기</span>}
+                {!effectiveCollapsed && <span className="font-medium">홈페이지 바로가기</span>}
               </button>
             </div>
           </div>
         </div>
 
         {/* 하단: 로그인 정보 */}
-        <div className={clsx('border-t border-gray-200 py-4', collapsed ? 'px-0' : 'px-4')}>
+        <div className={clsx('border-t border-gray-200 py-4', effectiveCollapsed ? 'px-0' : 'px-4')}>
           <div
-            className={clsx('group relative flex cursor-pointer items-center', collapsed ? 'justify-center' : 'gap-3')}
+            className={clsx('group relative flex cursor-pointer items-center', effectiveCollapsed ? 'justify-center' : 'gap-3')}
             onMouseEnter={e => {
-              if (collapsed) {
+              if (effectiveCollapsed) {
                 handleMouseEnter(e, `${userInfo.name}\n${userInfo.role}\n${userInfo.roleLevel}\n마지막 로그인 ${userInfo.lastLogin}`);
               }
             }}
@@ -459,7 +488,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onMenuClick, activeMenu, is
               />
             </div>
 
-            {!collapsed && (
+            {!effectiveCollapsed && (
               <div className="min-w-0 flex-1">
                 <div className="truncate text-sm font-semibold text-gray-900">{userInfo.name}</div>
                 <div className="flex items-center gap-1 text-xs text-gray-500">
@@ -472,7 +501,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onMenuClick, activeMenu, is
             )}
           </div>
 
-          {!collapsed && (
+          {!effectiveCollapsed && (
             <div className="mt-3 flex gap-2">
               <button
                 type="button"
@@ -502,7 +531,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ onMenuClick, activeMenu, is
       </aside>
 
       {/* 툴팁 */}
-      {collapsed && hoveredMenu && (
+      {effectiveCollapsed && hoveredMenu && (
         <div
           className="pointer-events-none fixed z-[9999] whitespace-pre-line rounded-lg bg-gray-900 px-3 py-2 text-sm text-white shadow-xl"
           style={{
