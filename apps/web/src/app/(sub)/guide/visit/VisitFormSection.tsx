@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 export default function VisitFormSection() {
   const [formData, setFormData] = useState({
@@ -20,9 +20,20 @@ export default function VisitFormSection() {
     alert('면회 예약이 접수되었습니다. 담당자가 확인 후 연락드리겠습니다.');
   };
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  const timeSlots = [
+    { value: '10:00', label: '오전 10시' },
+    { value: '11:00', label: '오전 11시' },
+    { value: '12:00', label: '오후 12시' },
+    { value: '13:00', label: '오후 1시' },
+    { value: '14:00', label: '오후 2시' },
+    { value: '15:00', label: '오후 3시' },
+    { value: '16:00', label: '오후 4시' },
+    { value: '17:00', label: '오후 5시' },
+  ];
 
   return (
     <section className="bg-white py-20">
@@ -51,7 +62,8 @@ export default function VisitFormSection() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3"
+                  placeholder="홍길동"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-[#5C8D5A] focus:outline-none"
                 />
               </div>
 
@@ -65,7 +77,8 @@ export default function VisitFormSection() {
                   value={formData.phone}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3"
+                  placeholder="010-0000-0000"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-[#5C8D5A] focus:outline-none"
                 />
               </div>
             </div>
@@ -81,7 +94,8 @@ export default function VisitFormSection() {
                 value={formData.residentName}
                 onChange={handleChange}
                 required
-                className="w-full rounded-lg border border-gray-300 px-4 py-3"
+                placeholder="어르신 성함을 입력해주세요"
+                className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-[#5C8D5A] focus:outline-none"
               />
             </div>
 
@@ -97,7 +111,7 @@ export default function VisitFormSection() {
                   value={formData.visitDate}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-[#5C8D5A] focus:outline-none"
                 />
               </div>
 
@@ -110,12 +124,12 @@ export default function VisitFormSection() {
                   value={formData.visitTime}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-[#5C8D5A] focus:outline-none"
                 >
                   <option value="">시간 선택</option>
-                  {['10', '11', '12', '13', '14', '15', '16', '17'].map(t => (
-                    <option key={t} value={`${t}:00`}>
-                      {t <= '11' ? `오전 ${t}시` : `오후 ${t - 12}시`}
+                  {timeSlots.map(slot => (
+                    <option key={slot.value} value={slot.value}>
+                      {slot.label}
                     </option>
                   ))}
                 </select>
@@ -130,11 +144,12 @@ export default function VisitFormSection() {
                   name="visitors"
                   value={formData.visitors}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-[#5C8D5A] focus:outline-none"
                 >
                   <option value="1">1명</option>
                   <option value="2">2명</option>
                   <option value="3">3명</option>
+                  <option value="4">4명</option>
                 </select>
               </div>
 
@@ -144,7 +159,7 @@ export default function VisitFormSection() {
                   name="purpose"
                   value={formData.purpose}
                   onChange={handleChange}
-                  className="w-full rounded-lg border border-gray-300 px-4 py-3"
+                  className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-[#5C8D5A] focus:outline-none"
                 >
                   <option value="">선택</option>
                   <option value="일반면회">일반 면회</option>
@@ -163,7 +178,8 @@ export default function VisitFormSection() {
                 value={formData.message}
                 onChange={handleChange}
                 rows={4}
-                className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3"
+                placeholder="면회 시 필요한 사항이나 요청사항을 입력해주세요"
+                className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-[#5C8D5A] focus:outline-none"
               />
             </div>
 
@@ -180,10 +196,9 @@ export default function VisitFormSection() {
             {/* 버튼 */}
             <button
               type="submit"
-              className="w-full rounded-xl bg-[#5C8D5A] px-8 py-4 font-bold text-white shadow-lg hover:bg-[#4A7548]"
+              className="w-full rounded-xl bg-[#5C8D5A] px-8 py-4 font-bold text-white shadow-lg transition-colors hover:bg-[#4A7548]"
             >
-              <i className="ri-calendar-check-line mr-2" />
-              면회 예약 신청하기
+              <i className="ri-calendar-check-line mr-2" />면회 예약 신청하기
             </button>
           </form>
         </div>

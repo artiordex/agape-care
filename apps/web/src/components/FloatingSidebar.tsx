@@ -8,7 +8,7 @@ const FloatingSidebar = () => (
     <div className="fixed right-6 top-1/2 z-40 hidden -translate-y-1/2 space-y-0 lg:block">
       {/* 입소안내 버튼 */}
       <Link
-        href="/#admission"
+        href="/guide/admission"
         className="flex h-16 w-44 cursor-pointer items-center gap-3 rounded-t-xl bg-[#8AA107] px-4 text-base font-semibold text-white shadow-lg transition-colors duration-300 hover:bg-[#6f8605]"
         aria-label="입소안내 바로가기"
       >

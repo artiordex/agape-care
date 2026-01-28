@@ -1,10 +1,7 @@
 'use client';
 
 import { useInView } from 'react-intersection-observer';
-
 import { motion } from 'framer-motion';
-
-import NoticeSidebar from '@/components/NoticeSidebar';
 
 export default function ProgramsPage() {
   const [ref1, inView1] = useInView({ triggerOnce: true, threshold: 0.1 });
@@ -139,41 +136,30 @@ export default function ProgramsPage() {
     },
   ];
 
+  const programGuide = [
+    {
+      title: '운영 시간',
+      description:
+        '주간 프로그램은 평일 오전 10:00~11:30, 오후 14:00~15:30에 운영되며, 어르신의 건강 상태에 따라 시간 조정이 가능합니다.',
+      icon: 'ri-time-line',
+    },
+    {
+      title: '참여 대상',
+      description:
+        '입소 중인 모든 어르신을 대상으로 하며, 신체 상태·인지 수준·선호도를 고려하여 맞춤형으로 참여를 돕습니다.',
+      icon: 'ri-user-heart-line',
+    },
+    {
+      title: '진행 방식',
+      description: '전문 인력(요양보호사·사회복지사·치료사)이 팀을 구성해 안전하고 체계적으로 프로그램을 진행합니다.',
+      icon: 'ri-team-line',
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-white pb-20">
-      {/* HERO */}
-      <section className="relative bg-gradient-to-br from-teal-50 via-white to-amber-50 pb-20 pt-32">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-5"
-          style={{
-            backgroundImage:
-              "url('https://readdy.ai/api/search-image?query=elderly%20care%20programs%20hero&width=1920&height=600')",
-          }}
-        />
-
-        <div className="relative mx-auto max-w-7xl px-4 text-center">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 shadow">
-              <i className="ri-calendar-check-line text-xl text-[#5C8D5A]" />
-              <span className="text-sm font-semibold text-gray-700">프로그램 안내</span>
-            </div>
-
-            <h1 className="mb-6 text-4xl font-bold text-gray-900 md:text-5xl">월간 프로그램 일정</h1>
-
-            <p className="mx-auto max-w-2xl text-lg leading-relaxed text-gray-600">
-              어르신들의 건강하고 즐거운 생활을 위한
-              <br />
-              다양한 프로그램을 매일 진행합니다
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
       {/* CONTENT AREA */}
       <div className="mx-auto flex max-w-7xl gap-10 px-6 py-20">
-        {/* LEFT SIDEBAR */}
-        <NoticeSidebar />
-
         {/* RIGHT CONTENT */}
         <div className="flex-1">
           {/* WEEKLY PROGRAMS */}
@@ -221,6 +207,7 @@ export default function ProgramsPage() {
               ))}
             </div>
 
+            {/* 안내 박스 */}
             <div className="mt-12 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 p-8 shadow">
               <div className="flex gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
@@ -237,64 +224,6 @@ export default function ProgramsPage() {
               </div>
             </div>
           </section>
-
-          {/* PROGRAM DETAILS */}
-          <section className="mb-24">
-            <motion.div
-              ref={ref2}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView2 ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8 }}
-              className="mb-16 text-center"
-            >
-              <h2 className="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">프로그램 상세 안내</h2>
-              <p className="text-lg text-gray-600">각 프로그램의 세부 내용을 확인하세요</p>
-            </motion.div>
-
-            <div className="space-y-10">
-              {programCategories.map((c, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={inView2 ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.8, delay: i * 0.1 }}
-                  className="overflow-hidden rounded-2xl bg-white shadow hover:shadow-xl"
-                >
-                  <div className="grid grid-cols-1 lg:grid-cols-2">
-                    <div className="relative h-64 lg:h-auto">
-                      <img src={c.image} alt={c.title} className="absolute inset-0 h-full w-full object-cover" />
-                    </div>
-
-                    <div className="p-8">
-                      <div className="mb-4 flex items-center gap-3">
-                        <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-teal-50 to-amber-50">
-                          <i className={`${c.icon} text-3xl text-[#5C8D5A]`} />
-                        </div>
-                        <h3 className="text-2xl font-bold text-gray-900">{c.title}</h3>
-                      </div>
-
-                      <p className="mb-6 text-gray-600">{c.description}</p>
-
-                      <div>
-                        <p className="mb-2 text-sm font-bold text-gray-900">주요 활동</p>
-                        <div className="flex flex-wrap gap-2">
-                          {c.programs.map((p, idx) => (
-                            <span
-                              key={idx}
-                              className="rounded-lg bg-gradient-to-br from-teal-50 to-amber-50 px-4 py-2 text-sm font-medium text-gray-700"
-                            >
-                              {p}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </section>
-
           {/* SPECIAL PROGRAMS */}
           <section className="pb-20">
             <motion.div
