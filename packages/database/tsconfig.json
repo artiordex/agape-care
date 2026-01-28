@@ -17,5 +17,5 @@
 
   "exclude": ["dist", "node_modules", "src/generated", "prisma/migrations"],
 
-  "references": [{ "path": "../logger" }]
+  "references": []
 }

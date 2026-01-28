@@ -3,6 +3,7 @@
 # Date : 2026-01-25
 # docker build -f infra/docker/Dockerfile.api -t agape-care-api . --progress=plain
 # docker build --no-cache -f infra/docker/Dockerfile.api -t agape-care-api . --progress=plain
+# 도커 죽기 전에 들어가기: docker run -it --entrypoint sh agape-care-api:latest
 
 # Build Stage
 FROM node:22-alpine AS builder
@@ -12,60 +13,46 @@ ENV HUSKY=0
 RUN npm install -g pnpm
 RUN apk add --no-cache python3 make g++ pkgconfig cairo-dev pango-dev libjpeg-turbo-dev giflib-dev pixman-dev
 
-# Root workspace files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
-    tsconfig.json tsconfig.base.json ./
+COPY . .
 
-# Workspace packages
-COPY apps ./apps
-COPY packages ./packages
-
-# Prisma schema 복사
-COPY infra/database ./infra/database
-
-# 전체 workspace 의존성 설치
 RUN pnpm install --frozen-lockfile
 
-# Prisma generate
-RUN pnpm db:generate || true
+# Prisma Generate
+ENV DATABASE_URL="postgresql://dummy:dummy@dummy:5432/dummy"
+RUN pnpm --filter @agape-care/database generate
 
 # API 빌드
 RUN pnpm nx build @agape-care/api
 
-# Prisma client 위치 확인 (디버깅)
-RUN echo "=== Prisma client location ===" && \
-    find /app -name ".prisma" -type d || echo "No .prisma found"
+# Production Dependencies Stage
+FROM node:22-alpine AS deps
+WORKDIR /app
 
-RUN echo "=== Builder Output Contents: /app/apps/api/dist ==="
-RUN ls -R /app/apps/api/dist || echo "/app/apps/api/dist not found"
-RUN echo "=== Builder Output Contents: /app/dist ==="
-RUN ls -R /app/dist || echo "/app/dist not found"
+RUN npm install -g pnpm
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY apps/api/package.json ./apps/api/
+COPY packages/database/package.json ./packages/database/
+COPY packages/logger/package.json ./packages/logger/
+COPY packages/api-contract/package.json ./packages/api-contract/
+
+RUN pnpm --filter @agape-care/api --prod --ignore-scripts deploy /tmp/api-deploy
+
+WORKDIR /tmp/api-deploy
+RUN pnpm exec prisma generate || true
 
 # Runtime Stage
 FROM node:22-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
-ENV HUSKY=0
 
 RUN apk add --no-cache cairo pango libjpeg-turbo giflib pixman
 
-# node_modules 전체 복사
-COPY --from=builder /app/node_modules ./node_modules
+COPY --from=deps /tmp/api-deploy/node_modules ./node_modules
+COPY --from=deps /tmp/api-deploy/package.json ./package.json
 
-# 내부 패키지 복사
-COPY --from=builder /app/packages ./packages
-
-# Prisma client 복사 (선택적 - 없어도 node_modules에 포함됨)
-# COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-
-# 빌드 결과물 복사
-COPY --from=builder /app/apps/api/dist ./dist
-
-RUN echo "=== Runner Dist Contents ==="
-RUN ls -R ./dist
-
-# package.json 복사
-COPY --from=builder /app/package.json ./package.json
+# 중복 경로: dist/apps/api/apps/api/src/* → dist/*
+COPY --from=builder /app/dist/apps/api ./dist
 
 EXPOSE 8000
 

@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "Agape-Care REST-API 기반 백엔드",
   "private": true,
-  "type": "module",
   "main": "dist/main.js",
   "scripts": {
     "dev": "nx serve @agape-care/api",
-    "build": "nest build",
-    "build:ci": "nest build",
+    "build": "cross-env NODE_OPTIONS='--max-old-space-size=4096' nest build",
+    "build:ci": "cross-env NODE_OPTIONS='--max-old-space-size=4096' nest build",
     "type-check": "tsc -p tsconfig.json --noEmit",
     "start": "node dist/main.js",
     "start:prod": "node --enable-source-maps dist/main.js",
@@ -66,7 +65,8 @@
     "@types/morgan": "^1.9.10",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.3.1",
-    "@types/passport-jwt": "^4.0.1"
+    "@types/passport-jwt": "^4.0.1",
+    "cross-env": "^7.0.3"
   },
   "engines": {
     "node": ">=22"

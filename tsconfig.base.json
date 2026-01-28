@@ -13,11 +13,11 @@
 {
   "compilerOptions": {
     /* 기본 ESM 환경 */
-    "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
 
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
 
     /* Node/Vite/Vitest 타입 지원 */
     "types": ["node", "vitest", "vite/client"],
@@ -39,7 +39,6 @@
 
     /* Declaration / SourceMap */
     "declaration": true,
-    "declarationMap": true,
     "sourceMap": true,
     "incremental": true,
 

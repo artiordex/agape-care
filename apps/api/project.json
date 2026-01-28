@@ -1,19 +1,18 @@
 {
   "name": "@agape-care/api",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/api/src",
   "projectType": "application",
   "tags": ["type:app", "layer:backend", "platform:node"],
-
   "targets": {
     "build": {
       "executor": "nx:run-commands",
-      "outputs": ["{projectRoot}/dist"],
+      "dependsOn": ["^build"],
+      "outputs": ["{workspaceRoot}/dist/apps/api"],
       "options": {
         "command": "nest build",
         "cwd": "apps/api"
       }
     },
-
     "serve": {
       "executor": "@nx/js:node",
       "dependsOn": ["build"],
@@ -22,14 +21,12 @@
         "watch": true
       }
     },
-
     "lint": {
       "executor": "@nx/eslint:lint",
       "options": {
         "lintFilePatterns": ["apps/api/**/*.ts"]
       }
     },
-
     "test": {
       "executor": "@nx/vite:test",
       "options": {
@@ -39,6 +36,5 @@
       "outputs": ["{workspaceRoot}/coverage/apps/api"]
     }
   },
-
   "implicitDependencies": ["@agape-care/database", "@agape-care/logger", "@agape-care/api-contract"]
 }

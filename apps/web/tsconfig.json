@@ -2,7 +2,7 @@
  * Description : tsconfig.json - 📌 Agape-Care 요양원 Web (Next.js)
  * Author : Shiwoo Min
  * Updated : 2026-01-22
- */{
+ */ {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true,
@@ -16,18 +16,10 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@/components/*": [
-        "src/components/*"
-      ],
-      "@/data/*": [
-        "src/data/*"
-      ],
-      "@/lib/*": [
-        "src/lib/*"
-      ]
+      "@/*": ["src/*"],
+      "@/components/*": ["src/components/*"],
+      "@/data/*": ["src/data/*"],
+      "@/lib/*": ["src/lib/*"]
     },
     "tsBuildInfoFile": "./.next/.tsbuildinfo",
     "allowJs": true
@@ -40,10 +32,5 @@
     "src/**/*",
     "../../dist/dist/apps/web/.next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    ".next",
-    "dist",
-    "out"
-  ]
+  "exclude": ["node_modules", ".next", "dist", "out"]
 }

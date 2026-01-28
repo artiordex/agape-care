@@ -23,9 +23,6 @@ const nextConfig = {
 
   output: IS_FIREBASE ? 'export' : 'standalone',
 
-  // NX monorepo 구조에서 빌드 출력 경로 명시
-  distDir: '../../dist/apps/web/.next',
-
   images: {
     unoptimized: IS_FIREBASE,
     domains: ['localhost', 'your-domain.com', 'api.dicebear.com'],

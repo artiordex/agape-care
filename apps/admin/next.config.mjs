@@ -12,12 +12,18 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone', // 👈 export → standalone으로 변경
+  output: 'standalone',
 
   // NX monorepo 구조에서 빌드 출력 경로 명시
   distDir: '../../dist/apps/admin/.next',
 
   transpilePackages: ['@agape-care/ui'],
+
+  // 메모리 최적화 (추가)
+  experimental: {
+    workerThreads: false,
+    cpus: 1,
+  },
 
   webpack: config => {
     const distBase = path.resolve(__dirname, '../../dist/packages');

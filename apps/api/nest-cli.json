@@ -8,16 +8,24 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "watchAssets": true,
-    "webpack": true,
+    "builder": {
+      "type": "swc",
+      "options": {
+        "swcrcPath": ".swcrc"
+      }
+    },
+    "typeCheck": true,
+    "webpack": false,
     "tsConfigPath": "tsconfig.json",
+    "outDir": "../../dist/apps/api",
     "assets": [
       {
         "include": "src/**/*.json",
-        "outDir": "./dist"
+        "outDir": "../../dist/apps/api"
       },
       {
         "include": "src/**/*.md",
-        "outDir": "./dist"
+        "outDir": "../../dist/apps/api"
       }
     ]
   },

@@ -12,30 +12,14 @@
     ],
     // 앱 내부 전용 경로 alias
     "paths": {
-      "@/app/*": [
-        "src/app/*"
-      ],
-      "@/components/*": [
-        "src/components/*"
-      ],
-      "@/data/*": [
-        "src/data/*"
-      ],
-      "@/lib/*": [
-        "src/lib/*"
-      ],
-      "@/utils/*": [
-        "src/utils/*"
-      ],
-      "@/hooks/*": [
-        "src/hooks/*"
-      ],
-      "@/styles/*": [
-        "src/styles/*"
-      ],
-      "@/providers/*": [
-        "src/providers/*"
-      ]
+      "@/app/*": ["src/app/*"],
+      "@/components/*": ["src/components/*"],
+      "@/data/*": ["src/data/*"],
+      "@/lib/*": ["src/lib/*"],
+      "@/utils/*": ["src/utils/*"],
+      "@/hooks/*": ["src/hooks/*"],
+      "@/styles/*": ["src/styles/*"],
+      "@/providers/*": ["src/providers/*"]
     },
     // Next.js incremental build
     "tsBuildInfoFile": "./.next/tsconfig.tsbuildinfo"
@@ -47,10 +31,5 @@
     "src/**/*.tsx",
     "../../dist/apps/admin/.next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    ".next",
-    "dist",
-    "out"
-  ]
+  "exclude": ["node_modules", ".next", "dist", "out"]
 }
