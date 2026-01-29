@@ -1,0 +1,79 @@
+{
+  "adminAccounts": [
+    {
+      "username": "admin",
+      "password": "0000",
+      "name": "김영희",
+      "role": "시설장",
+      "roleLevel": "관리자 권한",
+      "team": "managementTeam",
+      "avatar": "/images/staff/1.jpg",
+      "enabled": true
+    },
+    {
+      "username": "director",
+      "password": "1111",
+      "name": "박민수",
+      "role": "사무국장",
+      "roleLevel": "관리자 권한",
+      "team": "managementTeam",
+      "avatar": "/images/staff/2.jpg",
+      "enabled": true
+    },
+    {
+      "username": "manager",
+      "password": "2222",
+      "name": "이수진",
+      "role": "간호팀장",
+      "roleLevel": "운영 권한",
+      "team": "medicalTeam",
+      "avatar": "/images/staff/3.jpg",
+      "enabled": true
+    }
+  ],
+
+  "managementTeam": [
+    {
+      "name": "김영희",
+      "position": "시설장",
+      "image": "images/staff/1.jpg",
+      "credentials": ["사회복지사 1급", "요양시설 운영 15년"],
+      "description": "어르신들의 행복한 노후를 위해 헌신하겠습니다"
+    },
+    {
+      "name": "박민수",
+      "position": "사무국장",
+      "image": "images/staff/2.jpg",
+      "credentials": ["행정관리 전문가", "시설운영 10년"],
+      "description": "효율적인 시설 운영으로 최상의 서비스를 제공합니다"
+    }
+  ],
+
+  "medicalTeam": [
+    {
+      "name": "이수진",
+      "position": "간호팀장",
+      "image": "images/staff/3.jpg",
+      "credentials": ["간호사 면허", "노인간호 전문"],
+      "specialty": "건강관리 및 의료지원"
+    }
+  ],
+
+  "careTeam": [
+    {
+      "name": "강은미",
+      "position": "요양보호사",
+      "image": "images/staff/6.jpg",
+      "credentials": ["요양보호사 자격증", "경력 8년"]
+    }
+  ],
+
+  "supportTeam": [
+    {
+      "name": "한지원",
+      "position": "사회복지사",
+      "image": "images/staff/10.jpg",
+      "credentials": ["사회복지사 2급", "상담 전문"]
+    }
+  ]
+}

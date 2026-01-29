@@ -1,11 +1,9 @@
 /**
- * Description : layout.tsx - 📌 아가페 요양원 관리자 Root Layout
+ * Description : (admin)/layout.tsx - 📌 아가페 요양원 관리자 Main Layout
  * Author : Shiwoo Min
- * Date : 2026-01-23
+ * Date : 2026-01-29
  */
 export const dynamic = 'force-dynamic';
-
-import AppShell from '@/components/AppShell';
 import type { Metadata } from 'next';
 import './globals.css';
 
@@ -21,9 +19,7 @@ export default function AdminLayout({ children }: Readonly<{ children: React.Rea
         {/* Remix Icon CDN */}
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet" />
       </head>
-      <body className="antialiased">
-        <AppShell>{children}</AppShell>
-      </body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
