@@ -111,8 +111,7 @@ export default function BoardDetailPage() {
             href="/notices/board"
             className="inline-flex items-center gap-2 rounded-lg bg-[#5C8D5A] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#4A7548]"
           >
-            <i className="ri-arrow-left-line" />
-            목록으로 돌아가기
+            <i className="ri-arrow-left-line" />목록으로 돌아가기
           </Link>
         </div>
       </div>
@@ -155,7 +154,7 @@ export default function BoardDetailPage() {
               <div className="flex flex-col gap-2">
                 {post.image_urls.map((url, index) => (
                   <a
-                    key={index}
+                    key={url}
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -176,7 +175,7 @@ export default function BoardDetailPage() {
           {post.image_urls && post.image_urls.length > 0 && (
             <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
               {post.image_urls.map((url, index) => (
-                <div key={index} className="overflow-hidden rounded-lg border border-gray-200">
+                <div key={url} className="overflow-hidden rounded-lg border border-gray-200">
                   <img src={url} alt={`Image ${index + 1}`} className="h-auto w-full object-contain" />
                 </div>
               ))}

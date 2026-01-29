@@ -14,7 +14,7 @@ interface NoticeItem {
   isPinned: boolean;
 }
 
-export default function NoticeList({ notices }: { notices: NoticeItem[] }) {
+export default function NoticeList({ notices }: { readonly notices: NoticeItem[] }) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const router = useRouter();
 

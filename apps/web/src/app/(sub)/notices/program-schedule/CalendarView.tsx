@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 
 export default function CalendarView({ currentMonth, filteredPrograms, getCategoryInfo, openProgramDetail }: any) {
   const getProgramsForDate = (date: Date) => {
@@ -17,7 +16,9 @@ export default function CalendarView({ currentMonth, filteredPrograms, getCatego
   const days: JSX.Element[] = [];
 
   // Empty cells
-  for (let i = 0; i < firstDay; i++) days.push(<div key={'e-' + i} className="min-h-32 border bg-gray-50" />);
+  for (let i = 0; i < firstDay; i++) {
+    days.push(<div key={'e-' + i} className="min-h-[200px] border border-gray-200 bg-gray-50" />);
+  }
 
   // Real days
   for (let d = 1; d <= daysInMonth; d++) {
@@ -26,36 +27,55 @@ export default function CalendarView({ currentMonth, filteredPrograms, getCatego
     const list = getProgramsForDate(date);
 
     days.push(
-      <div key={d} className={`min-h-32 border p-2 ${isToday ? 'bg-purple-50 ring-2 ring-purple-600' : ''}`}>
-        <div className="mb-2 font-bold">{d}</div>
+      <div
+        key={d}
+        className={`min-h-[200px] border border-gray-200 p-2 transition-colors ${
+          isToday ? 'bg-teal-50 ring-2 ring-inset ring-teal-600' : 'bg-white hover:bg-gray-50'
+        }`}
+      >
+        <div className={`mb-2 text-sm font-bold ${isToday ? 'text-teal-600' : 'text-gray-700'}`}>{d}</div>
 
-        {list.slice(0, 3).map((program: any) => {
-          const info = getCategoryInfo(program.category);
-          return (
-            <div
-              key={program.id}
-              onClick={() => openProgramDetail(program.id)}
-              className="mb-1 cursor-pointer rounded p-1 text-xs"
-              style={{
-                backgroundColor: `${info.color}20`,
-                borderLeft: `3px solid ${info.color}`,
-              }}
-            >
-              {program.start_time} {program.title}
-            </div>
-          );
-        })}
+        <div className="space-y-1">
+          {list.map((program: any) => {
+            const info = getCategoryInfo(program.category);
+            return (
+              <div
+                key={program.id}
+                onClick={() => openProgramDetail(program.id)}
+                className="cursor-pointer rounded border border-gray-200 bg-white p-2 transition-colors hover:bg-gray-50"
+              >
+                {/* 카테고리 태그 */}
+                <div className="mb-1 flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full" style={{ backgroundColor: info.color }} />
+                  <span className="text-xs font-semibold text-gray-600">{info.name}</span>
+                </div>
+
+                {/* 프로그램 제목 */}
+                <div className="mb-1 text-sm font-semibold text-gray-900">{program.title}</div>
+
+                {/* 시간 */}
+                <div className="text-xs text-gray-600">
+                  {program.start_time} - {program.end_time}
+                </div>
+
+                {/* 담당자 */}
+                <div className="mt-1 text-xs text-gray-500">담당: {program.staff}</div>
+              </div>
+            );
+          })}
+        </div>
       </div>,
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
-      <div className="grid grid-cols-7">
+    <div className="overflow-hidden rounded-lg border border-gray-300 bg-white shadow-sm">
+      {/* 요일 헤더 */}
+      <div className="grid grid-cols-7 border-b-2 border-gray-300 bg-gray-50">
         {weekDays.map((day, idx) => (
           <div
             key={idx}
-            className={`border-b-2 py-3 text-center text-sm font-bold ${
+            className={`border-r border-gray-200 py-3 text-center text-sm font-bold last:border-r-0 ${
               idx === 0 ? 'text-red-600' : idx === 6 ? 'text-blue-600' : 'text-gray-700'
             }`}
           >
@@ -64,6 +84,7 @@ export default function CalendarView({ currentMonth, filteredPrograms, getCatego
         ))}
       </div>
 
+      {/* 날짜 그리드 */}
       <div className="grid grid-cols-7">{days}</div>
     </div>
   );

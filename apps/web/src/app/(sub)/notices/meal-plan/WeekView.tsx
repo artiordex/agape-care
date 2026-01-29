@@ -28,9 +28,9 @@ export default function WeekView({ weekDays, onMealClick }: Props) {
   const todayStr = new Date().toISOString().split('T')[0]!;
 
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-lg border border-gray-300 bg-white shadow-sm">
       {/* 헤더 - 요일 */}
-      <div className="grid grid-cols-8 border-b-2 border-gray-900 bg-gray-50">
+      <div className="grid grid-cols-8 border-b-2 border-gray-300 bg-gray-50">
         <div className="border-r border-gray-200 p-4">
           <div className="text-center text-sm font-bold text-gray-900">구분</div>
         </div>

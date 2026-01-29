@@ -28,11 +28,11 @@ export default function MonthView({ monthDays, onMealClick }: Props) {
   const todayStr = new Date().toISOString().split('T')[0]!;
 
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-lg border border-gray-300 bg-white shadow-sm">
       {/* 요일 헤더 */}
-      <div className="grid grid-cols-7 border-b-2 border-gray-900 bg-gray-50">
+      <div className="grid grid-cols-7 border-b-2 border-gray-300 bg-gray-50">
         {dayNames.map(day => (
-          <div key={day} className="border-r border-gray-200 p-4 text-center font-bold text-gray-700 last:border-r-0">
+          <div key={day} className="border-r border-gray-200 p-3 text-center font-bold text-gray-700 last:border-r-0">
             {day}
           </div>
         ))}
@@ -45,7 +45,7 @@ export default function MonthView({ monthDays, onMealClick }: Props) {
             return (
               <div
                 key={`empty-${index}`}
-                className="min-h-[140px] border-b border-r border-gray-200 bg-gray-50 last:border-r-0"
+                className="min-h-[200px] border-b border-r border-gray-200 bg-gray-50 last:border-r-0"
               />
             );
           }
@@ -56,7 +56,7 @@ export default function MonthView({ monthDays, onMealClick }: Props) {
           return (
             <div
               key={date}
-              className={`min-h-[140px] cursor-pointer border-b border-r border-gray-200 p-2 transition-colors last:border-r-0 hover:bg-gray-50 ${
+              className={`min-h-[200px] cursor-pointer border-b border-r border-gray-200 p-2 transition-colors last:border-r-0 hover:bg-gray-50 ${
                 isToday ? 'bg-teal-50' : ''
               }`}
               onClick={() => meal && onMealClick(meal)}
@@ -66,17 +66,66 @@ export default function MonthView({ monthDays, onMealClick }: Props) {
               </div>
 
               {meal ? (
-                <div className="space-y-1">
-                  {meal.lunch && (
-                    <div className="text-[11px] leading-snug text-gray-700">
-                      <div className="mb-0.5 font-semibold text-gray-600">점심</div>
-                      <div className="line-clamp-2">{meal.lunch.split('\n').slice(0, 2).join(', ')}</div>
+                <div className="space-y-2">
+                  {/* 오전간식 */}
+                  {meal.morning_snack && (
+                    <div className="rounded border border-gray-200 bg-white p-1.5">
+                      <div className="mb-0.5 text-[10px] font-semibold text-gray-600">오전간식</div>
+                      <div className="text-[10px] leading-tight text-gray-700">
+                        {meal.morning_snack.split('\n').map((item, i) => (
+                          <div key={i} className="truncate">
+                            {item}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
+
+                  {/* 점심 */}
+                  {meal.lunch && (
+                    <div className="rounded border border-gray-200 bg-amber-50 p-1.5">
+                      <div className="mb-0.5 text-[10px] font-semibold text-gray-600">점심</div>
+                      <div className="text-[10px] leading-tight text-gray-700">
+                        {meal.lunch
+                          .split('\n')
+                          .slice(0, 3)
+                          .map((item, i) => (
+                            <div key={i} className="truncate">
+                              {item}
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 오후간식 */}
+                  {meal.afternoon_snack && (
+                    <div className="rounded border border-gray-200 bg-white p-1.5">
+                      <div className="mb-0.5 text-[10px] font-semibold text-gray-600">오후간식</div>
+                      <div className="text-[10px] leading-tight text-gray-700">
+                        {meal.afternoon_snack.split('\n').map((item, i) => (
+                          <div key={i} className="truncate">
+                            {item}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* 저녁 */}
                   {meal.dinner && (
-                    <div className="text-[11px] leading-snug text-gray-700">
-                      <div className="mb-0.5 font-semibold text-gray-600">저녁</div>
-                      <div className="line-clamp-2">{meal.dinner.split('\n').slice(0, 2).join(', ')}</div>
+                    <div className="rounded border border-gray-200 bg-white p-1.5">
+                      <div className="mb-0.5 text-[10px] font-semibold text-gray-600">저녁</div>
+                      <div className="text-[10px] leading-tight text-gray-700">
+                        {meal.dinner
+                          .split('\n')
+                          .slice(0, 3)
+                          .map((item, i) => (
+                            <div key={i} className="truncate">
+                              {item}
+                            </div>
+                          ))}
+                      </div>
                     </div>
                   )}
                 </div>

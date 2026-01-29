@@ -56,19 +56,6 @@ export default function NoticeDetailPage() {
   return (
     <main className="bg-white py-12">
       <div className="mx-auto max-w-6xl px-4">
-        {/* Breadcrumb */}
-        <nav className="mb-8 flex items-center gap-2 text-sm text-gray-600">
-          <Link href="/" className="transition-colors hover:text-[#5C8D5A]">
-            홈
-          </Link>
-          <i className="ri-arrow-right-s-line text-gray-400" />
-          <Link href="/notices/announcements" className="transition-colors hover:text-[#5C8D5A]">
-            공지사항
-          </Link>
-          <i className="ri-arrow-right-s-line text-gray-400" />
-          <span className="font-medium text-gray-900">상세보기</span>
-        </nav>
-
         {/* Title Section */}
         <div className="border-b-2 border-gray-900 pb-6">
           <div className="mb-3 flex items-center gap-3">
@@ -111,9 +98,9 @@ export default function NoticeDetailPage() {
             <div className="flex flex-col gap-2">
               {/* 첨부파일이 있는 경우 */}
               {notice.attachments && notice.attachments.length > 0 ? (
-                notice.attachments.map((file: any, index: number) => (
+                notice.attachments.map((file: any) => (
                   <a
-                    key={index}
+                    key={file.url}
                     href={file.url}
                     download
                     className="flex items-center gap-2 text-sm text-[#5C8D5A] transition-colors hover:text-[#4A7548] hover:underline"
