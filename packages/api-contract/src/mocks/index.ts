@@ -4,15 +4,15 @@
  * @date 2026-01-27
  */
 
-export * from './accounting.mock.js';
-export * from './attendance.mock.js';
-export * from './auth.mock.js';
-export * from './care.mock.js';
-export * from './content.mock.js';
-export * from './dashboard.mock.js';
-export * from './employee.mock.js';
-export * from './meal.mock.js';
-export * from './notification.mock.js';
-export * from './operations.mock.js';
-export * from './program.mock.js';
-export * from './resident.mock.js';
+export * from './accounting.mock';
+export * from './attendance.mock';
+export * from './auth.mock';
+export * from './care.mock';
+export * from './content.mock';
+export * from './dashboard.mock';
+export * from './employee.mock';
+export * from './meal.mock';
+export * from './notification.mock';
+export * from './operations.mock';
+export * from './program.mock';
+export * from './resident.mock';

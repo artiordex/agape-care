@@ -13,7 +13,7 @@ import {
   EmployeeSchema,
   EmployeeStatsSchema,
   ChangeEmployeePasswordRequestSchema,
-} from '../schemas/employee/index.js';
+} from '../schemas/employee/index';
 
 const authHeader = z.object({
   authorization: z.string().describe('Bearer {token}'),

@@ -5,13 +5,13 @@
  */
 
 // 부서 정보 (부서 생성, 수정, 목록 조회 및 상세 정보)
-export * from './department.schema.js';
+export * from './department.schema';
 
 // 직원 교육 이력 정보 (교육 생성, 수정, 목록 조회 및 통계)
-export * from './education.schema.js';
+export * from './education.schema';
 
 // 직원 기본 정보 및 계정 관리 (직원 생성, 수정, 목록 조회, 통계 및 비밀번호 변경)
-export * from './employee.schema.js';
+export * from './employee.schema';
 
 // 직원 역할 및 권한 정보 (역할 생성, 수정, 권한 설정 및 목록 조회)
-export * from './role.schema.js';
+export * from './role.schema';

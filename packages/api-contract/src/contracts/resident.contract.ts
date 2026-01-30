@@ -12,7 +12,7 @@ import {
   GetResidentsResponseSchema,
   ResidentSchema,
   ResidentStatsSchema,
-} from '../schemas/resident/index.js';
+} from '../schemas/resident/index';
 
 const authHeader = z.object({
   authorization: z.string().describe('Bearer {token}'),

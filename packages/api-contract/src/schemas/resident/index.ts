@@ -5,19 +5,19 @@
  */
 
 // Resident 기본 정보
-export * from './resident.schema.js';
+export * from './resident.schema';
 
 // Resident 연락처
-export * from './contact.schema.js';
+export * from './contact.schema';
 
 // Resident 건강 노트
-export * from './health-note.schema.js';
+export * from './health-note.schema';
 
 // Resident 투약 정보
-export * from './medication.schema.js';
+export * from './medication.schema';
 
 // Resident 호실 배정
-export * from './room.schema.js';
+export * from './room.schema';
 
 // Resident 활력징후
-export * from './vital.schema.js';
+export * from './vital.schema';

@@ -5,7 +5,7 @@
  */
 
 import { z } from 'zod';
-import { PaginationMetaSchema } from './pagination.schema.js';
+import { PaginationMetaSchema } from './pagination.schema';
 
 /**
  * 성공 응답

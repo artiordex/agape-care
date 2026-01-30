@@ -4,4 +4,4 @@
  * @date 2026-01-26
  */
 
-export * from './auth.schema.js';
+export * from './auth.schema';

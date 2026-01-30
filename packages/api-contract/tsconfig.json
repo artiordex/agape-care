@@ -4,9 +4,10 @@
   "compilerOptions": {
     "composite": true,
     "rootDir": "./src",
-    "outDir": "../../dist/packages/api-contract",
-    "declarationDir": "../../dist/packages/api-contract",
-    "tsBuildInfoFile": "../../dist/packages/api-contract/.tsbuildinfo",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "declarationDir": "./dist",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
 
     "declaration": true,
     "declarationMap": true,

@@ -14,10 +14,9 @@ export const ProgramSchema = z.object({
   description: z.string().nullable(),
   category: z.string().nullable(),
   isActive: z.boolean().default(true),
-  startDate: z.string(), // ISO
-  endDate: z.string().nullable(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
+  meta: z.object({}).catchall(z.any()).default({}),
+  createdAt: z.string(), // ISO
+  updatedAt: z.string(), // ISO
 });
 
 /**
@@ -28,8 +27,7 @@ export const CreateProgramRequestSchema = z.object({
   description: z.string().optional(),
   category: z.string().optional(),
   isActive: z.boolean().optional(),
-  startDate: z.string(),
-  endDate: z.string().optional(),
+  meta: z.object({}).catchall(z.any()).optional(),
 });
 
 /**
@@ -40,8 +38,7 @@ export const UpdateProgramRequestSchema = z.object({
   description: z.string().optional(),
   category: z.string().optional(),
   isActive: z.boolean().optional(),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
+  meta: z.object({}).catchall(z.any()).optional(),
 });
 
 /**

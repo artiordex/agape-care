@@ -5,4 +5,6 @@
  */
 
 // Notification 기본 정보
-export * from './notification.schema.js';
+export * from './notification.schema';
+export * from './recipient-group.schema';
+export * from './scheduled.schema';

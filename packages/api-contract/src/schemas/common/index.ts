@@ -4,9 +4,9 @@
  * @date 2026-01-26
  */
 
-export * from './pagination.schema.js';
-export * from './response.schema.js';
-export * from './date.schema.js';
-export * from './file.schema.js';
-export * from './audit.schema.js';
-export * from './system-setting.schema.js';
+export * from './pagination.schema';
+export * from './response.schema';
+export * from './date.schema';
+export * from './file.schema';
+export * from './audit.schema';
+export * from './system-setting.schema';

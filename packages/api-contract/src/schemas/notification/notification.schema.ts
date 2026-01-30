@@ -164,3 +164,28 @@ export type UserNotification = z.infer<typeof UserNotificationSchema>;
 export type GetUserNotificationsQuery = z.infer<typeof GetUserNotificationsQuerySchema>;
 export type GetUserNotificationsResponse = z.infer<typeof GetUserNotificationsResponseSchema>;
 export type MarkNotificationReadRequest = z.infer<typeof MarkNotificationReadRequestSchema>;
+export const NotificationConfigSchema = z.object({
+  sms: z.object({
+    enabled: z.boolean().default(false),
+    senderPhone: z.string().optional(),
+    // API keys are usually env vars, but we allow overriding here if needed
+    apiKey: z.string().optional(),
+  }),
+  email: z.object({
+    enabled: z.boolean().default(false),
+    senderName: z.string().optional(),
+    senderEmail: z.string().email().optional(),
+  }),
+  push: z.object({
+    enabled: z.boolean().default(false),
+  }),
+  kakao: z
+    .object({
+      enabled: z.boolean().default(false),
+      senderKey: z.string().optional(),
+    })
+    .optional(),
+  dailyLimit: z.number().int().nonnegative().optional(),
+});
+
+export type NotificationConfig = z.infer<typeof NotificationConfigSchema>;

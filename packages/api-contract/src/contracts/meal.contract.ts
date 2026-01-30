@@ -17,7 +17,7 @@ import {
   GetMealPlanItemsResponseSchema,
   WeeklyMealPlanSchema,
   GetCurrentWeekMealPlanQuerySchema,
-} from '../schemas/meal/index.js';
+} from '../schemas/meal/index';
 
 const authHeader = z.object({
   authorization: z.string().describe('Bearer {token}'),

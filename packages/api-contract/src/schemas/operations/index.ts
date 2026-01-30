@@ -5,22 +5,22 @@
  */
 
 // CCTV 관리
-export * from './cctv.schema.js';
+export * from './cctv.schema';
 
 // 민원 관리
-export * from './grievance.schema.js';
+export * from './grievance.schema';
 
 // 시설 점검
-export * from './inspection.schema.js';
+export * from './inspection.schema';
 
 // 재고 관리
-export * from './inventory.schema.js';
+export * from './inventory.schema';
 
 // SMS 발송
-export * from './sms.schema.js';
+export * from './sms.schema';
 
 // 운송 서비스
-export * from './transport.schema.js';
+export * from './transport.schema';
 
 // 차량 관리
-export * from './vehicle.schema.js';
+export * from './vehicle.schema';

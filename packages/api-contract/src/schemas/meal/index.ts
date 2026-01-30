@@ -5,7 +5,7 @@
  */
 
 // 식단표 (주간 식단)
-export * from './meal-plan.schema.js';
+export * from './meal-plan.schema';
 
 // 식단 항목 (요일별 식사)
-export * from './meal-plan-item.schema.js';
+export * from './meal-plan-item.schema';
