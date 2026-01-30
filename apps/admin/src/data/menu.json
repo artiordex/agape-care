@@ -10,53 +10,31 @@
       "folder": "dashboard",
       "component": "DashboardOverview"
     },
-
     {
-      "id": "beneficiary",
-      "name": "수급자 관리",
-      "description": "수급자 정보 및 관리",
+      "id": "resident",
+      "name": "입소자 관리",
+      "description": "입소자 정보 및 관리",
       "icon": "ri-user-heart-line",
-      "path": "/beneficiary",
+      "path": "/resident",
       "children": [
         {
-          "id": "beneficiary-list",
-          "name": "수급자 목록",
-          "description": "전체 수급자 조회",
+          "id": "resident-list",
+          "name": "입소자 정보관리",
+          "description": "전체 입소자 조회",
           "icon": "ri-list-check",
-          "path": "/beneficiary/list",
+          "path": "/resident/info",
           "spa": true,
-          "folder": "beneficiary",
+          "folder": "resident",
           "component": "ResidentManagement"
-        },
-        {
-          "id": "beneficiary-new",
-          "name": "수급자 신규등록",
-          "description": "신규 수급자 등록",
-          "icon": "ri-user-add-line",
-          "path": "/beneficiary/new",
-          "spa": true,
-          "folder": "beneficiary",
-          "component": "BeneficiaryNew"
-        },
-        {
-          "id": "beneficiary-detail",
-          "name": "수급자 상세",
-          "description": "수급자 상세 정보",
-          "icon": "ri-user-line",
-          "path": "/beneficiary/detail",
-          "hidden": true,
-          "spa": true,
-          "folder": "beneficiary",
-          "component": "BeneficiaryDetail"
         },
         {
           "id": "outing-management",
           "name": "외출/외박 관리",
           "description": "외출/외박 기록 관리",
           "icon": "ri-walk-line",
-          "path": "/beneficiary/outing",
+          "path": "/resident/outing",
           "spa": true,
-          "folder": "beneficiary",
+          "folder": "resident",
           "component": "OutingManagement"
         },
         {
@@ -64,10 +42,10 @@
           "name": "청구/본인부담금",
           "description": "청구 및 본인부담금 관리",
           "icon": "ri-bill-line",
-          "path": "/beneficiary/billing",
+          "path": "/resident/billing",
           "status": "pending",
           "spa": true,
-          "folder": "beneficiary",
+          "folder": "resident",
           "component": "BillingCopay"
         },
         {
@@ -75,9 +53,9 @@
           "name": "상담일지/면담일지",
           "description": "상담 및 면담 기록",
           "icon": "ri-chat-1-line",
-          "path": "/beneficiary/consultation",
+          "path": "/resident/consultation",
           "spa": true,
-          "folder": "beneficiary",
+          "folder": "resident",
           "component": "ConsultationManagement"
         }
       ]
@@ -454,16 +432,6 @@
           "folder": "contents",
           "component": "ProgramManagement"
         },
-
-        {
-          "id": "board-management",
-          "name": "게시판 관리",
-          "description": "게시판 설정",
-          "icon": "ri-layout-grid-line",
-          "path": "/contents/board-management",
-          "isGroup": true
-        },
-
         {
           "id": "program-album",
           "name": "프로그램 참여앨범",
@@ -496,17 +464,111 @@
           "spa": true,
           "folder": "contents",
           "component": "PopupManagement"
-        },
+        }
+      ]
+    },
 
+    {
+      "id": "additional-services",
+      "name": "부가서비스",
+      "description": "알림 및 부가 서비스",
+      "icon": "ri-service-line",
+      "path": "/additional-services",
+      "children": [
         {
-          "id": "website-editor",
-          "name": "홈페이지편집",
-          "description": "웹사이트 편집",
-          "icon": "ri-edit-box-line",
-          "path": "/contents/website-editor",
-          "isGroup": true
+          "id": "notification-dashboard",
+          "name": "알림 대시보드",
+          "description": "알림 현황 대시보드",
+          "icon": "ri-dashboard-2-line",
+          "path": "/additional-services/notification/dashboard",
+          "parentGroup": "notification-management",
+          "spa": true,
+          "folder": "notifications",
+          "component": "NotificationDashboard"
         },
-
+        {
+          "id": "inquiry-management",
+          "name": "문의사항 관리",
+          "description": "문의사항 관리",
+          "icon": "ri-question-answer-line",
+          "path": "/additional-services/inquiry",
+          "parentGroup": "inquiry-management",
+          "spa": true,
+          "folder": "inquiry",
+          "component": "InquiryManagement"
+        },
+        {
+          "id": "notification-send",
+          "name": "발송 작성/즉시발송",
+          "description": "즉시 알림 발송",
+          "icon": "ri-send-plane-line",
+          "path": "/additional-services/notification/send",
+          "parentGroup": "notification-management",
+          "spa": true,
+          "folder": "notifications",
+          "component": "NotificationSend"
+        },
+        {
+          "id": "notification-scheduled",
+          "name": "예약 발송 관리",
+          "description": "예약 발송 설정",
+          "icon": "ri-calendar-schedule-line",
+          "path": "/additional-services/notification/scheduled",
+          "parentGroup": "notification-management",
+          "status": "pending",
+          "spa": true
+        },
+        {
+          "id": "notification-templates",
+          "name": "템플릿 관리",
+          "description": "알림 템플릿 관리",
+          "icon": "ri-file-list-3-line",
+          "path": "/additional-services/notification/templates",
+          "parentGroup": "notification-management",
+          "status": "pending",
+          "spa": true
+        },
+        {
+          "id": "notification-recipients",
+          "name": "대상자/수신자 그룹",
+          "description": "수신자 그룹 관리",
+          "icon": "ri-group-line",
+          "path": "/additional-services/notification/recipients",
+          "parentGroup": "notification-management",
+          "status": "pending",
+          "spa": true
+        },
+        {
+          "id": "notification-logs",
+          "name": "발송 로그/이력 조회",
+          "description": "발송 이력 조회",
+          "icon": "ri-file-list-line",
+          "path": "/additional-services/notification/logs",
+          "parentGroup": "notification-management",
+          "spa": true,
+          "folder": "notifications",
+          "component": "NotificationLogPage"
+        },
+        {
+          "id": "notification-settings",
+          "name": "채널 연동 설정",
+          "description": "SMS/Band/카카오 연동",
+          "icon": "ri-settings-3-line",
+          "path": "/additional-services/notification/settings",
+          "parentGroup": "notification-management",
+          "spa": true,
+          "folder": "notifications",
+          "component": "NotificationSettingsPage"
+        }
+      ]
+    },
+    {
+      "id": "website-editor",
+      "name": "웹사이트 편집",
+      "description": "웹사이트 편집",
+      "icon": "ri-edit-box-line",
+      "path": "/contents/website-editor",
+      "children": [
         {
           "id": "basic-info",
           "name": "기본 정보",
@@ -586,106 +648,6 @@
         }
       ]
     },
-
-    {
-      "id": "additional-services",
-      "name": "부가서비스",
-      "description": "알림 및 부가 서비스",
-      "icon": "ri-service-line",
-      "path": "/additional-services",
-      "children": [
-        {
-          "id": "sms-service",
-          "name": "문자메시지 발송",
-          "description": "SMS 발송 서비스",
-          "icon": "ri-message-2-line",
-          "path": "/additional-services/sms",
-          "status": "pending",
-          "spa": true
-        },
-        {
-          "id": "notification-management",
-          "name": "알림 관리",
-          "description": "통합 알림 관리",
-          "icon": "ri-notification-3-line",
-          "path": "/additional-services/notification",
-          "isGroup": true
-        },
-        {
-          "id": "notification-dashboard",
-          "name": "알림 대시보드",
-          "description": "알림 현황 대시보드",
-          "icon": "ri-dashboard-2-line",
-          "path": "/additional-services/notification/dashboard",
-          "parentGroup": "notification-management",
-          "spa": true,
-          "folder": "notifications",
-          "component": "NotificationDashboard"
-        },
-        {
-          "id": "notification-send",
-          "name": "발송 작성/즉시발송",
-          "description": "즉시 알림 발송",
-          "icon": "ri-send-plane-line",
-          "path": "/additional-services/notification/send",
-          "parentGroup": "notification-management",
-          "spa": true,
-          "folder": "notifications",
-          "component": "NotificationSend"
-        },
-        {
-          "id": "notification-scheduled",
-          "name": "예약 발송 관리",
-          "description": "예약 발송 설정",
-          "icon": "ri-calendar-schedule-line",
-          "path": "/additional-services/notification/scheduled",
-          "parentGroup": "notification-management",
-          "status": "pending",
-          "spa": true
-        },
-        {
-          "id": "notification-templates",
-          "name": "템플릿 관리",
-          "description": "알림 템플릿 관리",
-          "icon": "ri-file-list-3-line",
-          "path": "/additional-services/notification/templates",
-          "parentGroup": "notification-management",
-          "status": "pending",
-          "spa": true
-        },
-        {
-          "id": "notification-recipients",
-          "name": "대상자/수신자 그룹",
-          "description": "수신자 그룹 관리",
-          "icon": "ri-group-line",
-          "path": "/additional-services/notification/recipients",
-          "parentGroup": "notification-management",
-          "status": "pending",
-          "spa": true
-        },
-        {
-          "id": "notification-logs",
-          "name": "발송 로그/이력 조회",
-          "description": "발송 이력 조회",
-          "icon": "ri-file-list-line",
-          "path": "/additional-services/notification/logs",
-          "parentGroup": "notification-management",
-          "status": "pending",
-          "spa": true
-        },
-        {
-          "id": "notification-settings",
-          "name": "채널 연동 설정",
-          "description": "SMS/Band/카카오 연동",
-          "icon": "ri-settings-3-line",
-          "path": "/additional-services/notification/settings",
-          "parentGroup": "notification-management",
-          "status": "pending",
-          "spa": true
-        }
-      ]
-    },
-
     {
       "id": "settings",
       "name": "시스템 설정",
@@ -698,7 +660,7 @@
           "name": "권한 관리",
           "description": "사용자 권한 관리",
           "icon": "ri-shield-user-line",
-          "path": "/settings/rbac",
+          "path": "/settings/system/rbac",
           "spa": true,
           "folder": "settings",
           "component": "RBACManagement"
@@ -718,7 +680,7 @@
           "name": "사이트 설정",
           "description": "사이트 환경 설정",
           "icon": "ri-global-line",
-          "path": "/settings/site",
+          "path": "/settings/system/site",
           "spa": true,
           "folder": "settings",
           "component": "SiteSettings"

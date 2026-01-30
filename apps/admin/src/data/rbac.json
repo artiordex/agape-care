@@ -1,0 +1,301 @@
+{
+  "categories": [
+    {
+      "categoryId": "dashboard",
+      "categoryName": "대시보드",
+      "menus": [
+        {
+          "menuId": "dashboard",
+          "menuName": "대시보드",
+          "screens": [
+            {
+              "screenId": "DashboardOverview",
+              "screenName": "대시보드 현황",
+              "actions": ["read", "export"]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "categoryId": "resident",
+      "categoryName": "입소자 관리",
+      "menus": [
+        {
+          "menuId": "resident-info",
+          "menuName": "입소자 정보관리",
+          "screens": [
+            {
+              "screenId": "ResidentManagement",
+              "screenName": "입소자 정보관리",
+              "actions": ["read", "write", "update", "delete", "export"]
+            }
+          ]
+        },
+        {
+          "menuId": "resident-outing",
+          "menuName": "외출/외박 관리",
+          "screens": [
+            {
+              "screenId": "OutingManagement",
+              "screenName": "외출/외박 관리",
+              "actions": ["read", "write", "update", "export"]
+            }
+          ]
+        },
+        {
+          "menuId": "resident-billing",
+          "menuName": "청구/본인부담금",
+          "screens": [
+            {
+              "screenId": "BillingCopay",
+              "screenName": "청구/본인부담금 관리",
+              "actions": ["read", "write", "update", "approve", "export"]
+            }
+          ]
+        },
+        {
+          "menuId": "resident-consultation",
+          "menuName": "상담/면담일지",
+          "screens": [
+            {
+              "screenId": "ConsultationManagement",
+              "screenName": "상담/면담 관리",
+              "actions": ["read", "write", "update", "export"]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "categoryId": "care",
+      "categoryName": "요양 관리",
+      "menus": [
+        {
+          "menuId": "care-daily",
+          "menuName": "일일 케어 기록",
+          "screens": [
+            {
+              "screenId": "DailyCareRecord",
+              "screenName": "일일 케어 기록",
+              "actions": ["read", "write", "update", "export"]
+            }
+          ]
+        },
+        {
+          "menuId": "care-records",
+          "menuName": "케어 기록 조회",
+          "screens": [
+            {
+              "screenId": "CareRecordManagement",
+              "screenName": "케어 기록 조회",
+              "actions": ["read", "export"]
+            }
+          ]
+        },
+        {
+          "menuId": "care-medication",
+          "menuName": "투약 관리",
+          "screens": [
+            {
+              "screenId": "MedicationManagement",
+              "screenName": "투약 관리",
+              "actions": ["read", "write", "update", "export"]
+            }
+          ]
+        },
+        {
+          "menuId": "care-reports",
+          "menuName": "요양 리포트",
+          "screens": [
+            {
+              "screenId": "ReportElimination",
+              "screenName": "배설 기록",
+              "actions": ["read", "export"]
+            },
+            {
+              "screenId": "ReportNursing",
+              "screenName": "간호 기록",
+              "actions": ["read", "export"]
+            },
+            {
+              "screenId": "ReportPressureUlcer",
+              "screenName": "욕창 관리",
+              "actions": ["read", "export"]
+            },
+            {
+              "screenId": "ReportClinic",
+              "screenName": "진료 기록",
+              "actions": ["read", "export"]
+            },
+            {
+              "screenId": "ReportMedication",
+              "screenName": "투약 기록",
+              "actions": ["read", "export"]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "categoryId": "operations",
+      "categoryName": "운영관리",
+      "menus": [
+        {
+          "menuId": "vehicle",
+          "menuName": "차량관리",
+          "screens": [
+            {
+              "screenId": "VehicleManagement",
+              "screenName": "차량관리",
+              "actions": ["read", "write", "update"]
+            }
+          ]
+        },
+        {
+          "menuId": "asset",
+          "menuName": "비품관리",
+          "screens": [
+            {
+              "screenId": "AssetManagement",
+              "screenName": "비품관리",
+              "actions": ["read", "write", "update", "export"]
+            }
+          ]
+        },
+        {
+          "menuId": "cctv",
+          "menuName": "CCTV 관리",
+          "screens": [
+            {
+              "screenId": "CCTVDeviceManagement",
+              "screenName": "CCTV 설치 관리",
+              "actions": ["read", "write", "update"]
+            },
+            {
+              "screenId": "CCTVWeeklyCheck",
+              "screenName": "CCTV 주간 점검",
+              "actions": ["read", "write"]
+            },
+            {
+              "screenId": "CCTVViewLog",
+              "screenName": "CCTV 열람대장",
+              "actions": ["read", "export"]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "categoryId": "staff",
+      "categoryName": "직원 관리",
+      "menus": [
+        {
+          "menuId": "staff",
+          "menuName": "직원 관리",
+          "screens": [
+            {
+              "screenId": "StaffManagement",
+              "screenName": "직원 목록",
+              "actions": ["read", "write", "update", "delete", "export"]
+            },
+            {
+              "screenId": "AttendanceManagement",
+              "screenName": "출퇴근 관리",
+              "actions": ["read", "export"]
+            },
+            {
+              "screenId": "WorkScheduleManagement",
+              "screenName": "근무 일정 관리",
+              "actions": ["read", "write", "update"]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "categoryId": "accounting",
+      "categoryName": "회계/청구",
+      "menus": [
+        {
+          "menuId": "accounting",
+          "menuName": "회계 관리",
+          "screens": [
+            {
+              "screenId": "AccountingManagement",
+              "screenName": "회계 관리",
+              "actions": ["read", "write", "update", "approve", "export"]
+            }
+          ]
+        },
+        {
+          "menuId": "insurance",
+          "menuName": "보험 청구",
+          "screens": [
+            {
+              "screenId": "InsuranceClaimManagement",
+              "screenName": "보험 청구",
+              "actions": ["read", "write", "update", "approve", "export"]
+            }
+          ]
+        },
+        {
+          "menuId": "payroll",
+          "menuName": "급여 관리",
+          "screens": [
+            {
+              "screenId": "PayrollManagement",
+              "screenName": "급여 관리",
+              "actions": ["read", "write", "update", "approve", "export"]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "categoryId": "system",
+      "categoryName": "시스템 설정",
+      "menus": [
+        {
+          "menuId": "rbac",
+          "menuName": "권한 관리",
+          "screens": [
+            {
+              "screenId": "RBACManagement",
+              "screenName": "권한 관리",
+              "actions": ["read", "write", "update"]
+            }
+          ]
+        },
+        {
+          "menuId": "facility",
+          "menuName": "시설 정보 관리",
+          "screens": [
+            {
+              "screenId": "FacilityInfo",
+              "screenName": "시설 정보 관리",
+              "actions": ["read", "write", "update"]
+            }
+          ]
+        },
+        {
+          "menuId": "site",
+          "menuName": "사이트 설정",
+          "screens": [
+            {
+              "screenId": "SiteSettings",
+              "screenName": "사이트 설정",
+              "actions": ["read", "write", "update"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

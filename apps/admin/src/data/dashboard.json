@@ -39,7 +39,7 @@
       "label": "입소자 등록",
       "icon": "ri-user-add-line",
       "color": "from-blue-500 to-blue-600",
-      "path": "/admin/beneficiary/new"
+      "path": "/admin/resident/new"
     },
     {
       "label": "일정 추가",

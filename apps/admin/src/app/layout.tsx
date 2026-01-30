@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: 'Agape Care 요양원 관리자 대시보드',
 };
 
+import QueryProvider from '@/providers/query-provider';
+
 export default function AdminLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ko">
@@ -19,7 +21,9 @@ export default function AdminLayout({ children }: Readonly<{ children: React.Rea
         {/* Remix Icon CDN */}
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet" />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <QueryProvider>{children}</QueryProvider>
+      </body>
     </html>
   );
 }

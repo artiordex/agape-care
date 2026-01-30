@@ -1,0 +1,160 @@
+{
+  "roles": [
+    {
+      "roleId": "director",
+      "roleName": "시설장",
+      "description": "시스템 전반에 대한 최고 권한",
+      "permissions": "*"
+    },
+
+    {
+      "roleId": "social-worker",
+      "roleName": "사회복지사",
+      "description": "입소자 관리 및 케어·프로그램 업무",
+      "permissions": {
+        "cat_resident": {
+          "resident_info": {
+            "basic_info": ["read", "write", "update", "export"],
+            "care_grade": ["read", "write", "update", "export"],
+            "admission_history": ["read", "export"]
+          },
+          "health_status": {
+            "vital_signs": ["read", "write", "update"],
+            "medical_history": ["read", "write", "update", "export"]
+          }
+        },
+        "cat_care": {
+          "care_record": {
+            "daily_care": ["read", "write", "update", "export"],
+            "special_care": ["read", "write", "update"]
+          },
+          "medication": {
+            "medication_record": ["read", "write", "update", "export"],
+            "medication_schedule": ["read", "write", "update"]
+          }
+        },
+        "cat_program": {
+          "program_schedule": {
+            "program_plan": ["read", "write", "update", "export"],
+            "program_record": ["read", "write", "export"]
+          }
+        }
+      }
+    },
+
+    {
+      "roleId": "nurse",
+      "roleName": "간호조무사",
+      "description": "간호 및 투약 관련 업무",
+      "permissions": {
+        "cat_nursing": {
+          "nursing_record": {
+            "nursing_daily": ["read", "write", "update", "export"],
+            "wound_care": ["read", "write", "update"]
+          }
+        },
+        "cat_care": {
+          "medication": {
+            "medication_record": ["read", "write", "update", "export"],
+            "medication_schedule": ["read", "write", "update"]
+          }
+        }
+      }
+    },
+
+    {
+      "roleId": "care-worker",
+      "roleName": "요양보호사",
+      "description": "일일 케어 기록 중심",
+      "permissions": {
+        "cat_care": {
+          "care_record": {
+            "daily_care": ["read", "write"],
+            "special_care": ["read", "write"]
+          }
+        },
+        "cat_resident": {
+          "resident_info": {
+            "basic_info": ["read"]
+          }
+        }
+      }
+    },
+
+    {
+      "roleId": "cook",
+      "roleName": "조리원",
+      "description": "식단 관리 전담",
+      "permissions": {
+        "cat_meal": {
+          "meal_plan": {
+            "meal_create": ["read", "write", "update"],
+            "meal_view": ["read", "export"]
+          }
+        }
+      }
+    },
+
+    {
+      "roleId": "accountant",
+      "roleName": "회계담당",
+      "description": "회계, 급여, 보험 청구",
+      "permissions": {
+        "cat_accounting": {
+          "accounting": {
+            "income": ["read", "write", "update", "export"],
+            "expense": ["read", "write", "update", "export"],
+            "financial_report": ["read", "export", "approve"]
+          },
+          "payroll": {
+            "payroll_calc": ["read", "write", "update", "export"],
+            "payroll_payment": ["read", "approve", "export"]
+          }
+        },
+        "cat_insurance": {
+          "insurance_claim": {
+            "claim_create": ["read", "write", "update"],
+            "claim_submit": ["read", "approve", "export"]
+          }
+        }
+      }
+    },
+
+    {
+      "roleId": "office-staff",
+      "roleName": "사무원",
+      "description": "게시판 및 행정 업무",
+      "permissions": {
+        "cat_board": {
+          "notice": {
+            "notice_list": ["read", "write", "update", "delete"]
+          },
+          "freeboard": {
+            "freeboard_list": ["read", "write", "update", "delete"]
+          },
+          "gallery": {
+            "gallery_list": ["read", "write", "update", "delete"]
+          }
+        }
+      }
+    },
+
+    {
+      "roleId": "general-staff",
+      "roleName": "일반 직원",
+      "description": "최소 조회 권한",
+      "permissions": {
+        "cat_resident": {
+          "resident_info": {
+            "basic_info": ["read"]
+          }
+        },
+        "cat_care": {
+          "care_record": {
+            "daily_care": ["read"]
+          }
+        }
+      }
+    }
+  ]
+}
