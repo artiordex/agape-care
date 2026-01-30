@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { api } from '@/lib/api';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 export default function ContactFormSection() {
   const [formData, setFormData] = useState({
@@ -11,13 +12,36 @@ export default function ContactFormSection() {
     message: '',
   });
 
+  const { mutate: createInquiry, isPending } = api.webInquiry.createWebInquiry.useMutation({
+    onSuccess: () => {
+      alert('상담 신청이 완료되었습니다. 담당자가 연락드리겠습니다.');
+      setFormData({
+        name: '',
+        phone: '',
+        type: '',
+        message: '',
+      });
+    },
+    onError: error => {
+      console.error(error);
+      alert('상담 신청 중 오류가 발생했습니다. 다시 시도해주세요.');
+    },
+  });
+
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    alert('상담 신청이 완료되었습니다. 담당자가 연락드리겠습니다.');
+    createInquiry({
+      body: {
+        name: formData.name,
+        phone: formData.phone,
+        type: formData.type,
+        message: formData.message || undefined,
+      },
+    });
   };
 
   return (
@@ -110,10 +134,11 @@ export default function ContactFormSection() {
 
             <button
               type="submit"
-              className="w-full rounded-xl bg-[#5C8D5A] px-8 py-4 font-bold text-white shadow-lg hover:bg-[#4A7548]"
+              disabled={isPending}
+              className="w-full rounded-xl bg-[#5C8D5A] px-8 py-4 font-bold text-white shadow-lg hover:bg-[#4A7548] disabled:opacity-50"
             >
               <i className="ri-send-plane-line mr-2" />
-              상담 신청하기
+              {isPending ? '처리중...' : '상담 신청하기'}
             </button>
           </form>
         </div>

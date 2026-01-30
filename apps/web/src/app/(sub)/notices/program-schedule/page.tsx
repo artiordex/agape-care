@@ -1,5 +1,6 @@
 'use client';
 
+import { api } from '@/lib/api';
 import { useState } from 'react';
 import CalendarView from './CalendarView';
 import CategoryFilter from './CategoryFilter';
@@ -17,127 +18,38 @@ const CATEGORIES = [
   { id: 'event', name: '특별행사', color: '#EF4444', icon: 'ri-gift-line' },
 ];
 
-// 샘플 프로그램 데이터
-const MOCK_PROGRAMS = [
-  {
-    id: '1',
-    title: '음악 힐링 클래스',
-    start_time: '10:00',
-    end_time: '11:00',
-    date: '2026-01-27',
-    category: 'music',
-    color: '#3B82F6',
-    staff: '김음악',
-    description: '전문 음악치료사와 함께하는 릴랙스 음악 프로그램입니다.',
-  },
-  {
-    id: '2',
-    title: '인지강화 퀴즈',
-    start_time: '14:00',
-    end_time: '15:00',
-    date: '2026-01-27',
-    category: 'cognitive',
-    color: '#6366F1',
-    staff: '박인지',
-    description: '두뇌 회전을 돕는 퀴즈 프로그램입니다.',
-  },
-  {
-    id: '3',
-    title: '오후 산책 활동',
-    start_time: '16:00',
-    end_time: '17:00',
-    date: '2026-01-28',
-    category: 'leisure',
-    color: '#EC4899',
-    staff: '최여가',
-    description: '어르신들과 함께하는 가벼운 산책 시간입니다.',
-  },
-  {
-    id: '4',
-    title: '물리치료 세션',
-    start_time: '10:00',
-    end_time: '11:30',
-    date: '2026-01-29',
-    category: 'physical',
-    color: '#10B981',
-    staff: '이물리',
-    description: '신체 기능 회복을 위한 물리치료 프로그램입니다.',
-  },
-  {
-    id: '5',
-    title: '그림 그리기',
-    start_time: '14:00',
-    end_time: '15:30',
-    date: '2026-01-29',
-    category: 'art',
-    color: '#F59E0B',
-    staff: '정미술',
-    description: '창의력을 키우는 미술 활동 시간입니다.',
-  },
-  {
-    id: '6',
-    title: '생신 잔치',
-    start_time: '15:00',
-    end_time: '16:30',
-    date: '2026-01-30',
-    category: 'event',
-    color: '#EF4444',
-    staff: '김행사',
-    description: '1월 생신을 맞으신 어르신들의 축하 행사입니다.',
-  },
-  {
-    id: '7',
-    title: '아침 체조',
-    start_time: '09:00',
-    end_time: '10:00',
-    date: '2026-01-27',
-    category: 'physical',
-    color: '#10B981',
-    staff: '이물리',
-    description: '하루를 활기차게 시작하는 아침 체조 시간입니다.',
-  },
-  {
-    id: '8',
-    title: '노래교실',
-    start_time: '14:00',
-    end_time: '15:00',
-    date: '2026-01-28',
-    category: 'music',
-    color: '#3B82F6',
-    staff: '김음악',
-    description: '추억의 노래를 함께 부르는 시간입니다.',
-  },
-  {
-    id: '9',
-    title: '미술치료',
-    start_time: '10:00',
-    end_time: '11:30',
-    date: '2026-01-30',
-    category: 'art',
-    color: '#F59E0B',
-    staff: '정미술',
-    description: '그림을 통한 감정 표현 시간입니다.',
-  },
-  {
-    id: '10',
-    title: '원예활동',
-    start_time: '14:00',
-    end_time: '15:30',
-    date: '2026-01-31',
-    category: 'leisure',
-    color: '#EC4899',
-    staff: '최여가',
-    description: '화분 가꾸기 활동입니다.',
-  },
-];
-
 export default function ProgramSchedulePage() {
   const [selectedCategory, setSelectedCategory] = useState('전체');
   const [viewMode, setViewMode] = useState<'calendar' | 'list'>('calendar');
   const [selectedProgram, setSelectedProgram] = useState<string | null>(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
-  const programs = MOCK_PROGRAMS;
+  const start = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).toISOString().split('T')[0]!;
+  const end = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).toISOString().split('T')[0]!;
+
+  // API 호출
+  const { data, isLoading } = api.program.getSchedules.useQuery(['program', 'schedules', { start, end }], {
+    query: {
+      start,
+      end,
+    },
+  });
+
+  const programsRaw = data?.status === 200 ? data.body.data : [];
+
+  // 데이터 가공
+  const programs = programsRaw.map(prog => ({
+    id: prog.id,
+    title: prog.title,
+    start_time: prog.startTime.substring(0, 5), // HH:mm:ss -> HH:mm
+    end_time: prog.endTime.substring(0, 5),
+    date: prog.date,
+    category: prog.category || 'event', // TODO: 카테고리 매핑
+    color: CATEGORIES.find(c => c.id === prog.category)?.color || '#EF4444',
+    staff: prog.managerName || '진행자',
+    description: prog.description || '',
+  }));
+
   const filteredPrograms =
     selectedCategory === '전체'
       ? programs
@@ -164,7 +76,6 @@ export default function ProgramSchedulePage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-
         {/* 월 헤더 */}
         <MonthHeader currentMonth={currentMonth} prevMonth={prevMonth} nextMonth={nextMonth} goToday={goToday} />
 

@@ -17,6 +17,8 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
+      "@agape-care/api-contract": ["../../packages/api-contract/src/index.ts"],
+      "@agape-care/ui": ["../../packages/ui/src/index.ts"],
       "@/*": ["src/*"],
       "@/components/*": ["src/components/*"],
       "@/data/*": ["src/data/*"],

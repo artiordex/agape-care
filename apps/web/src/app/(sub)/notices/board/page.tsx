@@ -1,15 +1,14 @@
 'use client';
 
+import { api } from '@/lib/api';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
 import BoardHeader from './BoardHeader';
 import BoardMobileList from './BoardMobileList';
 import BoardTable from './BoardTable';
 import Pagination from './Pagination';
 import WritePostModal from './WritePostModal';
-
-// 샘플 데이터 import
-import boardData from '@/data/board.json';
 
 interface Post {
   id: string;
@@ -25,78 +24,63 @@ interface Post {
 
 export default function BoardPage() {
   const router = useRouter();
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
   const [showWriteModal, setShowWriteModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 10;
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  // API 호출
+  const { data, isLoading, refetch } = api.content.getPosts.useQuery(
+    ['content', 'posts', { boardKey: 'FREE', page: currentPage, limit: postsPerPage }],
+    {
+      query: {
+        boardKey: 'FREE', // TODO: 키 동적 처리 고려
+        page: currentPage,
+        limit: postsPerPage,
+      },
+    },
+  );
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
+  const postsRaw = data?.status === 200 ? data.body.data : [];
 
-  const fetchPosts = async () => {
-    try {
-      setLoading(true);
-
-      // API URL이 없으면 샘플 데이터 사용
-      if (!apiUrl) {
-        console.log('API URL이 설정되지 않아 샘플 데이터를 사용합니다');
-        setPosts(boardData.posts || []);
-        setLoading(false);
-        return;
-      }
-
-      // API 호출
-      const response = await fetch(`${apiUrl}/board/posts`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setPosts(Array.isArray(data) ? data : data.posts || []);
-    } catch (error) {
-      console.error('게시글 로딩 실패:', error);
-      console.log('샘플 데이터로 대체합니다');
-      // API 실패 시 샘플 데이터 사용
-      setPosts(boardData.posts || []);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // 데이터 가공
+  const posts: Post[] = postsRaw.map(post => ({
+    id: post.id,
+    title: post.title,
+    writer_name: post.authorName || '익명',
+    content: post.content,
+    view_count: post.viewCount || 0,
+    image_urls: post.images || [],
+    is_hidden: post.isHidden || false,
+    created_at: post.createdAt.toString(), // Date 객체일 수 있으므로 변환 필요
+    updated_at: post.updatedAt.toString(),
+  }));
 
   const handlePostClick = (post: Post) => {
-    // 상세 페이지로 이동
     router.push(`/notices/board/${post.id}`);
   };
 
   const handleWriteSuccess = () => {
     setShowWriteModal(false);
-    fetchPosts();
+    refetch();
   };
 
-  // 페이지네이션 계산
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
-  const totalPages = Math.ceil(posts.length / postsPerPage);
+  const totalPages = Math.ceil(posts.length / postsPerPage) || 1;
+
+  // API가 토탈 카운트를 주지 않으면 페이지네이션이 정확하지 않을 수 있음.
+  // getPostsContract가 array만 리턴하므로 현재는 받아온 것 기준.
+  // 실제로는 limit만큼 받아왔다면 다음 페이지가 있을 수 있음.
+  // 여기서는 UI 로직 유지를 위해 받아온 데이터 그대로 표시.
 
   return (
     <div className="bg-gray-50 py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* 헤더 */}
         <BoardHeader totalPosts={posts.length} onWriteClick={() => setShowWriteModal(true)} />
 
-        {/* 게시글 목록 */}
-        {loading ? (
+        {isLoading ? (
+          <div className="rounded-lg border border-gray-200 bg-white py-20 text-center">
+            <div className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-gray-900 border-t-transparent" />
+          </div>
+        ) : posts.length === 0 ? (
           <div className="rounded-lg border border-gray-200 bg-white py-20 text-center">
             <i className="ri-article-line mb-4 text-6xl text-gray-300" />
             <p className="mb-2 text-lg font-semibold text-gray-900">등록된 게시글이 없습니다</p>
@@ -104,24 +88,24 @@ export default function BoardPage() {
           </div>
         ) : (
           <>
-            {/* 데스크톱 테이블 */}
             <BoardTable
-              posts={currentPosts}
+              posts={posts}
               totalPosts={posts.length}
-              startIndex={indexOfFirstPost}
+              startIndex={(currentPage - 1) * postsPerPage}
               onPostClick={handlePostClick}
             />
 
-            {/* 모바일 리스트 */}
-            <BoardMobileList posts={currentPosts} onPostClick={handlePostClick} />
+            <BoardMobileList posts={posts} onPostClick={handlePostClick} />
 
-            {/* 페이지네이션 */}
-            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages < 1 ? 1 : totalPages}
+              onPageChange={setCurrentPage}
+            />
           </>
         )}
       </div>
 
-      {/* 글쓰기 모달 */}
       {showWriteModal && <WritePostModal onClose={() => setShowWriteModal(false)} onSuccess={handleWriteSuccess} />}
     </div>
   );

@@ -1,7 +1,7 @@
 'use client';
 
-import mealData from '@/data/meal.json';
-import { useEffect, useState } from 'react';
+import { api } from '@/lib/api';
+import { useState } from 'react';
 
 import ImageModal from './ImageModal';
 import MealDetailModal from './MealDetailModal';
@@ -29,46 +29,42 @@ interface MealPlan {
 }
 
 export default function MealPlanPage() {
-  const [mealPlans, setMealPlans] = useState<MealPlan[]>([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [viewMode, setViewMode] = useState<'week' | 'month'>('week');
   const [selectedMeal, setSelectedMeal] = useState<MealPlan | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const start = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).toISOString().split('T')[0]!;
+  const end = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).toISOString().split('T')[0]!;
 
-  const fetchMealPlans = async () => {
-    setLoading(true);
+  // API 호출
+  const { data, isLoading } = api.meal.getMealPlans.useQuery(['meal', 'plans', { start, end }], {
+    query: {
+      start,
+      end,
+    },
+  });
 
-    // API URL이 없으면 샘플 데이터 사용
-    if (!apiUrl) {
-      console.log('API URL이 설정되지 않아 샘플 데이터를 사용합니다');
-      setMealPlans(mealData.mealPlans || []);
-      setLoading(false);
-      return;
-    }
+  const mealPlansRaw = data?.status === 200 ? data.body.data : [];
 
-    try {
-      const start = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).toISOString().split('T')[0]!;
-      const end = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).toISOString().split('T')[0]!;
-
-      const res = await fetch(`${apiUrl}/meal-plans?start=${start}&end=${end}`);
-      const data = await res.json();
-
-      setMealPlans(Array.isArray(data) ? data : data.mealPlans || []);
-    } catch (error) {
-      console.error('식단표 로딩 실패:', error);
-      console.log('샘플 데이터로 대체합니다');
-      setMealPlans(mealData.mealPlans || []);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchMealPlans();
-  }, [currentMonth]);
+  // 데이터 가공
+  const mealPlans: MealPlan[] = mealPlansRaw.map(plan => ({
+    id: plan.id,
+    date: plan.date,
+    breakfast: plan.breakfast || '',
+    morning_snack: plan.morningSnack || '',
+    lunch: plan.lunch || '',
+    afternoon_snack: plan.afternoonSnack || '',
+    dinner: plan.dinner || '',
+    memo: plan.memo || undefined,
+    nutrition_manager: plan.managerName || '영양사', // API 필드 확인 필요
+    images:
+      plan.images?.map(img => ({
+        id: img.id,
+        url: img.url,
+        uploadedAt: img.createdAt.toString(),
+      })) || [],
+  }));
 
   // 주간 보기 데이터
   const getWeekDays = (): { date: string; meal: MealPlan | null }[] => {
@@ -137,7 +133,7 @@ export default function MealPlanPage() {
         />
 
         {/* 로딩 */}
-        {loading ? (
+        {isLoading ? (
           <div className="py-20 text-center">
             <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-gray-900 border-t-transparent" />
             <p className="mt-4 text-gray-600">식단표를 불러오는 중입니다...</p>

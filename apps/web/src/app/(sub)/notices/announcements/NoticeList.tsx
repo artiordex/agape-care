@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useInView } from 'react-intersection-observer';
 
 interface NoticeItem {
-  id: number;
+  id: string | number;
   category: string;
   title: string;
   date: string;
@@ -18,7 +18,7 @@ export default function NoticeList({ notices }: { readonly notices: NoticeItem[]
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const router = useRouter();
 
-  const goDetail = (id: number) => {
+  const goDetail = (id: string | number) => {
     router.push(`/notices/announcements/${id}`);
   };
 

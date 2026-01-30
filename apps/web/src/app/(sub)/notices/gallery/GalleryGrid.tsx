@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 interface GalleryItem {
-  id: number;
+  id: string | number;
   title: string;
   category: string;
   date: string;
