@@ -3,6 +3,6 @@
  * Author : Shiwoo Min
  * Date : 2026-01-26
  */
-export * from './prisma.service.js';
 export * from './database.module.js';
+export * from './generated/prisma/index.js';
 export * from './prisma.service.js';

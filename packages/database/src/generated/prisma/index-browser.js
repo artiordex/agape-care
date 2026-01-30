@@ -884,6 +884,19 @@ exports.Prisma.NotificationQueueScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.WebInquiryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  phone: 'phone',
+  type: 'type',
+  message: 'message',
+  status: 'status',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -976,7 +989,8 @@ exports.Prisma.ModelName = {
   FileStorage: 'FileStorage',
   AuditLog: 'AuditLog',
   SystemSetting: 'SystemSetting',
-  NotificationQueue: 'NotificationQueue'
+  NotificationQueue: 'NotificationQueue',
+  WebInquiry: 'WebInquiry'
 };
 
 /**
