@@ -4,15 +4,23 @@
  * Date : 2026-01-26
  */
 
+import { DatabaseModule } from '@agape-care/database';
+import { LoggerModule } from '@agape-care/logger';
+import { BullModule } from '@nestjs/bullmq';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
-import { HealthModule } from './modules/health/health.module';
+import { AccountingModule } from './modules/accounting/accounting.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { LoggerModule } from '@agape-care/logger';
-import { DatabaseModule } from '@agape-care/database';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { HealthModule } from './modules/health/health.module';
+import { MyPageModule } from './modules/mypage/mypage.module';
+import { NotificationModule } from './modules/notification/notification.module';
+import { ProgramModule } from './modules/program/program.module';
+import { ResidentModule } from './modules/resident/resident.module';
+import { SettingModule } from './modules/setting/setting.module';
 
 @Module({
   imports: [
@@ -44,8 +52,30 @@ import { DatabaseModule } from '@agape-care/database';
         },
       ],
     }),
+
+    /* 큐 (Redis) 설정 */
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        connection: {
+          host: config.get('REDIS_HOST') || '127.0.0.1',
+          port: config.get('REDIS_PORT') || 6379,
+          password: config.get('REDIS_PASSWORD'),
+        },
+      }),
+    }),
+
+    AccountingModule,
     AuthModule,
     HealthModule,
+    NotificationModule,
+    ProgramModule,
+    ResidentModule,
+    DashboardModule,
+    MyPageModule,
+    SettingModule,
+    WebInquiryModule,
   ],
 
   controllers: [],

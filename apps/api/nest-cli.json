@@ -4,7 +4,6 @@
   "sourceRoot": "src",
   "entryFile": "main",
   "monorepo": true,
-  "monorepoRoot": "../../",
   "compilerOptions": {
     "deleteOutDir": true,
     "watchAssets": true,

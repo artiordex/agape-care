@@ -6,8 +6,14 @@
 
 const path = require('node:path');
 const fs = require('node:fs');
-const ROOT = process.env.PM2_ROOT || '/app';
+
+// 프로젝트 루트 자동 계산
+const ROOT = path.resolve(__dirname);
+
+// dist 경로 (Nx 기본 구조)
 const DIST = path.join(ROOT, 'dist', 'apps', 'api');
+
+// 로그 경로
 const LOG_DIR = path.join(ROOT, 'logs');
 
 // 로그 디렉토리 생성
@@ -17,7 +23,6 @@ if (!fs.existsSync(LOG_DIR)) {
 
 module.exports = {
   apps: [
-    /* PRODUCTION MODE */
     {
       name: 'agape-care-api',
       script: 'main.js',
@@ -52,7 +57,6 @@ module.exports = {
       reload_delay: 1000,
     },
 
-    /* DEVELOPMENT MODE */
     {
       name: 'agape-care-api-dev',
       script: 'pnpm',

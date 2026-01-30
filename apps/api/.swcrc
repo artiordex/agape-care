@@ -9,15 +9,22 @@
       "legacyDecorator": true,
       "decoratorMetadata": true
     },
-    "target": "es2022",
+    "target": "esnext",
     "keepClassNames": true,
-    "loose": false
+    "loose": false,
+    "externalHelpers": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "module": {
-    "type": "commonjs",
+    "type": "module",
     "strict": false,
-    "strictMode": false
+    "strictMode": false,
+    "noInterop": false
   },
   "minify": false,
-  "sourceMaps": true
+  "sourceMaps": true,
+  "inlineSourcesContent": false
 }
