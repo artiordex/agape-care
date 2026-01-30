@@ -4,17 +4,13 @@
  * Date : 2025-09-19
  */
 import type { ReactNode } from 'react';
-import type { SidebarItem, SidebarNavProps } from '../ui-types.js';
 import React from 'react';
+import type { SidebarItem, SidebarNavProps } from '../ui-types.js';
 
 const renderIcon = (icon?: ReactNode | string, collapsed?: boolean) => {
   if (!icon) return null;
   if (typeof icon === 'string') {
-    return (
-      <i
-        className={`${icon} w-5 h-5 flex items-center justify-center ${collapsed ? 'mx-auto' : 'mr-3'}`}
-      />
-    );
+    return <i className={`${icon} flex h-5 w-5 items-center justify-center ${collapsed ? 'mx-auto' : 'mr-3'}`} />;
   }
   return icon;
 };
@@ -56,18 +52,17 @@ export default function SidebarNav({
     return (
       <ItemLink
         href={item.href}
-        className={`relative group flex items-center px-3 py-3 rounded-lg transition-all duration-200 cursor-pointer
-          ${active ? 'bg-blue-50 text-blue-600 border-r-2 border-blue-600' : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'}`}
+        className={`group relative flex cursor-pointer items-center rounded-lg px-3 py-3 transition-all duration-200 ${active ? 'border-r-2 border-blue-600 bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'}`}
         aria-current={active ? 'page' : undefined}
       >
         {renderIcon(item.icon, isCollapsed)}
-        {!isCollapsed && <span className="font-medium whitespace-nowrap">{item.label}</span>}
+        {!isCollapsed && <span className="whitespace-nowrap font-medium">{item.label}</span>}
 
         {/* 툴팁: 접힘 상태에서만 */}
         {isCollapsed && (
-          <div className="absolute left-16 ml-2 px-2 py-1 bg-gray-800 text-white text-sm rounded opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50">
+          <div className="pointer-events-none absolute left-16 z-50 ml-2 whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-sm text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
             {item.label}
-            <div className="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 w-0 h-0 border-r-4 border-r-gray-800 border-t-2 border-t-transparent border-b-2 border-b-transparent" />
+            <div className="absolute left-0 top-1/2 h-0 w-0 -translate-x-1 -translate-y-1/2 border-b-2 border-r-4 border-t-2 border-b-transparent border-r-gray-800 border-t-transparent" />
           </div>
         )}
       </ItemLink>
@@ -76,7 +71,7 @@ export default function SidebarNav({
 
   return (
     <aside
-      className={`fixed left-0 ${topOffsetClass} ${heightClass} bg-white border-r border-gray-200 transition-all duration-300 z-40 ${
+      className={`fixed left-0 ${topOffsetClass} ${heightClass} z-40 border-r border-gray-200 bg-white transition-all duration-300 ${
         isCollapsed ? 'w-16' : 'w-64'
       } ${className ?? ''}`}
       aria-label="사이드바 내비게이션"

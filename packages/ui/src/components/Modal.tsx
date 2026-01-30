@@ -65,7 +65,7 @@ export function Modal({
 
       {/* Modal Content */}
       <div
-        className={`shadow-modal relative w-full rounded-lg bg-white dark:bg-gray-800 ${sizeClasses[size]} animate-scale-in ${className}`}
+        className={`shadow-modal relative w-full rounded-lg bg-white ${sizeClasses[size]} animate-scale-in ${className}`}
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? 'modal-title' : undefined}
@@ -73,9 +73,9 @@ export function Modal({
       >
         {/* Header */}
         {(title || showCloseButton) && (
-          <div className="border-border flex items-center justify-between border-b p-6">
+          <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
             {title && (
-              <h2 id="modal-title" className="text-text text-lg font-semibold">
+              <h2 id="modal-title" className="text-lg font-bold text-gray-900">
                 {title}
               </h2>
             )}

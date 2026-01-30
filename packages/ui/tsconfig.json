@@ -5,9 +5,9 @@
     "jsx": "react",
     "composite": true,
     "rootDir": "./src",
-    "outDir": "../../dist/packages/ui",
-    "declarationDir": "../../dist/packages/ui",
-    "tsBuildInfoFile": "../../dist/packages/ui/.tsbuildinfo",
+    "outDir": "./dist",
+    "declarationDir": "./dist",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
 
     "declaration": true,
     "declarationMap": true,

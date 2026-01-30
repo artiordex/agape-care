@@ -10,6 +10,7 @@ export * from './animations/Animation.js';
 export * from './components/Button.js';
 export * from './components/Card.js';
 export * from './components/Checkbox.js';
+export * from './components/DatePicker.js';
 export * from './components/Divider.js';
 export * from './components/Drawer.js';
 export * from './components/EmptyState.js';
@@ -22,6 +23,7 @@ export * from './components/LoadingSpinner.js';
 export * from './components/Modal.js';
 export * from './components/RadioGroup.js';
 export * from './components/Select.js';
+export * from './components/Table.js';
 export * from './components/Textarea.js';
 export * from './components/Toolbar.js';
 
@@ -55,41 +57,41 @@ export * from './utils/cn.js';
 
 // types (통합 타입 export)
 export type {
-  ButtonProps,
-  InputProps,
-  SelectProps,
-  TextareaProps,
-  CheckboxProps,
-  RadioGroupProps,
-  FieldProps,
-  FormProps,
-  CardProps,
-  ModalProps,
-  DrawerProps,
-  ContainerProps,
-  GridProps,
-  StackProps,
-  DividerProps,
-  PageHeaderProps,
-  SectionProps,
-  ToolbarProps,
   // charts
   AreaChartProps,
   BarChartProps,
+  ButtonProps,
+  CardProps,
+  CheckboxProps,
+  ContainerProps,
+  DebouncedCallback,
+  DividerProps,
   DonutChartProps,
+  DrawerProps,
+  FieldProps,
+  FormProps,
   FunnelChartProps,
   GaugeChartProps,
+  GridProps,
+  InputProps,
   LineChartProps,
+  MaybeRef,
+  ModalProps,
+  PageHeaderProps,
   PieChartProps,
   ProgressChartProps,
+  RadioGroupProps,
+  SectionProps,
+  SelectProps,
   SparklineChartProps,
-  WaterfallChartProps,
+  StackProps,
+  TargetLike,
+  TextareaProps,
+  ThrottleOptions,
+  ThrottledCallback,
+  ToolbarProps,
   // hooks
   UseBooleanActions,
   UseDisclosureOptions,
-  ThrottleOptions,
-  TargetLike,
-  MaybeRef,
-  DebouncedCallback,
-  ThrottledCallback,
+  WaterfallChartProps,
 } from './ui-types.js';

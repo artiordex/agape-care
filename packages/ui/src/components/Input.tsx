@@ -9,13 +9,13 @@ import { type InputProps } from '../ui-types.js';
 
 // 입력 필드 variant 스타일 정의
 const inputVariants = cva(
-  'flex w-full rounded-md border bg-transparent px-3 py-2 text-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/20 disabled:cursor-not-allowed disabled:opacity-50',
+  'flex w-full rounded border bg-white px-3 py-2 text-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50',
   {
     variants: {
       variant: {
-        default: 'border-border hover:border-border-strong',
-        error: 'border-error focus-visible:ring-error/20',
-        success: 'border-success focus-visible:ring-success/20',
+        default: 'border-gray-300 hover:border-blue-500 focus:border-blue-500',
+        error: 'border-red-500 focus:border-red-500 focus-visible:ring-red-500/20',
+        success: 'border-green-500 focus:border-green-500 focus-visible:ring-green-500/20',
       },
       size: {
         default: 'h-10 px-3 py-2',
