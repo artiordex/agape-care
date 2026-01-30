@@ -4,9 +4,11 @@
  * Updated : 2026-01-26
  */
 
+import { QUEUE_NAMES } from '@agape-care/api-contract';
 import { Worker } from 'bullmq';
 import 'dotenv/config';
 import { Redis } from 'ioredis';
+import { emailProcessor } from './processors/email.processor';
 
 // 디버깅용 로그
 console.log('Environment Variables Check:');
@@ -25,7 +27,7 @@ const connection = new Redis({
 
 // 알림 처리
 const notificationWorker = new Worker(
-  'notification',
+  QUEUE_NAMES.NOTIFICATION,
   async job => {
     console.log('[Notification] Job:', job.name, job.data);
   },
@@ -34,7 +36,7 @@ const notificationWorker = new Worker(
 
 // SMS 처리
 const smsWorker = new Worker(
-  'sms',
+  QUEUE_NAMES.SMS,
   async job => {
     console.log('[SMS] Job:', job.name, job.data);
   },
@@ -42,13 +44,7 @@ const smsWorker = new Worker(
 );
 
 // 이메일 처리
-const emailWorker = new Worker(
-  'email',
-  async job => {
-    console.log('[Email] Job:', job.name, job.data);
-  },
-  { connection },
-);
+const emailWorker = new Worker(QUEUE_NAMES.EMAIL, emailProcessor, { connection });
 
 // 에러 핸들러
 notificationWorker.on('failed', (job, err) => {

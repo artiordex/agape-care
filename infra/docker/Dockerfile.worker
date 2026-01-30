@@ -2,6 +2,7 @@
 # Author : Shiwoo Min
 # Date : 2026-01-27
 # docker build --no-cache -f infra/docker/Dockerfile.worker -t agape-care-worker .
+# docker run -it --entrypoint sh agape-care-worker:latest
 
 # Build Stage
 FROM node:22-alpine AS builder

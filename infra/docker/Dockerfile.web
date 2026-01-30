@@ -5,6 +5,7 @@
 # docker build --no-cache -f infra/docker/Dockerfile.web -t agape-care-web .
 # Web (포트 3000 매핑)
 # docker run -d -p 3000:3000 --name agape-web agape-care-web
+# docker run -it --entrypoint sh agape-care-web:latest
 
 # Build Stage
 FROM node:22-alpine AS build

@@ -22,7 +22,17 @@ ENV DATABASE_URL="postgresql://dummy:dummy@dummy:5432/dummy"
 RUN pnpm --filter @agape-care/database generate
 
 # API 빌드
-RUN pnpm nx build @agape-care/api
+# API 빌드
+RUN pnpm nx build @agape-care/api --skip-nx-cache
+
+# 견고한 처리: src가 존재하면 평탄화 (Local/Docker 차이 대응)
+RUN if [ -d "/app/dist/apps/api/src" ]; then \
+      echo "Flattening nested structure..."; \
+      cp -r /app/dist/apps/api/src/. /app/dist/apps/api/; \
+      rm -rf /app/dist/apps/api/src; \
+    else \
+      echo "Structure is already flat."; \
+    fi
 
 # Production Dependencies Stage
 FROM node:22-alpine AS deps
@@ -51,7 +61,7 @@ RUN apk add --no-cache cairo pango libjpeg-turbo giflib pixman
 COPY --from=deps /tmp/api-deploy/node_modules ./node_modules
 COPY --from=deps /tmp/api-deploy/package.json ./package.json
 
-# 중복 경로: dist/apps/api/apps/api/src/* → dist/*
+# 빌드 결과물 복사
 COPY --from=builder /app/dist/apps/api ./dist
 
 EXPOSE 8000

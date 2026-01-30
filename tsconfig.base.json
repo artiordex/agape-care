@@ -45,7 +45,7 @@
     /* 모노레포 Alias */
     "baseUrl": ".",
     "paths": {
-      "@agape-care/api-contract": ["dist/packages/api-contract/index.d.ts"],
+      "@agape-care/api-contract": ["packages/api-contract/src/index.ts"],
       "@agape-care/database": ["dist/packages/database/index.d.ts"],
       "@agape-care/logger": ["dist/packages/logger/index.d.ts"],
       "@agape-care/ui": ["dist/packages/ui/src/index.ts"]
