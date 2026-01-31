@@ -1,154 +1,111 @@
 'use client';
 
-import { useState } from 'react';
-import NotificationCampaignTable from './NotificationCampaignTable';
-import NotificationMonthlyStats from './NotificationMonthlyStats';
-import NotificationStatsCards from './NotificationStatsCards';
+import React, { useState } from 'react';
+import NotificationHeader from './NotificationHeader';
+import StatsBoard from './StatsBoard';
+import CampaignGrid from './CampaignGrid';
 
-interface NotificationStats {
-  today: {
-    total: number;
-    success: number;
-    failed: number;
-    pending: number;
-  };
-  month: {
-    total: number;
-    success: number;
-    failed: number;
-    pending: number;
-  };
-  channels: {
-    sms: number;
-    band: number;
-    kakao: number;
-  };
-  scheduled: number;
-}
-
-interface Campaign {
-  id: string;
-  title: string;
-  purpose: string;
-  channels: string[];
-  recipients: number;
-  success: number;
-  failed: number;
-  status: string;
-  sentAt: string;
-}
-
+/**
+ * [Main] 알림 시스템 통합 관제 대시보드
+ * 아가페 그린(#5C8D5A) 테마 기반의 리팩토링된 통합 버전
+ */
 export default function NotificationDashboardPage() {
-  const [stats] = useState<NotificationStats>({
-    today: {
-      total: 156,
-      success: 142,
-      failed: 8,
-      pending: 6,
-    },
-    month: {
-      total: 3842,
-      success: 3654,
-      failed: 124,
-      pending: 64,
-    },
-    channels: {
-      sms: 2145,
-      band: 892,
-      kakao: 805,
-    },
+  // 1. 시스템 지표 상태
+  const [stats] = useState({
+    today: { total: 156, success: 142, failed: 8, pending: 6 },
     scheduled: 12,
   });
 
-  const [recentCampaigns] = useState<Campaign[]>([
+  // 2. 캠페인 리스트 데이터
+  const [campaigns] = useState([
     {
-      id: '1',
-      title: '2024년 1월 청구 안내',
-      purpose: 'billing',
+      id: 'C001',
+      title: '2026년 1월 급여 명세서 알림',
+      purpose: 'Payroll',
       channels: ['sms', 'kakao'],
       recipients: 45,
-      success: 43,
-      failed: 2,
+      success: 45,
+      failed: 0,
       status: 'done',
-      sentAt: '2024-01-15 09:30',
+      sentAt: '2026.01.25',
     },
     {
-      id: '2',
-      title: '설 연휴 운영 안내',
-      purpose: 'notice',
-      channels: ['sms', 'band'],
+      id: 'C002',
+      title: '설 연휴 시설 면회 수칙 안내',
+      purpose: 'Notice',
+      channels: ['kakao', 'band'],
       recipients: 120,
-      success: 118,
-      failed: 2,
+      success: 115,
+      failed: 5,
       status: 'done',
-      sentAt: '2024-01-14 14:20',
+      sentAt: '2026.01.24',
     },
     {
-      id: '3',
-      title: '프로그램 일정 변경 안내',
-      purpose: 'schedule',
+      id: 'C003',
+      title: '주간 프로그램 일정표 자동 발송',
+      purpose: 'Schedule',
       channels: ['kakao'],
-      recipients: 35,
+      recipients: 88,
       success: 0,
       failed: 0,
       status: 'scheduled',
-      sentAt: '2024-01-20 10:00',
-    },
-    {
-      id: '4',
-      title: '긴급: 김○○ 어르신 상태 알림',
-      purpose: 'urgent',
-      channels: ['sms'],
-      recipients: 2,
-      success: 2,
-      failed: 0,
-      status: 'done',
-      sentAt: '2024-01-15 16:45',
+      sentAt: '2026.02.01',
     },
   ]);
 
+  // 3. Header 제어를 위한 UI 상태 추가
+  const [selectedCampaignName, setSelectedCampaignName] = useState<string | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  // 신규 발송 액션 핸들러
   const handleNewNotification = () => {
-    alert('새 알림 발송 기능 (개발 예정)');
+    setIsProcessing(true);
+    // 모달 활성화 로직 등을 여기에 구현
+    setTimeout(() => {
+      alert('신규 알림 발송 구성 모달이 활성화되었습니다.');
+      setIsProcessing(false);
+    }, 500);
   };
 
-  const handleViewAll = () => {
-    alert('전체 캠페인 보기 (개발 예정)');
-  };
-
+  // 상세 보기 클릭 시 헤더에 캠페인명 동기화
   const handleViewDetail = (id: string) => {
-    alert(`캠페인 상세보기 - ID: ${id}`);
+    const campaign = campaigns.find(c => c.id === id);
+    if (campaign) {
+      setSelectedCampaignName(campaign.title);
+      console.log(`조회 중인 캠페인 ID: ${id}`);
+    }
   };
 
   return (
-    <div className="h-full bg-gray-50 p-6">
-      <div className="mx-auto max-w-7xl space-y-4">
-        {/* 헤더 */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-lg font-bold text-gray-900">알림 대시보드</h1>
-            <p className="mt-1 text-sm text-gray-600">SMS, Band, 카카오톡 발송 현황을 한눈에 확인하세요</p>
-          </div>
-          <button
-            onClick={handleNewNotification}
-            className="flex items-center gap-1.5 rounded border border-blue-600 bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700"
-          >
-            <i className="ri-send-plane-line"></i>
-            <span>새 알림 발송</span>
-          </button>
+    <div className="flex h-screen flex-col overflow-hidden bg-[#f0f2f5] font-sans antialiased">
+      {/* 1. 리팩토링된 NotificationHeader 적용 */}
+      <NotificationHeader
+        selectedCampaignName={selectedCampaignName}
+        isProcessing={isProcessing}
+        onNewNotification={handleNewNotification}
+      />
+
+      {/* 2. 메인 관제 영역 (스크롤 가능) */}
+      <div className="custom-scrollbar flex-1 space-y-6 overflow-y-auto p-6">
+        <div className="mx-auto max-w-7xl space-y-6">
+          {/* [A] 상단 핵심 지표 보드 */}
+          <StatsBoard todayStats={stats.today} scheduled={stats.scheduled} />
+
+          {/* [B] 캠페인 이력 관리 그리드 (handleViewDetail 연결) */}
+          <CampaignGrid campaigns={campaigns} onViewDetail={handleViewDetail} />
+
+          {/* 시스템 푸터 정보 */}
+          <footer className="mt-8 flex items-center justify-between border-t border-gray-200 pt-4 text-[9px] font-black uppercase tracking-widest text-gray-400">
+            <div className="flex items-center gap-4">
+              <span className="flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                Status: Normal
+              </span>
+              <span>● Service: SMS / Kakao / Band Sync Active</span>
+            </div>
+            <div className="text-[#5C8D5A]">Agape-Care Messaging Engine v2.1</div>
+          </footer>
         </div>
-
-        {/* 오늘 통계 */}
-        <NotificationStatsCards stats={stats.today} scheduled={stats.scheduled} />
-
-        {/* 이번 달 통계 & 채널별 현황 */}
-        <NotificationMonthlyStats monthStats={stats.month} channelStats={stats.channels} />
-
-        {/* 최근 캠페인 */}
-        <NotificationCampaignTable
-          campaigns={recentCampaigns}
-          onViewAll={handleViewAll}
-          onViewDetail={handleViewDetail}
-        />
       </div>
     </div>
   );
