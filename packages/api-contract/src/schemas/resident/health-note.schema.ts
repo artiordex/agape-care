@@ -41,6 +41,11 @@ export const CreateHealthNoteRequestSchema = z.object({
 });
 
 /**
+ * 건강 노트 수정 요청
+ */
+export const UpdateHealthNoteRequestSchema = CreateHealthNoteRequestSchema.partial();
+
+/**
  * 건강 노트 목록 조회 쿼리
  */
 export const GetHealthNotesQuerySchema = z.object({
@@ -66,5 +71,6 @@ export const GetHealthNotesResponseSchema = z.object({
 export type HealthNoteType = z.infer<typeof HealthNoteTypeSchema>;
 export type ResidentHealthNote = z.infer<typeof ResidentHealthNoteSchema>;
 export type CreateHealthNoteRequest = z.infer<typeof CreateHealthNoteRequestSchema>;
+export type UpdateHealthNoteRequest = z.infer<typeof UpdateHealthNoteRequestSchema>;
 export type GetHealthNotesQuery = z.infer<typeof GetHealthNotesQuerySchema>;
 export type GetHealthNotesResponse = z.infer<typeof GetHealthNotesResponseSchema>;

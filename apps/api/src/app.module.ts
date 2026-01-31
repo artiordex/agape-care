@@ -14,13 +14,18 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AccountingModule } from './modules/accounting/accounting.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { CareModule } from './modules/care/care.module';
+import { LoggerMiddleware } from './modules/common/middleware/logger.middleware';
+import { ContentModule } from './modules/content/content.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { HealthModule } from './modules/health/health.module';
 import { MyPageModule } from './modules/mypage/mypage.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { ProgramModule } from './modules/program/program.module';
 import { ResidentModule } from './modules/resident/resident.module';
+import { RoleModule } from './modules/role/role.module';
 import { SettingModule } from './modules/setting/setting.module';
+import { WebInquiryModule } from './modules/web-inquiry/web-inquiry.module';
 
 @Module({
   imports: [
@@ -72,10 +77,13 @@ import { SettingModule } from './modules/setting/setting.module';
     NotificationModule,
     ProgramModule,
     ResidentModule,
+    CareModule,
     DashboardModule,
     MyPageModule,
     SettingModule,
     WebInquiryModule,
+    RoleModule,
+    ContentModule,
   ],
 
   controllers: [],
@@ -88,7 +96,9 @@ import { SettingModule } from './modules/setting/setting.module';
   ],
 })
 export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {}
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
 
   async onModuleInit() {
     console.log('Agape-Care Auth API Starting...');

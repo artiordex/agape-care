@@ -4,7 +4,13 @@
  * @date 2026-01-27
  */
 import { z } from 'zod';
-import { CarePlanSchema, CareTaskSchema, ConsultationRecordSchema, IncidentSchema } from '../schemas/care/index';
+import {
+  CarePlanSchema,
+  CareTaskSchema,
+  ConsultationRecordSchema,
+  DailyCareRecordSchema,
+  IncidentSchema,
+} from '../schemas/care/index';
 import { ApiResponseSchema } from '../schemas/common/response.schema';
 
 /**
@@ -13,6 +19,37 @@ import { ApiResponseSchema } from '../schemas/common/response.schema';
  */
 
 export const careContract = {
+  /**
+   * [일일요양] GET /care/daily
+   * 일일 요양 기록 조회
+   */
+  getDailyCare: {
+    method: 'GET' as const,
+    path: '/care/daily',
+    query: z.object({
+      residentId: z.string(),
+      date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    }),
+    responses: {
+      200: ApiResponseSchema(DailyCareRecordSchema.nullable()),
+    },
+  },
+
+  /**
+   * [일일요양] POST /care/daily
+   * 일일 요양 기록 저장 (생성 및 수정)
+   */
+  saveDailyCare: {
+    method: 'POST' as const,
+    path: '/care/daily',
+    body: DailyCareRecordSchema.omit({ id: true, createdAt: true, updatedAt: true }).extend({
+      id: z.string().optional(),
+    }),
+    responses: {
+      201: ApiResponseSchema(DailyCareRecordSchema),
+    },
+  },
+
   /**
    * [케어플랜] GET /care/plans
    * 입소자별 수립된 케어 플랜 목록 조회

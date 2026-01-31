@@ -18,3 +18,6 @@ export * from './consultation.schema';
 
 // 시설 내 사건/사고 보고 및 처리 정보
 export * from './incident.schema';
+
+// 일일 요양 기록 (간호, 체중, 구강, 응급, 배설 등)
+export * from './daily-care.schema';

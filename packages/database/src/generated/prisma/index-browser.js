@@ -391,6 +391,19 @@ exports.Prisma.CareTaskScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.DailyCareRecordScalarFieldEnum = {
+  id: 'id',
+  residentId: 'residentId',
+  date: 'date',
+  nursing: 'nursing',
+  weight: 'weight',
+  oral: 'oral',
+  emergency: 'emergency',
+  elimination: 'elimination',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.NoticeScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -951,6 +964,7 @@ exports.Prisma.ModelName = {
   Incident: 'Incident',
   IncidentFile: 'IncidentFile',
   CareTask: 'CareTask',
+  DailyCareRecord: 'DailyCareRecord',
   Notice: 'Notice',
   NoticeFile: 'NoticeFile',
   BoardPost: 'BoardPost',

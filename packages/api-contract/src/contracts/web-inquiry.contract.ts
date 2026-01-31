@@ -32,6 +32,9 @@ export const webInquiryContract = {
       limit: z.string().transform(Number).default('10'),
       status: z.enum(['PENDING', 'IN_PROGRESS', 'DONE']).optional(),
       type: z.string().optional(),
+      search: z.string().optional(),
+      startDate: z.string().optional(),
+      endDate: z.string().optional(),
     }),
     responses: {
       200: PaginatedResponseSchema(WebInquirySchema),
@@ -60,6 +63,19 @@ export const webInquiryContract = {
     body: z.object({
       status: z.enum(['PENDING', 'IN_PROGRESS', 'DONE']),
     }),
+    responses: {
+      200: ApiResponseSchema(WebInquirySchema),
+    },
+  },
+
+  /**
+   * [문의] DELETE /web-inquiries/:id
+   * 웹사이트 상담 문의 삭제
+   */
+  deleteWebInquiry: {
+    method: 'DELETE' as const,
+    path: '/web-inquiries/:id',
+    body: null,
     responses: {
       200: ApiResponseSchema(WebInquirySchema),
     },

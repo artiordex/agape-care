@@ -77,7 +77,7 @@ export class WebInquiryController {
   @TsRestHandler(contract.webInquiry.updateWebInquiryStatus)
   async updateWebInquiryStatus() {
     return tsRestHandler(contract.webInquiry.updateWebInquiryStatus, async ({ params, body }) => {
-      const result = await this.service.updateStatus(params.id, body.status);
+      const result = await this.service.updateStatus(params.id, body.status as any);
 
       return {
         status: 200,
@@ -85,6 +85,22 @@ export class WebInquiryController {
           success: true,
           data: result,
           message: '상태가 변경되었습니다.',
+        },
+      };
+    });
+  }
+
+  @TsRestHandler(contract.webInquiry.deleteWebInquiry)
+  async deleteWebInquiry() {
+    return tsRestHandler(contract.webInquiry.deleteWebInquiry, async ({ params }) => {
+      const result = await this.service.delete(params.id);
+
+      return {
+        status: 200,
+        body: {
+          success: true,
+          data: result,
+          message: '문의 내역이 삭제되었습니다.',
         },
       };
     });

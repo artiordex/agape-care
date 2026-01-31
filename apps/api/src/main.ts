@@ -13,6 +13,10 @@ import 'reflect-metadata';
 import { AppModule } from './app.module';
 import { validateEnv } from './config/env.validation';
 import { setupSwagger } from './config/swagger.config';
+import { HttpExceptionFilter } from './modules/common/filters/http-exception.filter';
+import { PrismaClientExceptionFilter } from './modules/common/filters/prisma-exception.filter';
+import { LoggingInterceptor } from './modules/common/interceptors/logging.interceptor';
+import { TransformInterceptor } from './modules/common/interceptors/transform.interceptor';
 
 async function bootstrap() {
   // 환경변수 검증
@@ -42,6 +46,12 @@ async function bootstrap() {
       },
     }),
   );
+
+  // Global Filters
+  app.useGlobalFilters(new HttpExceptionFilter(), new PrismaClientExceptionFilter());
+
+  // Global Interceptors
+  app.useGlobalInterceptors(new LoggingInterceptor(), new TransformInterceptor());
 
   // Swagger 설정
   setupSwagger(app);

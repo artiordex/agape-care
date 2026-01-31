@@ -22,14 +22,38 @@ export class WebInquiryService {
     };
   }
 
-  async findAll(query: { page: number; limit: number; status?: 'PENDING' | 'IN_PROGRESS' | 'DONE'; type?: string }) {
-    const { page, limit, status, type } = query;
+  async findAll(query: {
+    page: number;
+    limit: number;
+    status?: 'PENDING' | 'IN_PROGRESS' | 'DONE';
+    type?: string;
+    search?: string;
+    startDate?: string;
+    endDate?: string;
+  }) {
+    const { page, limit, status, type, search, startDate, endDate } = query;
     const skip = (page - 1) * limit;
 
-    const where = {
+    const where: any = {
       ...(status && { status }),
       ...(type && { type }),
     };
+
+    // 검색 필터 (이름 또는 전화번호)
+    if (search) {
+      where.OR = [{ name: { contains: search, mode: 'insensitive' } }, { phone: { contains: search, mode: 'insensitive' } }];
+    }
+
+    // 날짜 필터
+    if (startDate || endDate) {
+      where.createdAt = {};
+      if (startDate) where.createdAt.gte = new Date(startDate);
+      if (endDate) {
+        const end = new Date(endDate);
+        end.setHours(23, 59, 59, 999);
+        where.createdAt.lte = end;
+      }
+    }
 
     const [total, items] = await Promise.all([
       this.db.webInquiry.count({ where }),
@@ -76,6 +100,19 @@ export class WebInquiryService {
     const inquiry = await this.db.webInquiry.update({
       where: { id: BigInt(id) },
       data: { status },
+    });
+
+    return {
+      ...inquiry,
+      id: inquiry.id.toString(),
+      createdAt: inquiry.createdAt.toISOString(),
+      updatedAt: inquiry.updatedAt.toISOString(),
+    };
+  }
+
+  async delete(id: string) {
+    const inquiry = await this.db.webInquiry.delete({
+      where: { id: BigInt(id) },
     });
 
     return {

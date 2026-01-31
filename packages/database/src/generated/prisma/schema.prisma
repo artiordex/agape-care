@@ -153,6 +153,7 @@ model Resident {
   insuranceClaims   InsuranceClaim[]
   transportRequests TransportRequest[]
   grievances        Grievance[]
+  dailyCareRecords  DailyCareRecord[]
 
   @@map("residents")
 }
@@ -449,6 +450,24 @@ model CareTask {
   assignee Employee? @relation("CareTaskAssignee", fields: [assignedTo], references: [id], onDelete: SetNull)
 
   @@map("care_tasks")
+}
+
+model DailyCareRecord {
+  id          BigInt   @id @default(autoincrement())
+  residentId  BigInt   @map("resident_id")
+  date        DateTime @db.Date
+  nursing     Json?    @db.JsonB
+  weight      Json?    @db.JsonB
+  oral        Json?    @db.JsonB
+  emergency   Json?    @db.JsonB
+  elimination Json?    @db.JsonB
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz
+
+  resident Resident @relation(fields: [residentId], references: [id], onDelete: Cascade)
+
+  @@unique([residentId, date])
+  @@map("daily_care_records")
 }
 
 // 5. 공지 / 게시판 / 갤러리 (9 Tables)
