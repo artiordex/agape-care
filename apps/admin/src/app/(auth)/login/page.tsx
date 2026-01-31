@@ -4,6 +4,10 @@ import staffData from '@/data/staff.json';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+/**
+ * [페이지] 아가페 케어 통합 관리자 로그인
+ * 고딕 서체, 한국어 전용 UI, 완전 직각형 디자인 적용
+ */
 export default function AdminLoginPage() {
   const router = useRouter();
 
@@ -13,14 +17,6 @@ export default function AdminLoginPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // 이미 로그인된 경우만 이동
-  useEffect(() => {
-    // const isAuth = localStorage.getItem('admin_auth');
-    // if (isAuth === '1') {
-    //   router.replace('/dashboard');
-    // }
-  }, [router]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -28,143 +24,138 @@ export default function AdminLoginPage() {
 
     await new Promise(resolve => setTimeout(resolve, 500));
 
-    const account = staffData.staff.find(s => s.username === username);
+    const account = staffData.adminAccounts.find(s => s.username === username);
 
     if (account?.password === password) {
       localStorage.setItem('admin_auth', '1');
       localStorage.setItem('admin_username', username);
       localStorage.setItem('admin_role', account.role);
       localStorage.setItem('admin_name', account.name);
-      localStorage.setItem('admin_department', account.department);
+      localStorage.setItem('admin_department', account.team);
 
-      // 로그인 성공 후 대시보드로
       router.replace('/dashboard');
     } else {
-      setError('아이디 또는 비밀번호가 올바르지 않습니다.');
+      setError('인증 정보가 올바르지 않습니다. 보안 담당자에게 문의하십시오.');
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      {/* 좌측 - 브랜딩 영역 */}
-      <div className="hidden w-1/2 bg-gradient-to-br from-teal-600 to-teal-800 lg:flex lg:flex-col lg:justify-center lg:px-16">
-        <div className="mb-8">
-          <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm">
-            <i className="ri-building-line text-4xl text-white"></i>
+    /* font-sans: 시스템 고딕체 강제 적용 */
+    <div className="flex min-h-screen bg-gray-100 font-sans text-gray-900 antialiased">
+      {/* 좌측 - 브랜딩 영역 (아가페 그린 그라데이션) */}
+      <div className="hidden w-1/2 border-r border-black/10 bg-gradient-to-br from-[#5C8D5A] to-[#4A7548] shadow-2xl lg:flex lg:flex-col lg:justify-center lg:px-20">
+        <div className="mb-12">
+          {/* 완전 직각 로고 박스 */}
+          <div className="mb-8 flex h-20 w-20 items-center justify-center rounded-none border border-white/20 bg-white/10 shadow-xl backdrop-blur-md">
+            <i className="ri-building-line text-5xl text-white"></i>
           </div>
-          <h1 className="mb-4 text-4xl font-bold text-white">요양원 관리 시스템</h1>
-          <p className="text-lg text-teal-100">전문 ERP 솔루션으로 효율적인 시설 운영을 지원합니다</p>
+          <h1 className="mb-4 text-5xl font-black leading-[1.1] tracking-tighter text-white">
+            아가페 케어 <br /> 통합 관리 시스템
+          </h1>
+          <div className="mb-8 h-1.5 w-24 rounded-none bg-white"></div>
+          <p className="text-xl font-bold leading-relaxed text-emerald-50 opacity-90">
+            아가페 요양원 ERP 솔루션 <br />
+          </p>
         </div>
 
-        <div className="space-y-4">
-          <div className="flex items-start gap-4 rounded-xl bg-white/10 p-4 backdrop-blur-sm">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-white/20">
-              <i className="ri-user-heart-line text-xl text-white"></i>
-            </div>
-            <div>
-              <h3 className="mb-1 font-semibold text-white">입소자 관리</h3>
-              <p className="text-sm text-teal-100">체계적인 입소자 정보 및 케어 기록 관리</p>
-            </div>
-          </div>
+        <div className="max-w-md space-y-4">
+          <FeatureItem
+            icon="ri-user-heart-line"
+            title="인사/급여 통합 관리"
+            desc="체계적인 직원 정보 및 근태/급여 자동화 엔진 기반"
+          />
+          <FeatureItem
+            icon="ri-calendar-check-line"
+            title="일정 정밀 관제"
+            desc="시설 프로그램 및 투약 일정 실시간 모니터링 시스템"
+          />
+          <FeatureItem
+            icon="ri-bar-chart-box-line"
+            title="데이터 감사 시스템"
+            desc="실시간 운영 데이터 분석 및 행정 리포트 생성 프로토콜"
+          />
+        </div>
 
-          <div className="flex items-start gap-4 rounded-xl bg-white/10 p-4 backdrop-blur-sm">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-white/20">
-              <i className="ri-calendar-check-line text-xl text-white"></i>
-            </div>
-            <div>
-              <h3 className="mb-1 font-semibold text-white">일정 관리</h3>
-              <p className="text-sm text-teal-100">프로그램 및 투약 일정 통합 관리</p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4 rounded-xl bg-white/10 p-4 backdrop-blur-sm">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-white/20">
-              <i className="ri-bar-chart-box-line text-xl text-white"></i>
-            </div>
-            <div>
-              <h3 className="mb-1 font-semibold text-white">통계 및 리포트</h3>
-              <p className="text-sm text-teal-100">실시간 데이터 분석 및 보고서 생성</p>
-            </div>
-          </div>
+        <div className="mt-16 text-[10px] font-black uppercase italic tracking-[0.4em] text-white/40">
+          v1.2.1
         </div>
       </div>
 
-      {/* 우측 - 로그인 폼 */}
-      <div className="flex w-full flex-col justify-center px-8 lg:w-1/2 lg:px-16">
+      {/* 우측 - 로그인 폼 영역 */}
+      <div className="flex w-full flex-col justify-center bg-white px-8 lg:w-1/2 lg:px-24">
         <div className="mx-auto w-full max-w-md">
-          {/* 로고 (모바일용) */}
-          <div className="mb-8 lg:hidden">
-            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-teal-600">
-              <i className="ri-building-line text-2xl text-white"></i>
-            </div>
-            <h1 className="text-2xl font-bold text-gray-900">요양원 관리 시스템</h1>
+          <div className="mb-12 border-l-8 border-[#5C8D5A] pl-6">
+            <h2 className="mb-2 text-4xl font-black tracking-tight text-gray-900">시스템 로그인</h2>
+            <p className="text-[12px] font-black uppercase italic tracking-widest text-gray-400">
+              권한이 부여된 관리자만 접속 가능합니다
+            </p>
           </div>
 
-          {/* 헤더 */}
-          <div className="mb-8">
-            <h2 className="mb-2 text-3xl font-bold text-gray-900">로그인</h2>
-            <p className="text-gray-600">관리자 계정으로 로그인하세요</p>
-          </div>
-
-          {/* 로그인 폼 */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* 아이디 */}
-            <div>
-              <label htmlFor="username" className="mb-2 block text-sm font-semibold text-gray-700">
-                아이디
-              </label>
-              <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                  <i className="ri-user-line text-gray-400"></i>
-                </div>
-                <input
-                  id="username"
-                  type="text"
-                  value={username}
-                  onChange={e => setUsername(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 py-3 pl-11 pr-4 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
-                  placeholder="아이디를 입력하세요"
-                  required
-                  disabled={isLoading}
-                />
-              </div>
-            </div>
-
-            {/* 비밀번호 */}
-            <div>
-              <label htmlFor="password" className="mb-2 block text-sm font-semibold text-gray-700">
-                비밀번호
-              </label>
-              <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                  <i className="ri-lock-line text-gray-400"></i>
-                </div>
-                <input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  className="w-full rounded-lg border border-gray-300 py-3 pl-11 pr-12 focus:border-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-500/20"
-                  placeholder="비밀번호를 입력하세요"
-                  required
-                  disabled={isLoading}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 hover:text-gray-600"
-                  disabled={isLoading}
+          <form onSubmit={handleSubmit} className="space-y-8">
+            <div className="space-y-5">
+              {/* 아이디 입력 영역 */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="username"
+                  className="flex items-center gap-2 text-[11px] font-black uppercase italic tracking-widest text-gray-500"
                 >
-                  <i className={`${showPassword ? 'ri-eye-off-line' : 'ri-eye-line'} text-xl`}></i>
-                </button>
+                  <span className="h-1.5 w-1.5 bg-[#5C8D5A]"></span>관리자 식별 아이디
+                </label>
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center border-r border-gray-100 pl-4">
+                    <i className="ri-user-line text-lg text-[#5C8D5A]"></i>
+                  </div>
+                  <input
+                    id="username"
+                    type="text"
+                    value={username}
+                    onChange={e => setUsername(e.target.value)}
+                    className="py-4.5 w-full rounded-none border-2 border-gray-200 bg-gray-50 pl-14 pr-4 text-sm font-bold text-gray-800 shadow-inner outline-none transition-all focus:border-[#5C8D5A] focus:bg-white"
+                    placeholder="아이디를 입력하십시오"
+                    required
+                    disabled={isLoading}
+                  />
+                </div>
+              </div>
+
+              {/* 비밀번호 입력 영역 */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="password"
+                  className="flex items-center gap-2 text-[11px] font-black uppercase italic tracking-widest text-gray-500"
+                >
+                  <span className="h-1.5 w-1.5 bg-[#5C8D5A]"></span>비밀번호
+                </label>
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center border-r border-gray-100 pl-4">
+                    <i className="ri-lock-line text-lg text-[#5C8D5A]"></i>
+                  </div>
+                  <input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    className="py-4.5 w-full rounded-none border-2 border-gray-200 bg-gray-50 pl-14 pr-12 text-sm font-bold text-gray-800 shadow-inner outline-none transition-all focus:border-[#5C8D5A] focus:bg-white"
+                    placeholder="비밀번호를 입력하십시오"
+                    required
+                    disabled={isLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 transition-colors hover:text-[#5C8D5A]"
+                    disabled={isLoading}
+                  >
+                    <i className={showPassword ? 'ri-eye-off-line' : 'ri-eye-line'}></i>
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* 에러 메시지 */}
             {error && (
-              <div className="flex items-center gap-2 rounded-lg bg-red-50 p-3 text-sm text-red-600">
-                <i className="ri-error-warning-line"></i>
+              <div className="animate-in fade-in slide-in-from-top-1 flex items-center gap-3 rounded-none border-l-4 border-red-600 bg-red-50 p-4 text-[13px] font-bold text-red-600">
+                <i className="ri-error-warning-fill text-xl"></i>
                 <span>{error}</span>
               </div>
             )}
@@ -173,43 +164,52 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-teal-600 py-3 font-semibold text-white transition-colors hover:bg-teal-700 disabled:bg-gray-300 disabled:text-gray-500"
+              className="group flex w-full items-center justify-center gap-3 rounded-none bg-[#5C8D5A] py-5 text-[14px] font-black text-white shadow-2xl shadow-emerald-100 transition-all hover:bg-[#4A7548] active:scale-[0.98] disabled:bg-gray-300"
             >
               {isLoading ? (
                 <>
-                  <i className="ri-loader-4-line animate-spin"></i>
-                  <span>로그인 중...</span>
+                  <i className="ri-loader-4-line animate-spin text-xl"></i>
+                  <span>보안 노드 인증 중...</span>
                 </>
               ) : (
                 <>
-                  <span>로그인</span>
-                  <i className="ri-arrow-right-line"></i>
+                  <span className="tracking-[0.2em]">시스템 접속 시작</span>
+                  <i className="ri-arrow-right-line transition-transform group-hover:translate-x-2"></i>
                 </>
               )}
             </button>
           </form>
 
-          {/* 하단 링크 */}
-          <div className="mt-8 border-t border-gray-200 pt-6">
+          {/* 하단 유틸리티 영역 */}
+          <div className="mt-16 flex items-center justify-between border-t border-gray-100 pt-8">
             <button
               onClick={() => router.push('/')}
-              className="flex w-full items-center justify-center gap-2 text-sm text-gray-600 transition-colors hover:text-gray-900"
+              className="text-[11px] font-black uppercase tracking-widest text-gray-400 transition-colors hover:text-[#5C8D5A]"
             >
-              <i className="ri-home-line"></i>
-              <span>홈페이지로 돌아가기</span>
+              <i className="ri-home-4-line mr-2"></i> 메인 홈페이지로 돌아가기
             </button>
-          </div>
-
-          {/* 테스트 계정 안내 */}
-          <div className="mt-6 rounded-lg border border-gray-200 bg-gray-50 p-4">
-            <p className="mb-2 text-xs font-semibold text-gray-700">테스트 계정</p>
-            <div className="space-y-1 text-xs text-gray-600">
-              <p>• 관리자: admin / 0000</p>
-              <p>• 원장: director / 1111</p>
-              <p>• 사무국장: manager / 2222</p>
+            <div className="flex gap-4 text-[10px] font-black italic text-gray-300">
+              <span>관리자 노드 v2.6</span>
+              <span className="h-3 w-[1px] bg-gray-200"></span>
+              <span>데이터 감사 활성화됨</span>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+/** [내부 컴포넌트] 시스템 특징 아이템 (고딕 & 직각) */
+function FeatureItem({ icon, title, desc }: { icon: string; title: string; desc: string }) {
+  return (
+    <div className="group flex items-start gap-5 rounded-none border border-white/10 bg-white/5 p-5 backdrop-blur-sm transition-all hover:bg-white/10">
+      <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-none border border-white/20 bg-white/20 transition-all group-hover:bg-[#5C8D5A]">
+        <i className={`${icon} text-2xl text-white`}></i>
+      </div>
+      <div>
+        <h3 className="mb-1 text-[13px] font-black text-white">{title}</h3>
+        <p className="text-[11px] font-bold italic leading-relaxed text-emerald-100 opacity-60">{desc}</p>
       </div>
     </div>
   );
