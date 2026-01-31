@@ -1,605 +1,236 @@
 'use client';
 
+import React, { useState, useEffect, useMemo } from 'react';
+import clsx from 'clsx';
 
-import { useState, useEffect } from 'react';
+// 1. 아가페 표준 관제 모듈 임포트
+import ScheduleHeader from './control/ScheduleHeader';
+import ControlTab from './control/ControlTab';
+import IndividualTab from './individual/IndividualTab';
+import AutoSchedulePanel from './auto-schedule/AutoSchedulePanel';
+import TemplateTab from './template/TemplateTab';
 
-// 근무 코드 정의
-const WORK_CODES = {
-  S: { name: '주간', time: '07:00~19:00', hours: 12, color: 'bg-blue-100 text-blue-800 border-blue-300' },
-  A: { name: '단축주간', time: '09:00~18:00', hours: 9, color: 'bg-cyan-100 text-cyan-800 border-cyan-300' },
-  D: { name: '오전근무', time: '07:00~16:00', hours: 9, color: 'bg-green-100 text-green-800 border-green-300' },
-  E: { name: '오후근무', time: '11:00~20:00', hours: 9, color: 'bg-yellow-100 text-yellow-800 border-yellow-300' },
-  N: { name: '야간근무', time: '20:00~08:00', hours: 12, color: 'bg-purple-100 text-purple-800 border-purple-300' },
-  연: { name: '연차', time: '-', hours: 8, color: 'bg-pink-100 text-pink-800 border-pink-300' },
-  휴: { name: '휴무/비번', time: '-', hours: 0, color: 'bg-gray-100 text-gray-800 border-gray-300' },
-  공: { name: '공휴일', time: '-', hours: 8, color: 'bg-red-100 text-red-800 border-red-300' },
-  O: { name: '반차', time: '-', hours: 4, color: 'bg-orange-100 text-orange-800 border-orange-300' },
-  교육: { name: '교육/훈련', time: '-', hours: 8, color: 'bg-indigo-100 text-indigo-800 border-indigo-300' },
-  출장: { name: '출장', time: '-', hours: 8, color: 'bg-teal-100 text-teal-800 border-teal-300' },
-  회의: { name: '회의', time: '-', hours: 8, color: 'bg-violet-100 text-violet-800 border-violet-300' },
-};
+// 2. 샘플 마스터 데이터 (시스템 초기 가동용)
+const SAMPLE_STAFF = [
+  {
+    id: 'ST001',
+    name: '김철수',
+    position: '선임요양보호사',
+    type: '요양보호사',
+    status: '재직',
+    hireDate: '2023-01-15',
+    annualLeave: 15,
+    usedLeave: 3,
+  },
+  {
+    id: 'ST002',
+    name: '이영희',
+    position: '요양보호사',
+    type: '요양보호사',
+    status: '재직',
+    hireDate: '2023-03-10',
+    annualLeave: 15,
+    usedLeave: 5,
+  },
+  {
+    id: 'ST003',
+    name: '박민수',
+    position: '사회복지사',
+    type: '사회복지사',
+    status: '재직',
+    hireDate: '2023-06-20',
+    annualLeave: 12,
+    usedLeave: 2,
+  },
+  {
+    id: 'ST004',
+    name: '최지은',
+    position: '간호조무사',
+    type: '간호조무사',
+    status: '재직',
+    hireDate: '2024-01-05',
+    annualLeave: 11,
+    usedLeave: 0,
+  },
+  {
+    id: 'ST005',
+    name: '정다혜',
+    position: '요양보호사',
+    type: '요양보호사',
+    status: '재직',
+    hireDate: '2023-11-12',
+    annualLeave: 12,
+    usedLeave: 4,
+  },
+];
 
-interface Staff {
-  id: string;
-  name: string;
-  position: string;
-  type: string;
-  status: string;
-  hireDate: string;
-  annualLeave: number;
-  usedLeave: number;
-}
-
-interface WorkSchedule {
-  staffId: string;
-  date: string;
-  workType: string;
-  startTime: string;
-  endTime: string;
-  breakTime: number;
-  overtime: number;
-  memo: string;
-  building: string;
-  floor: string;
-  createdBy: string;
-  createdAt: string;
-}
-
-export default function WorkScheduleCalendar() {
-  const [selectedMonth, setSelectedMonth] = useState('');
-  const [selectedStaff, setSelectedStaff] = useState<Staff | null>(null);
-  const [staffList, setStaffList] = useState<Staff[]>([]);
-  const [schedules, setSchedules] = useState<WorkSchedule[]>([]);
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [showDetailModal, setShowDetailModal] = useState(false);
-  const [building, setBuilding] = useState('본관');
-  const [floor, setFloor] = useState('1층');
-
-  // ---------- 초기화 ----------
-  useEffect(() => {
+/**
+ * [Page] 아가페-케어 통합 근무 일정 관제 시스템 (Agape-Care Control Page)
+ * 전사/개인/자동생성/템플릿의 모든 기능을 통합 제어하는 마스터 페이지입니다.
+ */
+export default function WorkSchedulePage() {
+  // A. 핵심 관제 상태
+  const [activeTab, setActiveTab] = useState<'management' | 'individual' | 'auto' | 'template'>('management');
+  const [selectedMonth, setSelectedMonth] = useState<string>(() => {
     const now = new Date();
-    const yearMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-    setSelectedMonth(yearMonth);
-    loadStaffData();
-    loadSchedules(yearMonth);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // ---------- 데이터 로드 ----------
-  const loadStaffData = () => {
-    const saved = localStorage.getItem('admin_staff');
-    if (!saved) {
-      setStaffList([]);
-      return;
-    }
-    try {
-      const allStaff = JSON.parse(saved);
-      const activeStaff = Array.isArray(allStaff) ? allStaff.filter((s: Staff) => s.status === '재직') : [];
-      setStaffList(activeStaff);
-      if (activeStaff.length > 0) setSelectedStaff(activeStaff[0]);
-    } catch (e) {
-      console.error('Failed to parse staff data', e);
-      setStaffList([]);
-    }
-  };
-
-  const loadSchedules = (month: string) => {
-    const saved = localStorage.getItem(`work_schedule_detail_${month}`);
-    if (!saved) {
-      setSchedules([]);
-      return;
-    }
-    try {
-      setSchedules(JSON.parse(saved));
-    } catch (e) {
-      console.error('Failed to parse schedules', e);
-      setSchedules([]);
-    }
-  };
-
-  const saveSchedules = (newSchedules: WorkSchedule[]) => {
-    if (!selectedMonth) return;
-    localStorage.setItem(`work_schedule_detail_${selectedMonth}`, JSON.stringify(newSchedules));
-    setSchedules(newSchedules);
-  };
-
-  // ---------- 유틸 ----------
-  const getDaysInMonth = (yearMonth: string) => {
-    const [year, month] = yearMonth.split('-').map(Number);
-    // month is 1‑based, Date expects month index 0‑based, day 0 gives last day of previous month
-    return new Date(year, month, 0).getDate();
-  };
-
-  const getScheduleForDate = (date: string) => {
-    if (!selectedStaff) return null;
-    return schedules.find(s => s.staffId === selectedStaff.id && s.date === date) ?? null;
-  };
-
-  const handleDateClick = (day: number) => {
-    if (!selectedMonth) return;
-    const dateStr = `${selectedMonth}-${String(day).padStart(2, '0')}`;
-    setSelectedDate(dateStr);
-    setShowDetailModal(true);
-  };
-
-  const handleMonthChange = (direction: number) => {
-    if (!selectedMonth) return;
-    const [year, month] = selectedMonth.split('-').map(Number);
-    const newDate = new Date(year, month - 1 + direction, 1);
-    const newMonth = `${newDate.getFullYear()}-${String(newDate.getMonth() + 1).padStart(2, '0')}`;
-    setSelectedMonth(newMonth);
-    loadSchedules(newMonth);
-  };
-
-  // ---------- 통계 ----------
-  const calculateMonthlyStats = () => {
-    if (!selectedStaff) return { workDays: 0, totalHours: 0, nightCount: 0, vacation: 0, overtime: 0 };
-    const staffSchedules = schedules.filter(s => s.staffId === selectedStaff.id);
-    let workDays = 0;
-    let totalHours = 0;
-    let nightCount = 0;
-    let vacation = 0;
-    let overtime = 0;
-
-    staffSchedules.forEach(schedule => {
-      const workCode = WORK_CODES[schedule.workType as keyof typeof WORK_CODES];
-      if (!workCode) return;
-      if (workCode.hours > 0) workDays++;
-      totalHours += workCode.hours;
-      if (schedule.workType === 'N') nightCount++;
-      if (schedule.workType === '연' || schedule.workType === 'O') vacation++;
-      overtime += schedule.overtime || 0;
-    });
-
-    return { workDays, totalHours, nightCount, vacation, overtime };
-  };
-
-  const daysInMonth = selectedMonth ? getDaysInMonth(selectedMonth) : 31;
-  const stats = calculateMonthlyStats();
-
-  // ---------- 렌더 ----------
-  return (
-    <div className="p-6">
-      {/* 헤더 */}
-      <div className="mb-6">
-        <h1 className="mb-2 text-2xl font-bold text-gray-800">근무일정 입력 (월간 달력)</h1>
-        <p className="text-sm text-gray-600">직원별 월간 근무 스케줄을 관리합니다</p>
-      </div>
-
-      {/* 컨트롤 영역 */}
-      <div className="mb-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          {/* 좌측: 직원 정보 */}
-          <div className="rounded-lg border-2 border-teal-200 bg-gradient-to-br from-teal-50 to-cyan-50 p-6">
-            <h3 className="mb-4 flex items-center gap-2 text-lg font-bold text-gray-800">
-              <i className="ri-user-line text-teal-600"></i>
-              직원 정보
-            </h3>
-            <div className="space-y-3">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">직원 선택</label>
-                <select
-                  value={selectedStaff?.id || ''}
-                  onChange={e => {
-                    const staff = staffList.find(s => s.id === e.target.value);
-                    setSelectedStaff(staff ?? null);
-                  }}
-                  className="w-full cursor-pointer rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-teal-500"
-                >
-                  {staffList.map(staff => (
-                    <option key={staff.id} value={staff.id}>
-                      {staff.name} ({staff.position})
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {selectedStaff && (
-                <div className="space-y-2 border-t border-teal-200 pt-4">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">직종</span>
-                    <span className="font-medium text-gray-800">{selectedStaff.type}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">입사일</span>
-                    <span className="font-medium text-gray-800">{selectedStaff.hireDate}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">잔여연차</span>
-                    <span className="font-medium text-teal-600">
-                      {selectedStaff.annualLeave - selectedStaff.usedLeave}일 / {selectedStaff.annualLeave}일
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              <div className="border-t border-teal-200 pt-4">
-                <label className="mb-2 block text-sm font-medium text-gray-700">건물/층 선택</label>
-                <div className="grid grid-cols-2 gap-2">
-                  <select
-                    value={building}
-                    onChange={e => setBuilding(e.target.value)}
-                    className="cursor-pointer rounded-lg border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500"
-                  >
-                    <option value="본관">본관</option>
-                    <option value="별관">별관</option>
-                  </select>
-                  <select
-                    value={floor}
-                    onChange={e => setFloor(e.target.value)}
-                    className="cursor-pointer rounded-lg border border-gray-300 px-3 py-2 text-sm focus:ring-2 focus:ring-teal-500"
-                  >
-                    <option value="1층">1층</option>
-                    <option value="2층">2층</option>
-                    <option value="3층">3층</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 중앙: 월 선택 및 통계 */}
-          <div className="lg:col-span-2">
-            {/* 월 선택 */}
-            <div className="mb-6 flex items-center justify-between">
-              <button
-                onClick={() => handleMonthChange(-1)}
-                className="cursor-pointer rounded-lg p-2 transition-colors hover:bg-gray-100"
-              >
-                <i className="ri-arrow-left-s-line text-2xl text-gray-600"></i>
-              </button>
-              <div className="text-center">
-                <h2 className="text-3xl font-bold text-gray-800">
-                  {selectedMonth.split('-')[0]}년 {parseInt(selectedMonth.split('-')[1])}월
-                </h2>
-                <p className="mt-1 text-sm text-gray-500">근무일정</p>
-              </div>
-              <button
-                onClick={() => handleMonthChange(1)}
-                className="cursor-pointer rounded-lg p-2 transition-colors hover:bg-gray-100"
-              >
-                <i className="ri-arrow-right-s-line text-2xl text-gray-600"></i>
-              </button>
-            </div>
-
-            {/* 통계 카드 */}
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
-              <div className="rounded-lg border border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 p-4">
-                <div className="mb-1 text-xs font-medium text-blue-600">근무일수</div>
-                <div className="text-2xl font-bold text-blue-700">{stats.workDays}일</div>
-              </div>
-              <div className="rounded-lg border border-green-200 bg-gradient-to-br from-green-50 to-green-100 p-4">
-                <div className="mb-1 text-xs font-medium text-green-600">총 근무시간</div>
-                <div className="text-2xl font-bold text-green-700">{stats.totalHours}h</div>
-              </div>
-              <div className="rounded-lg border border-purple-200 bg-gradient-to-br from-purple-50 to-purple-100 p-4">
-                <div className="mb-1 text-xs font-medium text-purple-600">야간근무</div>
-                <div className="text-2xl font-bold text-purple-700">{stats.nightCount}회</div>
-              </div>
-              <div className="rounded-lg border border-pink-200 bg-gradient-to-br from-pink-50 to-pink-100 p-4">
-                <div className="mb-1 text-xs font-medium text-pink-600">휴가</div>
-                <div className="text-2xl font-bold text-pink-700">{stats.vacation}일</div>
-              </div>
-              <div className="rounded-lg border border-orange-200 bg-gradient-to-br from-orange-50 to-orange-100 p-4">
-                <div className="mb-1 text-xs font-medium text-orange-600">초과근무</div>
-                <div className="text-2xl font-bold text-orange-700">{stats.overtime}h</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 달력 */}
-      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
-        <div className="grid grid-cols-7 gap-0">
-          {/* 요일 헤더 */}
-          {['일', '월', '화', '수', '목', '금', '토'].map((day, index) => (
-            <div
-              key={day}
-              className={`border-b-2 border-r border-gray-200 p-4 text-center font-bold ${
-                index === 0
-                  ? 'bg-red-500 text-white'
-                  : index === 6
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100 text-gray-700'
-              }`}
-            >
-              {day}
-            </div>
-          ))}
-
-          {/* 날짜 셀 */}
-          {Array.from({ length: daysInMonth }, (_, i) => i + 1).map(day => {
-            const dateStr = `${selectedMonth}-${String(day).padStart(2, '0')}`;
-            const date = new Date(dateStr);
-            const dayOfWeek = date.getDay();
-            const schedule = getScheduleForDate(dateStr);
-            const workCode = schedule ? WORK_CODES[schedule.workType as keyof typeof WORK_CODES] : null;
-            const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-
-            return (
-              <div
-                key={day}
-                onClick={() => handleDateClick(day)}
-                className={`min-h-[120px] cursor-pointer border-b border-r border-gray-200 p-3 transition-colors hover:bg-gray-50 ${
-                  isWeekend ? 'bg-gray-50' : 'bg-white'
-                }`}
-              >
-                <div className="mb-2 flex items-center justify-between">
-                  <span className={`text-lg font-bold ${isWeekend ? 'text-red-500' : 'text-gray-800'}`}>{day}</span>
-                  {schedule && <i className="ri-checkbox-circle-fill text-sm text-teal-500"></i>}
-                </div>
-
-                {workCode && schedule && (
-                  <div className="space-y-1">
-                    <div className={`rounded border px-2 py-1 ${workCode.color} text-center text-xs font-medium`}>
-                      {schedule.workType}
-                    </div>
-                    <div className="text-xs font-medium text-gray-600">
-                      {schedule.startTime} ~ {schedule.endTime}
-                    </div>
-                    {schedule.memo && (
-                      <div className="truncate text-xs text-gray-500" title={schedule.memo}>
-                        <i className="ri-chat-3-line mr-1"></i>
-                        {schedule.memo}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* 근무 코드 범례 */}
-      <div className="mt-6 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-        <h3 className="mb-4 text-sm font-semibold text-gray-700">근무 코드 범례</h3>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-6">
-          {Object.entries(WORK_CODES).map(([code, info]) => (
-            <div key={code} className="flex items-center gap-2">
-              <span className={`rounded border px-2 py-1 text-xs font-medium ${info.color}`}>{code}</span>
-              <div>
-                <div className="text-xs font-medium text-gray-700">{info.name}</div>
-                <div className="text-xs text-gray-500">{info.time}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* 상세 입력 모달 */}
-      {showDetailModal && selectedDate && selectedStaff && (
-        <WorkScheduleDetailModal
-          date={selectedDate}
-          staff={selectedStaff}
-          schedule={getScheduleForDate(selectedDate)}
-          building={building}
-          floor={floor}
-          onClose={() => {
-            setShowDetailModal(false);
-            setSelectedDate(null);
-          }}
-          onSave={newSchedule => {
-            const existingIndex = schedules.findIndex(
-              s => s.staffId === newSchedule.staffId && s.date === newSchedule.date,
-            );
-
-            const updatedSchedules =
-              existingIndex >= 0
-                ? (() => {
-                    const copy = [...schedules];
-                    copy[existingIndex] = newSchedule;
-                    return copy;
-                  })()
-                : [...schedules, newSchedule];
-
-            saveSchedules(updatedSchedules);
-            setShowDetailModal(false);
-            setSelectedDate(null);
-          }}
-          onDelete={(date, staffId) => {
-            const updated = schedules.filter(s => !(s.staffId === staffId && s.date === date));
-            saveSchedules(updated);
-            setShowDetailModal(false);
-            setSelectedDate(null);
-          }}
-        />
-      )}
-    </div>
-  );
-}
-
-// 상세 입력 모달 컴포넌트
-function WorkScheduleDetailModal({
-  date,
-  staff,
-  schedule,
-  building,
-  floor,
-  onClose,
-  onSave,
-  onDelete,
-}: {
-  date: string;
-  staff: Staff;
-  schedule: WorkSchedule | null;
-  building: string;
-  floor: string;
-  onClose: () => void;
-  onSave: (schedule: WorkSchedule) => void;
-  onDelete: (date: string, staffId: string) => void;
-}) {
-  const [formData, setFormData] = useState({
-    workType: schedule?.workType || 'A',
-    startTime: schedule?.startTime || '09:00',
-    endTime: schedule?.endTime || '18:00',
-    breakTime: schedule?.breakTime || 60,
-    overtime: schedule?.overtime || 0,
-    memo: schedule?.memo || '',
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   });
 
-  const handleSubmit = () => {
-    const newSchedule: WorkSchedule = {
-      staffId: staff.id,
-      date,
-      workType: formData.workType,
-      startTime: formData.startTime,
-      endTime: formData.endTime,
-      breakTime: formData.breakTime,
-      overtime: formData.overtime,
-      memo: formData.memo,
-      building,
-      floor,
-      createdBy: 'admin',
-      createdAt: new Date().toISOString(),
-    };
-    onSave(newSchedule);
-  };
+  // B. 시스템 초기 데이터 인젝션
+  useEffect(() => {
+    // 로컬 스토리지에 직원 마스터 데이터가 없을 경우 샘플 주입
+    const savedStaff = localStorage.getItem('admin_staff');
+    if (!savedStaff) {
+      localStorage.setItem('admin_staff', JSON.stringify(SAMPLE_STAFF));
+    }
+  }, []);
 
-  const workCode = WORK_CODES[formData.workType as keyof typeof WORK_CODES];
+  // C. 탭 메뉴 구성 프로토콜 (직각형 UI 디자인)
+  const navigationTabs = [
+    { id: 'management' as const, label: '전사 근무 관제', icon: 'ri-layout-grid-fill', desc: 'TOTAL CONTROL' },
+    { id: 'individual' as const, label: '개인별 상세 조회', icon: 'ri-user-search-line', desc: 'PERSONAL ANALYSIS' },
+    { id: 'auto' as const, label: '지능형 자동 생성', icon: 'ri-magic-line', desc: 'AI OPTIMIZATION' },
+    { id: 'template' as const, label: '근무 패턴 라이브러리', icon: 'ri-book-read-line', desc: 'PATTERN MASTER' },
+  ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
-      <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg bg-white shadow-xl">
-        <div className="sticky top-0 flex items-center justify-between border-b border-gray-200 bg-white px-6 py-4">
-          <h3 className="text-xl font-bold text-gray-800">근무일정 상세 입력</h3>
-          <button onClick={onClose} className="cursor-pointer text-gray-400 hover:text-gray-600">
-            <i className="ri-close-line text-2xl"></i>
-          </button>
+    <div className="flex h-screen flex-col overflow-hidden bg-[#f8fafc] font-sans text-gray-900 antialiased selection:bg-[#5C8D5A] selection:text-white">
+      {/* 1. 글로벌 시스템 헤더 (고정 영역) */}
+      <header className="z-30 flex h-16 shrink-0 items-center justify-between border-b border-gray-300 bg-white px-8 shadow-sm">
+        <div className="flex items-center gap-4">
+          <div className="flex h-10 w-10 items-center justify-center bg-[#5C8D5A] text-white shadow-md">
+            <i className="ri-shield-cross-line text-2xl"></i>
+          </div>
+          <div className="flex flex-col">
+            <h1 className="text-[18px] font-black uppercase italic leading-none tracking-tighter text-gray-900">
+              Agape-Care <span className="text-[#5C8D5A]">Schedule Protocol</span>
+            </h1>
+            <span className="mt-1 text-[9px] font-black uppercase italic tracking-[0.2em] text-gray-400">
+              Administrative Control Node v4.2.0
+            </span>
+          </div>
         </div>
 
-        <div className="p-6">
-          {/* 기본 정보 */}
-          <div className="mb-6 rounded-lg border border-teal-200 bg-teal-50 p-4">
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <span className="text-gray-600">직원명:</span>
-                <span className="ml-2 font-bold text-gray-800">{staff.name}</span>
-              </div>
-              <div>
-                <span className="text-gray-600">날짜:</span>
-                <span className="ml-2 font-bold text-gray-800">{date}</span>
-              </div>
-              <div>
-                <span className="text-gray-600">직위:</span>
-                <span className="ml-2 font-medium text-gray-700">{staff.position}</span>
-              </div>
-              <div>
-                <span className="text-gray-600">위치:</span>
-                <span className="ml-2 font-medium text-gray-700">
-                  {building} {floor}
+        {/* 시스템 상태 인디케이터 */}
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 animate-pulse bg-emerald-500"></div>
+            <span className="text-[11px] font-black uppercase italic tracking-widest text-gray-500">
+              Master Sync Active
+            </span>
+          </div>
+          <div className="h-8 w-[1px] bg-gray-200"></div>
+          <div className="flex items-center gap-3">
+            <div className="text-right">
+              <p className="text-[11px] font-black uppercase italic leading-none text-gray-800">Admin Node</p>
+              <p className="mt-1 text-[10px] font-bold text-[#5C8D5A]">Agape_Shiwoo_Min</p>
+            </div>
+            <div className="flex h-10 w-10 items-center justify-center border border-gray-200 bg-gray-100">
+              <i className="ri-user-settings-line text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* 2. 전사 내비게이션 탭 (직각형 고밀도 레이아웃) */}
+      <nav className="z-20 flex shrink-0 border-b border-gray-300 bg-white px-8">
+        {navigationTabs.map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={clsx(
+              'group relative flex min-w-[200px] flex-col items-center justify-center border-r border-gray-100 py-4 transition-all last:border-r-0',
+              activeTab === tab.id
+                ? 'bg-gray-50 text-[#5C8D5A]'
+                : 'text-gray-400 hover:bg-gray-50/50 hover:text-gray-600',
+            )}
+          >
+            <div className="flex items-center gap-3">
+              <i className={clsx(tab.icon, 'text-xl', activeTab === tab.id ? 'text-[#5C8D5A]' : 'text-gray-300')}></i>
+              <div className="text-left">
+                <span className="block text-[13px] font-black tracking-tight">{tab.label}</span>
+                <span className="block text-[9px] font-black uppercase italic tracking-widest opacity-50 group-hover:opacity-100">
+                  {tab.desc}
                 </span>
               </div>
             </div>
-          </div>
+            {/* 액티브 하단 강조선 (직각형) */}
+            {activeTab === tab.id && <div className="absolute bottom-0 left-0 h-1 w-full bg-[#5C8D5A]"></div>}
+          </button>
+        ))}
+      </nav>
 
-          {/* 근무 유형 선택 */}
-          <div className="mb-6">
-            <label className="mb-3 block text-sm font-medium text-gray-700">근무 유형</label>
-            <div className="grid grid-cols-3 gap-3">
-              {Object.entries(WORK_CODES).map(([code, info]) => (
-                <button
-                  key={code}
-                  type="button"
-                  onClick={() => setFormData({ ...formData, workType: code })}
-                  className={`cursor-pointer rounded-lg border-2 p-3 transition-all ${
-                    formData.workType === code
-                      ? `${info.color} border-current shadow-md`
-                      : 'border-gray-200 bg-white hover:border-teal-300'
-                  }`}
-                >
-                  <div className="mb-1 text-sm font-bold">{code}</div>
-                  <div className="text-xs">{info.name}</div>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* 시간 설정 (근무가 있는 경우) */}
-          {workCode && workCode.hours > 0 && (
-            <div className="mb-6 grid grid-cols-2 gap-4">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">시작 시간</label>
-                <input
-                  type="time"
-                  value={formData.startTime}
-                  onChange={e => setFormData({ ...formData, startTime: e.target.value })}
-                  className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-teal-500"
-                />
-              </div>
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">종료 시간</label>
-                <input
-                  type="time"
-                  value={formData.endTime}
-                  onChange={e => setFormData({ ...formData, endTime: e.target.value })}
-                  className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-teal-500"
-                />
-              </div>
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">휴게 시간 (분)</label>
-                <input
-                  type="number"
-                  value={formData.breakTime}
-                  onChange={e => setFormData({ ...formData, breakTime: parseInt(e.target.value) || 0 })}
-                  className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-teal-500"
-                />
-              </div>
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">초과 근무 (시간)</label>
-                <input
-                  type="number"
-                  value={formData.overtime}
-                  onChange={e => setFormData({ ...formData, overtime: parseInt(e.target.value) || 0 })}
-                  className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-teal-500"
-                />
-              </div>
+      {/* 3. 메인 관제 컨텐츠 영역 (스크롤 제어) */}
+      <main className="custom-scrollbar flex-1 overflow-y-auto bg-[#f8fafc] p-8">
+        <div className="animate-in fade-in slide-in-from-bottom-2 mx-auto max-w-full duration-500">
+          {/* 각 탭별 고밀도 모듈 렌더링 */}
+          {activeTab === 'management' && (
+            <div className="space-y-6">
+              <ControlTab />
             </div>
           )}
 
-          {/* 메모 */}
-          <div className="mb-6">
-            <label className="mb-2 block text-sm font-medium text-gray-700">메모</label>
-            <textarea
-              rows={3}
-              value={formData.memo}
-              onChange={e => setFormData({ ...formData, memo: e.target.value })}
-              placeholder="특이사항, 교육 내용, 회의 주제 등을 입력하세요..."
-              className="w-full resize-none rounded-lg border border-gray-300 px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-teal-500"
-            />
-          </div>
+          {activeTab === 'individual' && (
+            <div className="space-y-6">
+              <IndividualTab />
+            </div>
+          )}
 
-          {/* 버튼 */}
-          <div className="flex gap-3">
-            {schedule && (
-              <button
-                type="button"
-                onClick={() => onDelete(date, staff.id)}
-                className="cursor-pointer whitespace-nowrap rounded-lg border border-red-300 px-6 py-2 text-red-600 transition-colors hover:bg-red-50"
-              >
-                <i className="ri-delete-bin-line mr-2"></i>
-                삭제
-              </button>
-            )}
-            <button
-              type="button"
-              onClick={onClose}
-              className="flex-1 cursor-pointer whitespace-nowrap rounded-lg border border-gray-300 px-6 py-2 text-gray-700 transition-colors hover:bg-gray-50"
-            >
-              취소
-            </button>
-            <button
-              type="button"
-              onClick={handleSubmit}
-              className="flex-1 cursor-pointer whitespace-nowrap rounded-lg bg-gradient-to-r from-teal-500 to-cyan-500 px-6 py-2 text-white transition-all duration-300 hover:shadow-lg"
-            >
-              <i className="ri-save-line mr-2"></i>
-              저장
-            </button>
+          {activeTab === 'auto' && (
+            <div className="space-y-6">
+              <AutoSchedulePanel />
+            </div>
+          )}
+
+          {activeTab === 'template' && (
+            <div className="space-y-6">
+              <TemplateTab />
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* 4. 시스템 푸터 (상태 바) */}
+      <footer className="z-30 flex h-10 shrink-0 items-center justify-between border-t border-gray-300 bg-white px-8">
+        <div className="flex items-center gap-4 text-[10px] font-black uppercase italic tracking-[0.1em] text-gray-400">
+          <span>© 2026 Agape-Care Operational Protocol</span>
+          <span className="h-3 w-[1px] bg-gray-200"></span>
+          <span className="text-[#5C8D5A]">Secure Data Node: Local_Master_Sync</span>
+        </div>
+        <div className="flex items-center gap-6 text-[10px] font-black uppercase italic tracking-widest text-gray-400">
+          <div className="flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+            LATENCY: 12ms
+          </div>
+          <div className="flex items-center gap-2">
+            <i className="ri-cpu-line text-[#5C8D5A]"></i>
+            PROCESSOR: AGAPE-AI v4
           </div>
         </div>
-      </div>
+      </footer>
+
+      {/* 글로벌 스타일 (스크롤바 및 애니메이션) */}
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 8px;
+          height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #cbd5e1;
+          border-radius: 0px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #5c8d5a;
+        }
+
+        /* 한국어 고딕 폰트 강화 */
+        body {
+          letter-spacing: -0.02em;
+        }
+      `}</style>
     </div>
   );
 }
