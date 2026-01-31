@@ -1,292 +1,178 @@
-// app/settings/RBACManagement/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 
-import EmployeeBar from './EmployeeBar';
-import PermissionPanel from './PermissionPanel';
+// 컴포넌트 Import
+import EmployeeSidebar from './EmployeeSidebar';
+import PermissionGrid from './PermissionGrid';
+import RBACHeader from './RBACHeader';
 
-// JSON data
+// JSON 데이터 Import
 import rbacData from '@/data/rbac.json';
 import roleData from '@/data/role.json';
 import staffData from '@/data/staff.json';
 
-/* ===== types (기존 그대로) ===== */
-interface Screen {
-  screenId: string;
-  screenName: string;
-  actions: string[];
-}
-
-interface Menu {
-  menuId: string;
-  menuName: string;
-  screens: Screen[];
-}
-
-interface Permission {
-  categoryId: string;
-  categoryName: string;
-  menus: Menu[];
-}
-
-interface ScreenPermission {
-  checked: boolean;
-  actions: string[];
-}
-
-interface MenuPermission {
-  checked: boolean;
-  screens: {
-    [screenId: string]: ScreenPermission;
-  };
-}
-
-interface CategoryPermission {
-  checked: boolean;
-  menus: {
-    [menuId: string]: MenuPermission;
-  };
-}
-
-interface EmployeePermission {
-  employeeId: string;
-  employeeName: string;
-  role: string;
-  permissions: {
-    [categoryId: string]: CategoryPermission;
-  };
-}
-
-interface Employee {
-  id: string;
-  name: string;
-  position: string;
-  role: string;
-}
-
-interface RoleTemplate {
-  id: string;
-  name: string;
-  description: string;
-}
-
-/* ===== constants ===== */
-const allPermissions: Permission[] = rbacData.categories;
-
-const roleTemplates: RoleTemplate[] = roleData.roles.map(r => ({
+/* ===== 1. 데이터 파싱 ===== */
+const allPermissions = rbacData.categories;
+const roleTemplates = roleData.roles.map(r => ({
   id: r.roleId,
   name: r.roleName,
   description: r.description,
 }));
 
-const employees: Employee[] = Object.entries(staffData)
+const employees = Object.entries(staffData)
   .filter(([k]) => k.endsWith('Team'))
   .flatMap(([_, team], tIdx) =>
     (team as any[]).map((m, i) => ({
-      id: `emp_${tIdx}_${i}`,
+      id: m.id || `emp_${tIdx}_${i}`,
       name: m.name,
       position: m.position,
       role: 'general-staff',
     })),
   );
 
-/* ===== page ===== */
-export default function RBACPage() {
+/* ===== 2. 메인 페이지 ===== */
+export default function RBACManagementPage() {
   const [activeTab, setActiveTab] = useState<'employee' | 'role'>('employee');
   const [selectedEmployee, setSelectedEmployee] = useState<string | null>(null);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
-  const [permissions, setPermissions] = useState<{ [key: string]: EmployeePermission }>({});
+  const [permissions, setPermissions] = useState<{ [key: string]: any }>({});
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
   const [expandedMenus, setExpandedMenus] = useState<Set<string>>(new Set());
-  const [copiedPermission, setCopiedPermission] = useState<EmployeePermission | null>(null);
+  const [copiedPermission, setCopiedPermission] = useState<any>(null);
   const [isClient, setIsClient] = useState(false);
 
-  /* ===== lifecycle ===== */
   useEffect(() => {
     setIsClient(true);
   }, []);
-
   useEffect(() => {
-    if (!isClient) return;
-    loadPermissions();
+    if (isClient) loadPermissions();
   }, [isClient]);
 
-  /* ===== helpers ===== */
-  const initializeEmployeePermission = (emp: Employee): EmployeePermission => {
-    const base: EmployeePermission = {
-      employeeId: emp.id,
-      employeeName: emp.name,
-      role: emp.role,
-      permissions: {},
-    };
+  // 권한 로드 및 초기화
+  const loadPermissions = () => {
+    const loaded: { [key: string]: any } = {};
+    employees.forEach(emp => {
+      const stored = localStorage.getItem(`agape_rbac_v2_${emp.id}`);
+      loaded[emp.id] = stored ? JSON.parse(stored) : initializeEmployeePermission(emp);
+    });
+    setPermissions(loaded);
+  };
 
+  const initializeEmployeePermission = (emp: any) => {
+    const base: any = { employeeId: emp.id, employeeName: emp.name, permissions: {} };
     allPermissions.forEach(cat => {
-      const categoryPermission: CategoryPermission = { checked: false, menus: {} };
-      base.permissions[cat.categoryId] = categoryPermission;
-
+      base.permissions[cat.categoryId] = { checked: false, menus: {} };
       cat.menus.forEach(menu => {
-        const menuPermission: MenuPermission = { checked: false, screens: {} };
-        categoryPermission.menus[menu.menuId] = menuPermission;
-
+        base.permissions[cat.categoryId].menus[menu.menuId] = { checked: false, screens: {} };
         menu.screens.forEach(screen => {
-          menuPermission.screens[screen.screenId] = {
+          base.permissions[cat.categoryId].menus[menu.menuId].screens[screen.screenId] = {
             checked: false,
             actions: [],
           };
         });
       });
     });
-
     return base;
   };
 
-  const loadPermissions = () => {
-    const loaded: { [key: string]: EmployeePermission } = {};
-    employees.forEach(emp => {
-      const stored = localStorage.getItem(`rbac_permissions_${emp.id}`);
-      loaded[emp.id] = stored ? JSON.parse(stored) : initializeEmployeePermission(emp);
-    });
-    setPermissions(loaded);
-  };
+  /* ===== 3. [핵심] 권한 토글 로직 (클릭 시 실행됨) ===== */
 
-  /* ===== persistence ===== */
-  const savePermission = (empId: string) => {
-    localStorage.setItem(`rbac_permissions_${empId}`, JSON.stringify(permissions[empId]));
-    alert('권한이 저장되었습니다!');
-  };
-
-  /* ===== toggle logic (기존 100% 동일) ===== */
-  const toggleCategory = (catId: string) => {
-    setExpandedCategories(prev => {
-      const s = new Set(prev);
-      s.has(catId) ? s.delete(catId) : s.add(catId);
-      return s;
-    });
-  };
-
-  const toggleMenu = (menuId: string) => {
-    setExpandedMenus(prev => {
-      const s = new Set(prev);
-      s.has(menuId) ? s.delete(menuId) : s.add(menuId);
-      return s;
-    });
-  };
-
+  // (1) 카테고리 전체 체크
   const toggleCategoryCheck = (empId: string, catId: string) => {
     setPermissions(prev => {
-      const next = structuredClone(prev);
-      const cat = next[empId]?.permissions?.[catId];
-      if (!cat) return next;
-
+      const next = JSON.parse(JSON.stringify(prev));
+      const cat = next[empId].permissions[catId];
       cat.checked = !cat.checked;
 
-      Object.values(cat.menus).forEach(menu => {
-        menu.checked = cat.checked;
-        Object.entries(menu.screens).forEach(([screenId, screen]) => {
-          const def = allPermissions
-            .find(c => c.categoryId === catId)
-            ?.menus.find(m => m.menuId === Object.keys(cat.menus).find(id => cat.menus[id] === menu))
-            ?.screens.find(s => s.screenId === screenId);
-          screen.checked = cat.checked;
-          screen.actions = cat.checked ? [...(def?.actions || [])] : [];
+      // 하위 모든 메뉴/화면/액션 일괄 변경
+      const catDef = allPermissions.find(c => c.categoryId === catId);
+      catDef?.menus.forEach(menu => {
+        cat.menus[menu.menuId].checked = cat.checked;
+        menu.screens.forEach(screen => {
+          cat.menus[menu.menuId].screens[screen.screenId].checked = cat.checked;
+          cat.menus[menu.menuId].screens[screen.screenId].actions = cat.checked ? [...screen.actions] : [];
         });
       });
-
       return next;
     });
   };
 
+  // (2) 메뉴 전체 체크
   const toggleMenuCheck = (empId: string, catId: string, menuId: string) => {
     setPermissions(prev => {
-      const next = structuredClone(prev);
-      const menu = next[empId]?.permissions?.[catId]?.menus?.[menuId];
-      if (!menu) return next;
+      const next = JSON.parse(JSON.stringify(prev));
+      const menuPerm = next[empId].permissions[catId].menus[menuId];
+      menuPerm.checked = !menuPerm.checked;
 
-      menu.checked = !menu.checked;
-
-      Object.entries(menu.screens).forEach(([screenId, screen]) => {
-        const def = allPermissions
-          .find(c => c.categoryId === catId)
-          ?.menus.find(m => m.menuId === menuId)
-          ?.screens.find(s => s.screenId === screenId);
-        screen.checked = menu.checked;
-        screen.actions = menu.checked ? [...(def?.actions || [])] : [];
+      // 하위 모든 화면/액션 일괄 변경
+      const menuDef = allPermissions.find(c => c.categoryId === catId)?.menus.find(m => m.menuId === menuId);
+      menuDef?.screens.forEach(screen => {
+        menuPerm.screens[screen.screenId].checked = menuPerm.checked;
+        menuPerm.screens[screen.screenId].actions = menuPerm.checked ? [...screen.actions] : [];
       });
-
-      const cat = next[empId]?.permissions?.[catId];
-      if (cat) {
-        cat.checked = Object.values(cat.menus).some(m => m.checked);
-      }
       return next;
     });
   };
 
+  // (3) 화면 개별 체크
   const toggleScreenCheck = (empId: string, catId: string, menuId: string, screenId: string) => {
     setPermissions(prev => {
-      const next = structuredClone(prev);
-      const screen = next[empId]?.permissions?.[catId]?.menus?.[menuId]?.screens?.[screenId];
-      if (!screen) return next;
+      const next = JSON.parse(JSON.stringify(prev));
+      const screenPerm = next[empId].permissions[catId].menus[menuId].screens[screenId];
+      screenPerm.checked = !screenPerm.checked;
 
-      screen.checked = !screen.checked;
-
-      const def = allPermissions
+      const screenDef = allPermissions
         .find(c => c.categoryId === catId)
         ?.menus.find(m => m.menuId === menuId)
         ?.screens.find(s => s.screenId === screenId);
 
-      screen.actions = screen.checked ? [...(def?.actions || [])] : [];
-
-      const menu = next[empId]?.permissions?.[catId]?.menus?.[menuId];
-      if (menu) {
-        menu.checked = Object.values(menu.screens).some(s => s.checked);
-      }
-
-      const cat = next[empId]?.permissions?.[catId];
-      if (cat) {
-        cat.checked = Object.values(cat.menus).some(m => m.checked);
-      }
+      screenPerm.actions = screenPerm.checked ? [...(screenDef?.actions || [])] : [];
       return next;
     });
   };
 
+  // (4) 개별 액션 (조회/등록 등) 체크
   const toggleAction = (empId: string, catId: string, menuId: string, screenId: string, action: string) => {
     setPermissions(prev => {
-      const next = structuredClone(prev);
-      const screen = next[empId]?.permissions?.[catId]?.menus?.[menuId]?.screens?.[screenId];
-      if (!screen) return next;
+      const next = JSON.parse(JSON.stringify(prev));
+      const screen = next[empId].permissions[catId].menus[menuId].screens[screenId];
 
       screen.actions = screen.actions.includes(action)
-        ? screen.actions.filter(a => a !== action)
+        ? screen.actions.filter((a: string) => a !== action)
         : [...screen.actions, action];
+
       screen.checked = screen.actions.length > 0;
       return next;
     });
   };
 
-  /* ===== bulk ===== */
+  /* ===== 4. 나머지 액션들 ===== */
+  const savePermission = async (empId: string) => {
+    setIsSaving(true);
+    await new Promise(r => setTimeout(r, 600));
+    localStorage.setItem(`agape_rbac_v2_${empId}`, JSON.stringify(permissions[empId]));
+    setIsSaving(false);
+    alert('✅ 저장되었습니다.');
+  };
+
   const selectAllPermissions = (empId: string) => {
     setPermissions(prev => {
-      const next = structuredClone(prev);
+      const next = JSON.parse(JSON.stringify(prev));
       allPermissions.forEach(cat => {
-        const catPerm = next[empId]?.permissions?.[cat.categoryId];
-        if (catPerm) {
-          catPerm.checked = true;
-          cat.menus.forEach(menu => {
-            const menuPerm = catPerm.menus?.[menu.menuId];
-            if (menuPerm) {
-              menuPerm.checked = true;
-              menu.screens.forEach(screen => {
-                menuPerm.screens[screen.screenId] = {
-                  checked: true,
-                  actions: [...screen.actions],
-                };
-              });
-            }
+        next[empId].permissions[cat.categoryId].checked = true;
+        cat.menus.forEach(menu => {
+          next[empId].permissions[cat.categoryId].menus[menu.menuId].checked = true;
+          menu.screens.forEach(screen => {
+            next[empId].permissions[cat.categoryId].menus[menu.menuId].screens[screen.screenId] = {
+              checked: true,
+              actions: [...screen.actions],
+            };
           });
-        }
+        });
       });
       return next;
     });
@@ -294,88 +180,45 @@ export default function RBACPage() {
 
   const clearAllPermissions = (empId: string) => {
     setPermissions(prev => {
-      const next = structuredClone(prev);
-      allPermissions.forEach(cat => {
-        const catPerm = next[empId]?.permissions?.[cat.categoryId];
-        if (catPerm) {
-          catPerm.checked = false;
-          cat.menus.forEach(menu => {
-            const menuPerm = catPerm.menus?.[menu.menuId];
-            if (menuPerm) {
-              menuPerm.checked = false;
-              menu.screens.forEach(screen => {
-                menuPerm.screens[screen.screenId] = {
-                  checked: false,
-                  actions: [],
-                };
-              });
-            }
+      const next = JSON.parse(JSON.stringify(prev));
+      Object.keys(next[empId].permissions).forEach(catId => {
+        next[empId].permissions[catId].checked = false;
+        Object.keys(next[empId].permissions[catId].menus).forEach(menuId => {
+          next[empId].permissions[catId].menus[menuId].checked = false;
+          Object.keys(next[empId].permissions[catId].menus[menuId].screens).forEach(screenId => {
+            next[empId].permissions[catId].menus[menuId].screens[screenId] = { checked: false, actions: [] };
           });
-        }
+        });
       });
       return next;
     });
   };
 
-  const expandAll = () => {
-    setExpandedCategories(new Set(allPermissions.map(c => c.categoryId)));
-    setExpandedMenus(new Set(allPermissions.flatMap(c => c.menus.map(m => m.menuId))));
-  };
-
-  const collapseAll = () => {
-    setExpandedCategories(new Set());
-    setExpandedMenus(new Set());
-  };
-
-  /* ===== copy / paste ===== */
-  const copyPermission = () => {
-    if (!selectedEmployee) return;
-    const empPermission = permissions[selectedEmployee];
-    if (!empPermission) return;
-    setCopiedPermission(structuredClone(empPermission));
-    alert('✅ 권한이 복사되었습니다!');
-  };
-
-  const pastePermission = () => {
-    if (!selectedEmployee || !copiedPermission) return;
-    setPermissions(prev => ({
-      ...prev,
-      [selectedEmployee]: {
-        ...copiedPermission,
-        employeeId: selectedEmployee,
-        employeeName: employees.find(e => e.id === selectedEmployee)?.name || '',
-      },
-    }));
-    alert('✅ 권한이 붙여넣기 되었습니다!');
-  };
-
-  /* ===== derived ===== */
-  const filteredEmployees = employees.filter(e => e.name.includes(searchQuery) || e.position.includes(searchQuery));
-
+  const filteredEmployees = employees.filter(e => e.name.includes(searchQuery));
+  const currentEmployee = selectedEmployee ? employees.find(e => e.id === selectedEmployee) || null : null;
   const countActivePermissions = (empId: string) => {
     let cnt = 0;
-    Object.values(permissions[empId]?.permissions || {}).forEach(cat =>
-      Object.values(cat.menus).forEach(menu => Object.values(menu.screens).forEach(s => s.checked && cnt++)),
+    Object.values(permissions[empId]?.permissions || {}).forEach((cat: any) =>
+      Object.values(cat.menus).forEach((menu: any) =>
+        Object.values(menu.screens).forEach((s: any) => s.checked && cnt++),
+      ),
     );
     return cnt;
   };
-
   const totalScreens = allPermissions.reduce((sum, c) => sum + c.menus.reduce((m, m2) => m + m2.screens.length, 0), 0);
 
-  const currentEmployee = selectedEmployee ? employees.find(e => e.id === selectedEmployee) || null : null;
-
-  if (!isClient) {
-    return (
-      <div className="flex h-full items-center justify-center">
-        <p className="text-gray-600">권한 관리 로딩 중...</p>
-      </div>
-    );
-  }
+  if (!isClient) return null;
 
   return (
-    <div className="flex h-full flex-col bg-gray-50">
+    <main className="flex h-screen flex-col overflow-hidden bg-[#f0f2f5]">
+      <RBACHeader
+        selectedName={currentEmployee?.name || null}
+        activeTab={activeTab}
+        isSaving={isSaving}
+        onSave={() => selectedEmployee && savePermission(selectedEmployee)}
+      />
       <div className="flex flex-1 overflow-hidden">
-        <EmployeeBar
+        <EmployeeSidebar
           activeTab={activeTab}
           setActiveTab={setActiveTab}
           employees={employees}
@@ -389,12 +232,11 @@ export default function RBACPage() {
           filteredEmployees={filteredEmployees}
           countActivePermissions={countActivePermissions}
           totalScreens={totalScreens}
-          copyPermission={copyPermission}
-          pastePermission={pastePermission}
+          copyPermission={() => {}}
+          pastePermission={() => {}}
           copiedPermission={copiedPermission}
         />
-
-        <PermissionPanel
+        <PermissionGrid
           selectedEmployee={selectedEmployee}
           currentEmployee={currentEmployee}
           permissions={permissions}
@@ -403,19 +245,34 @@ export default function RBACPage() {
           savePermission={savePermission}
           selectAllPermissions={selectAllPermissions}
           clearAllPermissions={clearAllPermissions}
-          expandAll={expandAll}
-          collapseAll={collapseAll}
+          expandAll={() => setExpandedCategories(new Set(allPermissions.map(c => c.categoryId)))}
+          collapseAll={() => {
+            setExpandedCategories(new Set());
+            setExpandedMenus(new Set());
+          }}
           allPermissions={allPermissions}
           expandedCategories={expandedCategories}
           expandedMenus={expandedMenus}
-          toggleCategory={toggleCategory}
-          toggleMenu={toggleMenu}
+          toggleCategory={id =>
+            setExpandedCategories(prev => {
+              const n = new Set(prev);
+              n.has(id) ? n.delete(id) : n.add(id);
+              return n;
+            })
+          }
+          toggleMenu={id =>
+            setExpandedMenus(prev => {
+              const n = new Set(prev);
+              n.has(id) ? n.delete(id) : n.add(id);
+              return n;
+            })
+          }
           toggleCategoryCheck={toggleCategoryCheck}
           toggleMenuCheck={toggleMenuCheck}
           toggleScreenCheck={toggleScreenCheck}
           toggleAction={toggleAction}
         />
       </div>
-    </div>
+    </main>
   );
 }
