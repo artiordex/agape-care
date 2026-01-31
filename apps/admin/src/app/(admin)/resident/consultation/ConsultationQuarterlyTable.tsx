@@ -19,93 +19,127 @@ interface QuarterlySummary {
 }
 
 interface Props {
-  data: QuarterlySummary[];
-  onSelectRecipient: (recipient: QuarterlySummary) => void;
+  readonly data: QuarterlySummary[];
+  readonly onSelectRecipient: (recipient: QuarterlySummary) => void;
 }
 
+/**
+ * [Component] 분기별 상담 이행 현황 모니터링 그리드
+ * 아가페 그린(#5C8D5A) 테마 및 고밀도 ERP 관제 스타일 적용
+ */
 export default function ConsultationQuarterlyTable({ data, onSelectRecipient }: Props) {
-  const getQuarterStatus = (count: number) => {
+  /** * 분기별 이행 상태 시각화 로직
+   * 아가페 표준 색상을 적용하여 가독성 강화
+   */
+  const getQuarterBadge = (count: number) => {
     if (count === 0) {
-      return { text: '미작성', color: 'bg-gray-100 text-gray-600', icon: '○' };
+      return (
+        <div className="flex flex-col items-center">
+          <span className="mb-1 h-1.5 w-1.5 rounded-full bg-gray-200"></span>
+          <span className="rounded-sm border border-gray-200 bg-gray-50 px-2 py-0.5 text-[10px] font-black uppercase tracking-tighter text-gray-400 shadow-sm">
+            미작성
+          </span>
+        </div>
+      );
     }
-    return { text: `${count}건`, color: 'bg-blue-50 text-blue-700', icon: '●' };
+    return (
+      <div className="flex flex-col items-center">
+        <span className="mb-1 h-1.5 w-1.5 animate-pulse rounded-full bg-[#5C8D5A]"></span>
+        <span className="rounded-sm border border-emerald-100 bg-emerald-50 px-2 py-0.5 text-[10px] font-black uppercase tracking-tighter text-[#5C8D5A] shadow-sm">
+          {count}건 완료
+        </span>
+      </div>
+    );
   };
 
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
-      <table className="w-full">
-        <thead className="border-b border-gray-200 bg-gray-50">
-          <tr>
-            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">번호</th>
-            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">수급자명</th>
-            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">성별/나이</th>
-            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">생활실</th>
-            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">등급</th>
-            <th className="px-4 py-3 text-center text-xs font-semibold text-gray-700">1분기</th>
-            <th className="px-4 py-3 text-center text-xs font-semibold text-gray-700">2분기</th>
-            <th className="px-4 py-3 text-center text-xs font-semibold text-gray-700">3분기</th>
-            <th className="px-4 py-3 text-center text-xs font-semibold text-gray-700">4분기</th>
-            <th className="px-4 py-3 text-center text-xs font-semibold text-gray-700">관리</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-100">
-          {data.length === 0 ? (
+    <div className="overflow-hidden rounded-xl border border-gray-300 bg-white font-sans antialiased shadow-sm">
+      <div className="custom-scrollbar overflow-x-auto">
+        <table className="w-full border-collapse text-left">
+          {/* 고밀도 테이블 헤더: ERP 관제 스타일 */}
+          <thead className="border-b border-gray-200 bg-[#f8fafc] text-[10px] font-black uppercase tracking-tighter text-gray-500">
             <tr>
-              <td colSpan={10} className="px-4 py-12 text-center">
-                <i className="ri-file-search-line mb-2 block text-4xl text-gray-300"></i>
-                <p className="text-sm text-gray-500">조회 결과가 없습니다.</p>
-              </td>
+              <th className="px-5 py-3 text-center">No.</th>
+              <th className="px-5 py-3">수급자 마스터 정보</th>
+              <th className="px-5 py-3">생활실 / 등급</th>
+              <th className="px-5 py-3 text-center">1분기</th>
+              <th className="px-5 py-3 text-center">2분기</th>
+              <th className="px-5 py-3 text-center">3분기</th>
+              <th className="px-5 py-3 text-center">4분기</th>
+              <th className="px-5 py-3 text-right">관제 액션</th>
             </tr>
-          ) : (
-            data.map((item, index) => {
-              const q1 = getQuarterStatus(item.q1Count);
-              const q2 = getQuarterStatus(item.q2Count);
-              const q3 = getQuarterStatus(item.q3Count);
-              const q4 = getQuarterStatus(item.q4Count);
+          </thead>
 
-              return (
-                <tr key={item.recipientId} className="transition-colors hover:bg-gray-50">
-                  <td className="px-4 py-3 text-sm text-gray-900">{index + 1}</td>
-                  <td className="px-4 py-3 text-sm font-semibold text-gray-900">{item.recipientName}</td>
-                  <td className="px-4 py-3 text-sm text-gray-600">
-                    {item.gender} / {item.age}세
-                  </td>
-                  <td className="px-4 py-3 text-sm text-gray-600">{item.roomNumber}</td>
-                  <td className="px-4 py-3 text-sm text-gray-600">{item.grade}</td>
-                  <td className="px-4 py-3 text-center">
-                    <span className={`inline-flex items-center rounded px-2 py-0.5 text-xs font-medium ${q1.color}`}>
-                      {q1.icon} {q1.text}
+          <tbody className="divide-y divide-gray-100 text-[12px]">
+            {data.length === 0 ? (
+              <tr>
+                <td colSpan={8} className="px-5 py-20 text-center">
+                  <i className="ri-folder-search-line mb-2 block text-4xl text-gray-200"></i>
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400">
+                    검색된 상담 대상자가 없습니다
+                  </p>
+                </td>
+              </tr>
+            ) : (
+              data.map((item, index) => (
+                <tr key={item.recipientId} className="group transition-colors hover:bg-gray-50/50">
+                  {/* 1. 번호 */}
+                  <td className="px-5 py-4 text-center">
+                    <span className="font-mono text-[11px] font-bold text-gray-400">
+                      {String(index + 1).padStart(2, '0')}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-center">
-                    <span className={`inline-flex items-center rounded px-2 py-0.5 text-xs font-medium ${q2.color}`}>
-                      {q2.icon} {q2.text}
-                    </span>
+
+                  {/* 2. 수급자 기본 정보 */}
+                  <td className="px-5 py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-gray-100 text-[12px] font-black text-gray-400 transition-colors group-hover:border-[#5C8D5A] group-hover:bg-[#5C8D5A] group-hover:text-white">
+                        {item.recipientName.charAt(0)}
+                      </div>
+                      <div>
+                        <p className="text-[13px] font-black tracking-tight text-gray-900">
+                          {item.recipientName} 어르신
+                        </p>
+                        <p className="text-[10px] font-bold uppercase text-gray-400">
+                          {item.gender} / 만 {item.age}세
+                        </p>
+                      </div>
+                    </div>
                   </td>
-                  <td className="px-4 py-3 text-center">
-                    <span className={`inline-flex items-center rounded px-2 py-0.5 text-xs font-medium ${q3.color}`}>
-                      {q3.icon} {q3.text}
-                    </span>
+
+                  {/* 3. 생활실 및 등급 */}
+                  <td className="px-5 py-4">
+                    <div className="flex flex-col gap-1">
+                      <span className="flex items-center gap-1 text-[11px] font-black text-[#5C8D5A]">
+                        <i className="ri-door-open-line"></i> {item.roomNumber}호
+                      </span>
+                      <span className="w-fit rounded-sm border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-widest text-gray-500">
+                        {item.grade}
+                      </span>
+                    </div>
                   </td>
-                  <td className="px-4 py-3 text-center">
-                    <span className={`inline-flex items-center rounded px-2 py-0.5 text-xs font-medium ${q4.color}`}>
-                      {q4.icon} {q4.text}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-center">
+
+                  {/* 4~7. 분기별 이행 현황 */}
+                  <td className="px-5 py-4 text-center">{getQuarterBadge(item.q1Count)}</td>
+                  <td className="px-5 py-4 text-center">{getQuarterBadge(item.q2Count)}</td>
+                  <td className="px-5 py-4 text-center">{getQuarterBadge(item.q3Count)}</td>
+                  <td className="px-5 py-4 text-center">{getQuarterBadge(item.q4Count)}</td>
+
+                  {/* 8. 관리 버튼 */}
+                  <td className="px-5 py-4 text-right">
                     <button
                       onClick={() => onSelectRecipient(item)}
-                      className="rounded border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700 transition-colors hover:bg-blue-100"
+                      className="rounded-md border border-[#5C8D5A] bg-emerald-50 px-4 py-1.5 text-[11px] font-black text-[#5C8D5A] shadow-sm transition-all hover:bg-[#5C8D5A] hover:text-white active:scale-95"
                     >
-                      조회/작성
+                      상세 조회 / 작성
                     </button>
                   </td>
                 </tr>
-              );
-            })
-          )}
-        </tbody>
-      </table>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
