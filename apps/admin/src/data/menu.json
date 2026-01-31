@@ -88,16 +88,6 @@
           "component": "CareRecordManagement"
         },
         {
-          "id": "care-history",
-          "name": "케어 이력",
-          "description": "케어 전체 이력",
-          "icon": "ri-history-line",
-          "path": "/care/history",
-          "spa": true,
-          "folder": "care",
-          "component": "CareHistory"
-        },
-        {
           "id": "medication",
           "name": "투약 관리",
           "description": "투약 기록 및 관리",
@@ -116,71 +106,6 @@
           "spa": true,
           "folder": "care",
           "component": "NeedsAssessment"
-        },
-
-        {
-          "id": "care-reports",
-          "name": "요양 리포트",
-          "description": "각종 리포트",
-          "icon": "ri-file-chart-line",
-          "path": "/care/reports",
-          "isGroup": true
-        },
-
-        {
-          "id": "report-elimination",
-          "name": "배설 기록",
-          "description": "배설 관리 기록",
-          "icon": "ri-file-list-line",
-          "path": "/care/report/elimination",
-          "parentGroup": "care-reports",
-          "spa": true,
-          "folder": "care/reports",
-          "component": "ReportElimination"
-        },
-        {
-          "id": "report-nursing",
-          "name": "간호 기록",
-          "description": "간호 관리 기록",
-          "icon": "ri-nurse-line",
-          "path": "/care/report/nursing",
-          "parentGroup": "care-reports",
-          "spa": true,
-          "folder": "care/reports",
-          "component": "ReportNursing"
-        },
-        {
-          "id": "report-pressure-ulcer",
-          "name": "욕창 관리",
-          "description": "욕창 예방 및 관리",
-          "icon": "ri-medicine-bottle-line",
-          "path": "/care/report/pressure-ulcer",
-          "parentGroup": "care-reports",
-          "spa": true,
-          "folder": "care/reports",
-          "component": "ReportPressureUlcer"
-        },
-        {
-          "id": "report-clinic",
-          "name": "진료 기록",
-          "description": "진료 및 처방 기록",
-          "icon": "ri-stethoscope-line",
-          "path": "/care/report/clinic",
-          "parentGroup": "care-reports",
-          "spa": true,
-          "folder": "care/reports",
-          "component": "ReportClinic"
-        },
-        {
-          "id": "report-medication",
-          "name": "투약 기록",
-          "description": "투약 관리 리포트",
-          "icon": "ri-syringe-line",
-          "path": "/care/report/medication",
-          "parentGroup": "care-reports",
-          "spa": true,
-          "folder": "care/reports",
-          "component": "ReportMedication"
         }
       ]
     },
@@ -323,14 +248,24 @@
           "component": "WorkScheduleManagement"
         },
         {
-          "id": "staff-work-status",
-          "name": "근무현황 조회",
-          "description": "근무 현황 통계",
-          "icon": "ri-bar-chart-line",
-          "path": "/staff/work-status",
+          "id": "staff-education",
+          "name": "직원 교육",
+          "description": "직원 교육 현황",
+          "icon": "ri-graduation-cap-line",
+          "path": "/staff/education",
           "spa": true,
           "folder": "staff",
-          "component": "StaffWorkStatus"
+          "component": "StaffEducation"
+        },
+        {
+          "id": "staff-meeting",
+          "name": "직원 회의",
+          "description": "직원 회의 현황",
+          "icon": "ri-team-line",
+          "path": "/staff/meeting",
+          "spa": true,
+          "folder": "staff",
+          "component": "StaffMeeting"
         }
       ]
     },
@@ -383,14 +318,14 @@
       "path": "/contents",
       "children": [
         {
-          "id": "notice",
+          "id": "announcement",
           "name": "공지사항 관리",
           "description": "공지사항 작성/관리",
           "icon": "ri-megaphone-line",
-          "path": "/contents/notice",
+          "path": "/contents/announcement",
           "spa": true,
           "folder": "contents",
-          "component": "NoticeManagement"
+          "component": "AnnouncementManagement"
         },
         {
           "id": "free-board",
@@ -433,26 +368,15 @@
           "component": "ProgramManagement"
         },
         {
-          "id": "program-album",
-          "name": "프로그램 참여앨범",
-          "description": "프로그램 사진 앨범",
-          "icon": "ri-camera-3-line",
-          "path": "/contents/board-management/program-album",
-          "parentGroup": "board-management",
-          "spa": true,
-          "folder": "contents",
-          "component": "ProgramAlbumManagement"
-        },
-        {
           "id": "consultation-requests",
-          "name": "상담신청",
-          "description": "상담 신청 관리",
+          "name": "문의 관리",
+          "description": "문의 내역 관리",
           "icon": "ri-question-answer-line",
-          "path": "/contents/board-management/consultation-requests",
+          "path": "/contents/inquiry",
           "parentGroup": "board-management",
           "spa": true,
           "folder": "contents",
-          "component": "ConsultationRequestManagement"
+          "component": "InquiryManagement"
         },
         {
           "id": "popup-management",
@@ -559,92 +483,6 @@
           "spa": true,
           "folder": "notifications",
           "component": "NotificationSettingsPage"
-        }
-      ]
-    },
-    {
-      "id": "website-editor",
-      "name": "웹사이트 편집",
-      "description": "웹사이트 편집",
-      "icon": "ri-edit-box-line",
-      "path": "/contents/website-editor",
-      "children": [
-        {
-          "id": "basic-info",
-          "name": "기본 정보",
-          "description": "시설 기본 정보",
-          "icon": "ri-information-line",
-          "path": "/contents/website/basic",
-          "parentGroup": "website-editor",
-          "spa": true,
-          "folder": "contents/website",
-          "component": "BasicInfoEditor"
-        },
-        {
-          "id": "design-info",
-          "name": "디자인 정보",
-          "description": "디자인 설정",
-          "icon": "ri-palette-line",
-          "path": "/contents/website/design",
-          "parentGroup": "website-editor",
-          "spa": true,
-          "folder": "contents/website",
-          "component": "DesignInfoEditor"
-        },
-        {
-          "id": "menu-settings",
-          "name": "메뉴사용 설정",
-          "description": "메뉴 노출 설정",
-          "icon": "ri-menu-line",
-          "path": "/contents/website/menu",
-          "parentGroup": "website-editor",
-          "spa": true,
-          "folder": "contents/website",
-          "component": "MenuSettingsEditor"
-        },
-        {
-          "id": "intro-editor",
-          "name": "기관 소개",
-          "description": "기관 소개 편집",
-          "icon": "ri-building-2-line",
-          "path": "/contents/website/intro",
-          "parentGroup": "website-editor",
-          "spa": true,
-          "folder": "contents/website",
-          "component": "IntroEditor"
-        },
-        {
-          "id": "service-editor",
-          "name": "서비스 안내",
-          "description": "서비스 안내 편집",
-          "icon": "ri-service-line",
-          "path": "/contents/website/service",
-          "parentGroup": "website-editor",
-          "spa": true,
-          "folder": "contents/website",
-          "component": "ServiceEditor"
-        },
-        {
-          "id": "cost-consultation",
-          "name": "비용 및 상담 신청",
-          "description": "비용/상담 페이지",
-          "icon": "ri-price-tag-3-line",
-          "path": "/contents/website/cost",
-          "parentGroup": "website-editor",
-          "spa": true,
-          "folder": "contents/website",
-          "component": "CostConsultationEditor"
-        },
-        {
-          "id": "donation-volunteer",
-          "name": "후원 및 자원봉사",
-          "description": "후원/봉사 페이지",
-          "icon": "ri-heart-3-line",
-          "path": "/contents/website/donation",
-          "parentGroup": "website-editor",
-          "spa": true,
-          "folder": "contents/website",
-          "component": "DonationVolunteerEditor"
         }
       ]
     },

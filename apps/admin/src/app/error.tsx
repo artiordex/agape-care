@@ -89,7 +89,7 @@ export default function AdminError({ error }: { error: Error & { digest?: string
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center relative overflow-hidden">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* 배경 패턴 */}
       <div className="absolute inset-0 opacity-5">
         <div
@@ -102,42 +102,47 @@ export default function AdminError({ error }: { error: Error & { digest?: string
       </div>
 
       {/* 메인 에러 컨테이너 */}
-      <div className="relative z-10 text-center max-w-2xl w-full px-6">
+      <div className="relative z-10 w-full max-w-2xl px-6 text-center">
         {/* 에러 아이콘 */}
         <div className="mb-8">
-          <div className="w-24 h-24 bg-gradient-to-r from-red-500 to-orange-500 rounded-2xl mx-auto mb-6 flex items-center justify-center relative">
+          <div className="relative mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-r from-red-500 to-orange-500">
             <i className={`${getErrorIcon()} text-4xl text-white`}></i>
 
             {/* 경고 효과 */}
-            <div className="absolute inset-0 border-2 border-red-400 rounded-2xl animate-pulse"></div>
+            <div className="absolute inset-0 animate-pulse rounded-2xl border-2 border-red-400"></div>
           </div>
         </div>
 
         {/* 에러 정보 */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-4">{getErrorTitle()}</h1>
-          <p className="text-slate-300 text-lg mb-2">{getErrorDescription()}</p>
-          <p className="text-slate-500 text-sm">에러 ID: {error.digest || 'UNKNOWN'}</p>
+          <h1 className="mb-4 text-3xl font-bold text-white">{getErrorTitle()}</h1>
+          <p className="mb-2 text-lg text-slate-300">{getErrorDescription()}</p>
+          <p className="text-sm text-slate-500">에러 ID: {error.digest || 'UNKNOWN'}</p>
         </div>
 
         {/* 에러 상세 정보 토글 */}
         <div className="mb-8">
-          <button onClick={() => setErrorDetails(!errorDetails)} className="text-slate-400 hover:text-white text-sm underline transition-colors">
+          <button
+            onClick={() => setErrorDetails(!errorDetails)}
+            className="text-sm text-slate-400 underline transition-colors hover:text-white"
+          >
             {errorDetails ? '상세 정보 숨기기' : '상세 정보 보기'}
           </button>
 
           {errorDetails && (
-            <div className="mt-4 bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-4 text-left">
-              <h4 className="text-slate-300 font-medium mb-2">에러 상세 정보:</h4>
-              <div className="text-xs text-slate-400 space-y-2">
+            <div className="mt-4 rounded-xl border border-slate-700 bg-slate-800/50 p-4 text-left backdrop-blur-sm">
+              <h4 className="mb-2 font-medium text-slate-300">에러 상세 정보:</h4>
+              <div className="space-y-2 text-xs text-slate-400">
                 <div>
                   <span className="text-slate-500">메시지:</span>
-                  <pre className="mt-1 text-red-400 whitespace-pre-wrap break-words">{error.message}</pre>
+                  <pre className="mt-1 whitespace-pre-wrap break-words text-red-400">{error.message}</pre>
                 </div>
                 {error.stack && (
                   <div>
                     <span className="text-slate-500">스택 트레이스:</span>
-                    <pre className="mt-1 text-slate-400 whitespace-pre-wrap break-words text-xs max-h-32 overflow-y-auto">{error.stack}</pre>
+                    <pre className="mt-1 max-h-32 overflow-y-auto whitespace-pre-wrap break-words text-xs text-slate-400">
+                      {error.stack}
+                    </pre>
                   </div>
                 )}
                 <div>
@@ -156,11 +161,11 @@ export default function AdminError({ error }: { error: Error & { digest?: string
         </div>
 
         {/* 액션 버튼들 */}
-        <div className="space-y-4 mb-8">
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="mb-8 space-y-4">
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <button
               onClick={handleRetry}
-              className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-200 flex items-center justify-center"
+              className="flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 px-8 py-3 font-medium text-white transition-all duration-200 hover:from-blue-600 hover:to-purple-700"
             >
               <i className="ri-refresh-line mr-2"></i>
               다시 시도
@@ -168,18 +173,18 @@ export default function AdminError({ error }: { error: Error & { digest?: string
 
             <button
               onClick={handleRefresh}
-              className="px-8 py-3 bg-slate-700 text-white font-medium rounded-xl hover:bg-slate-600 transition-colors flex items-center justify-center"
+              className="flex items-center justify-center rounded-xl bg-slate-700 px-8 py-3 font-medium text-white transition-colors hover:bg-slate-600"
             >
               <i className="ri-restart-line mr-2"></i>
               페이지 새로고침
             </button>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col justify-center gap-4 sm:flex-row">
             <button
               onClick={handleReportError}
               disabled={isReporting}
-              className="px-6 py-2 border border-slate-600 text-slate-300 rounded-lg hover:bg-slate-800 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center justify-center rounded-lg border border-slate-600 px-6 py-2 text-slate-300 transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <i className={`${isReporting ? 'ri-loader-4-line animate-spin' : 'ri-bug-line'} mr-2`}></i>
               {isReporting ? '전송 중...' : '에러 리포트 전송'}
@@ -187,7 +192,7 @@ export default function AdminError({ error }: { error: Error & { digest?: string
 
             <button
               onClick={() => (window.location.href = '/')}
-              className="px-6 py-2 border border-slate-600 text-slate-300 rounded-lg hover:bg-slate-800 transition-colors flex items-center justify-center"
+              className="flex items-center justify-center rounded-lg border border-slate-600 px-6 py-2 text-slate-300 transition-colors hover:bg-slate-800"
             >
               <i className="ri-home-line mr-2"></i>
               대시보드로 돌아가기
@@ -196,13 +201,13 @@ export default function AdminError({ error }: { error: Error & { digest?: string
         </div>
 
         {/* 시스템 상태 */}
-        <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-4">
-          <h3 className="text-slate-300 font-medium mb-3">시스템 상태</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+        <div className="rounded-xl border border-slate-700 bg-slate-800/50 p-4 backdrop-blur-sm">
+          <h3 className="mb-3 font-medium text-slate-300">시스템 상태</h3>
+          <div className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-3">
             <div className="flex items-center justify-between">
               <span className="text-slate-400">서버 상태</span>
               <div className="flex items-center">
-                <div className="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
+                <div className="mr-2 h-2 w-2 rounded-full bg-red-500"></div>
                 <span className="text-red-400">오류</span>
               </div>
             </div>
@@ -210,7 +215,7 @@ export default function AdminError({ error }: { error: Error & { digest?: string
             <div className="flex items-center justify-between">
               <span className="text-slate-400">데이터베이스</span>
               <div className="flex items-center">
-                <div className="w-2 h-2 bg-yellow-500 rounded-full mr-2"></div>
+                <div className="mr-2 h-2 w-2 rounded-full bg-yellow-500"></div>
                 <span className="text-yellow-400">확인 중</span>
               </div>
             </div>
@@ -218,7 +223,7 @@ export default function AdminError({ error }: { error: Error & { digest?: string
             <div className="flex items-center justify-between">
               <span className="text-slate-400">네트워크</span>
               <div className="flex items-center">
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                <div className="mr-2 h-2 w-2 rounded-full bg-green-500"></div>
                 <span className="text-green-400">정상</span>
               </div>
             </div>
@@ -233,11 +238,11 @@ export default function AdminError({ error }: { error: Error & { digest?: string
       </div>
 
       {/* 배경 경고 효과 */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {Array.from({ length: 8 }).map((_, i) => (
           <div
             key={i}
-            className="absolute w-2 h-2 bg-red-400 rounded-full opacity-20 animate-ping"
+            className="absolute h-2 w-2 animate-ping rounded-full bg-red-400 opacity-20"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,

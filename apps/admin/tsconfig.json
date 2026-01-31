@@ -30,6 +30,6 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "../../dist/apps/admin/.next/types/**/*.ts"
-  ],
+, "src/app/(admin)/staff/schedule/schedule.typets"  ],
   "exclude": ["node_modules", ".next", "dist", "out"]
 }
