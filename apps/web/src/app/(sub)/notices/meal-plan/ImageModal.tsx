@@ -1,3 +1,9 @@
+/**
+ * Description : ImageModal.tsx - 📌 알림마당 식단표 이미지 모달
+ * Author : Shiwoo Min
+ * Date : 2026-02-01
+ */
+
 interface Props {
   imageUrl: string | null;
   onClose: () => void;

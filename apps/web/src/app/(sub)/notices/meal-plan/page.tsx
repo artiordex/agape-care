@@ -1,13 +1,18 @@
+/**
+ * Description : page.tsx - 📌 알림마당 식단표 페이지
+ * Author : Shiwoo Min
+ * Date : 2026-02-01
+ */
+
 'use client';
 
-import { api } from '@/lib/api';
 import { useState } from 'react';
 
-import ImageModal from './ImageModal';
+import mealData from '@/data/meal.json';
 import MealDetailModal from './MealDetailModal';
-import MealPlanControls from './MealPlanControls';
-import MonthView from './MonthView';
-import WeekView from './WeekView';
+import MealPlanHeader from './MealPlanHeader';
+import MonthTab from './tabs/MonthTab';
+import WeekTab from './tabs/WeekTab';
 
 interface MealImage {
   id: string;
@@ -28,51 +33,58 @@ interface MealPlan {
   images: MealImage[];
 }
 
+// JSON 데이터 로드
+const MEAL_DATA: MealPlan[] = mealData.mealPlans;
+
 export default function MealPlanPage() {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<'week' | 'month'>('week');
   const [selectedMeal, setSelectedMeal] = useState<MealPlan | null>(null);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const start = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).toISOString().split('T')[0]!;
-  const end = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).toISOString().split('T')[0]!;
-
-  // API 호출
-  const { data, isLoading } = api.meal.getMealPlans.useQuery(['meal', 'plans', { start, end }], {
-    query: {
-      start,
-      end,
-    },
+  // 현재 월에 해당하는 데이터만 필터링 (월간 보기용)
+  const mealPlans = MEAL_DATA.filter(meal => {
+    const mealDate = new Date(meal.date);
+    return mealDate.getFullYear() === currentDate.getFullYear() && mealDate.getMonth() === currentDate.getMonth();
   });
 
-  const mealPlansRaw = data?.status === 200 ? data.body.data : [];
+  // 네비게이션 핸들러
+  const handlePrev = () => {
+    if (viewMode === 'week') {
+      // 주간: 7일 전으로
+      const newDate = new Date(currentDate);
+      newDate.setDate(currentDate.getDate() - 7);
+      setCurrentDate(newDate);
+    } else {
+      // 월간: 이전 달로
+      const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+      setCurrentDate(newDate);
+    }
+  };
 
-  // 데이터 가공
-  const mealPlans: MealPlan[] = mealPlansRaw.map(plan => ({
-    id: plan.id,
-    date: plan.date,
-    breakfast: plan.breakfast || '',
-    morning_snack: plan.morningSnack || '',
-    lunch: plan.lunch || '',
-    afternoon_snack: plan.afternoonSnack || '',
-    dinner: plan.dinner || '',
-    memo: plan.memo || undefined,
-    nutrition_manager: plan.managerName || '영양사', // API 필드 확인 필요
-    images:
-      plan.images?.map(img => ({
-        id: img.id,
-        url: img.url,
-        uploadedAt: img.createdAt.toString(),
-      })) || [],
-  }));
+  const handleNext = () => {
+    if (viewMode === 'week') {
+      // 주간: 7일 후로
+      const newDate = new Date(currentDate);
+      newDate.setDate(currentDate.getDate() + 7);
+      setCurrentDate(newDate);
+    } else {
+      // 월간: 다음 달로
+      const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+      setCurrentDate(newDate);
+    }
+  };
+
+  const handleToday = () => {
+    setCurrentDate(new Date());
+  };
 
   // 주간 보기 데이터
   const getWeekDays = (): { date: string; meal: MealPlan | null }[] => {
-    const today = new Date();
-    const currentDay = today.getDay();
+    const targetDate = new Date(currentDate);
+    const currentDay = targetDate.getDay();
 
-    const monday = new Date(today);
-    monday.setDate(today.getDate() - currentDay + (currentDay === 0 ? -6 : 1));
+    const monday = new Date(targetDate);
+    monday.setDate(targetDate.getDate() - currentDay + (currentDay === 0 ? -6 : 1));
 
     const days: { date: string; meal: MealPlan | null }[] = [];
 
@@ -83,7 +95,7 @@ export default function MealPlanPage() {
       const iso = date.toISOString().split('T')[0];
       const dateStr: string = iso ?? '';
 
-      const meal = mealPlans.find(m => m.date === dateStr) ?? null;
+      const meal = MEAL_DATA.find(m => m.date === dateStr) ?? null;
 
       days.push({ date: dateStr, meal });
     }
@@ -93,8 +105,8 @@ export default function MealPlanPage() {
 
   // 월간 보기 데이터
   const getMonthDays = (): { date: string | null; meal: MealPlan | null }[] => {
-    const year = currentMonth.getFullYear();
-    const month = currentMonth.getMonth();
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
 
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
@@ -125,35 +137,24 @@ export default function MealPlanPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
         {/* 컨트롤 */}
-        <MealPlanControls
-          currentMonth={currentMonth}
+        <MealPlanHeader
+          currentDate={currentDate}
           viewMode={viewMode}
-          onMonthChange={setCurrentMonth}
+          onPrev={handlePrev}
+          onNext={handleNext}
+          onToday={handleToday}
           onViewModeChange={setViewMode}
         />
 
-        {/* 로딩 */}
-        {isLoading ? (
-          <div className="py-20 text-center">
-            <div className="mx-auto h-16 w-16 animate-spin rounded-full border-4 border-gray-900 border-t-transparent" />
-            <p className="mt-4 text-gray-600">식단표를 불러오는 중입니다...</p>
-          </div>
-        ) : (
-          <>
-            {/* 주간 보기 */}
-            {viewMode === 'week' && <WeekView weekDays={getWeekDays()} onMealClick={setSelectedMeal} />}
+        {/* 주간 보기 */}
+        {viewMode === 'week' && <WeekTab weekDays={getWeekDays()} onMealClick={setSelectedMeal} />}
 
-            {/* 월간 보기 */}
-            {viewMode === 'month' && <MonthView monthDays={getMonthDays()} onMealClick={setSelectedMeal} />}
-          </>
-        )}
+        {/* 월간 보기 */}
+        {viewMode === 'month' && <MonthTab monthDays={getMonthDays()} onMealClick={setSelectedMeal} />}
       </div>
 
       {/* 상세 모달 */}
-      <MealDetailModal meal={selectedMeal} onClose={() => setSelectedMeal(null)} onImageClick={setSelectedImage} />
-
-      {/* 이미지 확대 모달 */}
-      <ImageModal imageUrl={selectedImage} onClose={() => setSelectedImage(null)} />
+      <MealDetailModal meal={selectedMeal} onClose={() => setSelectedMeal(null)} />
     </div>
   );
 }

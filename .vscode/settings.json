@@ -173,6 +173,7 @@
 
   // 스펠링 검사 제외 단어 목록
   "cSpell.userWords": [
+    "Shiwoo",
     "ShiwooMin",
     "Artiordex",
     "trivago",
@@ -194,7 +195,8 @@
     "apikey",
     "smhd",
     "huggingface",
-    "Vite"
+    "Vite",
+    "Pretendard"
   ],
 
   // 파일을 새 탭에서 열기

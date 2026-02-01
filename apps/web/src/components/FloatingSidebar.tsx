@@ -1,12 +1,17 @@
+/**
+ * Description : FloatingSidebar.tsx - 📌 Agape-Care 플로팅 사이드바 컴포넌트
+ * Author : Shiwoo Min
+ * Date : 2026-02-01
+ */
 'use client';
 
 import Link from 'next/link';
 
 const FloatingSidebar = () => (
   <>
-    {/* Desktop - 고정 사이드바 */}
+    {/* 웹 고정 플로팅 사이드바 */}
     <div className="fixed right-6 top-1/2 z-40 hidden -translate-y-1/2 space-y-0 lg:block">
-      {/* 입소안내 버튼 */}
+      {/* 입소 안내 버튼 */}
       <Link
         href="/guide/admission"
         className="flex h-16 w-44 cursor-pointer items-center gap-3 rounded-t-xl bg-[#8AA107] px-4 text-base font-semibold text-white shadow-lg transition-colors duration-300 hover:bg-[#6f8605]"
@@ -33,7 +38,7 @@ const FloatingSidebar = () => (
             />
           </svg>
         </div>
-        <span>입소안내</span>
+        <span>입소 안내</span>
       </Link>
 
       {/* 상담문의 버튼 */}
@@ -76,11 +81,11 @@ const FloatingSidebar = () => (
             />
           </svg>
         </div>
-        <span>상담문의</span>
+        <span>상담 문의</span>
       </a>
     </div>
 
-    {/* Mobile */}
+    {/* 모바일 고정 플로팅 사이드바 */}
     <div className="fixed bottom-0 left-0 right-0 z-40 flex lg:hidden">
       <Link
         href="/#admission"
@@ -107,7 +112,7 @@ const FloatingSidebar = () => (
             />
           </svg>
         </div>
-        <span>입소안내</span>
+        <span>입소 안내</span>
       </Link>
 
       <a
@@ -148,7 +153,7 @@ const FloatingSidebar = () => (
             />
           </svg>
         </div>
-        <span>상담문의</span>
+        <span>상담 문의</span>
       </a>
     </div>
   </>

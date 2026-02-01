@@ -1,3 +1,9 @@
+/**
+ * Description : Breadcrumb.tsx - 📌 Agape-Care 브레드크럼 컴포넌트
+ * Author : Shiwoo Min
+ * Date : 2026-02-01
+ */
+
 'use client';
 
 import Link from 'next/link';
@@ -7,25 +13,26 @@ interface Crumb {
   href?: string;
 }
 
-export default function HeroBreadcrumb({ items }: { readonly items: Crumb[] }) {
+export default function Breadcrumb({ items }: { readonly items: Crumb[] }) {
   return (
-    <div className="w-full border-b bg-white">
-      <div className="mx-auto max-w-7xl px-4">
-        <div className="flex items-center gap-2 py-4 text-sm text-gray-600">
-          {items.map((item, index) => (
-            <span key={item.label} className="flex items-center gap-2">
-              {item.href ? (
-                <Link href={item.href} className="hover:text-gray-800">
-                  {item.label}
-                </Link>
-              ) : (
-                <span className="font-semibold text-gray-800">{item.label}</span>
-              )}
+    <div className="mx-auto max-w-[90%] px-4 py-5">
+      <div className="flex items-center gap-2 py-4 text-sm text-gray-600">
+        {items.map((item, index) => (
+          <span key={item.label} className="flex items-center gap-2">
+            {/* 첫 번째 뎁스만 링크 */}
+            {index === 0 && item.href ? (
+              <Link href={item.href} className="transition hover:text-gray-800">
+                {item.label}
+              </Link>
+            ) : (
+              <span className={index === items.length - 1 ? 'font-semibold text-gray-800' : 'text-gray-700'}>
+                {item.label}
+              </span>
+            )}
 
-              {index < items.length - 1 && <i className="ri-arrow-right-s-line text-gray-400" />}
-            </span>
-          ))}
-        </div>
+            {index < items.length - 1 && <i className="ri-arrow-right-s-line text-gray-400" />}
+          </span>
+        ))}
       </div>
     </div>
   );

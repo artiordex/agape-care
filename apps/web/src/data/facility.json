@@ -1,0 +1,219 @@
+{
+  "generalInfo": [
+    { "category": "시설 구분", "content": "노인요양시설" },
+    { "category": "시설 유형", "content": "소규모 정원형" },
+    { "category": "정원", "content": "29명" },
+    { "category": "현원", "content": "28명" },
+    { "category": "시설장", "content": "김영희" },
+    { "category": "개원일", "content": "2024년 1월 1일" },
+    { "category": "소재지", "content": "경기도 광명시 ○○○로 123" },
+    { "category": "대지면적", "content": "500㎡" },
+    { "category": "건물면적", "content": "400㎡" },
+    { "category": "건물구조", "content": "철근콘크리트조 2층" }
+  ],
+  "roomStatus": {
+    "bedrooms": {
+      "1인실": 2,
+      "2인실": 23,
+      "3인실": 6,
+      "4인실": 2
+    },
+    "특양실": 1,
+    "사무실": 1,
+    "요양보호사실": 3,
+    "자원봉사자실": 1
+  },
+  "facilityStatus": {
+    "의료재활실": 1,
+    "물리치료실": 1,
+    "프로그램실": 1,
+    "식당 및 조리실": 1,
+    "재난대비시설": 1,
+    "화장실": 28,
+    "목욕실": 1,
+    "세탁장 및 건조장": 1
+  },
+
+  "rooms": [
+    {
+      "id": 1,
+      "name": "1인실",
+      "size": "15평",
+      "capacity": "1명",
+      "features": ["개인 화장실", "냉난방 시설", "개인 TV", "수납공간", "비상벨"],
+      "image": "/images/sample.svg",
+      "galleryImages": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "2인실",
+      "size": "20평",
+      "capacity": "2명",
+      "features": ["개인 침대", "공용 화장실", "냉난방 시설", "개인 수납장", "비상벨"],
+      "image": "/images/sample.svg",
+      "galleryImages": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "4인실",
+      "size": "30평",
+      "capacity": "4명",
+      "features": ["개인 침대", "공용 화장실", "냉난방 시설", "개인 수납장", "공용 TV"],
+      "image": "/images/sample.svg",
+      "galleryImages": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    }
+  ],
+
+  "commonAreas": [
+    {
+      "id": 1,
+      "name": "식당",
+      "description": "건강하고 맛있는 식사를 제공하는 쾌적한 식당",
+      "features": ["영양사 관리", "계절 메뉴", "개인 식단 관리", "쾌적한 환경"],
+      "image": "/images/sample.svg",
+      "galleryImages": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "물리치료실",
+      "description": "전문 치료사가 상주하는 재활 치료 공간",
+      "features": ["전문 치료사", "최신 장비", "개인 맞춤 치료", "재활 프로그램"],
+      "image": "/images/sample.svg",
+      "galleryImages": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "휴게실",
+      "description": "편안한 휴식과 여가 활동을 위한 공간",
+      "features": ["편안한 소파", "TV 시청", "독서 공간", "차 마시기"],
+      "image": "/images/sample.svg",
+      "galleryImages": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "프로그램실",
+      "description": "다양한 활동과 프로그램을 진행하는 다목적 공간",
+      "features": ["인지 활동", "미술 치료", "음악 치료", "그룹 활동"],
+      "image": "/images/sample.svg",
+      "galleryImages": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "정원",
+      "description": "자연을 느낄 수 있는 야외 휴식 공간",
+      "features": ["산책로", "벤치", "화단", "그늘막"],
+      "image": "/images/sample.svg",
+      "galleryImages": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "목욕실",
+      "description": "안전하고 편안한 목욕 시설",
+      "features": ["안전 손잡이", "미끄럼 방지", "온수 공급", "개인 프라이버시"],
+      "image": "/images/sample.svg",
+      "galleryImages": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    }
+  ],
+
+  "floors": [
+    {
+      "floor": "1층",
+      "areas": ["접수 및 상담실", "물리치료실", "프로그램실", "식당", "주방"],
+      "icon": "ri-building-line"
+    },
+    {
+      "floor": "2층",
+      "areas": ["1인실 (10실)", "2인실 (8실)", "간호사실", "목욕실"],
+      "icon": "ri-building-2-line"
+    },
+    {
+      "floor": "3층",
+      "areas": ["4인실 (6실)", "면회실", "휴게실", "야외 테라스"],
+      "icon": "ri-building-3-line"
+    }
+  ],
+
+  "safetyFeatures": [
+    {
+      "icon": "ri-video-line",
+      "title": "CCTV 24시간 모니터링",
+      "description": "모든 복도와 출입구에 CCTV를 설치하여 어르신의 안전을 지킵니다"
+    },
+    {
+      "icon": "ri-footprint-line",
+      "title": "미끄럼 방지 바닥",
+      "description": "낙상 사고를 예방하기 위한 미끄럼 방지 바닥재를 사용합니다"
+    },
+    {
+      "icon": "ri-alarm-warning-line",
+      "title": "화재감지 시스템",
+      "description": "최신 화재감지 및 스프링클러 시스템으로 화재에 대비합니다"
+    },
+    {
+      "icon": "ri-notification-3-line",
+      "title": "비상벨 설치",
+      "description": "각 객실과 화장실에 비상벨을 설치하여 신속한 대응이 가능합니다"
+    },
+    {
+      "icon": "ri-hand-heart-line",
+      "title": "손잡이 설치",
+      "description": "복도와 화장실에 안전 손잡이를 설치하여 이동을 돕습니다"
+    },
+    {
+      "icon": "ri-door-lock-line",
+      "title": "출입 통제 시스템",
+      "description": "무단 외출을 방지하기 위한 출입 통제 시스템을 운영합니다"
+    }
+  ],
+  "cctvInfo": {
+    "location": "복도, 출입구, 공용 공간",
+    "time": "24시간",
+    "retention": "30일",
+    "manager": "시설장 김미영"
+  }
+}

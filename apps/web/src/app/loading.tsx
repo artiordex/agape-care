@@ -1,3 +1,9 @@
+/**
+ * Description : loading.tsx - 📌 Agape-Care 로딩 페이지
+ * Author : Shiwoo Min
+ * Date : 2026-02-01
+ */
+
 'use client';
 
 import Image from 'next/image';
@@ -9,7 +15,7 @@ export default function Loading() {
     '서비스 준비 중입니다...',
     '잠시만 기다려주세요...',
     '안전한 연결을 진행 중입니다...',
-    '조금만 더 기다려 주세요 🌿',
+    '조금만 더 기다려 주세요',
   ];
 
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);

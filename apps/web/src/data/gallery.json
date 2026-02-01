@@ -1,34 +1,441 @@
-[
-  {
-    "id": 1,
-    "title": "어르신 생신 행사 🎉",
-    "category": "행사",
-    "date": "2026-01-10",
-    "description": "어르신 생신을 축하드리는 행사 사진입니다.",
-    "images": ["/img/gallery/sample-1.jpg"]
-  },
-  {
-    "id": 2,
-    "title": "점심 식사 시간 🍱",
-    "category": "일상",
-    "date": "2026-01-07",
-    "description": "맛있는 점심을 드시는 모습입니다.",
-    "images": ["/img/gallery/sample-2.jpg", "/img/gallery/sample-3.jpg"]
-  },
-  {
-    "id": 3,
-    "title": "인지 프로그램 활동",
-    "category": "인지프로그램",
-    "date": "2026-01-03",
-    "description": "어르신들의 인지 기능 향상 활동입니다.",
-    "images": ["/img/gallery/sample-4.jpg"]
-  },
-  {
-    "id": 4,
-    "title": "산책하는 모습 🌿",
-    "category": "여가활동",
-    "date": "2025-12-30",
-    "description": "날씨 좋은 날 야외 산책 사진입니다.",
-    "images": ["/img/gallery/sample-5.jpg"]
-  }
-]
+{
+  "galleries": [
+    {
+      "id": "1",
+      "title": "2026년 설날 행사 🎊",
+      "category": "행사",
+      "date": "2026-01-29",
+      "description": "어르신들과 함께하는 즐겁고 행복한 설날 행사입니다. 떡국도 먹고 윷놀이도 하며 즐거운 시간을 보냈습니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "2",
+      "title": "어르신 생신 축하 파티 🎂",
+      "category": "행사",
+      "date": "2026-02-05",
+      "description": "2월에 생신을 맞으신 어르신들을 위한 축하 파티입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "3",
+      "title": "점심 식사 시간 🍱",
+      "category": "일상",
+      "date": "2026-02-03",
+      "description": "맛있는 점심 식사를 드시는 어르신들의 모습입니다.",
+      "images": ["/images/sample.svg", "/images/sample.svg", "/images/sample.svg"]
+    },
+    {
+      "id": "4",
+      "title": "오전 간식 시간 ☕",
+      "category": "일상",
+      "date": "2026-02-02",
+      "description": "오전에 간식을 드시며 담소를 나누는 시간입니다.",
+      "images": ["/images/sample.svg", "/images/sample.svg"]
+    },
+    {
+      "id": "5",
+      "title": "인지 활동 - 퍼즐 맞추기 🧩",
+      "category": "인지프로그램",
+      "date": "2026-02-01",
+      "description": "두뇌 활동을 위한 퍼즐 맞추기 프로그램입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "6",
+      "title": "회상 치료 프로그램 📷",
+      "category": "인지프로그램",
+      "date": "2026-01-31",
+      "description": "옛날 사진을 보며 추억을 회상하는 프로그램입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "7",
+      "title": "음악 치료 시간 🎵",
+      "category": "여가활동",
+      "date": "2026-01-30",
+      "description": "좋아하시는 노래를 들으며 힐링하는 시간입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "8",
+      "title": "야외 산책 🌳",
+      "category": "여가활동",
+      "date": "2026-01-28",
+      "description": "날씨 좋은 날 야외에서 산책하는 모습입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "9",
+      "title": "미술 치료 - 색칠하기 🎨",
+      "category": "여가활동",
+      "date": "2026-01-27",
+      "description": "다양한 색깔로 그림을 색칠하는 미술 치료 시간입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "10",
+      "title": "설날 윷놀이 대회 🎲",
+      "category": "행사",
+      "date": "2026-01-26",
+      "description": "설날을 맞아 전통 윷놀이 대회를 진행했습니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "11",
+      "title": "아침 체조 시간 💪",
+      "category": "일상",
+      "date": "2026-01-25",
+      "description": "건강한 하루를 위한 아침 체조 시간입니다.",
+      "images": ["/images/sample.svg", "/images/sample.svg", "/images/sample.svg"]
+    },
+    {
+      "id": "12",
+      "title": "인지 활동 - 숫자 게임 🔢",
+      "category": "인지프로그램",
+      "date": "2026-01-24",
+      "description": "숫자를 활용한 두뇌 활동 게임입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "13",
+      "title": "원예 치료 활동 🌺",
+      "category": "여가활동",
+      "date": "2026-01-23",
+      "description": "화분에 꽃을 심고 가꾸는 원예 치료 시간입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "14",
+      "title": "신년 떡국 나눔 행사 🥣",
+      "category": "행사",
+      "date": "2026-01-22",
+      "description": "새해를 맞이하여 떡국을 함께 나누는 행사입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "15",
+      "title": "오후 간식 타임 🍰",
+      "category": "일상",
+      "date": "2026-01-21",
+      "description": "맛있는 간식을 드시며 이야기를 나누는 시간입니다.",
+      "images": ["/images/sample.svg", "/images/sample.svg"]
+    },
+    {
+      "id": "16",
+      "title": "단어 맞추기 게임 📝",
+      "category": "인지프로그램",
+      "date": "2026-01-20",
+      "description": "단어를 맞추며 기억력을 향상시키는 프로그램입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "17",
+      "title": "노래 교실 🎤",
+      "category": "여가활동",
+      "date": "2026-01-19",
+      "description": "좋아하시는 노래를 함께 부르는 시간입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "18",
+      "title": "겨울 송년회 🎉",
+      "category": "행사",
+      "date": "2026-01-18",
+      "description": "2025년을 마무리하는 송년회 행사입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "19",
+      "title": "식사 준비 모습 🍳",
+      "category": "일상",
+      "date": "2026-01-17",
+      "description": "맛있는 식사를 준비하는 모습입니다.",
+      "images": ["/images/sample.svg", "/images/sample.svg", "/images/sample.svg"]
+    },
+    {
+      "id": "20",
+      "title": "기억력 향상 프로그램 🧠",
+      "category": "인지프로그램",
+      "date": "2026-01-16",
+      "description": "다양한 활동을 통해 기억력을 향상시키는 프로그램입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "21",
+      "title": "손유희 시간 ✋",
+      "category": "여가활동",
+      "date": "2026-01-15",
+      "description": "손을 움직이며 즐겁게 놀이하는 시간입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "22",
+      "title": "새해 복 많이 받으세요 🎊",
+      "category": "행사",
+      "date": "2026-01-14",
+      "description": "새해 인사를 나누는 따뜻한 시간입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "23",
+      "title": "휴식 시간 ☕",
+      "category": "일상",
+      "date": "2026-01-13",
+      "description": "편안하게 휴식을 취하시는 모습입니다.",
+      "images": ["/images/sample.svg", "/images/sample.svg"]
+    },
+    {
+      "id": "24",
+      "title": "카드 게임 🃏",
+      "category": "인지프로그램",
+      "date": "2026-01-12",
+      "description": "카드를 활용한 재미있는 두뇌 게임입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "25",
+      "title": "영화 감상 시간 🎬",
+      "category": "여가활동",
+      "date": "2026-01-11",
+      "description": "함께 영화를 보며 즐거운 시간을 보냅니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "26",
+      "title": "크리스마스 특별 행사 🎄",
+      "category": "행사",
+      "date": "2026-01-10",
+      "description": "크리스마스를 맞이한 특별한 행사입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "27",
+      "title": "아침 식사 시간 🌅",
+      "category": "일상",
+      "date": "2026-01-09",
+      "description": "건강한 아침 식사를 드시는 모습입니다.",
+      "images": ["/images/sample.svg", "/images/sample.svg", "/images/sample.svg"]
+    },
+    {
+      "id": "28",
+      "title": "색종이 접기 활동 📄",
+      "category": "인지프로그램",
+      "date": "2026-01-08",
+      "description": "손으로 색종이를 접으며 집중력을 기르는 활동입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "29",
+      "title": "실버 요가 시간 🧘",
+      "category": "여가활동",
+      "date": "2026-01-07",
+      "description": "몸과 마음을 편안하게 하는 요가 시간입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    },
+    {
+      "id": "30",
+      "title": "연말 감사 행사 🙏",
+      "category": "행사",
+      "date": "2026-01-06",
+      "description": "한 해 동안의 감사함을 나누는 행사입니다.",
+      "images": [
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg",
+        "/images/sample.svg"
+      ]
+    }
+  ]
+}

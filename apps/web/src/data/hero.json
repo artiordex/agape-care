@@ -5,20 +5,25 @@
       "description": "아가페요양센터는 어르신들의 행복하고 건강한 노후를 위해 최선을 다하고 있습니다.",
       "image": "/images/hero/intro-greeting.jpg"
     },
-    "introduction": {
-      "title": "센터소개",
-      "description": "아가페요양센터는 어르신들의 행복하고 건강한 노후를 위해 최선을 다하고 있습니다.",
-      "image": "/images/hero/intro-introduction.jpg"
+    "vision": {
+      "title": "비젼",
+      "description": "아가페요양센터의 비전을 소개합니다.",
+      "image": "/images/hero/intro-vision.jpg"
     },
     "history": {
       "title": "연혁",
       "description": "아가페요양센터의 발자취와 성장 과정을 소개합니다.",
       "image": "/images/hero/intro-history.jpg"
     },
-    "staff": {
-      "title": "직원소개",
+    "organization": {
+      "title": "조직 현황",
       "description": "전문성과 경험을 갖춘 아가페요양센터의 케어팀을 소개합니다.",
-      "image": "/images/hero/intro-staff.jpg"
+      "image": "/images/hero/intro-organization.jpg"
+    },
+    "facility-overview": {
+      "title": "기관 현황",
+      "description": "아가페요양센터는 어르신들의 행복하고 건강한 노후를 위해 최선을 다하고 있습니다.",
+      "image": "/images/hero/intro-facility-overview.jpg"
     },
     "location": {
       "title": "오시는 길",
@@ -57,11 +62,6 @@
       "description": "전문 영양사가 관리하는 맞춤형 건강 식단을 제공합니다.",
       "image": "/images/hero/services-nutrition.jpg"
     },
-    "admission-process": {
-      "title": "입소절차안내",
-      "description": "입소부터 생활까지, 전 과정을 상세히 안내해 드립니다.",
-      "image": "/images/hero/services-admission.jpg"
-    },
     "daily-life": {
       "title": "하루 일과 / 생활안내",
       "description": "규칙적이고 건강한 일상 생활 루틴을 소개합니다.",
@@ -92,14 +92,19 @@
       "image": "/images/hero/guide-cost.jpg"
     },
     "visit": {
-      "title": "면회 안내",
+      "title": "면회 문의",
       "description": "사랑하는 가족을 만나실 수 있는 면회 시간과 방법을 안내합니다.",
       "image": "/images/hero/guide-visit.jpg"
     },
     "contact": {
-      "title": "상담신청",
+      "title": "상담 문의",
       "description": "입소 상담 및 문의사항은 언제든지 연락 주시기 바랍니다.",
       "image": "/images/hero/guide-contact.jpg"
+    },
+    "long-term-care": {
+      "title": "장기요양보험",
+      "description": "장기요양보험에 대한 상세한 정보를 안내해 드립니다.",
+      "image": "/images/hero/guide-long-term-care.jpg"
     }
   },
   "notices": {

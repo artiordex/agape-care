@@ -1,36 +1,41 @@
 [
   {
-    "year": "2024",
+    "year": "2026",
     "events": [
       {
-        "month": "03",
-        "title": "장기요양기관 평가 A등급 획득",
-        "description": "보건복지부 주관 장기요양기관 평가에서 최우수 등급 획득"
+        "month": "06",
+        "title": "아가페 요양원 정식 개장",
+        "description": "29인 정원 소규모 프리미엄 요양 시설 정식 오픈 및 입소 시작",
+        "image": "/images/sample.svg"
       },
       {
-        "month": "01",
-        "title": "신규 재활치료실 확장",
-        "description": "최신 재활 장비 도입 및 치료 공간 확대"
+        "month": "05",
+        "title": "입소 상담 및 사전 예약 실시",
+        "description": "보호자 대상 시설 투어 및 개별 맞춤 케어 상담 진행",
+        "image": "/images/sample.svg"
+      },
+      {
+        "month": "03",
+        "title": "전문 인력 채용 및 직무 교육",
+        "description": "간호사, 요양보호사 등 분야별 전문 인력 구성 및 아가페 케어 교육",
+        "image": "/images/sample.svg"
       }
     ]
   },
   {
-    "year": "2023",
+    "year": "2025",
     "events": [
       {
+        "month": "12",
+        "title": "시설 완공 및 최신 설비 도입",
+        "description": "어르신 안전을 위한 무장애(Barrier-Free) 설계 및 재활 전문 장비 설치 완료",
+        "image": "/images/sample.svg"
+      },
+      {
         "month": "11",
-        "title": "인지케어 프로그램 우수사례 선정",
-        "description": "지역 보건소 주관 우수 프로그램 사례로 선정"
-      },
-      {
-        "month": "06",
-        "title": "가족 만족도 조사 95% 달성",
-        "description": "입소자 가족 대상 만족도 조사에서 높은 평가"
-      },
-      {
-        "month": "03",
-        "title": "직원 전문교육 프로그램 시행",
-        "description": "요양보호사 및 간호사 대상 전문 교육 강화"
+        "title": "시설 완공 및 최신 설비 도입",
+        "description": "어르신 안전을 위한 무장애(Barrier-Free) 설계 및 재활 전문 장비 설치 완료",
+        "image": "/images/sample.svg"
       }
     ]
   }

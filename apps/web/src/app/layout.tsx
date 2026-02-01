@@ -1,15 +1,14 @@
-import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+/**
+ * Description : layout.tsx - 📌 Agape-Care 메인 레이아웃
+ * Author : Shiwoo Min
+ * Date : 2026-02-01
+ */
 
+import type { Metadata, Viewport } from 'next';
 import AppShell from '@/components/AppShell';
 import QueryProvider from '@/providers/query-provider';
 
 import './globals.css';
-
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: 'Agape Care 요양원',
@@ -26,7 +25,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="ko">
-      <body className={inter.className}>
+      <body>
         <QueryProvider>
           <AppShell>{children}</AppShell>
         </QueryProvider>

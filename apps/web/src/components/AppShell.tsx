@@ -1,3 +1,9 @@
+/**
+ * Description : AppShell.tsx - 📌 Agape-Care 앱 쉘 컴포넌트
+ * Author : Shiwoo Min
+ * Date : 2026-02-01
+ */
+
 'use client';
 
 import type { ReactNode } from 'react';

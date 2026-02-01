@@ -1,3 +1,9 @@
+/**
+ * Description : page.tsx - 📌 Agape-Care 메인 페이지
+ * Author : Shiwoo Min
+ * Date : 2026-02-01
+ */
+
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -10,7 +16,7 @@ import IntroSection from './section/IntroSection';
 import NewsSection from './section/NewsSection';
 import ServicesSection from './section/ServicesSection';
 
-// Intersection Observer Scroll Animation
+// 스크롤 애니메이션
 function AnimatedSection({ children, delay = 0 }: Readonly<{ children: React.ReactNode; delay?: number }>) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -47,6 +53,7 @@ function AnimatedSection({ children, delay = 0 }: Readonly<{ children: React.Rea
   );
 }
 
+// 메인 페이지
 export default function HomePage() {
   return (
     <div className="bg-white">

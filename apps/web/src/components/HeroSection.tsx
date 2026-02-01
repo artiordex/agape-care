@@ -1,3 +1,9 @@
+/**
+ * Description : HeroSection.tsx - 📌 Agape-Care 메인 섹션 컴포넌트
+ * Author : Shiwoo Min
+ * Date : 2026-02-01
+ */
+
 'use client';
 
 interface HeroProps {

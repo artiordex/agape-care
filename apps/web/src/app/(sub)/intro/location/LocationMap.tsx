@@ -1,26 +1,51 @@
+/**
+ * Description : LocationMap.tsx - 📌 위치 지도 섹션
+ * Author : Shiwoo Min
+ * Date : 2026-02-01
+ */
+
 'use client';
 
 import { motion } from 'framer-motion';
 
 export default function LocationMap() {
+  // 실제 사용 시: 네이버 지도에서 '공유' -> 'HTML 태그 복사'를 통해 받은 src 주소
+  const naverMapSrc =
+    'https://map.naver.com/v5/search/서울특별시%20중구%20세종대로%20110/address/14135017.348618764,3752002.503468087,15,0,0,0,dh';
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
-      className="lg:col-span-2"
+      className="font-['Pretendard'] lg:col-span-2"
     >
-      <div className="h-[500px] overflow-hidden rounded-2xl bg-[#F9F8F6] shadow-lg">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.8385533315877!2d126.97796931531622!3d37.566535779797614!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca2eb849d1f57%3A0x7e4a8a0d88d1e6e!2sSeoul%20City%20Hall!5e0!3m2!1sen!2skr!4v1234567890123!5m2!1sen!2skr"
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
-          allowFullScreen
-          loading="lazy"
-          title="센터 위치"
-        />
+      <div className="group relative h-[700px] overflow-hidden rounded-2xl border border-gray-200 bg-white p-2 shadow-[0_20px_50px_rgba(0,0,0,0.05)]">
+        {/* 지도를 감싸는 내부 프레임 */}
+        <div className="h-full w-full overflow-hidden rounded-xl bg-gray-50">
+          <iframe
+            src={naverMapSrc}
+            width="100%"
+            height="100%"
+            style={{ border: 0, filter: 'grayscale(0.1) contrast(1.1)' }} // 지도 색감을 살짝 정돈
+            allowFullScreen
+            loading="lazy"
+            title="네이버 지도 - 아가페 요양원"
+          />
+        </div>
+
+        {/* 지도 우측 하단 안내 뱃지 */}
+        <div className="absolute bottom-6 right-6 z-10 hidden md:block">
+          <a
+            href="https://map.naver.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 rounded-full border border-gray-100 bg-white px-4 py-2 text-xs font-bold text-gray-700 shadow-lg transition-transform hover:scale-105"
+          >
+            <span className="h-2 w-2 rounded-full bg-[#03C75A]" />네이버 지도에서 크게보기
+          </a>
+        </div>
       </div>
     </motion.div>
   );

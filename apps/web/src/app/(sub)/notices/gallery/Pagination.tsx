@@ -1,7 +1,15 @@
+/**
+ * Description : Pagination.tsx - 📌 갤러리 페이지네이션
+ * Author : Shiwoo Min
+ * Date : 2026-02-01
+ */
+
+'use client';
+
 interface Props {
   totalPages: number;
   currentPage: number;
-  onChange: (p: number) => void;
+  onChange: (page: number) => void;
 }
 
 export default function Pagination({ totalPages, currentPage, onChange }: Props) {

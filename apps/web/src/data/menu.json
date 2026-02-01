@@ -7,10 +7,10 @@
       "path": "/intro/greeting"
     },
     {
-      "name": "센터소개",
-      "description": "센터소개",
-      "icon": "ri-message-3-line",
-      "path": "/intro/introduction"
+      "name": "비젼",
+      "description": "미션 및 비전",
+      "icon": "ri-lightbulb-line",
+      "path": "/intro/vision"
     },
     {
       "name": "연혁",
@@ -19,10 +19,16 @@
       "path": "/intro/history"
     },
     {
-      "name": "직원소개",
-      "description": "전문 케어팀",
+      "name": "조직 현황",
+      "description": "조직 현황",
       "icon": "ri-team-line",
-      "path": "/intro/staff"
+      "path": "/intro/organization"
+    },
+    {
+      "name": "기관 현황",
+      "description": "기관 현황",
+      "icon": "ri-message-3-line",
+      "path": "/intro/facility-overview"
     },
     {
       "name": "오시는 길",
@@ -70,12 +76,6 @@
       "path": "/services/nutrition-care"
     },
     {
-      "name": "입소절차안내",
-      "description": "입소 절차 상세 안내",
-      "icon": "ri-file-list-3-line",
-      "path": "/services/admission-process"
-    },
-    {
       "name": "하루 일과 / 생활안내",
       "description": "규칙적인 일상 생활",
       "icon": "ri-calendar-line",
@@ -91,7 +91,7 @@
 
   "facilitySubMenu": [
     {
-      "name": "시설안내",
+      "name": "시설 안내",
       "description": "시설 전체 안내",
       "icon": "ri-building-line",
       "path": "/facility"
@@ -100,7 +100,7 @@
 
   "admissionSubMenu": [
     {
-      "name": "입소안내",
+      "name": "입소 안내",
       "description": "입소 절차 안내",
       "icon": "ri-door-open-line",
       "path": "/guide/admission"
@@ -112,16 +112,22 @@
       "path": "/guide/cost"
     },
     {
-      "name": "면회 안내",
+      "name": "면회 문의",
       "description": "면회 시간 및 예약",
       "icon": "ri-parent-line",
       "path": "/guide/visit"
     },
     {
-      "name": "상담신청",
+      "name": "상담 문의",
       "description": "입소 상담 신청",
       "icon": "ri-customer-service-line",
       "path": "/guide/contact"
+    },
+    {
+      "name": "장기요양 신청 절차",
+      "description": "장기요양 신청 절차",
+      "icon": "ri-file-list-3-line",
+      "path": "/guide/long-term-care"
     }
   ],
 
@@ -163,9 +169,10 @@
       "title": "기관소개",
       "items": [
         { "name": "인사말", "path": "/intro/greeting" },
-        { "name": "센터소개", "path": "/intro/introduction" },
+        { "name": "비젼", "path": "/intro/vision" },
         { "name": "연혁", "path": "/intro/history" },
-        { "name": "직원소개", "path": "/intro/staff" },
+        { "name": "조직 현황", "path": "/intro/organization" },
+        { "name": "기관 현황", "path": "/intro/facility-overview" },
         { "name": "오시는 길", "path": "/intro/location" }
       ]
     },
@@ -178,7 +185,6 @@
         { "name": "재활치료서비스", "path": "/services/rehabilitation" },
         { "name": "보육훈련 3단계 프로그램", "path": "/services/training-program" },
         { "name": "영양관리", "path": "/services/nutrition-care" },
-        { "name": "입소절차안내", "path": "/services/admission-process" },
         { "name": "하루 일과 / 생활안내", "path": "/services/daily-life" },
         { "name": "개별 케어 서비스", "path": "/services/individual-care" }
       ]
@@ -190,10 +196,11 @@
     {
       "title": "이용안내",
       "items": [
-        { "name": "입소안내", "path": "/guide/admission" },
+        { "name": "입소 안내", "path": "/guide/admission" },
         { "name": "입소 비용 안내", "path": "/guide/cost" },
-        { "name": "면회 안내", "path": "/guide/visit" },
-        { "name": "상담신청", "path": "/guide/contact" }
+        { "name": "면회 문의", "path": "/guide/visit" },
+        { "name": "상담 문의", "path": "/guide/contact" },
+        { "name": "장기요양 신청 절차", "path": "/guide/long-term-care" }
       ]
     },
     {

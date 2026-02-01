@@ -1,15 +1,22 @@
-import VisitRulesSection from './VisitRulesSection';
-import VisitGuidelinesSection from './VisitGuidelinesSection';
-import VisitFormSection from './VisitFormSection';
-import VisitContactSection from './VisitContactSection';
+/**
+ * Description : page.tsx - 📌 Agape-Care 면회 안내 페이지
+ * Author : Shiwoo Min
+ * Date : 2026-02-01
+ */
 
-export default function VisitPage() {
+import VisitContactSection from './VisitContactSection';
+import VisitGuidelinesSection from './VisitGuidelinesSection';
+import VisitRulesSection from './VisitRulesSection';
+
+export default function Page() {
   return (
-    <div className="bg-white">
+    <main className="bg-white">
+      {/* 면회 규정 */}
       <VisitRulesSection />
+      {/* 면회 안내 */}
       <VisitGuidelinesSection />
-      <VisitFormSection />
+      {/* 면회 문의 */}
       <VisitContactSection />
-    </div>
+    </main>
   );
 }

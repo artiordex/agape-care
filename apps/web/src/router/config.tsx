@@ -6,11 +6,11 @@ import { Outlet, RouteObject } from 'react-router-dom';
 const HomePage = lazy(() => import('../app/page'));
 
 // Intro Pages
-const IntroPage = lazy(() => import('../app/(sub)/intro/introduction/page'));
+const IntroPage = lazy(() => import('../app/(sub)/intro/vision/page'));
 const IntroGreetingPage = lazy(() => import('../app/(sub)/intro/greeting/page'));
 const IntroHistoryPage = lazy(() => import('../app/(sub)/intro/history/page'));
 const IntroLocationPage = lazy(() => import('../app/(sub)/intro/location/page'));
-const IntroStaffPage = lazy(() => import('../app/(sub)/intro/staff/page'));
+const IntroStaffPage = lazy(() => import('../app/(sub)/intro/organization/page'));
 
 // Facility Pages
 const FacilityPage = lazy(() => import('../app/(sub)/facility/page'));

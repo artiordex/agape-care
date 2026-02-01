@@ -1,4 +1,21 @@
+/**
+ * Description : globals.css - 📌 Agape-Care 전역 스타일
+ * Author : Shiwoo Min
+ * Date : 2026-02-01
+ */
+
 @import url('https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.min.css');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/fonts/PretendardVariable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+html {
+  font-family: 'Pretendard', sans-serif;
+}
