@@ -1,6 +1,12 @@
+/**
+ * Description : page.tsx - 📌 게시판 목록 페이지
+ * Author : Shiwoo Min
+ * Date : 2026-02-02
+ */
+
 'use client';
 
-import { api } from '@/lib/api';
+import boardData from '@/data/board.json';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -8,7 +14,6 @@ import BoardHeader from './BoardHeader';
 import BoardMobileList from './BoardMobileList';
 import BoardTable from './BoardTable';
 import Pagination from './Pagination';
-import WritePostModal from './WritePostModal';
 
 interface Post {
   id: string;
@@ -24,89 +29,59 @@ interface Post {
 
 export default function BoardPage() {
   const router = useRouter();
-  const [showWriteModal, setShowWriteModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 10;
 
-  // API 호출
-  const { data, isLoading, refetch } = api.content.getPosts.useQuery(
-    ['content', 'posts', { boardKey: 'FREE', page: currentPage, limit: postsPerPage }],
-    {
-      query: {
-        boardKey: 'FREE', // TODO: 키 동적 처리 고려
-        page: currentPage,
-        limit: postsPerPage,
-      },
-    },
-  );
+  // JSON 데이터에서 게시글 로드
+  const allPosts: Post[] = boardData.posts;
 
-  const postsRaw = data?.status === 200 ? data.body.data : [];
+  // 페이지네이션
+  const startIndex = (currentPage - 1) * postsPerPage;
+  const currentPosts = allPosts.slice(startIndex, startIndex + postsPerPage);
+  const totalPages = Math.ceil(allPosts.length / postsPerPage) || 1;
 
-  // 데이터 가공
-  const posts: Post[] = postsRaw.map(post => ({
-    id: post.id,
-    title: post.title,
-    writer_name: post.authorName || '익명',
-    content: post.content,
-    view_count: post.viewCount || 0,
-    image_urls: post.images || [],
-    is_hidden: post.isHidden || false,
-    created_at: post.createdAt.toString(), // Date 객체일 수 있으므로 변환 필요
-    updated_at: post.updatedAt.toString(),
-  }));
-
+  // 게시글 클릭 핸들러
   const handlePostClick = (post: Post) => {
     router.push(`/notices/board/${post.id}`);
   };
 
-  const handleWriteSuccess = () => {
-    setShowWriteModal(false);
-    refetch();
+  // 페이지 변경 핸들러
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const totalPages = Math.ceil(posts.length / postsPerPage) || 1;
-
-  // API가 토탈 카운트를 주지 않으면 페이지네이션이 정확하지 않을 수 있음.
-  // getPostsContract가 array만 리턴하므로 현재는 받아온 것 기준.
-  // 실제로는 limit만큼 받아왔다면 다음 페이지가 있을 수 있음.
-  // 여기서는 UI 로직 유지를 위해 받아온 데이터 그대로 표시.
-
   return (
-    <div className="bg-gray-50 py-12">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <BoardHeader totalPosts={posts.length} onWriteClick={() => setShowWriteModal(true)} />
+    <div className="min-h-screen bg-gray-50 py-12">
+      <div className="container mx-auto px-4">
+        {/* 헤더 */}
+        <BoardHeader totalPosts={allPosts.length} onWriteClick={() => alert('글쓰기 기능은 준비 중입니다.')} />
 
-        {isLoading ? (
-          <div className="rounded-lg border border-gray-200 bg-white py-20 text-center">
-            <div className="mx-auto h-8 w-8 animate-spin rounded-full border-4 border-gray-900 border-t-transparent" />
-          </div>
-        ) : posts.length === 0 ? (
-          <div className="rounded-lg border border-gray-200 bg-white py-20 text-center">
+        {/* 게시글 목록 */}
+        {currentPosts.length === 0 ? (
+          <div className="border border-gray-200 bg-white py-20 text-center">
             <i className="ri-article-line mb-4 text-6xl text-gray-300" />
             <p className="mb-2 text-lg font-semibold text-gray-900">등록된 게시글이 없습니다</p>
             <p className="text-sm text-gray-500">첫 번째 글을 작성해보세요!</p>
           </div>
         ) : (
           <>
+            {/* 데스크톱 테이블 */}
             <BoardTable
-              posts={posts}
-              totalPosts={posts.length}
-              startIndex={(currentPage - 1) * postsPerPage}
+              posts={currentPosts}
+              totalPosts={allPosts.length}
+              startIndex={startIndex}
               onPostClick={handlePostClick}
             />
 
-            <BoardMobileList posts={posts} onPostClick={handlePostClick} />
+            {/* 모바일 리스트 */}
+            <BoardMobileList posts={currentPosts} onPostClick={handlePostClick} />
 
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages < 1 ? 1 : totalPages}
-              onPageChange={setCurrentPage}
-            />
+            {/* 페이지네이션 */}
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
           </>
         )}
       </div>
-
-      {showWriteModal && <WritePostModal onClose={() => setShowWriteModal(false)} onSuccess={handleWriteSuccess} />}
     </div>
   );
 }

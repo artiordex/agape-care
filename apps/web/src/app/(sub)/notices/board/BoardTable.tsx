@@ -1,3 +1,9 @@
+/**
+ * Description : BoardTable.tsx - 📌 게시판 테이블 (데스크톱)
+ * Author : Shiwoo Min
+ * Date : 2026-02-02
+ */
+
 interface Post {
   id: string;
   title: string;
@@ -19,21 +25,21 @@ interface BoardTableProps {
 
 export default function BoardTable({ posts, totalPosts, startIndex, onPostClick }: BoardTableProps) {
   return (
-    <div className="hidden overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm md:block">
+    <div className="hidden overflow-hidden border border-gray-200 bg-white shadow-sm md:block">
       <table className="w-full">
-        <thead className="border-b-2 border-gray-900 bg-gray-50">
+        <thead className="border-b-2 border-[#5C8D5A]/30 bg-[#5C8D5A]/5">
           <tr>
-            <th className="px-6 py-4 text-center text-sm font-bold text-gray-900" style={{ width: '80px' }}>
+            <th className="px-6 py-4 text-center text-sm font-bold text-gray-700" style={{ width: '80px' }}>
               번호
             </th>
-            <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">제목</th>
-            <th className="px-6 py-4 text-center text-sm font-bold text-gray-900" style={{ width: '120px' }}>
+            <th className="px-6 py-4 text-left text-sm font-bold text-gray-700">제목</th>
+            <th className="px-6 py-4 text-center text-sm font-bold text-gray-700" style={{ width: '120px' }}>
               작성자
             </th>
-            <th className="px-6 py-4 text-center text-sm font-bold text-gray-900" style={{ width: '120px' }}>
+            <th className="px-6 py-4 text-center text-sm font-bold text-gray-700" style={{ width: '120px' }}>
               작성일
             </th>
-            <th className="px-6 py-4 text-center text-sm font-bold text-gray-900" style={{ width: '80px' }}>
+            <th className="px-6 py-4 text-center text-sm font-bold text-gray-700" style={{ width: '80px' }}>
               조회
             </th>
           </tr>
@@ -43,16 +49,16 @@ export default function BoardTable({ posts, totalPosts, startIndex, onPostClick 
             <tr
               key={post.id}
               onClick={() => onPostClick(post)}
-              className="cursor-pointer transition-colors hover:bg-gray-50"
+              className="cursor-pointer transition-colors hover:bg-[#5C8D5A]/5"
             >
               <td className="px-6 py-4 text-center text-sm text-gray-600">{totalPosts - (startIndex + index)}</td>
               <td className="px-6 py-4">
                 <div className="flex items-center gap-3">
-                  <span className="line-clamp-1 text-sm font-medium text-gray-900 hover:text-[#5C8D5A] hover:underline">
+                  <span className="line-clamp-1 text-sm font-semibold text-gray-900 hover:text-[#5C8D5A] hover:underline">
                     {post.title}
                   </span>
                   {post.image_urls && post.image_urls.length > 0 && (
-                    <i className="ri-image-line flex-shrink-0 text-gray-400" />
+                    <i className="ri-image-line flex-shrink-0 text-[#5C8D5A]" />
                   )}
                 </div>
               </td>

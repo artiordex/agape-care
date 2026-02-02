@@ -1,3 +1,9 @@
+/**
+ * Description : BoardMobileList.tsx - 📌 게시판 모바일 리스트
+ * Author : Shiwoo Min
+ * Date : 2026-02-02
+ */
+
 interface Post {
   id: string;
   title: string;
@@ -22,12 +28,12 @@ export default function BoardMobileList({ posts, onPostClick }: BoardMobileListP
         <div
           key={post.id}
           onClick={() => onPostClick(post)}
-          className="cursor-pointer rounded-lg border border-gray-200 bg-white p-4 transition-colors hover:bg-gray-50"
+          className="cursor-pointer border border-gray-200 bg-white p-4 transition-colors hover:bg-[#5C8D5A]/5"
         >
           <div className="mb-2 flex items-start justify-between gap-2">
             <h3 className="line-clamp-1 flex-1 text-base font-semibold text-gray-900">{post.title}</h3>
             {post.image_urls && post.image_urls.length > 0 && (
-              <i className="ri-image-line flex-shrink-0 text-gray-400" />
+              <i className="ri-image-line flex-shrink-0 text-[#5C8D5A]" />
             )}
           </div>
           <div className="flex items-center gap-3 text-xs text-gray-500">
