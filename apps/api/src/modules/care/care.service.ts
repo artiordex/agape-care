@@ -66,7 +66,8 @@ export class CareService {
     return {
       id: record.id.toString() as any,
       residentId: record.residentId.toString() as any,
-      date: record.date.toISOString().split('T')[0],
+      date: record.date.toISOString().split('T')[0] as any,
+
       weight: (record.weight as any) || undefined,
       oral: (record.oral as any) || undefined,
       elimination: (record.elimination as any) || undefined,

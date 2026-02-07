@@ -136,7 +136,7 @@
       "name": "공지사항",
       "description": "중요 공지사항",
       "icon": "ri-megaphone-line",
-      "path": "/notices/announcements"
+      "path": "/notices/announcement"
     },
     {
       "name": "게시판",
@@ -206,7 +206,7 @@
     {
       "title": "알림마당",
       "items": [
-        { "name": "공지사항", "path": "/notices/announcements" },
+        { "name": "공지사항", "path": "/notices/announcement" },
         { "name": "게시판", "path": "/notices/board" },
         { "name": "갤러리", "path": "/notices/gallery" },
         { "name": "식단표", "path": "/notices/meal-plan" },

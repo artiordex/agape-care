@@ -5,7 +5,7 @@
  */
 
 import { z } from 'zod';
-import { NotificationChannelSchema, NotificationTargetTypeSchema } from './notification.schema';
+import { NotificationChannelSchema, NotificationTargetTypeSchema } from './notification.schema.js';
 
 export const ScheduledNotificationStatusSchema = z.enum(['PENDING', 'SENT', 'CANCELLED', 'FAILED']);
 

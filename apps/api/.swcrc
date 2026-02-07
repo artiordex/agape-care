@@ -12,14 +12,10 @@
     "target": "esnext",
     "keepClassNames": true,
     "loose": false,
-    "externalHelpers": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    "externalHelpers": true
   },
   "module": {
-    "type": "module",
+    "type": "commonjs",
     "strict": false,
     "strictMode": false,
     "noInterop": false

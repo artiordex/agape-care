@@ -2,7 +2,6 @@
   "name": "@agape-care/database",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "sideEffects": false,
   "files": [
     "dist"
@@ -12,12 +11,14 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
       "import": "./dist/index.js"
     }
   },
   "scripts": {
     "clean": "rimraf dist",
     "build": "tsc -p tsconfig.json",
+    "postbuild": "shx cp -r src/generated dist/generated",
     "generate": "prisma generate",
     "studio": "prisma studio",
     "migrate": "prisma migrate dev",
@@ -27,12 +28,14 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "7.3.0",
+    "@prisma/client-runtime-utils": "7.3.0",
     "dayjs": "^1.11.10",
     "pg": "^8.17.2",
     "prisma": "7.3.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/pg": "^8.16.0"
+    "@types/pg": "^8.16.0",
+    "shx": "^0.3.4"
   }
 }

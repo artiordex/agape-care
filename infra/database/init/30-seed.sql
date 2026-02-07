@@ -154,9 +154,10 @@ INSERT INTO care_tasks (resident_id, assigned_to, due_at, title, description, st
 -- 공지 / 게시판 / 갤러리
 
 -- NOTICES (공지사항)
-INSERT INTO notices (id, title, content, category, is_pinned, is_active, published_at, created_by) VALUES
-  (1, '2026년 설 명절 운영 안내', '설 연휴 기간 운영 시간 및 프로그램 안내', 'GENERAL', TRUE, TRUE, '2026-01-15 09:00:00', 2),
-  (2, '1월 정기 소방 훈련 안내', '1월 30일 소방 훈련 실시 예정', 'SAFETY', FALSE, TRUE, '2026-01-20 10:00:00', 2);
+INSERT INTO notices (id, title, content, category, is_pinned, is_active, view_count, published_at, created_by) VALUES
+  (1, '2024년 설날 연휴 운영 안내',
+  '<p>안녕하세요. 본 시설을 이용해주시는 보호자 및 가족 여러분께 진심으로 감사의 말씀을 드립니다. 2024년 설날 연휴를 맞아 시설 운영 일정 및 면회 관련 안내를 드리고자 합니다.</p><p>설 연휴 기간인 2월 9일(금)부터 2월 12일(월)까지는 안전한 환경을 위해 외부 방문 및 면회가 제한됩니다. 다만 응급상황이나 부득이한 사유가 있을 경우 사전에 시설로 전화 주시면 담당자가 안내해 드립니다. 연휴 기간에도 상주 간호 인력 및 요양보호사들이 24시간 근무하며 어르신들의 건강 상태를 면밀히 살피고, 식사 및 투약 관리 또한 정상적으로 제공될 예정입니다.</p><p>연휴 종료 후 2월 13일(화)부터는 평상시와 동일한 면회 방식으로 전환됩니다. 가족 여러분께서는 방문 전 반드시 전화로 면회 가능 여부를 확인해 주시기 바랍니다. 따뜻한 명절 보내시길 바라며, 새해에도 변함없는 신뢰와 응원 부탁드립니다.</p>',
+  'URGENT', TRUE, TRUE, 245, '2024-01-15 09:00:00', 2);
 
 -- BOARD_POSTS (게시판)
 INSERT INTO board_posts (id, board_key, title, content, author_id, view_count, is_pinned) VALUES

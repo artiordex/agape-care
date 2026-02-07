@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { IdSchema, TimestampSchema } from '../../api-contract-types';
+import { IdSchema, TimestampSchema } from '../../api-contract-types.js';
 
 /**
  * 간호 기록 데이터 (바이탈, 증상, 서술)

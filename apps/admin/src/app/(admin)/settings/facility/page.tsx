@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // 섹션 컴포넌트 Import
 import FacilityHeader from './FacilityHeader';
 import FacilityPreview from './FacilityPreview';
-import BasicInfoSection from './sections/BasicInfoSection';
-import ContactSection from './sections/ContactSection';
 import AddressSection from './sections/AddressSection';
+import BasicInfoSection from './sections/BasicInfoSection';
 import CapacitySection from './sections/CapacitySection';
+import ContactSection from './sections/ContactSection';
 import StampSection from './sections/StampSection';
 
 // 데이터 인터페이스 정의
@@ -156,9 +156,9 @@ export default function FacilityManagementPage() {
           </div>
 
           {/* 하단 보조 정보 */}
-          <div className="mt-8 flex items-center justify-between border-t border-gray-200 pb-8 pt-4 text-[10px] font-bold uppercase tracking-widest text-gray-400">
-            <span>Agape-Care Facility Management Module</span>
-            <span>Security Level: Level 2 Admin Access</span>
+          <div className="mt-8 flex items-center justify-between border-t border-gray-200 pb-8 pt-4 text-[12px] font-bold uppercase tracking-widest text-gray-400">
+            <span>아가페케어 시설 관리 모듈</span>
+            <span>보안 등급: 레벨 2 관리자 권한</span>
           </div>
         </div>
       </div>

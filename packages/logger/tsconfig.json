@@ -4,9 +4,14 @@
   "compilerOptions": {
     "composite": true,
     "rootDir": "./src",
-    "outDir": "../../dist/packages/logger",
-    "declarationDir": "../../dist/packages/logger",
-    "tsBuildInfoFile": "../../dist/packages/logger/.tsbuildinfo",
+    "outDir": "./dist",
+    "declarationDir": "./dist",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+    "target": "ES2022",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
 
     "declaration": true,
     "declarationMap": true,

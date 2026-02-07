@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 interface AddressInfo {
   zip: string;
   addr1: string;
@@ -9,8 +7,8 @@ interface AddressInfo {
 }
 
 interface Props {
-  value: AddressInfo;
-  onChange: (next: AddressInfo) => void;
+  readonly value: AddressInfo;
+  readonly onChange: (next: AddressInfo) => void;
 }
 
 /**
@@ -21,11 +19,11 @@ export default function AddressSection({ value, onChange }: Props) {
   const update = (updates: Partial<AddressInfo>) => onChange({ ...value, ...updates });
 
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-300 bg-white text-[11px] shadow-sm">
+    <div className="overflow-hidden rounded-lg border border-gray-300 bg-white text-[12px] shadow-sm">
       {/* 섹션 헤더 */}
       <div className="flex items-center gap-2 border-b border-gray-300 bg-[#f8fafc] px-4 py-2">
-        <div className="h-3 w-1 bg-[#1a5a96]"></div>
-        <h3 className="font-black uppercase tracking-tighter text-gray-800">Location & Address</h3>
+        <div className="h-3 w-1 bg-[#5C8D5A]"></div>
+        <h3 className="font-black uppercase tracking-tighter text-gray-800">위치 및 주소</h3>
       </div>
 
       <div className="p-0">
@@ -37,11 +35,11 @@ export default function AddressSection({ value, onChange }: Props) {
                 value={value.zip}
                 onChange={e => update({ zip: e.target.value })}
                 placeholder="00000"
-                className="w-20 bg-transparent font-mono font-bold text-blue-600 outline-none"
+                className="w-24 rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black text-[#5C8D5A] outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
               <button
                 type="button"
-                className="rounded-sm border border-gray-300 bg-white px-3 py-1 text-[10px] font-bold text-gray-600 shadow-sm transition-colors hover:bg-gray-50"
+                className="rounded-sm border border-gray-300 bg-white px-3 py-1.5 text-[12px] font-bold text-gray-600 shadow-sm transition-colors hover:bg-gray-50 active:scale-95"
               >
                 주소 검색
               </button>
@@ -56,7 +54,7 @@ export default function AddressSection({ value, onChange }: Props) {
               value={value.addr1}
               onChange={e => update({ addr1: e.target.value })}
               placeholder="도로명 주소 또는 지번 주소를 입력하세요."
-              className="w-full bg-transparent font-bold text-gray-800 outline-none"
+              className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black text-gray-800 outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
             />
           </InputRow>
         </div>
@@ -67,7 +65,7 @@ export default function AddressSection({ value, onChange }: Props) {
             value={value.addr2}
             onChange={e => update({ addr2: e.target.value })}
             placeholder="동, 호수, 층 등 나머지 상세 주소를 입력하세요."
-            className="w-full bg-transparent font-medium text-gray-600 outline-none"
+            className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-medium text-gray-600 outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
           />
         </InputRow>
       </div>
@@ -79,11 +77,11 @@ export default function AddressSection({ value, onChange }: Props) {
 function InputRow({ label, children, required, full }: any) {
   return (
     <div className={`flex border-r border-gray-200 last:border-r-0 ${full ? 'md:col-span-2' : ''} group`}>
-      <div className="flex w-28 shrink-0 items-center border-r border-gray-100 bg-[#f8fafc] px-3 py-2.5 text-[10px] font-black text-gray-500 transition-colors group-hover:bg-blue-50/50">
+      <div className="flex w-28 shrink-0 items-center border-r border-gray-100 bg-[#f8fafc] px-3 py-2.5 text-[12px] font-black text-gray-500 transition-colors group-hover:bg-emerald-50/50">
         {label}
         {required && <span className="ml-1 text-red-500">*</span>}
       </div>
-      <div className="flex flex-1 items-center bg-white p-2 transition-colors group-hover:bg-blue-50/10">
+      <div className="flex flex-1 items-center bg-white p-2 transition-colors group-hover:bg-emerald-50/10">
         {children}
       </div>
     </div>

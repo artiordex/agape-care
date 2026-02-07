@@ -5,7 +5,7 @@
  */
 
 import { DatabaseModule } from '@agape-care/database';
-import { LoggerModule } from '@agape-care/logger';
+import { AgapeCareLogger, LoggerModule } from '@agape-care/logger';
 import { BullModule } from '@nestjs/bullmq';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -16,7 +16,7 @@ import { AccountingModule } from './modules/accounting/accounting.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CareModule } from './modules/care/care.module';
 import { LoggerMiddleware } from './modules/common/middleware/logger.middleware';
-import { ContentModule } from './modules/content/content.module';
+import { ContentModule } from './modules/contents/content.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { HealthModule } from './modules/health/health.module';
 import { MyPageModule } from './modules/mypage/mypage.module';
@@ -25,6 +25,7 @@ import { ProgramModule } from './modules/program/program.module';
 import { ResidentModule } from './modules/resident/resident.module';
 import { RoleModule } from './modules/role/role.module';
 import { SettingModule } from './modules/setting/setting.module';
+import { VisitReservationModule } from './modules/visit-reservation/visit-reservation.module';
 import { WebInquiryModule } from './modules/web-inquiry/web-inquiry.module';
 
 @Module({
@@ -82,6 +83,7 @@ import { WebInquiryModule } from './modules/web-inquiry/web-inquiry.module';
     MyPageModule,
     SettingModule,
     WebInquiryModule,
+    VisitReservationModule,
     RoleModule,
     ContentModule,
   ],
@@ -96,15 +98,17 @@ import { WebInquiryModule } from './modules/web-inquiry/web-inquiry.module';
   ],
 })
 export class AppModule implements NestModule {
+  constructor(private readonly logger: AgapeCareLogger) {}
+
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 
   async onModuleInit() {
-    console.log('Agape-Care Auth API Starting...');
+    this.logger.info('Agape-Care Auth API Starting...', { category: 'SYSTEM' });
   }
 
   async onModuleDestroy() {
-    console.log('Agape-Care API Shutting down...');
+    this.logger.info('Agape-Care API Shutting down...', { category: 'SYSTEM' });
   }
 }

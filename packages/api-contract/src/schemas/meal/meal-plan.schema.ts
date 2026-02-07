@@ -12,49 +12,52 @@ import { z } from 'zod';
 export const MealTypeSchema = z.enum(['BREAKFAST', 'LUNCH', 'DINNER', 'SNACK']);
 
 /**
- * 식단 항목 정보
+ * 일별 식단 항목 정보 (DailyMeal)
  */
 export const MealPlanItemSchema = z.object({
   id: z.string(),
   mealPlanId: z.string(),
-  mealDate: z.string(), // ISO date
-  mealType: MealTypeSchema,
-  mainMenu: z.string(),
-  sideMenu: z.string().nullable(),
-  soup: z.string().nullable(),
-  dessert: z.string().nullable(),
-  calories: z.number().nullable(),
-  notes: z.string().nullable(),
+  date: z.string(), // ISO date
+  breakfast: z.string().nullable(),
+  breakfastImage: z.string().nullable(),
+  morningSnack: z.string().nullable(),
+  lunch: z.string().nullable(),
+  lunchImage: z.string().nullable(),
+  afternoonSnack: z.string().nullable(),
+  dinner: z.string().nullable(),
+  dinnerImage: z.string().nullable(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
 
 /**
- * 식단 항목 생성 요청
+ * 일별 식단 생성 요청
  */
 export const CreateMealPlanItemRequestSchema = z.object({
-  mealDate: z.string(), // ISO date
-  mealType: MealTypeSchema,
-  mainMenu: z.string().min(1, '주 메뉴는 필수입니다'),
-  sideMenu: z.string().optional(),
-  soup: z.string().optional(),
-  dessert: z.string().optional(),
-  calories: z.number().int().positive().optional(),
-  notes: z.string().optional(),
+  date: z.string(), // ISO date
+  breakfast: z.string().optional(),
+  breakfastImage: z.string().optional(),
+  morningSnack: z.string().optional(),
+  lunch: z.string().optional(),
+  lunchImage: z.string().optional(),
+  afternoonSnack: z.string().optional(),
+  dinner: z.string().optional(),
+  dinnerImage: z.string().optional(),
 });
 
 /**
- * 식단 항목 수정 요청
+ * 일별 식단 수정 요청
  */
 export const UpdateMealPlanItemRequestSchema = z.object({
-  mealDate: z.string().optional(),
-  mealType: MealTypeSchema.optional(),
-  mainMenu: z.string().min(1).optional(),
-  sideMenu: z.string().nullable().optional(),
-  soup: z.string().nullable().optional(),
-  dessert: z.string().nullable().optional(),
-  calories: z.number().int().positive().nullable().optional(),
-  notes: z.string().nullable().optional(),
+  date: z.string().optional(),
+  breakfast: z.string().nullable().optional(),
+  breakfastImage: z.string().nullable().optional(),
+  morningSnack: z.string().nullable().optional(),
+  lunch: z.string().nullable().optional(),
+  lunchImage: z.string().nullable().optional(),
+  afternoonSnack: z.string().nullable().optional(),
+  dinner: z.string().nullable().optional(),
+  dinnerImage: z.string().nullable().optional(),
 });
 
 /**

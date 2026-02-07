@@ -14,12 +14,13 @@ import {
   programContract,
   residentContract,
   settingContract,
+  visitReservationContract,
   webInquiryContract,
-} from './contracts/index';
+} from './contracts/index.js';
 
-export * from './contracts/index';
-export * from './schemas/index';
-export * from './worker-types';
+export * from './contracts/index.js';
+export * from './schemas/index.js';
+export * from './worker-types.js';
 
 const c = initContract();
 
@@ -39,4 +40,5 @@ export const contract = c.router({
   resident: residentContract,
   setting: settingContract,
   webInquiry: webInquiryContract,
+  visitReservation: visitReservationContract,
 });

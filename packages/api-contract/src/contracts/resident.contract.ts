@@ -26,7 +26,7 @@ import {
   UpdateHealthNoteRequestSchema,
   UpdateMedicationRequestSchema,
   UpdateResidentRequestSchema,
-} from '../schemas/resident/index';
+} from '../schemas/resident/index.js';
 
 const authHeader = z.object({
   authorization: z.string().describe('Bearer {token}'),

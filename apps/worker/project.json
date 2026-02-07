@@ -24,17 +24,10 @@
     },
 
     "serve": {
-      "executor": "@nx/js:node",
+      "executor": "nx:run-commands",
       "options": {
-        "buildTarget": "@agape-care/worker:build",
-        "watch": true,
-        "inspect": false
-      },
-      "configurations": {
-        "production": {
-          "watch": false,
-          "inspect": false
-        }
+        "command": "pnpm tsx --watch src/main.ts",
+        "cwd": "apps/worker"
       }
     },
 
@@ -71,9 +64,5 @@
     }
   },
 
-  "implicitDependencies": [
-    "@agape-care/database",
-    "@agape-care/logger",
-    "@agape-care/api-contract"
-  ]
+  "implicitDependencies": ["@agape-care/database", "@agape-care/logger", "@agape-care/api-contract"]
 }

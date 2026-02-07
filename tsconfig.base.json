@@ -46,9 +46,9 @@
     "baseUrl": ".",
     "paths": {
       "@agape-care/api-contract": ["packages/api-contract/src/index.ts"],
-      "@agape-care/database": ["dist/packages/database/index.d.ts"],
-      "@agape-care/logger": ["dist/packages/logger/index.d.ts"],
-      "@agape-care/ui": ["dist/packages/ui/src/index.ts"]
+      "@agape-care/database": ["packages/database/src/index.ts"],
+      "@agape-care/logger": ["packages/logger/src/index.ts"],
+      "@agape-care/ui": ["packages/ui/src/index.ts"]
     }
   },
 

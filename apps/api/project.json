@@ -14,11 +14,11 @@
       }
     },
     "serve": {
-      "executor": "@nx/js:node",
-      "dependsOn": ["build"],
+      "executor": "nx:run-commands",
+      "dependsOn": ["^build"],
       "options": {
-        "buildTarget": "@agape-care/api:build",
-        "watch": true
+        "command": "nest start --watch",
+        "cwd": "apps/api"
       }
     },
     "lint": {

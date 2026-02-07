@@ -1,11 +1,9 @@
 'use client';
 
-import React from 'react';
-
 // 액션별 한글 레이블 및 보안 등급 색상
 const actionLabels: { [key: string]: { label: string; color: string } } = {
-  read: { label: '조회', color: 'bg-blue-50 text-blue-600 border-blue-200' },
-  write: { label: '등록', color: 'bg-emerald-50 text-emerald-600 border-emerald-200' },
+  read: { label: '조회', color: 'bg-emerald-50 text-emerald-600 border-emerald-200' },
+  write: { label: '등록', color: 'bg-[#F1F6F1] text-[#5C8D5A] border-[#E1EBE1]' },
   update: { label: '수정', color: 'bg-orange-50 text-orange-600 border-orange-200' },
   delete: { label: '삭제', color: 'bg-red-50 text-red-600 border-red-200' },
   export: { label: '출력', color: 'bg-purple-50 text-purple-600 border-purple-200' },
@@ -13,25 +11,25 @@ const actionLabels: { [key: string]: { label: string; color: string } } = {
 };
 
 interface Props {
-  selectedEmployee: string | null;
-  currentEmployee: any;
-  permissions: any;
-  totalScreens: number;
-  countActivePermissions: (empId: string) => number;
-  savePermission: (empId: string) => void;
-  selectAllPermissions: (empId: string) => void;
-  clearAllPermissions: (empId: string) => void;
-  expandAll: () => void;
-  collapseAll: () => void;
-  allPermissions: any[];
-  expandedCategories: Set<string>;
-  expandedMenus: Set<string>;
-  toggleCategory: (catId: string) => void;
-  toggleMenu: (menuId: string) => void;
-  toggleCategoryCheck: (empId: string, catId: string) => void;
-  toggleMenuCheck: (empId: string, catId: string, menuId: string) => void;
-  toggleScreenCheck: (empId: string, catId: string, menuId: string, screenId: string) => void;
-  toggleAction: (empId: string, catId: string, menuId: string, screenId: string, action: string) => void;
+  readonly selectedEmployee: string | null;
+  readonly currentEmployee: any;
+  readonly permissions: any;
+  readonly totalScreens: number;
+  readonly countActivePermissions: (empId: string) => number;
+  readonly savePermission: (empId: string) => void;
+  readonly selectAllPermissions: (empId: string) => void;
+  readonly clearAllPermissions: (empId: string) => void;
+  readonly expandAll: () => void;
+  readonly collapseAll: () => void;
+  readonly allPermissions: any[];
+  readonly expandedCategories: Set<string>;
+  readonly expandedMenus: Set<string>;
+  readonly toggleCategory: (catId: string) => void;
+  readonly toggleMenu: (menuId: string) => void;
+  readonly toggleCategoryCheck: (empId: string, catId: string) => void;
+  readonly toggleMenuCheck: (empId: string, catId: string, menuId: string) => void;
+  readonly toggleScreenCheck: (empId: string, catId: string, menuId: string, screenId: string) => void;
+  readonly toggleAction: (empId: string, catId: string, menuId: string, screenId: string, action: string) => void;
 }
 
 export default function PermissionGrid({
@@ -59,7 +57,9 @@ export default function PermissionGrid({
     return (
       <div className="flex flex-1 flex-col items-center justify-center bg-gray-50 text-gray-400">
         <i className="ri-shield-keyhole-line mb-4 text-6xl opacity-20"></i>
-        <p className="text-[13px] font-black uppercase tracking-widest">Select an employee to manage security levels</p>
+        <p className="text-[13px] font-black uppercase tracking-widest text-[#5C8D5A]">
+          직원을 선택하여 보안 설정을 관리해 주세요.
+        </p>
       </div>
     );
   }
@@ -68,23 +68,23 @@ export default function PermissionGrid({
   const securityScore = Math.round((activeCount / totalScreens) * 100);
 
   return (
-    <div className="flex flex-1 flex-col overflow-hidden bg-[#f0f2f5] text-[11px]">
+    <div className="flex flex-1 flex-col overflow-hidden bg-[#f0f2f5] text-[12px]">
       {/* 1. 하이엔드 보안 헤더 */}
       <div className="border-b border-gray-300 bg-white p-4 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-blue-100 bg-blue-50">
-              <i className="ri-shield-user-fill text-2xl text-[#1a5a96]"></i>
+            <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#E1EBE1] bg-[#F1F6F1]">
+              <i className="ri-shield-user-fill text-2xl text-[#5C8D5A]"></i>
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-sm font-black text-gray-900">{currentEmployee?.name} 님의 보안 명세서</h3>
-                <span className="rounded bg-[#1a5a96] px-1.5 py-0.5 text-[9px] font-black uppercase text-white">
-                  Level {securityScore > 50 ? 'High' : 'Normal'}
+                <h3 className="text-[15px] font-black text-gray-900">{currentEmployee?.name} 님의 보안 명세서</h3>
+                <span className="rounded bg-[#5C8D5A] px-1.5 py-0.5 text-[9px] font-black uppercase text-white">
+                  {securityScore > 50 ? '심화' : '일반'} 레벨
                 </span>
               </div>
-              <p className="mt-0.5 text-[10px] font-bold uppercase tracking-tighter text-gray-400">
-                Access Status: {activeCount} of {totalScreens} Screens Active
+              <p className="mt-0.5 text-[11px] font-bold uppercase tracking-tighter text-gray-400">
+                접근 상태: 전체 {totalScreens}개 화면 중 {activeCount}개 활성
               </p>
             </div>
           </div>
@@ -92,20 +92,20 @@ export default function PermissionGrid({
           <div className="flex items-center gap-6">
             {/* 보안 등급 게이지 */}
             <div className="hidden text-right sm:block">
-              <p className="mb-1 text-[9px] font-black uppercase text-gray-400">Security Score</p>
+              <p className="mb-1 text-[11px] font-black uppercase text-gray-400">보안 지수 (Security Score)</p>
               <div className="flex items-center gap-2">
                 <div className="h-1.5 w-32 overflow-hidden rounded-full bg-gray-100">
                   <div
-                    className="h-full bg-[#1a5a96] transition-all duration-500"
+                    className="h-full bg-[#5C8D5A] transition-all duration-500"
                     style={{ width: `${securityScore}%` }}
                   ></div>
                 </div>
-                <span className="font-mono font-black text-[#1a5a96]">{securityScore}%</span>
+                <span className="font-mono font-black text-[#5C8D5A]">{securityScore}%</span>
               </div>
             </div>
             <button
               onClick={() => savePermission(selectedEmployee)}
-              className="flex items-center gap-2 bg-[#1a5a96] px-6 py-2.5 font-black text-white shadow-md transition-all hover:bg-[#144675] active:scale-95"
+              className="flex items-center gap-2 bg-[#5C8D5A] px-6 py-2.5 font-black text-white shadow-md transition-all hover:bg-[#4A7548] active:scale-95"
             >
               <i className="ri-save-3-line"></i> 변경사항 보안 저장
             </button>
@@ -118,7 +118,7 @@ export default function PermissionGrid({
             onClick={() => selectAllPermissions(selectedEmployee)}
             icon="ri-checkbox-multiple-line"
             label="전체 권한 부여"
-            color="text-blue-600"
+            color="text-[#5C8D5A]"
           />
           <ControlButton
             onClick={() => clearAllPermissions(selectedEmployee)}
@@ -140,7 +140,7 @@ export default function PermissionGrid({
             <div className={`group flex items-center border-b border-gray-200 bg-[#f8fafc] px-4 py-2.5`}>
               <button
                 onClick={() => toggleCategory(category.categoryId)}
-                className="mr-3 text-gray-400 hover:text-[#1a5a96]"
+                className="mr-3 text-gray-400 hover:text-[#5C8D5A]"
               >
                 <i
                   className={`ri-arrow-${expandedCategories.has(category.categoryId) ? 'down' : 'right'}-s-line text-lg`}
@@ -151,7 +151,7 @@ export default function PermissionGrid({
                   type="checkbox"
                   checked={permissions[selectedEmployee]?.permissions[category.categoryId]?.checked || false}
                   onChange={() => toggleCategoryCheck(selectedEmployee, category.categoryId)}
-                  className="h-4 w-4 rounded border-gray-300 text-[#1a5a96] focus:ring-[#1a5a96]"
+                  className="h-4 w-4 rounded border-gray-300 text-[#5C8D5A] focus:ring-[#5C8D5A]"
                 />
                 <span className="text-[12px] font-black uppercase tracking-tight text-gray-800">
                   {category.categoryName}
@@ -180,7 +180,7 @@ export default function PermissionGrid({
                               ?.checked || false
                           }
                           onChange={() => toggleMenuCheck(selectedEmployee, category.categoryId, menu.menuId)}
-                          className="h-3.5 w-3.5 rounded border-gray-300 text-[#1a5a96]"
+                          className="h-3.5 w-3.5 rounded border-gray-300 text-[#5C8D5A]"
                         />
                         <span className="font-bold text-gray-700">{menu.menuName}</span>
                       </label>
@@ -204,7 +204,7 @@ export default function PermissionGrid({
                                 onChange={() =>
                                   toggleScreenCheck(selectedEmployee, category.categoryId, menu.menuId, screen.screenId)
                                 }
-                                className="h-3.5 w-3.5 rounded border-gray-300 text-[#1a5a96]"
+                                className="h-3.5 w-3.5 rounded border-gray-300 text-[#5C8D5A]"
                               />
                               <span className="font-bold text-gray-600">{screen.screenName}</span>
                             </div>
@@ -233,7 +233,7 @@ export default function PermissionGrid({
                                         action,
                                       )
                                     }
-                                    className={`rounded-[4px] border px-2.5 py-1 text-[9px] font-black transition-all ${isActive ? `${labelInfo.color} scale-105 shadow-sm` : 'border-gray-200 bg-white text-gray-300 hover:border-gray-300'} `}
+                                    className={`rounded-[4px] border px-2.5 py-1 text-[9px] font-black transition-all ${isActive ? labelInfo.color + ' scale-105 shadow-sm' : 'border-gray-200 bg-white text-gray-300 hover:border-gray-300'} `}
                                   >
                                     {isActive && <i className="ri-check-line mr-1"></i>}
                                     {labelInfo.label}

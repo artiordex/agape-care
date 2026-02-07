@@ -1,5 +1,6 @@
 'use client';
 
+import { api } from '@/lib/api';
 import { useRef, useState } from 'react';
 
 interface Post {
@@ -21,7 +22,6 @@ interface EditPostModalProps {
 }
 
 export default function EditPostModal({ post, onClose, onSuccess }: EditPostModalProps) {
-  const [password, setPassword] = useState('');
   const [formData, setFormData] = useState({
     title: post.title,
     content: post.content,
@@ -29,12 +29,10 @@ export default function EditPostModal({ post, onClose, onSuccess }: EditPostModa
   const [existingImages, setExistingImages] = useState<string[]>(post.image_urls || []);
   const [newImages, setNewImages] = useState<File[]>([]);
   const [newImagePreviewUrls, setNewImagePreviewUrls] = useState<string[]>([]);
-  const [uploading, setUploading] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const updatePost = api.content.updatePost.useMutation();
 
   const totalImageCount = existingImages.length + newImages.length;
 
@@ -82,59 +80,24 @@ export default function EditPostModal({ post, onClose, onSuccess }: EditPostModa
     e.preventDefault();
     setError('');
 
-    if (!password) {
-      setError('비밀번호를 입력해주세요.');
-      return;
-    }
-
     if (!formData.title.trim() || !formData.content.trim()) {
       setError('제목과 내용을 입력해주세요.');
       return;
     }
 
-    if (!apiUrl) {
-      setError('API URL이 설정되지 않았습니다.');
-      return;
-    }
-
-    setSubmitting(true);
-
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('password', password);
-      formDataToSend.append('title', formData.title);
-      formDataToSend.append('content', formData.content);
-
-      // 기존 이미지 URL들을 JSON 문자열로 전송
-      formDataToSend.append('existing_images', JSON.stringify(existingImages));
-
-      // 새로운 이미지 파일들 추가
-      newImages.forEach(image => {
-        formDataToSend.append('images', image);
+      await updatePost.mutateAsync({
+        params: { id: post.id },
+        body: {
+          title: formData.title,
+          content: formData.content,
+        },
       });
-
-      const response = await fetch(`${apiUrl}/board/posts/${post.id}`, {
-        method: 'PUT',
-        body: formDataToSend,
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      if (data.error) {
-        setError(data.error);
-        return;
-      }
 
       onSuccess();
     } catch (err) {
       console.error('게시글 수정 실패:', err);
       setError('게시글 수정에 실패했습니다.');
-    } finally {
-      setSubmitting(false);
     }
   };
 
@@ -154,18 +117,7 @@ export default function EditPostModal({ post, onClose, onSuccess }: EditPostModa
         <form onSubmit={handleSubmit} className="space-y-6 p-6">
           {error && <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-700">{error}</div>}
 
-          <div>
-            <label className="mb-2 block text-sm font-semibold text-gray-700">
-              비밀번호 확인 <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500"
-              placeholder="게시글 작성 시 입력한 비밀번호"
-            />
-          </div>
+          {/* 비밀번호 필드 제거 (현재 스키마에 없음) */}
 
           <div>
             <label className="mb-2 block text-sm font-semibold text-gray-700">
@@ -241,17 +193,10 @@ export default function EditPostModal({ post, onClose, onSuccess }: EditPostModa
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  disabled={uploading}
                   className="flex h-32 w-32 flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 transition-colors hover:border-amber-500 hover:bg-amber-50 disabled:cursor-not-allowed disabled:opacity-50"
                 >
-                  {uploading ? (
-                    <div className="h-8 w-8 animate-spin rounded-full border-4 border-amber-600 border-t-transparent" />
-                  ) : (
-                    <>
-                      <i className="ri-image-add-line mb-2 text-3xl text-gray-400" />
-                      <span className="text-sm text-gray-500">이미지 추가</span>
-                    </>
-                  )}
+                  <i className="ri-image-add-line mb-2 text-3xl text-gray-400" />
+                  <span className="text-sm text-gray-500">이미지 추가</span>
                 </button>
               )}
             </div>
@@ -275,10 +220,10 @@ export default function EditPostModal({ post, onClose, onSuccess }: EditPostModa
             </button>
             <button
               type="submit"
-              disabled={submitting || uploading}
+              disabled={updatePost.isPending}
               className="flex-1 whitespace-nowrap rounded-lg bg-amber-600 px-6 py-3 text-white transition-colors hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {submitting ? '수정 중...' : '수정하기'}
+              {updatePost.isPending ? '수정 중...' : '수정하기'}
             </button>
           </div>
         </form>

@@ -5,10 +5,10 @@
  */
 
 // 프로그램 마스터
-export * from './program.schema';
+export * from './program.schema.js';
 
 // 프로그램 일정
-export * from './schedule.schema';
+export * from './schedule.schema.js';
 
 // 프로그램 참석
-export * from './attendance.schema';
+export * from './attendance.schema.js';

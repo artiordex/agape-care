@@ -60,7 +60,7 @@ export interface LogRecord {
   userAgent?: string;
   requestId?: string; // 요청 추적 ID
 
-  error?: LogError;
+  error?: any;
   metadata?: Record<string, unknown>;
 
   // 개인정보 보호
@@ -114,7 +114,7 @@ export const PII_PATTERNS = {
   ssn: /\d{6}-\d{7}/g,
 
   // 전화번호: 010-1234-5678
-  phone: /01[0-9]-\d{3,4}-\d{4}/g,
+  phone: /01\d-\d{3,4}-\d{4}/g,
 
   // 이메일
   email: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g,

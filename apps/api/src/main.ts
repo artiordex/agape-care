@@ -5,10 +5,11 @@
  * Updated : 2026-01-26
  */
 
-import { NestLoggerAdapter } from '@agape-care/logger';
+import { logger, NestLoggerAdapter } from '@agape-care/logger';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import 'dotenv/config';
+import * as dotenv from 'dotenv';
+import path from 'node:path';
 import 'reflect-metadata';
 import { AppModule } from './app.module';
 import { validateEnv } from './config/env.validation';
@@ -18,7 +19,16 @@ import { PrismaClientExceptionFilter } from './modules/common/filters/prisma-exc
 import { LoggingInterceptor } from './modules/common/interceptors/logging.interceptor';
 import { TransformInterceptor } from './modules/common/interceptors/transform.interceptor';
 
+// .env 로드 (로컬 또는 루트)
+const rootEnvPath = path.resolve(process.cwd(), '../../.env');
+dotenv.config({ override: true }); // 로컬 .env
+dotenv.config({ path: rootEnvPath, override: true }); // 모노레포 루트 .env
+
 async function bootstrap() {
+  // 환경변수 로드 확인 로그
+  logger.info(`Loading environment from: ${process.cwd()}`, { category: 'SYSTEM' });
+  logger.info(`Root .env path: ${path.resolve(process.cwd(), '../../.env')}`, { category: 'SYSTEM' });
+
   // 환경변수 검증
   validateEnv();
 
@@ -62,25 +72,25 @@ async function bootstrap() {
   // 서버 실행
   await app.listen(port);
 
-  console.log(`Agape-Care API Server running on http://localhost:${port}`);
-  console.log(`Swagger Documentation: http://localhost:${port}/api-docs`);
-  console.log(`Health Check: http://localhost:${port}/health`);
+  logger.info(`Agape-Care API Server running on http://localhost:${port}`, { category: 'SYSTEM' });
+  logger.info(`Swagger Documentation: http://localhost:${port}/api-docs`, { category: 'SYSTEM' });
+  logger.info(`Health Check: http://localhost:${port}/health`, { category: 'SYSTEM' });
 
   // Graceful shutdown
   process.on('SIGTERM', async () => {
-    console.log('SIGTERM received. Closing Nest application...');
+    logger.info('SIGTERM received. Closing Nest application...', { category: 'SYSTEM' });
     await app.close();
     process.exit(0);
   });
 
   process.on('SIGINT', async () => {
-    console.log('SIGINT received. Closing Nest application...');
+    logger.info('SIGINT received. Closing Nest application...', { category: 'SYSTEM' });
     await app.close();
     process.exit(0);
   });
 }
 
 bootstrap().catch(err => {
-  console.error('NestJS bootstrap failed:', err);
+  logger.error('NestJS bootstrap failed', { category: 'SYSTEM', error: err });
   process.exit(1);
 });

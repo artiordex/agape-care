@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 interface FacilityBasicInfo {
   orgCode: string;
   facilityName: string;
@@ -29,11 +27,11 @@ export default function BasicInfoSection({ value, onChange }: Props) {
   const set = (field: keyof FacilityBasicInfo, v: any) => onChange({ ...value, [field]: v });
 
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-300 bg-white text-[11px] shadow-sm">
+    <div className="overflow-hidden rounded-lg border border-gray-300 bg-white text-[12px] shadow-sm">
       {/* 섹션 헤더 */}
       <div className="flex items-center gap-2 border-b border-gray-300 bg-[#f8fafc] px-4 py-2">
-        <div className="h-3 w-1 bg-[#1a5a96]"></div>
-        <h3 className="font-black uppercase tracking-tighter text-gray-800">Facility Basic Information</h3>
+        <div className="h-3 w-1 bg-[#5C8D5A]"></div>
+        <h3 className="font-black uppercase tracking-tighter text-gray-800">시설 기본 정보</h3>
       </div>
 
       {/* 격자형 입력 폼 */}
@@ -44,14 +42,14 @@ export default function BasicInfoSection({ value, onChange }: Props) {
               value={value.orgCode}
               onChange={e => set('orgCode', e.target.value)}
               placeholder="기관 고유 기호 입력"
-              className="w-full bg-transparent font-bold text-[#1a5a96] outline-none placeholder:text-gray-300"
+              className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black text-[#5C8D5A] outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
             />
           </InputRow>
           <InputRow label="시설명" required>
             <input
               value={value.facilityName}
               onChange={e => set('facilityName', e.target.value)}
-              className="w-full bg-transparent font-black text-gray-900 outline-none"
+              className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black text-gray-900 outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
             />
           </InputRow>
         </div>
@@ -62,7 +60,7 @@ export default function BasicInfoSection({ value, onChange }: Props) {
               value={value.facilityDesc}
               onChange={e => set('facilityDesc', e.target.value)}
               placeholder="시설에 대한 간단한 홍보 문구를 입력하세요."
-              className="w-full bg-transparent italic text-gray-500 outline-none"
+              className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-medium text-gray-500 outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
             />
           </InputRow>
         </div>
@@ -72,7 +70,7 @@ export default function BasicInfoSection({ value, onChange }: Props) {
             <select
               value={value.facilityType}
               onChange={e => set('facilityType', e.target.value)}
-              className="w-full cursor-pointer bg-transparent font-bold outline-none"
+              className="w-full cursor-pointer rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
             >
               <option value="노인요양시설">노인요양시설</option>
               <option value="주야간보호시설">주야간보호시설</option>
@@ -86,7 +84,7 @@ export default function BasicInfoSection({ value, onChange }: Props) {
               type="date"
               value={value.designatedDate}
               onChange={e => set('designatedDate', e.target.value)}
-              className="w-full bg-transparent font-mono outline-none"
+              className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-medium outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
             />
           </InputRow>
         </div>
@@ -96,14 +94,14 @@ export default function BasicInfoSection({ value, onChange }: Props) {
             <input
               value={value.director}
               onChange={e => set('director', e.target.value)}
-              className="w-full bg-transparent font-bold outline-none"
+              className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
             />
           </InputRow>
           <InputRow label="시설장 연락처">
             <input
               value={value.directorPhone}
               onChange={e => set('directorPhone', e.target.value)}
-              className="w-full bg-transparent font-mono outline-none"
+              className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-medium outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
             />
           </InputRow>
         </div>
@@ -113,7 +111,7 @@ export default function BasicInfoSection({ value, onChange }: Props) {
             <input
               value={value.ceoName}
               onChange={e => set('ceoName', e.target.value)}
-              className="w-full bg-transparent font-bold outline-none"
+              className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
             />
           </InputRow>
           <InputRow label="사업자번호" required>
@@ -121,7 +119,7 @@ export default function BasicInfoSection({ value, onChange }: Props) {
               value={value.businessNo}
               onChange={e => set('businessNo', e.target.value)}
               maxLength={12}
-              className="w-full bg-transparent font-mono outline-none"
+              className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-medium outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
             />
           </InputRow>
         </div>
@@ -131,7 +129,7 @@ export default function BasicInfoSection({ value, onChange }: Props) {
             <input
               value={value.bizType}
               onChange={e => set('bizType', e.target.value)}
-              className="w-full bg-transparent outline-none"
+              className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-medium outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
             />
           </InputRow>
           <InputRow label="총 직원수">
@@ -140,9 +138,9 @@ export default function BasicInfoSection({ value, onChange }: Props) {
                 type="number"
                 value={value.staffCount}
                 onChange={e => set('staffCount', Number(e.target.value))}
-                className="w-20 bg-transparent text-right font-mono font-bold outline-none"
+                className="w-24 rounded border border-gray-300 px-4 py-1.5 text-right text-[12px] font-black outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
-              <span className="font-bold text-gray-400">명</span>
+              <span className="text-[12px] font-bold text-gray-400">명</span>
             </div>
           </InputRow>
         </div>
@@ -155,11 +153,11 @@ export default function BasicInfoSection({ value, onChange }: Props) {
 function InputRow({ label, children, required, full }: any) {
   return (
     <div className={`flex border-r border-gray-200 last:border-r-0 ${full ? 'md:col-span-2' : ''} group`}>
-      <div className="flex w-28 shrink-0 items-center border-r border-gray-100 bg-[#f8fafc] px-3 py-2.5 text-[10px] font-black text-gray-500 transition-colors group-hover:bg-blue-50/50">
+      <div className="flex w-28 shrink-0 items-center border-r border-gray-100 bg-[#f8fafc] px-3 py-2.5 text-[12px] font-black text-gray-500 transition-colors group-hover:bg-emerald-50/50">
         {label}
         {required && <span className="ml-1 text-red-500">*</span>}
       </div>
-      <div className="flex flex-1 items-center bg-white p-2 transition-colors group-hover:bg-blue-50/10">
+      <div className="flex flex-1 items-center bg-white p-2 transition-colors group-hover:bg-emerald-50/10">
         {children}
       </div>
     </div>

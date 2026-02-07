@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 export interface ContactInfo {
   phone: string;
   fax: string;
@@ -10,8 +8,8 @@ export interface ContactInfo {
 }
 
 interface Props {
-  value: ContactInfo;
-  onChange: (next: ContactInfo) => void;
+  readonly value: ContactInfo;
+  readonly onChange: (next: ContactInfo) => void;
 }
 
 /**
@@ -22,11 +20,11 @@ export default function ContactSection({ value, onChange }: Props) {
   const set = (field: keyof ContactInfo, v: string) => onChange({ ...value, [field]: v });
 
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-300 bg-white text-[11px] shadow-sm">
+    <div className="overflow-hidden rounded-lg border border-gray-300 bg-white text-[12px] shadow-sm">
       {/* 섹션 헤더 */}
       <div className="flex items-center gap-2 border-b border-gray-300 bg-[#f8fafc] px-4 py-2">
-        <div className="h-3 w-1 bg-[#1a5a96]"></div>
-        <h3 className="font-black uppercase tracking-tighter text-gray-800">Contact Channels</h3>
+        <div className="h-3 w-1 bg-[#5C8D5A]"></div>
+        <h3 className="font-black uppercase tracking-tighter text-gray-800">연락처 채널</h3>
       </div>
 
       <div className="p-0">
@@ -38,7 +36,7 @@ export default function ContactSection({ value, onChange }: Props) {
                 value={value.phone}
                 onChange={e => set('phone', e.target.value)}
                 placeholder="02-1234-5678"
-                className="w-full bg-transparent font-mono font-black text-[#1a5a96] outline-none"
+                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black text-[#5C8D5A] outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
             </div>
           </InputRow>
@@ -49,7 +47,7 @@ export default function ContactSection({ value, onChange }: Props) {
                 value={value.fax}
                 onChange={e => set('fax', e.target.value)}
                 placeholder="02-1234-5679"
-                className="w-full bg-transparent font-mono outline-none"
+                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-medium outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
             </div>
           </InputRow>
@@ -64,7 +62,7 @@ export default function ContactSection({ value, onChange }: Props) {
                 value={value.email}
                 onChange={e => set('email', e.target.value)}
                 placeholder="info@facility.com"
-                className="w-full bg-transparent font-medium outline-none"
+                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-medium text-gray-700 outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
             </div>
           </InputRow>
@@ -75,7 +73,7 @@ export default function ContactSection({ value, onChange }: Props) {
                 value={value.homepage}
                 onChange={e => set('homepage', e.target.value)}
                 placeholder="https://"
-                className="w-full bg-transparent font-medium text-blue-600 outline-none"
+                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-medium text-[#5C8D5A] outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
             </div>
           </InputRow>
@@ -91,11 +89,11 @@ export default function ContactSection({ value, onChange }: Props) {
 function InputRow({ label, children, required, full }: any) {
   return (
     <div className={`flex border-r border-gray-200 last:border-r-0 ${full ? 'md:col-span-2' : ''} group`}>
-      <div className="flex w-28 shrink-0 items-center border-r border-gray-100 bg-[#f8fafc] px-3 py-2.5 text-[10px] font-black text-gray-500 transition-colors group-hover:bg-blue-50/50">
+      <div className="flex w-28 shrink-0 items-center border-r border-gray-100 bg-[#f8fafc] px-3 py-2.5 text-[12px] font-black text-gray-500 transition-colors group-hover:bg-emerald-50/50">
         {label}
         {required && <span className="ml-1 text-red-500">*</span>}
       </div>
-      <div className="flex flex-1 items-center bg-white p-2 transition-colors group-hover:bg-blue-50/10">
+      <div className="flex flex-1 items-center bg-white p-2 transition-colors group-hover:bg-emerald-50/10">
         {children}
       </div>
     </div>

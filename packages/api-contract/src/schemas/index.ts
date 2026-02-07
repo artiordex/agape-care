@@ -4,19 +4,20 @@
  * @date 2026-01-26
  */
 
-export * from './accounting/index';
-export * from './attendance/index';
-export * from './auth/index';
-export * from './care/index';
-export * from './common/index';
-export * from './content/index';
-export * from './dashboard/index';
-export * from './employee/index';
-export * from './meal/index';
-export * from './mypage/index';
-export * from './notification/index';
-export * from './operations/index';
-export * from './program/index';
-export * from './resident/index';
-export * from './setting/index';
-export * from './web-inquiry/index';
+export * from './accounting/index.js';
+export * from './attendance/index.js';
+export * from './auth/index.js';
+export * from './care/index.js';
+export * from './common/index.js';
+export * from './contents/index.js';
+export * from './dashboard/index.js';
+export * from './employee/index.js';
+export * from './meal/index.js';
+export * from './mypage/index.js';
+export * from './notification/index.js';
+export * from './operations/index.js';
+export * from './program/index.js';
+export * from './resident/index.js';
+export * from './setting/index.js';
+export * from './visit-reservation/index.js';
+export * from './web-inquiry/index.js';

@@ -1,6 +1,6 @@
+import { Prisma } from '@agape-care/database';
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
-import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RoleService } from './role.service';
 
 @Controller('roles')

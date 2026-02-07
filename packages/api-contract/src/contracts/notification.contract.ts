@@ -23,7 +23,7 @@ import {
   SendBulkNotificationRequestSchema,
   SendNotificationRequestSchema,
   UpdateRecipientGroupRequestSchema,
-} from '../schemas/notification/index';
+} from '../schemas/notification/index.js';
 
 const authHeader = z.object({
   authorization: z.string().describe('Bearer {token}'),

@@ -329,13 +329,13 @@
         },
         {
           "id": "free-board",
-          "name": "자유게시판 관리",
-          "description": "자유게시판 관리",
+          "name": "게시판 관리",
+          "description": "게시판 관리",
           "icon": "ri-article-line",
-          "path": "/contents/free-board",
+          "path": "/contents/board",
           "spa": true,
           "folder": "contents",
-          "component": "FreeBoardManagement"
+          "component": "BoardManagement"
         },
         {
           "id": "gallery",

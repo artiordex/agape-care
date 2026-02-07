@@ -250,28 +250,105 @@ exports.Prisma.ResidentVitalScalarFieldEnum = {
   notes: 'notes'
 };
 
+exports.Prisma.NoticeScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  category: 'category',
+  isPinned: 'isPinned',
+  isActive: 'isActive',
+  viewCount: 'viewCount',
+  publishedAt: 'publishedAt',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NoticeFileScalarFieldEnum = {
+  id: 'id',
+  noticeId: 'noticeId',
+  fileId: 'fileId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BoardPostScalarFieldEnum = {
+  id: 'id',
+  boardKey: 'boardKey',
+  title: 'title',
+  content: 'content',
+  authorId: 'authorId',
+  viewCount: 'viewCount',
+  isPinned: 'isPinned',
+  isLocked: 'isLocked',
+  isHidden: 'isHidden',
+  publishedAt: 'publishedAt',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BoardFileScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  fileId: 'fileId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BoardCommentScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  parentId: 'parentId',
+  authorId: 'authorId',
+  content: 'content',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GalleryItemScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  category: 'category',
+  eventDate: 'eventDate',
+  createdBy: 'createdBy',
+  isPublic: 'isPublic',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GalleryFileScalarFieldEnum = {
+  id: 'id',
+  galleryId: 'galleryId',
+  fileId: 'fileId',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.MealPlanScalarFieldEnum = {
   id: 'id',
   facilityCode: 'facilityCode',
-  weekStartDate: 'weekStartDate',
+  mealMonth: 'mealMonth',
   createdBy: 'createdBy',
   status: 'status',
+  nutritionManager: 'nutritionManager',
   notes: 'notes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.MealPlanItemScalarFieldEnum = {
+exports.Prisma.DailyMealScalarFieldEnum = {
   id: 'id',
   mealPlanId: 'mealPlanId',
-  mealDate: 'mealDate',
-  mealType: 'mealType',
-  mainMenu: 'mainMenu',
-  sideMenu: 'sideMenu',
-  soup: 'soup',
-  dessert: 'dessert',
-  calories: 'calories',
-  notes: 'notes',
+  date: 'date',
+  breakfast: 'breakfast',
+  breakfastImage: 'breakfastImage',
+  morningSnack: 'morningSnack',
+  lunch: 'lunch',
+  lunchImage: 'lunchImage',
+  afternoonSnack: 'afternoonSnack',
+  dinner: 'dinner',
+  dinnerImage: 'dinnerImage',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -279,6 +356,7 @@ exports.Prisma.MealPlanItemScalarFieldEnum = {
 exports.Prisma.ProgramScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  type: 'type',
   description: 'description',
   category: 'category',
   isActive: 'isActive',
@@ -300,11 +378,44 @@ exports.Prisma.ProgramScheduleScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PopupBannerScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  imageUrl: 'imageUrl',
+  linkUrl: 'linkUrl',
+  displayType: 'displayType',
+  position: 'position',
+  width: 'width',
+  height: 'height',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isActive: 'isActive',
+  showOnce: 'showOnce',
+  priority: 'priority',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.WebsiteSettingScalarFieldEnum = {
+  id: 'id',
+  category: 'category',
+  key: 'key',
+  value: 'value',
+  description: 'description',
+  isActive: 'isActive',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ProgramAttendanceScalarFieldEnum = {
   id: 'id',
   scheduleId: 'scheduleId',
   residentId: 'residentId',
   employeeId: 'employeeId',
+  targetType: 'targetType',
   role: 'role',
   attended: 'attended',
   checkedAt: 'checkedAt',
@@ -400,108 +511,6 @@ exports.Prisma.DailyCareRecordScalarFieldEnum = {
   oral: 'oral',
   emergency: 'emergency',
   elimination: 'elimination',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.NoticeScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  content: 'content',
-  category: 'category',
-  isPinned: 'isPinned',
-  isActive: 'isActive',
-  publishedAt: 'publishedAt',
-  createdBy: 'createdBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.NoticeFileScalarFieldEnum = {
-  id: 'id',
-  noticeId: 'noticeId',
-  fileId: 'fileId',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.BoardPostScalarFieldEnum = {
-  id: 'id',
-  boardKey: 'boardKey',
-  title: 'title',
-  content: 'content',
-  authorId: 'authorId',
-  viewCount: 'viewCount',
-  isPinned: 'isPinned',
-  isLocked: 'isLocked',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.BoardFileScalarFieldEnum = {
-  id: 'id',
-  postId: 'postId',
-  fileId: 'fileId',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.BoardCommentScalarFieldEnum = {
-  id: 'id',
-  postId: 'postId',
-  parentId: 'parentId',
-  authorId: 'authorId',
-  content: 'content',
-  isDeleted: 'isDeleted',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.GalleryItemScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  description: 'description',
-  eventDate: 'eventDate',
-  createdBy: 'createdBy',
-  isPublic: 'isPublic',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.GalleryFileScalarFieldEnum = {
-  id: 'id',
-  galleryId: 'galleryId',
-  fileId: 'fileId',
-  sortOrder: 'sortOrder',
-  createdAt: 'createdAt'
-};
-
-exports.Prisma.PopupBannerScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  content: 'content',
-  imageUrl: 'imageUrl',
-  linkUrl: 'linkUrl',
-  displayType: 'displayType',
-  position: 'position',
-  width: 'width',
-  height: 'height',
-  startDate: 'startDate',
-  endDate: 'endDate',
-  isActive: 'isActive',
-  showOnce: 'showOnce',
-  priority: 'priority',
-  createdBy: 'createdBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.WebsiteSettingScalarFieldEnum = {
-  id: 'id',
-  category: 'category',
-  key: 'key',
-  value: 'value',
-  description: 'description',
-  isActive: 'isActive',
-  updatedBy: 'updatedBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -897,12 +906,38 @@ exports.Prisma.NotificationQueueScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.VisitReservationScalarFieldEnum = {
+  id: 'id',
+  visitorName: 'visitorName',
+  visitorPhone: 'visitorPhone',
+  visitorRelationship: 'visitorRelationship',
+  residentName: 'residentName',
+  visitDate: 'visitDate',
+  visitTime: 'visitTime',
+  visitorCount: 'visitorCount',
+  visitPurpose: 'visitPurpose',
+  healthCheckSymptoms: 'healthCheckSymptoms',
+  healthCheckAssistance: 'healthCheckAssistance',
+  notes: 'notes',
+  isConsented: 'isConsented',
+  status: 'status',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.WebInquiryScalarFieldEnum = {
   id: 'id',
   name: 'name',
   phone: 'phone',
+  email: 'email',
   type: 'type',
+  residentAge: 'residentAge',
+  careGrade: 'careGrade',
+  preferredDate: 'preferredDate',
   message: 'message',
+  isConsented: 'isConsented',
   status: 'status',
   ipAddress: 'ipAddress',
   userAgent: 'userAgent',
@@ -952,10 +987,19 @@ exports.Prisma.ModelName = {
   ResidentHealthNote: 'ResidentHealthNote',
   ResidentMedication: 'ResidentMedication',
   ResidentVital: 'ResidentVital',
+  Notice: 'Notice',
+  NoticeFile: 'NoticeFile',
+  BoardPost: 'BoardPost',
+  BoardFile: 'BoardFile',
+  BoardComment: 'BoardComment',
+  GalleryItem: 'GalleryItem',
+  GalleryFile: 'GalleryFile',
   MealPlan: 'MealPlan',
-  MealPlanItem: 'MealPlanItem',
+  DailyMeal: 'DailyMeal',
   Program: 'Program',
   ProgramSchedule: 'ProgramSchedule',
+  PopupBanner: 'PopupBanner',
+  WebsiteSetting: 'WebsiteSetting',
   ProgramAttendance: 'ProgramAttendance',
   CarePlan: 'CarePlan',
   CarePlanItem: 'CarePlanItem',
@@ -965,15 +1009,6 @@ exports.Prisma.ModelName = {
   IncidentFile: 'IncidentFile',
   CareTask: 'CareTask',
   DailyCareRecord: 'DailyCareRecord',
-  Notice: 'Notice',
-  NoticeFile: 'NoticeFile',
-  BoardPost: 'BoardPost',
-  BoardFile: 'BoardFile',
-  BoardComment: 'BoardComment',
-  GalleryItem: 'GalleryItem',
-  GalleryFile: 'GalleryFile',
-  PopupBanner: 'PopupBanner',
-  WebsiteSetting: 'WebsiteSetting',
   AttendanceRecord: 'AttendanceRecord',
   ShiftTemplate: 'ShiftTemplate',
   ShiftAssignment: 'ShiftAssignment',
@@ -1004,6 +1039,7 @@ exports.Prisma.ModelName = {
   AuditLog: 'AuditLog',
   SystemSetting: 'SystemSetting',
   NotificationQueue: 'NotificationQueue',
+  VisitReservation: 'VisitReservation',
   WebInquiry: 'WebInquiry'
 };
 

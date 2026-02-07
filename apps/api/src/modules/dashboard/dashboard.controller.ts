@@ -12,11 +12,11 @@ export class DashboardController {
     return tsRestHandler(dashboardContract, {
       getDashboardStats: async () => {
         const stats = await this.dashboardService.getStats();
-        return { status: 200, body: stats };
+        return { status: 200, body: { success: true, data: stats } };
       },
       getDashboardWidgets: async () => {
         const widgets = await this.dashboardService.getWidgets();
-        return { status: 200, body: widgets };
+        return { status: 200, body: { success: true, data: widgets } };
       },
     });
   }

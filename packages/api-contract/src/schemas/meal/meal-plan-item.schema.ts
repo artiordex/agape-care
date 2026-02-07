@@ -17,10 +17,11 @@ export const MealPlanStatusSchema = z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED']);
 export const MealPlanSchema = z.object({
   id: z.string(),
   facilityCode: z.string(),
-  weekStartDate: z.string(), // ISO date (해당 주의 월요일)
+  mealMonth: z.number(), // 식단 대상 년월 (YYYYMM)
   createdBy: z.string().nullable(),
   createdByName: z.string().nullable().optional(), // 조인
   status: MealPlanStatusSchema,
+  nutritionManager: z.string().nullable(),
   notes: z.string().nullable(),
   createdAt: z.string(),
   updatedAt: z.string(),
@@ -31,8 +32,10 @@ export const MealPlanSchema = z.object({
  */
 export const CreateMealPlanRequestSchema = z.object({
   facilityCode: z.string().default('DEFAULT'),
-  weekStartDate: z.string(), // ISO date
+  mealMonth: z.number().int(), // YYYYMM format
+  createdBy: z.string().optional(),
   status: MealPlanStatusSchema.default('DRAFT'),
+  nutritionManager: z.string().optional(),
   notes: z.string().optional(),
 });
 
@@ -41,6 +44,7 @@ export const CreateMealPlanRequestSchema = z.object({
  */
 export const UpdateMealPlanRequestSchema = z.object({
   status: MealPlanStatusSchema.optional(),
+  nutritionManager: z.string().nullable().optional(),
   notes: z.string().nullable().optional(),
 });
 

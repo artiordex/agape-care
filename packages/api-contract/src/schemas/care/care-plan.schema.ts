@@ -5,6 +5,8 @@
  */
 import { z } from 'zod';
 
+import { CarePlanItemSchema } from './care-plan-item.schema.js';
+
 export const CarePlanSchema = z.object({
   id: z.coerce.string(),
   residentId: z.coerce.string(),
@@ -14,6 +16,7 @@ export const CarePlanSchema = z.object({
   startDate: z.coerce.date(),
   endDate: z.coerce.date().nullable().optional(),
   status: z.enum(['ACTIVE', 'COMPLETED', 'CANCELLED']).default('ACTIVE'),
+  items: z.array(CarePlanItemSchema).default([]),
   createdAt: z.date(),
   updatedAt: z.date(),
 });

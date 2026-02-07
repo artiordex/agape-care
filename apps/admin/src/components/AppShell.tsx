@@ -1,3 +1,9 @@
+/**
+ * Description : AppShell.tsx - 📌 관리자 애플리케이션의 레이아웃 컴포넌트
+ * Author : Shiwoo Min
+ * Date : 2026-02-02
+ */
+
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
@@ -48,10 +54,10 @@ export default function AppShell({ children }: AppShellProps) {
 
   /* mobile detect */
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
+    const check = () => setIsMobile(globalThis.innerWidth < 768);
     check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
+    globalThis.addEventListener('resize', check);
+    return () => globalThis.removeEventListener('resize', check);
   }, []);
 
   /* pathname → activeMenu */
@@ -88,8 +94,8 @@ export default function AppShell({ children }: AppShellProps) {
         setIsMobileMenuOpen(false);
       }
     };
-    window.addEventListener('keydown', onEsc);
-    return () => window.removeEventListener('keydown', onEsc);
+    globalThis.addEventListener('keydown', onEsc);
+    return () => globalThis.removeEventListener('keydown', onEsc);
   }, [isMobileMenuOpen]);
 
   /* menu handler */

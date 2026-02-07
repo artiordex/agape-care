@@ -18,7 +18,7 @@ import {
   CreateAttendanceRequestSchema,
   UpdateAttendanceRequestSchema,
   CheckAttendanceRequestSchema,
-} from '../schemas/program/index';
+} from '../schemas/program/index.js';
 
 const authHeader = z.object({
   authorization: z.string().describe('Bearer {token}'),

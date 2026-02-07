@@ -1,10 +1,11 @@
 {
   "name": "@agape-care/api",
   "version": "1.0.0",
+  "type": "commonjs",
   "description": "Agape-Care REST-API 기반 백엔드",
   "private": true,
   "scripts": {
-    "dev": "nx serve @agape-care/api",
+    "dev": "nest start --watch --preserveWatchOutput",
     "build": "cross-env NODE_OPTIONS='--max-old-space-size=4096' nest build",
     "build:ci": "cross-env NODE_OPTIONS='--max-old-space-size=4096' nest build",
     "type-check": "tsc -p tsconfig.json --noEmit",

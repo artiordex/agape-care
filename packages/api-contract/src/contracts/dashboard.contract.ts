@@ -5,8 +5,8 @@
  */
 
 import { z } from 'zod';
-import { ApiResponseSchema } from '../schemas/common/response.schema';
-import { DashboardStatsSchema, DashboardWidgetsSchema } from '../schemas/dashboard/dashboard.schema';
+import { ApiResponseSchema } from '../schemas/common/response.schema.js';
+import { DashboardStatsSchema, DashboardWidgetsSchema } from '../schemas/dashboard/dashboard.schema.js';
 
 const authHeader = z.object({
   authorization: z.string().describe('Bearer {token}'),

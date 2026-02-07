@@ -1,1 +1,1 @@
-export * from './mypage.schema';
+export * from './mypage.schema.js';

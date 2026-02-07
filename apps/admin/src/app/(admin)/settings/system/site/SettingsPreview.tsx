@@ -1,17 +1,15 @@
 'use client';
 
-import React from 'react';
-
 interface Props {
-  settings: {
-    serviceName: string;
-    serviceDesc: string;
-    contactPhone: string;
-    contactEmail: string;
-    customerHours: string;
-    metaTitle: string;
-    metaDescription: string;
-    footerText: string;
+  readonly settings: {
+    readonly serviceName: string;
+    readonly serviceDesc: string;
+    readonly contactPhone: string;
+    readonly contactEmail: string;
+    readonly customerHours: string;
+    readonly metaTitle: string;
+    readonly metaDescription: string;
+    readonly footerText: string;
   };
 }
 
@@ -21,18 +19,18 @@ interface Props {
  */
 export default function SettingsPreview({ settings }: Props) {
   return (
-    <aside className="animate-in fade-in slide-in-from-right-4 sticky top-6 space-y-3 text-[11px] duration-500">
+    <aside className="animate-in fade-in slide-in-from-right-4 sticky top-6 space-y-3 text-[12px] duration-500">
       {/* 1. 검색 엔진 노출 프리뷰 (SEO Simulator) */}
       <div className="rounded-lg border border-gray-300 bg-white p-4 shadow-sm">
-        <p className="border-l-3 mb-3 border-[#1a5a96] pl-2 text-[10px] font-black uppercase tracking-tighter text-gray-400">
-          Search Engine Preview
+        <p className="border-l-3 mb-3 border-[#5C8D5A] pl-2 text-[12px] font-black uppercase tracking-tighter text-gray-400">
+          검색 엔진 노출 미리보기
         </p>
         <div className="space-y-1 rounded border border-gray-100 bg-gray-50/50 p-3">
-          <p className="text-[10px] font-medium text-gray-500">https://agape-care.com/...</p>
+          <p className="text-[12px] font-medium text-gray-500">https://agape-care.com/...</p>
           <h3 className="line-clamp-1 cursor-pointer text-[14px] font-bold text-[#1a0dab] hover:underline">
             {settings.metaTitle || '설정된 제목이 없습니다.'}
           </h3>
-          <p className="line-clamp-2 text-[11px] leading-relaxed text-[#4d5156]">
+          <p className="line-clamp-2 text-[12px] leading-relaxed text-[#4d5156]">
             {settings.metaDescription || '검색 결과에 노출될 설명을 입력해 주세요.'}
           </p>
         </div>
@@ -43,16 +41,16 @@ export default function SettingsPreview({ settings }: Props) {
 
       {/* 2. 서비스 프로필 요약 */}
       <div className="rounded-lg border border-gray-300 bg-white p-4 shadow-sm">
-        <p className="border-l-3 mb-3 border-[#1a5a96] pl-2 text-[10px] font-black uppercase tracking-tighter text-gray-400">
-          Service Identity
+        <p className="border-l-3 mb-3 border-[#5C8D5A] pl-2 text-[12px] font-black uppercase tracking-tighter text-gray-400">
+          서비스 아이덴티티
         </p>
         <div className="space-y-3">
           <div>
-            <p className="mb-0.5 text-[9px] font-bold text-gray-400">서비스 명칭</p>
+            <p className="mb-0.5 text-[11px] font-bold text-gray-400">서비스 명칭</p>
             <p className="text-[13px] font-black tracking-tight text-gray-800">{settings.serviceName}</p>
           </div>
           <div>
-            <p className="mb-0.5 text-[9px] font-bold text-gray-400">한 줄 설명</p>
+            <p className="mb-0.5 text-[11px] font-bold text-gray-400">한 줄 설명</p>
             <p className="font-medium leading-relaxed text-gray-600">{settings.serviceDesc}</p>
           </div>
         </div>
@@ -60,31 +58,31 @@ export default function SettingsPreview({ settings }: Props) {
 
       {/* 3. 고객 소통 정보 */}
       <div className="rounded-lg border border-gray-300 bg-white p-4 shadow-sm">
-        <p className="border-l-3 mb-3 border-[#1a5a96] pl-2 text-[10px] font-black uppercase tracking-tighter text-gray-400">
-          Customer Support
+        <p className="border-l-3 mb-3 border-[#5C8D5A] pl-2 text-[12px] font-black uppercase tracking-tighter text-gray-400">
+          고객 지원 정보
         </p>
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <span className="font-bold text-gray-400">대표번호</span>
-            <span className="font-mono font-black text-gray-800">{settings.contactPhone}</span>
+            <span className="font-black text-gray-800">{settings.contactPhone}</span>
           </div>
           <div className="flex items-center justify-between">
             <span className="font-bold text-gray-400">이메일</span>
-            <span className="font-medium text-blue-600 underline">{settings.contactEmail}</span>
+            <span className="font-medium text-[#5C8D5A] underline">{settings.contactEmail}</span>
           </div>
           <div className="mt-2 border-t border-gray-50 pt-2">
-            <p className="mb-1 text-[9px] font-bold text-gray-400">운영시간 가이드</p>
+            <p className="mb-1 text-[11px] font-bold text-gray-400">운영시간 가이드</p>
             <p className="font-bold text-gray-600">{settings.customerHours}</p>
           </div>
         </div>
       </div>
 
       {/* 4. 하단 카피라이트 미리보기 */}
-      <div className="rounded-lg border border-[#1a5a96] bg-[#1a5a96] p-4 text-white shadow-md">
-        <p className="mb-2 border-l-2 border-white/50 pl-2 text-[10px] font-black uppercase tracking-tighter opacity-80">
-          Footer Copyright
+      <div className="rounded-lg border border-[#5C8D5A] bg-[#5C8D5A] p-4 text-white shadow-md">
+        <p className="mb-2 border-l-2 border-white/50 pl-2 text-[12px] font-black uppercase tracking-tighter opacity-80">
+          푸터 카피라이트
         </p>
-        <p className="font-mono text-[10px] leading-relaxed opacity-90">
+        <p className="text-[10px] leading-relaxed opacity-90">
           {settings.footerText || '© 2026 Agape-Care. All rights reserved.'}
         </p>
       </div>

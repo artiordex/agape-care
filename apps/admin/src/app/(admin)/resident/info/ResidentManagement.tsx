@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ResidentHeader from './ResidentHeader';
 import ResidentList from './ResidentList';
 import ResidentProfile from './ResidentProfile';
@@ -8,8 +8,7 @@ import ResidentTabs from './ResidentTabs';
 
 // 기존 탭 콘텐츠 컴포넌트들 (기존 경로 유지)
 import BasicInfoTab from './tabs/BasicInfoTab';
-import CarePlanTab from './tabs/CarePlanTab';
-import AssessmentTab from './tabs/AssessmentTab';
+import CarePlanTab from './tabs/StandardContractTab';
 // ... 기타 탭 컴포넌트 생략
 
 /**

@@ -36,7 +36,7 @@ const Footer = () => {
   }, [isPrivacyModalOpen]);
 
   return (
-    <footer className="border-t border-[#E5E1D8] bg-[#F5F3EE] pb-[56px] font-['Pretendard'] lg:pb-12">
+    <footer className="border-t border-[#E5E1D8] bg-[#F5F3EE] pb-[56px] font-['Pretendard'] md:pb-0">
       {/* 웹 전용 푸터 */}
       <div className="hidden py-8 md:block">
         <div className="mx-auto flex w-[90%] max-w-[1600px] flex-col gap-6 px-4 sm:px-6 lg:px-8">

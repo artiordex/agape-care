@@ -3,8 +3,8 @@
  * @author Agape Care AI
  */
 import { z } from 'zod';
-import { ApiResponseSchema, PaginatedResponseSchema } from '../schemas/common/response.schema';
-import { CreateWebInquirySchema, WebInquirySchema } from '../schemas/web-inquiry';
+import { ApiResponseSchema, PaginatedResponseSchema } from '../schemas/common/response.schema.js';
+import { CreateWebInquirySchema, WebInquirySchema } from '../schemas/web-inquiry/index.js';
 
 export const webInquiryContract = {
   /**
@@ -30,7 +30,7 @@ export const webInquiryContract = {
     query: z.object({
       page: z.string().transform(Number).default('1'),
       limit: z.string().transform(Number).default('10'),
-      status: z.enum(['PENDING', 'IN_PROGRESS', 'DONE']).optional(),
+      status: z.enum(['PENDING', 'IN_PROGRESS', 'DONE', 'CANCELLED']).optional(),
       type: z.string().optional(),
       search: z.string().optional(),
       startDate: z.string().optional(),
@@ -61,7 +61,7 @@ export const webInquiryContract = {
     method: 'PATCH' as const,
     path: '/web-inquiries/:id/status',
     body: z.object({
-      status: z.enum(['PENDING', 'IN_PROGRESS', 'DONE']),
+      status: z.enum(['PENDING', 'IN_PROGRESS', 'DONE', 'CANCELLED']),
     }),
     responses: {
       200: ApiResponseSchema(WebInquirySchema),

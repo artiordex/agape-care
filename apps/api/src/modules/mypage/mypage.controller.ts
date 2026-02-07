@@ -12,15 +12,15 @@ export class MyPageController {
     return tsRestHandler(myPageContract, {
       getMyProfile: async () => {
         const profile = await this.myPageService.getProfile();
-        return { status: 200, body: profile };
+        return { status: 200, body: { success: true, data: profile } };
       },
       updateMyProfile: async ({ body }) => {
         const updated = await this.myPageService.updateProfile(body);
-        return { status: 200, body: updated };
+        return { status: 200, body: { success: true, data: updated } };
       },
       getMySchedules: async () => {
         const schedules = await this.myPageService.getSchedules();
-        return { status: 200, body: schedules };
+        return { status: 200, body: { success: true, data: schedules } };
       },
     });
   }

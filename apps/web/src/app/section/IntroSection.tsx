@@ -1,9 +1,15 @@
+/**
+ * Description : IntroSection.tsx - 📌 센터 소개 섹션 (80% 너비)
+ * Author : Shiwoo Min
+ * Date : 2026-02-02
+ */
+
 import { motion } from 'framer-motion';
 
 export default function IntroSection() {
   return (
     <section className="bg-white py-24">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="mx-auto w-[80%]">
         <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
           {/* 왼쪽 이미지 영역 */}
           <motion.div
@@ -14,7 +20,7 @@ export default function IntroSection() {
           >
             <div className="relative">
               <img
-                src="https://readdy.ai/api/search-image?query=warm%20elderly%20care%20facility%20with%20comfortable%20living%20room%20modern%20furniture%20natural%20sunlight%20peaceful%20atmosphere%20professional%20nursing%20home%20interior%20bright%20and%20welcoming%20space&width=800&height=600&seq=intro-section-main&orientation=landscape"
+                src="/images/sample.svg"
                 alt="요양센터 내부"
                 className="h-[500px] w-full rounded-3xl object-cover shadow-2xl"
               />
@@ -50,7 +56,7 @@ export default function IntroSection() {
           >
             <div className="mb-8">
               <span className="mb-6 inline-block rounded-full bg-[#5C8D5A] px-6 py-2.5 text-base font-bold text-white shadow-md">
-                해맑은요양센터
+                아가페 요양원
               </span>
               <h2 className="mb-8 text-5xl font-extrabold leading-tight text-gray-900 md:text-6xl">
                 우리 센터의

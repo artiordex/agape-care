@@ -17,7 +17,7 @@ export default function GalleryFilter({ categories, selected, onSelect, totalCou
   const getCategoryIcon = (category: string) => {
     switch (category) {
       case '전체':
-        return 'ri-grid-line';
+        return 'ri-grid-fill';
       case '행사':
         return 'ri-calendar-event-line';
       case '일상':
@@ -31,29 +31,51 @@ export default function GalleryFilter({ categories, selected, onSelect, totalCou
     }
   };
 
+  const getCategoryColor = (category: string) => {
+    switch (category) {
+      case '행사':
+        return '#DC2626'; // red-600
+      case '일상':
+        return '#2563EB'; // blue-600
+      case '인지프로그램':
+        return '#7C3AED'; // violet-600
+      case '여가활동':
+        return '#EA580C'; // orange-600
+      default:
+        return '#5C8D5A';
+    }
+  };
+
   return (
     <div className="mb-8">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-bold text-gray-900">갤러리</h2>
-        <p className="text-sm text-gray-600">
-          총 <span className="font-semibold text-[#5C8D5A]">{totalCount}</span>개
-        </p>
-      </div>
-      <div className="flex flex-wrap gap-2">
-        {categories.map(cat => (
-          <button
-            key={cat}
-            onClick={() => onSelect(cat)}
-            className={`inline-flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-semibold transition-all ${
-              selected === cat
-                ? 'border-[#5C8D5A] bg-[#5C8D5A] text-white shadow-sm'
-                : 'border-gray-300 bg-white text-gray-700 hover:border-[#5C8D5A] hover:bg-[#5C8D5A]/5'
-            }`}
-          >
-            <i className={`${getCategoryIcon(cat)} text-base`} />
-            {cat}
-          </button>
-        ))}
+      {/* 카테고리 버튼 */}
+      <div className="flex flex-wrap gap-px border border-[#5C8D5A]/20 bg-[#5C8D5A]/5">
+        {categories.map(cat => {
+          const isActive = selected === cat;
+
+          return (
+            <button
+              key={cat}
+              onClick={() => onSelect(cat)}
+              className={`relative flex items-center gap-3 border-l border-[#5C8D5A]/10 px-6 py-3 text-sm font-bold transition-colors first:border-l-0 ${
+                isActive
+                  ? 'bg-[#5C8D5A] text-white'
+                  : 'bg-white text-gray-600 hover:bg-[#5C8D5A]/10 hover:text-[#5C8D5A]'
+              }`}
+            >
+              <div
+                className="flex h-4 w-4 items-center justify-center"
+                style={{ color: isActive ? '#ffffff' : getCategoryColor(cat) }}
+              >
+                <i className={`${getCategoryIcon(cat)} text-base`} />
+              </div>
+
+              <span className="tracking-wide">{cat}</span>
+
+              {isActive && <div className="absolute bottom-0 left-0 h-[2px] w-full bg-white" />}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

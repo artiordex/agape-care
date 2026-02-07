@@ -10,8 +10,8 @@ import {
   LeaveRequestSchema,
   ShiftAssignmentSchema,
   ShiftTemplateSchema,
-} from '../schemas/attendance/index';
-import { ApiResponseSchema } from '../schemas/common/response.schema';
+} from '../schemas/attendance/index.js';
+import { ApiResponseSchema } from '../schemas/common/response.schema.js';
 
 /**
  * [출결] POST /attendance/check-in

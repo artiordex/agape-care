@@ -5,7 +5,6 @@ import { useState } from 'react';
 import AdmissionHistoryTab from '../../tabs/AdmissionHistoryTab';
 import AssessmentTab from '../../tabs/AssessmentTab';
 import BasicInfoTab from '../../tabs/BasicInfoTab';
-import CarePlanTab from '../../tabs/CarePlanTab';
 import CareSummaryTab from '../../tabs/CareSummaryTab';
 import ConsultationTab from '../../tabs/ConsultationTab';
 import CopaymentTab from '../../tabs/CopaymentTab';
@@ -13,6 +12,7 @@ import DocumentsTab from '../../tabs/DocumentsTab';
 import ExtraCostTab from '../../tabs/ExtraCostTab';
 import GuardiansTab from '../../tabs/GuardiansTab';
 import MedicationTab from '../../tabs/MedicationTab';
+import CarePlanTab from '../../tabs/StandardContractTab';
 import ResidentDetailProfile from './ResidentDetailProfile';
 import ResidentDetailTabs from './ResidentDetailTabs';
 

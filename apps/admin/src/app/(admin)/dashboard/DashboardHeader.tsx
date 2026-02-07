@@ -1,6 +1,12 @@
+/**
+ * Description : DashboardHeader.tsx - 📌 통합 운영 대시보드 헤더 컴포넌트
+ * Author : Shiwoo Min
+ * Date : 2026-02-02
+ */
+
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 /**
  * [Header] 실시간 통합 관제 대시보드 헤더
@@ -15,11 +21,19 @@ export default function DashboardHeader() {
     return () => clearInterval(timer);
   }, []);
 
+  // 날짜 포맷팅 함수 (YYYY-MM-DD)
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   return (
     <div className="flex flex-col justify-between gap-4 border-b border-gray-300 bg-white p-4 shadow-sm md:flex-row md:items-center">
-      {/* 1. 왼쪽: 시스템 타이틀 및 라이브 인디케이터 */}
+      {/* 왼쪽: 시스템 타이틀 및 라이브 인디케이터 */}
       <div className="flex items-center gap-3">
-        <div className="relative rounded-lg bg-[#1a5a96] p-2.5 text-white shadow-md shadow-blue-100">
+        <div className="relative rounded-lg bg-[#5C8D5A] p-2.5 text-white shadow-md shadow-emerald-100">
           <i className="ri-dashboard-3-line text-xl"></i>
           {/* 실시간 라이브 램프 */}
           <span className="absolute -right-1 -top-1 flex h-3 w-3">
@@ -29,31 +43,25 @@ export default function DashboardHeader() {
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-lg font-black leading-tight tracking-tighter text-gray-900">통합 시설 운영 대시보드</h1>
-            <span className="rounded border border-blue-100 bg-blue-50 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-widest text-[#1a5a96]">
-              Live Monitor
-            </span>
+            <h1 className="text-xl font-black leading-tight tracking-tighter text-gray-900">대시보드</h1>
           </div>
           <div className="mt-0.5 flex items-center gap-2">
-            <p className="text-[10px] font-bold uppercase tracking-tighter text-[#1a5a96]">
-              Agape-Care Operational Intelligence
-            </p>
-            <span className="h-2 w-[1px] bg-gray-300"></span>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
-              실시간 기관 현황 및 건강 지표 관제
+            <p className="text-[12px] font-bold uppercase tracking-tighter text-[#5C8D5A]">
+              각종 운영 정보 모니터링
             </p>
           </div>
         </div>
       </div>
 
-      {/* 2. 오른쪽: 데이터 기준 시점 및 액션 */}
+      {/* 오른쪽: 데이터 기준 시점 및 액션 */}
       <div className="flex items-center gap-4">
         {/* 실시간 타임스탬프 (font-mono 적용) */}
         <div className="hidden flex-col items-end border-r border-gray-200 pr-4 lg:flex">
-          <p className="mb-0.5 text-[9px] font-black uppercase tracking-widest text-gray-400">System Time (KST)</p>
+          <p className="mb-0.5 text-[12px] font-black uppercase tracking-widest text-gray-500">현재(KST)</p>
           <div className="flex items-center gap-2">
-            <span className="font-mono text-xs font-black italic text-gray-700">2026-01-30</span>
-            <span className="font-mono text-sm font-black leading-none text-[#1a5a96]">
+            {/* 고정된 날짜 대신 formatDate 함수를 통해 현재 날짜 출력 */}
+            <span className="font-mono text-[12px] font-black text-gray-700">{formatDate(currentTime)}</span>
+            <span className="font-mono text-[12px] font-black leading-none text-[#5C8D5A]">
               {currentTime.toLocaleTimeString('ko-KR', { hour12: false })}
             </span>
           </div>
@@ -61,10 +69,10 @@ export default function DashboardHeader() {
 
         {/* 유틸리티 액션 버튼 */}
         <div className="flex items-center gap-2">
-          <button className="flex items-center gap-1.5 border border-gray-300 bg-white px-3 py-2 text-[11px] font-bold text-gray-600 shadow-sm transition-all hover:bg-gray-50">
+          <button className="flex items-center gap-1.5 border border-gray-300 bg-white px-3 py-2 text-[12px] font-bold text-gray-600 shadow-sm transition-all hover:bg-gray-50 active:scale-95">
             <i className="ri-refresh-line"></i>데이터 새로고침
           </button>
-          <button className="flex items-center gap-1.5 bg-[#1a5a96] px-4 py-2 text-[11px] font-black text-white shadow-md transition-all hover:bg-[#144675] active:scale-95">
+          <button className="flex items-center gap-1.5 bg-[#5C8D5A] px-4 py-2 text-[12px] font-black text-white shadow-md transition-all hover:bg-[#4a7248] active:scale-95">
             <i className="ri-file-chart-line"></i>운영 일일 보고서 출력
           </button>
         </div>

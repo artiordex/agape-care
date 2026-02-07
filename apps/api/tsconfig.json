@@ -1,8 +1,8 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "outDir": "../../dist/apps/api",
 
     "experimentalDecorators": true,
@@ -15,14 +15,13 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
 
-    "baseUrl": ".",
+    "types": ["node"],
     "paths": {
-      "@agape-care/api-contract": ["../../packages/api-contract/src/index.ts"],
-      "@agape-care/database": ["../../packages/database/src/index.ts"],
-      "@agape-care/logger": ["../../packages/logger/src/index.ts"]
-    },
-
-    "types": ["node"]
+      "@agape-care/database": ["packages/database"],
+      "@agape-care/logger": ["packages/logger"],
+      "@agape-care/api-contract": ["packages/api-contract"],
+      "@agape-care/ui": ["packages/ui"]
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.spec.ts"]

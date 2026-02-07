@@ -1,6 +1,10 @@
-'use client';
+/**
+ * Description : HealthAlerts.tsx - 📌 대시보드 건강 및 비상 모니터링 섹션
+ * Author : Shiwoo Min
+ * Date : 2026-02-02
+ */
 
-import React from 'react';
+'use client';
 
 interface HealthAlert {
   id: number;
@@ -21,17 +25,17 @@ interface Props {
  */
 export default function HealthAlerts({ healthAlerts }: Props) {
   return (
-    <section className="overflow-hidden rounded-lg border border-red-300 bg-white text-[11px] shadow-sm">
+    <section className="overflow-hidden rounded-lg border border-red-300 bg-white text-[12px] shadow-sm">
       {/* 섹션 헤더: 긴급 관제 스타일 */}
       <header className="flex items-center justify-between border-b border-red-200 bg-[#fef2f2] px-4 py-2">
         <div className="flex items-center gap-2">
           <div className="h-3 w-1 bg-red-600"></div>
-          <h3 className="font-black uppercase tracking-tighter text-red-900">Health & Emergency Monitor</h3>
+          <h3 className="font-[12px] uppercase tracking-tighter text-red-900">건강 및 비상 모니터링</h3>
         </div>
         <div className="flex items-center gap-2">
           <span className="flex h-2 w-2 animate-pulse rounded-full bg-red-600"></span>
-          <span className="font-mono font-black text-red-600">
-            {healthAlerts.length.toString().padStart(2, '0')} Critical Issues
+          <span className="text-[12px] font-[12px] text-red-600">
+            {healthAlerts.length.toString().padStart(2, '0')}건의 심각한 문제
           </span>
         </div>
       </header>
@@ -42,7 +46,7 @@ export default function HealthAlerts({ healthAlerts }: Props) {
           {healthAlerts.length === 0 ? (
             <li className="py-12 text-center">
               <i className="ri-checkbox-circle-line mb-2 block text-3xl text-emerald-200"></i>
-              <p className="font-bold uppercase tracking-widest text-gray-400">All Vitals are Normal</p>
+              <p className="font-bold uppercase tracking-widest text-gray-400">모든 바이탈이 정상입니다</p>
             </li>
           ) : (
             healthAlerts.map(alert => (
@@ -58,8 +62,8 @@ export default function HealthAlerts({ healthAlerts }: Props) {
                 {/* 환자 및 증상 정보 */}
                 <div className="min-w-0 flex-1">
                   <div className="mb-0.5 flex items-center gap-2">
-                    <span className="text-[12px] font-black text-gray-900">{alert.name}</span>
-                    <span className="rounded-sm bg-red-100 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-tighter text-red-700">
+                    <span className="text-[16px] font-black text-gray-900">{alert.name}</span>
+                    <span className="rounded-sm bg-red-100 px-1.5 py-0.5 text-[12px] font-black uppercase tracking-tighter text-red-700">
                       {alert.issue}
                     </span>
                   </div>
@@ -71,11 +75,11 @@ export default function HealthAlerts({ healthAlerts }: Props) {
 
                 {/* 발생 시각 및 액션 */}
                 <div className="flex flex-col items-end gap-1.5">
-                  <span className="font-mono text-[10px] font-bold uppercase italic tracking-tighter text-gray-400">
+                  <span className="text-[12px] font-bold uppercase italic tracking-tighter text-gray-400">
                     {alert.time}
                   </span>
-                  <button className="rounded-sm border border-red-200 bg-white px-2 py-0.5 text-[9px] font-black uppercase text-red-600 transition-colors hover:bg-red-600 hover:text-white">
-                    Check Vitals
+                  <button className="rounded-sm border border-red-200 bg-white px-2 py-0.5 text-[12px] font-black uppercase text-red-600 transition-colors hover:bg-red-600 hover:text-white">
+                    바이탈 확인
                   </button>
                 </div>
               </li>
@@ -87,8 +91,8 @@ export default function HealthAlerts({ healthAlerts }: Props) {
       {/* 하단 푸터 가이드 */}
       {healthAlerts.length > 0 && (
         <div className="border-t border-red-100 bg-red-50/50 px-4 py-1.5">
-          <p className="flex items-center gap-1 text-[9px] font-bold uppercase text-red-400">
-            <i className="ri-error-warning-fill"></i>Immediate Response Required for Highlighted Vitals
+          <p className="flex items-center gap-1 text-[12px] font-bold uppercase text-red-400">
+            <i className="ri-error-warning-fill"></i>강조된 바이탈에 대해 즉각적인 조치가 필요합니다
           </p>
         </div>
       )}

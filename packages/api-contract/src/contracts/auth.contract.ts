@@ -14,9 +14,9 @@ import {
   RefreshTokenRequestSchema,
   RefreshTokenResponseSchema,
   ResetPasswordRequestSchema,
-} from '../schemas/auth/index';
-import { ApiResponseSchema } from '../schemas/common/response.schema';
-import { EmployeeSchema } from '../schemas/staff/employee.schema'; // EmployeeSchema 활용
+} from '../schemas/auth/index.js';
+import { ApiResponseSchema } from '../schemas/common/response.schema.js';
+import { EmployeeSchema } from '../schemas/staff/employee.schema.js'; // EmployeeSchema 활용
 
 /**
  * POST /auth/login

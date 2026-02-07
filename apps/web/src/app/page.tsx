@@ -8,13 +8,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import AdmissionProcessSection from './section/AdmissionProcessSection';
-import ConsultationSection from './section/ConsultationSection';
-import FeaturesSection from './section/FeaturesSection';
 import HeroSection from './section/HeroSection';
-import IntroSection from './section/IntroSection';
-import NewsSection from './section/NewsSection';
-import ServicesSection from './section/ServicesSection';
+import NewsSection from './section/NotificationSection';
 
 // 스크롤 애니메이션
 function AnimatedSection({ children, delay = 0 }: Readonly<{ children: React.ReactNode; delay?: number }>) {
@@ -58,29 +53,8 @@ export default function HomePage() {
   return (
     <div className="bg-white">
       <HeroSection />
-
-      <AnimatedSection>
-        <IntroSection />
-      </AnimatedSection>
-
-      <AnimatedSection delay={100}>
-        <ServicesSection />
-      </AnimatedSection>
-
-      <AnimatedSection delay={200}>
-        <FeaturesSection />
-      </AnimatedSection>
-
-      <AnimatedSection delay={100}>
-        <AdmissionProcessSection />
-      </AnimatedSection>
-
       <AnimatedSection delay={200}>
         <NewsSection />
-      </AnimatedSection>
-
-      <AnimatedSection delay={100}>
-        <ConsultationSection />
       </AnimatedSection>
     </div>
   );

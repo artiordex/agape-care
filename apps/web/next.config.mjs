@@ -17,9 +17,9 @@ const IS_FIREBASE = process.env.FIREBASE === 'true';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
+  //experimental: {
+  //  appDir: true,
+  //},
 
   output: IS_FIREBASE ? 'export' : 'standalone',
 
@@ -46,6 +46,24 @@ const nextConfig = {
 
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
+
+  webpack: config => {
+    const packagesBase = path.resolve(__dirname, '../../packages');
+
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@agape-care/ui': path.join(packagesBase, 'ui/dist'),
+      '@agape-care/logger': path.join(packagesBase, 'logger/dist'),
+      '@agape-care/api-contract': path.join(packagesBase, 'api-contract/dist'),
+    };
+
+    // ESM 스타일의 .js 확장을 .ts/.tsx로 해석하도록 설정
+    config.resolve.extensionAlias = {
+      '.js': ['.ts', '.tsx', '.js'],
+    };
+
+    return config;
+  },
 };
 
 // 핵심: Nx 래퍼 적용

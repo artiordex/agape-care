@@ -19,7 +19,7 @@ export const HealthAlertSchema = z.object({
   id: z.string(),
   residentId: z.string(),
   residentName: z.string(),
-  type: z.enum(['BLOOD_PRESSURE', 'TEMPERATURE', 'BLOOD_SUGAR', 'FALL', 'OTHER']),
+  type: z.enum(['BLOOD_PRESSURE', 'TEMPERATURE', 'BLOOD_SUGAR', 'SPO2', 'FALL', 'OTHER']),
   value: z.string(),
   threshold: z.string().optional(),
   occurredAt: z.string().datetime(),

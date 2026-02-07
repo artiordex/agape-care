@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 interface Employee {
   id: string;
   name: string;
@@ -16,22 +14,22 @@ interface RoleTemplate {
 }
 
 interface Props {
-  activeTab: 'employee' | 'role';
-  setActiveTab: (tab: 'employee' | 'role') => void;
-  employees: Employee[];
-  roleTemplates: RoleTemplate[];
-  selectedEmployee: string | null;
-  setSelectedEmployee: (id: string) => void;
-  selectedRole: string | null;
-  setSelectedRole: (id: string) => void;
-  searchQuery: string;
-  setSearchQuery: (v: string) => void;
-  filteredEmployees: Employee[];
-  countActivePermissions: (empId: string) => number;
-  totalScreens: number;
-  copyPermission: () => void;
-  pastePermission: () => void;
-  copiedPermission: any;
+  readonly activeTab: 'employee' | 'role';
+  readonly setActiveTab: (tab: 'employee' | 'role') => void;
+  readonly employees: Employee[];
+  readonly roleTemplates: RoleTemplate[];
+  readonly selectedEmployee: string | null;
+  readonly setSelectedEmployee: (id: string) => void;
+  readonly selectedRole: string | null;
+  readonly setSelectedRole: (id: string) => void;
+  readonly searchQuery: string;
+  readonly setSearchQuery: (v: string) => void;
+  readonly filteredEmployees: Employee[];
+  readonly countActivePermissions: (empId: string) => number;
+  readonly totalScreens: number;
+  readonly copyPermission: () => void;
+  readonly pastePermission: () => void;
+  readonly copiedPermission: any;
 }
 
 /**
@@ -57,7 +55,7 @@ export default function EmployeeBar({
   copiedPermission,
 }: Props) {
   return (
-    <div className="flex w-80 flex-col border-r border-gray-300 bg-white text-[11px] shadow-sm">
+    <div className="flex w-80 flex-col border-r border-gray-300 bg-white text-[12px] shadow-sm">
       {/* 1. 시스템 탭 네비게이션 */}
       <div className="border-b border-gray-200 bg-[#f8fafc] p-1">
         <div className="flex gap-1">
@@ -86,9 +84,9 @@ export default function EmployeeBar({
             placeholder={activeTab === 'employee' ? '성명 또는 직위 검색...' : '역할 명칭 검색...'}
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="w-full rounded-sm border border-gray-300 py-2 pl-9 pr-3 font-bold outline-none transition-all placeholder:text-gray-300 focus:border-[#1a5a96] focus:ring-1 focus:ring-[#1a5a96]"
+            className="w-full rounded-sm border border-gray-300 py-2 pl-9 pr-3 font-bold outline-none transition-all placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
           />
-          <i className="ri-search-2-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#1a5a96]"></i>
+          <i className="ri-search-2-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#5C8D5A]"></i>
         </div>
       </div>
 
@@ -107,13 +105,13 @@ export default function EmployeeBar({
                   onClick={() => setSelectedEmployee(emp.id)}
                   className={`cursor-pointer border-l-4 px-4 py-3 transition-all ${
                     isSelected
-                      ? 'border-[#1a5a96] bg-blue-50/50 shadow-[inset_0_0_10px_rgba(26,90,150,0.05)]'
+                      ? 'border-[#5C8D5A] bg-[#F1F6F1] shadow-[inset_0_0_10px_rgba(92,141,90,0.05)]'
                       : 'group border-transparent hover:bg-white hover:pl-5'
                   } `}
                 >
                   <div className="mb-1.5 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <h4 className={`font-black tracking-tighter ${isSelected ? 'text-[#1a5a96]' : 'text-gray-700'}`}>
+                      <h4 className={`font-black tracking-tighter ${isSelected ? 'text-[#5C8D5A]' : 'text-gray-700'}`}>
                         {emp.name}
                       </h4>
                       <span className="rounded-[2px] border border-gray-200 bg-white px-1.5 py-0.5 text-[9px] font-bold text-gray-400">
@@ -127,16 +125,16 @@ export default function EmployeeBar({
                     <div className="flex items-center gap-1.5">
                       <div className="h-1 w-20 overflow-hidden rounded-full bg-gray-200">
                         <div
-                          className="h-full bg-[#1a5a96] opacity-50 transition-all"
+                          className="h-full bg-[#5C8D5A] opacity-50 transition-all"
                           style={{ width: `${(activePerms / totalScreens) * 100}%` }}
                         ></div>
                       </div>
-                      <span className="text-[9px] font-black text-blue-600/70">
+                      <span className="text-[9px] font-black text-[#5C8D5A]/70">
                         {activePerms}/{totalScreens}
                       </span>
                     </div>
                     <i
-                      className={`ri-arrow-right-s-line transition-transform ${isSelected ? 'translate-x-1 text-[#1a5a96]' : 'text-gray-200'}`}
+                      className={`ri-arrow-right-s-line transition-transform ${isSelected ? 'translate-x-1 text-[#5C8D5A]' : 'text-gray-200'}`}
                     ></i>
                   </div>
                 </div>
@@ -170,8 +168,8 @@ export default function EmployeeBar({
       {/* 4. 하단 권한 복제 도구 (Batch Tool) */}
       <div className="space-y-2 border-t border-gray-200 bg-white p-3">
         <div className="mb-1 flex items-center gap-2 px-1">
-          <i className="ri-clipboard-fill text-xs text-[#1a5a96]"></i>
-          <span className="text-[10px] font-black uppercase tracking-tighter text-gray-400">Permission Batch Tool</span>
+          <i className="ri-clipboard-fill text-xs text-[#5C8D5A]"></i>
+          <span className="text-[10px] font-black uppercase tracking-tighter text-gray-400">전역 권한 관리 도구</span>
         </div>
         <div className="grid grid-cols-2 gap-2">
           <ActionButton
@@ -210,7 +208,7 @@ function TabButton({ active, onClick, icon, label, count }: any) {
     >
       <i className={`${icon} text-sm`}></i>
       <span className="tracking-tighter">{label}</span>
-      <span className={`rounded-full px-1 text-[9px] ${active ? 'bg-blue-100' : 'bg-gray-100'}`}>{count}</span>
+      <span className={`rounded-full px-1 text-[9px] ${active ? 'bg-emerald-100' : 'bg-gray-100'}`}>{count}</span>
     </button>
   );
 }
@@ -223,7 +221,7 @@ function ActionButton({ onClick, disabled, icon, label, isPrimary }: any) {
       disabled={disabled}
       className={`flex items-center justify-center gap-1.5 rounded-sm border py-2 font-black transition-all active:scale-95 disabled:opacity-30 disabled:active:scale-100 ${
         isPrimary
-          ? 'border-[#1a5a96] bg-[#1a5a96] text-white hover:bg-[#144675]'
+          ? 'border-[#5C8D5A] bg-[#5C8D5A] text-white hover:bg-[#4A7548]'
           : 'border-gray-300 bg-white text-gray-600 hover:bg-gray-50'
       } `}
     >

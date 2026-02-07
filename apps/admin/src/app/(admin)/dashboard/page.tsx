@@ -1,8 +1,16 @@
+/**
+ * Description : DashboardPage.tsx - 📌 대시보드 메인 페이지
+ * Author : Shiwoo Min
+ * Date : 2026-02-02
+ */
+
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 // 리팩토링된 전문 ERP 컴포넌트 Import
+import FullMenuModal from '@/components/FullMenuModal';
 import HealthAlerts from './CareMonitor/HealthAlerts';
 import MedicationStatus from './CareMonitor/MedicationStatus';
 import DashboardHeader from './DashboardHeader';
@@ -13,6 +21,7 @@ import StatsCards from './StatsCards';
 
 // 데이터 소스
 import dashboardData from '@/data/dashboard.json';
+import menuData from '@/data/menu.json';
 
 // 실시간 케어 샘플 데이터
 const SAMPLE_MEDICATIONS = {
@@ -38,12 +47,16 @@ const SAMPLE_HEALTH_ALERTS = [
  */
 export default function DashboardPage() {
   const router = useRouter();
+  const [isFullMenuOpen, setIsFullMenuOpen] = useState(false);
 
   // 빠른 작업 핸들러
   const handleQuickAction = (action: any) => {
     if (action.path) router.push(action.path);
     if (action.action === 'addSchedule') {
       console.log('일정 추가 모달 활성화');
+    }
+    if (action.action === 'showFullMenu') {
+      setIsFullMenuOpen(true);
     }
   };
 
@@ -79,19 +92,15 @@ export default function DashboardPage() {
 
         {/* [D] 시스템 퀵 링크 섹션 */}
         <QuickLinkGrid actions={dashboardData.quickActions} onAction={handleQuickAction} />
-
-        {/* 하단 시스템 정보 */}
-        <footer className="mt-4 flex items-center justify-between border-t border-gray-200 pb-4 pt-4 text-[10px] font-bold uppercase tracking-widest text-gray-400">
-          <div className="flex gap-4">
-            <span className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-              All Systems Operational
-            </span>
-            <span>Last Updated: 2026.01.30 18:30</span>
-          </div>
-          <span className="text-[#1a5a96]">Agape-Care Intelligence Platform</span>
-        </footer>
       </div>
+
+      {/* 전체 메뉴 모달 */}
+      <FullMenuModal
+        isOpen={isFullMenuOpen}
+        onClose={() => setIsFullMenuOpen(false)}
+        menus={menuData.menus}
+        onMenuClick={path => router.push(path)}
+      />
     </main>
   );
 }

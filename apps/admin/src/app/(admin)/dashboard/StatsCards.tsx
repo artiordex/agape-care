@@ -1,6 +1,10 @@
-'use client';
+/**
+ * Description : StatsCards.tsx - 📌 대시보드 핵심 운영 지표 카드 그룹
+ * Author : Shiwoo Min
+ * Date : 2026-02-02
+ */
 
-import React from 'react';
+'use client';
 
 interface StatCard {
   title: string;
@@ -25,20 +29,20 @@ export default function StatsCards({ stats }: Props) {
       {stats.map(stat => (
         <div
           key={stat.title}
-          className="group relative overflow-hidden rounded-lg border border-gray-300 bg-white p-5 shadow-sm transition-all hover:border-[#1a5a96] hover:shadow-md"
+          className="group relative overflow-hidden rounded-lg border border-gray-300 bg-white p-5 shadow-sm transition-all hover:border-[#5C8D5A] hover:shadow-md"
         >
           {/* 카드 상단: 타이틀 및 아이콘 */}
           <div className="mb-4 flex items-start justify-between">
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">{stat.title}</p>
+              <p className="text-[12px] font-black uppercase tracking-widest text-gray-400">{stat.title}</p>
               <div className="mt-1 flex items-baseline gap-1">
-                <p className="font-mono text-3xl font-black tracking-tighter text-gray-900">{stat.value}</p>
+                <p className="font-mono text-4xl font-black tracking-tighter text-gray-900">{stat.value}</p>
                 {/* 지표별 단위 (필요 시 데이터에서 파싱) */}
-                <span className="text-[11px] font-bold uppercase text-gray-400">Unit</span>
+                <span className="text-[12px] font-bold uppercase text-gray-400">단위</span>
               </div>
             </div>
             <div
-              className={`flex h-10 w-10 items-center justify-center rounded-lg border border-gray-100 bg-gray-50 text-[#1a5a96] transition-colors group-hover:bg-[#1a5a96] group-hover:text-white`}
+              className={`flex h-10 w-10 items-center justify-center rounded-lg border border-gray-100 bg-gray-50 text-[#5C8D5A] transition-colors group-hover:bg-[#5C8D5A] group-hover:text-white`}
             >
               <i className={`${stat.icon} text-xl`} />
             </div>
@@ -49,14 +53,14 @@ export default function StatsCards({ stats }: Props) {
             <div className="flex items-center gap-1.5">
               {/* 변동률 인디케이터 (임시 로직: '+' 포함 시 상승으로 간주) */}
               <span
-                className={`flex items-center text-[10px] font-black uppercase ${stat.change.includes('+') ? 'text-emerald-500' : 'text-red-500'}`}
+                className={`flex items-center text-[12px] font-black uppercase ${stat.change.includes('+') ? 'text-emerald-500' : 'text-red-500'}`}
               >
                 <i
                   className={`${stat.change.includes('+') ? 'ri-arrow-right-up-line' : 'ri-arrow-right-down-line'} mr-0.5`}
                 ></i>
                 {stat.change}
               </span>
-              <span className="text-[10px] font-bold uppercase tracking-tighter text-gray-400">vs Last Month</span>
+              <span className="text-[12px] font-bold uppercase tracking-tighter text-gray-400">지난달 대비</span>
             </div>
 
             {/* 상태 점등 (디자인 포인트) */}
@@ -68,7 +72,7 @@ export default function StatsCards({ stats }: Props) {
           </div>
 
           {/* 호버 시 나타나는 미세한 브랜드 라인 */}
-          <div className="absolute bottom-0 left-0 h-1 w-0 bg-[#1a5a96] transition-all group-hover:w-full"></div>
+          <div className="absolute bottom-0 left-0 h-1 w-0 bg-[#5C8D5A] transition-all group-hover:w-full"></div>
         </div>
       ))}
     </section>

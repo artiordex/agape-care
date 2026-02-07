@@ -28,16 +28,9 @@ export default function ConsultationHeader({ activeTab, viewMode, isProcessing, 
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-lg font-black leading-tight tracking-tighter text-gray-900">{title}</h1>
-            <span className="rounded border border-emerald-100 bg-emerald-50 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-widest text-[#5C8D5A]">
-              분기별 이행 모니터링 중
-            </span>
           </div>
           <div className="mt-0.5 flex items-center gap-2">
-            <p className="text-[10px] font-bold text-[#5C8D5A]">Consultation & Interview System</p>
-            <span className="h-2 w-[1px] bg-gray-300"></span>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
-              Agape-Care Quality Control Protocol
-            </p>
+            <p className="text-[10px] font-bold text-[#5C8D5A]">상담 일지 통합 관리</p>
           </div>
         </div>
       </div>

@@ -5,8 +5,8 @@
  */
 
 import { z } from 'zod';
-import { ApiResponseSchema } from '../schemas/common/response.schema';
-import { MyProfileSchema, MyScheduleSchema, UpdateMyProfileSchema } from '../schemas/mypage/mypage.schema';
+import { ApiResponseSchema } from '../schemas/common/response.schema.js';
+import { MyProfileSchema, MyScheduleSchema, UpdateMyProfileSchema } from '../schemas/mypage/mypage.schema.js';
 
 const authHeader = z.object({
   authorization: z.string().describe('Bearer {token}'),

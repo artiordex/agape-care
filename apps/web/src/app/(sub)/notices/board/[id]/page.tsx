@@ -6,9 +6,13 @@
 
 'use client';
 
-import boardData from '@/data/board.json';
+import { api } from '@/lib/api';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
+import { useMemo, useState } from 'react';
+
+import DeleteConfirmModal from '../DeleteConfirmModal';
+import EditPostModal from '../EditPostModal';
 
 interface Post {
   id: string;
@@ -18,8 +22,8 @@ interface Post {
   view_count: number;
   image_urls: string[];
   is_hidden: boolean;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export default function BoardDetailPage() {
@@ -27,12 +31,58 @@ export default function BoardDetailPage() {
   const router = useRouter();
   const postId = params.id as string;
 
-  // JSON 데이터에서 게시글 찾기
-  const posts = boardData.posts;
-  const post = posts.find(p => p.id === postId);
-  const currentIndex = posts.findIndex(p => p.id === postId);
-  const prevPost = currentIndex > 0 ? posts[currentIndex - 1] : null;
-  const nextPost = currentIndex < posts.length - 1 ? posts[currentIndex + 1] : null;
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  // Single Post Query
+  const { data: postResult, isLoading } = api.content.getPost.useQuery(
+    {
+      params: { id: postId },
+    },
+    {
+      queryKey: ['board-post', postId],
+    },
+  );
+
+  // All Posts for Prev/Next navigation
+  const { data: allPostsResult } = api.content.getPosts.useQuery(
+    {
+      query: { boardKey: 'FREE' },
+    },
+    {
+      queryKey: ['board-posts-nav'],
+    },
+  );
+
+  const post = useMemo(() => {
+    if (postResult?.status !== 200) return null;
+    const p = postResult.body.data;
+
+    return {
+      id: p.id,
+      title: p.title,
+      writer_name: '관리자', // TODO: authorId로 이름 가져오기
+      content: p.content,
+      view_count: p.viewCount || 0,
+      image_urls: [],
+      is_hidden: false,
+      createdAt: p.createdAt,
+      updatedAt: p.updatedAt,
+    };
+  }, [postResult]);
+
+  const allPosts = allPostsResult?.status === 200 ? allPostsResult.body.data : [];
+  const currentIndex = allPosts.findIndex((p: any) => p.id === postId);
+  const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+  const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-[#5C8D5A] border-t-transparent"></div>
+      </div>
+    );
+  }
 
   if (!post) {
     return (
@@ -55,8 +105,8 @@ export default function BoardDetailPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 py-12">
-      <div className="container mx-auto max-w-5xl px-4">
+    <main className="min-h-screen bg-gray-50">
+      <div className="max-w-1200 container mx-auto px-4">
         <div className="border border-gray-200 bg-white shadow-sm">
           {/* Title Section */}
           <div className="border-b-2 border-[#5C8D5A]/30 bg-[#5C8D5A]/5 px-6 py-6 md:px-8">
@@ -75,7 +125,7 @@ export default function BoardDetailPage() {
               <div className="flex items-center gap-2">
                 <i className="ri-calendar-line text-base text-[#5C8D5A]" />
                 <span className="font-semibold text-gray-900">작성일</span>
-                <span>{new Date(post.created_at).toLocaleDateString('ko-KR')}</span>
+                <span>{new Date(post.createdAt).toLocaleDateString('ko-KR')}</span>
               </div>
               <div className="h-4 w-px bg-gray-300" />
               <div className="flex items-center gap-2">
@@ -186,6 +236,18 @@ export default function BoardDetailPage() {
                 <i className="ri-list-check" /> 목록
               </button>
               <button
+                onClick={() => setIsEditModalOpen(true)}
+                className="flex items-center gap-2 rounded border border-gray-300 bg-white px-6 py-3 font-semibold text-gray-700 transition-all hover:border-[#5C8D5A]/50 hover:bg-gray-50 hover:text-[#5C8D5A]"
+              >
+                <i className="ri-edit-line" /> 수정
+              </button>
+              <button
+                onClick={() => setIsDeleteModalOpen(true)}
+                className="flex items-center gap-2 rounded border border-red-200 bg-white px-6 py-3 font-semibold text-red-600 transition-all hover:bg-red-50"
+              >
+                <i className="ri-delete-bin-line" /> 삭제
+              </button>
+              <button
                 onClick={() => window.print()}
                 className="flex items-center gap-2 rounded border border-gray-300 bg-white px-6 py-3 font-semibold text-gray-700 transition-all hover:bg-gray-50"
               >
@@ -211,6 +273,30 @@ export default function BoardDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* Edit Modal */}
+      {isEditModalOpen && post && (
+        <EditPostModal
+          post={post}
+          onClose={() => setIsEditModalOpen(false)}
+          onSuccess={() => {
+            setIsEditModalOpen(false);
+            window.location.reload();
+          }}
+        />
+      )}
+
+      {/* Delete Modal */}
+      {isDeleteModalOpen && (
+        <DeleteConfirmModal
+          postId={postId}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onSuccess={() => {
+            setIsDeleteModalOpen(false);
+            router.push('/notices/board');
+          }}
+        />
+      )}
     </main>
   );
 }

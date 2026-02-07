@@ -9,31 +9,36 @@
 import { motion } from 'framer-motion';
 
 export default function ProcessSection() {
-  // 이미지의 '입소 전 절차' 및 '입소신청 절차' 반영
-  const processSteps = [
+  const steps = [
     {
-      step: '01',
-      title: '입소 전 행정 절차',
-      description: '거주지 국민건강보험공단에 장기요양인정 신청 후 인정조사 및 등급판정(시설등급)을 받습니다.',
-      icon: 'ri-government-line',
+      icon: 'ri-phone-line',
+      title: '상담 신청',
+      description: '전화 또는 온라인으로\n무료 상담을 신청해 주세요',
+      color: '#5C8D5A',
     },
     {
-      step: '02',
-      title: '입소 상담 및 신청',
-      description: '전화 상담 또는 직접 방문을 통해 상담을 진행하며, 인터넷으로도 입소신청서 접수가 가능합니다.',
-      icon: 'ri-chat-check-line',
+      icon: 'ri-user-heart-line',
+      title: '방문 상담',
+      description: '센터를 직접 방문하여\n시설과 프로그램을 확인하세요',
+      color: '#5C8D5A',
     },
     {
-      step: '03',
-      title: '서류 제출 및 계약',
-      description: '장기요양인정서 등 구비 서류를 제출하고 입소 계약 체결 및 이용료 안내를 받습니다.',
+      icon: 'ri-file-list-2-line',
+      title: '준비서류 안내',
+      description: '입소에 필요한 서류를\n안내해 드립니다',
+      color: '#5C8D5A',
+    },
+    {
+      icon: 'ri-hospital-line',
+      title: '장기요양등급 안내',
+      description: '장기요양등급 신청 및\n인정 절차를 도와드립니다',
+      color: '#5C8D5A',
+    },
+    {
       icon: 'ri-file-edit-line',
-    },
-    {
-      step: '04',
-      title: '시설 입소',
-      description: '정해진 입소일에 맞춰 준비 물품을 지참하여 시설에 입소, 맞춤 케어 서비스를 시작합니다.',
-      icon: 'ri-home-heart-line',
+      title: '계약 및 입소',
+      description: '계약 진행 후\n편안하게 입소하실 수 있습니다',
+      color: '#5C8D5A',
     },
   ];
 
@@ -52,37 +57,46 @@ export default function ProcessSection() {
         </motion.div>
 
         {/* 입소 절차 그리드 */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-          {processSteps.map((step, index) => (
-            <motion.div
-              key={step.step}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              className="relative"
-            >
-              <div className="group h-full rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:shadow-md">
-                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#5C8D5A] to-[#476d45] shadow-lg transition-transform group-hover:scale-110">
-                  <i className={`${step.icon} text-3xl text-white`}></i>
-                </div>
+        <div className="relative">
+          {/* 연결선 */}
+          <div className="absolute left-0 right-0 top-24 hidden h-1 bg-gradient-to-r from-[#5C8D5A] via-[#5C8D5A] to-[#5C8D5A] opacity-20 lg:block" />
 
-                <div className="text-center">
-                  <div className="mb-2 text-sm font-bold uppercase tracking-widest text-[#5C8D5A] opacity-60">
-                    STEP {step.step}
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:grid-cols-5">
+            {steps.map((step, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                viewport={{ once: true }}
+                className="group relative flex flex-col items-center text-center"
+              >
+                <div
+                  className="relative z-10 mb-6 flex h-32 w-32 items-center justify-center rounded-full border-4 border-white shadow-lg transition-all duration-300 group-hover:scale-110 group-hover:shadow-xl"
+                  style={{ backgroundColor: step.color }}
+                >
+                  {/* 숫자 배지 - Green 테두리 추가 */}
+                  <div
+                    className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full border-2 bg-white text-sm font-bold transition-all duration-300 group-hover:scale-110"
+                    style={{
+                      color: step.color,
+                      borderColor: step.color,
+                      borderStyle: 'solid',
+                    }}
+                  >
+                    {index + 1}
                   </div>
-                  <h3 className="mb-3 text-xl font-bold text-gray-900">{step.title}</h3>
-                  <p className="text-sm leading-relaxed text-gray-600">{step.description}</p>
+                  <i className={`${step.icon} text-5xl text-white transition-all duration-300 group-hover:scale-110`} />
                 </div>
-              </div>
-
-              {index < processSteps.length - 1 && (
-                <div className="absolute -right-4 top-1/2 hidden -translate-y-1/2 lg:block">
-                  <i className="ri-arrow-right-line text-2xl text-gray-200"></i>
-                </div>
-              )}
-            </motion.div>
-          ))}
+                <h3 className="mb-3 text-xl font-bold text-gray-800 transition-colors duration-300 group-hover:text-[#5C8D5A]">
+                  {step.title}
+                </h3>
+                <p className="whitespace-pre-line text-sm leading-relaxed text-gray-600 transition-colors duration-300 group-hover:text-gray-800">
+                  {step.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         {/* 추가 신청 안내 팁 */}

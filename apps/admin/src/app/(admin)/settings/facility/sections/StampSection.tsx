@@ -3,8 +3,8 @@
 import React, { useRef } from 'react';
 
 interface Props {
-  value: string;
-  onChange: (v: string) => void;
+  readonly value: string;
+  readonly onChange: (v: string) => void;
 }
 
 /**
@@ -28,18 +28,18 @@ export default function StampSection({ value, onChange }: Props) {
   };
 
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-300 bg-white text-[11px] shadow-sm">
+    <div className="overflow-hidden rounded-lg border border-gray-300 bg-white text-[12px] shadow-sm">
       {/* 섹션 헤더 */}
       <div className="flex items-center gap-2 border-b border-gray-300 bg-[#f8fafc] px-4 py-2">
-        <div className="h-3 w-1 bg-[#1a5a96]"></div>
-        <h3 className="font-black uppercase tracking-tighter text-gray-800">Official Facility Stamp</h3>
+        <div className="h-3 w-1 bg-[#5C8D5A]"></div>
+        <h3 className="font-black uppercase tracking-tighter text-gray-800">시설 공식 직인</h3>
       </div>
 
       <div className="flex flex-col items-center gap-8 p-6 md:flex-row">
         {/* 업로드 및 미리보기 영역 */}
         <div className="group relative">
           <div
-            className={`flex h-32 w-32 items-center justify-center rounded-lg border-2 border-dashed transition-all ${value ? 'border-blue-200 bg-white shadow-inner' : 'border-gray-300 bg-gray-50 hover:border-[#1a5a96] hover:bg-blue-50'} `}
+            className={`flex h-32 w-32 items-center justify-center rounded-lg border-2 border-dashed transition-all ${value ? 'border-emerald-200 bg-white shadow-inner' : 'border-gray-300 bg-gray-50 hover:border-[#5C8D5A] hover:bg-emerald-50'} `}
           >
             {value ? (
               <img
@@ -70,12 +70,12 @@ export default function StampSection({ value, onChange }: Props) {
         <div className="flex-1 space-y-4">
           <div className="space-y-1">
             <p className="flex items-center gap-1.5 text-[12px] font-black text-gray-800">
-              <i className="ri-information-fill text-blue-500"></i>
+              <i className="ri-information-fill text-[#5C8D5A]"></i>
               공식 직인 등록 가이드
             </p>
             <ul className="list-inside list-disc space-y-1 font-medium leading-relaxed text-gray-500">
               <li>
-                흰색 배경이 제거된 <span className="font-bold text-[#1a5a96]">투명 배경 PNG</span> 파일을 권장합니다.
+                흰색 배경이 제거된 <span className="font-bold text-[#5C8D5A]">투명 배경 PNG</span> 파일을 권장합니다.
               </li>
               <li>
                 파일 크기는 <span className="font-bold">5MB 이하</span>의 고해상도 이미지를 사용하세요.
@@ -86,7 +86,7 @@ export default function StampSection({ value, onChange }: Props) {
 
           <button
             onClick={() => fileRef.current?.click()}
-            className="flex items-center gap-2 rounded-sm bg-[#1a5a96] px-4 py-2 font-black text-white shadow-sm transition-all hover:bg-[#144675] active:scale-95"
+            className="flex items-center gap-2 rounded-sm bg-[#5C8D5A] px-4 py-2 font-black text-white shadow-sm transition-all hover:bg-[#4A7348] active:scale-95"
           >
             <i className="ri-upload-cloud-2-line text-sm"></i>
             직인 이미지 파일 선택

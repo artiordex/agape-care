@@ -21,18 +21,23 @@ const nextConfig = {
 
   // 메모리 최적화 (추가)
   experimental: {
-    workerThreads: false,
-    cpus: 1,
+  workerThreads: false,
+  cpus: 1,
   },
 
   webpack: config => {
-    const distBase = path.resolve(__dirname, '../../dist/packages');
+    const packagesBase = path.resolve(__dirname, '../../packages');
 
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@agape-care/ui': path.join(distBase, 'ui'),
-      '@agape-care/logger': path.join(distBase, 'logger'),
-      '@agape-care/api-contract': path.join(distBase, 'api-contract'),
+      '@agape-care/ui': path.join(packagesBase, 'ui/dist'),
+      '@agape-care/logger': path.join(packagesBase, 'logger/dist'),
+      '@agape-care/api-contract': path.join(packagesBase, 'api-contract/dist'),
+    };
+
+    // ESM 스타일의 .js 확장을 .ts/.tsx로 해석하도록 설정
+    config.resolve.extensionAlias = {
+      '.js': ['.ts', '.tsx', '.js'],
     };
 
     return config;

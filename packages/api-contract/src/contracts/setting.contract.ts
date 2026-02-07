@@ -5,7 +5,7 @@
  */
 
 import { z } from 'zod';
-import { ApiResponseSchema } from '../schemas/common/response.schema';
+import { ApiResponseSchema } from '../schemas/common/response.schema.js';
 import {
   CreateDepartmentRequestSchema,
   CreateEmployeeRoleRequestSchema,
@@ -13,13 +13,13 @@ import {
   EmployeeRoleSchema,
   UpdateDepartmentRequestSchema,
   UpdateEmployeeRoleRequestSchema,
-} from '../schemas/employee/index';
+} from '../schemas/employee/index.js';
 import {
   FacilityInfoSchema,
   SystemConfigSchema,
   UpdateFacilityInfoSchema,
   UpdateSystemConfigSchema,
-} from '../schemas/setting/setting.schema';
+} from '../schemas/setting/setting.schema.js';
 
 const authHeader = z.object({
   authorization: z.string().describe('Bearer {token}'),

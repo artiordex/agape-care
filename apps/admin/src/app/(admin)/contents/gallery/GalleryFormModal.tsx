@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
-import { GalleryItem, GalleryFormValues, GalleryStatus } from './gallery.type';
+import React, { useEffect, useRef, useState } from 'react';
+import { GalleryFormValues, GalleryItem } from './gallery.type';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: FormData) => void; // 이미지 전송을 위해 FormData 사용
+  onSubmit: (data: any) => void; // 임시로 any 처리 (실제 데이터 타입 연동 가능)
   initialData?: GalleryItem | null;
 }
 
@@ -145,7 +145,11 @@ const GalleryFormModal = ({ isOpen, onClose, onSubmit, initialData }: Props) => 
           </button>
           <button
             onClick={() => {
-              /* FormData 생성 후 onSubmit 호출 */
+              if (!formData.title) {
+                alert('제목을 입력해주세요.');
+                return;
+              }
+              onSubmit(formData);
             }}
             className="rounded-lg bg-[#5C8D5A] px-6 py-2 text-sm font-bold text-white shadow-md shadow-emerald-100 transition-all hover:bg-[#4A7548]"
           >

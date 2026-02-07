@@ -1,6 +1,5 @@
-import { PrismaService } from '@agape-care/database';
+import { Prisma, PrismaService } from '@agape-care/database';
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class RoleService {

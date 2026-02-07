@@ -1,4 +1,5 @@
 import { EmailJobData } from '@agape-care/api-contract';
+import { logger } from '@agape-care/logger';
 import { Job } from 'bullmq';
 import nodemailer from 'nodemailer';
 
@@ -14,7 +15,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export const emailProcessor = async (job: Job<EmailJobData>) => {
-  console.log(`[Email] Processing job ${job.id} to ${job.data.to}`);
+  logger.info(`[Email] Processing job ${job.id} to ${job.data.to}`, { category: 'SYSTEM' });
 
   const { to, subject, text, html } = job.data;
 
@@ -27,10 +28,10 @@ export const emailProcessor = async (job: Job<EmailJobData>) => {
       html,
     });
 
-    console.log(`[Email] Sent: ${info.messageId}`);
+    logger.info(`[Email] Sent: ${info.messageId}`, { category: 'SYSTEM' });
     return info;
   } catch (error) {
-    console.error(`[Email] Failed to send email to ${to}:`, error);
+    logger.error(`[Email] Failed to send email to ${to}`, { category: 'SYSTEM', error });
     throw error;
   }
 };

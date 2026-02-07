@@ -1,97 +1,123 @@
-const EXTRA_COSTS = [
-  { id: 1, category: '이미용', item: '이발', price: 10000, quantity: 1, date: '2024-01-20' },
-  { id: 2, category: '간식', item: '과일', price: 5000, quantity: 4, date: '2024-01-15' },
-  { id: 3, category: '위생용품', item: '기저귀', price: 30000, quantity: 1, date: '2024-01-10' },
-  { id: 4, category: '의류', item: '실내복', price: 25000, quantity: 2, date: '2024-01-05' },
-];
+/**
+ * Description : NonBenefitTab.tsx - 💰 비급여 및 기타 비용 관리 화면
+ * Author : Shiwoo Min
+ * Date : 2026-02-06
+ */
+
+'use client';
+
+import React, { useState } from 'react';
+import clsx from 'clsx';
+import ExtraCostModal from './modals/ExtraCostModal';
 
 export default function ExtraCostTab() {
-  const total = EXTRA_COSTS.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [viewType, setViewType] = useState<'individual' | 'batch'>('individual');
+
+  const thClass = 'bg-[#E8F1F8] border border-[#B8D1E0] px-2 py-2 text-center text-[12px] font-bold text-gray-700';
+  const tdClass = 'border border-[#B8D1E0] px-3 py-2 text-[12px] text-gray-900 text-center bg-white';
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-sm font-bold text-gray-900">기타비용 / 비급여</h3>
-        <button className="flex items-center gap-1.5 rounded border border-blue-600 bg-blue-600 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-blue-700">
-          <i className="ri-add-line text-base"></i>
-          항목 추가
-        </button>
+    <div className="flex flex-col gap-3 bg-white p-4 font-sans">
+      {/* 상단 컨트롤 바 */}
+      <div className="mb-1 flex items-center justify-between">
+        <div className="flex gap-1">
+          <button
+            onClick={() => setViewType('individual')}
+            className={clsx(
+              'rounded-t-md border px-4 py-1.5 text-[12px] font-bold transition-all',
+              viewType === 'individual'
+                ? 'border-[#468db3] bg-[#57A5CE] text-white'
+                : 'border-gray-300 bg-gray-100 text-gray-600',
+            )}
+          >
+            수급자별 내역
+          </button>
+          <button
+            onClick={() => setViewType('batch')}
+            className={clsx(
+              'rounded-t-md border px-4 py-1.5 text-[12px] font-bold transition-all',
+              viewType === 'batch'
+                ? 'border-[#468db3] bg-[#57A5CE] text-white'
+                : 'border-gray-300 bg-gray-100 text-gray-600',
+            )}
+          >
+            항목별 일괄등록
+          </button>
+        </div>
+        <div className="flex gap-2">
+          <select className="rounded border border-gray-300 px-2 py-1 text-[12px]">
+            <option>2026년 02월</option>
+          </select>
+          <button className="rounded bg-[#7A8B9A] px-3 py-1 text-[11px] font-bold text-white">엑셀 다운로드</button>
+        </div>
       </div>
 
-      {/* 월별 필터 */}
-      <div className="flex items-center gap-2">
-        <button className="flex items-center gap-1 rounded border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
-          <i className="ri-arrow-left-s-line text-base"></i>
-        </button>
-        <span className="px-4 text-sm font-semibold text-gray-900">2024년 1월</span>
-        <button className="flex items-center gap-1 rounded border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
-          <i className="ri-arrow-right-s-line text-base"></i>
-        </button>
-      </div>
-
-      {/* 테이블 */}
-      <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
-        <table className="w-full">
-          <thead className="border-b border-gray-200 bg-gray-50">
-            <tr>
-              <th className="px-4 py-2.5 text-left text-xs font-semibold text-gray-700">날짜</th>
-              <th className="px-4 py-2.5 text-left text-xs font-semibold text-gray-700">분류</th>
-              <th className="px-4 py-2.5 text-left text-xs font-semibold text-gray-700">항목</th>
-              <th className="px-4 py-2.5 text-right text-xs font-semibold text-gray-700">단가</th>
-              <th className="px-4 py-2.5 text-center text-xs font-semibold text-gray-700">수량</th>
-              <th className="px-4 py-2.5 text-right text-xs font-semibold text-gray-700">합계</th>
-              <th className="px-4 py-2.5 text-center text-xs font-semibold text-gray-700">관리</th>
+      {/* 비용 목록 테이블 */}
+      <div className="overflow-x-auto border-t-2 border-[#57A5CE]">
+        <table className="w-full border-collapse border border-[#B8D1E0]">
+          <thead>
+            <tr className="bg-[#E8F1F8]">
+              <th className={clsx(thClass, 'w-10')}>
+                <input type="checkbox" />
+              </th>
+              <th className={thClass}>성명</th>
+              <th className={thClass}>생활실</th>
+              <th className={thClass}>비급여 항목</th>
+              <th className={thClass}>단가</th>
+              <th className={thClass}>횟수/수량</th>
+              <th className={thClass}>총 금액</th>
+              <th className={thClass}>발생일자</th>
+              <th className={thClass}>비고</th>
+              <th className={clsx(thClass, 'w-16')}>관리</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
-            {EXTRA_COSTS.map(cost => (
-              <tr key={cost.id} className="transition-colors hover:bg-gray-50">
-                <td className="px-4 py-3 text-sm text-gray-700">{cost.date}</td>
-                <td className="px-4 py-3">
-                  <span className="rounded bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700">
-                    {cost.category}
-                  </span>
-                </td>
-                <td className="px-4 py-3 text-sm font-medium text-gray-900">{cost.item}</td>
-                <td className="px-4 py-3 text-right text-sm text-gray-700">{cost.price.toLocaleString()}원</td>
-                <td className="px-4 py-3 text-center text-sm text-gray-700">{cost.quantity}</td>
-                <td className="px-4 py-3 text-right text-sm font-semibold text-gray-900">
-                  {(cost.price * cost.quantity).toLocaleString()}원
-                </td>
-                <td className="px-4 py-3 text-center">
-                  <button className="text-gray-400 transition-colors hover:text-gray-600">
-                    <i className="ri-more-2-fill text-base"></i>
-                  </button>
-                </td>
+          <tbody>
+            <tr className="hover:bg-blue-50">
+              <td className={tdClass}>
+                <input type="checkbox" />
+              </td>
+              <td className={tdClass}>가나다</td>
+              <td className={tdClass}>너와나</td>
+              <td className={tdClass}>식재료비(석식)</td>
+              <td className={tdClass}>3,500</td>
+              <td className={tdClass}>25</td>
+              <td className={tdClass}>87,500</td>
+              <td className={tdClass}>2026-02-06</td>
+              <td className={tdClass}>-</td>
+              <td className={tdClass}>
+                <button onClick={() => setIsModalOpen(true)} className="font-bold text-[#2E6A9E] hover:underline">
+                  수정
+                </button>
+              </td>
+            </tr>
+            {/* 데이터 반복 생성 */}
+            {Array.from({ length: 8 }).map((_, i) => (
+              <tr key={i} className="h-10">
+                {Array.from({ length: 10 }).map((_, j) => (
+                  <td key={j} className="border border-[#B8D1E0] bg-white"></td>
+                ))}
               </tr>
             ))}
           </tbody>
-          <tfoot className="border-t-2 border-gray-300 bg-gray-50">
-            <tr>
-              <td colSpan={5} className="px-4 py-3 text-right text-sm font-semibold text-gray-900">
-                월 합계
-              </td>
-              <td className="px-4 py-3 text-right text-base font-bold text-blue-700">{total.toLocaleString()}원</td>
-              <td></td>
-            </tr>
-          </tfoot>
         </table>
       </div>
 
-      {/* 통계 카드 */}
-      <div className="grid grid-cols-4 gap-3">
-        {[
-          { label: '이미용', amount: 10000 },
-          { label: '간식', amount: 20000 },
-          { label: '위생용품', amount: 30000 },
-          { label: '의류', amount: 50000 },
-        ].map((stat, idx) => (
-          <div key={idx} className="rounded-lg border border-gray-200 bg-white p-4">
-            <p className="mb-1 text-xs text-gray-600">{stat.label}</p>
-            <p className="text-sm font-bold text-gray-900">{stat.amount.toLocaleString()}원</p>
-          </div>
-        ))}
+      {/* 하단 버튼 바 */}
+      <div className="mt-2 flex justify-end gap-1.5">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="rounded bg-[#57A5CE] px-6 py-2 text-[13px] font-black text-white shadow-md hover:bg-[#468db3]"
+        >
+          비급여 항목 등록
+        </button>
+        <button className="rounded bg-red-500 px-6 py-2 text-[13px] font-black text-white shadow-md hover:bg-red-600">
+          선택 삭제
+        </button>
       </div>
+
+      <ExtraCostModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
+    
   );
 }

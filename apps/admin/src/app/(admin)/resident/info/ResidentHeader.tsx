@@ -1,3 +1,9 @@
+/**
+ * Description : ResidentHeader.tsx - 📌 입소자 정보 통합 관리 헤더
+ * Author : Shiwoo Min
+ * Date : 2026-02-06
+ */
+
 'use client';
 
 import React from 'react';
@@ -23,43 +29,24 @@ export default function ResidentHeader({ selectedResidentName, isProcessing, onA
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-lg font-black leading-tight tracking-tighter text-gray-900">입소자 정보 통합 관리</h1>
-            <span className="rounded border border-emerald-100 bg-emerald-50 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-widest text-[#5C8D5A]">
-              관리자 모드 활성
-            </span>
+            <h1 className="text-lg font-black leading-tight tracking-tighter text-gray-900">입소자 정보 관리</h1>
           </div>
           <div className="mt-0.5 flex items-center gap-2">
-            <p className="text-[10px] font-bold text-[#5C8D5A]">Resident Management System</p>
-            <span className="h-2 w-[1px] bg-gray-300"></span>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">
-              Personal Health & Admission Records
+            <p className="text-[12px] font-bold uppercase tracking-tighter text-[#5C8D5A]">
+              입소자 정보를 통합 관리 합니다.
             </p>
           </div>
         </div>
       </div>
 
-      {/* 2. 중앙: 현재 편집/조회 대상 (선택 시 노출) */}
-      {selectedResidentName && (
-        <div className="animate-in fade-in zoom-in hidden items-center gap-3 rounded-full border border-gray-200 bg-gray-50 px-4 py-2 duration-300 xl:flex">
-          <div className="flex h-2 w-2">
-            <span className="absolute inline-flex h-2 w-2 animate-ping rounded-full bg-[#5C8D5A] opacity-75"></span>
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#5C8D5A]"></span>
-          </div>
-          <p className="text-[11px] font-black text-gray-700">
-            현재 조회 중: <span className="ml-1 font-black text-[#5C8D5A]">{selectedResidentName} 어르신</span>
-          </p>
-        </div>
-      )}
-
-      {/* 3. 오른쪽: 전역 입소자 관리 액션 */}
+      {/* 오른쪽: 전역 입소자 관리 액션 */}
       <div className="flex items-center gap-2">
         {/* 입소 통계 보고서 */}
         <button className="flex items-center gap-1.5 border border-gray-300 bg-white px-4 py-2 text-[11px] font-bold text-gray-600 shadow-sm transition-all hover:bg-gray-50">
-          <i className="ri-printer-line"></i>
-          명부 출력
+          <i className="ri-printer-line"></i>명부 출력
         </button>
 
-        {/* 신규 등록 버튼 (Main Action - Agape Green) */}
+        {/* 신규 등록 버튼 */}
         <button
           onClick={onAddResident}
           disabled={isProcessing}
@@ -67,13 +54,11 @@ export default function ResidentHeader({ selectedResidentName, isProcessing, onA
         >
           {isProcessing ? (
             <>
-              <i className="ri-loader-4-line animate-spin text-sm"></i>
-              데이터 처리 중...
+              <i className="ri-loader-4-line animate-spin text-sm"></i>데이터 처리 중...
             </>
           ) : (
             <>
-              <i className="ri-user-add-line text-sm"></i>
-              신규 입소자 등록
+              <i className="ri-user-add-line text-sm"></i>신규 입소자 등록
             </>
           )}
         </button>

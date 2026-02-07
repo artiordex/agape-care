@@ -26,14 +26,6 @@ export default function BoardHeader({ totalPosts, onWriteClick }: BoardHeaderPro
           </p>
         </div>
       </div>
-
-      <button
-        onClick={onWriteClick}
-        className="flex items-center gap-2 whitespace-nowrap rounded bg-[#5C8D5A] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#4A7548]"
-      >
-        <i className="ri-edit-line text-xl" />
-        글쓰기
-      </button>
     </div>
   );
 }

@@ -1,97 +1,111 @@
-const SAMPLE_CONSULTATIONS = [
-  {
-    id: 1,
-    date: '2024-01-25',
-    category: '건강',
-    title: '혈압 안정화 상담',
-    content: '최근 혈압이 안정적으로 유지되고 있음. 식사량도 양호하며 프로그램 참여도가 높아짐.',
-    staff: '김사회복지사',
-  },
-  {
-    id: 2,
-    date: '2024-01-20',
-    category: '가족',
-    title: '보호자 면담',
-    content: '보호자와 입소자 건강상태 및 생활 적응 관련 상담 진행. 전반적으로 만족도 높음.',
-    staff: '이사회복지사',
-  },
-  {
-    id: 3,
-    date: '2024-01-15',
-    category: '생활',
-    title: '룸메이트 관계 개선',
-    content: '룸메이트와의 관계가 개선됨. 함께 프로그램 참여하며 친밀도 상승.',
-    staff: '김사회복지사',
-  },
-];
+/**
+ * Description : ConsultationTab.tsx - 📊 케어포 스타일 상담일지 목록 및 작성 페이지
+ * Author : Shiwoo Min
+ * Date : 2026-02-06
+ */
+
+'use client';
+
+import React, { useState } from 'react';
+import clsx from 'clsx';
+import ConsultationModal from './modals/ConsultationModal';
 
 export default function ConsultationTab() {
-  return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h3 className="text-sm font-bold text-gray-900">상담일지</h3>
-        <button className="flex items-center gap-1.5 rounded border border-blue-600 bg-blue-600 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-blue-700">
-          <i className="ri-add-line text-base"></i>
-          상담 등록
-        </button>
-      </div>
+  const [selectedYear, setSelectedYear] = useState('2026');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-      {/* 필터 */}
-      <div className="flex gap-2">
-        {['전체', '건강', '가족', '생활', '기타'].map(category => (
+  const years = ['2026', '2025', '2024', '2023', '2022', '2021'];
+
+  // 테이블 헤더 스타일
+  const thClass = 'bg-[#E8F1F8] border border-[#B8D1E0] px-2 py-1.5 text-center text-[12px] font-bold text-gray-700';
+  const tdClass = 'border border-[#B8D1E0] px-3 py-2 text-[12px] text-gray-900 text-center bg-white';
+
+  return (
+    <div className="flex flex-col gap-3 bg-white p-4 font-sans antialiased">
+      {/* 1. 상단 연도 선택 바 */}
+      <div className="mb-1 flex gap-1">
+        {years.map(year => (
           <button
-            key={category}
-            className="rounded border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-50"
+            key={year}
+            onClick={() => setSelectedYear(year)}
+            className={clsx(
+              'rounded border px-4 py-1 text-[12px] font-bold shadow-sm transition-all',
+              selectedYear === year
+                ? 'border-[#468db3] bg-[#57A5CE] text-white'
+                : 'border-gray-300 bg-white text-gray-600 hover:bg-gray-50',
+            )}
           >
-            {category}
+            {year}년
           </button>
         ))}
       </div>
 
-      {/* 상담 목록 */}
-      <div className="space-y-3">
-        {SAMPLE_CONSULTATIONS.map(consultation => (
-          <div
-            key={consultation.id}
-            className="rounded-lg border border-gray-200 bg-white p-5 transition-shadow hover:shadow-sm"
-          >
-            <div className="mb-3 flex items-start justify-between">
-              <div className="flex items-center gap-2">
-                <span className="rounded bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700">
-                  {consultation.category}
-                </span>
-                <span className="text-xs text-gray-500">{consultation.date}</span>
-                <span className="text-xs text-gray-400">•</span>
-                <span className="text-xs text-gray-500">{consultation.staff}</span>
-              </div>
-              <button className="text-gray-400 transition-colors hover:text-gray-600">
-                <i className="ri-more-2-fill text-lg"></i>
-              </button>
-            </div>
-            <h4 className="mb-2 text-sm font-semibold text-gray-900">{consultation.title}</h4>
-            <p className="text-sm leading-relaxed text-gray-700">{consultation.content}</p>
-          </div>
-        ))}
+      {/* 2. 상담일지 목록 테이블 (image_74f04d.png 재현) */}
+      <div className="overflow-x-auto border-t-2 border-[#57A5CE]">
+        <table className="w-full table-fixed border-collapse border border-[#B8D1E0]">
+          <thead>
+            <tr className="bg-[#E8F1F8]">
+              <th className={clsx(thClass, 'w-10')}>
+                <input type="checkbox" />
+              </th>
+              <th className={clsx(thClass, 'w-12')}>연번</th>
+              <th className={thClass}>상담일</th>
+              <th className={thClass}>상담시간</th>
+              <th className={thClass}>상담대상</th>
+              <th className={thClass}>관계</th>
+              <th className={thClass}>상담방법</th>
+              <th className={thClass}>상담자</th>
+              <th className={clsx(thClass, 'w-16')}>조회</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="transition-colors hover:bg-blue-50">
+              <td className={tdClass}>
+                <input type="checkbox" />
+              </td>
+              <td className={tdClass}>1</td>
+              <td className={tdClass}>2026.01.26</td>
+              <td className={tdClass}>-</td>
+              <td className={tdClass}>123</td>
+              <td className={tdClass}>-</td>
+              <td className={tdClass}>-</td>
+              <td className={tdClass}>최인경</td>
+              <td className={tdClass}>
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="rounded bg-[#57A5CE] px-2 py-0.5 text-[11px] text-white shadow-inner hover:bg-[#468db3]"
+                >
+                  조회
+                </button>
+              </td>
+            </tr>
+            {/* 데이터가 없을 경우를 위한 빈 행들 */}
+            {Array.from({ length: 5 }).map((_, i) => (
+              <tr key={i} className="h-9">
+                {Array.from({ length: 9 }).map((_, j) => (
+                  <td key={j} className="border border-[#B8D1E0] bg-white"></td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      {/* 페이지네이션 */}
-      <div className="flex justify-center gap-1 pt-2">
-        <button className="flex h-8 w-8 items-center justify-center rounded border border-gray-300 bg-white text-sm text-gray-700 transition-colors hover:bg-gray-50">
-          <i className="ri-arrow-left-s-line"></i>
+      {/* 3. 하단 액션 버튼 바 */}
+      <div className="mt-4 flex justify-center gap-1.5">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="rounded-sm bg-[#57A5CE] px-5 py-2 text-[13px] font-black text-white shadow-md hover:bg-[#468db3] active:scale-95"
+        >
+          상담일지 신규작성
         </button>
-        <button className="flex h-8 w-8 items-center justify-center rounded border border-blue-600 bg-blue-600 text-sm font-medium text-white">
-          1
-        </button>
-        <button className="flex h-8 w-8 items-center justify-center rounded border border-gray-300 bg-white text-sm text-gray-700 transition-colors hover:bg-gray-50">
-          2
-        </button>
-        <button className="flex h-8 w-8 items-center justify-center rounded border border-gray-300 bg-white text-sm text-gray-700 transition-colors hover:bg-gray-50">
-          3
-        </button>
-        <button className="flex h-8 w-8 items-center justify-center rounded border border-gray-300 bg-white text-sm text-gray-700 transition-colors hover:bg-gray-50">
-          <i className="ri-arrow-right-s-line"></i>
+        <button className="rounded-sm bg-[#7A8B9A] px-5 py-2 text-[13px] font-black text-white shadow-md hover:bg-[#647481]">
+          상담일지 출력
         </button>
       </div>
+
+      {/* 상담 작성 모달 */}
+      <ConsultationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 }

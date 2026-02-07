@@ -5,19 +5,19 @@
  */
 
 // 케어 플랜 수립 정보 (목표 및 기간)
-export * from './care-plan.schema';
+export * from './care-plan.schema.js';
 
 // 케어 플랜별 세부 실행 항목
-export * from './care-plan-item.schema';
+export * from './care-plan-item.schema.js';
 
 // 요양보호사 개별 업무(태스크) 정보
-export * from './care-task.schema';
+export * from './care-task.schema.js';
 
 // 입소자/보호자 상담 및 면담 기록
-export * from './consultation.schema';
+export * from './consultation.schema.js';
 
 // 시설 내 사건/사고 보고 및 처리 정보
-export * from './incident.schema';
+export * from './incident.schema.js';
 
 // 일일 요양 기록 (간호, 체중, 구강, 응급, 배설 등)
-export * from './daily-care.schema';
+export * from './daily-care.schema.js';

@@ -3,6 +3,7 @@
  * @author Shiwoo Min
  * @date 2026-01-27
  */
+
 import { z } from 'zod';
 import {
   AccountSchema,
@@ -11,8 +12,8 @@ import {
   PayrollRecordSchema,
   SupplierSchema,
   TransactionSchema,
-} from '../schemas/accounting/index';
-import { ApiResponseSchema } from '../schemas/common/response.schema';
+} from '../schemas/accounting/index.js';
+import { ApiResponseSchema } from '../schemas/common/response.schema.js';
 
 export const accountingContract = {
   /**
@@ -116,5 +117,5 @@ export const accountingContract = {
   },
 } as const;
 
-// --- Contract 타입 추출 ---
+// Contract 타입 추출
 export type AccountingContract = typeof accountingContract;

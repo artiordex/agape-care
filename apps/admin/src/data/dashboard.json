@@ -39,7 +39,7 @@
       "label": "입소자 등록",
       "icon": "ri-user-add-line",
       "color": "from-blue-500 to-blue-600",
-      "path": "/admin/resident/new"
+      "path": "/resident/new"
     },
     {
       "label": "일정 추가",
@@ -51,7 +51,13 @@
       "label": "공지 작성",
       "icon": "ri-file-edit-line",
       "color": "from-purple-500 to-purple-600",
-      "path": "/admin/content/notice"
+      "path": "/content/notice"
+    },
+    {
+      "label": "전체 메뉴",
+      "icon": "ri-menu-line",
+      "color": "from-orange-500 to-orange-600",
+      "action": "showFullMenu"
     },
     {
       "label": "보고서 생성",

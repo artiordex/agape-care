@@ -1,13 +1,13 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // 컴포넌트 Import
 import SettingsHeader from './SettingsHeader';
 import SettingsPreview from './SettingsPreview';
-import ServiceSection from './sections/ServiceSection';
-import SeoSection from './sections/SeoSection';
 import FooterSection from './sections/FooterSection';
+import SeoSection from './sections/SeoSection';
+import ServiceSection from './sections/ServiceSection';
 
 // 데이터 인터페이스 정의
 export interface SiteSettingsData {
@@ -98,12 +98,12 @@ export default function SiteSettingsPage() {
           </div>
 
           {/* 시스템 푸터 정보 */}
-          <div className="mt-8 flex items-center justify-between border-t border-gray-200 pb-8 pt-4 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+          <div className="mt-8 flex items-center justify-between border-t border-gray-200 pb-8 pt-4 text-[12px] font-bold uppercase tracking-widest text-gray-400">
             <div className="flex gap-4">
-              <span>● Status: Operational</span>
-              <span>● Last Build: 2026.01.30</span>
+              <span>● 서비스 상태: 정상 운영 중</span>
+              <span>● 최근 빌드: 2026.01.30</span>
             </div>
-            <div className="text-[#1a5a96]">Agape-Care Admin System v2.1.0</div>
+            <div className="text-[#5C8D5A]">Agape-Care Admin System v2.1.0</div>
           </div>
         </div>
       </div>

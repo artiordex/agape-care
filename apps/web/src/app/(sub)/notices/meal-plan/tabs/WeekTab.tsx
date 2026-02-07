@@ -40,11 +40,13 @@ export default function WeekTab({ weekDays, onMealClick }: Props) {
         <div className="border-r border-[#5C8D5A]/20 p-4">
           <div className="text-center text-sm font-bold text-gray-900">구분</div>
         </div>
-        {weekDays.map(({ date }, index) => {
-          const dateObj = new Date(date);
+        {weekDays.map(({ date }) => {
+          // 날짜 문자열을 로컬 타임존으로 정확히 파싱
+          const dateObj = new Date(date + 'T00:00:00');
+          const dayOfWeek = dateObj.getDay(); // 0(일) ~ 6(토)
           const isToday = date === todayStr;
-          const isSunday = index === 0;
-          const isSaturday = index === 6;
+          const isSunday = dayOfWeek === 0;
+          const isSaturday = dayOfWeek === 6;
 
           return (
             <div
@@ -63,7 +65,7 @@ export default function WeekTab({ weekDays, onMealClick }: Props) {
                           : 'text-gray-500'
                   }`}
                 >
-                  {dayNames[index]}
+                  {dayNames[dayOfWeek]}
                 </div>
                 <div
                   className={`mt-1 text-lg font-bold ${
@@ -155,13 +157,9 @@ export default function WeekTab({ weekDays, onMealClick }: Props) {
                 }`}
                 onClick={() => meal && onMealClick(meal)}
               >
-                <div className="text-center text-sm leading-relaxed text-gray-900">
+                <div className="text-center text-sm leading-relaxed text-gray-700">
                   {meal?.lunch ? (
-                    meal.lunch.split('\n').map((item, i) => (
-                      <div key={i} className="font-medium">
-                        {item}
-                      </div>
-                    ))
+                    meal.lunch.split('\n').map((item, i) => <div key={i}>{item}</div>)
                   ) : (
                     <div className="text-gray-400">-</div>
                   )}
@@ -213,13 +211,9 @@ export default function WeekTab({ weekDays, onMealClick }: Props) {
                 }`}
                 onClick={() => meal && onMealClick(meal)}
               >
-                <div className="text-center text-sm leading-relaxed text-gray-900">
+                <div className="text-center text-sm leading-relaxed text-gray-700">
                   {meal?.dinner ? (
-                    meal.dinner.split('\n').map((item, i) => (
-                      <div key={i} className="font-medium">
-                        {item}
-                      </div>
-                    ))
+                    meal.dinner.split('\n').map((item, i) => <div key={i}>{item}</div>)
                   ) : (
                     <div className="text-gray-400">-</div>
                   )}

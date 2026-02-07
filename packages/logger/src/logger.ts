@@ -3,11 +3,12 @@
  * Author: Shiwoo Min
  * Date: 2026-01-24
  */
+
 import fs from 'node:fs';
 import path from 'node:path';
 import winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
-import type { LogCategory, LogConfig, LogLevel, LogRecord } from './logger-types.js';
+import type { LogCategory, LogConfig, LogError, LogLevel, LogRecord } from './logger-types.js';
 import { PII_PATTERNS, SENSITIVE_FIELDS } from './logger-types.js';
 
 /**
@@ -21,11 +22,24 @@ const envBool = (key: string, fallback: boolean) => {
 };
 
 /**
+ * 로그 레벨 검증 함수
+ */
+function envLogLevel(key: string, fallback: LogLevel): LogLevel {
+  const val = process.env[key]?.toLowerCase();
+  const validLevels: LogLevel[] = ['error', 'warn', 'info', 'http', 'verbose', 'debug', 'audit'];
+
+  if (val && validLevels.includes(val as LogLevel)) {
+    return val as LogLevel;
+  }
+  return fallback;
+}
+
+/**
  * 기본 설정
  */
 const DEFAULT_CONFIG: LogConfig = {
   serviceName: env('SERVICE_NAME', 'agape-care-erp'),
-  level: env('LOG_LEVEL', 'info') as LogLevel,
+  level: envLogLevel('LOG_LEVEL', 'info'),
   enableConsole: envBool('ENABLE_CONSOLE_LOG', true),
   enableFile: envBool('ENABLE_FILE_LOG', true),
   enableAuditFile: envBool('ENABLE_AUDIT_LOG', true),
@@ -37,29 +51,53 @@ const DEFAULT_CONFIG: LogConfig = {
 };
 
 /**
+ * 커스텀 Winston 레벨 (audit 포함)
+ */
+const customLevels = {
+  levels: {
+    error: 0,
+    warn: 1,
+    info: 2,
+    audit: 2, // info와 동일한 우선순위
+    http: 3,
+    verbose: 4,
+    debug: 5,
+  },
+  colors: {
+    error: 'red',
+    warn: 'yellow',
+    info: 'green',
+    audit: 'yellow bold',
+    http: 'magenta',
+    verbose: 'cyan',
+    debug: 'blue',
+  },
+};
+
+/**
  * 개인정보 마스킹 함수
  */
 function maskPII(text: string): string {
   let masked = text;
 
-  // 주민등록번호 마스킹: 123456-1******
+  // 주민등록번호 마스킹: 123456-1234567 → 123456-*******
   masked = masked.replace(PII_PATTERNS.ssn, match => {
     const parts = match.split('-');
-    if (parts.length !== 2) return match; // 잘못된 형식
+    if (parts.length !== 2) return match;
     return `${parts[0]}-${'*'.repeat(7)}`;
   });
 
-  // 전화번호 마스킹: 010-****-5678
+  // 전화번호 마스킹: 010-1234-5678 → 010-****-5678
   masked = masked.replace(PII_PATTERNS.phone, match => {
     const parts = match.split('-');
-    if (parts.length !== 3) return match; // 잘못된 형식
+    if (parts.length !== 3) return match;
     return `${parts[0]}-****-${parts[2]}`;
   });
 
-  // 이메일 마스킹: abc***@example.com
+  // 이메일 마스킹: abc@example.com → abc***@example.com
   masked = masked.replace(PII_PATTERNS.email, match => {
     const [local, domain] = match.split('@');
-    if (!local || !domain) return match; // 잘못된 형식은 그대로 반환
+    if (!local || !domain) return match;
     if (local.length <= 3) return `***@${domain}`;
     return `${local.slice(0, 3)}***@${domain}`;
   });
@@ -93,18 +131,28 @@ function maskSensitiveFields(obj: unknown): unknown {
 }
 
 /**
- * 에러 정규화
+ * 에러 정규화 (개선됨)
  */
-function normalizeError(err: unknown) {
+function normalizeError(err: unknown): LogError {
   if (err instanceof Error) {
     return {
       message: maskPII(err.message),
       name: err.name,
-      stack: err.stack,
-      ...(err.cause ? { cause: String(err.cause) } : {}),
+      stack: err.stack ? maskPII(err.stack) : undefined, // Stack도 마스킹
+      code: 'code' in err ? (err as any).code : undefined,
+      ...(err.cause ? { cause: normalizeError(err.cause) } : {}), // 재귀 처리
     };
   }
   return { message: String(err) };
+}
+
+/**
+ * 로그 값 포맷팅 (객체인 경우 JSON 문자열화)
+ */
+function formatLogValue(val: unknown): string {
+  if (typeof val === 'string') return val;
+  if (typeof val === 'number') return String(val);
+  return JSON.stringify(val);
 }
 
 /**
@@ -120,8 +168,8 @@ function ensureDir(dir: string) {
  * 요양원 전용 로거 클래스
  */
 export class AgapeCareLogger {
-  private winston: winston.Logger;
-  private config: LogConfig;
+  private readonly winston: winston.Logger;
+  private readonly config: LogConfig;
 
   constructor(config: Partial<LogConfig> = {}) {
     this.config = { ...DEFAULT_CONFIG, ...config };
@@ -134,9 +182,12 @@ export class AgapeCareLogger {
     const formats = this.createFormats();
     const transports = this.createTransports(formats);
 
+    // 커스텀 컬러 적용
+    winston.addColors(customLevels.colors);
+
     return winston.createLogger({
       level: this.config.level,
-      levels: winston.config.npm.levels,
+      levels: customLevels.levels, // 커스텀 레벨 사용
       defaultMeta: {
         service: this.config.serviceName,
         pid: process.pid,
@@ -161,14 +212,20 @@ export class AgapeCareLogger {
         const { timestamp, level, message, category, userId, userName, action, error } = info as Record<
           string,
           unknown
-        >;
-        let log = `${timestamp} [${level}]`;
+        > & { category?: string };
 
-        if (category) log += ` [${category}]`;
-        if (userId) log += ` [User:${userId}${userName ? `(${userName})` : ''}]`;
-        if (action) log += ` [${action}]`;
+        const categoryStr = category ? ` [${formatLogValue(category)}]` : '';
 
-        log += ` ${message}`;
+        let userStr = '';
+        if (userId) {
+          const id = formatLogValue(userId);
+          const name = userName ? `(${formatLogValue(userName)})` : '';
+          userStr = ` [User:${id}${name}]`;
+        }
+
+        const actionStr = action ? ` [${formatLogValue(action)}]` : '';
+
+        let log = `${timestamp} [${level}]${categoryStr}${userStr}${actionStr} ${message}`;
 
         if (error && typeof error === 'object' && 'message' in error) {
           log += `\n  Error: ${error.message}`;
@@ -212,10 +269,6 @@ export class AgapeCareLogger {
           maxSize: '20m',
           format: formats.prod,
         }),
-      );
-
-      // 에러 전용 로그
-      transports.push(
         new DailyRotateFile({
           dirname: this.config.logDir,
           filename: 'error-%DATE%.log',
@@ -306,7 +359,7 @@ export class AgapeCareLogger {
    * 감사 로그 (법적 요구사항)
    */
   audit(action: string, details: Partial<LogRecord>) {
-    this.log('info', 'AUDIT', action, {
+    this.log('audit', 'AUDIT', action, {
       ...details,
       action,
       timestamp: new Date().toISOString(),
@@ -376,10 +429,17 @@ export class AgapeCareLogger {
   }
 
   /**
+   * 로그 레벨 동적 변경
+   */
+  setLogLevel(level: LogLevel) {
+    this.winston.level = level;
+    this.config.level = level;
+  }
+
+  /**
    * 로거 종료
    */
   async close() {
-    // Winston의 close()는 콜백을 받지 않으므로 직접 호출
     this.winston.close();
     // 트랜스포트들이 닫힐 때까지 짧은 대기
     await new Promise(resolve => setTimeout(resolve, 100));
@@ -392,19 +452,31 @@ export class AgapeCareLogger {
 export const logger = new AgapeCareLogger();
 
 /**
- * Morgan 호환 스트림
+ * Morgan 호환 스트림 (개선됨)
  */
 export const httpStream = {
   write: (message: string) => {
     const trimmed = message.trim();
-    const match = trimmed.match(/^(\w+)\s+([^\s]+)\s+(\d+)\s+(\d+)ms/);
+
+    // Morgan 형식: "GET /api/users 200 15ms"
+    const morganRegex = /^(\w+)\s+([^\s]+)\s+(\d+)\s+(\d+)ms/;
+    const match = morganRegex.exec(trimmed);
+
     if (match) {
       const [, method, url, status, duration] = match;
-      // undefined 체크
-      if (method && url && status && duration) {
-        logger.http(method, url, parseInt(status), parseInt(duration));
-      } else {
-        logger.info(trimmed, { category: 'SYSTEM' });
+      try {
+        logger.http(
+          method || 'UNKNOWN',
+          url || '/',
+          Number.parseInt(status || '0', 10),
+          Number.parseInt(duration || '0', 10),
+        );
+      } catch (err) {
+        // 파싱 실패 시 원본 메시지 로깅
+        logger.warn(`HTTP 로그 파싱 실패: ${trimmed}`, {
+          category: 'SYSTEM',
+          error: err,
+        });
       }
     } else {
       logger.info(trimmed, { category: 'SYSTEM' });

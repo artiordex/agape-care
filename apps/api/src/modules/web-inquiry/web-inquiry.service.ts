@@ -10,22 +10,18 @@ export class WebInquiryService {
     const inquiry = await this.db.webInquiry.create({
       data: {
         ...data,
+        preferredDate: data.preferredDate ? new Date(data.preferredDate) : null,
         status: 'PENDING',
       },
     });
 
-    return {
-      ...inquiry,
-      id: inquiry.id.toString(),
-      createdAt: inquiry.createdAt.toISOString(),
-      updatedAt: inquiry.updatedAt.toISOString(),
-    };
+    return this.serialize(inquiry);
   }
 
   async findAll(query: {
     page: number;
     limit: number;
-    status?: 'PENDING' | 'IN_PROGRESS' | 'DONE';
+    status?: 'PENDING' | 'IN_PROGRESS' | 'DONE' | 'CANCELLED';
     type?: string;
     search?: string;
     startDate?: string;
@@ -66,12 +62,7 @@ export class WebInquiryService {
     ]);
 
     return {
-      items: items.map(item => ({
-        ...item,
-        id: item.id.toString(),
-        createdAt: item.createdAt.toISOString(),
-        updatedAt: item.updatedAt.toISOString(),
-      })),
+      items: items.map(item => this.serialize(item)),
       total,
       page,
       limit,
@@ -88,26 +79,16 @@ export class WebInquiryService {
       return null;
     }
 
-    return {
-      ...inquiry,
-      id: inquiry.id.toString(),
-      createdAt: inquiry.createdAt.toISOString(),
-      updatedAt: inquiry.updatedAt.toISOString(),
-    };
+    return this.serialize(inquiry);
   }
 
-  async updateStatus(id: string, status: 'PENDING' | 'IN_PROGRESS' | 'DONE') {
+  async updateStatus(id: string, status: 'PENDING' | 'IN_PROGRESS' | 'DONE' | 'CANCELLED') {
     const inquiry = await this.db.webInquiry.update({
       where: { id: BigInt(id) },
       data: { status },
     });
 
-    return {
-      ...inquiry,
-      id: inquiry.id.toString(),
-      createdAt: inquiry.createdAt.toISOString(),
-      updatedAt: inquiry.updatedAt.toISOString(),
-    };
+    return this.serialize(inquiry);
   }
 
   async delete(id: string) {
@@ -115,9 +96,15 @@ export class WebInquiryService {
       where: { id: BigInt(id) },
     });
 
+    return this.serialize(inquiry);
+  }
+
+  private serialize(inquiry: any) {
     return {
       ...inquiry,
       id: inquiry.id.toString(),
+      preferredDate: inquiry.preferredDate ? inquiry.preferredDate.toISOString().split('T')[0] : null,
+      status: inquiry.status as 'PENDING' | 'IN_PROGRESS' | 'DONE' | 'CANCELLED',
       createdAt: inquiry.createdAt.toISOString(),
       updatedAt: inquiry.updatedAt.toISOString(),
     };

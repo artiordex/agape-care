@@ -100,7 +100,7 @@
     ]
   },
   "notices": {
-    "announcements": [
+    "announcement": [
       { "label": "홈", "href": "/" },
       { "label": "알림마당", "href": "/notices" },
       { "label": "공지사항" }

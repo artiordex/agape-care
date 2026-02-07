@@ -10,8 +10,8 @@ import {
   ConsultationRecordSchema,
   DailyCareRecordSchema,
   IncidentSchema,
-} from '../schemas/care/index';
-import { ApiResponseSchema } from '../schemas/common/response.schema';
+} from '../schemas/care/index.js';
+import { ApiResponseSchema } from '../schemas/common/response.schema.js';
 
 /**
  * [케어플랜] GET /care/plans
