@@ -6,9 +6,9 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
-import mealData from '@/data/meal.json';
+import { api } from '@/lib/api';
 import MealDetailModal from './MealDetailModal';
 import MealPlanHeader from './MealPlanHeader';
 import MonthTab from './tabs/MonthTab';
@@ -33,13 +33,50 @@ interface MealPlan {
   images: MealImage[];
 }
 
-// JSON 데이터 로드
-const MEAL_DATA: MealPlan[] = mealData.mealPlans;
-
 export default function MealPlanPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<'week' | 'month'>('week');
   const [selectedMeal, setSelectedMeal] = useState<MealPlan | null>(null);
+
+  // API 데이터 로드
+  const { data: mealPlansData, isLoading } = api.webpage.getMealPlans.useQuery(
+    {
+      query: {
+        page: 1,
+        limit: 100, // 충분한 데이터를 가져오기 위해 큰 값 설정
+      },
+    },
+    {
+      queryKey: ['meal-plans'],
+    },
+  );
+
+  // API 응답 데이터를 UI에 맞게 변환
+  const MEAL_DATA: MealPlan[] = useMemo(() => {
+    if (!mealPlansData || mealPlansData.status !== 200) return [];
+
+    const allDailyMeals: MealPlan[] = [];
+
+    // 각 meal plan의 dailyMeals를 평탄화
+    mealPlansData.body.data.forEach(mealPlan => {
+      mealPlan.dailyMeals.forEach(dailyMeal => {
+        allDailyMeals.push({
+          id: dailyMeal.id,
+          date: dailyMeal.date,
+          breakfast: dailyMeal.breakfast || '',
+          morning_snack: dailyMeal.morningSnack || '',
+          lunch: dailyMeal.lunch || '',
+          afternoon_snack: dailyMeal.afternoonSnack || '',
+          dinner: dailyMeal.dinner || '',
+          memo: mealPlan.notes || undefined,
+          nutrition_manager: mealPlan.nutritionManager || '미지정',
+          images: [], // TODO: 이미지 지원 시 추가
+        });
+      });
+    });
+
+    return allDailyMeals;
+  }, [mealPlansData]);
 
   // 현재 월에 해당하는 데이터만 필터링 (월간 보기용)
   const mealPlans = MEAL_DATA.filter(meal => {
@@ -134,8 +171,8 @@ export default function MealPlanPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
+    <main>
+      <div className="border border-gray-200 bg-white p-10 shadow-sm">
         {/* 컨트롤 */}
         <MealPlanHeader
           currentDate={currentDate}
@@ -146,15 +183,27 @@ export default function MealPlanPage() {
           onViewModeChange={setViewMode}
         />
 
-        {/* 주간 보기 */}
-        {viewMode === 'week' && <WeekTab weekDays={getWeekDays()} onMealClick={setSelectedMeal} />}
+        {/* 로딩 상태 */}
+        {isLoading && (
+          <div className="flex items-center justify-center py-20">
+            <div className="h-12 w-12 animate-spin rounded-full border-4 border-[#5C8D5A] border-t-transparent"></div>
+          </div>
+        )}
 
-        {/* 월간 보기 */}
-        {viewMode === 'month' && <MonthTab monthDays={getMonthDays()} onMealClick={setSelectedMeal} />}
+        {/* 데이터 로드 완료 */}
+        {!isLoading && (
+          <>
+            {/* 주간 보기 */}
+            {viewMode === 'week' && <WeekTab weekDays={getWeekDays()} onMealClick={setSelectedMeal} />}
+
+            {/* 월간 보기 */}
+            {viewMode === 'month' && <MonthTab monthDays={getMonthDays()} onMealClick={setSelectedMeal} />}
+          </>
+        )}
       </div>
 
       {/* 상세 모달 */}
       <MealDetailModal meal={selectedMeal} onClose={() => setSelectedMeal(null)} />
-    </div>
+    </main>
   );
 }

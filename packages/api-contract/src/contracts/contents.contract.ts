@@ -43,13 +43,16 @@ export const contentContract = {
   getNotice: {
     method: 'GET' as const,
     path: '/contents/announcement/:id',
+    pathParams: z.object({
+      id: z.string(),
+    }),
     responses: {
       200: ApiResponseSchema(NoticeSchema),
     },
   },
 
   /**
-   * [공지사항] POST /content/notices
+   * [공지사항] POST /contents/notices
    * 신규 공지사항 작성
    */
   createNotice: {
@@ -62,7 +65,7 @@ export const contentContract = {
   },
 
   /**
-   * [공지사항] PATCH /content/notices/:id
+   * [공지사항] PATCH /contents/notices/:id
    * 기존 공지사항 수정
    */
   updateNotice: {
@@ -75,7 +78,7 @@ export const contentContract = {
   },
 
   /**
-   * [공지사항] DELETE /content/notices/:id
+   * [공지사항] DELETE /contents/notices/:id
    * 특정 공지사항 삭제
    */
   deleteNotice: {
@@ -88,7 +91,7 @@ export const contentContract = {
   },
 
   /**
-   * [게시판] GET /content/posts
+   * [게시판] GET /contents/posts
    * 게시판 키('FREE', 'QNA' 등)에 따른 게시글 목록 조회
    */
   getPosts: {
@@ -105,19 +108,22 @@ export const contentContract = {
   },
 
   /**
-   * [게시판] GET /content/posts/:id
+   * [게시판] GET /contents/posts/:id
    * 특정 게시글 상세 정보 및 조회수 증가
    */
   getPost: {
     method: 'GET' as const,
     path: '/contents/posts/:id',
+    pathParams: z.object({
+      id: z.string(),
+    }),
     responses: {
       200: ApiResponseSchema(BoardPostSchema),
     },
   },
 
   /**
-   * [게시판] POST /content/posts
+   * [게시판] POST /contents/posts
    * 신규 게시글 작성
    */
   createPost: {
@@ -130,7 +136,7 @@ export const contentContract = {
   },
 
   /**
-   * [게시판] PATCH /content/posts/:id
+   * [게시판] PATCH /contents/posts/:id
    * 기존 게시글 수정
    */
   updatePost: {
@@ -143,7 +149,7 @@ export const contentContract = {
   },
 
   /**
-   * [게시판] DELETE /content/posts/:id
+   * [게시판] DELETE /contents/posts/:id
    * 특정 게시글 삭제
    */
   deletePost: {
@@ -156,7 +162,7 @@ export const contentContract = {
   },
 
   /**
-   * [댓글] GET /content/posts/:postId/comments
+   * [댓글] GET /contents/posts/:postId/comments
    * 특정 게시글에 달린 전체 댓글 및 대댓글 조회
    */
   getComments: {
@@ -168,7 +174,7 @@ export const contentContract = {
   },
 
   /**
-   * [댓글] POST /content/comments
+   * [댓글] POST /contents/comments
    * 신규 댓글 또는 대댓글 작성
    */
   createComment: {
@@ -181,7 +187,7 @@ export const contentContract = {
   },
 
   /**
-   * [갤러리] GET /content/gallery
+   * [갤러리] GET /contents/gallery
    * 갤러리/행사 사진 목록 조회
    */
   getGalleryItems: {
@@ -193,7 +199,7 @@ export const contentContract = {
   },
 
   /**
-   * [팝업] GET /content/popups/active
+   * [팝업] GET /contents/popups/active
    * 현재 노출 기간에 해당하는 활성 팝업 목록 조회
    */
   getActivePopups: {
@@ -205,7 +211,7 @@ export const contentContract = {
   },
 
   /**
-   * [설정] GET /content/settings/:category
+   * [설정] GET /contents/settings/:category
    * 웹사이트 섹션별 설정 정보(디자인, 비용 안내 등) 조회
    */
   getWebsiteSettings: {

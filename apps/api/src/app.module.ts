@@ -16,17 +16,17 @@ import { AccountingModule } from './modules/accounting/accounting.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CareModule } from './modules/care/care.module';
 import { LoggerMiddleware } from './modules/common/middleware/logger.middleware';
-import { ContentModule } from './modules/contents/content.module';
+import { ContentModule } from './modules/contents/contents.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { HealthModule } from './modules/health/health.module';
 import { MyPageModule } from './modules/mypage/mypage.module';
 import { NotificationModule } from './modules/notification/notification.module';
-import { ProgramModule } from './modules/program/program.module';
 import { ResidentModule } from './modules/resident/resident.module';
 import { RoleModule } from './modules/role/role.module';
 import { SettingModule } from './modules/setting/setting.module';
-import { VisitReservationModule } from './modules/visit-reservation/visit-reservation.module';
-import { WebInquiryModule } from './modules/web-inquiry/web-inquiry.module';
+import { WebInquiryModule } from './modules/web-view/contact-inquiry/contact-inquiry.module';
+import { NoticesModule } from './modules/web-view/notices/notices.module';
+import { VisitReservationModule } from './modules/web-view/visit-inquiry/visit-inquiry.module';
 
 @Module({
   imports: [
@@ -76,13 +76,14 @@ import { WebInquiryModule } from './modules/web-inquiry/web-inquiry.module';
     AuthModule,
     HealthModule,
     NotificationModule,
-    ProgramModule,
     ResidentModule,
     CareModule,
     DashboardModule,
     MyPageModule,
     SettingModule,
     WebInquiryModule,
+    WebInquiryModule,
+    NoticesModule,
     VisitReservationModule,
     RoleModule,
     ContentModule,

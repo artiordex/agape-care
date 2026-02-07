@@ -7,32 +7,37 @@
 'use client';
 
 import { api } from '@/lib/api';
+import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 export default function NoticeDetailPage() {
   const { id } = useParams();
   const router = useRouter();
   const noticeId = id as string;
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
   // Single Notice Query
-  const { data: noticeResult, isLoading } = api.content.getNotice.useQuery(
-    {
-      params: { id: noticeId },
+  const { data: noticeResult, isLoading } = useQuery({
+    queryKey: ['webpage-notice', noticeId],
+    queryFn: async () => {
+      const res = await fetch(`${baseUrl}/notices/announcement/${noticeId}`);
+      const body = await res.json();
+      return { status: res.status, body };
     },
-    {
-      queryKey: ['notice', noticeId],
-    },
-  );
+    enabled: !!noticeId,
+  });
+
+  console.log('NOTICE RESULT:', noticeResult);
 
   // All Notices for Prev/Next navigation
-  const { data: allNoticesResult } = api.content.getNotices.useQuery(
+  const { data: allNoticesResult } = api.webpage.getNotices.useQuery(
     {
       query: { isActive: true },
     },
     {
-      queryKey: ['notices-nav'],
+      queryKey: ['webpage-notices-nav'],
     },
   );
 
@@ -48,25 +53,6 @@ export default function NoticeDetailPage() {
     };
   }, [noticeResult]);
 
-  const updateNotice = api.content.updateNotice.useMutation();
-
-  /* 조회수 증가 로직 */
-  useEffect(() => {
-    if (!notice) return;
-
-    const storageKey = `notice_view_${noticeId}`;
-    const hasViewed = localStorage.getItem(storageKey);
-
-    if (!hasViewed) {
-      localStorage.setItem(storageKey, 'true');
-      updateNotice.mutate({
-        params: { id: noticeId },
-        body: { viewCount: (notice.views || 0) + 1 },
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [noticeId]); // Only run when noticeId changes
-
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -79,13 +65,14 @@ export default function NoticeDetailPage() {
     return (
       <div className="mx-auto max-w-7xl py-20 text-center">
         <div className="rounded border border-gray-200 bg-white p-12 shadow-sm">
-          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
             <i className="ri-error-warning-line text-4xl text-gray-400" />
           </div>
           <h2 className="mb-4 text-2xl font-bold text-gray-900">공지사항을 찾을 수 없습니다</h2>
+
           <p className="mb-6 text-gray-600">요청하신 게시글이 삭제되었거나 존재하지 않습니다.</p>
           <Link
-            href="/notices/announcements"
+            href="/notices/announcement"
             className="inline-flex items-center gap-2 rounded bg-[#5C8D5A] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#4A7548]"
           >
             <i className="ri-arrow-left-line" /> 목록으로 돌아가기
@@ -161,7 +148,7 @@ export default function NoticeDetailPage() {
               <div className="min-w-0 flex-1">
                 {prev ? (
                   <Link
-                    href={`/notices/announcements/${prev.id}`}
+                    href={`/notices/announcement/${prev.id}`}
                     className="block truncate text-sm text-gray-900 transition-colors hover:text-[#5C8D5A] hover:underline"
                   >
                     {prev.title}
@@ -182,7 +169,7 @@ export default function NoticeDetailPage() {
               <div className="min-w-0 flex-1">
                 {next ? (
                   <Link
-                    href={`/notices/announcements/${next.id}`}
+                    href={`/notices/announcement/${next.id}`}
                     className="block truncate text-sm text-gray-900 transition-colors hover:text-[#5C8D5A] hover:underline"
                   >
                     {next.title}
@@ -198,7 +185,7 @@ export default function NoticeDetailPage() {
           <div className="bg-[#5C8D5A]/5 px-6 py-6 md:px-8">
             <div className="flex flex-wrap items-center justify-center gap-3">
               <button
-                onClick={() => router.push('/notices/announcements')}
+                onClick={() => router.push('/notices/announcement')}
                 className="flex items-center gap-2 rounded border border-gray-300 bg-white px-6 py-3 font-semibold text-gray-700 transition-all hover:bg-gray-50"
               >
                 <i className="ri-list-check" /> 목록

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { WebInquiryController } from './web-inquiry.controller';
-import { WebInquiryService } from './web-inquiry.service';
+import { WebInquiryController } from './contact-inquiry.controller';
+import { WebInquiryService } from './contact-inquiry.service';
 
 @Module({
   controllers: [WebInquiryController],

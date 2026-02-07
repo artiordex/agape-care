@@ -1,7 +1,7 @@
 import { contract } from '@agape-care/api-contract';
 import { Controller } from '@nestjs/common';
 import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';
-import { VisitReservationService } from './visit-reservation.service';
+import { VisitReservationService } from './visit-inquiry.service';
 
 @Controller()
 export class VisitReservationController {

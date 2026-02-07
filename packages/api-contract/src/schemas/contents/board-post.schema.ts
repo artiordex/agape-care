@@ -14,8 +14,8 @@ export const BoardPostSchema = z.object({
   viewCount: z.number().int().default(0),
   isPinned: z.boolean().default(false),
   isLocked: z.boolean().default(false),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
 });
 
 export type BoardPost = z.infer<typeof BoardPostSchema>;

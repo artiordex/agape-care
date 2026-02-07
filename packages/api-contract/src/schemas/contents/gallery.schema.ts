@@ -13,8 +13,8 @@ export const GalleryItemSchema = z.object({
   eventDate: z.coerce.date().nullable().optional(),
   createdBy: z.coerce.string().nullable().optional(),
   isPublic: z.boolean().default(true),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
 });
 
 export type GalleryItem = z.infer<typeof GalleryItemSchema>;

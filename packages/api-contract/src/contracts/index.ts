@@ -45,5 +45,5 @@ export * from './mypage.contract.js';
 
 // 시스템 설정, 권한 및 조직 관리 API
 export * from './setting.contract.js';
-export * from './visit-reservation.contract.js';
 export * from './web-inquiry.contract.js';
+export * from './web-notices.contract.js';

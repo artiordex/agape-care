@@ -86,19 +86,19 @@ INSERT INTO resident_vitals (resident_id, recorded_by, measured_at, systolic_bp,
 -- 식단 / 프로그램
 
 -- MEAL_PLANS (주간 식단표)
-INSERT INTO meal_plans (id, facility_code, week_start_date, created_by, status) VALUES
-  (1, 'DEFAULT', '2026-01-20', 6, 'PUBLISHED');
+INSERT INTO meal_plans (id, facility_code, week_start_date, created_by, nutrition_manager, status) VALUES
+  (1, 'DEFAULT', '2026-01-20', 6, '박영희', 'PUBLISHED');
 
 -- MEAL_PLAN_ITEMS (식단 아이템)
-INSERT INTO meal_plan_items (meal_plan_id, meal_date, meal_type, main_menu, side_menu, soup, dessert, calories) VALUES
+INSERT INTO meal_plan_items (meal_plan_id, meal_date, meal_type, menu_content, image_url, calories) VALUES
   -- 2026-01-23 (목)
-  (1, '2026-01-23', 'BREAKFAST', '쇠고기미역국', '계란후라이, 김구이', '된장국', '우유', 520),
-  (1, '2026-01-23', 'LUNCH', '제육볶음', '두부조림, 시금치나물', '배추국', '과일', 680),
-  (1, '2026-01-23', 'DINNER', '생선구이', '감자조림, 콩나물', '미역국', '요구르트', 610),
+  (1, '2026-01-23', 'BREAKFAST', '쇠고기미역국\n계란후라이\n김구이\n된장국\n우유', '/images/sample.svg', 520),
+  (1, '2026-01-23', 'LUNCH', '제육볶음\n두부조림\n시금치나물\n배추국\n과일', '/images/sample.svg', 680),
+  (1, '2026-01-23', 'DINNER', '생선구이\n감자조림\n콩나물\n미역국\n요구르트', '/images/sample.svg', 610),
   -- 2026-01-24 (금)
-  (1, '2026-01-24', 'BREAKFAST', '북어국', '계란찜, 김', '된장국', '우유', 500),
-  (1, '2026-01-24', 'LUNCH', '닭볶음탕', '두부부침, 나물', '무국', '수박', 720),
-  (1, '2026-01-24', 'DINNER', '돈가스', '샐러드, 단무지', '콩나물국', '푸딩', 650);
+  (1, '2026-01-24', 'BREAKFAST', '북어국\n계란찜\n김\n된장국\n우유', '/images/sample.svg', 500),
+  (1, '2026-01-24', 'LUNCH', '닭볶음탕\n두부부침\n나물\n무국\n수박', '/images/sample.svg', 720),
+  (1, '2026-01-24', 'DINNER', '돈가스\n샐러드\n단무지\n콩나물국\n푸딩', '/images/sample.svg', 650);
 
 -- PROGRAMS (프로그램 마스터)
 INSERT INTO programs (id, title, description, category, is_active, created_by) VALUES

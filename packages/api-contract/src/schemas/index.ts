@@ -19,5 +19,5 @@ export * from './operations/index.js';
 export * from './program/index.js';
 export * from './resident/index.js';
 export * from './setting/index.js';
-export * from './visit-reservation/index.js';
-export * from './web-inquiry/index.js';
+export * from './web-view/contact-inquiry/index.js';
+export * from './web-view/visit-inquiry/index.js';

@@ -7,6 +7,7 @@
 'use client';
 
 import NoticeSidebar from '@/components/NoticeSidebar';
+import 'remixicon/fonts/remixicon.css';
 
 export default function NoticeLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

@@ -250,8 +250,8 @@ export default function GalleryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
+    <main>
+      <div className="border border-gray-200 bg-white p-10 shadow-sm">
         {/* 헤더 */}
         <GalleryHeader
           currentDate={currentDate}
@@ -297,6 +297,6 @@ export default function GalleryPage() {
         description={modal.description}
         onClose={handleCloseModal}
       />
-    </div>
+    </main>
   );
 }

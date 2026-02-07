@@ -9,10 +9,7 @@
 import { api } from '@/lib/api';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { useMemo, useState } from 'react';
-
-import DeleteConfirmModal from '../DeleteConfirmModal';
-import EditPostModal from '../EditPostModal';
+import { useMemo } from 'react';
 
 interface Post {
   id: string;
@@ -31,31 +28,44 @@ export default function BoardDetailPage() {
   const router = useRouter();
   const postId = params.id as string;
 
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
   // Single Post Query
-  const { data: postResult, isLoading } = api.content.getPost.useQuery(
+  const {
+    data: postResult,
+    isLoading,
+    error,
+    isError,
+    failureReason,
+  } = api.webpage.getPost.useQuery(
     {
       params: { id: postId },
     },
     {
-      queryKey: ['board-post', postId],
+      enabled: !!postId, // Only run if we have a postId
+      retry: false, // Don't retry on failure for easier debugging
+      onError: err => {
+        console.error('❌ Query Error:', err);
+      },
     },
   );
+
+  console.log('🔍 Debug Info:', {
+    postId,
+    postResult,
+    hasData: !!postResult,
+    status: postResult?.status,
+  });
 
   // All Posts for Prev/Next navigation
-  const { data: allPostsResult } = api.content.getPosts.useQuery(
-    {
-      query: { boardKey: 'FREE' },
-    },
-    {
-      queryKey: ['board-posts-nav'],
-    },
-  );
+  const { data: allPostsResult } = api.webpage.getPosts.useQuery({
+    query: { boardKey: 'FREE', page: 1, limit: 100 },
+  });
 
   const post = useMemo(() => {
-    if (postResult?.status !== 200) return null;
+    // Check if we have valid data
+    if (!postResult || postResult.status !== 200 || !postResult.body?.data) {
+      return null;
+    }
+
     const p = postResult.body.data;
 
     return {
@@ -71,15 +81,45 @@ export default function BoardDetailPage() {
     };
   }, [postResult]);
 
-  const allPosts = allPostsResult?.status === 200 ? allPostsResult.body.data : [];
-  const currentIndex = allPosts.findIndex((p: any) => p.id === postId);
-  const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
-  const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+  const allPosts =
+    allPostsResult?.status === 200 && Array.isArray(allPostsResult.body.data) ? allPostsResult.body.data : [];
+
+  const currentIndex = allPosts.findIndex((p: any) => p && p.id === postId);
+  const prevPost = currentIndex > 0 && allPosts[currentIndex - 1] ? allPosts[currentIndex - 1] : null;
+  const nextPost =
+    currentIndex !== -1 && currentIndex < allPosts.length - 1 && allPosts[currentIndex + 1]
+      ? allPosts[currentIndex + 1]
+      : null;
 
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="h-12 w-12 animate-spin rounded-full border-4 border-[#5C8D5A] border-t-transparent"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="mx-auto max-w-6xl px-4 py-20 text-center">
+        <div className="rounded border border-red-200 bg-white p-12 shadow-sm">
+          <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-red-100">
+            <i className="ri-error-warning-line text-4xl text-red-400" />
+          </div>
+          <h2 className="mb-4 text-2xl font-bold text-gray-900">API 오류가 발생했습니다</h2>
+          <p className="mb-6 text-gray-600">
+            {error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.'}
+          </p>
+          <pre className="mb-6 overflow-auto rounded bg-gray-100 p-4 text-left text-xs">
+            {JSON.stringify({ postId, error }, null, 2)}
+          </pre>
+          <Link
+            href="/notices/board"
+            className="inline-flex items-center gap-2 rounded bg-[#5C8D5A] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#4A7548]"
+          >
+            <i className="ri-arrow-left-line" /> 목록으로 돌아가기
+          </Link>
+        </div>
       </div>
     );
   }
@@ -236,14 +276,16 @@ export default function BoardDetailPage() {
                 <i className="ri-list-check" /> 목록
               </button>
               <button
-                onClick={() => setIsEditModalOpen(true)}
-                className="flex items-center gap-2 rounded border border-gray-300 bg-white px-6 py-3 font-semibold text-gray-700 transition-all hover:border-[#5C8D5A]/50 hover:bg-gray-50 hover:text-[#5C8D5A]"
+                disabled
+                className="flex cursor-not-allowed items-center gap-2 rounded border border-gray-300 bg-gray-100 px-6 py-3 font-semibold text-gray-400"
+                title="수정 기능은 준비 중입니다"
               >
                 <i className="ri-edit-line" /> 수정
               </button>
               <button
-                onClick={() => setIsDeleteModalOpen(true)}
-                className="flex items-center gap-2 rounded border border-red-200 bg-white px-6 py-3 font-semibold text-red-600 transition-all hover:bg-red-50"
+                disabled
+                className="flex cursor-not-allowed items-center gap-2 rounded border border-gray-300 bg-gray-100 px-6 py-3 font-semibold text-gray-400"
+                title="삭제 기능은 준비 중입니다"
               >
                 <i className="ri-delete-bin-line" /> 삭제
               </button>
@@ -273,30 +315,6 @@ export default function BoardDetailPage() {
           </div>
         </div>
       </div>
-
-      {/* Edit Modal */}
-      {isEditModalOpen && post && (
-        <EditPostModal
-          post={post}
-          onClose={() => setIsEditModalOpen(false)}
-          onSuccess={() => {
-            setIsEditModalOpen(false);
-            window.location.reload();
-          }}
-        />
-      )}
-
-      {/* Delete Modal */}
-      {isDeleteModalOpen && (
-        <DeleteConfirmModal
-          postId={postId}
-          onClose={() => setIsDeleteModalOpen(false)}
-          onSuccess={() => {
-            setIsDeleteModalOpen(false);
-            router.push('/notices/board');
-          }}
-        />
-      )}
     </main>
   );
 }

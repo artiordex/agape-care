@@ -16,6 +16,7 @@ import {
   settingContract,
   visitReservationContract,
   webInquiryContract,
+  webpageContract,
 } from './contracts/index.js';
 
 export * from './contracts/index.js';
@@ -40,5 +41,6 @@ export const contract = c.router({
   resident: residentContract,
   setting: settingContract,
   webInquiry: webInquiryContract,
+  webpage: webpageContract,
   visitReservation: visitReservationContract,
 });

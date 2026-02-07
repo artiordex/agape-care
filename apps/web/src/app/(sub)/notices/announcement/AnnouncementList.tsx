@@ -25,7 +25,7 @@ export default function NoticeList({ notices }: { readonly notices: NoticeItem[]
   const router = useRouter();
 
   const goDetail = (id: string | number) => {
-    router.push(`/notices/announcements/${id}`);
+    router.push(`/notices/announcement/${id}`);
   };
 
   return (

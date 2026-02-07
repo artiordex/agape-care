@@ -50,7 +50,7 @@ export default function InventoryManagement() {
   const [items, setItems] = useState<InventoryItem[]>(DEFAULT_ITEMS);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // 🔥 localStorage는 useEffect에서만 접근
+  // localStorage는 useEffect에서만 접근
   useEffect(() => {
     const saved = localStorage.getItem('inventory_items');
     if (saved) {
@@ -160,7 +160,7 @@ export default function InventoryManagement() {
 
   const lowStockItems = items.filter(item => item.quantity <= item.minStock);
 
-  // 🔥 로딩 중일 때 표시
+  // 로딩 중일 때 표시
   if (!isLoaded) {
     return (
       <div className="flex h-screen items-center justify-center">

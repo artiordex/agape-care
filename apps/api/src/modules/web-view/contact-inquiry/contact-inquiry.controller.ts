@@ -1,7 +1,7 @@
 import { contract } from '@agape-care/api-contract';
 import { Controller } from '@nestjs/common';
 import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';
-import { WebInquiryService } from './web-inquiry.service';
+import { WebInquiryService } from './contact-inquiry.service';
 
 @Controller()
 export class WebInquiryController {

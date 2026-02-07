@@ -27,9 +27,6 @@ export default function MonthHeader({
     <div className="mb-10 flex flex-col items-stretch justify-between gap-6 lg:flex-row lg:items-end">
       {/* 왼쪽: 월 표시 */}
       <div className="flex items-start gap-5">
-        <div className="flex h-16 w-16 items-center justify-center bg-[#5C8D5A] text-white">
-          <i className="ri-calendar-event-fill text-3xl" />
-        </div>
         <div>
           <h2 className="text-4xl font-black tracking-tight text-gray-900">
             {currentMonth.getFullYear()}.
@@ -52,7 +49,7 @@ export default function MonthHeader({
 
           <button
             onClick={goToday}
-            className="flex h-12 items-center px-6 text-md font-semibold text-[#5C8D5A] transition-colors hover:bg-[#5C8D5A]/10"
+            className="text-md flex h-12 items-center px-6 font-semibold text-[#5C8D5A] transition-colors hover:bg-[#5C8D5A]/10"
           >
             {new Date().toLocaleDateString('ko-KR')}
           </button>
@@ -70,20 +67,22 @@ export default function MonthHeader({
         <div className="flex border border-[#5C8D5A] bg-white p-1">
           <button
             onClick={() => setViewMode('calendar')}
-            className={`text-md flex h-10 items-center gap-2 px-5 transition-colors ${
+            className={`flex h-10 items-center gap-2 px-5 text-sm font-bold transition-colors ${
               viewMode === 'calendar' ? 'bg-[#5C8D5A] text-white' : 'text-gray-500 hover:text-[#5C8D5A]'
             }`}
           >
-            <i className="ri-grid-fill" />캘린더 뷰
+            <i className="ri-grid-fill" />
+            캘린더 뷰
           </button>
 
           <button
             onClick={() => setViewMode('list')}
-            className={`text-md flex h-10 items-center gap-2 px-5 font-bold transition-colors ${
+            className={`flex h-10 items-center gap-2 px-5 text-sm font-bold transition-colors ${
               viewMode === 'list' ? 'bg-[#5C8D5A] text-white' : 'text-gray-500 hover:text-[#5C8D5A]'
             }`}
           >
-            <i className="ri-list-settings-fill" />리스트 뷰
+            <i className="ri-list-settings-fill" />
+            리스트 뷰
           </button>
         </div>
       </div>

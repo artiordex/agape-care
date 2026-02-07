@@ -32,6 +32,11 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
     this.pool = pool;
 
+    // 실제 SQL을 콘솔에 출력
+    this.$on('query' as never, (e: any) => {
+      console.log('RAW SQL:', e.query);
+    });
+
     // Prisma 쿼리 로깅 (개발 환경에서만)
     if (process.env.NODE_ENV === 'development') {
       this.$on('query' as never, (e: any) => {
@@ -43,6 +48,9 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
   async onModuleInit(): Promise<void> {
     try {
+      await this.$connect();
+      this.logger.log(`DATABASE_URL: ${process.env.DATABASE_URL}`);
+
       await this.$connect();
       this.logger.log('Database connected successfully (Prisma 7 + pg adapter)');
 

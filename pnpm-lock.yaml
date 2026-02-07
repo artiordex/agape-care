@@ -285,6 +285,9 @@ importers:
       reflect-metadata:
         specifier: ^0.2.0
         version: 0.2.2
+      remixicon:
+        specifier: ^4.9.1
+        version: 4.9.1
       rxjs:
         specifier: ^7.8.1
         version: 7.8.2
@@ -12107,6 +12110,9 @@ packages:
 
   remeda@2.33.4:
     resolution: {integrity: sha512-ygHswjlc/opg2VrtiYvUOPLjxjtdKvjGz1/plDhkG66hjNjFr1xmfrs2ClNFo/E6TyUFiwYNh53bKV26oBoMGQ==}
+
+  remixicon@4.9.1:
+    resolution: {integrity: sha512-36gLSoujkabnCFZFDyP17VNh9piuBA/rsXUb4auSJWLGsHVXtmxLj/EM5FjaEAGnk8oIAj1Azob/DZ2N+90lAQ==}
 
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
@@ -27542,6 +27548,8 @@ snapshots:
       jsesc: 3.1.0
 
   remeda@2.33.4: {}
+
+  remixicon@4.9.1: {}
 
   require-directory@2.1.1: {}
 

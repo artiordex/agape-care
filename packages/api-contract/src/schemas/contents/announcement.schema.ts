@@ -15,8 +15,8 @@ export const NoticeSchema = z.object({
   viewCount: z.number().default(0),
   publishedAt: z.coerce.date().nullable().optional(),
   createdBy: z.coerce.string().nullable().optional(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
 });
 
 export type Notice = z.infer<typeof NoticeSchema>;

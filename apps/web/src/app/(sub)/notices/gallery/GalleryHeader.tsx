@@ -10,12 +10,12 @@ import SearchBar from './SearchBar';
 
 interface GalleryHeaderProps {
   currentDate: Date;
-  viewMode: 'week' | 'month' | 'all' | 'grid';
+  viewMode: 'week' | 'month' | 'grid';
   searchQuery: string;
   onPrev: () => void;
   onNext: () => void;
   onToday: () => void;
-  onViewModeChange: (mode: 'week' | 'month' | 'all' | 'grid') => void;
+  onViewModeChange: (mode: 'week' | 'month' | 'grid') => void;
   onSearchChange: (query: string) => void;
 }
 
@@ -40,7 +40,7 @@ export default function GalleryHeader({
     if (viewMode === 'month') {
       return `${currentDate.getFullYear()}년 ${month}월`;
     }
-    return '전체 갤러리';
+    return '그리드 보기';
   };
 
   const getSubTitleText = () => {
@@ -51,21 +51,16 @@ export default function GalleryHeader({
         return '월간 갤러리';
       case 'grid':
         return '그리드 보기';
-      default:
-        return '갤러리';
     }
   };
 
   return (
     <div className="mb-10 flex flex-col items-stretch justify-between gap-6 lg:flex-row lg:items-end">
-      {/* 왼쪽: 제목 표시 */}
+      {/* 왼쪽 */}
       <div className="flex items-start gap-5">
-        <div className="flex h-16 w-16 items-center justify-center bg-[#5C8D5A] text-white">
-          <i className="ri-image-line text-3xl" />
-        </div>
         <div>
           <h2 className="text-4xl font-black tracking-tight text-gray-900">
-            {viewMode === 'all' ? (
+            {viewMode === 'grid' ? (
               <span className="text-[#5C8D5A]">{getDisplayText()}</span>
             ) : (
               <>
@@ -86,8 +81,8 @@ export default function GalleryHeader({
 
       {/* 오른쪽 컨트롤 */}
       <div className="flex flex-wrap items-center gap-3">
-        {/* 날짜 이동 버튼 그룹 (전체 보기일 때는 숨김) */}
-        {viewMode !== 'all' && viewMode !== 'grid' && (
+        {/* 날짜 이동 버튼 그룹 (그리드 보기일 때는 숨김) */}
+        {viewMode !== 'grid' && (
           <div className="flex border border-gray-200 bg-white">
             <button
               onClick={onPrev}
@@ -121,11 +116,11 @@ export default function GalleryHeader({
         <div className="flex border border-[#5C8D5A] bg-white p-1">
           <button
             onClick={() => onViewModeChange('week')}
-            className={`flex h-10 items-center gap-2 px-5 text-sm transition-colors ${
+            className={`flex h-10 items-center gap-2 px-5 text-sm font-bold transition-colors ${
               viewMode === 'week' ? 'bg-[#5C8D5A] text-white' : 'text-gray-500 hover:text-[#5C8D5A]'
             }`}
           >
-            <i className="ri-calendar-week-fill" /> 주간
+            <i className="ri-calendar-todo-line" /> 주간
           </button>
 
           <button
@@ -135,15 +130,6 @@ export default function GalleryHeader({
             }`}
           >
             <i className="ri-calendar-fill" /> 월간
-          </button>
-
-          <button
-            onClick={() => onViewModeChange('all')}
-            className={`flex h-10 items-center gap-2 px-5 text-sm font-bold transition-colors ${
-              viewMode === 'all' ? 'bg-[#5C8D5A] text-white' : 'text-gray-500 hover:text-[#5C8D5A]'
-            }`}
-          >
-            <i className="ri-list-check" /> 갤러리
           </button>
 
           <button

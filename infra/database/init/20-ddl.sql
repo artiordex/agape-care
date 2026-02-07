@@ -4,10 +4,6 @@
 -- Schema : Agape-Care Nursing Home ERP (Residents, Staff, Care, Schedules, Accounting, CMS)
 -- Note : Extensions는 00-extensions.sql에서 이미 생성됨
 
--- Description : 20-ddl-commented.sql - Part 1/10
--- Agape-Care Core ERP PostgreSQL Table DDL with Comments
--- 유틸리티 함수 및 조직/직원 테이블 (5 Tables)
-
 -- ============================================
 -- Utility Functions
 -- ============================================
@@ -376,6 +372,7 @@ CREATE TABLE meal_plans (
   facility_code  TEXT NOT NULL DEFAULT 'DEFAULT',
   week_start_date DATE NOT NULL,
   created_by     BIGINT REFERENCES employees(id) ON DELETE SET NULL,
+  nutrition_manager TEXT,
   status         TEXT NOT NULL DEFAULT 'DRAFT',
   notes          TEXT,
   created_at     TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -388,6 +385,7 @@ COMMENT ON COLUMN meal_plans.id IS '식단표 ID (Primary Key)';
 COMMENT ON COLUMN meal_plans.facility_code IS '시설 코드 - 다중 시설 운영 시 구분';
 COMMENT ON COLUMN meal_plans.week_start_date IS '주 시작일 (월요일)';
 COMMENT ON COLUMN meal_plans.created_by IS '작성자 ID (외래키) - employees 테이블 참조';
+COMMENT ON COLUMN meal_plans.nutrition_manager IS '영양 관리자';
 COMMENT ON COLUMN meal_plans.status IS '상태 - DRAFT: 작성중, PUBLISHED: 게시, ARCHIVED: 보관';
 COMMENT ON COLUMN meal_plans.notes IS '비고';
 COMMENT ON COLUMN meal_plans.created_at IS '생성일시';
@@ -403,16 +401,10 @@ CREATE TABLE meal_plan_items (
   meal_plan_id  BIGINT NOT NULL REFERENCES meal_plans(id) ON DELETE CASCADE,
   meal_date     DATE NOT NULL,
   meal_type     TEXT NOT NULL,
-  main_menu     TEXT NOT NULL,
-  side_menu     TEXT,
-  soup          TEXT,
-  dessert       TEXT,
+  menu_content  TEXT NOT NULL,
+  image_url     TEXT,
   calories      INT,
-  notes         TEXT,
-  created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
-  CONSTRAINT meal_plan_items_type_ck
-    CHECK (meal_type IN ('BREAKFAST','LUNCH','DINNER','SNACK'))
+  notes         TEXT
 );
 
 COMMENT ON TABLE meal_plan_items IS '식단표 세부 항목 - 요일/식사별 메뉴 구성';
@@ -420,14 +412,10 @@ COMMENT ON COLUMN meal_plan_items.id IS '항목 ID (Primary Key)';
 COMMENT ON COLUMN meal_plan_items.meal_plan_id IS '식단표 ID (외래키) - meal_plans 테이블 참조';
 COMMENT ON COLUMN meal_plan_items.meal_date IS '식사 날짜';
 COMMENT ON COLUMN meal_plan_items.meal_type IS '식사 유형 - BREAKFAST: 아침, LUNCH: 점심, DINNER: 저녁, SNACK: 간식';
-COMMENT ON COLUMN meal_plan_items.main_menu IS '주 메뉴';
-COMMENT ON COLUMN meal_plan_items.side_menu IS '부 메뉴';
-COMMENT ON COLUMN meal_plan_items.soup IS '국/찌개';
-COMMENT ON COLUMN meal_plan_items.dessert IS '후식';
+COMMENT ON COLUMN meal_plan_items.menu_content IS '메뉴 내용';
+COMMENT ON COLUMN meal_plan_items.image_url IS '메뉴 이미지 URL';
 COMMENT ON COLUMN meal_plan_items.calories IS '칼로리 (kcal)';
 COMMENT ON COLUMN meal_plan_items.notes IS '비고';
-COMMENT ON COLUMN meal_plan_items.created_at IS '생성일시';
-COMMENT ON COLUMN meal_plan_items.updated_at IS '수정일시';
 
 CREATE INDEX idx_meal_plan_items_plan_date
   ON meal_plan_items(meal_plan_id, meal_date, meal_type);

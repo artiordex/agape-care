@@ -10,8 +10,8 @@ import { api } from '@/lib/api';
 import { useMemo, useState } from 'react';
 
 import NoticeList from './AnnouncementList';
+import NoticeSearch from './AnnouncementSearch';
 import NoticePagination from './Pagination';
-import NoticeSearchSection from './AnnouncementSearch';
 
 export default function AnnouncementsPage() {
   const itemsPerPage = 10;
@@ -20,14 +20,14 @@ export default function AnnouncementsPage() {
   const [activeSearchQuery, setActiveSearchQuery] = useState('');
 
   // API 데이터 로드
-  const { data: noticesData, isLoading } = api.content.getNotices.useQuery(
+  const { data: noticesData, isLoading } = api.webpage.getNotices.useQuery(
     {
       query: {
         isActive: true,
       },
     },
     {
-      queryKey: ['web-notices'],
+      queryKey: ['webpage-notices'],
     },
   );
 
@@ -83,23 +83,10 @@ export default function AnnouncementsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 py-12">
+    <main className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4">
-        {/* 페이지 헤더 */}
-        <div className="mb-10 flex items-start gap-5">
-          <div className="flex h-16 w-16 items-center justify-center bg-[#5C8D5A] text-white">
-            <i className="ri-notification-line text-3xl" />
-          </div>
-          <div>
-            <h1 className="text-4xl font-black tracking-tight text-gray-900">
-              공지<span className="text-[#5C8D5A]">사항</span>
-            </h1>
-            <p className="mt-2 text-sm text-gray-500">센터의 중요한 소식과 공지사항을 확인하세요</p>
-          </div>
-        </div>
-
         {/* 검색 섹션 */}
-        <NoticeSearchSection searchQuery={searchQuery} onSearchChange={setSearchQuery} onSearch={handleSearch} />
+        <NoticeSearch searchQuery={searchQuery} onSearchChange={setSearchQuery} onSearch={handleSearch} />
 
         {/* 검색 결과 표시 */}
         {activeSearchQuery && (
