@@ -1,14 +1,13 @@
 'use client';
 
-import React from 'react';
 import clsx from 'clsx';
-import { Announcement } from './announcement.type';
+import { Notice } from './notice.type';
 
 interface Props {
   readonly isOpen: boolean;
-  readonly announcement: Announcement | null;
+  readonly notice: Notice | null;
   readonly onClose: () => void;
-  readonly onEdit: (announcement: Announcement) => void;
+  readonly onEdit: (notice: Notice) => void;
   readonly onDelete: (id: string) => void;
 }
 
@@ -16,8 +15,8 @@ interface Props {
  * [Component] 공지사항 상세 조회 및 인쇄용 모달
  * 아가페 표준 UI 적용
  */
-export default function AnnouncementDetailModal({ isOpen, announcement, onClose, onEdit, onDelete }: Props) {
-  if (!isOpen || !announcement) return null;
+export default function NoticeDetailModal({ isOpen, notice, onClose, onEdit, onDelete }: Props) {
+  if (!isOpen || !notice) return null;
 
   const categoryStyles: any = {
     긴급: 'text-red-600 bg-red-50 border-red-100',
@@ -49,7 +48,7 @@ export default function AnnouncementDetailModal({ isOpen, announcement, onClose,
 
         <div className="flex items-center gap-3">
           <button
-            onClick={() => onEdit(announcement)}
+            onClick={() => onEdit(notice)}
             className="flex items-center gap-2 border border-gray-300 bg-white px-6 py-2.5 text-[12px] font-black text-gray-600 shadow-sm transition-all hover:bg-gray-50"
           >
             <i className="ri-edit-line text-lg"></i>
@@ -90,29 +89,25 @@ export default function AnnouncementDetailModal({ isOpen, announcement, onClose,
                   <span
                     className={clsx(
                       'rounded-none border px-3 py-1 text-[11px] font-black',
-                      categoryStyles[announcement.category] || categoryStyles['일반'],
+                      categoryStyles[notice.category] || categoryStyles['일반'],
                     )}
                   >
-                    {announcement.category}
+                    {notice.category}
                   </span>
                 </td>
                 <th className="w-28 border border-gray-300 bg-gray-100 p-3 text-left font-black">작성일</th>
-                <td className="border border-gray-300 p-3 font-mono font-bold tracking-tighter">
-                  {announcement.createdAt}
-                </td>
+                <td className="border border-gray-300 p-3 font-mono font-bold tracking-tighter">{notice.createdAt}</td>
               </tr>
               <tr>
                 <th className="border border-gray-300 bg-gray-100 p-3 text-left font-black">작성자</th>
-                <td className="border border-gray-300 p-3 font-bold">{announcement.author}</td>
+                <td className="border border-gray-300 p-3 font-bold">{notice.author}</td>
                 <th className="border border-gray-300 bg-gray-100 p-3 text-left font-black">조회수</th>
-                <td className="border border-gray-300 p-3 font-mono font-bold">
-                  {announcement.views.toLocaleString()}회
-                </td>
+                <td className="border border-gray-300 p-3 font-mono font-bold">{notice.views.toLocaleString()}회</td>
               </tr>
               <tr>
                 <th className="border border-gray-300 bg-gray-100 p-3 text-left font-black">제목</th>
                 <td colSpan={3} className="border border-gray-300 p-3 text-[14px] font-black text-[#5C8D5A]">
-                  {announcement.title}
+                  {notice.title}
                 </td>
               </tr>
             </tbody>
@@ -124,16 +119,16 @@ export default function AnnouncementDetailModal({ isOpen, announcement, onClose,
               Notice Content Details (공지 내용 상세)
             </div>
             <div className="min-h-[400px] whitespace-pre-wrap p-8 text-[13px] font-medium leading-[1.8]">
-              {announcement.content}
+              {notice.content}
             </div>
           </div>
 
           {/* 첨부파일 */}
-          {announcement.attachments && announcement.attachments.length > 0 && (
+          {notice.attachments && notice.attachments.length > 0 && (
             <div className="mt-8 border border-gray-300 bg-gray-50 p-6">
               <h3 className="mb-3 text-[11px] font-black uppercase text-gray-600">첨부파일</h3>
               <div className="space-y-2">
-                {announcement.attachments.map((file, idx) => (
+                {notice.attachments.map((file, idx) => (
                   <div key={idx} className="flex items-center gap-2 text-[12px]">
                     <i className="ri-attachment-2 text-[#5C8D5A]"></i>
                     <span className="font-medium text-gray-700">{file.name}</span>
@@ -154,14 +149,14 @@ export default function AnnouncementDetailModal({ isOpen, announcement, onClose,
       {/* 하단 액션 바 (인쇄 시 숨김) */}
       <div className="flex shrink-0 justify-center gap-3 border-t border-gray-200 bg-white p-4 print:hidden">
         <button
-          onClick={() => onEdit(announcement)}
+          onClick={() => onEdit(notice)}
           className="flex items-center gap-2 border border-gray-300 bg-white px-8 py-3 text-[13px] font-black text-gray-600 shadow-sm transition-all hover:bg-gray-50"
         >
           <i className="ri-edit-line"></i>
           수정하기
         </button>
         <button
-          onClick={() => onDelete(announcement.id)}
+          onClick={() => onDelete(notice.id)}
           className="flex items-center gap-2 border border-red-300 bg-red-50 px-8 py-3 text-[13px] font-black text-red-600 shadow-sm transition-all hover:bg-red-100"
         >
           <i className="ri-delete-bin-line"></i>

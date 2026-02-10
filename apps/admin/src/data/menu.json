@@ -322,7 +322,7 @@
           "name": "공지사항 관리",
           "description": "공지사항 작성/관리",
           "icon": "ri-megaphone-line",
-          "path": "/contents/announcement",
+          "path": "/contents/notice",
           "spa": true,
           "folder": "contents",
           "component": "AnnouncementManagement"

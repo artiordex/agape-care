@@ -14,7 +14,7 @@ export * from './board-post.schema.js';
 export * from './gallery.schema.js';
 
 // 공지사항 정보
-export * from './announcement.schema.js';
+export * from './notice.schema.js';
 
 // 팝업 및 배너 관리 정보
 export * from './popup-banner.schema.js';

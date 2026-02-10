@@ -1,30 +1,10 @@
 {
   "intro": {
-    "greeting": [
-      { "label": "홈", "href": "/" },
-      { "label": "기관소개" },
-      { "label": "인사말" }
-    ],
-    "vision": [
-      { "label": "홈", "href": "/" },
-      { "label": "기관소개" },
-      { "label": "비젼" }
-    ],
-    "history": [
-      { "label": "홈", "href": "/" },
-      { "label": "기관소개" },
-      { "label": "연혁" }
-    ],
-    "staff": [
-      { "label": "홈", "href": "/" },
-      { "label": "기관소개" },
-      { "label": "직원소개" }
-    ],
-    "location": [
-      { "label": "홈", "href": "/" },
-      { "label": "기관소개" },
-      { "label": "오시는 길" }
-    ]
+    "greeting": [{ "label": "홈", "href": "/" }, { "label": "기관소개" }, { "label": "인사말" }],
+    "vision": [{ "label": "홈", "href": "/" }, { "label": "기관소개" }, { "label": "비젼" }],
+    "history": [{ "label": "홈", "href": "/" }, { "label": "기관소개" }, { "label": "연혁" }],
+    "staff": [{ "label": "홈", "href": "/" }, { "label": "기관소개" }, { "label": "직원소개" }],
+    "location": [{ "label": "홈", "href": "/" }, { "label": "기관소개" }, { "label": "오시는 길" }]
   },
 
   "services": {
@@ -100,7 +80,7 @@
     ]
   },
   "notices": {
-    "announcement": [
+    "notice": [
       { "label": "홈", "href": "/" },
       { "label": "알림마당", "href": "/notices" },
       { "label": "공지사항" }

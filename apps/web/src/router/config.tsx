@@ -16,8 +16,8 @@ const IntroStaffPage = lazy(() => import('../app/(sub)/intro/organization/page')
 const FacilityPage = lazy(() => import('../app/(sub)/facility/page'));
 
 // Community Pages (Mapped to Notices)
-const NoticeAnnouncementsPage = lazy(() => import('../app/(sub)/notices/announcements/page'));
-const NoticeAnnouncementsDetailPage = lazy(() => import('../app/(sub)/notices/announcements/[id]/page'));
+const NoticeListPage = lazy(() => import('../app/(sub)/notices/notice/page'));
+const NoticeDetailPage = lazy(() => import('../app/(sub)/notices/notice/[id]/page'));
 const NoticeBoardPage = lazy(() => import('../app/(sub)/notices/board/page'));
 const NoticeBoardDetailPage = lazy(() => import('../app/(sub)/notices/board/[id]/page'));
 const NoticeGalleryPage = lazy(() => import('../app/(sub)/notices/gallery/page'));
@@ -65,8 +65,8 @@ const routes: RouteObject[] = [
       { path: 'facility', element: <FacilityPage /> },
 
       // Communities (Mapped to Notices)
-      { path: 'communities', element: <NoticeAnnouncementsPage /> },
-      { path: 'communities/detail', element: <NoticeAnnouncementsDetailPage /> },
+      { path: 'notice', element: <NoticeListPage /> },
+      { path: 'notice/:id', element: <NoticeDetailPage /> },
 
       // Board & Gallery
       { path: 'board', element: <NoticeBoardPage /> },

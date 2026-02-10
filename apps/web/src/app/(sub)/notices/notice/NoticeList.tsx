@@ -1,5 +1,5 @@
 /**
- * Description : AnnouncementList.tsx - 📌 공지사항 리스트
+ * Description : NoticeList.tsx - 📌 공지사항 리스트
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */
@@ -25,7 +25,7 @@ export default function NoticeList({ notices }: { readonly notices: NoticeItem[]
   const router = useRouter();
 
   const goDetail = (id: string | number) => {
-    router.push(`/notices/announcement/${id}`);
+    router.push(`/notices/notice/${id}`);
   };
 
   return (

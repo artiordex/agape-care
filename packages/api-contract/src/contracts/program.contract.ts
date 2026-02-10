@@ -6,18 +6,18 @@
 
 import { z } from 'zod';
 import {
+  CheckAttendanceRequestSchema,
+  CreateAttendanceRequestSchema,
   CreateProgramRequestSchema,
-  UpdateProgramRequestSchema,
+  CreateScheduleRequestSchema,
   GetProgramsQuerySchema,
   GetProgramsResponseSchema,
-  ProgramSchema,
-  CreateScheduleRequestSchema,
-  UpdateScheduleRequestSchema,
   GetSchedulesQuerySchema,
   GetSchedulesResponseSchema,
-  CreateAttendanceRequestSchema,
+  ProgramSchema,
   UpdateAttendanceRequestSchema,
-  CheckAttendanceRequestSchema,
+  UpdateProgramRequestSchema,
+  UpdateScheduleRequestSchema,
 } from '../schemas/program/index.js';
 
 const authHeader = z.object({
@@ -39,7 +39,7 @@ export const programContract = {
    */
   getPrograms: {
     method: 'GET' as const,
-    path: '/api/programs',
+    path: '/programs',
     query: GetProgramsQuerySchema,
     responses: {
       200: GetProgramsResponseSchema,
@@ -54,7 +54,7 @@ export const programContract = {
    */
   getProgram: {
     method: 'GET' as const,
-    path: '/api/programs/:id',
+    path: '/programs/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -72,7 +72,7 @@ export const programContract = {
    */
   createProgram: {
     method: 'POST' as const,
-    path: '/api/programs',
+    path: '/programs',
     body: CreateProgramRequestSchema,
     responses: {
       201: ProgramSchema,
@@ -88,7 +88,7 @@ export const programContract = {
    */
   updateProgram: {
     method: 'PATCH' as const,
-    path: '/api/programs/:id',
+    path: '/programs/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -107,7 +107,7 @@ export const programContract = {
    */
   deleteProgram: {
     method: 'DELETE' as const,
-    path: '/api/programs/:id',
+    path: '/programs/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -128,7 +128,7 @@ export const programContract = {
    */
   getSchedules: {
     method: 'GET' as const,
-    path: '/api/programs/schedules',
+    path: '/programs/schedules',
     query: GetSchedulesQuerySchema,
     responses: {
       200: GetSchedulesResponseSchema,
@@ -143,7 +143,7 @@ export const programContract = {
    */
   createSchedule: {
     method: 'POST' as const,
-    path: '/api/programs/:programId/schedules',
+    path: '/programs/:programId/schedules',
     pathParams: z.object({
       programId: z.string(),
     }),
@@ -162,7 +162,7 @@ export const programContract = {
    */
   updateSchedule: {
     method: 'PATCH' as const,
-    path: '/api/programs/schedules/:id',
+    path: '/programs/schedules/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -181,7 +181,7 @@ export const programContract = {
    */
   deleteSchedule: {
     method: 'DELETE' as const,
-    path: '/api/programs/schedules/:id',
+    path: '/programs/schedules/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -202,7 +202,7 @@ export const programContract = {
    */
   createAttendance: {
     method: 'POST' as const,
-    path: '/api/programs/schedules/:scheduleId/attendances',
+    path: '/programs/schedules/:scheduleId/attendances',
     pathParams: z.object({
       scheduleId: z.string(),
     }),
@@ -221,7 +221,7 @@ export const programContract = {
    */
   updateAttendance: {
     method: 'PATCH' as const,
-    path: '/api/programs/attendances/:id',
+    path: '/programs/attendances/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -240,7 +240,7 @@ export const programContract = {
    */
   checkAttendance: {
     method: 'POST' as const,
-    path: '/api/programs/attendances/:id/check',
+    path: '/programs/attendances/:id/check',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -259,7 +259,7 @@ export const programContract = {
    */
   deleteAttendance: {
     method: 'DELETE' as const,
-    path: '/api/programs/attendances/:id',
+    path: '/programs/attendances/:id',
     pathParams: z.object({
       id: z.string(),
     }),

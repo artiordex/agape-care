@@ -1,91 +1,73 @@
 /**
  * Description : NoticesService.ts - 📌 알림마당 서비스
  * Author : Shiwoo Min
- * Date : 2026-02-07
+ * Date : 2026-02-09
  */
 
 import { CreateMealPlanRequest, GetMealPlanItemsQuery, GetMealPlansQuery, GetSchedulesQuery } from '@agape-care/api-contract';
 import { Prisma, PrismaService } from '@agape-care/database';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import * as serialize from './utils/serialization.utils';
 
 @Injectable()
 export class NoticesService {
   constructor(private readonly prisma: PrismaService) {}
 
   /**
-   * [공지사항] GET /notices/announcement
-   * 전체 공지사항 목록 조회 (활성화된 공지만 조회하는 필터 포함)
+   * [공지사항] GET /notices/notice
    */
   async findAllAnnouncements(params: {
     skip?: number;
     take?: number;
-    where?: Prisma.NoticeWhereInput;
-    orderBy?: Prisma.NoticeOrderByWithRelationInput;
+    where?: Prisma.WebNoticeWhereInput;
+    orderBy?: Prisma.WebNoticeOrderByWithRelationInput;
   }) {
     const { skip, take, where, orderBy } = params;
-    const notices = await this.prisma.notice.findMany({
+    const notices = await this.prisma.webNotice.findMany({
       skip,
       take,
       where,
       orderBy,
-      include: { creator: true },
     });
-    return notices.map(n => this.serializeAnnouncement(n));
+    return notices.map(n => serialize.serializeWebNotice(n));
   }
 
   /**
-   * [공지사항] GET /notices/announcement/:id
-   * 공지사항 상세 조회 (조회수 증가 포함)
+   * [공지사항] GET /notices/notice/:id
    */
-  async findOneAnnouncement(where: Prisma.NoticeWhereUniqueInput) {
-    const notice = await this.prisma.notice.update({
-      where,
+  async findOneAnnouncement(where: Prisma.WebNoticeDetailWhereUniqueInput) {
+    // Increment view count directly on the table first
+    await this.prisma.notice.update({
+      where: { id: (where as any).id },
       data: { viewCount: { increment: 1 } },
-      include: { creator: true },
+    });
+
+    const notice = await this.prisma.webNoticeDetail.findUnique({
+      where,
     });
     if (!notice) return null;
-    return this.serializeAnnouncement(notice);
-  }
-
-  /**
-   * [공지사항] 공지사항 직렬화
-   * ID를 문자열로 변환하고 생성자 정보를 처리
-   */
-  private serializeAnnouncement(notice: any) {
-    return {
-      ...notice,
-      id: notice.id.toString(),
-      createdBy: notice.createdBy?.toString() || null,
-    };
+    return serialize.serializeWebNoticeDetail(notice);
   }
 
   /**
    * [게시판] GET /notices/board
-   * 게시판 키('FREE', 'QNA' 등)에 따른 게시글 목록 조회
    */
   async findAllPosts(params?: {
     skip?: number;
     take?: number;
-    cursor?: Prisma.BoardPostWhereUniqueInput;
-    where?: Prisma.BoardPostWhereInput;
-    orderBy?: Prisma.BoardPostOrderByWithRelationInput;
+    where?: Prisma.WebBoardPostWhereInput;
+    orderBy?: Prisma.WebBoardPostOrderByWithRelationInput;
   }) {
     const { skip, take, where, orderBy } = params || {};
 
-    // include 제거하고 기본 조회만
-    const posts = await this.prisma.boardPost.findMany({
+    const posts = await this.prisma.webBoardPost.findMany({
       skip,
       take,
       where,
       orderBy,
     });
 
-    // 간단한 직렬화만
-    return posts.map(post => ({
-      ...post,
-      id: post.id.toString(),
-      authorId: post.authorId?.toString() ?? null,
-    }));
+    return posts.map(post => serialize.serializeWebBoardPost(post));
   }
 
   /**
@@ -99,51 +81,81 @@ export class NoticesService {
 
   /**
    * [게시판] GET /notices/board/:id
-   * 특정 게시글 상세 정보 및 조회수 증가
    */
-  async findOnePost(where: Prisma.BoardPostWhereUniqueInput) {
-    console.log('🔍 findOnePost where:', where); // 추가
+  async findOnePost(where: Prisma.WebBoardPostDetailWhereUniqueInput) {
+    try {
+      console.log('🔍 [DEBUG] findOnePost - Start', { where });
 
-    const post = await this.prisma.boardPost.findUnique({
-      where,
-      include: {
-        author: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          },
-        },
-        // ✅ 임시로 comments 단순화
-        comments: {
-          include: {
-            author: {
-              select: { id: true, name: true },
-            },
-          },
-          orderBy: { createdAt: 'asc' },
-        },
-        files: {
-          include: {
-            file: true,
-          },
-        },
-      },
+      // Increment view count on the table
+      if ((where as any).id) {
+        try {
+          console.log('🔍 [DEBUG] findOnePost - Updating view count for id:', (where as any).id);
+          await this.prisma.boardPost.update({
+            where: { id: (where as any).id },
+            data: { viewCount: { increment: 1 } },
+          });
+          console.log('🔍 [DEBUG] findOnePost - View count updated');
+        } catch (updateError) {
+          console.error('⚠️ [WARN] findOnePost - View count update failed (ignoring):', updateError);
+        }
+      } else {
+        console.warn('⚠️ [WARN] findOnePost - No ID found in where clause for view count update');
+      }
+
+      console.log('🔍 [DEBUG] findOnePost - Finding unique post...');
+      const post = await this.prisma.webBoardPostDetail.findUnique({
+        where,
+      });
+      console.log('🔍 [DEBUG] findOnePost - Post found:', !!post);
+
+      if (!post) return null;
+
+      console.log('🔍 [DEBUG] findOnePost - Serializing...');
+      const result = serialize.serializeWebBoardPostDetail(post);
+      console.log('🔍 [DEBUG] findOnePost - Serialized');
+      return result;
+    } catch (error) {
+      console.error('💥 [ERROR] Error in findOnePost:', error);
+      throw error;
+    }
+  }
+
+  // 게시글 작성
+  async createPost(data: Prisma.BoardPostCreateInput) {
+    const post = await this.prisma.boardPost.create({
+      data,
+      include: { author: true, files: { include: { file: true } } },
     });
+    return serialize.serializePost(post);
+  }
 
-    console.log('📄 Post found:', post ? 'YES' : 'NO'); // 추가
+  // 게시글 수정
+  async updatePost(params: { where: Prisma.BoardPostWhereUniqueInput; data: Prisma.BoardPostUpdateInput }) {
+    const { where, data } = params;
+    const post = await this.prisma.boardPost.update({
+      where,
+      data,
+      include: { author: true, files: { include: { file: true } } },
+    });
+    return serialize.serializePost(post);
+  }
 
-    if (!post) return null;
-    return this.serializePost(post);
+  // 게시글 삭제
+  async deletePost(where: Prisma.BoardPostWhereUniqueInput) {
+    return this.prisma.boardPost.delete({
+      where,
+    });
   }
 
   /**
    * [게시판] 댓글 생성
    */
   async createComment(data: Prisma.BoardCommentCreateInput) {
-    return this.prisma.boardComment.create({
+    const comment = await this.prisma.boardComment.create({
       data,
+      include: { author: true },
     });
+    return serialize.serializeComment(comment);
   }
 
   /**
@@ -162,131 +174,52 @@ export class NoticesService {
   async findAllGalleryItems(params: {
     skip?: number;
     take?: number;
-    where?: Prisma.GalleryItemWhereInput;
-    orderBy?: Prisma.GalleryItemOrderByWithRelationInput;
+    where?: Prisma.WebGalleryItemWhereInput;
+    orderBy?: Prisma.WebGalleryItemOrderByWithRelationInput;
   }) {
     const { skip, take, where, orderBy } = params;
-    const items = await this.prisma.galleryItem.findMany({
+    const items = await this.prisma.webGalleryItem.findMany({
       skip,
       take,
       where,
       orderBy,
-      include: {
-        creator: true,
-        files: {
-          include: {
-            file: true,
-          },
-        },
-      },
     });
-    return items.map(item => this.serializeGalleryItem(item));
+    return items.map(item => serialize.serializeWebGalleryItem(item));
   }
 
   /**
-   * [게시판] 게시글 직렬화
-   */
-  private serializePost(post: any) {
-    return {
-      ...post,
-      id: post.id.toString(),
-      authorId: post.authorId?.toString() ?? null,
-      files:
-        post.files?.map((f: any) => ({
-          ...f,
-          id: f.id.toString(),
-          postId: f.postId.toString(),
-          fileId: f.fileId.toString(),
-          file: f.file
-            ? {
-                ...f.file,
-                id: f.file.id.toString(),
-              }
-            : null,
-        })) || [],
-      comments: post.comments?.map((c: any) => this.serializeComment(c)) || [],
-    };
-  }
-
-  /**
-   * [게시판] 댓글 직렬화
-   */
-  private serializeComment(comment: any) {
-    return {
-      ...comment,
-      id: comment.id.toString(),
-      postId: comment.postId.toString(),
-      parentId: comment.parentId?.toString() ?? null,
-      authorId: comment.authorId?.toString() ?? null,
-      replies: comment.replies?.map((r: any) => this.serializeComment(r)) || [],
-    };
-  }
-
-  /**
-   * [갤러리] 갤러리 조회
+   * [갤러리] 갤러리 상세 조회
    */
   async findOneGalleryItem(where: Prisma.GalleryItemWhereUniqueInput) {
     const item = await this.prisma.galleryItem.findUnique({
       where,
       include: {
         creator: true,
-        files: {
-          include: {
-            file: true,
-          },
-        },
+        files: { include: { file: true } },
       },
     });
     if (!item) return null;
-    return this.serializeGalleryItem(item);
+    return serialize.serializeGalleryItem(item);
   }
 
   /**
-   * [갤러리] 갤러리 직렬화
-   */
-  private serializeGalleryItem(item: any) {
-    return {
-      ...item,
-      id: item.id.toString(),
-      createdBy: item.createdBy?.toString() || null,
-      files:
-        item.files?.map((f: any) => ({
-          ...f,
-          id: f.id.toString(),
-          galleryId: f.galleryId.toString(),
-          fileId: f.fileId.toString(),
-          file: f.file
-            ? {
-                ...f.file,
-                id: f.file.id.toString(),
-              }
-            : null,
-        })) || [],
-    };
-  }
-
-  /**
-   * [식단표] 식단표 조회
+   * [식단표] 식단표 목록 조회
    */
   async getMealPlans(query: GetMealPlansQuery) {
     const { page, limit } = query;
     const skip = (page - 1) * limit;
 
     const [mealPlans, total] = await Promise.all([
-      this.prisma.mealPlan.findMany({
+      this.prisma.webMealPlan.findMany({
         skip,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        include: {
-          creator: true,
-          mealPlanItems: true,
-        },
       }),
-      this.prisma.mealPlan.count(),
+      this.prisma.webMealPlan.count(),
     ]);
 
     return {
-      data: mealPlans.map(this.serializeMealPlan.bind(this)),
+      data: mealPlans.map(mp => serialize.serializeWebMealPlan(mp)),
       total,
       page,
       limit,
@@ -294,46 +227,35 @@ export class NoticesService {
     };
   }
 
-  // 식단표 조회
+  /**
+   * [식단표] 식단표 상세 조회
+   */
   async getMealPlan(id: string) {
-    const mealPlan = await this.prisma.mealPlan.findUnique({
+    const mealPlan = await this.prisma.webMealPlan.findUnique({
       where: { id: BigInt(id) },
-      include: {
-        creator: true,
-        mealPlanItems: {
-          orderBy: { mealDate: 'asc' },
-        },
-      },
     });
 
     if (!mealPlan) {
       throw new NotFoundException(`MealPlan with ID ${id} not found`);
     }
 
-    return this.serializeMealPlan(mealPlan);
+    return serialize.serializeWebMealPlan(mealPlan);
   }
 
   /**
    * [식단표] 현재 주 식단표 조회
    */
   async getCurrentWeekMealPlan(query: any) {
-    // Simplified implementation as per original service
-    const mealPlans = await this.prisma.mealPlan.findMany({
+    const mealPlans = await this.prisma.webMealPlan.findMany({
       take: 1,
       orderBy: { createdAt: 'desc' },
-      include: {
-        creator: true,
-        mealPlanItems: {
-          orderBy: { mealDate: 'asc' },
-        },
-      },
     });
 
     if (mealPlans.length === 0) {
       throw new NotFoundException('No meal plan found');
     }
 
-    return this.serializeMealPlan(mealPlans[0]);
+    return serialize.serializeWebMealPlan(mealPlans[0]);
   }
 
   /**
@@ -344,22 +266,23 @@ export class NoticesService {
       data: {
         facilityCode: data.facilityCode || 'DEFAULT',
         mealMonth: data.mealMonth,
+        week_start_date: new Date(),
         createdBy: data.createdBy ? BigInt(data.createdBy) : null,
         status: data.status || 'DRAFT',
         nutritionManager: data.nutritionManager,
         notes: data.notes,
-      },
+      } as any,
       include: {
         creator: true,
         mealPlanItems: true,
       },
     });
 
-    return this.serializeMealPlan(mealPlan);
+    return serialize.serializeWebMealPlan(mealPlan);
   }
 
   /**
-   * [식단표] 식단표 아이템 조회
+   * [식단표] 식단판 세부 항목 조회
    */
   async getMealPlanItems(mealPlanId: string, query: GetMealPlanItemsQuery) {
     const items = await this.prisma.mealPlanItem.findMany({
@@ -367,7 +290,7 @@ export class NoticesService {
       orderBy: { mealDate: 'asc' },
     });
 
-    const dailyMeals = this.groupMealPlanItemsByDate(items);
+    const dailyMeals = serialize.groupMealPlanItemsByDate(items);
 
     return {
       data: dailyMeals,
@@ -376,99 +299,8 @@ export class NoticesService {
   }
 
   /**
-   * [식단표] 식단표 직렬화
+   * [프로그램] 프로그램 목록 조회
    */
-  private serializeMealPlan(mealPlan: any) {
-    return {
-      id: mealPlan.id.toString(),
-      facilityCode: mealPlan.facilityCode,
-      mealMonth: mealPlan.mealMonth,
-      status: mealPlan.status,
-      nutritionManager: mealPlan.nutritionManager,
-      notes: mealPlan.notes,
-      createdBy: mealPlan.createdBy?.toString() || null,
-      createdAt: mealPlan.createdAt.toISOString(),
-      updatedAt: mealPlan.updatedAt.toISOString(),
-      creator: mealPlan.creator
-        ? {
-            id: mealPlan.creator.id.toString(),
-            name: mealPlan.creator.name,
-          }
-        : null,
-      dailyMeals: this.groupMealPlanItemsByDate(mealPlan.mealPlanItems || []),
-    };
-  }
-
-  // Helper method to group mealPlanItems by date
-  private groupMealPlanItemsByDate(items: any[]) {
-    const grouped = new Map<string, any>();
-
-    items.forEach(item => {
-      const dateStr = item.mealDate.toISOString().split('T')[0];
-
-      if (!grouped.has(dateStr)) {
-        grouped.set(dateStr, {
-          id: item.id.toString(),
-          mealPlanId: item.mealPlanId.toString(),
-          date: dateStr,
-          breakfast: null,
-          breakfastImage: null,
-          morningSnack: null,
-          lunch: null,
-          lunchImage: null,
-          afternoonSnack: null,
-          dinner: null,
-          dinnerImage: null,
-          createdAt: item.createdAt.toISOString(),
-          updatedAt: item.updatedAt.toISOString(),
-        });
-      }
-
-      const dailyMeal = grouped.get(dateStr)!;
-
-      // Map mealType to the appropriate field
-      switch (item.mealType?.toUpperCase()) {
-        case 'BREAKFAST':
-          dailyMeal.breakfast = [item.mainMenu, item.sideMenu, item.soup, item.dessert].filter(Boolean).join('\\n');
-          break;
-        case 'MORNING_SNACK':
-          dailyMeal.morningSnack = [item.mainMenu, item.sideMenu].filter(Boolean).join('\\n');
-          break;
-        case 'LUNCH':
-          dailyMeal.lunch = [item.mainMenu, item.sideMenu, item.soup, item.dessert].filter(Boolean).join('\\n');
-          break;
-        case 'AFTERNOON_SNACK':
-          dailyMeal.afternoonSnack = [item.mainMenu, item.sideMenu].filter(Boolean).join('\\n');
-          break;
-        case 'DINNER':
-          dailyMeal.dinner = [item.mainMenu, item.sideMenu, item.soup, item.dessert].filter(Boolean).join('\\n');
-          break;
-      }
-    });
-
-    return Array.from(grouped.values());
-  }
-
-  // 식단표 아이템 직렬화
-  private serializeMealPlanItem(item: any) {
-    return {
-      id: item.id.toString(),
-      mealPlanId: item.mealPlanId.toString(),
-      date: item.date.toISOString().split('T')[0],
-      breakfast: item.breakfast,
-      breakfastImage: item.breakfastImage,
-      morningSnack: item.morningSnack,
-      lunch: item.lunch,
-      lunchImage: item.lunchImage,
-      afternoonSnack: item.afternoonSnack,
-      dinner: item.dinner,
-      dinnerImage: item.dinnerImage,
-      createdAt: item.createdAt.toISOString(),
-      updatedAt: item.updatedAt.toISOString(),
-    };
-  }
-
-  // 프로그램 스케줄 조회
   async findAllPrograms(query: { search?: string; isActive?: boolean; page: number; limit: number }) {
     const { search, isActive, page, limit } = query;
     const skip = (page - 1) * limit;
@@ -492,14 +324,16 @@ export class NoticesService {
     ]);
 
     return {
-      items: items.map(this.serializeProgram),
+      items: items.map(p => this.serializeProgram(p)),
       totalCount,
       page,
       limit,
     };
   }
 
-  // 프로그램 스케줄 조회
+  /**
+   * [프로그램] 프로그램 상세 조회
+   */
   async findOneProgram(id: string) {
     const program = await this.prisma.program.findUnique({
       where: { id: BigInt(id) },
@@ -512,18 +346,19 @@ export class NoticesService {
     return this.serializeProgram(program);
   }
 
-  // 프로그램 스케줄 직렬화
   private serializeProgram(program: any) {
     return {
       ...program,
       id: program.id.toString(),
       createdBy: program.createdBy?.toString(),
-      createdAt: program.createdAt.toISOString(),
-      updatedAt: program.updatedAt.toISOString(),
+      createdAt: program.createdAt,
+      updatedAt: program.updatedAt,
     };
   }
 
-  // 스케줄 조회
+  /**
+   * [일정] 일정 목록 조회
+   */
   async getSchedules(query: GetSchedulesQuery) {
     const { programId } = query;
     const where: Prisma.ProgramScheduleWhereInput = {};
@@ -536,21 +371,20 @@ export class NoticesService {
       include: { program: true },
     });
 
-    return schedules.map(this.serializeSchedule);
+    return schedules.map(s => this.serializeSchedule(s));
   }
 
-  // 스케줄 직렬화
   private serializeSchedule(schedule: any) {
     return {
       id: schedule.id.toString(),
       programId: schedule.programId.toString(),
-      startsAt: schedule.startsAt.toISOString(),
-      endsAt: schedule.endsAt.toISOString(),
+      startsAt: schedule.startsAt,
+      endsAt: schedule.endsAt,
       location: schedule.location,
       capacity: schedule.capacity,
       status: schedule.status,
-      createdAt: schedule.createdAt.toISOString(),
-      updatedAt: schedule.updatedAt.toISOString(),
+      createdAt: schedule.createdAt,
+      updatedAt: schedule.updatedAt,
       program: schedule.program
         ? {
             id: schedule.program.id.toString(),

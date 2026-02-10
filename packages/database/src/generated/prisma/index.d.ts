@@ -352,6 +352,41 @@ export type VisitReservation = $Result.DefaultSelection<Prisma.$VisitReservation
  * ===============================
  */
 export type WebInquiry = $Result.DefaultSelection<Prisma.$WebInquiryPayload>
+/**
+ * Model WebNotice
+ * Web 공지사항 목록 조회 뷰
+ */
+export type WebNotice = $Result.DefaultSelection<Prisma.$WebNoticePayload>
+/**
+ * Model WebNoticeDetail
+ * Web 공지사항 상세 조회 뷰
+ */
+export type WebNoticeDetail = $Result.DefaultSelection<Prisma.$WebNoticeDetailPayload>
+/**
+ * Model WebBoardPost
+ * Web 게시판 목록 조회 뷰
+ */
+export type WebBoardPost = $Result.DefaultSelection<Prisma.$WebBoardPostPayload>
+/**
+ * Model WebBoardPostDetail
+ * Web 게시글 상세 조회 뷰
+ */
+export type WebBoardPostDetail = $Result.DefaultSelection<Prisma.$WebBoardPostDetailPayload>
+/**
+ * Model WebGalleryItem
+ * Web 갤러리 목록 조회 뷰
+ */
+export type WebGalleryItem = $Result.DefaultSelection<Prisma.$WebGalleryItemPayload>
+/**
+ * Model WebMealPlan
+ * Web 식단표 목록 조회 뷰
+ */
+export type WebMealPlan = $Result.DefaultSelection<Prisma.$WebMealPlanPayload>
+/**
+ * Model WebLatestContent
+ * 최신 콘텐츠 통합 조회 뷰
+ */
+export type WebLatestContent = $Result.DefaultSelection<Prisma.$WebLatestContentPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -1109,6 +1144,76 @@ export class PrismaClient<
     * ```
     */
   get webInquiry(): Prisma.WebInquiryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.webNotice`: Exposes CRUD operations for the **WebNotice** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WebNotices
+    * const webNotices = await prisma.webNotice.findMany()
+    * ```
+    */
+  get webNotice(): Prisma.WebNoticeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.webNoticeDetail`: Exposes CRUD operations for the **WebNoticeDetail** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WebNoticeDetails
+    * const webNoticeDetails = await prisma.webNoticeDetail.findMany()
+    * ```
+    */
+  get webNoticeDetail(): Prisma.WebNoticeDetailDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.webBoardPost`: Exposes CRUD operations for the **WebBoardPost** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WebBoardPosts
+    * const webBoardPosts = await prisma.webBoardPost.findMany()
+    * ```
+    */
+  get webBoardPost(): Prisma.WebBoardPostDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.webBoardPostDetail`: Exposes CRUD operations for the **WebBoardPostDetail** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WebBoardPostDetails
+    * const webBoardPostDetails = await prisma.webBoardPostDetail.findMany()
+    * ```
+    */
+  get webBoardPostDetail(): Prisma.WebBoardPostDetailDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.webGalleryItem`: Exposes CRUD operations for the **WebGalleryItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WebGalleryItems
+    * const webGalleryItems = await prisma.webGalleryItem.findMany()
+    * ```
+    */
+  get webGalleryItem(): Prisma.WebGalleryItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.webMealPlan`: Exposes CRUD operations for the **WebMealPlan** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WebMealPlans
+    * const webMealPlans = await prisma.webMealPlan.findMany()
+    * ```
+    */
+  get webMealPlan(): Prisma.WebMealPlanDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.webLatestContent`: Exposes CRUD operations for the **WebLatestContent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WebLatestContents
+    * const webLatestContents = await prisma.webLatestContent.findMany()
+    * ```
+    */
+  get webLatestContent(): Prisma.WebLatestContentDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1606,7 +1711,14 @@ export namespace Prisma {
     SystemSetting: 'SystemSetting',
     NotificationQueue: 'NotificationQueue',
     VisitReservation: 'VisitReservation',
-    WebInquiry: 'WebInquiry'
+    WebInquiry: 'WebInquiry',
+    WebNotice: 'WebNotice',
+    WebNoticeDetail: 'WebNoticeDetail',
+    WebBoardPost: 'WebBoardPost',
+    WebBoardPostDetail: 'WebBoardPostDetail',
+    WebGalleryItem: 'WebGalleryItem',
+    WebMealPlan: 'WebMealPlan',
+    WebLatestContent: 'WebLatestContent'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1622,7 +1734,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "notice" | "noticeFile" | "boardPost" | "boardFile" | "boardComment" | "galleryItem" | "galleryFile" | "mealPlan" | "mealPlanItem" | "program" | "programSchedule" | "department" | "employeeRole" | "employee" | "employeeEducation" | "resident" | "residentRoom" | "residentContact" | "residentHealthNote" | "residentMedication" | "residentVital" | "popupBanner" | "websiteSetting" | "programAttendance" | "carePlan" | "carePlanItem" | "consultationRecord" | "consultationFile" | "incident" | "incidentFile" | "careTask" | "dailyCareRecord" | "attendanceRecord" | "shiftTemplate" | "shiftAssignment" | "leaveRequest" | "leaveApproval" | "accountCategory" | "account" | "supplier" | "transaction" | "transactionItem" | "payrollRecord" | "payrollItem" | "invoiceHeader" | "invoiceItem" | "insuranceClaim" | "insuranceClaimItem" | "insuranceClaimHistory" | "inventoryItem" | "inventoryTransaction" | "vehicle" | "transportRequest" | "cctvDevice" | "cctvViewLog" | "grievance" | "facilityInspection" | "smsSendLog" | "fileStorage" | "auditLog" | "systemSetting" | "notificationQueue" | "visitReservation" | "webInquiry"
+      modelProps: "notice" | "noticeFile" | "boardPost" | "boardFile" | "boardComment" | "galleryItem" | "galleryFile" | "mealPlan" | "mealPlanItem" | "program" | "programSchedule" | "department" | "employeeRole" | "employee" | "employeeEducation" | "resident" | "residentRoom" | "residentContact" | "residentHealthNote" | "residentMedication" | "residentVital" | "popupBanner" | "websiteSetting" | "programAttendance" | "carePlan" | "carePlanItem" | "consultationRecord" | "consultationFile" | "incident" | "incidentFile" | "careTask" | "dailyCareRecord" | "attendanceRecord" | "shiftTemplate" | "shiftAssignment" | "leaveRequest" | "leaveApproval" | "accountCategory" | "account" | "supplier" | "transaction" | "transactionItem" | "payrollRecord" | "payrollItem" | "invoiceHeader" | "invoiceItem" | "insuranceClaim" | "insuranceClaimItem" | "insuranceClaimHistory" | "inventoryItem" | "inventoryTransaction" | "vehicle" | "transportRequest" | "cctvDevice" | "cctvViewLog" | "grievance" | "facilityInspection" | "smsSendLog" | "fileStorage" | "auditLog" | "systemSetting" | "notificationQueue" | "visitReservation" | "webInquiry" | "webNotice" | "webNoticeDetail" | "webBoardPost" | "webBoardPostDetail" | "webGalleryItem" | "webMealPlan" | "webLatestContent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -6362,6 +6474,272 @@ export namespace Prisma {
           }
         }
       }
+      WebNotice: {
+        payload: Prisma.$WebNoticePayload<ExtArgs>
+        fields: Prisma.WebNoticeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WebNoticeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebNoticePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WebNoticeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebNoticePayload>
+          }
+          findFirst: {
+            args: Prisma.WebNoticeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebNoticePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WebNoticeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebNoticePayload>
+          }
+          findMany: {
+            args: Prisma.WebNoticeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebNoticePayload>[]
+          }
+          aggregate: {
+            args: Prisma.WebNoticeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWebNotice>
+          }
+          groupBy: {
+            args: Prisma.WebNoticeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WebNoticeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WebNoticeCountArgs<ExtArgs>
+            result: $Utils.Optional<WebNoticeCountAggregateOutputType> | number
+          }
+        }
+      }
+      WebNoticeDetail: {
+        payload: Prisma.$WebNoticeDetailPayload<ExtArgs>
+        fields: Prisma.WebNoticeDetailFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WebNoticeDetailFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebNoticeDetailPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WebNoticeDetailFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebNoticeDetailPayload>
+          }
+          findFirst: {
+            args: Prisma.WebNoticeDetailFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebNoticeDetailPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WebNoticeDetailFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebNoticeDetailPayload>
+          }
+          findMany: {
+            args: Prisma.WebNoticeDetailFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebNoticeDetailPayload>[]
+          }
+          aggregate: {
+            args: Prisma.WebNoticeDetailAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWebNoticeDetail>
+          }
+          groupBy: {
+            args: Prisma.WebNoticeDetailGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WebNoticeDetailGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WebNoticeDetailCountArgs<ExtArgs>
+            result: $Utils.Optional<WebNoticeDetailCountAggregateOutputType> | number
+          }
+        }
+      }
+      WebBoardPost: {
+        payload: Prisma.$WebBoardPostPayload<ExtArgs>
+        fields: Prisma.WebBoardPostFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WebBoardPostFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebBoardPostPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WebBoardPostFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebBoardPostPayload>
+          }
+          findFirst: {
+            args: Prisma.WebBoardPostFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebBoardPostPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WebBoardPostFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebBoardPostPayload>
+          }
+          findMany: {
+            args: Prisma.WebBoardPostFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebBoardPostPayload>[]
+          }
+          aggregate: {
+            args: Prisma.WebBoardPostAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWebBoardPost>
+          }
+          groupBy: {
+            args: Prisma.WebBoardPostGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WebBoardPostGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WebBoardPostCountArgs<ExtArgs>
+            result: $Utils.Optional<WebBoardPostCountAggregateOutputType> | number
+          }
+        }
+      }
+      WebBoardPostDetail: {
+        payload: Prisma.$WebBoardPostDetailPayload<ExtArgs>
+        fields: Prisma.WebBoardPostDetailFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WebBoardPostDetailFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebBoardPostDetailPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WebBoardPostDetailFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebBoardPostDetailPayload>
+          }
+          findFirst: {
+            args: Prisma.WebBoardPostDetailFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebBoardPostDetailPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WebBoardPostDetailFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebBoardPostDetailPayload>
+          }
+          findMany: {
+            args: Prisma.WebBoardPostDetailFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebBoardPostDetailPayload>[]
+          }
+          aggregate: {
+            args: Prisma.WebBoardPostDetailAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWebBoardPostDetail>
+          }
+          groupBy: {
+            args: Prisma.WebBoardPostDetailGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WebBoardPostDetailGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WebBoardPostDetailCountArgs<ExtArgs>
+            result: $Utils.Optional<WebBoardPostDetailCountAggregateOutputType> | number
+          }
+        }
+      }
+      WebGalleryItem: {
+        payload: Prisma.$WebGalleryItemPayload<ExtArgs>
+        fields: Prisma.WebGalleryItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WebGalleryItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebGalleryItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WebGalleryItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebGalleryItemPayload>
+          }
+          findFirst: {
+            args: Prisma.WebGalleryItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebGalleryItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WebGalleryItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebGalleryItemPayload>
+          }
+          findMany: {
+            args: Prisma.WebGalleryItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebGalleryItemPayload>[]
+          }
+          aggregate: {
+            args: Prisma.WebGalleryItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWebGalleryItem>
+          }
+          groupBy: {
+            args: Prisma.WebGalleryItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WebGalleryItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WebGalleryItemCountArgs<ExtArgs>
+            result: $Utils.Optional<WebGalleryItemCountAggregateOutputType> | number
+          }
+        }
+      }
+      WebMealPlan: {
+        payload: Prisma.$WebMealPlanPayload<ExtArgs>
+        fields: Prisma.WebMealPlanFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WebMealPlanFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebMealPlanPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WebMealPlanFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebMealPlanPayload>
+          }
+          findFirst: {
+            args: Prisma.WebMealPlanFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebMealPlanPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WebMealPlanFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebMealPlanPayload>
+          }
+          findMany: {
+            args: Prisma.WebMealPlanFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebMealPlanPayload>[]
+          }
+          aggregate: {
+            args: Prisma.WebMealPlanAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWebMealPlan>
+          }
+          groupBy: {
+            args: Prisma.WebMealPlanGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WebMealPlanGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WebMealPlanCountArgs<ExtArgs>
+            result: $Utils.Optional<WebMealPlanCountAggregateOutputType> | number
+          }
+        }
+      }
+      WebLatestContent: {
+        payload: Prisma.$WebLatestContentPayload<ExtArgs>
+        fields: Prisma.WebLatestContentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WebLatestContentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebLatestContentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WebLatestContentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebLatestContentPayload>
+          }
+          findFirst: {
+            args: Prisma.WebLatestContentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebLatestContentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WebLatestContentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebLatestContentPayload>
+          }
+          findMany: {
+            args: Prisma.WebLatestContentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebLatestContentPayload>[]
+          }
+          aggregate: {
+            args: Prisma.WebLatestContentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWebLatestContent>
+          }
+          groupBy: {
+            args: Prisma.WebLatestContentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WebLatestContentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WebLatestContentCountArgs<ExtArgs>
+            result: $Utils.Optional<WebLatestContentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -6534,6 +6912,13 @@ export namespace Prisma {
     notificationQueue?: NotificationQueueOmit
     visitReservation?: VisitReservationOmit
     webInquiry?: WebInquiryOmit
+    webNotice?: WebNoticeOmit
+    webNoticeDetail?: WebNoticeDetailOmit
+    webBoardPost?: WebBoardPostOmit
+    webBoardPostDetail?: WebBoardPostDetailOmit
+    webGalleryItem?: WebGalleryItemOmit
+    webMealPlan?: WebMealPlanOmit
+    webLatestContent?: WebLatestContentOmit
   }
 
   /* Types for Logging */
@@ -87040,6 +87425,5392 @@ export namespace Prisma {
 
 
   /**
+   * Model WebNotice
+   */
+
+  export type AggregateWebNotice = {
+    _count: WebNoticeCountAggregateOutputType | null
+    _avg: WebNoticeAvgAggregateOutputType | null
+    _sum: WebNoticeSumAggregateOutputType | null
+    _min: WebNoticeMinAggregateOutputType | null
+    _max: WebNoticeMaxAggregateOutputType | null
+  }
+
+  export type WebNoticeAvgAggregateOutputType = {
+    id: number | null
+    viewCount: number | null
+    creatorId: number | null
+    fileCount: number | null
+  }
+
+  export type WebNoticeSumAggregateOutputType = {
+    id: bigint | null
+    viewCount: number | null
+    creatorId: bigint | null
+    fileCount: number | null
+  }
+
+  export type WebNoticeMinAggregateOutputType = {
+    id: bigint | null
+    title: string | null
+    content: string | null
+    category: string | null
+    isPinned: boolean | null
+    isActive: boolean | null
+    viewCount: number | null
+    publishedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    creatorName: string | null
+    creatorId: bigint | null
+    fileCount: number | null
+  }
+
+  export type WebNoticeMaxAggregateOutputType = {
+    id: bigint | null
+    title: string | null
+    content: string | null
+    category: string | null
+    isPinned: boolean | null
+    isActive: boolean | null
+    viewCount: number | null
+    publishedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    creatorName: string | null
+    creatorId: bigint | null
+    fileCount: number | null
+  }
+
+  export type WebNoticeCountAggregateOutputType = {
+    id: number
+    title: number
+    content: number
+    category: number
+    isPinned: number
+    isActive: number
+    viewCount: number
+    publishedAt: number
+    createdAt: number
+    updatedAt: number
+    creatorName: number
+    creatorId: number
+    fileCount: number
+    files: number
+    _all: number
+  }
+
+
+  export type WebNoticeAvgAggregateInputType = {
+    id?: true
+    viewCount?: true
+    creatorId?: true
+    fileCount?: true
+  }
+
+  export type WebNoticeSumAggregateInputType = {
+    id?: true
+    viewCount?: true
+    creatorId?: true
+    fileCount?: true
+  }
+
+  export type WebNoticeMinAggregateInputType = {
+    id?: true
+    title?: true
+    content?: true
+    category?: true
+    isPinned?: true
+    isActive?: true
+    viewCount?: true
+    publishedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorName?: true
+    creatorId?: true
+    fileCount?: true
+  }
+
+  export type WebNoticeMaxAggregateInputType = {
+    id?: true
+    title?: true
+    content?: true
+    category?: true
+    isPinned?: true
+    isActive?: true
+    viewCount?: true
+    publishedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorName?: true
+    creatorId?: true
+    fileCount?: true
+  }
+
+  export type WebNoticeCountAggregateInputType = {
+    id?: true
+    title?: true
+    content?: true
+    category?: true
+    isPinned?: true
+    isActive?: true
+    viewCount?: true
+    publishedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorName?: true
+    creatorId?: true
+    fileCount?: true
+    files?: true
+    _all?: true
+  }
+
+  export type WebNoticeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebNotice to aggregate.
+     */
+    where?: WebNoticeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebNotices to fetch.
+     */
+    orderBy?: WebNoticeOrderByWithRelationInput | WebNoticeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WebNoticeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebNotices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebNotices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WebNotices
+    **/
+    _count?: true | WebNoticeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WebNoticeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WebNoticeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WebNoticeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WebNoticeMaxAggregateInputType
+  }
+
+  export type GetWebNoticeAggregateType<T extends WebNoticeAggregateArgs> = {
+        [P in keyof T & keyof AggregateWebNotice]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebNotice[P]>
+      : GetScalarType<T[P], AggregateWebNotice[P]>
+  }
+
+
+
+
+  export type WebNoticeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebNoticeWhereInput
+    orderBy?: WebNoticeOrderByWithAggregationInput | WebNoticeOrderByWithAggregationInput[]
+    by: WebNoticeScalarFieldEnum[] | WebNoticeScalarFieldEnum
+    having?: WebNoticeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebNoticeCountAggregateInputType | true
+    _avg?: WebNoticeAvgAggregateInputType
+    _sum?: WebNoticeSumAggregateInputType
+    _min?: WebNoticeMinAggregateInputType
+    _max?: WebNoticeMaxAggregateInputType
+  }
+
+  export type WebNoticeGroupByOutputType = {
+    id: bigint
+    title: string
+    content: string
+    category: string | null
+    isPinned: boolean
+    isActive: boolean
+    viewCount: number
+    publishedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    creatorName: string | null
+    creatorId: bigint | null
+    fileCount: number
+    files: JsonValue
+    _count: WebNoticeCountAggregateOutputType | null
+    _avg: WebNoticeAvgAggregateOutputType | null
+    _sum: WebNoticeSumAggregateOutputType | null
+    _min: WebNoticeMinAggregateOutputType | null
+    _max: WebNoticeMaxAggregateOutputType | null
+  }
+
+  type GetWebNoticeGroupByPayload<T extends WebNoticeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WebNoticeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WebNoticeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebNoticeGroupByOutputType[P]>
+            : GetScalarType<T[P], WebNoticeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WebNoticeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    content?: boolean
+    category?: boolean
+    isPinned?: boolean
+    isActive?: boolean
+    viewCount?: boolean
+    publishedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorName?: boolean
+    creatorId?: boolean
+    fileCount?: boolean
+    files?: boolean
+  }, ExtArgs["result"]["webNotice"]>
+
+
+
+  export type WebNoticeSelectScalar = {
+    id?: boolean
+    title?: boolean
+    content?: boolean
+    category?: boolean
+    isPinned?: boolean
+    isActive?: boolean
+    viewCount?: boolean
+    publishedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorName?: boolean
+    creatorId?: boolean
+    fileCount?: boolean
+    files?: boolean
+  }
+
+  export type WebNoticeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "category" | "isPinned" | "isActive" | "viewCount" | "publishedAt" | "createdAt" | "updatedAt" | "creatorName" | "creatorId" | "fileCount" | "files", ExtArgs["result"]["webNotice"]>
+
+  export type $WebNoticePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WebNotice"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      title: string
+      content: string
+      category: string | null
+      isPinned: boolean
+      isActive: boolean
+      viewCount: number
+      publishedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+      creatorName: string | null
+      creatorId: bigint | null
+      fileCount: number
+      files: Prisma.JsonValue
+    }, ExtArgs["result"]["webNotice"]>
+    composites: {}
+  }
+
+  type WebNoticeGetPayload<S extends boolean | null | undefined | WebNoticeDefaultArgs> = $Result.GetResult<Prisma.$WebNoticePayload, S>
+
+  type WebNoticeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WebNoticeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WebNoticeCountAggregateInputType | true
+    }
+
+  export interface WebNoticeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WebNotice'], meta: { name: 'WebNotice' } }
+    /**
+     * Find zero or one WebNotice that matches the filter.
+     * @param {WebNoticeFindUniqueArgs} args - Arguments to find a WebNotice
+     * @example
+     * // Get one WebNotice
+     * const webNotice = await prisma.webNotice.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WebNoticeFindUniqueArgs>(args: SelectSubset<T, WebNoticeFindUniqueArgs<ExtArgs>>): Prisma__WebNoticeClient<$Result.GetResult<Prisma.$WebNoticePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WebNotice that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WebNoticeFindUniqueOrThrowArgs} args - Arguments to find a WebNotice
+     * @example
+     * // Get one WebNotice
+     * const webNotice = await prisma.webNotice.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WebNoticeFindUniqueOrThrowArgs>(args: SelectSubset<T, WebNoticeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WebNoticeClient<$Result.GetResult<Prisma.$WebNoticePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebNotice that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebNoticeFindFirstArgs} args - Arguments to find a WebNotice
+     * @example
+     * // Get one WebNotice
+     * const webNotice = await prisma.webNotice.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WebNoticeFindFirstArgs>(args?: SelectSubset<T, WebNoticeFindFirstArgs<ExtArgs>>): Prisma__WebNoticeClient<$Result.GetResult<Prisma.$WebNoticePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebNotice that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebNoticeFindFirstOrThrowArgs} args - Arguments to find a WebNotice
+     * @example
+     * // Get one WebNotice
+     * const webNotice = await prisma.webNotice.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WebNoticeFindFirstOrThrowArgs>(args?: SelectSubset<T, WebNoticeFindFirstOrThrowArgs<ExtArgs>>): Prisma__WebNoticeClient<$Result.GetResult<Prisma.$WebNoticePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WebNotices that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebNoticeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WebNotices
+     * const webNotices = await prisma.webNotice.findMany()
+     * 
+     * // Get first 10 WebNotices
+     * const webNotices = await prisma.webNotice.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const webNoticeWithIdOnly = await prisma.webNotice.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WebNoticeFindManyArgs>(args?: SelectSubset<T, WebNoticeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebNoticePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+
+    /**
+     * Count the number of WebNotices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebNoticeCountArgs} args - Arguments to filter WebNotices to count.
+     * @example
+     * // Count the number of WebNotices
+     * const count = await prisma.webNotice.count({
+     *   where: {
+     *     // ... the filter for the WebNotices we want to count
+     *   }
+     * })
+    **/
+    count<T extends WebNoticeCountArgs>(
+      args?: Subset<T, WebNoticeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebNoticeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WebNotice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebNoticeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WebNoticeAggregateArgs>(args: Subset<T, WebNoticeAggregateArgs>): Prisma.PrismaPromise<GetWebNoticeAggregateType<T>>
+
+    /**
+     * Group by WebNotice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebNoticeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WebNoticeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebNoticeGroupByArgs['orderBy'] }
+        : { orderBy?: WebNoticeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WebNoticeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebNoticeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WebNotice model
+   */
+  readonly fields: WebNoticeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WebNotice.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WebNoticeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WebNotice model
+   */
+  interface WebNoticeFieldRefs {
+    readonly id: FieldRef<"WebNotice", 'BigInt'>
+    readonly title: FieldRef<"WebNotice", 'String'>
+    readonly content: FieldRef<"WebNotice", 'String'>
+    readonly category: FieldRef<"WebNotice", 'String'>
+    readonly isPinned: FieldRef<"WebNotice", 'Boolean'>
+    readonly isActive: FieldRef<"WebNotice", 'Boolean'>
+    readonly viewCount: FieldRef<"WebNotice", 'Int'>
+    readonly publishedAt: FieldRef<"WebNotice", 'DateTime'>
+    readonly createdAt: FieldRef<"WebNotice", 'DateTime'>
+    readonly updatedAt: FieldRef<"WebNotice", 'DateTime'>
+    readonly creatorName: FieldRef<"WebNotice", 'String'>
+    readonly creatorId: FieldRef<"WebNotice", 'BigInt'>
+    readonly fileCount: FieldRef<"WebNotice", 'Int'>
+    readonly files: FieldRef<"WebNotice", 'Json'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WebNotice findUnique
+   */
+  export type WebNoticeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebNotice
+     */
+    select?: WebNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebNotice
+     */
+    omit?: WebNoticeOmit<ExtArgs> | null
+    /**
+     * Filter, which WebNotice to fetch.
+     */
+    where: WebNoticeWhereUniqueInput
+  }
+
+  /**
+   * WebNotice findUniqueOrThrow
+   */
+  export type WebNoticeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebNotice
+     */
+    select?: WebNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebNotice
+     */
+    omit?: WebNoticeOmit<ExtArgs> | null
+    /**
+     * Filter, which WebNotice to fetch.
+     */
+    where: WebNoticeWhereUniqueInput
+  }
+
+  /**
+   * WebNotice findFirst
+   */
+  export type WebNoticeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebNotice
+     */
+    select?: WebNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebNotice
+     */
+    omit?: WebNoticeOmit<ExtArgs> | null
+    /**
+     * Filter, which WebNotice to fetch.
+     */
+    where?: WebNoticeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebNotices to fetch.
+     */
+    orderBy?: WebNoticeOrderByWithRelationInput | WebNoticeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebNotices.
+     */
+    cursor?: WebNoticeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebNotices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebNotices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebNotices.
+     */
+    distinct?: WebNoticeScalarFieldEnum | WebNoticeScalarFieldEnum[]
+  }
+
+  /**
+   * WebNotice findFirstOrThrow
+   */
+  export type WebNoticeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebNotice
+     */
+    select?: WebNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebNotice
+     */
+    omit?: WebNoticeOmit<ExtArgs> | null
+    /**
+     * Filter, which WebNotice to fetch.
+     */
+    where?: WebNoticeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebNotices to fetch.
+     */
+    orderBy?: WebNoticeOrderByWithRelationInput | WebNoticeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebNotices.
+     */
+    cursor?: WebNoticeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebNotices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebNotices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebNotices.
+     */
+    distinct?: WebNoticeScalarFieldEnum | WebNoticeScalarFieldEnum[]
+  }
+
+  /**
+   * WebNotice findMany
+   */
+  export type WebNoticeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebNotice
+     */
+    select?: WebNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebNotice
+     */
+    omit?: WebNoticeOmit<ExtArgs> | null
+    /**
+     * Filter, which WebNotices to fetch.
+     */
+    where?: WebNoticeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebNotices to fetch.
+     */
+    orderBy?: WebNoticeOrderByWithRelationInput | WebNoticeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WebNotices.
+     */
+    cursor?: WebNoticeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebNotices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebNotices.
+     */
+    skip?: number
+    distinct?: WebNoticeScalarFieldEnum | WebNoticeScalarFieldEnum[]
+  }
+
+  /**
+   * WebNotice without action
+   */
+  export type WebNoticeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebNotice
+     */
+    select?: WebNoticeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebNotice
+     */
+    omit?: WebNoticeOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WebNoticeDetail
+   */
+
+  export type AggregateWebNoticeDetail = {
+    _count: WebNoticeDetailCountAggregateOutputType | null
+    _avg: WebNoticeDetailAvgAggregateOutputType | null
+    _sum: WebNoticeDetailSumAggregateOutputType | null
+    _min: WebNoticeDetailMinAggregateOutputType | null
+    _max: WebNoticeDetailMaxAggregateOutputType | null
+  }
+
+  export type WebNoticeDetailAvgAggregateOutputType = {
+    id: number | null
+    viewCount: number | null
+    creatorId: number | null
+  }
+
+  export type WebNoticeDetailSumAggregateOutputType = {
+    id: bigint | null
+    viewCount: number | null
+    creatorId: bigint | null
+  }
+
+  export type WebNoticeDetailMinAggregateOutputType = {
+    id: bigint | null
+    title: string | null
+    content: string | null
+    category: string | null
+    isPinned: boolean | null
+    viewCount: number | null
+    publishedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    creatorName: string | null
+    creatorId: bigint | null
+  }
+
+  export type WebNoticeDetailMaxAggregateOutputType = {
+    id: bigint | null
+    title: string | null
+    content: string | null
+    category: string | null
+    isPinned: boolean | null
+    viewCount: number | null
+    publishedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    creatorName: string | null
+    creatorId: bigint | null
+  }
+
+  export type WebNoticeDetailCountAggregateOutputType = {
+    id: number
+    title: number
+    content: number
+    category: number
+    isPinned: number
+    viewCount: number
+    publishedAt: number
+    createdAt: number
+    updatedAt: number
+    creatorName: number
+    creatorId: number
+    files: number
+    prevNotice: number
+    nextNotice: number
+    _all: number
+  }
+
+
+  export type WebNoticeDetailAvgAggregateInputType = {
+    id?: true
+    viewCount?: true
+    creatorId?: true
+  }
+
+  export type WebNoticeDetailSumAggregateInputType = {
+    id?: true
+    viewCount?: true
+    creatorId?: true
+  }
+
+  export type WebNoticeDetailMinAggregateInputType = {
+    id?: true
+    title?: true
+    content?: true
+    category?: true
+    isPinned?: true
+    viewCount?: true
+    publishedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorName?: true
+    creatorId?: true
+  }
+
+  export type WebNoticeDetailMaxAggregateInputType = {
+    id?: true
+    title?: true
+    content?: true
+    category?: true
+    isPinned?: true
+    viewCount?: true
+    publishedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorName?: true
+    creatorId?: true
+  }
+
+  export type WebNoticeDetailCountAggregateInputType = {
+    id?: true
+    title?: true
+    content?: true
+    category?: true
+    isPinned?: true
+    viewCount?: true
+    publishedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorName?: true
+    creatorId?: true
+    files?: true
+    prevNotice?: true
+    nextNotice?: true
+    _all?: true
+  }
+
+  export type WebNoticeDetailAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebNoticeDetail to aggregate.
+     */
+    where?: WebNoticeDetailWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebNoticeDetails to fetch.
+     */
+    orderBy?: WebNoticeDetailOrderByWithRelationInput | WebNoticeDetailOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WebNoticeDetailWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebNoticeDetails from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebNoticeDetails.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WebNoticeDetails
+    **/
+    _count?: true | WebNoticeDetailCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WebNoticeDetailAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WebNoticeDetailSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WebNoticeDetailMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WebNoticeDetailMaxAggregateInputType
+  }
+
+  export type GetWebNoticeDetailAggregateType<T extends WebNoticeDetailAggregateArgs> = {
+        [P in keyof T & keyof AggregateWebNoticeDetail]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebNoticeDetail[P]>
+      : GetScalarType<T[P], AggregateWebNoticeDetail[P]>
+  }
+
+
+
+
+  export type WebNoticeDetailGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebNoticeDetailWhereInput
+    orderBy?: WebNoticeDetailOrderByWithAggregationInput | WebNoticeDetailOrderByWithAggregationInput[]
+    by: WebNoticeDetailScalarFieldEnum[] | WebNoticeDetailScalarFieldEnum
+    having?: WebNoticeDetailScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebNoticeDetailCountAggregateInputType | true
+    _avg?: WebNoticeDetailAvgAggregateInputType
+    _sum?: WebNoticeDetailSumAggregateInputType
+    _min?: WebNoticeDetailMinAggregateInputType
+    _max?: WebNoticeDetailMaxAggregateInputType
+  }
+
+  export type WebNoticeDetailGroupByOutputType = {
+    id: bigint
+    title: string
+    content: string
+    category: string | null
+    isPinned: boolean
+    viewCount: number
+    publishedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    creatorName: string | null
+    creatorId: bigint | null
+    files: JsonValue
+    prevNotice: JsonValue | null
+    nextNotice: JsonValue | null
+    _count: WebNoticeDetailCountAggregateOutputType | null
+    _avg: WebNoticeDetailAvgAggregateOutputType | null
+    _sum: WebNoticeDetailSumAggregateOutputType | null
+    _min: WebNoticeDetailMinAggregateOutputType | null
+    _max: WebNoticeDetailMaxAggregateOutputType | null
+  }
+
+  type GetWebNoticeDetailGroupByPayload<T extends WebNoticeDetailGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WebNoticeDetailGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WebNoticeDetailGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebNoticeDetailGroupByOutputType[P]>
+            : GetScalarType<T[P], WebNoticeDetailGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WebNoticeDetailSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    content?: boolean
+    category?: boolean
+    isPinned?: boolean
+    viewCount?: boolean
+    publishedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorName?: boolean
+    creatorId?: boolean
+    files?: boolean
+    prevNotice?: boolean
+    nextNotice?: boolean
+  }, ExtArgs["result"]["webNoticeDetail"]>
+
+
+
+  export type WebNoticeDetailSelectScalar = {
+    id?: boolean
+    title?: boolean
+    content?: boolean
+    category?: boolean
+    isPinned?: boolean
+    viewCount?: boolean
+    publishedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorName?: boolean
+    creatorId?: boolean
+    files?: boolean
+    prevNotice?: boolean
+    nextNotice?: boolean
+  }
+
+  export type WebNoticeDetailOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "category" | "isPinned" | "viewCount" | "publishedAt" | "createdAt" | "updatedAt" | "creatorName" | "creatorId" | "files" | "prevNotice" | "nextNotice", ExtArgs["result"]["webNoticeDetail"]>
+
+  export type $WebNoticeDetailPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WebNoticeDetail"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      title: string
+      content: string
+      category: string | null
+      isPinned: boolean
+      viewCount: number
+      publishedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+      creatorName: string | null
+      creatorId: bigint | null
+      files: Prisma.JsonValue
+      prevNotice: Prisma.JsonValue | null
+      nextNotice: Prisma.JsonValue | null
+    }, ExtArgs["result"]["webNoticeDetail"]>
+    composites: {}
+  }
+
+  type WebNoticeDetailGetPayload<S extends boolean | null | undefined | WebNoticeDetailDefaultArgs> = $Result.GetResult<Prisma.$WebNoticeDetailPayload, S>
+
+  type WebNoticeDetailCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WebNoticeDetailFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WebNoticeDetailCountAggregateInputType | true
+    }
+
+  export interface WebNoticeDetailDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WebNoticeDetail'], meta: { name: 'WebNoticeDetail' } }
+    /**
+     * Find zero or one WebNoticeDetail that matches the filter.
+     * @param {WebNoticeDetailFindUniqueArgs} args - Arguments to find a WebNoticeDetail
+     * @example
+     * // Get one WebNoticeDetail
+     * const webNoticeDetail = await prisma.webNoticeDetail.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WebNoticeDetailFindUniqueArgs>(args: SelectSubset<T, WebNoticeDetailFindUniqueArgs<ExtArgs>>): Prisma__WebNoticeDetailClient<$Result.GetResult<Prisma.$WebNoticeDetailPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WebNoticeDetail that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WebNoticeDetailFindUniqueOrThrowArgs} args - Arguments to find a WebNoticeDetail
+     * @example
+     * // Get one WebNoticeDetail
+     * const webNoticeDetail = await prisma.webNoticeDetail.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WebNoticeDetailFindUniqueOrThrowArgs>(args: SelectSubset<T, WebNoticeDetailFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WebNoticeDetailClient<$Result.GetResult<Prisma.$WebNoticeDetailPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebNoticeDetail that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebNoticeDetailFindFirstArgs} args - Arguments to find a WebNoticeDetail
+     * @example
+     * // Get one WebNoticeDetail
+     * const webNoticeDetail = await prisma.webNoticeDetail.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WebNoticeDetailFindFirstArgs>(args?: SelectSubset<T, WebNoticeDetailFindFirstArgs<ExtArgs>>): Prisma__WebNoticeDetailClient<$Result.GetResult<Prisma.$WebNoticeDetailPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebNoticeDetail that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebNoticeDetailFindFirstOrThrowArgs} args - Arguments to find a WebNoticeDetail
+     * @example
+     * // Get one WebNoticeDetail
+     * const webNoticeDetail = await prisma.webNoticeDetail.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WebNoticeDetailFindFirstOrThrowArgs>(args?: SelectSubset<T, WebNoticeDetailFindFirstOrThrowArgs<ExtArgs>>): Prisma__WebNoticeDetailClient<$Result.GetResult<Prisma.$WebNoticeDetailPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WebNoticeDetails that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebNoticeDetailFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WebNoticeDetails
+     * const webNoticeDetails = await prisma.webNoticeDetail.findMany()
+     * 
+     * // Get first 10 WebNoticeDetails
+     * const webNoticeDetails = await prisma.webNoticeDetail.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const webNoticeDetailWithIdOnly = await prisma.webNoticeDetail.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WebNoticeDetailFindManyArgs>(args?: SelectSubset<T, WebNoticeDetailFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebNoticeDetailPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+
+    /**
+     * Count the number of WebNoticeDetails.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebNoticeDetailCountArgs} args - Arguments to filter WebNoticeDetails to count.
+     * @example
+     * // Count the number of WebNoticeDetails
+     * const count = await prisma.webNoticeDetail.count({
+     *   where: {
+     *     // ... the filter for the WebNoticeDetails we want to count
+     *   }
+     * })
+    **/
+    count<T extends WebNoticeDetailCountArgs>(
+      args?: Subset<T, WebNoticeDetailCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebNoticeDetailCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WebNoticeDetail.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebNoticeDetailAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WebNoticeDetailAggregateArgs>(args: Subset<T, WebNoticeDetailAggregateArgs>): Prisma.PrismaPromise<GetWebNoticeDetailAggregateType<T>>
+
+    /**
+     * Group by WebNoticeDetail.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebNoticeDetailGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WebNoticeDetailGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebNoticeDetailGroupByArgs['orderBy'] }
+        : { orderBy?: WebNoticeDetailGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WebNoticeDetailGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebNoticeDetailGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WebNoticeDetail model
+   */
+  readonly fields: WebNoticeDetailFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WebNoticeDetail.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WebNoticeDetailClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WebNoticeDetail model
+   */
+  interface WebNoticeDetailFieldRefs {
+    readonly id: FieldRef<"WebNoticeDetail", 'BigInt'>
+    readonly title: FieldRef<"WebNoticeDetail", 'String'>
+    readonly content: FieldRef<"WebNoticeDetail", 'String'>
+    readonly category: FieldRef<"WebNoticeDetail", 'String'>
+    readonly isPinned: FieldRef<"WebNoticeDetail", 'Boolean'>
+    readonly viewCount: FieldRef<"WebNoticeDetail", 'Int'>
+    readonly publishedAt: FieldRef<"WebNoticeDetail", 'DateTime'>
+    readonly createdAt: FieldRef<"WebNoticeDetail", 'DateTime'>
+    readonly updatedAt: FieldRef<"WebNoticeDetail", 'DateTime'>
+    readonly creatorName: FieldRef<"WebNoticeDetail", 'String'>
+    readonly creatorId: FieldRef<"WebNoticeDetail", 'BigInt'>
+    readonly files: FieldRef<"WebNoticeDetail", 'Json'>
+    readonly prevNotice: FieldRef<"WebNoticeDetail", 'Json'>
+    readonly nextNotice: FieldRef<"WebNoticeDetail", 'Json'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WebNoticeDetail findUnique
+   */
+  export type WebNoticeDetailFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebNoticeDetail
+     */
+    select?: WebNoticeDetailSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebNoticeDetail
+     */
+    omit?: WebNoticeDetailOmit<ExtArgs> | null
+    /**
+     * Filter, which WebNoticeDetail to fetch.
+     */
+    where: WebNoticeDetailWhereUniqueInput
+  }
+
+  /**
+   * WebNoticeDetail findUniqueOrThrow
+   */
+  export type WebNoticeDetailFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebNoticeDetail
+     */
+    select?: WebNoticeDetailSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebNoticeDetail
+     */
+    omit?: WebNoticeDetailOmit<ExtArgs> | null
+    /**
+     * Filter, which WebNoticeDetail to fetch.
+     */
+    where: WebNoticeDetailWhereUniqueInput
+  }
+
+  /**
+   * WebNoticeDetail findFirst
+   */
+  export type WebNoticeDetailFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebNoticeDetail
+     */
+    select?: WebNoticeDetailSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebNoticeDetail
+     */
+    omit?: WebNoticeDetailOmit<ExtArgs> | null
+    /**
+     * Filter, which WebNoticeDetail to fetch.
+     */
+    where?: WebNoticeDetailWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebNoticeDetails to fetch.
+     */
+    orderBy?: WebNoticeDetailOrderByWithRelationInput | WebNoticeDetailOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebNoticeDetails.
+     */
+    cursor?: WebNoticeDetailWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebNoticeDetails from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebNoticeDetails.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebNoticeDetails.
+     */
+    distinct?: WebNoticeDetailScalarFieldEnum | WebNoticeDetailScalarFieldEnum[]
+  }
+
+  /**
+   * WebNoticeDetail findFirstOrThrow
+   */
+  export type WebNoticeDetailFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebNoticeDetail
+     */
+    select?: WebNoticeDetailSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebNoticeDetail
+     */
+    omit?: WebNoticeDetailOmit<ExtArgs> | null
+    /**
+     * Filter, which WebNoticeDetail to fetch.
+     */
+    where?: WebNoticeDetailWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebNoticeDetails to fetch.
+     */
+    orderBy?: WebNoticeDetailOrderByWithRelationInput | WebNoticeDetailOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebNoticeDetails.
+     */
+    cursor?: WebNoticeDetailWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebNoticeDetails from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebNoticeDetails.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebNoticeDetails.
+     */
+    distinct?: WebNoticeDetailScalarFieldEnum | WebNoticeDetailScalarFieldEnum[]
+  }
+
+  /**
+   * WebNoticeDetail findMany
+   */
+  export type WebNoticeDetailFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebNoticeDetail
+     */
+    select?: WebNoticeDetailSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebNoticeDetail
+     */
+    omit?: WebNoticeDetailOmit<ExtArgs> | null
+    /**
+     * Filter, which WebNoticeDetails to fetch.
+     */
+    where?: WebNoticeDetailWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebNoticeDetails to fetch.
+     */
+    orderBy?: WebNoticeDetailOrderByWithRelationInput | WebNoticeDetailOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WebNoticeDetails.
+     */
+    cursor?: WebNoticeDetailWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebNoticeDetails from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebNoticeDetails.
+     */
+    skip?: number
+    distinct?: WebNoticeDetailScalarFieldEnum | WebNoticeDetailScalarFieldEnum[]
+  }
+
+  /**
+   * WebNoticeDetail without action
+   */
+  export type WebNoticeDetailDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebNoticeDetail
+     */
+    select?: WebNoticeDetailSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebNoticeDetail
+     */
+    omit?: WebNoticeDetailOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WebBoardPost
+   */
+
+  export type AggregateWebBoardPost = {
+    _count: WebBoardPostCountAggregateOutputType | null
+    _avg: WebBoardPostAvgAggregateOutputType | null
+    _sum: WebBoardPostSumAggregateOutputType | null
+    _min: WebBoardPostMinAggregateOutputType | null
+    _max: WebBoardPostMaxAggregateOutputType | null
+  }
+
+  export type WebBoardPostAvgAggregateOutputType = {
+    id: number | null
+    viewCount: number | null
+    authorId: number | null
+    commentCount: number | null
+    fileCount: number | null
+  }
+
+  export type WebBoardPostSumAggregateOutputType = {
+    id: bigint | null
+    viewCount: number | null
+    authorId: bigint | null
+    commentCount: number | null
+    fileCount: number | null
+  }
+
+  export type WebBoardPostMinAggregateOutputType = {
+    id: bigint | null
+    boardKey: string | null
+    title: string | null
+    content: string | null
+    viewCount: number | null
+    isPinned: boolean | null
+    isLocked: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    authorName: string | null
+    authorId: bigint | null
+    commentCount: number | null
+    fileCount: number | null
+  }
+
+  export type WebBoardPostMaxAggregateOutputType = {
+    id: bigint | null
+    boardKey: string | null
+    title: string | null
+    content: string | null
+    viewCount: number | null
+    isPinned: boolean | null
+    isLocked: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    authorName: string | null
+    authorId: bigint | null
+    commentCount: number | null
+    fileCount: number | null
+  }
+
+  export type WebBoardPostCountAggregateOutputType = {
+    id: number
+    boardKey: number
+    title: number
+    content: number
+    viewCount: number
+    isPinned: number
+    isLocked: number
+    createdAt: number
+    updatedAt: number
+    authorName: number
+    authorId: number
+    commentCount: number
+    fileCount: number
+    files: number
+    _all: number
+  }
+
+
+  export type WebBoardPostAvgAggregateInputType = {
+    id?: true
+    viewCount?: true
+    authorId?: true
+    commentCount?: true
+    fileCount?: true
+  }
+
+  export type WebBoardPostSumAggregateInputType = {
+    id?: true
+    viewCount?: true
+    authorId?: true
+    commentCount?: true
+    fileCount?: true
+  }
+
+  export type WebBoardPostMinAggregateInputType = {
+    id?: true
+    boardKey?: true
+    title?: true
+    content?: true
+    viewCount?: true
+    isPinned?: true
+    isLocked?: true
+    createdAt?: true
+    updatedAt?: true
+    authorName?: true
+    authorId?: true
+    commentCount?: true
+    fileCount?: true
+  }
+
+  export type WebBoardPostMaxAggregateInputType = {
+    id?: true
+    boardKey?: true
+    title?: true
+    content?: true
+    viewCount?: true
+    isPinned?: true
+    isLocked?: true
+    createdAt?: true
+    updatedAt?: true
+    authorName?: true
+    authorId?: true
+    commentCount?: true
+    fileCount?: true
+  }
+
+  export type WebBoardPostCountAggregateInputType = {
+    id?: true
+    boardKey?: true
+    title?: true
+    content?: true
+    viewCount?: true
+    isPinned?: true
+    isLocked?: true
+    createdAt?: true
+    updatedAt?: true
+    authorName?: true
+    authorId?: true
+    commentCount?: true
+    fileCount?: true
+    files?: true
+    _all?: true
+  }
+
+  export type WebBoardPostAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebBoardPost to aggregate.
+     */
+    where?: WebBoardPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebBoardPosts to fetch.
+     */
+    orderBy?: WebBoardPostOrderByWithRelationInput | WebBoardPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WebBoardPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebBoardPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebBoardPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WebBoardPosts
+    **/
+    _count?: true | WebBoardPostCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WebBoardPostAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WebBoardPostSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WebBoardPostMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WebBoardPostMaxAggregateInputType
+  }
+
+  export type GetWebBoardPostAggregateType<T extends WebBoardPostAggregateArgs> = {
+        [P in keyof T & keyof AggregateWebBoardPost]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebBoardPost[P]>
+      : GetScalarType<T[P], AggregateWebBoardPost[P]>
+  }
+
+
+
+
+  export type WebBoardPostGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebBoardPostWhereInput
+    orderBy?: WebBoardPostOrderByWithAggregationInput | WebBoardPostOrderByWithAggregationInput[]
+    by: WebBoardPostScalarFieldEnum[] | WebBoardPostScalarFieldEnum
+    having?: WebBoardPostScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebBoardPostCountAggregateInputType | true
+    _avg?: WebBoardPostAvgAggregateInputType
+    _sum?: WebBoardPostSumAggregateInputType
+    _min?: WebBoardPostMinAggregateInputType
+    _max?: WebBoardPostMaxAggregateInputType
+  }
+
+  export type WebBoardPostGroupByOutputType = {
+    id: bigint
+    boardKey: string
+    title: string
+    content: string
+    viewCount: number
+    isPinned: boolean
+    isLocked: boolean
+    createdAt: Date
+    updatedAt: Date
+    authorName: string | null
+    authorId: bigint | null
+    commentCount: number
+    fileCount: number
+    files: JsonValue
+    _count: WebBoardPostCountAggregateOutputType | null
+    _avg: WebBoardPostAvgAggregateOutputType | null
+    _sum: WebBoardPostSumAggregateOutputType | null
+    _min: WebBoardPostMinAggregateOutputType | null
+    _max: WebBoardPostMaxAggregateOutputType | null
+  }
+
+  type GetWebBoardPostGroupByPayload<T extends WebBoardPostGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WebBoardPostGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WebBoardPostGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebBoardPostGroupByOutputType[P]>
+            : GetScalarType<T[P], WebBoardPostGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WebBoardPostSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    boardKey?: boolean
+    title?: boolean
+    content?: boolean
+    viewCount?: boolean
+    isPinned?: boolean
+    isLocked?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    authorName?: boolean
+    authorId?: boolean
+    commentCount?: boolean
+    fileCount?: boolean
+    files?: boolean
+  }, ExtArgs["result"]["webBoardPost"]>
+
+
+
+  export type WebBoardPostSelectScalar = {
+    id?: boolean
+    boardKey?: boolean
+    title?: boolean
+    content?: boolean
+    viewCount?: boolean
+    isPinned?: boolean
+    isLocked?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    authorName?: boolean
+    authorId?: boolean
+    commentCount?: boolean
+    fileCount?: boolean
+    files?: boolean
+  }
+
+  export type WebBoardPostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "boardKey" | "title" | "content" | "viewCount" | "isPinned" | "isLocked" | "createdAt" | "updatedAt" | "authorName" | "authorId" | "commentCount" | "fileCount" | "files", ExtArgs["result"]["webBoardPost"]>
+
+  export type $WebBoardPostPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WebBoardPost"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      boardKey: string
+      title: string
+      content: string
+      viewCount: number
+      isPinned: boolean
+      isLocked: boolean
+      createdAt: Date
+      updatedAt: Date
+      authorName: string | null
+      authorId: bigint | null
+      commentCount: number
+      fileCount: number
+      files: Prisma.JsonValue
+    }, ExtArgs["result"]["webBoardPost"]>
+    composites: {}
+  }
+
+  type WebBoardPostGetPayload<S extends boolean | null | undefined | WebBoardPostDefaultArgs> = $Result.GetResult<Prisma.$WebBoardPostPayload, S>
+
+  type WebBoardPostCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WebBoardPostFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WebBoardPostCountAggregateInputType | true
+    }
+
+  export interface WebBoardPostDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WebBoardPost'], meta: { name: 'WebBoardPost' } }
+    /**
+     * Find zero or one WebBoardPost that matches the filter.
+     * @param {WebBoardPostFindUniqueArgs} args - Arguments to find a WebBoardPost
+     * @example
+     * // Get one WebBoardPost
+     * const webBoardPost = await prisma.webBoardPost.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WebBoardPostFindUniqueArgs>(args: SelectSubset<T, WebBoardPostFindUniqueArgs<ExtArgs>>): Prisma__WebBoardPostClient<$Result.GetResult<Prisma.$WebBoardPostPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WebBoardPost that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WebBoardPostFindUniqueOrThrowArgs} args - Arguments to find a WebBoardPost
+     * @example
+     * // Get one WebBoardPost
+     * const webBoardPost = await prisma.webBoardPost.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WebBoardPostFindUniqueOrThrowArgs>(args: SelectSubset<T, WebBoardPostFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WebBoardPostClient<$Result.GetResult<Prisma.$WebBoardPostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebBoardPost that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebBoardPostFindFirstArgs} args - Arguments to find a WebBoardPost
+     * @example
+     * // Get one WebBoardPost
+     * const webBoardPost = await prisma.webBoardPost.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WebBoardPostFindFirstArgs>(args?: SelectSubset<T, WebBoardPostFindFirstArgs<ExtArgs>>): Prisma__WebBoardPostClient<$Result.GetResult<Prisma.$WebBoardPostPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebBoardPost that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebBoardPostFindFirstOrThrowArgs} args - Arguments to find a WebBoardPost
+     * @example
+     * // Get one WebBoardPost
+     * const webBoardPost = await prisma.webBoardPost.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WebBoardPostFindFirstOrThrowArgs>(args?: SelectSubset<T, WebBoardPostFindFirstOrThrowArgs<ExtArgs>>): Prisma__WebBoardPostClient<$Result.GetResult<Prisma.$WebBoardPostPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WebBoardPosts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebBoardPostFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WebBoardPosts
+     * const webBoardPosts = await prisma.webBoardPost.findMany()
+     * 
+     * // Get first 10 WebBoardPosts
+     * const webBoardPosts = await prisma.webBoardPost.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const webBoardPostWithIdOnly = await prisma.webBoardPost.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WebBoardPostFindManyArgs>(args?: SelectSubset<T, WebBoardPostFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebBoardPostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+
+    /**
+     * Count the number of WebBoardPosts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebBoardPostCountArgs} args - Arguments to filter WebBoardPosts to count.
+     * @example
+     * // Count the number of WebBoardPosts
+     * const count = await prisma.webBoardPost.count({
+     *   where: {
+     *     // ... the filter for the WebBoardPosts we want to count
+     *   }
+     * })
+    **/
+    count<T extends WebBoardPostCountArgs>(
+      args?: Subset<T, WebBoardPostCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebBoardPostCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WebBoardPost.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebBoardPostAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WebBoardPostAggregateArgs>(args: Subset<T, WebBoardPostAggregateArgs>): Prisma.PrismaPromise<GetWebBoardPostAggregateType<T>>
+
+    /**
+     * Group by WebBoardPost.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebBoardPostGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WebBoardPostGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebBoardPostGroupByArgs['orderBy'] }
+        : { orderBy?: WebBoardPostGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WebBoardPostGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebBoardPostGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WebBoardPost model
+   */
+  readonly fields: WebBoardPostFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WebBoardPost.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WebBoardPostClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WebBoardPost model
+   */
+  interface WebBoardPostFieldRefs {
+    readonly id: FieldRef<"WebBoardPost", 'BigInt'>
+    readonly boardKey: FieldRef<"WebBoardPost", 'String'>
+    readonly title: FieldRef<"WebBoardPost", 'String'>
+    readonly content: FieldRef<"WebBoardPost", 'String'>
+    readonly viewCount: FieldRef<"WebBoardPost", 'Int'>
+    readonly isPinned: FieldRef<"WebBoardPost", 'Boolean'>
+    readonly isLocked: FieldRef<"WebBoardPost", 'Boolean'>
+    readonly createdAt: FieldRef<"WebBoardPost", 'DateTime'>
+    readonly updatedAt: FieldRef<"WebBoardPost", 'DateTime'>
+    readonly authorName: FieldRef<"WebBoardPost", 'String'>
+    readonly authorId: FieldRef<"WebBoardPost", 'BigInt'>
+    readonly commentCount: FieldRef<"WebBoardPost", 'Int'>
+    readonly fileCount: FieldRef<"WebBoardPost", 'Int'>
+    readonly files: FieldRef<"WebBoardPost", 'Json'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WebBoardPost findUnique
+   */
+  export type WebBoardPostFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebBoardPost
+     */
+    select?: WebBoardPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebBoardPost
+     */
+    omit?: WebBoardPostOmit<ExtArgs> | null
+    /**
+     * Filter, which WebBoardPost to fetch.
+     */
+    where: WebBoardPostWhereUniqueInput
+  }
+
+  /**
+   * WebBoardPost findUniqueOrThrow
+   */
+  export type WebBoardPostFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebBoardPost
+     */
+    select?: WebBoardPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebBoardPost
+     */
+    omit?: WebBoardPostOmit<ExtArgs> | null
+    /**
+     * Filter, which WebBoardPost to fetch.
+     */
+    where: WebBoardPostWhereUniqueInput
+  }
+
+  /**
+   * WebBoardPost findFirst
+   */
+  export type WebBoardPostFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebBoardPost
+     */
+    select?: WebBoardPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebBoardPost
+     */
+    omit?: WebBoardPostOmit<ExtArgs> | null
+    /**
+     * Filter, which WebBoardPost to fetch.
+     */
+    where?: WebBoardPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebBoardPosts to fetch.
+     */
+    orderBy?: WebBoardPostOrderByWithRelationInput | WebBoardPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebBoardPosts.
+     */
+    cursor?: WebBoardPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebBoardPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebBoardPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebBoardPosts.
+     */
+    distinct?: WebBoardPostScalarFieldEnum | WebBoardPostScalarFieldEnum[]
+  }
+
+  /**
+   * WebBoardPost findFirstOrThrow
+   */
+  export type WebBoardPostFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebBoardPost
+     */
+    select?: WebBoardPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebBoardPost
+     */
+    omit?: WebBoardPostOmit<ExtArgs> | null
+    /**
+     * Filter, which WebBoardPost to fetch.
+     */
+    where?: WebBoardPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebBoardPosts to fetch.
+     */
+    orderBy?: WebBoardPostOrderByWithRelationInput | WebBoardPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebBoardPosts.
+     */
+    cursor?: WebBoardPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebBoardPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebBoardPosts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebBoardPosts.
+     */
+    distinct?: WebBoardPostScalarFieldEnum | WebBoardPostScalarFieldEnum[]
+  }
+
+  /**
+   * WebBoardPost findMany
+   */
+  export type WebBoardPostFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebBoardPost
+     */
+    select?: WebBoardPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebBoardPost
+     */
+    omit?: WebBoardPostOmit<ExtArgs> | null
+    /**
+     * Filter, which WebBoardPosts to fetch.
+     */
+    where?: WebBoardPostWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebBoardPosts to fetch.
+     */
+    orderBy?: WebBoardPostOrderByWithRelationInput | WebBoardPostOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WebBoardPosts.
+     */
+    cursor?: WebBoardPostWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebBoardPosts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebBoardPosts.
+     */
+    skip?: number
+    distinct?: WebBoardPostScalarFieldEnum | WebBoardPostScalarFieldEnum[]
+  }
+
+  /**
+   * WebBoardPost without action
+   */
+  export type WebBoardPostDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebBoardPost
+     */
+    select?: WebBoardPostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebBoardPost
+     */
+    omit?: WebBoardPostOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WebBoardPostDetail
+   */
+
+  export type AggregateWebBoardPostDetail = {
+    _count: WebBoardPostDetailCountAggregateOutputType | null
+    _avg: WebBoardPostDetailAvgAggregateOutputType | null
+    _sum: WebBoardPostDetailSumAggregateOutputType | null
+    _min: WebBoardPostDetailMinAggregateOutputType | null
+    _max: WebBoardPostDetailMaxAggregateOutputType | null
+  }
+
+  export type WebBoardPostDetailAvgAggregateOutputType = {
+    id: number | null
+    viewCount: number | null
+    authorId: number | null
+    commentCount: number | null
+  }
+
+  export type WebBoardPostDetailSumAggregateOutputType = {
+    id: bigint | null
+    viewCount: number | null
+    authorId: bigint | null
+    commentCount: number | null
+  }
+
+  export type WebBoardPostDetailMinAggregateOutputType = {
+    id: bigint | null
+    boardKey: string | null
+    title: string | null
+    content: string | null
+    viewCount: number | null
+    isPinned: boolean | null
+    isLocked: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    authorName: string | null
+    authorId: bigint | null
+    commentCount: number | null
+  }
+
+  export type WebBoardPostDetailMaxAggregateOutputType = {
+    id: bigint | null
+    boardKey: string | null
+    title: string | null
+    content: string | null
+    viewCount: number | null
+    isPinned: boolean | null
+    isLocked: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    authorName: string | null
+    authorId: bigint | null
+    commentCount: number | null
+  }
+
+  export type WebBoardPostDetailCountAggregateOutputType = {
+    id: number
+    boardKey: number
+    title: number
+    content: number
+    viewCount: number
+    isPinned: number
+    isLocked: number
+    createdAt: number
+    updatedAt: number
+    authorName: number
+    authorId: number
+    files: number
+    comments: number
+    commentCount: number
+    prevPost: number
+    nextPost: number
+    _all: number
+  }
+
+
+  export type WebBoardPostDetailAvgAggregateInputType = {
+    id?: true
+    viewCount?: true
+    authorId?: true
+    commentCount?: true
+  }
+
+  export type WebBoardPostDetailSumAggregateInputType = {
+    id?: true
+    viewCount?: true
+    authorId?: true
+    commentCount?: true
+  }
+
+  export type WebBoardPostDetailMinAggregateInputType = {
+    id?: true
+    boardKey?: true
+    title?: true
+    content?: true
+    viewCount?: true
+    isPinned?: true
+    isLocked?: true
+    createdAt?: true
+    updatedAt?: true
+    authorName?: true
+    authorId?: true
+    commentCount?: true
+  }
+
+  export type WebBoardPostDetailMaxAggregateInputType = {
+    id?: true
+    boardKey?: true
+    title?: true
+    content?: true
+    viewCount?: true
+    isPinned?: true
+    isLocked?: true
+    createdAt?: true
+    updatedAt?: true
+    authorName?: true
+    authorId?: true
+    commentCount?: true
+  }
+
+  export type WebBoardPostDetailCountAggregateInputType = {
+    id?: true
+    boardKey?: true
+    title?: true
+    content?: true
+    viewCount?: true
+    isPinned?: true
+    isLocked?: true
+    createdAt?: true
+    updatedAt?: true
+    authorName?: true
+    authorId?: true
+    files?: true
+    comments?: true
+    commentCount?: true
+    prevPost?: true
+    nextPost?: true
+    _all?: true
+  }
+
+  export type WebBoardPostDetailAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebBoardPostDetail to aggregate.
+     */
+    where?: WebBoardPostDetailWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebBoardPostDetails to fetch.
+     */
+    orderBy?: WebBoardPostDetailOrderByWithRelationInput | WebBoardPostDetailOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WebBoardPostDetailWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebBoardPostDetails from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebBoardPostDetails.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WebBoardPostDetails
+    **/
+    _count?: true | WebBoardPostDetailCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WebBoardPostDetailAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WebBoardPostDetailSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WebBoardPostDetailMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WebBoardPostDetailMaxAggregateInputType
+  }
+
+  export type GetWebBoardPostDetailAggregateType<T extends WebBoardPostDetailAggregateArgs> = {
+        [P in keyof T & keyof AggregateWebBoardPostDetail]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebBoardPostDetail[P]>
+      : GetScalarType<T[P], AggregateWebBoardPostDetail[P]>
+  }
+
+
+
+
+  export type WebBoardPostDetailGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebBoardPostDetailWhereInput
+    orderBy?: WebBoardPostDetailOrderByWithAggregationInput | WebBoardPostDetailOrderByWithAggregationInput[]
+    by: WebBoardPostDetailScalarFieldEnum[] | WebBoardPostDetailScalarFieldEnum
+    having?: WebBoardPostDetailScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebBoardPostDetailCountAggregateInputType | true
+    _avg?: WebBoardPostDetailAvgAggregateInputType
+    _sum?: WebBoardPostDetailSumAggregateInputType
+    _min?: WebBoardPostDetailMinAggregateInputType
+    _max?: WebBoardPostDetailMaxAggregateInputType
+  }
+
+  export type WebBoardPostDetailGroupByOutputType = {
+    id: bigint
+    boardKey: string
+    title: string
+    content: string
+    viewCount: number
+    isPinned: boolean
+    isLocked: boolean
+    createdAt: Date
+    updatedAt: Date
+    authorName: string | null
+    authorId: bigint | null
+    files: JsonValue
+    comments: JsonValue
+    commentCount: number
+    prevPost: JsonValue | null
+    nextPost: JsonValue | null
+    _count: WebBoardPostDetailCountAggregateOutputType | null
+    _avg: WebBoardPostDetailAvgAggregateOutputType | null
+    _sum: WebBoardPostDetailSumAggregateOutputType | null
+    _min: WebBoardPostDetailMinAggregateOutputType | null
+    _max: WebBoardPostDetailMaxAggregateOutputType | null
+  }
+
+  type GetWebBoardPostDetailGroupByPayload<T extends WebBoardPostDetailGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WebBoardPostDetailGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WebBoardPostDetailGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebBoardPostDetailGroupByOutputType[P]>
+            : GetScalarType<T[P], WebBoardPostDetailGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WebBoardPostDetailSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    boardKey?: boolean
+    title?: boolean
+    content?: boolean
+    viewCount?: boolean
+    isPinned?: boolean
+    isLocked?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    authorName?: boolean
+    authorId?: boolean
+    files?: boolean
+    comments?: boolean
+    commentCount?: boolean
+    prevPost?: boolean
+    nextPost?: boolean
+  }, ExtArgs["result"]["webBoardPostDetail"]>
+
+
+
+  export type WebBoardPostDetailSelectScalar = {
+    id?: boolean
+    boardKey?: boolean
+    title?: boolean
+    content?: boolean
+    viewCount?: boolean
+    isPinned?: boolean
+    isLocked?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    authorName?: boolean
+    authorId?: boolean
+    files?: boolean
+    comments?: boolean
+    commentCount?: boolean
+    prevPost?: boolean
+    nextPost?: boolean
+  }
+
+  export type WebBoardPostDetailOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "boardKey" | "title" | "content" | "viewCount" | "isPinned" | "isLocked" | "createdAt" | "updatedAt" | "authorName" | "authorId" | "files" | "comments" | "commentCount" | "prevPost" | "nextPost", ExtArgs["result"]["webBoardPostDetail"]>
+
+  export type $WebBoardPostDetailPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WebBoardPostDetail"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      boardKey: string
+      title: string
+      content: string
+      viewCount: number
+      isPinned: boolean
+      isLocked: boolean
+      createdAt: Date
+      updatedAt: Date
+      authorName: string | null
+      authorId: bigint | null
+      files: Prisma.JsonValue
+      comments: Prisma.JsonValue
+      commentCount: number
+      prevPost: Prisma.JsonValue | null
+      nextPost: Prisma.JsonValue | null
+    }, ExtArgs["result"]["webBoardPostDetail"]>
+    composites: {}
+  }
+
+  type WebBoardPostDetailGetPayload<S extends boolean | null | undefined | WebBoardPostDetailDefaultArgs> = $Result.GetResult<Prisma.$WebBoardPostDetailPayload, S>
+
+  type WebBoardPostDetailCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WebBoardPostDetailFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WebBoardPostDetailCountAggregateInputType | true
+    }
+
+  export interface WebBoardPostDetailDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WebBoardPostDetail'], meta: { name: 'WebBoardPostDetail' } }
+    /**
+     * Find zero or one WebBoardPostDetail that matches the filter.
+     * @param {WebBoardPostDetailFindUniqueArgs} args - Arguments to find a WebBoardPostDetail
+     * @example
+     * // Get one WebBoardPostDetail
+     * const webBoardPostDetail = await prisma.webBoardPostDetail.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WebBoardPostDetailFindUniqueArgs>(args: SelectSubset<T, WebBoardPostDetailFindUniqueArgs<ExtArgs>>): Prisma__WebBoardPostDetailClient<$Result.GetResult<Prisma.$WebBoardPostDetailPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WebBoardPostDetail that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WebBoardPostDetailFindUniqueOrThrowArgs} args - Arguments to find a WebBoardPostDetail
+     * @example
+     * // Get one WebBoardPostDetail
+     * const webBoardPostDetail = await prisma.webBoardPostDetail.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WebBoardPostDetailFindUniqueOrThrowArgs>(args: SelectSubset<T, WebBoardPostDetailFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WebBoardPostDetailClient<$Result.GetResult<Prisma.$WebBoardPostDetailPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebBoardPostDetail that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebBoardPostDetailFindFirstArgs} args - Arguments to find a WebBoardPostDetail
+     * @example
+     * // Get one WebBoardPostDetail
+     * const webBoardPostDetail = await prisma.webBoardPostDetail.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WebBoardPostDetailFindFirstArgs>(args?: SelectSubset<T, WebBoardPostDetailFindFirstArgs<ExtArgs>>): Prisma__WebBoardPostDetailClient<$Result.GetResult<Prisma.$WebBoardPostDetailPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebBoardPostDetail that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebBoardPostDetailFindFirstOrThrowArgs} args - Arguments to find a WebBoardPostDetail
+     * @example
+     * // Get one WebBoardPostDetail
+     * const webBoardPostDetail = await prisma.webBoardPostDetail.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WebBoardPostDetailFindFirstOrThrowArgs>(args?: SelectSubset<T, WebBoardPostDetailFindFirstOrThrowArgs<ExtArgs>>): Prisma__WebBoardPostDetailClient<$Result.GetResult<Prisma.$WebBoardPostDetailPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WebBoardPostDetails that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebBoardPostDetailFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WebBoardPostDetails
+     * const webBoardPostDetails = await prisma.webBoardPostDetail.findMany()
+     * 
+     * // Get first 10 WebBoardPostDetails
+     * const webBoardPostDetails = await prisma.webBoardPostDetail.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const webBoardPostDetailWithIdOnly = await prisma.webBoardPostDetail.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WebBoardPostDetailFindManyArgs>(args?: SelectSubset<T, WebBoardPostDetailFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebBoardPostDetailPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+
+    /**
+     * Count the number of WebBoardPostDetails.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebBoardPostDetailCountArgs} args - Arguments to filter WebBoardPostDetails to count.
+     * @example
+     * // Count the number of WebBoardPostDetails
+     * const count = await prisma.webBoardPostDetail.count({
+     *   where: {
+     *     // ... the filter for the WebBoardPostDetails we want to count
+     *   }
+     * })
+    **/
+    count<T extends WebBoardPostDetailCountArgs>(
+      args?: Subset<T, WebBoardPostDetailCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebBoardPostDetailCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WebBoardPostDetail.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebBoardPostDetailAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WebBoardPostDetailAggregateArgs>(args: Subset<T, WebBoardPostDetailAggregateArgs>): Prisma.PrismaPromise<GetWebBoardPostDetailAggregateType<T>>
+
+    /**
+     * Group by WebBoardPostDetail.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebBoardPostDetailGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WebBoardPostDetailGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebBoardPostDetailGroupByArgs['orderBy'] }
+        : { orderBy?: WebBoardPostDetailGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WebBoardPostDetailGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebBoardPostDetailGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WebBoardPostDetail model
+   */
+  readonly fields: WebBoardPostDetailFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WebBoardPostDetail.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WebBoardPostDetailClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WebBoardPostDetail model
+   */
+  interface WebBoardPostDetailFieldRefs {
+    readonly id: FieldRef<"WebBoardPostDetail", 'BigInt'>
+    readonly boardKey: FieldRef<"WebBoardPostDetail", 'String'>
+    readonly title: FieldRef<"WebBoardPostDetail", 'String'>
+    readonly content: FieldRef<"WebBoardPostDetail", 'String'>
+    readonly viewCount: FieldRef<"WebBoardPostDetail", 'Int'>
+    readonly isPinned: FieldRef<"WebBoardPostDetail", 'Boolean'>
+    readonly isLocked: FieldRef<"WebBoardPostDetail", 'Boolean'>
+    readonly createdAt: FieldRef<"WebBoardPostDetail", 'DateTime'>
+    readonly updatedAt: FieldRef<"WebBoardPostDetail", 'DateTime'>
+    readonly authorName: FieldRef<"WebBoardPostDetail", 'String'>
+    readonly authorId: FieldRef<"WebBoardPostDetail", 'BigInt'>
+    readonly files: FieldRef<"WebBoardPostDetail", 'Json'>
+    readonly comments: FieldRef<"WebBoardPostDetail", 'Json'>
+    readonly commentCount: FieldRef<"WebBoardPostDetail", 'Int'>
+    readonly prevPost: FieldRef<"WebBoardPostDetail", 'Json'>
+    readonly nextPost: FieldRef<"WebBoardPostDetail", 'Json'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WebBoardPostDetail findUnique
+   */
+  export type WebBoardPostDetailFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebBoardPostDetail
+     */
+    select?: WebBoardPostDetailSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebBoardPostDetail
+     */
+    omit?: WebBoardPostDetailOmit<ExtArgs> | null
+    /**
+     * Filter, which WebBoardPostDetail to fetch.
+     */
+    where: WebBoardPostDetailWhereUniqueInput
+  }
+
+  /**
+   * WebBoardPostDetail findUniqueOrThrow
+   */
+  export type WebBoardPostDetailFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebBoardPostDetail
+     */
+    select?: WebBoardPostDetailSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebBoardPostDetail
+     */
+    omit?: WebBoardPostDetailOmit<ExtArgs> | null
+    /**
+     * Filter, which WebBoardPostDetail to fetch.
+     */
+    where: WebBoardPostDetailWhereUniqueInput
+  }
+
+  /**
+   * WebBoardPostDetail findFirst
+   */
+  export type WebBoardPostDetailFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebBoardPostDetail
+     */
+    select?: WebBoardPostDetailSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebBoardPostDetail
+     */
+    omit?: WebBoardPostDetailOmit<ExtArgs> | null
+    /**
+     * Filter, which WebBoardPostDetail to fetch.
+     */
+    where?: WebBoardPostDetailWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebBoardPostDetails to fetch.
+     */
+    orderBy?: WebBoardPostDetailOrderByWithRelationInput | WebBoardPostDetailOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebBoardPostDetails.
+     */
+    cursor?: WebBoardPostDetailWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebBoardPostDetails from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebBoardPostDetails.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebBoardPostDetails.
+     */
+    distinct?: WebBoardPostDetailScalarFieldEnum | WebBoardPostDetailScalarFieldEnum[]
+  }
+
+  /**
+   * WebBoardPostDetail findFirstOrThrow
+   */
+  export type WebBoardPostDetailFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebBoardPostDetail
+     */
+    select?: WebBoardPostDetailSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebBoardPostDetail
+     */
+    omit?: WebBoardPostDetailOmit<ExtArgs> | null
+    /**
+     * Filter, which WebBoardPostDetail to fetch.
+     */
+    where?: WebBoardPostDetailWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebBoardPostDetails to fetch.
+     */
+    orderBy?: WebBoardPostDetailOrderByWithRelationInput | WebBoardPostDetailOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebBoardPostDetails.
+     */
+    cursor?: WebBoardPostDetailWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebBoardPostDetails from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebBoardPostDetails.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebBoardPostDetails.
+     */
+    distinct?: WebBoardPostDetailScalarFieldEnum | WebBoardPostDetailScalarFieldEnum[]
+  }
+
+  /**
+   * WebBoardPostDetail findMany
+   */
+  export type WebBoardPostDetailFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebBoardPostDetail
+     */
+    select?: WebBoardPostDetailSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebBoardPostDetail
+     */
+    omit?: WebBoardPostDetailOmit<ExtArgs> | null
+    /**
+     * Filter, which WebBoardPostDetails to fetch.
+     */
+    where?: WebBoardPostDetailWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebBoardPostDetails to fetch.
+     */
+    orderBy?: WebBoardPostDetailOrderByWithRelationInput | WebBoardPostDetailOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WebBoardPostDetails.
+     */
+    cursor?: WebBoardPostDetailWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebBoardPostDetails from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebBoardPostDetails.
+     */
+    skip?: number
+    distinct?: WebBoardPostDetailScalarFieldEnum | WebBoardPostDetailScalarFieldEnum[]
+  }
+
+  /**
+   * WebBoardPostDetail without action
+   */
+  export type WebBoardPostDetailDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebBoardPostDetail
+     */
+    select?: WebBoardPostDetailSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebBoardPostDetail
+     */
+    omit?: WebBoardPostDetailOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WebGalleryItem
+   */
+
+  export type AggregateWebGalleryItem = {
+    _count: WebGalleryItemCountAggregateOutputType | null
+    _avg: WebGalleryItemAvgAggregateOutputType | null
+    _sum: WebGalleryItemSumAggregateOutputType | null
+    _min: WebGalleryItemMinAggregateOutputType | null
+    _max: WebGalleryItemMaxAggregateOutputType | null
+  }
+
+  export type WebGalleryItemAvgAggregateOutputType = {
+    id: number | null
+    creatorId: number | null
+    fileCount: number | null
+  }
+
+  export type WebGalleryItemSumAggregateOutputType = {
+    id: bigint | null
+    creatorId: bigint | null
+    fileCount: number | null
+  }
+
+  export type WebGalleryItemMinAggregateOutputType = {
+    id: bigint | null
+    title: string | null
+    description: string | null
+    category: string | null
+    eventDate: Date | null
+    isPublic: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    creatorName: string | null
+    creatorId: bigint | null
+    fileCount: number | null
+  }
+
+  export type WebGalleryItemMaxAggregateOutputType = {
+    id: bigint | null
+    title: string | null
+    description: string | null
+    category: string | null
+    eventDate: Date | null
+    isPublic: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    creatorName: string | null
+    creatorId: bigint | null
+    fileCount: number | null
+  }
+
+  export type WebGalleryItemCountAggregateOutputType = {
+    id: number
+    title: number
+    description: number
+    category: number
+    eventDate: number
+    isPublic: number
+    createdAt: number
+    updatedAt: number
+    creatorName: number
+    creatorId: number
+    fileCount: number
+    thumbnail: number
+    files: number
+    _all: number
+  }
+
+
+  export type WebGalleryItemAvgAggregateInputType = {
+    id?: true
+    creatorId?: true
+    fileCount?: true
+  }
+
+  export type WebGalleryItemSumAggregateInputType = {
+    id?: true
+    creatorId?: true
+    fileCount?: true
+  }
+
+  export type WebGalleryItemMinAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    category?: true
+    eventDate?: true
+    isPublic?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorName?: true
+    creatorId?: true
+    fileCount?: true
+  }
+
+  export type WebGalleryItemMaxAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    category?: true
+    eventDate?: true
+    isPublic?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorName?: true
+    creatorId?: true
+    fileCount?: true
+  }
+
+  export type WebGalleryItemCountAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    category?: true
+    eventDate?: true
+    isPublic?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorName?: true
+    creatorId?: true
+    fileCount?: true
+    thumbnail?: true
+    files?: true
+    _all?: true
+  }
+
+  export type WebGalleryItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebGalleryItem to aggregate.
+     */
+    where?: WebGalleryItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebGalleryItems to fetch.
+     */
+    orderBy?: WebGalleryItemOrderByWithRelationInput | WebGalleryItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WebGalleryItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebGalleryItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebGalleryItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WebGalleryItems
+    **/
+    _count?: true | WebGalleryItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WebGalleryItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WebGalleryItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WebGalleryItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WebGalleryItemMaxAggregateInputType
+  }
+
+  export type GetWebGalleryItemAggregateType<T extends WebGalleryItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateWebGalleryItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebGalleryItem[P]>
+      : GetScalarType<T[P], AggregateWebGalleryItem[P]>
+  }
+
+
+
+
+  export type WebGalleryItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebGalleryItemWhereInput
+    orderBy?: WebGalleryItemOrderByWithAggregationInput | WebGalleryItemOrderByWithAggregationInput[]
+    by: WebGalleryItemScalarFieldEnum[] | WebGalleryItemScalarFieldEnum
+    having?: WebGalleryItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebGalleryItemCountAggregateInputType | true
+    _avg?: WebGalleryItemAvgAggregateInputType
+    _sum?: WebGalleryItemSumAggregateInputType
+    _min?: WebGalleryItemMinAggregateInputType
+    _max?: WebGalleryItemMaxAggregateInputType
+  }
+
+  export type WebGalleryItemGroupByOutputType = {
+    id: bigint
+    title: string | null
+    description: string | null
+    category: string | null
+    eventDate: Date | null
+    isPublic: boolean
+    createdAt: Date
+    updatedAt: Date
+    creatorName: string | null
+    creatorId: bigint | null
+    fileCount: number
+    thumbnail: JsonValue | null
+    files: JsonValue
+    _count: WebGalleryItemCountAggregateOutputType | null
+    _avg: WebGalleryItemAvgAggregateOutputType | null
+    _sum: WebGalleryItemSumAggregateOutputType | null
+    _min: WebGalleryItemMinAggregateOutputType | null
+    _max: WebGalleryItemMaxAggregateOutputType | null
+  }
+
+  type GetWebGalleryItemGroupByPayload<T extends WebGalleryItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WebGalleryItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WebGalleryItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebGalleryItemGroupByOutputType[P]>
+            : GetScalarType<T[P], WebGalleryItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WebGalleryItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    category?: boolean
+    eventDate?: boolean
+    isPublic?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorName?: boolean
+    creatorId?: boolean
+    fileCount?: boolean
+    thumbnail?: boolean
+    files?: boolean
+  }, ExtArgs["result"]["webGalleryItem"]>
+
+
+
+  export type WebGalleryItemSelectScalar = {
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    category?: boolean
+    eventDate?: boolean
+    isPublic?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorName?: boolean
+    creatorId?: boolean
+    fileCount?: boolean
+    thumbnail?: boolean
+    files?: boolean
+  }
+
+  export type WebGalleryItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "category" | "eventDate" | "isPublic" | "createdAt" | "updatedAt" | "creatorName" | "creatorId" | "fileCount" | "thumbnail" | "files", ExtArgs["result"]["webGalleryItem"]>
+
+  export type $WebGalleryItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WebGalleryItem"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      title: string | null
+      description: string | null
+      category: string | null
+      eventDate: Date | null
+      isPublic: boolean
+      createdAt: Date
+      updatedAt: Date
+      creatorName: string | null
+      creatorId: bigint | null
+      fileCount: number
+      thumbnail: Prisma.JsonValue | null
+      files: Prisma.JsonValue
+    }, ExtArgs["result"]["webGalleryItem"]>
+    composites: {}
+  }
+
+  type WebGalleryItemGetPayload<S extends boolean | null | undefined | WebGalleryItemDefaultArgs> = $Result.GetResult<Prisma.$WebGalleryItemPayload, S>
+
+  type WebGalleryItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WebGalleryItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WebGalleryItemCountAggregateInputType | true
+    }
+
+  export interface WebGalleryItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WebGalleryItem'], meta: { name: 'WebGalleryItem' } }
+    /**
+     * Find zero or one WebGalleryItem that matches the filter.
+     * @param {WebGalleryItemFindUniqueArgs} args - Arguments to find a WebGalleryItem
+     * @example
+     * // Get one WebGalleryItem
+     * const webGalleryItem = await prisma.webGalleryItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WebGalleryItemFindUniqueArgs>(args: SelectSubset<T, WebGalleryItemFindUniqueArgs<ExtArgs>>): Prisma__WebGalleryItemClient<$Result.GetResult<Prisma.$WebGalleryItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WebGalleryItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WebGalleryItemFindUniqueOrThrowArgs} args - Arguments to find a WebGalleryItem
+     * @example
+     * // Get one WebGalleryItem
+     * const webGalleryItem = await prisma.webGalleryItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WebGalleryItemFindUniqueOrThrowArgs>(args: SelectSubset<T, WebGalleryItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WebGalleryItemClient<$Result.GetResult<Prisma.$WebGalleryItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebGalleryItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebGalleryItemFindFirstArgs} args - Arguments to find a WebGalleryItem
+     * @example
+     * // Get one WebGalleryItem
+     * const webGalleryItem = await prisma.webGalleryItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WebGalleryItemFindFirstArgs>(args?: SelectSubset<T, WebGalleryItemFindFirstArgs<ExtArgs>>): Prisma__WebGalleryItemClient<$Result.GetResult<Prisma.$WebGalleryItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebGalleryItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebGalleryItemFindFirstOrThrowArgs} args - Arguments to find a WebGalleryItem
+     * @example
+     * // Get one WebGalleryItem
+     * const webGalleryItem = await prisma.webGalleryItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WebGalleryItemFindFirstOrThrowArgs>(args?: SelectSubset<T, WebGalleryItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__WebGalleryItemClient<$Result.GetResult<Prisma.$WebGalleryItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WebGalleryItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebGalleryItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WebGalleryItems
+     * const webGalleryItems = await prisma.webGalleryItem.findMany()
+     * 
+     * // Get first 10 WebGalleryItems
+     * const webGalleryItems = await prisma.webGalleryItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const webGalleryItemWithIdOnly = await prisma.webGalleryItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WebGalleryItemFindManyArgs>(args?: SelectSubset<T, WebGalleryItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebGalleryItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+
+    /**
+     * Count the number of WebGalleryItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebGalleryItemCountArgs} args - Arguments to filter WebGalleryItems to count.
+     * @example
+     * // Count the number of WebGalleryItems
+     * const count = await prisma.webGalleryItem.count({
+     *   where: {
+     *     // ... the filter for the WebGalleryItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends WebGalleryItemCountArgs>(
+      args?: Subset<T, WebGalleryItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebGalleryItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WebGalleryItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebGalleryItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WebGalleryItemAggregateArgs>(args: Subset<T, WebGalleryItemAggregateArgs>): Prisma.PrismaPromise<GetWebGalleryItemAggregateType<T>>
+
+    /**
+     * Group by WebGalleryItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebGalleryItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WebGalleryItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebGalleryItemGroupByArgs['orderBy'] }
+        : { orderBy?: WebGalleryItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WebGalleryItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebGalleryItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WebGalleryItem model
+   */
+  readonly fields: WebGalleryItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WebGalleryItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WebGalleryItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WebGalleryItem model
+   */
+  interface WebGalleryItemFieldRefs {
+    readonly id: FieldRef<"WebGalleryItem", 'BigInt'>
+    readonly title: FieldRef<"WebGalleryItem", 'String'>
+    readonly description: FieldRef<"WebGalleryItem", 'String'>
+    readonly category: FieldRef<"WebGalleryItem", 'String'>
+    readonly eventDate: FieldRef<"WebGalleryItem", 'DateTime'>
+    readonly isPublic: FieldRef<"WebGalleryItem", 'Boolean'>
+    readonly createdAt: FieldRef<"WebGalleryItem", 'DateTime'>
+    readonly updatedAt: FieldRef<"WebGalleryItem", 'DateTime'>
+    readonly creatorName: FieldRef<"WebGalleryItem", 'String'>
+    readonly creatorId: FieldRef<"WebGalleryItem", 'BigInt'>
+    readonly fileCount: FieldRef<"WebGalleryItem", 'Int'>
+    readonly thumbnail: FieldRef<"WebGalleryItem", 'Json'>
+    readonly files: FieldRef<"WebGalleryItem", 'Json'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WebGalleryItem findUnique
+   */
+  export type WebGalleryItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebGalleryItem
+     */
+    select?: WebGalleryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebGalleryItem
+     */
+    omit?: WebGalleryItemOmit<ExtArgs> | null
+    /**
+     * Filter, which WebGalleryItem to fetch.
+     */
+    where: WebGalleryItemWhereUniqueInput
+  }
+
+  /**
+   * WebGalleryItem findUniqueOrThrow
+   */
+  export type WebGalleryItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebGalleryItem
+     */
+    select?: WebGalleryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebGalleryItem
+     */
+    omit?: WebGalleryItemOmit<ExtArgs> | null
+    /**
+     * Filter, which WebGalleryItem to fetch.
+     */
+    where: WebGalleryItemWhereUniqueInput
+  }
+
+  /**
+   * WebGalleryItem findFirst
+   */
+  export type WebGalleryItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebGalleryItem
+     */
+    select?: WebGalleryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebGalleryItem
+     */
+    omit?: WebGalleryItemOmit<ExtArgs> | null
+    /**
+     * Filter, which WebGalleryItem to fetch.
+     */
+    where?: WebGalleryItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebGalleryItems to fetch.
+     */
+    orderBy?: WebGalleryItemOrderByWithRelationInput | WebGalleryItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebGalleryItems.
+     */
+    cursor?: WebGalleryItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebGalleryItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebGalleryItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebGalleryItems.
+     */
+    distinct?: WebGalleryItemScalarFieldEnum | WebGalleryItemScalarFieldEnum[]
+  }
+
+  /**
+   * WebGalleryItem findFirstOrThrow
+   */
+  export type WebGalleryItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebGalleryItem
+     */
+    select?: WebGalleryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebGalleryItem
+     */
+    omit?: WebGalleryItemOmit<ExtArgs> | null
+    /**
+     * Filter, which WebGalleryItem to fetch.
+     */
+    where?: WebGalleryItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebGalleryItems to fetch.
+     */
+    orderBy?: WebGalleryItemOrderByWithRelationInput | WebGalleryItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebGalleryItems.
+     */
+    cursor?: WebGalleryItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebGalleryItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebGalleryItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebGalleryItems.
+     */
+    distinct?: WebGalleryItemScalarFieldEnum | WebGalleryItemScalarFieldEnum[]
+  }
+
+  /**
+   * WebGalleryItem findMany
+   */
+  export type WebGalleryItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebGalleryItem
+     */
+    select?: WebGalleryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebGalleryItem
+     */
+    omit?: WebGalleryItemOmit<ExtArgs> | null
+    /**
+     * Filter, which WebGalleryItems to fetch.
+     */
+    where?: WebGalleryItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebGalleryItems to fetch.
+     */
+    orderBy?: WebGalleryItemOrderByWithRelationInput | WebGalleryItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WebGalleryItems.
+     */
+    cursor?: WebGalleryItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebGalleryItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebGalleryItems.
+     */
+    skip?: number
+    distinct?: WebGalleryItemScalarFieldEnum | WebGalleryItemScalarFieldEnum[]
+  }
+
+  /**
+   * WebGalleryItem without action
+   */
+  export type WebGalleryItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebGalleryItem
+     */
+    select?: WebGalleryItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebGalleryItem
+     */
+    omit?: WebGalleryItemOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WebMealPlan
+   */
+
+  export type AggregateWebMealPlan = {
+    _count: WebMealPlanCountAggregateOutputType | null
+    _avg: WebMealPlanAvgAggregateOutputType | null
+    _sum: WebMealPlanSumAggregateOutputType | null
+    _min: WebMealPlanMinAggregateOutputType | null
+    _max: WebMealPlanMaxAggregateOutputType | null
+  }
+
+  export type WebMealPlanAvgAggregateOutputType = {
+    id: number | null
+    creatorId: number | null
+  }
+
+  export type WebMealPlanSumAggregateOutputType = {
+    id: bigint | null
+    creatorId: bigint | null
+  }
+
+  export type WebMealPlanMinAggregateOutputType = {
+    id: bigint | null
+    facilityCode: string | null
+    weekStartDate: Date | null
+    status: string | null
+    nutritionManager: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    creatorName: string | null
+    creatorId: bigint | null
+  }
+
+  export type WebMealPlanMaxAggregateOutputType = {
+    id: bigint | null
+    facilityCode: string | null
+    weekStartDate: Date | null
+    status: string | null
+    nutritionManager: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    creatorName: string | null
+    creatorId: bigint | null
+  }
+
+  export type WebMealPlanCountAggregateOutputType = {
+    id: number
+    facilityCode: number
+    weekStartDate: number
+    status: number
+    nutritionManager: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    creatorName: number
+    creatorId: number
+    weekMeals: number
+    _all: number
+  }
+
+
+  export type WebMealPlanAvgAggregateInputType = {
+    id?: true
+    creatorId?: true
+  }
+
+  export type WebMealPlanSumAggregateInputType = {
+    id?: true
+    creatorId?: true
+  }
+
+  export type WebMealPlanMinAggregateInputType = {
+    id?: true
+    facilityCode?: true
+    weekStartDate?: true
+    status?: true
+    nutritionManager?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorName?: true
+    creatorId?: true
+  }
+
+  export type WebMealPlanMaxAggregateInputType = {
+    id?: true
+    facilityCode?: true
+    weekStartDate?: true
+    status?: true
+    nutritionManager?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorName?: true
+    creatorId?: true
+  }
+
+  export type WebMealPlanCountAggregateInputType = {
+    id?: true
+    facilityCode?: true
+    weekStartDate?: true
+    status?: true
+    nutritionManager?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    creatorName?: true
+    creatorId?: true
+    weekMeals?: true
+    _all?: true
+  }
+
+  export type WebMealPlanAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebMealPlan to aggregate.
+     */
+    where?: WebMealPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebMealPlans to fetch.
+     */
+    orderBy?: WebMealPlanOrderByWithRelationInput | WebMealPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WebMealPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebMealPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebMealPlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WebMealPlans
+    **/
+    _count?: true | WebMealPlanCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WebMealPlanAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WebMealPlanSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WebMealPlanMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WebMealPlanMaxAggregateInputType
+  }
+
+  export type GetWebMealPlanAggregateType<T extends WebMealPlanAggregateArgs> = {
+        [P in keyof T & keyof AggregateWebMealPlan]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebMealPlan[P]>
+      : GetScalarType<T[P], AggregateWebMealPlan[P]>
+  }
+
+
+
+
+  export type WebMealPlanGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebMealPlanWhereInput
+    orderBy?: WebMealPlanOrderByWithAggregationInput | WebMealPlanOrderByWithAggregationInput[]
+    by: WebMealPlanScalarFieldEnum[] | WebMealPlanScalarFieldEnum
+    having?: WebMealPlanScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebMealPlanCountAggregateInputType | true
+    _avg?: WebMealPlanAvgAggregateInputType
+    _sum?: WebMealPlanSumAggregateInputType
+    _min?: WebMealPlanMinAggregateInputType
+    _max?: WebMealPlanMaxAggregateInputType
+  }
+
+  export type WebMealPlanGroupByOutputType = {
+    id: bigint
+    facilityCode: string
+    weekStartDate: Date
+    status: string
+    nutritionManager: string | null
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    creatorName: string | null
+    creatorId: bigint | null
+    weekMeals: JsonValue
+    _count: WebMealPlanCountAggregateOutputType | null
+    _avg: WebMealPlanAvgAggregateOutputType | null
+    _sum: WebMealPlanSumAggregateOutputType | null
+    _min: WebMealPlanMinAggregateOutputType | null
+    _max: WebMealPlanMaxAggregateOutputType | null
+  }
+
+  type GetWebMealPlanGroupByPayload<T extends WebMealPlanGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WebMealPlanGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WebMealPlanGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebMealPlanGroupByOutputType[P]>
+            : GetScalarType<T[P], WebMealPlanGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WebMealPlanSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    facilityCode?: boolean
+    weekStartDate?: boolean
+    status?: boolean
+    nutritionManager?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorName?: boolean
+    creatorId?: boolean
+    weekMeals?: boolean
+  }, ExtArgs["result"]["webMealPlan"]>
+
+
+
+  export type WebMealPlanSelectScalar = {
+    id?: boolean
+    facilityCode?: boolean
+    weekStartDate?: boolean
+    status?: boolean
+    nutritionManager?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creatorName?: boolean
+    creatorId?: boolean
+    weekMeals?: boolean
+  }
+
+  export type WebMealPlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "facilityCode" | "weekStartDate" | "status" | "nutritionManager" | "notes" | "createdAt" | "updatedAt" | "creatorName" | "creatorId" | "weekMeals", ExtArgs["result"]["webMealPlan"]>
+
+  export type $WebMealPlanPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WebMealPlan"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      facilityCode: string
+      weekStartDate: Date
+      status: string
+      nutritionManager: string | null
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+      creatorName: string | null
+      creatorId: bigint | null
+      weekMeals: Prisma.JsonValue
+    }, ExtArgs["result"]["webMealPlan"]>
+    composites: {}
+  }
+
+  type WebMealPlanGetPayload<S extends boolean | null | undefined | WebMealPlanDefaultArgs> = $Result.GetResult<Prisma.$WebMealPlanPayload, S>
+
+  type WebMealPlanCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WebMealPlanFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WebMealPlanCountAggregateInputType | true
+    }
+
+  export interface WebMealPlanDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WebMealPlan'], meta: { name: 'WebMealPlan' } }
+    /**
+     * Find zero or one WebMealPlan that matches the filter.
+     * @param {WebMealPlanFindUniqueArgs} args - Arguments to find a WebMealPlan
+     * @example
+     * // Get one WebMealPlan
+     * const webMealPlan = await prisma.webMealPlan.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WebMealPlanFindUniqueArgs>(args: SelectSubset<T, WebMealPlanFindUniqueArgs<ExtArgs>>): Prisma__WebMealPlanClient<$Result.GetResult<Prisma.$WebMealPlanPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WebMealPlan that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WebMealPlanFindUniqueOrThrowArgs} args - Arguments to find a WebMealPlan
+     * @example
+     * // Get one WebMealPlan
+     * const webMealPlan = await prisma.webMealPlan.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WebMealPlanFindUniqueOrThrowArgs>(args: SelectSubset<T, WebMealPlanFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WebMealPlanClient<$Result.GetResult<Prisma.$WebMealPlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebMealPlan that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebMealPlanFindFirstArgs} args - Arguments to find a WebMealPlan
+     * @example
+     * // Get one WebMealPlan
+     * const webMealPlan = await prisma.webMealPlan.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WebMealPlanFindFirstArgs>(args?: SelectSubset<T, WebMealPlanFindFirstArgs<ExtArgs>>): Prisma__WebMealPlanClient<$Result.GetResult<Prisma.$WebMealPlanPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebMealPlan that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebMealPlanFindFirstOrThrowArgs} args - Arguments to find a WebMealPlan
+     * @example
+     * // Get one WebMealPlan
+     * const webMealPlan = await prisma.webMealPlan.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WebMealPlanFindFirstOrThrowArgs>(args?: SelectSubset<T, WebMealPlanFindFirstOrThrowArgs<ExtArgs>>): Prisma__WebMealPlanClient<$Result.GetResult<Prisma.$WebMealPlanPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WebMealPlans that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebMealPlanFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WebMealPlans
+     * const webMealPlans = await prisma.webMealPlan.findMany()
+     * 
+     * // Get first 10 WebMealPlans
+     * const webMealPlans = await prisma.webMealPlan.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const webMealPlanWithIdOnly = await prisma.webMealPlan.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WebMealPlanFindManyArgs>(args?: SelectSubset<T, WebMealPlanFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebMealPlanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+
+    /**
+     * Count the number of WebMealPlans.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebMealPlanCountArgs} args - Arguments to filter WebMealPlans to count.
+     * @example
+     * // Count the number of WebMealPlans
+     * const count = await prisma.webMealPlan.count({
+     *   where: {
+     *     // ... the filter for the WebMealPlans we want to count
+     *   }
+     * })
+    **/
+    count<T extends WebMealPlanCountArgs>(
+      args?: Subset<T, WebMealPlanCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebMealPlanCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WebMealPlan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebMealPlanAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WebMealPlanAggregateArgs>(args: Subset<T, WebMealPlanAggregateArgs>): Prisma.PrismaPromise<GetWebMealPlanAggregateType<T>>
+
+    /**
+     * Group by WebMealPlan.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebMealPlanGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WebMealPlanGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebMealPlanGroupByArgs['orderBy'] }
+        : { orderBy?: WebMealPlanGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WebMealPlanGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebMealPlanGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WebMealPlan model
+   */
+  readonly fields: WebMealPlanFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WebMealPlan.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WebMealPlanClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WebMealPlan model
+   */
+  interface WebMealPlanFieldRefs {
+    readonly id: FieldRef<"WebMealPlan", 'BigInt'>
+    readonly facilityCode: FieldRef<"WebMealPlan", 'String'>
+    readonly weekStartDate: FieldRef<"WebMealPlan", 'DateTime'>
+    readonly status: FieldRef<"WebMealPlan", 'String'>
+    readonly nutritionManager: FieldRef<"WebMealPlan", 'String'>
+    readonly notes: FieldRef<"WebMealPlan", 'String'>
+    readonly createdAt: FieldRef<"WebMealPlan", 'DateTime'>
+    readonly updatedAt: FieldRef<"WebMealPlan", 'DateTime'>
+    readonly creatorName: FieldRef<"WebMealPlan", 'String'>
+    readonly creatorId: FieldRef<"WebMealPlan", 'BigInt'>
+    readonly weekMeals: FieldRef<"WebMealPlan", 'Json'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WebMealPlan findUnique
+   */
+  export type WebMealPlanFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebMealPlan
+     */
+    select?: WebMealPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebMealPlan
+     */
+    omit?: WebMealPlanOmit<ExtArgs> | null
+    /**
+     * Filter, which WebMealPlan to fetch.
+     */
+    where: WebMealPlanWhereUniqueInput
+  }
+
+  /**
+   * WebMealPlan findUniqueOrThrow
+   */
+  export type WebMealPlanFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebMealPlan
+     */
+    select?: WebMealPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebMealPlan
+     */
+    omit?: WebMealPlanOmit<ExtArgs> | null
+    /**
+     * Filter, which WebMealPlan to fetch.
+     */
+    where: WebMealPlanWhereUniqueInput
+  }
+
+  /**
+   * WebMealPlan findFirst
+   */
+  export type WebMealPlanFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebMealPlan
+     */
+    select?: WebMealPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebMealPlan
+     */
+    omit?: WebMealPlanOmit<ExtArgs> | null
+    /**
+     * Filter, which WebMealPlan to fetch.
+     */
+    where?: WebMealPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebMealPlans to fetch.
+     */
+    orderBy?: WebMealPlanOrderByWithRelationInput | WebMealPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebMealPlans.
+     */
+    cursor?: WebMealPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebMealPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebMealPlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebMealPlans.
+     */
+    distinct?: WebMealPlanScalarFieldEnum | WebMealPlanScalarFieldEnum[]
+  }
+
+  /**
+   * WebMealPlan findFirstOrThrow
+   */
+  export type WebMealPlanFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebMealPlan
+     */
+    select?: WebMealPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebMealPlan
+     */
+    omit?: WebMealPlanOmit<ExtArgs> | null
+    /**
+     * Filter, which WebMealPlan to fetch.
+     */
+    where?: WebMealPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebMealPlans to fetch.
+     */
+    orderBy?: WebMealPlanOrderByWithRelationInput | WebMealPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebMealPlans.
+     */
+    cursor?: WebMealPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebMealPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebMealPlans.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebMealPlans.
+     */
+    distinct?: WebMealPlanScalarFieldEnum | WebMealPlanScalarFieldEnum[]
+  }
+
+  /**
+   * WebMealPlan findMany
+   */
+  export type WebMealPlanFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebMealPlan
+     */
+    select?: WebMealPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebMealPlan
+     */
+    omit?: WebMealPlanOmit<ExtArgs> | null
+    /**
+     * Filter, which WebMealPlans to fetch.
+     */
+    where?: WebMealPlanWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebMealPlans to fetch.
+     */
+    orderBy?: WebMealPlanOrderByWithRelationInput | WebMealPlanOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WebMealPlans.
+     */
+    cursor?: WebMealPlanWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebMealPlans from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebMealPlans.
+     */
+    skip?: number
+    distinct?: WebMealPlanScalarFieldEnum | WebMealPlanScalarFieldEnum[]
+  }
+
+  /**
+   * WebMealPlan without action
+   */
+  export type WebMealPlanDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebMealPlan
+     */
+    select?: WebMealPlanSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebMealPlan
+     */
+    omit?: WebMealPlanOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WebLatestContent
+   */
+
+  export type AggregateWebLatestContent = {
+    _count: WebLatestContentCountAggregateOutputType | null
+    _avg: WebLatestContentAvgAggregateOutputType | null
+    _sum: WebLatestContentSumAggregateOutputType | null
+    _min: WebLatestContentMinAggregateOutputType | null
+    _max: WebLatestContentMaxAggregateOutputType | null
+  }
+
+  export type WebLatestContentAvgAggregateOutputType = {
+    id: number | null
+    viewCount: number | null
+    commentCount: number | null
+    fileCount: number | null
+  }
+
+  export type WebLatestContentSumAggregateOutputType = {
+    id: bigint | null
+    viewCount: number | null
+    commentCount: number | null
+    fileCount: number | null
+  }
+
+  export type WebLatestContentMinAggregateOutputType = {
+    id: bigint | null
+    contentType: string | null
+    title: string | null
+    summary: string | null
+    createdAt: Date | null
+    viewCount: number | null
+    commentCount: number | null
+    fileCount: number | null
+    authorName: string | null
+  }
+
+  export type WebLatestContentMaxAggregateOutputType = {
+    id: bigint | null
+    contentType: string | null
+    title: string | null
+    summary: string | null
+    createdAt: Date | null
+    viewCount: number | null
+    commentCount: number | null
+    fileCount: number | null
+    authorName: string | null
+  }
+
+  export type WebLatestContentCountAggregateOutputType = {
+    id: number
+    contentType: number
+    title: number
+    summary: number
+    createdAt: number
+    viewCount: number
+    commentCount: number
+    fileCount: number
+    authorName: number
+    _all: number
+  }
+
+
+  export type WebLatestContentAvgAggregateInputType = {
+    id?: true
+    viewCount?: true
+    commentCount?: true
+    fileCount?: true
+  }
+
+  export type WebLatestContentSumAggregateInputType = {
+    id?: true
+    viewCount?: true
+    commentCount?: true
+    fileCount?: true
+  }
+
+  export type WebLatestContentMinAggregateInputType = {
+    id?: true
+    contentType?: true
+    title?: true
+    summary?: true
+    createdAt?: true
+    viewCount?: true
+    commentCount?: true
+    fileCount?: true
+    authorName?: true
+  }
+
+  export type WebLatestContentMaxAggregateInputType = {
+    id?: true
+    contentType?: true
+    title?: true
+    summary?: true
+    createdAt?: true
+    viewCount?: true
+    commentCount?: true
+    fileCount?: true
+    authorName?: true
+  }
+
+  export type WebLatestContentCountAggregateInputType = {
+    id?: true
+    contentType?: true
+    title?: true
+    summary?: true
+    createdAt?: true
+    viewCount?: true
+    commentCount?: true
+    fileCount?: true
+    authorName?: true
+    _all?: true
+  }
+
+  export type WebLatestContentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebLatestContent to aggregate.
+     */
+    where?: WebLatestContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebLatestContents to fetch.
+     */
+    orderBy?: WebLatestContentOrderByWithRelationInput | WebLatestContentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WebLatestContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebLatestContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebLatestContents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WebLatestContents
+    **/
+    _count?: true | WebLatestContentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WebLatestContentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WebLatestContentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WebLatestContentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WebLatestContentMaxAggregateInputType
+  }
+
+  export type GetWebLatestContentAggregateType<T extends WebLatestContentAggregateArgs> = {
+        [P in keyof T & keyof AggregateWebLatestContent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebLatestContent[P]>
+      : GetScalarType<T[P], AggregateWebLatestContent[P]>
+  }
+
+
+
+
+  export type WebLatestContentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebLatestContentWhereInput
+    orderBy?: WebLatestContentOrderByWithAggregationInput | WebLatestContentOrderByWithAggregationInput[]
+    by: WebLatestContentScalarFieldEnum[] | WebLatestContentScalarFieldEnum
+    having?: WebLatestContentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebLatestContentCountAggregateInputType | true
+    _avg?: WebLatestContentAvgAggregateInputType
+    _sum?: WebLatestContentSumAggregateInputType
+    _min?: WebLatestContentMinAggregateInputType
+    _max?: WebLatestContentMaxAggregateInputType
+  }
+
+  export type WebLatestContentGroupByOutputType = {
+    id: bigint
+    contentType: string
+    title: string
+    summary: string | null
+    createdAt: Date
+    viewCount: number
+    commentCount: number | null
+    fileCount: number
+    authorName: string | null
+    _count: WebLatestContentCountAggregateOutputType | null
+    _avg: WebLatestContentAvgAggregateOutputType | null
+    _sum: WebLatestContentSumAggregateOutputType | null
+    _min: WebLatestContentMinAggregateOutputType | null
+    _max: WebLatestContentMaxAggregateOutputType | null
+  }
+
+  type GetWebLatestContentGroupByPayload<T extends WebLatestContentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WebLatestContentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WebLatestContentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebLatestContentGroupByOutputType[P]>
+            : GetScalarType<T[P], WebLatestContentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WebLatestContentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contentType?: boolean
+    title?: boolean
+    summary?: boolean
+    createdAt?: boolean
+    viewCount?: boolean
+    commentCount?: boolean
+    fileCount?: boolean
+    authorName?: boolean
+  }, ExtArgs["result"]["webLatestContent"]>
+
+
+
+  export type WebLatestContentSelectScalar = {
+    id?: boolean
+    contentType?: boolean
+    title?: boolean
+    summary?: boolean
+    createdAt?: boolean
+    viewCount?: boolean
+    commentCount?: boolean
+    fileCount?: boolean
+    authorName?: boolean
+  }
+
+  export type WebLatestContentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contentType" | "title" | "summary" | "createdAt" | "viewCount" | "commentCount" | "fileCount" | "authorName", ExtArgs["result"]["webLatestContent"]>
+
+  export type $WebLatestContentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WebLatestContent"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: bigint
+      contentType: string
+      title: string
+      summary: string | null
+      createdAt: Date
+      viewCount: number
+      commentCount: number | null
+      fileCount: number
+      authorName: string | null
+    }, ExtArgs["result"]["webLatestContent"]>
+    composites: {}
+  }
+
+  type WebLatestContentGetPayload<S extends boolean | null | undefined | WebLatestContentDefaultArgs> = $Result.GetResult<Prisma.$WebLatestContentPayload, S>
+
+  type WebLatestContentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WebLatestContentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WebLatestContentCountAggregateInputType | true
+    }
+
+  export interface WebLatestContentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WebLatestContent'], meta: { name: 'WebLatestContent' } }
+    /**
+     * Find zero or one WebLatestContent that matches the filter.
+     * @param {WebLatestContentFindUniqueArgs} args - Arguments to find a WebLatestContent
+     * @example
+     * // Get one WebLatestContent
+     * const webLatestContent = await prisma.webLatestContent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WebLatestContentFindUniqueArgs>(args: SelectSubset<T, WebLatestContentFindUniqueArgs<ExtArgs>>): Prisma__WebLatestContentClient<$Result.GetResult<Prisma.$WebLatestContentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WebLatestContent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WebLatestContentFindUniqueOrThrowArgs} args - Arguments to find a WebLatestContent
+     * @example
+     * // Get one WebLatestContent
+     * const webLatestContent = await prisma.webLatestContent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WebLatestContentFindUniqueOrThrowArgs>(args: SelectSubset<T, WebLatestContentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WebLatestContentClient<$Result.GetResult<Prisma.$WebLatestContentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebLatestContent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebLatestContentFindFirstArgs} args - Arguments to find a WebLatestContent
+     * @example
+     * // Get one WebLatestContent
+     * const webLatestContent = await prisma.webLatestContent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WebLatestContentFindFirstArgs>(args?: SelectSubset<T, WebLatestContentFindFirstArgs<ExtArgs>>): Prisma__WebLatestContentClient<$Result.GetResult<Prisma.$WebLatestContentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebLatestContent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebLatestContentFindFirstOrThrowArgs} args - Arguments to find a WebLatestContent
+     * @example
+     * // Get one WebLatestContent
+     * const webLatestContent = await prisma.webLatestContent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WebLatestContentFindFirstOrThrowArgs>(args?: SelectSubset<T, WebLatestContentFindFirstOrThrowArgs<ExtArgs>>): Prisma__WebLatestContentClient<$Result.GetResult<Prisma.$WebLatestContentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WebLatestContents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebLatestContentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WebLatestContents
+     * const webLatestContents = await prisma.webLatestContent.findMany()
+     * 
+     * // Get first 10 WebLatestContents
+     * const webLatestContents = await prisma.webLatestContent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const webLatestContentWithIdOnly = await prisma.webLatestContent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WebLatestContentFindManyArgs>(args?: SelectSubset<T, WebLatestContentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebLatestContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+
+    /**
+     * Count the number of WebLatestContents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebLatestContentCountArgs} args - Arguments to filter WebLatestContents to count.
+     * @example
+     * // Count the number of WebLatestContents
+     * const count = await prisma.webLatestContent.count({
+     *   where: {
+     *     // ... the filter for the WebLatestContents we want to count
+     *   }
+     * })
+    **/
+    count<T extends WebLatestContentCountArgs>(
+      args?: Subset<T, WebLatestContentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebLatestContentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WebLatestContent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebLatestContentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WebLatestContentAggregateArgs>(args: Subset<T, WebLatestContentAggregateArgs>): Prisma.PrismaPromise<GetWebLatestContentAggregateType<T>>
+
+    /**
+     * Group by WebLatestContent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebLatestContentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WebLatestContentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebLatestContentGroupByArgs['orderBy'] }
+        : { orderBy?: WebLatestContentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WebLatestContentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebLatestContentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WebLatestContent model
+   */
+  readonly fields: WebLatestContentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WebLatestContent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WebLatestContentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WebLatestContent model
+   */
+  interface WebLatestContentFieldRefs {
+    readonly id: FieldRef<"WebLatestContent", 'BigInt'>
+    readonly contentType: FieldRef<"WebLatestContent", 'String'>
+    readonly title: FieldRef<"WebLatestContent", 'String'>
+    readonly summary: FieldRef<"WebLatestContent", 'String'>
+    readonly createdAt: FieldRef<"WebLatestContent", 'DateTime'>
+    readonly viewCount: FieldRef<"WebLatestContent", 'Int'>
+    readonly commentCount: FieldRef<"WebLatestContent", 'Int'>
+    readonly fileCount: FieldRef<"WebLatestContent", 'Int'>
+    readonly authorName: FieldRef<"WebLatestContent", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WebLatestContent findUnique
+   */
+  export type WebLatestContentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebLatestContent
+     */
+    select?: WebLatestContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebLatestContent
+     */
+    omit?: WebLatestContentOmit<ExtArgs> | null
+    /**
+     * Filter, which WebLatestContent to fetch.
+     */
+    where: WebLatestContentWhereUniqueInput
+  }
+
+  /**
+   * WebLatestContent findUniqueOrThrow
+   */
+  export type WebLatestContentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebLatestContent
+     */
+    select?: WebLatestContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebLatestContent
+     */
+    omit?: WebLatestContentOmit<ExtArgs> | null
+    /**
+     * Filter, which WebLatestContent to fetch.
+     */
+    where: WebLatestContentWhereUniqueInput
+  }
+
+  /**
+   * WebLatestContent findFirst
+   */
+  export type WebLatestContentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebLatestContent
+     */
+    select?: WebLatestContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebLatestContent
+     */
+    omit?: WebLatestContentOmit<ExtArgs> | null
+    /**
+     * Filter, which WebLatestContent to fetch.
+     */
+    where?: WebLatestContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebLatestContents to fetch.
+     */
+    orderBy?: WebLatestContentOrderByWithRelationInput | WebLatestContentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebLatestContents.
+     */
+    cursor?: WebLatestContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebLatestContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebLatestContents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebLatestContents.
+     */
+    distinct?: WebLatestContentScalarFieldEnum | WebLatestContentScalarFieldEnum[]
+  }
+
+  /**
+   * WebLatestContent findFirstOrThrow
+   */
+  export type WebLatestContentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebLatestContent
+     */
+    select?: WebLatestContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebLatestContent
+     */
+    omit?: WebLatestContentOmit<ExtArgs> | null
+    /**
+     * Filter, which WebLatestContent to fetch.
+     */
+    where?: WebLatestContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebLatestContents to fetch.
+     */
+    orderBy?: WebLatestContentOrderByWithRelationInput | WebLatestContentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebLatestContents.
+     */
+    cursor?: WebLatestContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebLatestContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebLatestContents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebLatestContents.
+     */
+    distinct?: WebLatestContentScalarFieldEnum | WebLatestContentScalarFieldEnum[]
+  }
+
+  /**
+   * WebLatestContent findMany
+   */
+  export type WebLatestContentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebLatestContent
+     */
+    select?: WebLatestContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebLatestContent
+     */
+    omit?: WebLatestContentOmit<ExtArgs> | null
+    /**
+     * Filter, which WebLatestContents to fetch.
+     */
+    where?: WebLatestContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebLatestContents to fetch.
+     */
+    orderBy?: WebLatestContentOrderByWithRelationInput | WebLatestContentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WebLatestContents.
+     */
+    cursor?: WebLatestContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebLatestContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebLatestContents.
+     */
+    skip?: number
+    distinct?: WebLatestContentScalarFieldEnum | WebLatestContentScalarFieldEnum[]
+  }
+
+  /**
+   * WebLatestContent without action
+   */
+  export type WebLatestContentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebLatestContent
+     */
+    select?: WebLatestContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebLatestContent
+     */
+    omit?: WebLatestContentOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -88061,6 +93832,139 @@ export namespace Prisma {
   };
 
   export type WebInquiryScalarFieldEnum = (typeof WebInquiryScalarFieldEnum)[keyof typeof WebInquiryScalarFieldEnum]
+
+
+  export const WebNoticeScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    content: 'content',
+    category: 'category',
+    isPinned: 'isPinned',
+    isActive: 'isActive',
+    viewCount: 'viewCount',
+    publishedAt: 'publishedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    creatorName: 'creatorName',
+    creatorId: 'creatorId',
+    fileCount: 'fileCount',
+    files: 'files'
+  };
+
+  export type WebNoticeScalarFieldEnum = (typeof WebNoticeScalarFieldEnum)[keyof typeof WebNoticeScalarFieldEnum]
+
+
+  export const WebNoticeDetailScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    content: 'content',
+    category: 'category',
+    isPinned: 'isPinned',
+    viewCount: 'viewCount',
+    publishedAt: 'publishedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    creatorName: 'creatorName',
+    creatorId: 'creatorId',
+    files: 'files',
+    prevNotice: 'prevNotice',
+    nextNotice: 'nextNotice'
+  };
+
+  export type WebNoticeDetailScalarFieldEnum = (typeof WebNoticeDetailScalarFieldEnum)[keyof typeof WebNoticeDetailScalarFieldEnum]
+
+
+  export const WebBoardPostScalarFieldEnum: {
+    id: 'id',
+    boardKey: 'boardKey',
+    title: 'title',
+    content: 'content',
+    viewCount: 'viewCount',
+    isPinned: 'isPinned',
+    isLocked: 'isLocked',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    authorName: 'authorName',
+    authorId: 'authorId',
+    commentCount: 'commentCount',
+    fileCount: 'fileCount',
+    files: 'files'
+  };
+
+  export type WebBoardPostScalarFieldEnum = (typeof WebBoardPostScalarFieldEnum)[keyof typeof WebBoardPostScalarFieldEnum]
+
+
+  export const WebBoardPostDetailScalarFieldEnum: {
+    id: 'id',
+    boardKey: 'boardKey',
+    title: 'title',
+    content: 'content',
+    viewCount: 'viewCount',
+    isPinned: 'isPinned',
+    isLocked: 'isLocked',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    authorName: 'authorName',
+    authorId: 'authorId',
+    files: 'files',
+    comments: 'comments',
+    commentCount: 'commentCount',
+    prevPost: 'prevPost',
+    nextPost: 'nextPost'
+  };
+
+  export type WebBoardPostDetailScalarFieldEnum = (typeof WebBoardPostDetailScalarFieldEnum)[keyof typeof WebBoardPostDetailScalarFieldEnum]
+
+
+  export const WebGalleryItemScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    description: 'description',
+    category: 'category',
+    eventDate: 'eventDate',
+    isPublic: 'isPublic',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    creatorName: 'creatorName',
+    creatorId: 'creatorId',
+    fileCount: 'fileCount',
+    thumbnail: 'thumbnail',
+    files: 'files'
+  };
+
+  export type WebGalleryItemScalarFieldEnum = (typeof WebGalleryItemScalarFieldEnum)[keyof typeof WebGalleryItemScalarFieldEnum]
+
+
+  export const WebMealPlanScalarFieldEnum: {
+    id: 'id',
+    facilityCode: 'facilityCode',
+    weekStartDate: 'weekStartDate',
+    status: 'status',
+    nutritionManager: 'nutritionManager',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    creatorName: 'creatorName',
+    creatorId: 'creatorId',
+    weekMeals: 'weekMeals'
+  };
+
+  export type WebMealPlanScalarFieldEnum = (typeof WebMealPlanScalarFieldEnum)[keyof typeof WebMealPlanScalarFieldEnum]
+
+
+  export const WebLatestContentScalarFieldEnum: {
+    id: 'id',
+    contentType: 'contentType',
+    title: 'title',
+    summary: 'summary',
+    createdAt: 'createdAt',
+    viewCount: 'viewCount',
+    commentCount: 'commentCount',
+    fileCount: 'fileCount',
+    authorName: 'authorName'
+  };
+
+  export type WebLatestContentScalarFieldEnum = (typeof WebLatestContentScalarFieldEnum)[keyof typeof WebLatestContentScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -93702,6 +99606,664 @@ export namespace Prisma {
     userAgent?: StringNullableWithAggregatesFilter<"WebInquiry"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"WebInquiry"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"WebInquiry"> | Date | string
+  }
+
+  export type WebNoticeWhereInput = {
+    AND?: WebNoticeWhereInput | WebNoticeWhereInput[]
+    OR?: WebNoticeWhereInput[]
+    NOT?: WebNoticeWhereInput | WebNoticeWhereInput[]
+    id?: BigIntFilter<"WebNotice"> | bigint | number
+    title?: StringFilter<"WebNotice"> | string
+    content?: StringFilter<"WebNotice"> | string
+    category?: StringNullableFilter<"WebNotice"> | string | null
+    isPinned?: BoolFilter<"WebNotice"> | boolean
+    isActive?: BoolFilter<"WebNotice"> | boolean
+    viewCount?: IntFilter<"WebNotice"> | number
+    publishedAt?: DateTimeNullableFilter<"WebNotice"> | Date | string | null
+    createdAt?: DateTimeFilter<"WebNotice"> | Date | string
+    updatedAt?: DateTimeFilter<"WebNotice"> | Date | string
+    creatorName?: StringNullableFilter<"WebNotice"> | string | null
+    creatorId?: BigIntNullableFilter<"WebNotice"> | bigint | number | null
+    fileCount?: IntFilter<"WebNotice"> | number
+    files?: JsonFilter<"WebNotice">
+  }
+
+  export type WebNoticeOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    category?: SortOrderInput | SortOrder
+    isPinned?: SortOrder
+    isActive?: SortOrder
+    viewCount?: SortOrder
+    publishedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrderInput | SortOrder
+    creatorId?: SortOrderInput | SortOrder
+    fileCount?: SortOrder
+    files?: SortOrder
+  }
+
+  export type WebNoticeWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: WebNoticeWhereInput | WebNoticeWhereInput[]
+    OR?: WebNoticeWhereInput[]
+    NOT?: WebNoticeWhereInput | WebNoticeWhereInput[]
+    title?: StringFilter<"WebNotice"> | string
+    content?: StringFilter<"WebNotice"> | string
+    category?: StringNullableFilter<"WebNotice"> | string | null
+    isPinned?: BoolFilter<"WebNotice"> | boolean
+    isActive?: BoolFilter<"WebNotice"> | boolean
+    viewCount?: IntFilter<"WebNotice"> | number
+    publishedAt?: DateTimeNullableFilter<"WebNotice"> | Date | string | null
+    createdAt?: DateTimeFilter<"WebNotice"> | Date | string
+    updatedAt?: DateTimeFilter<"WebNotice"> | Date | string
+    creatorName?: StringNullableFilter<"WebNotice"> | string | null
+    creatorId?: BigIntNullableFilter<"WebNotice"> | bigint | number | null
+    fileCount?: IntFilter<"WebNotice"> | number
+    files?: JsonFilter<"WebNotice">
+  }, "id">
+
+  export type WebNoticeOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    category?: SortOrderInput | SortOrder
+    isPinned?: SortOrder
+    isActive?: SortOrder
+    viewCount?: SortOrder
+    publishedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrderInput | SortOrder
+    creatorId?: SortOrderInput | SortOrder
+    fileCount?: SortOrder
+    files?: SortOrder
+    _count?: WebNoticeCountOrderByAggregateInput
+    _avg?: WebNoticeAvgOrderByAggregateInput
+    _max?: WebNoticeMaxOrderByAggregateInput
+    _min?: WebNoticeMinOrderByAggregateInput
+    _sum?: WebNoticeSumOrderByAggregateInput
+  }
+
+  export type WebNoticeScalarWhereWithAggregatesInput = {
+    AND?: WebNoticeScalarWhereWithAggregatesInput | WebNoticeScalarWhereWithAggregatesInput[]
+    OR?: WebNoticeScalarWhereWithAggregatesInput[]
+    NOT?: WebNoticeScalarWhereWithAggregatesInput | WebNoticeScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"WebNotice"> | bigint | number
+    title?: StringWithAggregatesFilter<"WebNotice"> | string
+    content?: StringWithAggregatesFilter<"WebNotice"> | string
+    category?: StringNullableWithAggregatesFilter<"WebNotice"> | string | null
+    isPinned?: BoolWithAggregatesFilter<"WebNotice"> | boolean
+    isActive?: BoolWithAggregatesFilter<"WebNotice"> | boolean
+    viewCount?: IntWithAggregatesFilter<"WebNotice"> | number
+    publishedAt?: DateTimeNullableWithAggregatesFilter<"WebNotice"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"WebNotice"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"WebNotice"> | Date | string
+    creatorName?: StringNullableWithAggregatesFilter<"WebNotice"> | string | null
+    creatorId?: BigIntNullableWithAggregatesFilter<"WebNotice"> | bigint | number | null
+    fileCount?: IntWithAggregatesFilter<"WebNotice"> | number
+    files?: JsonWithAggregatesFilter<"WebNotice">
+  }
+
+  export type WebNoticeDetailWhereInput = {
+    AND?: WebNoticeDetailWhereInput | WebNoticeDetailWhereInput[]
+    OR?: WebNoticeDetailWhereInput[]
+    NOT?: WebNoticeDetailWhereInput | WebNoticeDetailWhereInput[]
+    id?: BigIntFilter<"WebNoticeDetail"> | bigint | number
+    title?: StringFilter<"WebNoticeDetail"> | string
+    content?: StringFilter<"WebNoticeDetail"> | string
+    category?: StringNullableFilter<"WebNoticeDetail"> | string | null
+    isPinned?: BoolFilter<"WebNoticeDetail"> | boolean
+    viewCount?: IntFilter<"WebNoticeDetail"> | number
+    publishedAt?: DateTimeNullableFilter<"WebNoticeDetail"> | Date | string | null
+    createdAt?: DateTimeFilter<"WebNoticeDetail"> | Date | string
+    updatedAt?: DateTimeFilter<"WebNoticeDetail"> | Date | string
+    creatorName?: StringNullableFilter<"WebNoticeDetail"> | string | null
+    creatorId?: BigIntNullableFilter<"WebNoticeDetail"> | bigint | number | null
+    files?: JsonFilter<"WebNoticeDetail">
+    prevNotice?: JsonNullableFilter<"WebNoticeDetail">
+    nextNotice?: JsonNullableFilter<"WebNoticeDetail">
+  }
+
+  export type WebNoticeDetailOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    category?: SortOrderInput | SortOrder
+    isPinned?: SortOrder
+    viewCount?: SortOrder
+    publishedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrderInput | SortOrder
+    creatorId?: SortOrderInput | SortOrder
+    files?: SortOrder
+    prevNotice?: SortOrderInput | SortOrder
+    nextNotice?: SortOrderInput | SortOrder
+  }
+
+  export type WebNoticeDetailWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: WebNoticeDetailWhereInput | WebNoticeDetailWhereInput[]
+    OR?: WebNoticeDetailWhereInput[]
+    NOT?: WebNoticeDetailWhereInput | WebNoticeDetailWhereInput[]
+    title?: StringFilter<"WebNoticeDetail"> | string
+    content?: StringFilter<"WebNoticeDetail"> | string
+    category?: StringNullableFilter<"WebNoticeDetail"> | string | null
+    isPinned?: BoolFilter<"WebNoticeDetail"> | boolean
+    viewCount?: IntFilter<"WebNoticeDetail"> | number
+    publishedAt?: DateTimeNullableFilter<"WebNoticeDetail"> | Date | string | null
+    createdAt?: DateTimeFilter<"WebNoticeDetail"> | Date | string
+    updatedAt?: DateTimeFilter<"WebNoticeDetail"> | Date | string
+    creatorName?: StringNullableFilter<"WebNoticeDetail"> | string | null
+    creatorId?: BigIntNullableFilter<"WebNoticeDetail"> | bigint | number | null
+    files?: JsonFilter<"WebNoticeDetail">
+    prevNotice?: JsonNullableFilter<"WebNoticeDetail">
+    nextNotice?: JsonNullableFilter<"WebNoticeDetail">
+  }, "id">
+
+  export type WebNoticeDetailOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    category?: SortOrderInput | SortOrder
+    isPinned?: SortOrder
+    viewCount?: SortOrder
+    publishedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrderInput | SortOrder
+    creatorId?: SortOrderInput | SortOrder
+    files?: SortOrder
+    prevNotice?: SortOrderInput | SortOrder
+    nextNotice?: SortOrderInput | SortOrder
+    _count?: WebNoticeDetailCountOrderByAggregateInput
+    _avg?: WebNoticeDetailAvgOrderByAggregateInput
+    _max?: WebNoticeDetailMaxOrderByAggregateInput
+    _min?: WebNoticeDetailMinOrderByAggregateInput
+    _sum?: WebNoticeDetailSumOrderByAggregateInput
+  }
+
+  export type WebNoticeDetailScalarWhereWithAggregatesInput = {
+    AND?: WebNoticeDetailScalarWhereWithAggregatesInput | WebNoticeDetailScalarWhereWithAggregatesInput[]
+    OR?: WebNoticeDetailScalarWhereWithAggregatesInput[]
+    NOT?: WebNoticeDetailScalarWhereWithAggregatesInput | WebNoticeDetailScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"WebNoticeDetail"> | bigint | number
+    title?: StringWithAggregatesFilter<"WebNoticeDetail"> | string
+    content?: StringWithAggregatesFilter<"WebNoticeDetail"> | string
+    category?: StringNullableWithAggregatesFilter<"WebNoticeDetail"> | string | null
+    isPinned?: BoolWithAggregatesFilter<"WebNoticeDetail"> | boolean
+    viewCount?: IntWithAggregatesFilter<"WebNoticeDetail"> | number
+    publishedAt?: DateTimeNullableWithAggregatesFilter<"WebNoticeDetail"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"WebNoticeDetail"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"WebNoticeDetail"> | Date | string
+    creatorName?: StringNullableWithAggregatesFilter<"WebNoticeDetail"> | string | null
+    creatorId?: BigIntNullableWithAggregatesFilter<"WebNoticeDetail"> | bigint | number | null
+    files?: JsonWithAggregatesFilter<"WebNoticeDetail">
+    prevNotice?: JsonNullableWithAggregatesFilter<"WebNoticeDetail">
+    nextNotice?: JsonNullableWithAggregatesFilter<"WebNoticeDetail">
+  }
+
+  export type WebBoardPostWhereInput = {
+    AND?: WebBoardPostWhereInput | WebBoardPostWhereInput[]
+    OR?: WebBoardPostWhereInput[]
+    NOT?: WebBoardPostWhereInput | WebBoardPostWhereInput[]
+    id?: BigIntFilter<"WebBoardPost"> | bigint | number
+    boardKey?: StringFilter<"WebBoardPost"> | string
+    title?: StringFilter<"WebBoardPost"> | string
+    content?: StringFilter<"WebBoardPost"> | string
+    viewCount?: IntFilter<"WebBoardPost"> | number
+    isPinned?: BoolFilter<"WebBoardPost"> | boolean
+    isLocked?: BoolFilter<"WebBoardPost"> | boolean
+    createdAt?: DateTimeFilter<"WebBoardPost"> | Date | string
+    updatedAt?: DateTimeFilter<"WebBoardPost"> | Date | string
+    authorName?: StringNullableFilter<"WebBoardPost"> | string | null
+    authorId?: BigIntNullableFilter<"WebBoardPost"> | bigint | number | null
+    commentCount?: IntFilter<"WebBoardPost"> | number
+    fileCount?: IntFilter<"WebBoardPost"> | number
+    files?: JsonFilter<"WebBoardPost">
+  }
+
+  export type WebBoardPostOrderByWithRelationInput = {
+    id?: SortOrder
+    boardKey?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    viewCount?: SortOrder
+    isPinned?: SortOrder
+    isLocked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    authorName?: SortOrderInput | SortOrder
+    authorId?: SortOrderInput | SortOrder
+    commentCount?: SortOrder
+    fileCount?: SortOrder
+    files?: SortOrder
+  }
+
+  export type WebBoardPostWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: WebBoardPostWhereInput | WebBoardPostWhereInput[]
+    OR?: WebBoardPostWhereInput[]
+    NOT?: WebBoardPostWhereInput | WebBoardPostWhereInput[]
+    boardKey?: StringFilter<"WebBoardPost"> | string
+    title?: StringFilter<"WebBoardPost"> | string
+    content?: StringFilter<"WebBoardPost"> | string
+    viewCount?: IntFilter<"WebBoardPost"> | number
+    isPinned?: BoolFilter<"WebBoardPost"> | boolean
+    isLocked?: BoolFilter<"WebBoardPost"> | boolean
+    createdAt?: DateTimeFilter<"WebBoardPost"> | Date | string
+    updatedAt?: DateTimeFilter<"WebBoardPost"> | Date | string
+    authorName?: StringNullableFilter<"WebBoardPost"> | string | null
+    authorId?: BigIntNullableFilter<"WebBoardPost"> | bigint | number | null
+    commentCount?: IntFilter<"WebBoardPost"> | number
+    fileCount?: IntFilter<"WebBoardPost"> | number
+    files?: JsonFilter<"WebBoardPost">
+  }, "id">
+
+  export type WebBoardPostOrderByWithAggregationInput = {
+    id?: SortOrder
+    boardKey?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    viewCount?: SortOrder
+    isPinned?: SortOrder
+    isLocked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    authorName?: SortOrderInput | SortOrder
+    authorId?: SortOrderInput | SortOrder
+    commentCount?: SortOrder
+    fileCount?: SortOrder
+    files?: SortOrder
+    _count?: WebBoardPostCountOrderByAggregateInput
+    _avg?: WebBoardPostAvgOrderByAggregateInput
+    _max?: WebBoardPostMaxOrderByAggregateInput
+    _min?: WebBoardPostMinOrderByAggregateInput
+    _sum?: WebBoardPostSumOrderByAggregateInput
+  }
+
+  export type WebBoardPostScalarWhereWithAggregatesInput = {
+    AND?: WebBoardPostScalarWhereWithAggregatesInput | WebBoardPostScalarWhereWithAggregatesInput[]
+    OR?: WebBoardPostScalarWhereWithAggregatesInput[]
+    NOT?: WebBoardPostScalarWhereWithAggregatesInput | WebBoardPostScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"WebBoardPost"> | bigint | number
+    boardKey?: StringWithAggregatesFilter<"WebBoardPost"> | string
+    title?: StringWithAggregatesFilter<"WebBoardPost"> | string
+    content?: StringWithAggregatesFilter<"WebBoardPost"> | string
+    viewCount?: IntWithAggregatesFilter<"WebBoardPost"> | number
+    isPinned?: BoolWithAggregatesFilter<"WebBoardPost"> | boolean
+    isLocked?: BoolWithAggregatesFilter<"WebBoardPost"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"WebBoardPost"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"WebBoardPost"> | Date | string
+    authorName?: StringNullableWithAggregatesFilter<"WebBoardPost"> | string | null
+    authorId?: BigIntNullableWithAggregatesFilter<"WebBoardPost"> | bigint | number | null
+    commentCount?: IntWithAggregatesFilter<"WebBoardPost"> | number
+    fileCount?: IntWithAggregatesFilter<"WebBoardPost"> | number
+    files?: JsonWithAggregatesFilter<"WebBoardPost">
+  }
+
+  export type WebBoardPostDetailWhereInput = {
+    AND?: WebBoardPostDetailWhereInput | WebBoardPostDetailWhereInput[]
+    OR?: WebBoardPostDetailWhereInput[]
+    NOT?: WebBoardPostDetailWhereInput | WebBoardPostDetailWhereInput[]
+    id?: BigIntFilter<"WebBoardPostDetail"> | bigint | number
+    boardKey?: StringFilter<"WebBoardPostDetail"> | string
+    title?: StringFilter<"WebBoardPostDetail"> | string
+    content?: StringFilter<"WebBoardPostDetail"> | string
+    viewCount?: IntFilter<"WebBoardPostDetail"> | number
+    isPinned?: BoolFilter<"WebBoardPostDetail"> | boolean
+    isLocked?: BoolFilter<"WebBoardPostDetail"> | boolean
+    createdAt?: DateTimeFilter<"WebBoardPostDetail"> | Date | string
+    updatedAt?: DateTimeFilter<"WebBoardPostDetail"> | Date | string
+    authorName?: StringNullableFilter<"WebBoardPostDetail"> | string | null
+    authorId?: BigIntNullableFilter<"WebBoardPostDetail"> | bigint | number | null
+    files?: JsonFilter<"WebBoardPostDetail">
+    comments?: JsonFilter<"WebBoardPostDetail">
+    commentCount?: IntFilter<"WebBoardPostDetail"> | number
+    prevPost?: JsonNullableFilter<"WebBoardPostDetail">
+    nextPost?: JsonNullableFilter<"WebBoardPostDetail">
+  }
+
+  export type WebBoardPostDetailOrderByWithRelationInput = {
+    id?: SortOrder
+    boardKey?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    viewCount?: SortOrder
+    isPinned?: SortOrder
+    isLocked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    authorName?: SortOrderInput | SortOrder
+    authorId?: SortOrderInput | SortOrder
+    files?: SortOrder
+    comments?: SortOrder
+    commentCount?: SortOrder
+    prevPost?: SortOrderInput | SortOrder
+    nextPost?: SortOrderInput | SortOrder
+  }
+
+  export type WebBoardPostDetailWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: WebBoardPostDetailWhereInput | WebBoardPostDetailWhereInput[]
+    OR?: WebBoardPostDetailWhereInput[]
+    NOT?: WebBoardPostDetailWhereInput | WebBoardPostDetailWhereInput[]
+    boardKey?: StringFilter<"WebBoardPostDetail"> | string
+    title?: StringFilter<"WebBoardPostDetail"> | string
+    content?: StringFilter<"WebBoardPostDetail"> | string
+    viewCount?: IntFilter<"WebBoardPostDetail"> | number
+    isPinned?: BoolFilter<"WebBoardPostDetail"> | boolean
+    isLocked?: BoolFilter<"WebBoardPostDetail"> | boolean
+    createdAt?: DateTimeFilter<"WebBoardPostDetail"> | Date | string
+    updatedAt?: DateTimeFilter<"WebBoardPostDetail"> | Date | string
+    authorName?: StringNullableFilter<"WebBoardPostDetail"> | string | null
+    authorId?: BigIntNullableFilter<"WebBoardPostDetail"> | bigint | number | null
+    files?: JsonFilter<"WebBoardPostDetail">
+    comments?: JsonFilter<"WebBoardPostDetail">
+    commentCount?: IntFilter<"WebBoardPostDetail"> | number
+    prevPost?: JsonNullableFilter<"WebBoardPostDetail">
+    nextPost?: JsonNullableFilter<"WebBoardPostDetail">
+  }, "id">
+
+  export type WebBoardPostDetailOrderByWithAggregationInput = {
+    id?: SortOrder
+    boardKey?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    viewCount?: SortOrder
+    isPinned?: SortOrder
+    isLocked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    authorName?: SortOrderInput | SortOrder
+    authorId?: SortOrderInput | SortOrder
+    files?: SortOrder
+    comments?: SortOrder
+    commentCount?: SortOrder
+    prevPost?: SortOrderInput | SortOrder
+    nextPost?: SortOrderInput | SortOrder
+    _count?: WebBoardPostDetailCountOrderByAggregateInput
+    _avg?: WebBoardPostDetailAvgOrderByAggregateInput
+    _max?: WebBoardPostDetailMaxOrderByAggregateInput
+    _min?: WebBoardPostDetailMinOrderByAggregateInput
+    _sum?: WebBoardPostDetailSumOrderByAggregateInput
+  }
+
+  export type WebBoardPostDetailScalarWhereWithAggregatesInput = {
+    AND?: WebBoardPostDetailScalarWhereWithAggregatesInput | WebBoardPostDetailScalarWhereWithAggregatesInput[]
+    OR?: WebBoardPostDetailScalarWhereWithAggregatesInput[]
+    NOT?: WebBoardPostDetailScalarWhereWithAggregatesInput | WebBoardPostDetailScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"WebBoardPostDetail"> | bigint | number
+    boardKey?: StringWithAggregatesFilter<"WebBoardPostDetail"> | string
+    title?: StringWithAggregatesFilter<"WebBoardPostDetail"> | string
+    content?: StringWithAggregatesFilter<"WebBoardPostDetail"> | string
+    viewCount?: IntWithAggregatesFilter<"WebBoardPostDetail"> | number
+    isPinned?: BoolWithAggregatesFilter<"WebBoardPostDetail"> | boolean
+    isLocked?: BoolWithAggregatesFilter<"WebBoardPostDetail"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"WebBoardPostDetail"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"WebBoardPostDetail"> | Date | string
+    authorName?: StringNullableWithAggregatesFilter<"WebBoardPostDetail"> | string | null
+    authorId?: BigIntNullableWithAggregatesFilter<"WebBoardPostDetail"> | bigint | number | null
+    files?: JsonWithAggregatesFilter<"WebBoardPostDetail">
+    comments?: JsonWithAggregatesFilter<"WebBoardPostDetail">
+    commentCount?: IntWithAggregatesFilter<"WebBoardPostDetail"> | number
+    prevPost?: JsonNullableWithAggregatesFilter<"WebBoardPostDetail">
+    nextPost?: JsonNullableWithAggregatesFilter<"WebBoardPostDetail">
+  }
+
+  export type WebGalleryItemWhereInput = {
+    AND?: WebGalleryItemWhereInput | WebGalleryItemWhereInput[]
+    OR?: WebGalleryItemWhereInput[]
+    NOT?: WebGalleryItemWhereInput | WebGalleryItemWhereInput[]
+    id?: BigIntFilter<"WebGalleryItem"> | bigint | number
+    title?: StringNullableFilter<"WebGalleryItem"> | string | null
+    description?: StringNullableFilter<"WebGalleryItem"> | string | null
+    category?: StringNullableFilter<"WebGalleryItem"> | string | null
+    eventDate?: DateTimeNullableFilter<"WebGalleryItem"> | Date | string | null
+    isPublic?: BoolFilter<"WebGalleryItem"> | boolean
+    createdAt?: DateTimeFilter<"WebGalleryItem"> | Date | string
+    updatedAt?: DateTimeFilter<"WebGalleryItem"> | Date | string
+    creatorName?: StringNullableFilter<"WebGalleryItem"> | string | null
+    creatorId?: BigIntNullableFilter<"WebGalleryItem"> | bigint | number | null
+    fileCount?: IntFilter<"WebGalleryItem"> | number
+    thumbnail?: JsonNullableFilter<"WebGalleryItem">
+    files?: JsonFilter<"WebGalleryItem">
+  }
+
+  export type WebGalleryItemOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    eventDate?: SortOrderInput | SortOrder
+    isPublic?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrderInput | SortOrder
+    creatorId?: SortOrderInput | SortOrder
+    fileCount?: SortOrder
+    thumbnail?: SortOrderInput | SortOrder
+    files?: SortOrder
+  }
+
+  export type WebGalleryItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: WebGalleryItemWhereInput | WebGalleryItemWhereInput[]
+    OR?: WebGalleryItemWhereInput[]
+    NOT?: WebGalleryItemWhereInput | WebGalleryItemWhereInput[]
+    title?: StringNullableFilter<"WebGalleryItem"> | string | null
+    description?: StringNullableFilter<"WebGalleryItem"> | string | null
+    category?: StringNullableFilter<"WebGalleryItem"> | string | null
+    eventDate?: DateTimeNullableFilter<"WebGalleryItem"> | Date | string | null
+    isPublic?: BoolFilter<"WebGalleryItem"> | boolean
+    createdAt?: DateTimeFilter<"WebGalleryItem"> | Date | string
+    updatedAt?: DateTimeFilter<"WebGalleryItem"> | Date | string
+    creatorName?: StringNullableFilter<"WebGalleryItem"> | string | null
+    creatorId?: BigIntNullableFilter<"WebGalleryItem"> | bigint | number | null
+    fileCount?: IntFilter<"WebGalleryItem"> | number
+    thumbnail?: JsonNullableFilter<"WebGalleryItem">
+    files?: JsonFilter<"WebGalleryItem">
+  }, "id">
+
+  export type WebGalleryItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    category?: SortOrderInput | SortOrder
+    eventDate?: SortOrderInput | SortOrder
+    isPublic?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrderInput | SortOrder
+    creatorId?: SortOrderInput | SortOrder
+    fileCount?: SortOrder
+    thumbnail?: SortOrderInput | SortOrder
+    files?: SortOrder
+    _count?: WebGalleryItemCountOrderByAggregateInput
+    _avg?: WebGalleryItemAvgOrderByAggregateInput
+    _max?: WebGalleryItemMaxOrderByAggregateInput
+    _min?: WebGalleryItemMinOrderByAggregateInput
+    _sum?: WebGalleryItemSumOrderByAggregateInput
+  }
+
+  export type WebGalleryItemScalarWhereWithAggregatesInput = {
+    AND?: WebGalleryItemScalarWhereWithAggregatesInput | WebGalleryItemScalarWhereWithAggregatesInput[]
+    OR?: WebGalleryItemScalarWhereWithAggregatesInput[]
+    NOT?: WebGalleryItemScalarWhereWithAggregatesInput | WebGalleryItemScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"WebGalleryItem"> | bigint | number
+    title?: StringNullableWithAggregatesFilter<"WebGalleryItem"> | string | null
+    description?: StringNullableWithAggregatesFilter<"WebGalleryItem"> | string | null
+    category?: StringNullableWithAggregatesFilter<"WebGalleryItem"> | string | null
+    eventDate?: DateTimeNullableWithAggregatesFilter<"WebGalleryItem"> | Date | string | null
+    isPublic?: BoolWithAggregatesFilter<"WebGalleryItem"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"WebGalleryItem"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"WebGalleryItem"> | Date | string
+    creatorName?: StringNullableWithAggregatesFilter<"WebGalleryItem"> | string | null
+    creatorId?: BigIntNullableWithAggregatesFilter<"WebGalleryItem"> | bigint | number | null
+    fileCount?: IntWithAggregatesFilter<"WebGalleryItem"> | number
+    thumbnail?: JsonNullableWithAggregatesFilter<"WebGalleryItem">
+    files?: JsonWithAggregatesFilter<"WebGalleryItem">
+  }
+
+  export type WebMealPlanWhereInput = {
+    AND?: WebMealPlanWhereInput | WebMealPlanWhereInput[]
+    OR?: WebMealPlanWhereInput[]
+    NOT?: WebMealPlanWhereInput | WebMealPlanWhereInput[]
+    id?: BigIntFilter<"WebMealPlan"> | bigint | number
+    facilityCode?: StringFilter<"WebMealPlan"> | string
+    weekStartDate?: DateTimeFilter<"WebMealPlan"> | Date | string
+    status?: StringFilter<"WebMealPlan"> | string
+    nutritionManager?: StringNullableFilter<"WebMealPlan"> | string | null
+    notes?: StringNullableFilter<"WebMealPlan"> | string | null
+    createdAt?: DateTimeFilter<"WebMealPlan"> | Date | string
+    updatedAt?: DateTimeFilter<"WebMealPlan"> | Date | string
+    creatorName?: StringNullableFilter<"WebMealPlan"> | string | null
+    creatorId?: BigIntNullableFilter<"WebMealPlan"> | bigint | number | null
+    weekMeals?: JsonFilter<"WebMealPlan">
+  }
+
+  export type WebMealPlanOrderByWithRelationInput = {
+    id?: SortOrder
+    facilityCode?: SortOrder
+    weekStartDate?: SortOrder
+    status?: SortOrder
+    nutritionManager?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrderInput | SortOrder
+    creatorId?: SortOrderInput | SortOrder
+    weekMeals?: SortOrder
+  }
+
+  export type WebMealPlanWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: WebMealPlanWhereInput | WebMealPlanWhereInput[]
+    OR?: WebMealPlanWhereInput[]
+    NOT?: WebMealPlanWhereInput | WebMealPlanWhereInput[]
+    facilityCode?: StringFilter<"WebMealPlan"> | string
+    weekStartDate?: DateTimeFilter<"WebMealPlan"> | Date | string
+    status?: StringFilter<"WebMealPlan"> | string
+    nutritionManager?: StringNullableFilter<"WebMealPlan"> | string | null
+    notes?: StringNullableFilter<"WebMealPlan"> | string | null
+    createdAt?: DateTimeFilter<"WebMealPlan"> | Date | string
+    updatedAt?: DateTimeFilter<"WebMealPlan"> | Date | string
+    creatorName?: StringNullableFilter<"WebMealPlan"> | string | null
+    creatorId?: BigIntNullableFilter<"WebMealPlan"> | bigint | number | null
+    weekMeals?: JsonFilter<"WebMealPlan">
+  }, "id">
+
+  export type WebMealPlanOrderByWithAggregationInput = {
+    id?: SortOrder
+    facilityCode?: SortOrder
+    weekStartDate?: SortOrder
+    status?: SortOrder
+    nutritionManager?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrderInput | SortOrder
+    creatorId?: SortOrderInput | SortOrder
+    weekMeals?: SortOrder
+    _count?: WebMealPlanCountOrderByAggregateInput
+    _avg?: WebMealPlanAvgOrderByAggregateInput
+    _max?: WebMealPlanMaxOrderByAggregateInput
+    _min?: WebMealPlanMinOrderByAggregateInput
+    _sum?: WebMealPlanSumOrderByAggregateInput
+  }
+
+  export type WebMealPlanScalarWhereWithAggregatesInput = {
+    AND?: WebMealPlanScalarWhereWithAggregatesInput | WebMealPlanScalarWhereWithAggregatesInput[]
+    OR?: WebMealPlanScalarWhereWithAggregatesInput[]
+    NOT?: WebMealPlanScalarWhereWithAggregatesInput | WebMealPlanScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"WebMealPlan"> | bigint | number
+    facilityCode?: StringWithAggregatesFilter<"WebMealPlan"> | string
+    weekStartDate?: DateTimeWithAggregatesFilter<"WebMealPlan"> | Date | string
+    status?: StringWithAggregatesFilter<"WebMealPlan"> | string
+    nutritionManager?: StringNullableWithAggregatesFilter<"WebMealPlan"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"WebMealPlan"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"WebMealPlan"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"WebMealPlan"> | Date | string
+    creatorName?: StringNullableWithAggregatesFilter<"WebMealPlan"> | string | null
+    creatorId?: BigIntNullableWithAggregatesFilter<"WebMealPlan"> | bigint | number | null
+    weekMeals?: JsonWithAggregatesFilter<"WebMealPlan">
+  }
+
+  export type WebLatestContentWhereInput = {
+    AND?: WebLatestContentWhereInput | WebLatestContentWhereInput[]
+    OR?: WebLatestContentWhereInput[]
+    NOT?: WebLatestContentWhereInput | WebLatestContentWhereInput[]
+    id?: BigIntFilter<"WebLatestContent"> | bigint | number
+    contentType?: StringFilter<"WebLatestContent"> | string
+    title?: StringFilter<"WebLatestContent"> | string
+    summary?: StringNullableFilter<"WebLatestContent"> | string | null
+    createdAt?: DateTimeFilter<"WebLatestContent"> | Date | string
+    viewCount?: IntFilter<"WebLatestContent"> | number
+    commentCount?: IntNullableFilter<"WebLatestContent"> | number | null
+    fileCount?: IntFilter<"WebLatestContent"> | number
+    authorName?: StringNullableFilter<"WebLatestContent"> | string | null
+  }
+
+  export type WebLatestContentOrderByWithRelationInput = {
+    id?: SortOrder
+    contentType?: SortOrder
+    title?: SortOrder
+    summary?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    viewCount?: SortOrder
+    commentCount?: SortOrderInput | SortOrder
+    fileCount?: SortOrder
+    authorName?: SortOrderInput | SortOrder
+  }
+
+  export type WebLatestContentWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: WebLatestContentWhereInput | WebLatestContentWhereInput[]
+    OR?: WebLatestContentWhereInput[]
+    NOT?: WebLatestContentWhereInput | WebLatestContentWhereInput[]
+    contentType?: StringFilter<"WebLatestContent"> | string
+    title?: StringFilter<"WebLatestContent"> | string
+    summary?: StringNullableFilter<"WebLatestContent"> | string | null
+    createdAt?: DateTimeFilter<"WebLatestContent"> | Date | string
+    viewCount?: IntFilter<"WebLatestContent"> | number
+    commentCount?: IntNullableFilter<"WebLatestContent"> | number | null
+    fileCount?: IntFilter<"WebLatestContent"> | number
+    authorName?: StringNullableFilter<"WebLatestContent"> | string | null
+  }, "id">
+
+  export type WebLatestContentOrderByWithAggregationInput = {
+    id?: SortOrder
+    contentType?: SortOrder
+    title?: SortOrder
+    summary?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    viewCount?: SortOrder
+    commentCount?: SortOrderInput | SortOrder
+    fileCount?: SortOrder
+    authorName?: SortOrderInput | SortOrder
+    _count?: WebLatestContentCountOrderByAggregateInput
+    _avg?: WebLatestContentAvgOrderByAggregateInput
+    _max?: WebLatestContentMaxOrderByAggregateInput
+    _min?: WebLatestContentMinOrderByAggregateInput
+    _sum?: WebLatestContentSumOrderByAggregateInput
+  }
+
+  export type WebLatestContentScalarWhereWithAggregatesInput = {
+    AND?: WebLatestContentScalarWhereWithAggregatesInput | WebLatestContentScalarWhereWithAggregatesInput[]
+    OR?: WebLatestContentScalarWhereWithAggregatesInput[]
+    NOT?: WebLatestContentScalarWhereWithAggregatesInput | WebLatestContentScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"WebLatestContent"> | bigint | number
+    contentType?: StringWithAggregatesFilter<"WebLatestContent"> | string
+    title?: StringWithAggregatesFilter<"WebLatestContent"> | string
+    summary?: StringNullableWithAggregatesFilter<"WebLatestContent"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"WebLatestContent"> | Date | string
+    viewCount?: IntWithAggregatesFilter<"WebLatestContent"> | number
+    commentCount?: IntNullableWithAggregatesFilter<"WebLatestContent"> | number | null
+    fileCount?: IntWithAggregatesFilter<"WebLatestContent"> | number
+    authorName?: StringNullableWithAggregatesFilter<"WebLatestContent"> | string | null
   }
 
   export type NoticeCreateInput = {
@@ -103966,6 +110528,410 @@ export namespace Prisma {
 
   export type WebInquirySumOrderByAggregateInput = {
     id?: SortOrder
+  }
+
+  export type WebNoticeCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    category?: SortOrder
+    isPinned?: SortOrder
+    isActive?: SortOrder
+    viewCount?: SortOrder
+    publishedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrder
+    creatorId?: SortOrder
+    fileCount?: SortOrder
+    files?: SortOrder
+  }
+
+  export type WebNoticeAvgOrderByAggregateInput = {
+    id?: SortOrder
+    viewCount?: SortOrder
+    creatorId?: SortOrder
+    fileCount?: SortOrder
+  }
+
+  export type WebNoticeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    category?: SortOrder
+    isPinned?: SortOrder
+    isActive?: SortOrder
+    viewCount?: SortOrder
+    publishedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrder
+    creatorId?: SortOrder
+    fileCount?: SortOrder
+  }
+
+  export type WebNoticeMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    category?: SortOrder
+    isPinned?: SortOrder
+    isActive?: SortOrder
+    viewCount?: SortOrder
+    publishedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrder
+    creatorId?: SortOrder
+    fileCount?: SortOrder
+  }
+
+  export type WebNoticeSumOrderByAggregateInput = {
+    id?: SortOrder
+    viewCount?: SortOrder
+    creatorId?: SortOrder
+    fileCount?: SortOrder
+  }
+
+  export type WebNoticeDetailCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    category?: SortOrder
+    isPinned?: SortOrder
+    viewCount?: SortOrder
+    publishedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrder
+    creatorId?: SortOrder
+    files?: SortOrder
+    prevNotice?: SortOrder
+    nextNotice?: SortOrder
+  }
+
+  export type WebNoticeDetailAvgOrderByAggregateInput = {
+    id?: SortOrder
+    viewCount?: SortOrder
+    creatorId?: SortOrder
+  }
+
+  export type WebNoticeDetailMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    category?: SortOrder
+    isPinned?: SortOrder
+    viewCount?: SortOrder
+    publishedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrder
+    creatorId?: SortOrder
+  }
+
+  export type WebNoticeDetailMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    category?: SortOrder
+    isPinned?: SortOrder
+    viewCount?: SortOrder
+    publishedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrder
+    creatorId?: SortOrder
+  }
+
+  export type WebNoticeDetailSumOrderByAggregateInput = {
+    id?: SortOrder
+    viewCount?: SortOrder
+    creatorId?: SortOrder
+  }
+
+  export type WebBoardPostCountOrderByAggregateInput = {
+    id?: SortOrder
+    boardKey?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    viewCount?: SortOrder
+    isPinned?: SortOrder
+    isLocked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    authorName?: SortOrder
+    authorId?: SortOrder
+    commentCount?: SortOrder
+    fileCount?: SortOrder
+    files?: SortOrder
+  }
+
+  export type WebBoardPostAvgOrderByAggregateInput = {
+    id?: SortOrder
+    viewCount?: SortOrder
+    authorId?: SortOrder
+    commentCount?: SortOrder
+    fileCount?: SortOrder
+  }
+
+  export type WebBoardPostMaxOrderByAggregateInput = {
+    id?: SortOrder
+    boardKey?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    viewCount?: SortOrder
+    isPinned?: SortOrder
+    isLocked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    authorName?: SortOrder
+    authorId?: SortOrder
+    commentCount?: SortOrder
+    fileCount?: SortOrder
+  }
+
+  export type WebBoardPostMinOrderByAggregateInput = {
+    id?: SortOrder
+    boardKey?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    viewCount?: SortOrder
+    isPinned?: SortOrder
+    isLocked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    authorName?: SortOrder
+    authorId?: SortOrder
+    commentCount?: SortOrder
+    fileCount?: SortOrder
+  }
+
+  export type WebBoardPostSumOrderByAggregateInput = {
+    id?: SortOrder
+    viewCount?: SortOrder
+    authorId?: SortOrder
+    commentCount?: SortOrder
+    fileCount?: SortOrder
+  }
+
+  export type WebBoardPostDetailCountOrderByAggregateInput = {
+    id?: SortOrder
+    boardKey?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    viewCount?: SortOrder
+    isPinned?: SortOrder
+    isLocked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    authorName?: SortOrder
+    authorId?: SortOrder
+    files?: SortOrder
+    comments?: SortOrder
+    commentCount?: SortOrder
+    prevPost?: SortOrder
+    nextPost?: SortOrder
+  }
+
+  export type WebBoardPostDetailAvgOrderByAggregateInput = {
+    id?: SortOrder
+    viewCount?: SortOrder
+    authorId?: SortOrder
+    commentCount?: SortOrder
+  }
+
+  export type WebBoardPostDetailMaxOrderByAggregateInput = {
+    id?: SortOrder
+    boardKey?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    viewCount?: SortOrder
+    isPinned?: SortOrder
+    isLocked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    authorName?: SortOrder
+    authorId?: SortOrder
+    commentCount?: SortOrder
+  }
+
+  export type WebBoardPostDetailMinOrderByAggregateInput = {
+    id?: SortOrder
+    boardKey?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    viewCount?: SortOrder
+    isPinned?: SortOrder
+    isLocked?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    authorName?: SortOrder
+    authorId?: SortOrder
+    commentCount?: SortOrder
+  }
+
+  export type WebBoardPostDetailSumOrderByAggregateInput = {
+    id?: SortOrder
+    viewCount?: SortOrder
+    authorId?: SortOrder
+    commentCount?: SortOrder
+  }
+
+  export type WebGalleryItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    category?: SortOrder
+    eventDate?: SortOrder
+    isPublic?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrder
+    creatorId?: SortOrder
+    fileCount?: SortOrder
+    thumbnail?: SortOrder
+    files?: SortOrder
+  }
+
+  export type WebGalleryItemAvgOrderByAggregateInput = {
+    id?: SortOrder
+    creatorId?: SortOrder
+    fileCount?: SortOrder
+  }
+
+  export type WebGalleryItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    category?: SortOrder
+    eventDate?: SortOrder
+    isPublic?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrder
+    creatorId?: SortOrder
+    fileCount?: SortOrder
+  }
+
+  export type WebGalleryItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    category?: SortOrder
+    eventDate?: SortOrder
+    isPublic?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrder
+    creatorId?: SortOrder
+    fileCount?: SortOrder
+  }
+
+  export type WebGalleryItemSumOrderByAggregateInput = {
+    id?: SortOrder
+    creatorId?: SortOrder
+    fileCount?: SortOrder
+  }
+
+  export type WebMealPlanCountOrderByAggregateInput = {
+    id?: SortOrder
+    facilityCode?: SortOrder
+    weekStartDate?: SortOrder
+    status?: SortOrder
+    nutritionManager?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrder
+    creatorId?: SortOrder
+    weekMeals?: SortOrder
+  }
+
+  export type WebMealPlanAvgOrderByAggregateInput = {
+    id?: SortOrder
+    creatorId?: SortOrder
+  }
+
+  export type WebMealPlanMaxOrderByAggregateInput = {
+    id?: SortOrder
+    facilityCode?: SortOrder
+    weekStartDate?: SortOrder
+    status?: SortOrder
+    nutritionManager?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrder
+    creatorId?: SortOrder
+  }
+
+  export type WebMealPlanMinOrderByAggregateInput = {
+    id?: SortOrder
+    facilityCode?: SortOrder
+    weekStartDate?: SortOrder
+    status?: SortOrder
+    nutritionManager?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creatorName?: SortOrder
+    creatorId?: SortOrder
+  }
+
+  export type WebMealPlanSumOrderByAggregateInput = {
+    id?: SortOrder
+    creatorId?: SortOrder
+  }
+
+  export type WebLatestContentCountOrderByAggregateInput = {
+    id?: SortOrder
+    contentType?: SortOrder
+    title?: SortOrder
+    summary?: SortOrder
+    createdAt?: SortOrder
+    viewCount?: SortOrder
+    commentCount?: SortOrder
+    fileCount?: SortOrder
+    authorName?: SortOrder
+  }
+
+  export type WebLatestContentAvgOrderByAggregateInput = {
+    id?: SortOrder
+    viewCount?: SortOrder
+    commentCount?: SortOrder
+    fileCount?: SortOrder
+  }
+
+  export type WebLatestContentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contentType?: SortOrder
+    title?: SortOrder
+    summary?: SortOrder
+    createdAt?: SortOrder
+    viewCount?: SortOrder
+    commentCount?: SortOrder
+    fileCount?: SortOrder
+    authorName?: SortOrder
+  }
+
+  export type WebLatestContentMinOrderByAggregateInput = {
+    id?: SortOrder
+    contentType?: SortOrder
+    title?: SortOrder
+    summary?: SortOrder
+    createdAt?: SortOrder
+    viewCount?: SortOrder
+    commentCount?: SortOrder
+    fileCount?: SortOrder
+    authorName?: SortOrder
+  }
+
+  export type WebLatestContentSumOrderByAggregateInput = {
+    id?: SortOrder
+    viewCount?: SortOrder
+    commentCount?: SortOrder
+    fileCount?: SortOrder
   }
 
   export type NoticeFileCreateNestedManyWithoutNoticeInput = {

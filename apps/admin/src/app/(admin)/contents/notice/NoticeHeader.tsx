@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 interface Props {
   readonly onAdd: () => void;
   readonly totalCount: number;
@@ -11,7 +9,7 @@ interface Props {
  * [Component] 공지사항 관리 시스템 헤더
  * 아가페 표준 UI 및 전사적 액션 버튼 적용
  */
-export default function AnnouncementHeader({ onAdd, totalCount }: Props) {
+export default function NoticeHeader({ onAdd, totalCount }: Props) {
   return (
     <div className="flex flex-col justify-between gap-4 border-b border-gray-300 bg-white p-6 font-sans antialiased shadow-sm md:flex-row md:items-center">
       <div className="flex items-center gap-4">

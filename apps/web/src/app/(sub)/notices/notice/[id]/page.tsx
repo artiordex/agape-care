@@ -22,7 +22,7 @@ export default function NoticeDetailPage() {
   const { data: noticeResult, isLoading } = useQuery({
     queryKey: ['webpage-notice', noticeId],
     queryFn: async () => {
-      const res = await fetch(`${baseUrl}/notices/announcement/${noticeId}`);
+      const res = await fetch(`${baseUrl}/notices/notice/${noticeId}`);
       const body = await res.json();
       return { status: res.status, body };
     },
@@ -42,9 +42,11 @@ export default function NoticeDetailPage() {
   );
 
   const notice = useMemo(() => {
-    if (noticeResult?.status !== 200) return null;
+    if (noticeResult?.status !== 200 || !noticeResult.body?.data) return null;
     const n = noticeResult.body.data;
-    const date = new Date(n.createdAt).toLocaleDateString('ko-KR').replace(/\. /g, '.').replace(/\.$/, '');
+    const date = n.createdAt
+      ? new Date(n.createdAt).toLocaleDateString('ko-KR').replace(/\. /g, '.').replace(/\.$/, '')
+      : '';
 
     return {
       ...n,
@@ -69,10 +71,13 @@ export default function NoticeDetailPage() {
             <i className="ri-error-warning-line text-4xl text-gray-400" />
           </div>
           <h2 className="mb-4 text-2xl font-bold text-gray-900">공지사항을 찾을 수 없습니다</h2>
+          {noticeResult && noticeResult.status !== 200 && noticeResult.status !== 404 && (
+            <p className="mb-2 font-bold text-red-500">API Error: {noticeResult.status}</p>
+          )}
 
           <p className="mb-6 text-gray-600">요청하신 게시글이 삭제되었거나 존재하지 않습니다.</p>
           <Link
-            href="/notices/announcement"
+            href="/notices/notice"
             className="inline-flex items-center gap-2 rounded bg-[#5C8D5A] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#4A7548]"
           >
             <i className="ri-arrow-left-line" /> 목록으로 돌아가기
@@ -82,10 +87,11 @@ export default function NoticeDetailPage() {
     );
   }
 
-  const allNotices = allNoticesResult?.status === 200 ? allNoticesResult.body.data : [];
-  const currentIndex = allNotices.findIndex((n: any) => n.id === noticeId);
+  const allNotices =
+    allNoticesResult?.status === 200 && Array.isArray(allNoticesResult.body?.data) ? allNoticesResult.body.data : [];
+  const currentIndex = allNotices.findIndex((n: any) => n && n.id === noticeId);
   const prev = currentIndex > 0 ? allNotices[currentIndex - 1] : null;
-  const next = currentIndex < allNotices.length - 1 ? allNotices[currentIndex + 1] : null;
+  const next = currentIndex !== -1 && currentIndex < allNotices.length - 1 ? allNotices[currentIndex + 1] : null;
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -148,7 +154,7 @@ export default function NoticeDetailPage() {
               <div className="min-w-0 flex-1">
                 {prev ? (
                   <Link
-                    href={`/notices/announcement/${prev.id}`}
+                    href={`/notices/notice/${prev.id}`}
                     className="block truncate text-sm text-gray-900 transition-colors hover:text-[#5C8D5A] hover:underline"
                   >
                     {prev.title}
@@ -169,7 +175,7 @@ export default function NoticeDetailPage() {
               <div className="min-w-0 flex-1">
                 {next ? (
                   <Link
-                    href={`/notices/announcement/${next.id}`}
+                    href={`/notices/notice/${next.id}`}
                     className="block truncate text-sm text-gray-900 transition-colors hover:text-[#5C8D5A] hover:underline"
                   >
                     {next.title}
@@ -185,7 +191,7 @@ export default function NoticeDetailPage() {
           <div className="bg-[#5C8D5A]/5 px-6 py-6 md:px-8">
             <div className="flex flex-wrap items-center justify-center gap-3">
               <button
-                onClick={() => router.push('/notices/announcement')}
+                onClick={() => router.push('/notices/notice')}
                 className="flex items-center gap-2 rounded border border-gray-300 bg-white px-6 py-3 font-semibold text-gray-700 transition-all hover:bg-gray-50"
               >
                 <i className="ri-list-check" /> 목록

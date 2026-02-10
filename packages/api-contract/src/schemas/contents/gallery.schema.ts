@@ -15,6 +15,21 @@ export const GalleryItemSchema = z.object({
   isPublic: z.boolean().default(true),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
+  files: z
+    .array(
+      z.object({
+        id: z.string(),
+        file: z
+          .object({
+            id: z.string(),
+            url: z.string(),
+            filename: z.string(),
+          })
+          .nullable()
+          .optional(),
+      }),
+    )
+    .optional(),
 });
 
 export type GalleryItem = z.infer<typeof GalleryItemSchema>;

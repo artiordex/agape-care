@@ -6,6 +6,7 @@
 import { z } from 'zod';
 import { ApiResponseSchema } from '../schemas/common/response.schema.js';
 import {
+  BoardCommentBaseSchema,
   BoardCommentSchema,
   BoardPostSchema,
   GalleryItemSchema,
@@ -15,18 +16,18 @@ import {
 } from '../schemas/contents/index.js';
 
 /**
- * [공지사항] GET /contents/announcement
+ * [공지사항] GET /contents/notice
  * 전체 공지사항 목록 조회 (활성화된 공지만 조회하는 필터 포함)
  */
 
 export const contentContract = {
   /**
-   * [공지사항] GET /contents/announcement
+   * [공지사항] GET /contents/notice
    * 전체 공지사항 목록 조회 (활성화된 공지만 조회하는 필터 포함)
    */
   getNotices: {
     method: 'GET' as const,
-    path: '/contents/announcement',
+    path: '/contents/notice',
     query: z.object({
       category: z.string().optional(),
       isActive: z.coerce.boolean().optional(),
@@ -37,12 +38,12 @@ export const contentContract = {
   },
 
   /**
-   * [공지사항] GET /contents/announcement/:id
+   * [공지사항] GET /contents/notice/:id
    * 특정 공지사항 상세 정보 조회
    */
   getNotice: {
     method: 'GET' as const,
-    path: '/contents/announcement/:id',
+    path: '/contents/notice/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -180,7 +181,7 @@ export const contentContract = {
   createComment: {
     method: 'POST' as const,
     path: '/contents/comments',
-    body: BoardCommentSchema.omit({ id: true, createdAt: true, updatedAt: true }),
+    body: BoardCommentBaseSchema.omit({ id: true, createdAt: true, updatedAt: true }),
     responses: {
       201: ApiResponseSchema(BoardCommentSchema),
     },

@@ -1,8 +1,5 @@
 'use client';
 
-import React from 'react';
-import { AnnouncementCategory } from './announcement.type';
-
 interface Props {
   readonly searchTerm: string;
   readonly setSearchTerm: (val: string) => void;
@@ -14,7 +11,7 @@ interface Props {
  * [Component] 공지사항 검색 및 카테고리 필터 노드
  * image_102a40.png의 상단 디자인 프로토콜 적용
  */
-export default function AnnouncementFilter({ searchTerm, setSearchTerm, filterCategory, setFilterCategory }: Props) {
+export default function NoticeFilter({ searchTerm, setSearchTerm, filterCategory, setFilterCategory }: Props) {
   const categories = [
     { value: 'all', label: '전체' },
     { value: '일반', label: '일반' },

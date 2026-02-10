@@ -1,11 +1,11 @@
 /**
  * [Type] 아가페 공지사항 데이터 프로토콜
  */
-export type AnnouncementCategory = '일반' | '긴급' | '교육' | '행사' | '점검';
+export type NoticeCategory = '일반' | '긴급' | '교육' | '행사' | '점검';
 
-export interface Announcement {
+export interface Notice {
   id: string; // 번호
-  category: AnnouncementCategory; // 구분
+  category: NoticeCategory; // 구분
   title: string; // 제목
   author: string; // 작성자
   createdAt: string; // 작성일

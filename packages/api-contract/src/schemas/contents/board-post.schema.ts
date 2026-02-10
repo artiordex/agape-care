@@ -4,6 +4,7 @@
  * @date 2026-01-26
  */
 import { z } from 'zod';
+import { BoardCommentSchema } from './board-comment.schema.js';
 
 export const BoardPostSchema = z.object({
   id: z.coerce.string(),
@@ -16,6 +17,32 @@ export const BoardPostSchema = z.object({
   isLocked: z.boolean().default(false),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
+
+  // Relational fields (optional)
+  author: z
+    .object({
+      id: z.string(),
+      name: z.string(),
+      email: z.string().nullable().optional(),
+    })
+    .nullable()
+    .optional(),
+  files: z
+    .array(
+      z.object({
+        id: z.string(),
+        file: z
+          .object({
+            id: z.string(),
+            url: z.string(),
+            filename: z.string(),
+          })
+          .nullable()
+          .optional(),
+      }),
+    )
+    .optional(),
+  comments: z.array(BoardCommentSchema).optional(),
 });
 
 export type BoardPost = z.infer<typeof BoardPostSchema>;

@@ -108,10 +108,10 @@
     }
   },
   "notices": {
-    "announcement": {
+    "notice": {
       "title": "공지사항",
       "description": "아가페요양센터의 주요 공지사항과 소식을 전해드립니다.",
-      "image": "/images/hero/notices-announcement.jpg"
+      "image": "/images/hero/notices-notice.jpg"
     },
     "board": {
       "title": "게시판",

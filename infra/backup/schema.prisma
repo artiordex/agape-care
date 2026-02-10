@@ -1,7 +1,6 @@
 generator client {
-  provider        = "prisma-client-js"
-  output          = "../src/generated/prisma"
-  previewFeatures = ["views"]
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -235,6 +234,8 @@ model MealPlanItem {
   @@map("meal_plan_items")
 }
 
+
+
 /// 프로그램
 model Program {
   /// 프로그램 ID (Primary Key)
@@ -291,142 +292,6 @@ model ProgramSchedule {
 }
 
 
-// ============================================================================
-// WEB 알림마당 Views
-// ============================================================================
-
-/// Web 공지사항 목록 조회 뷰
-view WebNotice {
-  id          BigInt    @unique
-  title       String
-  content     String
-  category    String?
-  isPinned    Boolean   @map("is_pinned")
-  isActive    Boolean   @map("is_active")
-  viewCount   Int       @map("view_count")
-  publishedAt DateTime? @map("published_at") @db.Timestamptz(6)
-  createdAt   DateTime  @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime  @map("updated_at") @db.Timestamptz(6)
-  creatorName String?   @map("creator_name")
-  creatorId   BigInt?   @map("creator_id")
-  fileCount   Int       @map("file_count")
-  files       Json
-
-  @@map("v_web_notices")
-}
-
-/// Web 공지사항 상세 조회 뷰
-view WebNoticeDetail {
-  id          BigInt    @unique
-  title       String
-  content     String
-  category    String?
-  isPinned    Boolean   @map("is_pinned")
-  viewCount   Int       @map("view_count")
-  publishedAt DateTime? @map("published_at") @db.Timestamptz(6)
-  createdAt   DateTime  @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime  @map("updated_at") @db.Timestamptz(6)
-  creatorName String?   @map("creator_name")
-  creatorId   BigInt?   @map("creator_id")
-  files       Json
-  prevNotice   Json?     @map("prev_notice")
-  nextNotice   Json?     @map("next_notice")
-
-  @@map("v_web_notice_detail")
-}
-
-/// Web 게시판 목록 조회 뷰
-view WebBoardPost {
-  id           BigInt   @unique
-  boardKey     String   @map("board_key")
-  title        String
-  content      String
-  viewCount    Int      @map("view_count")
-  isPinned     Boolean  @map("is_pinned")
-  isLocked     Boolean  @map("is_locked")
-  createdAt    DateTime @map("created_at") @db.Timestamptz(6)
-  updatedAt    DateTime @map("updated_at") @db.Timestamptz(6)
-  authorName   String?  @map("author_name")
-  authorId     BigInt?  @map("author_id")
-  commentCount Int      @map("comment_count")
-  fileCount    Int      @map("file_count")
-  files        Json
-
-  @@map("v_web_board_posts")
-}
-
-/// Web 게시글 상세 조회 뷰
-view WebBoardPostDetail {
-  id           BigInt   @unique
-  boardKey     String   @map("board_key")
-  title        String
-  content      String
-  viewCount    Int      @map("view_count")
-  isPinned     Boolean  @map("is_pinned")
-  isLocked     Boolean  @map("is_locked")
-  createdAt    DateTime @map("created_at") @db.Timestamptz(6)
-  updatedAt    DateTime @map("updated_at") @db.Timestamptz(6)
-  authorName   String?  @map("author_name")
-  authorId     BigInt?  @map("author_id")
-  files        Json
-  comments     Json
-  commentCount Int      @map("comment_count")
-  prevPost     Json?    @map("prev_post")
-  nextPost     Json?    @map("next_post")
-
-  @@map("v_web_board_post_detail")
-}
-
-/// Web 갤러리 목록 조회 뷰
-view WebGalleryItem {
-  id          BigInt    @unique
-  title       String?
-  description String?
-  category    String?
-  eventDate   DateTime? @map("event_date") @db.Date
-  isPublic    Boolean   @map("is_public")
-  createdAt   DateTime  @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime  @map("updated_at") @db.Timestamptz(6)
-  creatorName String?   @map("creator_name")
-  creatorId   BigInt?   @map("creator_id")
-  fileCount   Int       @map("file_count")
-  thumbnail   Json?
-  files       Json
-
-  @@map("v_web_gallery_items")
-}
-
-/// Web 식단표 목록 조회 뷰
-view WebMealPlan {
-  id               BigInt   @unique
-  facilityCode     String   @map("facility_code")
-  weekStartDate    DateTime @map("week_start_date") @db.Date
-  status           String
-  nutritionManager String?  @map("nutrition_manager")
-  notes            String?
-  createdAt        DateTime @map("created_at") @db.Timestamptz(6)
-  updatedAt        DateTime @map("updated_at") @db.Timestamptz(6)
-  creatorName      String?  @map("creator_name")
-  creatorId        BigInt?  @map("creator_id")
-  weekMeals        Json     @map("week_meals")
-
-  @@map("v_web_meal_plans")
-}
-
-/// 최신 콘텐츠 통합 조회 뷰
-view WebLatestContent {
-  id           BigInt    @unique
-  contentType  String    @map("content_type")
-  title        String
-  summary      String?
-  createdAt    DateTime  @map("created_at") @db.Timestamptz(6)
-  viewCount    Int       @map("view_count")
-  commentCount Int?      @map("comment_count")
-  fileCount    Int       @map("file_count")
-  authorName   String?   @map("author_name")
-
-  @@map("v_web_latest_contents")
-}
 
 
 
@@ -2064,4 +1929,3 @@ model WebInquiry {
 
   @@map("web_inquiries")
 }
-

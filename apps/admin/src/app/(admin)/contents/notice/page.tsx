@@ -3,12 +3,12 @@
 import { api } from '@/lib/api';
 import { format } from 'date-fns';
 import { useEffect, useMemo, useState } from 'react';
-import { Announcement } from './announcement.type';
-import AnnouncementDetailModal from './AnnouncementDetailModal';
-import AnnouncementFilter from './AnnouncementFilter';
-import AnnouncementFormModal from './AnnouncementFormModal';
-import AnnouncementHeader from './AnnouncementHeader';
-import AnnouncementTable from './AnnouncementTable';
+import NoticeDetailModal from './NoticeDetailModal';
+import NoticeFilter from './NoticeFilter';
+import NoticeFormModal from './NoticeFormModal';
+import NoticeHeader from './NoticeHeader';
+import NoticeTable from './NoticeTable';
+import { Notice } from './notice.type';
 
 function categoryToEng(kor: string): string {
   const map: any = { 일반: 'GENERAL', 긴급: 'URGENT', 교육: 'EDUCATION', 행사: 'EVENT', 점검: 'MAINTENANCE' };
@@ -25,14 +25,14 @@ function categoryToKor(eng: string | null): any {
  * image_102a40.png의 검색 및 테이블 디자인 통합 반영
  * 완전한 CRUD 기능 포함
  */
-export default function AnnouncementPage() {
-  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+export default function NoticeManagementPage() {
+  const [notices, setNotices] = useState<Notice[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState<string>('all');
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<Announcement | null>(null);
-  const [editingItem, setEditingItem] = useState<Announcement | null>(null);
+  const [selectedItem, setSelectedItem] = useState<Notice | null>(null);
+  const [editingItem, setEditingItem] = useState<Notice | null>(null);
 
   // API Hooks
   const { data: noticesData, refetch } = api.content.getNotices.useQuery({
@@ -70,7 +70,7 @@ export default function AnnouncementPage() {
   // 데이터 매핑 (API -> UI)
   useEffect(() => {
     if (noticesData?.status === 200) {
-      const mapped: Announcement[] = noticesData.body.data.map((notice: any) => ({
+      const mapped: Notice[] = noticesData.body.data.map((notice: any) => ({
         id: notice.id,
         category: categoryToKor(notice.category),
         title: notice.title,
@@ -81,13 +81,13 @@ export default function AnnouncementPage() {
         isPinned: notice.isPinned,
         attachments: [],
       }));
-      setAnnouncements(mapped);
+      setNotices(mapped);
     }
   }, [noticesData]);
 
   // 2. 실시간 필터링 엔진
   const filteredData = useMemo(() => {
-    return announcements
+    return notices
       .filter(item => {
         const matchSearch =
           item.title.includes(searchTerm) || item.content.includes(searchTerm) || item.author.includes(searchTerm);
@@ -100,11 +100,11 @@ export default function AnnouncementPage() {
         // 날짜 최신순
         return b.createdAt.localeCompare(a.createdAt);
       });
-  }, [announcements, searchTerm, filterCategory]);
+  }, [notices, searchTerm, filterCategory]);
 
   // 3. 조회수 증가
   const incrementViews = (id: string) => {
-    const item = announcements.find(a => a.id === id);
+    const item = notices.find(a => a.id === id);
     if (!item) return;
 
     updateNotice.mutate({
@@ -120,14 +120,14 @@ export default function AnnouncementPage() {
   };
 
   // 5. 상세 조회
-  const handleView = (item: Announcement) => {
+  const handleView = (item: Notice) => {
     incrementViews(item.id);
     setSelectedItem(item);
     setIsDetailModalOpen(true);
   };
 
   // 6. 수정
-  const handleEdit = (item: Announcement) => {
+  const handleEdit = (item: Notice) => {
     setEditingItem(item);
     setIsDetailModalOpen(false);
     setIsFormModalOpen(true);
@@ -140,7 +140,7 @@ export default function AnnouncementPage() {
   };
 
   // 8. 저장 (신규/수정)
-  const handleSave = (data: Partial<Announcement>) => {
+  const handleSave = (data: Partial<Notice>) => {
     const apiBody = {
       title: data.title || '',
       content: data.content || '',
@@ -165,7 +165,7 @@ export default function AnnouncementPage() {
 
   // 9. 고정 토글
   const handleTogglePin = (id: string) => {
-    const item = announcements.find(a => a.id === id);
+    const item = notices.find(a => a.id === id);
     if (!item) return;
 
     updateNotice.mutate({
@@ -177,12 +177,12 @@ export default function AnnouncementPage() {
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-[#f0f2f5] font-sans antialiased">
       {/* A. 상단 액션 헤더 */}
-      <AnnouncementHeader onAdd={handleAdd} totalCount={announcements.length} />
+      <NoticeHeader onAdd={handleAdd} totalCount={notices.length} />
 
       <div className="custom-scrollbar flex-1 overflow-y-auto p-8">
         <div className="mx-auto max-w-full space-y-8">
           {/* B. 검색 필터 섹션 */}
-          <AnnouncementFilter
+          <NoticeFilter
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
             filterCategory={filterCategory}
@@ -191,22 +191,17 @@ export default function AnnouncementPage() {
 
           {/* C. 통계 요약 */}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-            <StatCard
-              label="전체 공지"
-              value={announcements.length}
-              icon="ri-notification-line"
-              color="text-gray-800"
-            />
+            <StatCard label="전체 공지" value={notices.length} icon="ri-notification-line" color="text-gray-800" />
             <StatCard
               label="고정 공지"
-              value={announcements.filter(a => a.isPinned).length}
+              value={notices.filter(a => a.isPinned).length}
               icon="ri-pushpin-2-fill"
               color="text-[#5C8D5A]"
             />
             <StatCard
               label="금일 등록"
               value={
-                announcements.filter(
+                notices.filter(
                   a => a.createdAt === new Date().toLocaleDateString('ko-KR').replace(/\. /g, '.').replace(/\.$/, ''),
                 ).length
               }
@@ -215,7 +210,7 @@ export default function AnnouncementPage() {
             />
             <StatCard
               label="총 조회수"
-              value={announcements.reduce((sum, a) => sum + a.views, 0)}
+              value={notices.reduce((sum, a) => sum + a.views, 0)}
               icon="ri-eye-line"
               color="text-purple-600"
             />
@@ -230,8 +225,8 @@ export default function AnnouncementPage() {
               </div>
             </div>
 
-            <AnnouncementTable
-              announcements={filteredData}
+            <NoticeTable
+              notices={filteredData}
               onSelect={handleView}
               onEdit={handleEdit}
               onDelete={handleDelete}
@@ -242,9 +237,9 @@ export default function AnnouncementPage() {
       </div>
 
       {/* E. 작성/수정 폼 모달 */}
-      <AnnouncementFormModal
+      <NoticeFormModal
         isOpen={isFormModalOpen}
-        announcement={editingItem}
+        notice={editingItem}
         onClose={() => {
           setIsFormModalOpen(false);
           setEditingItem(null);
@@ -253,9 +248,9 @@ export default function AnnouncementPage() {
       />
 
       {/* F. 상세보기 모달 */}
-      <AnnouncementDetailModal
+      <NoticeDetailModal
         isOpen={isDetailModalOpen}
-        announcement={selectedItem}
+        notice={selectedItem}
         onClose={() => {
           setIsDetailModalOpen(false);
           setSelectedItem(null);

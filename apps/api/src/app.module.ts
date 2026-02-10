@@ -82,7 +82,6 @@ import { VisitReservationModule } from './modules/web-view/visit-inquiry/visit-i
     MyPageModule,
     SettingModule,
     WebInquiryModule,
-    WebInquiryModule,
     NoticesModule,
     VisitReservationModule,
     RoleModule,

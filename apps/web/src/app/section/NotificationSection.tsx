@@ -12,45 +12,77 @@ import { useMemo, useState } from 'react';
 
 import { api } from '@/lib/api';
 
-// JSON 데이터 import
-import boardData from '@/data/board.json';
-import galleryData from '@/data/gallery.json';
-
-type TabType = 'announcements' | 'gallery' | 'board';
+type TabType = 'notice' | 'gallery' | 'board';
 
 export default function GalleryNoticeSection() {
-  const [activeTab, setActiveTab] = useState<TabType>('announcements');
+  const [activeTab, setActiveTab] = useState<TabType>('notice');
 
   // API에서 공지사항 데이터 가져오기
-  const { data: noticesData } = api.content.getNotices.useQuery(
+  const { data: noticesData } = api.webpage.getNotices.useQuery(
     {
       query: {
         isActive: true,
       },
-    },
+    } as any,
     {
-      queryKey: ['home-notices'],
+      queryKey: ['webpage-notices-home'],
     },
   );
 
   // 공지사항 데이터 변환
-  const latestAnnouncements = useMemo(() => {
+  const latestNotices = useMemo(() => {
     if (noticesData?.status !== 200) return [];
 
-    return noticesData.body.data.slice(0, 3).map(notice => ({
+    return (noticesData.body.data as any[]).slice(0, 3).map(notice => ({
       id: notice.id,
       title: notice.title,
       category: notice.category === 'URGENT' ? '중요' : notice.category === 'EVENT' ? '행사' : '일반',
       date: new Date(notice.publishedAt || notice.createdAt).toLocaleDateString('ko-KR'),
       views: notice.viewCount,
-      isNew: new Date(notice.createdAt).getTime() > Date.now() - 7 * 24 * 60 * 60 * 1000, // 7일 이내
+      isNew: new Date(notice.createdAt).getTime() > Date.now() - 7 * 24 * 60 * 60 * 1000,
       isPinned: notice.isPinned,
     }));
   }, [noticesData]);
 
-  // galleryData는 { galleries: [...] } 구조
-  const latestGallery = galleryData?.galleries?.slice(0, 5) || [];
-  const latestBoard = boardData?.posts?.slice(0, 3) || [];
+  // 갤러리 데이터 가져오기
+  const { data: galleryItemsData } = api.webpage.getGalleryItems.useQuery({} as any, {
+    queryKey: ['home-gallery'],
+  });
+
+  // 갤러리 데이터 변환
+  const latestGallery = useMemo(() => {
+    if (galleryItemsData?.status !== 200) return [];
+    return (galleryItemsData.body.data as any[]).slice(0, 5).map(item => ({
+      id: item.id,
+      title: item.title,
+      images: item.files?.map((f: any) => f.file?.url).filter(Boolean) || [],
+    }));
+  }, [galleryItemsData]);
+
+  // 게시판 데이터 가져오기
+  const { data: postsData } = api.webpage.getPosts.useQuery(
+    {
+      query: {
+        page: 1,
+        limit: 3,
+      },
+    } as any,
+    {
+      queryKey: ['home-board-posts'],
+    },
+  );
+
+  // 게시판 데이터 변환
+  const latestBoard = useMemo(() => {
+    if (postsData?.status !== 200) return [];
+    return (postsData.body.data as any[]).map(post => ({
+      id: post.id,
+      title: post.title,
+      created_at: post.createdAt,
+      view_count: post.viewCount,
+      image_urls: post.files?.map((f: any) => f.file?.url).filter(Boolean) || [],
+    }));
+  }, [postsData]);
 
   // 알림마당 퀵메뉴
   const quickMenus = [
@@ -92,13 +124,13 @@ export default function GalleryNoticeSection() {
             <div className="mb-6 flex items-center justify-between">
               <div className="flex gap-4">
                 <button
-                  onClick={() => setActiveTab('announcements')}
+                  onClick={() => setActiveTab('notice')}
                   className={`relative pb-2 text-xl font-bold transition-colors ${
-                    activeTab === 'announcements' ? 'text-gray-900' : 'text-gray-400'
+                    activeTab === 'notice' ? 'text-gray-900' : 'text-gray-400'
                   }`}
                 >
                   공지사항
-                  {activeTab === 'announcements' && (
+                  {activeTab === 'notice' && (
                     <motion.div
                       layoutId="activeTab"
                       className="absolute bottom-0 left-0 h-1 w-full rounded-full bg-[#5C8D5A]"
@@ -135,13 +167,7 @@ export default function GalleryNoticeSection() {
                 </button>
               </div>
               <Link
-                href={
-                  activeTab === 'announcements'
-                    ? '/notices/announcements'
-                    : activeTab === 'gallery'
-                      ? '/gallery'
-                      : '/board'
-                }
+                href={activeTab === 'notice' ? '/notices/notice' : activeTab === 'gallery' ? '/gallery' : '/board'}
                 className="flex items-center gap-1 text-sm font-semibold text-gray-600 transition-colors hover:text-[#5C8D5A]"
               >
                 더보기
@@ -152,16 +178,16 @@ export default function GalleryNoticeSection() {
             {/* 탭 콘텐츠 */}
             <div className="overflow-hidden rounded-2xl bg-white p-6 shadow-sm">
               {/* 공지사항 탭 */}
-              {activeTab === 'announcements' && (
+              {activeTab === 'notice' && (
                 <motion.div
-                  key="announcements"
+                  key="notice"
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
                   transition={{ duration: 0.3 }}
                   className="space-y-4"
                 >
-                  {latestAnnouncements.map((notice, index) => (
+                  {latestNotices.map((notice, index) => (
                     <motion.div
                       key={notice.id}
                       initial={{ opacity: 0, y: 10 }}
@@ -169,7 +195,7 @@ export default function GalleryNoticeSection() {
                       transition={{ duration: 0.3, delay: index * 0.1 }}
                     >
                       <Link
-                        href={`/notices/announcements/${notice.id}`}
+                        href={`/notices/notice/${notice.id}`}
                         className="group flex items-center justify-between gap-4 rounded-lg border border-gray-200 p-4 transition-all hover:border-[#5C8D5A] hover:bg-[#5C8D5A]/5"
                       >
                         <div className="flex flex-1 items-center gap-3">

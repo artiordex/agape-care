@@ -6,17 +6,17 @@
 
 import { z } from 'zod';
 import {
+  CreateMealPlanItemRequestSchema,
   CreateMealPlanRequestSchema,
-  UpdateMealPlanRequestSchema,
+  GetCurrentWeekMealPlanQuerySchema,
+  GetMealPlanItemsQuerySchema,
+  GetMealPlanItemsResponseSchema,
   GetMealPlansQuerySchema,
   GetMealPlansResponseSchema,
   MealPlanSchema,
-  CreateMealPlanItemRequestSchema,
   UpdateMealPlanItemRequestSchema,
-  GetMealPlanItemsQuerySchema,
-  GetMealPlanItemsResponseSchema,
+  UpdateMealPlanRequestSchema,
   WeeklyMealPlanSchema,
-  GetCurrentWeekMealPlanQuerySchema,
 } from '../schemas/meal/index.js';
 
 const authHeader = z.object({
@@ -38,7 +38,7 @@ export const mealContract = {
    */
   getMealPlans: {
     method: 'GET' as const,
-    path: '/api/meal-plans',
+    path: '/meal-plans',
     query: GetMealPlansQuerySchema,
     responses: {
       200: GetMealPlansResponseSchema,
@@ -53,7 +53,7 @@ export const mealContract = {
    */
   getMealPlan: {
     method: 'GET' as const,
-    path: '/api/meal-plans/:id',
+    path: '/meal-plans/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -71,7 +71,7 @@ export const mealContract = {
    */
   getCurrentWeekMealPlan: {
     method: 'GET' as const,
-    path: '/api/meal-plans/current-week',
+    path: '/meal-plans/current-week',
     query: GetCurrentWeekMealPlanQuerySchema,
     responses: {
       200: WeeklyMealPlanSchema,
@@ -87,7 +87,7 @@ export const mealContract = {
    */
   createMealPlan: {
     method: 'POST' as const,
-    path: '/api/meal-plans',
+    path: '/meal-plans',
     body: CreateMealPlanRequestSchema,
     responses: {
       201: MealPlanSchema,
@@ -104,7 +104,7 @@ export const mealContract = {
    */
   updateMealPlan: {
     method: 'PATCH' as const,
-    path: '/api/meal-plans/:id',
+    path: '/meal-plans/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -123,7 +123,7 @@ export const mealContract = {
    */
   deleteMealPlan: {
     method: 'DELETE' as const,
-    path: '/api/meal-plans/:id',
+    path: '/meal-plans/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -144,7 +144,7 @@ export const mealContract = {
    */
   getMealPlanItems: {
     method: 'GET' as const,
-    path: '/api/meal-plans/:mealPlanId/items',
+    path: '/meal-plans/:mealPlanId/items',
     pathParams: z.object({
       mealPlanId: z.string(),
     }),
@@ -162,7 +162,7 @@ export const mealContract = {
    */
   createMealPlanItem: {
     method: 'POST' as const,
-    path: '/api/meal-plans/:mealPlanId/items',
+    path: '/meal-plans/:mealPlanId/items',
     pathParams: z.object({
       mealPlanId: z.string(),
     }),
@@ -181,7 +181,7 @@ export const mealContract = {
    */
   updateMealPlanItem: {
     method: 'PATCH' as const,
-    path: '/api/meal-plans/:mealPlanId/items/:id',
+    path: '/meal-plans/:mealPlanId/items/:id',
     pathParams: z.object({
       mealPlanId: z.string(),
       id: z.string(),
@@ -201,7 +201,7 @@ export const mealContract = {
    */
   deleteMealPlanItem: {
     method: 'DELETE' as const,
-    path: '/api/meal-plans/:mealPlanId/items/:id',
+    path: '/meal-plans/:mealPlanId/items/:id',
     pathParams: z.object({
       mealPlanId: z.string(),
       id: z.string(),

@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
-import { Announcement, AnnouncementCategory } from './announcement.type';
+import { useEffect, useState } from 'react';
+import { Notice, NoticeCategory } from './notice.type';
 
 interface Props {
   readonly isOpen: boolean;
   readonly onClose: () => void;
-  readonly onSave: (data: Partial<Announcement>) => void;
-  readonly announcement?: Announcement | null;
+  readonly onSave: (data: Partial<Notice>) => void;
+  readonly notice?: Notice | null;
 }
 
 /**
@@ -16,8 +16,8 @@ interface Props {
  * 아가페 표준 직각형 레이아웃 적용
  * 첨부파일 관리 기능 포함
  */
-export default function AnnouncementFormModal({ isOpen, onClose, onSave, announcement }: Props) {
-  const [formData, setFormData] = useState<Partial<Announcement>>({
+export default function NoticeFormModal({ isOpen, onClose, onSave, notice }: Props) {
+  const [formData, setFormData] = useState<Partial<Notice>>({
     category: '일반',
     title: '',
     content: '',
@@ -26,11 +26,11 @@ export default function AnnouncementFormModal({ isOpen, onClose, onSave, announc
     attachments: [],
   });
 
-  const categories: AnnouncementCategory[] = ['일반', '긴급', '교육', '행사', '점검'];
+  const categories: NoticeCategory[] = ['일반', '긴급', '교육', '행사', '점검'];
 
   useEffect(() => {
-    if (announcement) {
-      setFormData({ ...announcement });
+    if (notice) {
+      setFormData({ ...notice });
     } else {
       setFormData({
         category: '일반',
@@ -41,7 +41,7 @@ export default function AnnouncementFormModal({ isOpen, onClose, onSave, announc
         attachments: [],
       });
     }
-  }, [announcement, isOpen]);
+  }, [notice, isOpen]);
 
   const handleSubmit = () => {
     if (!formData.title || !formData.content) {
@@ -78,7 +78,7 @@ export default function AnnouncementFormModal({ isOpen, onClose, onSave, announc
           <div className="flex items-center gap-3">
             <i className="ri-edit-box-line text-xl"></i>
             <h3 className="text-sm font-black uppercase italic tracking-widest">
-              {announcement ? 'Announcement Revision' : 'New Announcement Entry'}
+              {notice ? 'Notice Revision' : 'New Notice Entry'}
             </h3>
           </div>
           <button onClick={onClose} className="cursor-pointer p-1 transition-all hover:bg-black/10">
@@ -94,7 +94,7 @@ export default function AnnouncementFormModal({ isOpen, onClose, onSave, announc
               <label className="text-[10px] font-black uppercase text-gray-400">공지 구분 *</label>
               <select
                 value={formData.category}
-                onChange={e => setFormData({ ...formData, category: e.target.value as AnnouncementCategory })}
+                onChange={e => setFormData({ ...formData, category: e.target.value as NoticeCategory })}
                 className="w-full rounded-none border border-gray-200 bg-white px-3 py-2.5 text-[13px] font-bold outline-none focus:border-[#5C8D5A]"
               >
                 {categories.map(cat => (
@@ -170,9 +170,9 @@ export default function AnnouncementFormModal({ isOpen, onClose, onSave, announc
               className="w-full resize-none rounded-none border border-gray-200 bg-white px-4 py-4 text-[13px] font-medium leading-relaxed shadow-inner outline-none focus:border-[#5C8D5A]"
               placeholder="공지할 상세 내용을 기록하십시오.
 
-• 주요 내용을 명확하게 작성해주세요.
-• 날짜, 장소, 대상 등 필수 정보를 포함해주세요.
-• 문의처나 담당자 정보를 추가하면 좋습니다."
+ • 주요 내용을 명확하게 작성해주세요.
+ • 날짜, 장소, 대상 등 필수 정보를 포함해주세요.
+ • 문의처나 담당자 정보를 추가하면 좋습니다."
             />
             <div className="text-right text-[10px] font-bold text-gray-400">{formData.content?.length || 0}자</div>
           </div>

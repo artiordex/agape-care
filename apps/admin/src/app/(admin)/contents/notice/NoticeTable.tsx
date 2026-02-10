@@ -1,13 +1,12 @@
 'use client';
 
-import React from 'react';
 import clsx from 'clsx';
-import { Announcement } from './announcement.type';
+import { Notice } from './notice.type';
 
 interface Props {
-  readonly announcements: Announcement[];
-  readonly onSelect: (announcement: Announcement) => void;
-  readonly onEdit: (announcement: Announcement) => void;
+  readonly notices: Notice[];
+  readonly onSelect: (notice: Notice) => void;
+  readonly onEdit: (notice: Notice) => void;
   readonly onDelete: (id: string) => void;
   readonly onTogglePin: (id: string) => void;
 }
@@ -17,7 +16,7 @@ interface Props {
  * image_102a40.png의 헤더 및 컬럼 규격 적용
  * 관리 기능 (수정/삭제/고정) 포함
  */
-export default function AnnouncementTable({ announcements, onSelect, onEdit, onDelete, onTogglePin }: Props) {
+export default function NoticeTable({ notices, onSelect, onEdit, onDelete, onTogglePin }: Props) {
   // 카테고리별 스타일
   const categoryStyles: any = {
     긴급: 'text-red-600 bg-red-50 border-red-100',
@@ -42,15 +41,15 @@ export default function AnnouncementTable({ announcements, onSelect, onEdit, onD
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100">
-          {announcements.length === 0 ? (
+          {notices.length === 0 ? (
             <tr>
               <td colSpan={7} className="py-20 text-[14px] font-bold uppercase italic tracking-widest text-gray-300">
                 <i className="ri-inbox-line mb-2 block text-4xl"></i>
-                No announcement records found
+                No notice records found
               </td>
             </tr>
           ) : (
-            announcements.map(item => (
+            notices.map(item => (
               <tr key={item.id} className="group transition-all hover:bg-emerald-50/30">
                 {/* 번호 */}
                 <td className="py-5 font-mono text-[13px] font-bold text-gray-400">

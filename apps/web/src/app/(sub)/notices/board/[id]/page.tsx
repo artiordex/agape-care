@@ -1,7 +1,7 @@
 /**
  * Description : detail-page.tsx - 📌 게시판 상세 페이지
  * Author : Shiwoo Min
- * Date : 2026-02-02
+ * Date : 2026-02-08
  */
 
 'use client';
@@ -10,6 +10,7 @@ import { api } from '@/lib/api';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useMemo } from 'react';
+import BoardComment from './BoardComment';
 
 interface Post {
   id: string;
@@ -21,6 +22,8 @@ interface Post {
   is_hidden: boolean;
   createdAt: string;
   updatedAt: string;
+  comments: any[];
+  isLocked: boolean;
 }
 
 export default function BoardDetailPage() {
@@ -34,62 +37,145 @@ export default function BoardDetailPage() {
     isLoading,
     error,
     isError,
-    failureReason,
+    refetch,
   } = api.webpage.getPost.useQuery(
     {
       params: { id: postId },
     },
     {
-      enabled: !!postId, // Only run if we have a postId
-      retry: false, // Don't retry on failure for easier debugging
+      enabled: !!postId,
+      retry: false,
       onError: err => {
-        console.error('❌ Query Error:', err);
+        console.error('❌ Board Query Error:', err);
       },
     },
   );
 
-  console.log('🔍 Debug Info:', {
+  console.log('🔍 Debug Info [Board]:', {
     postId,
+    isLoading,
+    isError,
     postResult,
-    hasData: !!postResult,
-    status: postResult?.status,
+    error: error instanceof Error ? { message: error.message, name: error.name } : error,
   });
+
+  // 추가 로그
+  console.log('📦 postResult.body:', postResult?.body);
+  console.log('📦 postResult.body type:', typeof postResult?.body);
+  if (postResult?.body) {
+    console.log('📦 body keys:', Object.keys(postResult.body));
+  }
 
   // All Posts for Prev/Next navigation
-  const { data: allPostsResult } = api.webpage.getPosts.useQuery({
-    query: { boardKey: 'FREE', page: 1, limit: 100 },
-  });
+  const { data: allPostsResult } = api.webpage.getPosts.useQuery(
+    { boardKey: 'FREE', page: 1, limit: 100 },
+    {
+      queryKey: ['webpage-posts', 'FREE'],
+    },
+  );
 
   const post = useMemo(() => {
-    // Check if we have valid data
-    if (!postResult || postResult.status !== 200 || !postResult.body?.data) {
+    // postResult.body가 undefined일 수 있으므로 안전하게 접근
+    if (!postResult || postResult.status !== 200 || !postResult.body || !('data' in postResult.body)) {
       return null;
     }
 
-    const p = postResult.body.data;
+    const p = (postResult.body as any).data;
+    if (!p) return null;
+
+    // 댓글 트리 구조 생성 (부모-자식 관계)
+    const commentMap = new Map();
+    const flatComments = p.comments || [];
+
+    // 1단계: 모든 댓글을 맵에 담기 ( replies 배열 초기화 )
+    flatComments.forEach((c: any) => {
+      commentMap.set(String(c.id), { ...c, replies: [] });
+    });
+
+    // 2단계: 부모-자식 관계 연결
+    const nestedComments: any[] = [];
+    commentMap.forEach(c => {
+      if (c.parentId) {
+        const parent = commentMap.get(String(c.parentId));
+        if (parent) {
+          parent.replies.push(c);
+        } else {
+          // 부모가 없으면(삭제 등) 최상위에 둠
+          nestedComments.push(c);
+        }
+      } else {
+        nestedComments.push(c);
+      }
+    });
 
     return {
-      id: p.id,
+      id: String(p.id),
       title: p.title,
-      writer_name: '관리자', // TODO: authorId로 이름 가져오기
+      writer_name: p.author?.name || '관리자',
       content: p.content,
       view_count: p.viewCount || 0,
-      image_urls: [],
+      image_urls: p.files?.map((f: any) => f.file?.url).filter(Boolean) || [],
       is_hidden: false,
       createdAt: p.createdAt,
       updatedAt: p.updatedAt,
+      comments: nestedComments,
+      isLocked: p.isLocked || false,
     };
   }, [postResult]);
 
   const allPosts =
-    allPostsResult?.status === 200 && Array.isArray(allPostsResult.body.data) ? allPostsResult.body.data : [];
+    allPostsResult?.status === 200 && allPostsResult.body && 'data' in allPostsResult.body
+      ? (allPostsResult.body as any).data
+      : [];
 
-  const currentIndex = allPosts.findIndex((p: any) => p && p.id === postId);
-  const prevPost = currentIndex > 0 && allPosts[currentIndex - 1] ? allPosts[currentIndex - 1] : null;
-  const nextPost =
-    currentIndex !== -1 && currentIndex < allPosts.length - 1 && allPosts[currentIndex + 1]
-      ? allPosts[currentIndex + 1]
-      : null;
+  const currentIndex = allPosts.findIndex((p: any) => p && String(p.id) === String(postId));
+  const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+  const nextPost = currentIndex !== -1 && currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+
+  const createCommentMutation = api.webpage.createComment.useMutation();
+  // 댓글 삭제 변이 (게시글 수정용 contentContract 사용 권장)
+  const deletePostMutation = api.content.deletePost.useMutation();
+
+  // 댓글 작성 핸들러
+  const handleCommentSubmit = async (content: string, parentId: string | null) => {
+    try {
+      await createCommentMutation.mutateAsync({
+        body: {
+          postId: postId,
+          content,
+          parentId: parentId || null,
+        },
+      });
+
+      // 댓글 목록 새로고침
+      await refetch();
+      alert('댓글이 작성되었습니다.');
+    } catch (error) {
+      console.error('댓글 작성 실패:', error);
+      throw error;
+    }
+  };
+
+  // 댓글 삭제 변이
+  const deleteCommentMutation = api.webpage.deleteComment.useMutation();
+
+  // 댓글 삭제 핸들러
+  const handleCommentDelete = async (commentId: string) => {
+    try {
+      if (!confirm('댓글을 삭제하시겠습니까?')) return;
+
+      await deleteCommentMutation.mutateAsync({
+        params: { id: commentId },
+        body: {},
+      });
+
+      await refetch();
+      alert('댓글이 삭제되었습니다.');
+    } catch (error) {
+      console.error('댓글 삭제 실패:', error);
+      throw error;
+    }
+  };
 
   if (isLoading) {
     return (
@@ -99,7 +185,9 @@ export default function BoardDetailPage() {
     );
   }
 
-  if (error) {
+  if (error || (postResult && postResult.status !== 200 && postResult.status !== 404)) {
+    const errorMsg =
+      error instanceof Error ? error.message : postResult ? `API Status: ${postResult.status}` : '알 수 없는 오류';
     return (
       <div className="mx-auto max-w-6xl px-4 py-20 text-center">
         <div className="rounded border border-red-200 bg-white p-12 shadow-sm">
@@ -107,11 +195,17 @@ export default function BoardDetailPage() {
             <i className="ri-error-warning-line text-4xl text-red-400" />
           </div>
           <h2 className="mb-4 text-2xl font-bold text-gray-900">API 오류가 발생했습니다</h2>
-          <p className="mb-6 text-gray-600">
-            {error instanceof Error ? error.message : '알 수 없는 오류가 발생했습니다.'}
-          </p>
-          <pre className="mb-6 overflow-auto rounded bg-gray-100 p-4 text-left text-xs">
-            {JSON.stringify({ postId, error }, null, 2)}
+          <p className="mb-6 font-medium text-gray-600">{errorMsg}</p>
+          <pre className="mb-6 overflow-auto rounded bg-gray-100 p-4 text-left text-xs text-red-500">
+            {JSON.stringify(
+              {
+                postId,
+                error: error instanceof Error ? { message: error.message, name: error.name } : error,
+                postResult,
+              },
+              null,
+              2,
+            )}
           </pre>
           <Link
             href="/notices/board"
@@ -265,6 +359,15 @@ export default function BoardDetailPage() {
               </div>
             </div>
           </div>
+
+          {/* 댓글 섹션 */}
+          <BoardComment
+            postId={post.id}
+            comments={post.comments}
+            isLocked={post.isLocked}
+            onCommentSubmit={handleCommentSubmit}
+            onCommentDelete={handleCommentDelete}
+          />
 
           {/* Action Buttons */}
           <div className="bg-[#5C8D5A]/5 px-6 py-6 md:px-8">
