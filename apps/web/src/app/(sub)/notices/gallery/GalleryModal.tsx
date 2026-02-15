@@ -18,7 +18,7 @@ interface Props {
   onClose: () => void;
 }
 
-export default function GalleryModal({ open, images, title, category, date, description, onClose }: Props) {
+export default function GalleryModal({ open, images, title, category, date, description, onClose }: Readonly<Props>) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
 
@@ -63,11 +63,11 @@ export default function GalleryModal({ open, images, title, category, date, desc
     };
 
     if (open) {
-      window.addEventListener('keydown', handleEscape);
+      globalThis.addEventListener('keydown', handleEscape);
     }
 
     return () => {
-      window.removeEventListener('keydown', handleEscape);
+      globalThis.removeEventListener('keydown', handleEscape);
     };
   }, [open, currentIndex, images.length]);
 
@@ -181,12 +181,26 @@ export default function GalleryModal({ open, images, title, category, date, desc
                   </div>
                 </div>
               ) : (
-                <img
-                  src={images[currentIndex]}
-                  alt={`${title} - ${currentIndex + 1}`}
-                  className="block h-full max-h-[70vh] w-full max-w-5xl rounded-lg object-contain shadow-2xl"
-                  onError={() => handleImageError(currentIndex)}
-                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (images.length > 1) {
+                      if (currentIndex < images.length - 1) {
+                        handleNext();
+                      } else {
+                        setCurrentIndex(0);
+                      }
+                    }
+                  }}
+                  className={`block h-full max-h-[70vh] w-full max-w-5xl overflow-hidden rounded-lg object-contain text-left shadow-2xl ${images.length > 1 ? 'cursor-pointer' : ''}`}
+                >
+                  <img
+                    src={images[currentIndex]}
+                    alt={`${title} - ${currentIndex + 1}`}
+                    className="h-full w-full object-contain"
+                    onError={() => handleImageError(currentIndex)}
+                  />
+                </button>
               )}
             </div>
 
@@ -249,7 +263,12 @@ export default function GalleryModal({ open, images, title, category, date, desc
       )}
 
       {/* 배경 클릭으로 닫기 */}
-      <div className="absolute inset-0 -z-10" onClick={onClose} aria-label="배경 클릭하여 닫기" />
+      <button
+        type="button"
+        className="absolute inset-0 z-10 block h-full w-full cursor-default bg-transparent text-left"
+        onClick={onClose}
+        aria-label="배경 클릭하여 닫기"
+      />
     </div>
   );
 }

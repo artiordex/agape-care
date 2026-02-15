@@ -122,6 +122,10 @@ model BoardComment {
   content   String
   /// 삭제 여부
   isDeleted Boolean        @default(false) @map("is_deleted")
+  /// 비회원 닉네임
+  guestNickname   String?        @map("guest_nickname")
+  /// 비회원 비밀번호
+  guestPassword   String?        @map("guest_password")
   /// 생성일시
   createdAt DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
   /// 수정일시
@@ -428,7 +432,92 @@ view WebLatestContent {
   @@map("v_web_latest_contents")
 }
 
+/// ===============================
+/// 면회 예약
+/// - 홈페이지 면회 예약 신청 관리
+/// ===============================
+model VisitReservation {
+  /// 예약 ID (Primary Key)
+  id                    BigInt   @id @default(autoincrement())
+  /// 방문자 성함
+  visitorName           String   @map("visitor_name")
+  /// 방문자 연락처
+  visitorPhone          String   @map("visitor_phone")
+  /// 어르신과의 관계
+  visitorRelationship   String   @map("visitor_relationship")
+  /// 어르신 성함
+  residentName          String   @map("resident_name")
+  /// 방문 희망일
+  visitDate             DateTime @map("visit_date") @db.Date
+  /// 방문 희망시간
+  visitTime             String   @map("visit_time")
+  /// 방문 인원
+  visitorCount          Int      @default(1) @map("visitor_count")
+  /// 방문 목적
+  visitPurpose          String?  @map("visit_purpose")
+  /// 감염 증상 여부 (발열, 기침 등)
+  healthCheckSymptoms   Boolean  @default(false) @map("health_check_symptoms")
+  /// 이동 보조 필요 여부
+  healthCheckAssistance Boolean  @default(false) @map("health_check_assistance")
+  /// 추가 요청사항
+  notes                 String?
+  /// 개인정보 수집 동의 여부
+  isConsented           Boolean  @default(false) @map("is_consented")
+  /// 처리 상태 (PENDING, APPROVED, REJECTED, CANCELLED)
+  status                String   @default("PENDING")
+  /// 신청 IP 주소
+  ipAddress             String?  @map("ip_address")
+  /// 사용자 브라우저 정보
+  userAgent             String?  @map("user_agent")
+  /// 신청 시각
+  createdAt             DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정 시각
+  updatedAt             DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
 
+  @@map("visit_reservations")
+}
+
+/// ===============================
+/// 웹사이트 상담 문의
+/// - 홈페이지 상담 신청 접수용
+/// - 관리자 페이지에서 처리 상태 관리
+/// ===============================
+model WebInquiry {
+  /// 문의 ID (Primary Key)
+  id            BigInt    @id @default(autoincrement())
+  /// 상담자 이름
+  name          String
+  /// 상담자 연락처
+  phone         String
+  /// 이메일
+  email         String?
+  /// 문의 유형
+  /// 입소 상담, 비용 상담, 방문 상담, 기타
+  type          String
+  /// 어르신 연령
+  residentAge   String?   @map("resident_age")
+  /// 장기요양등급
+  careGrade     String?   @map("care_grade")
+  /// 방문 상담 희망일
+  preferredDate DateTime? @map("preferred_date") @db.Date
+  /// 상세 문의사항
+  message       String?
+  /// 개인정보 수집 동의 여부
+  isConsented   Boolean   @default(false) @map("is_consented")
+  /// 처리 상태
+  /// PENDING: 접수, IN_PROGRESS: 상담중, DONE: 완료, CANCELLED: 취소
+  status        String    @default("PENDING")
+  /// 문의 접수 IP 주소
+  ipAddress     String?   @map("ip_address")
+  /// 사용자 브라우저 정보
+  userAgent     String?   @map("user_agent")
+  /// 문의 생성 시각
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정 시각
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("web_inquiries")
+}
 
 
 
@@ -1978,90 +2067,5 @@ model NotificationQueue {
   @@map("notification_queue")
 }
 
-/// ===============================
-/// 면회 예약
-/// - 홈페이지 면회 예약 신청 관리
-/// ===============================
-model VisitReservation {
-  /// 예약 ID (Primary Key)
-  id                    BigInt   @id @default(autoincrement())
-  /// 방문자 성함
-  visitorName           String   @map("visitor_name")
-  /// 방문자 연락처
-  visitorPhone          String   @map("visitor_phone")
-  /// 어르신과의 관계
-  visitorRelationship   String   @map("visitor_relationship")
-  /// 어르신 성함
-  residentName          String   @map("resident_name")
-  /// 방문 희망일
-  visitDate             DateTime @map("visit_date") @db.Date
-  /// 방문 희망시간
-  visitTime             String   @map("visit_time")
-  /// 방문 인원
-  visitorCount          Int      @default(1) @map("visitor_count")
-  /// 방문 목적
-  visitPurpose          String?  @map("visit_purpose")
-  /// 감염 증상 여부 (발열, 기침 등)
-  healthCheckSymptoms   Boolean  @default(false) @map("health_check_symptoms")
-  /// 이동 보조 필요 여부
-  healthCheckAssistance Boolean  @default(false) @map("health_check_assistance")
-  /// 추가 요청사항
-  notes                 String?
-  /// 개인정보 수집 동의 여부
-  isConsented           Boolean  @default(false) @map("is_consented")
-  /// 처리 상태 (PENDING, APPROVED, REJECTED, CANCELLED)
-  status                String   @default("PENDING")
-  /// 신청 IP 주소
-  ipAddress             String?  @map("ip_address")
-  /// 사용자 브라우저 정보
-  userAgent             String?  @map("user_agent")
-  /// 신청 시각
-  createdAt             DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  /// 수정 시각
-  updatedAt             DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
 
-  @@map("visit_reservations")
-}
-
-/// ===============================
-/// 웹사이트 상담 문의
-/// - 홈페이지 상담 신청 접수용
-/// - 관리자 페이지에서 처리 상태 관리
-/// ===============================
-model WebInquiry {
-  /// 문의 ID (Primary Key)
-  id            BigInt    @id @default(autoincrement())
-  /// 상담자 이름
-  name          String
-  /// 상담자 연락처
-  phone         String
-  /// 이메일
-  email         String?
-  /// 문의 유형
-  /// 입소 상담, 비용 상담, 방문 상담, 기타
-  type          String
-  /// 어르신 연령
-  residentAge   String?   @map("resident_age")
-  /// 장기요양등급
-  careGrade     String?   @map("care_grade")
-  /// 방문 상담 희망일
-  preferredDate DateTime? @map("preferred_date") @db.Date
-  /// 상세 문의사항
-  message       String?
-  /// 개인정보 수집 동의 여부
-  isConsented   Boolean   @default(false) @map("is_consented")
-  /// 처리 상태
-  /// PENDING: 접수, IN_PROGRESS: 상담중, DONE: 완료, CANCELLED: 취소
-  status        String    @default("PENDING")
-  /// 문의 접수 IP 주소
-  ipAddress     String?   @map("ip_address")
-  /// 사용자 브라우저 정보
-  userAgent     String?   @map("user_agent")
-  /// 문의 생성 시각
-  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  /// 수정 시각
-  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  @@map("web_inquiries")
-}
 

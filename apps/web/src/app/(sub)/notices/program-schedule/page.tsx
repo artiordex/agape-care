@@ -12,7 +12,7 @@ export default function ProgramSchedulePage() {
   return (
     <main className="min-h-screen bg-gray-50 pb-20">
       <ProgramScheduleSection
-        schedules={schedulesData?.status === 200 ? schedulesData.body.items : []}
+        schedules={schedulesData?.status === 200 ? schedulesData.body.data : []}
         isLoading={isLoading}
       />
     </main>

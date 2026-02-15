@@ -7,6 +7,7 @@
 
 'use client';
 
+import { api } from '@/lib/api';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
@@ -28,20 +29,13 @@ export default function VisitFormModal({ isOpen, onClose }: VisitFormModalProps)
     hasSymptoms: 'no',
     needsAssistance: 'no',
     message: '',
+    isConsented: false,
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // 실제로는 API 호출
-    setTimeout(() => {
+  const { mutate: createVisit, isPending } = api.visitReservation.createVisitReservation.useMutation({
+    onSuccess: () => {
       alert('면회 예약이 접수되었습니다. 담당자가 확인 후 연락드리겠습니다.');
-      setIsSubmitting(false);
       onClose();
-
       // 폼 초기화
       setFormData({
         name: '',
@@ -55,8 +49,34 @@ export default function VisitFormModal({ isOpen, onClose }: VisitFormModalProps)
         hasSymptoms: 'no',
         needsAssistance: 'no',
         message: '',
+        isConsented: false,
       });
-    }, 1500);
+    },
+    onError: (error: any) => {
+      console.error('Failed to submit visit reservation:', error);
+      alert('예약 신청 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    createVisit({
+      body: {
+        visitorName: formData.name,
+        visitorPhone: formData.phone,
+        visitorRelationship: formData.relationship,
+        residentName: formData.residentName,
+        visitDate: formData.visitDate,
+        visitTime: formData.visitTime,
+        visitorCount: parseInt(formData.visitors, 10),
+        visitPurpose: formData.purpose || null,
+        healthCheckSymptoms: formData.hasSymptoms === 'yes',
+        healthCheckAssistance: formData.needsAssistance === 'yes',
+        notes: formData.message || null,
+        isConsented: formData.isConsented,
+      },
+    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -404,6 +424,9 @@ export default function VisitFormModal({ isOpen, onClose }: VisitFormModalProps)
                     <label className="flex cursor-pointer items-start gap-3">
                       <input
                         type="checkbox"
+                        name="isConsented"
+                        checked={formData.isConsented}
+                        onChange={e => setFormData({ ...formData, isConsented: e.target.checked })}
                         required
                         className="mt-1 h-4 w-4 rounded border-gray-300 text-[#5C8D5A] focus:ring-[#5C8D5A]"
                       />
@@ -428,14 +451,14 @@ export default function VisitFormModal({ isOpen, onClose }: VisitFormModalProps)
                     </button>
                     <button
                       type="submit"
-                      disabled={isSubmitting || formData.hasSymptoms === 'yes'}
+                      disabled={isPending || formData.hasSymptoms === 'yes'}
                       className={`flex-1 rounded-xl px-8 py-4 font-bold text-white shadow-lg transition-all ${
-                        isSubmitting || formData.hasSymptoms === 'yes'
+                        isPending || formData.hasSymptoms === 'yes'
                           ? 'cursor-not-allowed bg-gray-400'
                           : 'bg-[#5C8D5A] hover:bg-[#4A7548] hover:shadow-xl'
                       }`}
                     >
-                      {isSubmitting ? (
+                      {isPending ? (
                         <>
                           <i className="ri-loader-4-line mr-2 animate-spin" /> 예약 처리 중...
                         </>

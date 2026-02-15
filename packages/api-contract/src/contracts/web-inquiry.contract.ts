@@ -4,8 +4,12 @@
  */
 import { z } from 'zod';
 import { ApiResponseSchema, PaginatedResponseSchema } from '../schemas/common/response.schema.js';
-import { CreateWebInquirySchema, WebInquirySchema } from '../schemas/web-view/contact-inquiry/index.js';
-import { CreateVisitReservationSchema, VisitReservationSchema } from '../schemas/web-view/visit-inquiry/index.js';
+import {
+  CreateVisitReservationSchema,
+  CreateWebInquirySchema,
+  VisitReservationSchema,
+  WebInquirySchema,
+} from '../schemas/contents/index.js';
 
 export const webInquiryContract = {
   /**

@@ -15,12 +15,12 @@ import ListView from './tabs/ProgramListTab';
 
 // 시스템 표준 카테고리 정의 (Agape Green 포인트 적용)
 const CATEGORIES = [
-  { id: 'cognitive', name: '인지활동', color: '#5C8D5A', icon: 'ri-brain-line' },
-  { id: 'leisure', name: '여가활동', color: '#EC4899', icon: 'ri-music-line' },
-  { id: 'physical', name: '물리치료', color: '#10B981', icon: 'ri-heart-pulse-line' },
-  { id: 'music', name: '음악치료', color: '#3B82F6', icon: 'ri-headphone-line' },
-  { id: 'art', name: '미술활동', color: '#F59E0B', icon: 'ri-palette-line' },
-  { id: 'event', name: '특별행사', color: '#EF4444', icon: 'ri-gift-line' },
+  { id: 'COGNITIVE', name: '인지활동', color: '#5C8D5A', icon: 'ri-brain-line' },
+  { id: 'RECREATION', name: '여가활동', color: '#EC4899', icon: 'ri-music-line' },
+  { id: 'EXERCISE', name: '물리치료', color: '#10B981', icon: 'ri-heart-pulse-line' },
+  { id: 'MUSIC', name: '음악치료', color: '#3B82F6', icon: 'ri-headphone-line' },
+  { id: 'ART', name: '미술활동', color: '#F59E0B', icon: 'ri-palette-line' },
+  { id: 'EVENT', name: '특별행사', color: '#EF4444', icon: 'ri-gift-line' },
 ];
 
 interface ProgramScheduleSectionProps {
@@ -42,7 +42,7 @@ export default function ProgramScheduleSection({ schedules = [], isLoading }: Pr
       date: item.startTime.split('T')[0],
       start_time: item.startTime.split('T')[1].substring(0, 5),
       end_time: item.endTime ? item.endTime.split('T')[1].substring(0, 5) : '',
-      category: item.program?.category || 'cognitive',
+      category: item.program?.category || 'COGNITIVE',
       staff: item.facilitatorId || '',
       location: item.location || '',
       description: item.program?.description || '',

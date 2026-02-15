@@ -195,6 +195,7 @@ SELECT
         'isDeleted', bc.is_deleted,
         'authorName', ae.name,
         'authorId', bc.author_id,
+        'guestNickname', bc.guest_nickname,
         'createdAt', bc.created_at,
         'updatedAt', bc.updated_at,
         'replies', (
@@ -205,6 +206,7 @@ SELECT
               'isDeleted', reply.is_deleted,
               'authorName', re.name,
               'authorId', reply.author_id,
+              'guestNickname', reply.guest_nickname,
               'createdAt', reply.created_at,
               'updatedAt', reply.updated_at
             ) ORDER BY reply.created_at

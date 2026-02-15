@@ -105,7 +105,7 @@ export default function WeekTab({ weekDays, onMealClick }: Props) {
               >
                 <div className="text-center text-sm leading-relaxed text-gray-700">
                   {meal?.breakfast ? (
-                    meal.breakfast.split('\n').map((item, i) => <div key={i}>{item}</div>)
+                    meal.breakfast.split(/,\s*|\n/).map((item, i) => <div key={i}>{item}</div>)
                   ) : (
                     <div className="text-gray-400">-</div>
                   )}
@@ -132,7 +132,7 @@ export default function WeekTab({ weekDays, onMealClick }: Props) {
               >
                 <div className="text-center text-sm leading-relaxed text-gray-700">
                   {meal?.morning_snack ? (
-                    meal.morning_snack.split('\n').map((item, i) => <div key={i}>{item}</div>)
+                    meal.morning_snack.split(/,\s*|\n/).map((item, i) => <div key={i}>{item}</div>)
                   ) : (
                     <div className="text-gray-400">-</div>
                   )}
@@ -159,7 +159,7 @@ export default function WeekTab({ weekDays, onMealClick }: Props) {
               >
                 <div className="text-center text-sm leading-relaxed text-gray-700">
                   {meal?.lunch ? (
-                    meal.lunch.split('\n').map((item, i) => <div key={i}>{item}</div>)
+                    meal.lunch.split(/,\s*|\n/).map((item, i) => <div key={i}>{item}</div>)
                   ) : (
                     <div className="text-gray-400">-</div>
                   )}
@@ -186,7 +186,7 @@ export default function WeekTab({ weekDays, onMealClick }: Props) {
               >
                 <div className="text-center text-sm leading-relaxed text-gray-700">
                   {meal?.afternoon_snack ? (
-                    meal.afternoon_snack.split('\n').map((item, i) => <div key={i}>{item}</div>)
+                    meal.afternoon_snack.split(/,\s*|\n/).map((item, i) => <div key={i}>{item}</div>)
                   ) : (
                     <div className="text-gray-400">-</div>
                   )}
@@ -213,7 +213,7 @@ export default function WeekTab({ weekDays, onMealClick }: Props) {
               >
                 <div className="text-center text-sm leading-relaxed text-gray-700">
                   {meal?.dinner ? (
-                    meal.dinner.split('\n').map((item, i) => <div key={i}>{item}</div>)
+                    meal.dinner.split(/,\s*|\n/).map((item, i) => <div key={i}>{item}</div>)
                   ) : (
                     <div className="text-gray-400">-</div>
                   )}

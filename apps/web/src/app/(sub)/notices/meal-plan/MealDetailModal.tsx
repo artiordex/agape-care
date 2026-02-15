@@ -81,7 +81,9 @@ export default function MealDetailModal({ meal, onClose }: Props) {
                   <div className="grid grid-cols-1 md:grid-cols-2">
                     {/* 메뉴 */}
                     <div className="p-4">
-                      <p className="whitespace-pre-line text-sm text-gray-900">{meal.breakfast}</p>
+                      <p className="whitespace-pre-line text-sm text-gray-900">
+                        {meal.breakfast.replace(/,\s*/g, '\n')}
+                      </p>
                     </div>
                     {/* 사진 */}
                     <div className="border-l border-[#5C8D5A]/10 p-4">
@@ -112,7 +114,9 @@ export default function MealDetailModal({ meal, onClose }: Props) {
                     <h4 className="font-bold text-[#5C8D5A]">오전간식</h4>
                   </div>
                   <div className="p-4">
-                    <p className="whitespace-pre-line text-sm text-gray-700">{meal.morning_snack}</p>
+                    <p className="whitespace-pre-line text-sm text-gray-700">
+                      {meal.morning_snack.replace(/,\s*/g, '\n')}
+                    </p>
                   </div>
                 </div>
               )}
@@ -126,7 +130,7 @@ export default function MealDetailModal({ meal, onClose }: Props) {
                   <div className="grid grid-cols-1 md:grid-cols-2">
                     {/* 메뉴 */}
                     <div className="p-4">
-                      <p className="whitespace-pre-line text-sm font-medium text-gray-900">{meal.lunch}</p>
+                      <p className="whitespace-pre-line text-sm text-gray-900">{meal.lunch.replace(/,\s*/g, '\n')}</p>
                     </div>
                     {/* 사진 */}
                     <div className="border-l border-[#5C8D5A]/10 p-4">
@@ -157,7 +161,9 @@ export default function MealDetailModal({ meal, onClose }: Props) {
                     <h4 className="font-bold text-[#5C8D5A]">오후간식</h4>
                   </div>
                   <div className="p-4">
-                    <p className="whitespace-pre-line text-sm text-gray-700">{meal.afternoon_snack}</p>
+                    <p className="whitespace-pre-line text-sm text-gray-700">
+                      {meal.afternoon_snack.replace(/,\s*/g, '\n')}
+                    </p>
                   </div>
                 </div>
               )}
@@ -171,7 +177,7 @@ export default function MealDetailModal({ meal, onClose }: Props) {
                   <div className="grid grid-cols-1 md:grid-cols-2">
                     {/* 메뉴 */}
                     <div className="p-4">
-                      <p className="whitespace-pre-line text-sm font-medium text-gray-900">{meal.dinner}</p>
+                      <p className="whitespace-pre-line text-sm text-gray-900">{meal.dinner.replace(/,\s*/g, '\n')}</p>
                     </div>
                     {/* 사진 */}
                     <div className="border-l border-[#5C8D5A]/10 p-4">

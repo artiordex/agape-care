@@ -149,8 +149,7 @@ export default function GalleryMonthTab({ monthData, onItemClick }: Readonly<Pro
                   {/* 개수 표시 */}
                   {data.items.length > 1 && (
                     <div className="flex items-center justify-center rounded bg-[#5C8D5A]/10 py-1 text-xs font-semibold text-[#5C8D5A]">
-                      <i className="ri-image-line mr-1" />
-                      {data.items.length}개
+                      <i className="ri-image-line mr-1" />외 {data.items.length - 1}개 더 있음
                     </div>
                   )}
                 </div>

@@ -34,10 +34,10 @@ export const BoardPostSchema = z
     files: z
       .array(
         z.object({
-          id: z.string(),
+          id: z.coerce.string(),
           file: z
             .object({
-              id: z.string(),
+              id: z.coerce.string(),
               url: z.string(),
               filename: z.string(),
             })

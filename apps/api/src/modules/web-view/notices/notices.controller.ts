@@ -5,7 +5,7 @@
  */
 
 import { GetProgramsQuery, GetSchedulesQuery, webpageContract } from '@agape-care/api-contract';
-import { Controller } from '@nestjs/common';
+import { Controller, Req } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { tsRestHandler, TsRestHandler } from '@ts-rest/nest';
 import { Public } from '../../auth/decorators/public.decorator';
@@ -192,6 +192,7 @@ export class NoticesController {
   }
 
   // 댓글 작성
+  @Public()
   @ApiOperation({ summary: '댓글 작성' })
   @TsRestHandler(webpageContract.createComment)
   async createComment() {
@@ -211,11 +212,16 @@ export class NoticesController {
   }
 
   // 댓글 삭제
+  @Public()
   @ApiOperation({ summary: '댓글 삭제' })
   @TsRestHandler(webpageContract.deleteComment)
-  async deleteComment() {
-    return tsRestHandler(webpageContract.deleteComment, async ({ params: { id } }) => {
-      await this.noticesService.deleteComment({ id: BigInt(id) });
+  async deleteComment(@Req() req: any) {
+    return tsRestHandler(webpageContract.deleteComment, async ({ params: { id }, query }) => {
+      const password = query.password || (req.query as any)?.password;
+      console.log('📦 [DEBUG] deleteComment Controller - Query Password:', query.password);
+      console.log('📦 [DEBUG] deleteComment Controller - Req Query Password:', (req.query as any)?.password);
+
+      await this.noticesService.deleteComment({ id: BigInt(id), password });
       return { status: 200, body: { success: true, data: { success: true } } };
     });
   }
@@ -246,12 +252,20 @@ export class NoticesController {
   @TsRestHandler(webpageContract.getMealPlans)
   async getMealPlans() {
     return tsRestHandler(webpageContract.getMealPlans, async ({ query }) => {
-      const { data, pagination } = await this.noticesService.getMealPlans({ ...query, sortOrder: 'desc' });
+      const { data, total, page, limit, totalPages } = await this.noticesService.getMealPlans({ ...query, sortOrder: 'desc' });
       return {
         status: 200,
         body: {
+          success: true,
           data,
-          ...pagination,
+          meta: {
+            total,
+            page,
+            limit,
+            totalPages,
+            hasNext: page < totalPages,
+            hasPrev: page > 1,
+          },
         },
       };
     });
@@ -353,10 +367,23 @@ export class NoticesController {
   @TsRestHandler(webpageContract.getProgramSchedules)
   async getSchedules() {
     return tsRestHandler(webpageContract.getProgramSchedules, async ({ query }) => {
-      const result = await this.noticesService.getSchedules(query as GetSchedulesQuery);
+      const { items, totalCount, page, limit } = await this.noticesService.getSchedules(query as GetSchedulesQuery);
+      const totalPages = Math.ceil(totalCount / limit);
+
       return {
         status: 200 as const,
-        body: result,
+        body: {
+          success: true,
+          data: items,
+          meta: {
+            total: totalCount,
+            page,
+            limit,
+            totalPages,
+            hasNext: page < totalPages,
+            hasPrev: page > 1,
+          },
+        },
       };
     });
   }

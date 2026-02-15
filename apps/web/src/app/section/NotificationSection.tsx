@@ -82,12 +82,12 @@ export default function GalleryNoticeSection() {
     {
       icon: 'ri-calendar-event-line',
       title: '프로그램 일정',
-      link: '/programs',
+      link: '/notices/program-schedule',
     },
     {
       icon: 'ri-map-pin-line',
       title: '오시는 길',
-      link: '/contact',
+      link: '/intro/location',
     },
     {
       icon: 'ri-file-text-line',
@@ -155,7 +155,13 @@ export default function GalleryNoticeSection() {
                 </button>
               </div>
               <Link
-                href={activeTab === 'notice' ? '/notices/notice' : activeTab === 'gallery' ? '/gallery' : '/board'}
+                href={
+                  activeTab === 'notice'
+                    ? '/notices/notice'
+                    : activeTab === 'gallery'
+                      ? '/notices/gallery'
+                      : '/notices/board'
+                }
                 className="flex items-center gap-1 text-sm font-semibold text-gray-600 transition-colors hover:text-[#5C8D5A]"
               >
                 더보기

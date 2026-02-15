@@ -93,7 +93,7 @@ export default function MonthTab({ monthDays, onMealClick }: Props) {
                   {meal.breakfast && (
                     <div className="border-b border-[#5C8D5A]/20 pb-1">
                       <div className="mb-0.5 font-semibold text-[#5C8D5A]">아침</div>
-                      {meal.breakfast.split('\n').map((item, i) => (
+                      {meal.breakfast.split(/,\s*|\n/).map((item, i) => (
                         <div key={i}>{item}</div>
                       ))}
                     </div>
@@ -103,7 +103,7 @@ export default function MonthTab({ monthDays, onMealClick }: Props) {
                   {meal.morning_snack && (
                     <div className="border-b border-[#5C8D5A]/20 pb-1">
                       <div className="mb-0.5 font-semibold text-[#5C8D5A]">오전간식</div>
-                      {meal.morning_snack.split('\n').map((item, i) => (
+                      {meal.morning_snack.split(/,\s*|\n/).map((item, i) => (
                         <div key={i}>{item}</div>
                       ))}
                     </div>
@@ -113,8 +113,8 @@ export default function MonthTab({ monthDays, onMealClick }: Props) {
                   {meal.lunch && (
                     <div className="border-b border-[#5C8D5A]/20 pb-1">
                       <div className="mb-0.5 font-semibold text-[#5C8D5A]">점심</div>
-                      {meal.lunch.split('\n').map((item, i) => (
-                        <div key={i} className="font-medium text-gray-900">
+                      {meal.lunch.split(/,\s*|\n/).map((item, i) => (
+                        <div key={i} className="text-gray-900">
                           {item}
                         </div>
                       ))}
@@ -125,7 +125,7 @@ export default function MonthTab({ monthDays, onMealClick }: Props) {
                   {meal.afternoon_snack && (
                     <div className="border-b border-[#5C8D5A]/20 pb-1">
                       <div className="mb-0.5 font-semibold text-[#5C8D5A]">오후간식</div>
-                      {meal.afternoon_snack.split('\n').map((item, i) => (
+                      {meal.afternoon_snack.split(/,\s*|\n/).map((item, i) => (
                         <div key={i}>{item}</div>
                       ))}
                     </div>
@@ -135,8 +135,8 @@ export default function MonthTab({ monthDays, onMealClick }: Props) {
                   {meal.dinner && (
                     <div className="pb-1">
                       <div className="mb-0.5 font-semibold text-[#5C8D5A]">저녁</div>
-                      {meal.dinner.split('\n').map((item, i) => (
-                        <div key={i} className="font-medium text-gray-900">
+                      {meal.dinner.split(/,\s*|\n/).map((item, i) => (
+                        <div key={i} className="text-gray-900">
                           {item}
                         </div>
                       ))}

@@ -1,3 +1,8 @@
+/**
+ * @description 게시판 댓글 스키마
+ * @author Shiwoo Min
+ * @date 2026-01-26
+ */
 import { z } from 'zod';
 
 export const BoardCommentBaseSchema = z.object({
@@ -9,6 +14,8 @@ export const BoardCommentBaseSchema = z.object({
   isDeleted: z.boolean().default(false),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
+  guestNickname: z.string().nullable().optional(),
+  guestPassword: z.string().nullable().optional(),
   author: z
     .object({
       id: z.coerce.string(),

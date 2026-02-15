@@ -49,22 +49,32 @@ export default function GalleryPage() {
   const categories = ['전체', '행사', '일상', '인지프로그램', '여가활동'];
 
   // API 데이터 로드
-  const { data: galleryResult, isLoading } = api.content.getGalleryItems.useQuery(['web-gallery'], {});
+  const { data: galleryResult, isLoading } = api.webpage.getGalleryItems.useQuery(['web-gallery'], {});
 
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
 
   useEffect(() => {
-    if (galleryResult?.status === 200) {
-      const mapped = galleryResult.body.data.map((item: any) => ({
-        id: item.id,
-        category: categoryToKor(item.category),
-        title: item.title || '',
-        description: item.description || '',
-        date: format(new Date(item.createdAt), 'yyyy.MM.dd'),
-        image: item.files?.[0]?.file?.url || '/images/placeholder.png', // Thumbnail image
-        images: item.files?.map((file: any) => file.file?.url).filter(Boolean) || [], // All images for modal
-        views: 0, // Assuming views are not in API or default to 0
-      }));
+    if (galleryResult?.status === 200 && galleryResult.body && 'data' in galleryResult.body) {
+      const mapped = (galleryResult.body as any).data.map((item: any) => {
+        const itemFiles = Array.isArray(item.files) ? item.files : [];
+        const imageUrls = itemFiles.map((f: any) => f.file?.url || f.url).filter(Boolean) as string[];
+
+        // Use thumbnail if available, otherwise first image, otherwise placeholder
+        const thumbnail = item.thumbnail || imageUrls[0] || '/images/placeholder.png';
+
+        return {
+          id: String(item.id),
+          category: categoryToKor(item.category),
+          title: item.title || '',
+          description: item.description || '',
+          date: item.eventDate
+            ? format(new Date(item.eventDate), 'yyyy.MM.dd')
+            : format(new Date(item.createdAt), 'yyyy.MM.dd'),
+          image: thumbnail,
+          images: imageUrls.length > 0 ? imageUrls : item.thumbnail ? [item.thumbnail] : [],
+          views: Number(item.viewCount || 0),
+        };
+      });
       setGalleryItems(mapped);
     }
   }, [galleryResult]);

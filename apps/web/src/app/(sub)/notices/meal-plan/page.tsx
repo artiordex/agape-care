@@ -39,7 +39,11 @@ export default function MealPlanPage() {
   const [selectedMeal, setSelectedMeal] = useState<MealPlan | null>(null);
 
   // API 데이터 로드
-  const { data: mealPlansData, isLoading } = api.webpage.getMealPlans.useQuery(['meal-plans'], {
+  const {
+    data: mealPlansData,
+    isLoading,
+    error,
+  } = api.webpage.getMealPlans.useQuery(['meal-plans'], {
     query: {
       page: 1,
       limit: 100, // 충분한 데이터를 가져오기 위해 큰 값 설정
@@ -54,10 +58,10 @@ export default function MealPlanPage() {
 
     // 각 meal plan의 dailyMeals를 평탄화
     mealPlansData.body.data.forEach(mealPlan => {
-      mealPlan.dailyMeals.forEach(dailyMeal => {
+      mealPlan.dailyMeals?.forEach((dailyMeal: any) => {
         allDailyMeals.push({
           id: dailyMeal.id,
-          date: dailyMeal.date,
+          date: String(dailyMeal.date),
           breakfast: dailyMeal.breakfast || '',
           morning_snack: dailyMeal.morningSnack || '',
           lunch: dailyMeal.lunch || '',
@@ -70,15 +74,21 @@ export default function MealPlanPage() {
       });
     });
 
+    console.log('🔍 [DEBUG] MEAL_DATA constructed:', allDailyMeals);
     return allDailyMeals;
   }, [mealPlansData]);
 
   // 현재 월에 해당하는 데이터만 필터링 (월간 보기용)
   const mealPlans = MEAL_DATA.filter(meal => {
+    // [Fix] compare strings directly if possible, or ensure Date is correct
+    // meal.date is YYYY-MM-DD string.
+    // currentDate is Date object.
     const mealDate = new Date(meal.date);
-    return mealDate.getFullYear() === currentDate.getFullYear() && mealDate.getMonth() === currentDate.getMonth();
+    const match =
+      mealDate.getFullYear() === currentDate.getFullYear() && mealDate.getMonth() === currentDate.getMonth();
+    console.log(`🔍 [DEBUG] Filtering meal date: ${meal.date}, Match: ${match}, Current: ${currentDate.toISOString()}`);
+    return match;
   });
-
   // 네비게이션 핸들러
   const handlePrev = () => {
     if (viewMode === 'week') {
@@ -124,8 +134,7 @@ export default function MealPlanPage() {
       const date = new Date(monday);
       date.setDate(monday.getDate() + i);
 
-      const iso = date.toISOString().split('T')[0];
-      const dateStr: string = iso ?? '';
+      const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 
       const meal = MEAL_DATA.find(m => m.date === dateStr) ?? null;
 
@@ -154,10 +163,9 @@ export default function MealPlanPage() {
     // 실제 날짜들
     for (let d = 1; d <= lastDay.getDate(); d++) {
       const date = new Date(year, month, d);
-      const iso = date.toISOString().split('T')[0];
-      const dateStr: string | null = iso ?? null;
+      const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 
-      const meal = dateStr ? (mealPlans.find(m => m.date === dateStr) ?? null) : null;
+      const meal = mealPlans.find(m => m.date === dateStr) ?? null;
 
       days.push({ date: dateStr, meal });
     }

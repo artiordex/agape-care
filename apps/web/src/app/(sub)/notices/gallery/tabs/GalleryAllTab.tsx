@@ -71,17 +71,15 @@ export default function GalleryAllTab({ items, onItemClick }: Readonly<Props>) {
         return (
           <article
             key={item.id}
-            className="group overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all hover:shadow-md"
+            className={`group flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-all ${
+              hasImages ? 'hover:border-[#5C8D5A]/50 hover:shadow-md' : ''
+            }`}
           >
+            {/* Image Area - Clickable */}
             <button
-              type="button"
-              onClick={() =>
-                hasImages &&
-                !hasImageError &&
-                onItemClick(item.images, item.title, item.category, item.date, item.description)
-              }
-              className="relative block h-64 w-full overflow-hidden bg-gray-100 text-left"
-              disabled={!hasImages || hasImageError}
+              onClick={() => onItemClick(item.images, item.title, item.category, item.date, item.description)}
+              className="relative h-64 w-full overflow-hidden bg-gray-100 text-left"
+              aria-label={`${item.title} 이미지 보기`}
             >
               {hasImageError || !hasImages ? (
                 <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
@@ -103,11 +101,15 @@ export default function GalleryAllTab({ items, onItemClick }: Readonly<Props>) {
                       <span>{item.images.length}</span>
                     </div>
                   )}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity group-hover:opacity-100">
+                    <i className="ri-search-eye-line text-3xl text-white" />
+                  </div>
                 </>
               )}
             </button>
 
-            <div className="p-5">
+            {/* Content Area */}
+            <div className="flex flex-1 flex-col p-5">
               <div className="mb-3 flex items-center justify-between">
                 <span
                   className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold ${getCategoryStyle(item.category)}`}
@@ -117,23 +119,23 @@ export default function GalleryAllTab({ items, onItemClick }: Readonly<Props>) {
                 </span>
               </div>
 
-              <h3 className="mb-2 line-clamp-1 text-lg font-bold text-gray-900">{item.title}</h3>
+              {/* Title - Explicitly Clickable as per user request */}
+              <button
+                onClick={() => onItemClick(item.images, item.title, item.category, item.date, item.description)}
+                className="mb-2 text-left"
+              >
+                <h3 className="line-clamp-1 text-lg font-bold text-gray-900 transition-colors hover:text-[#5C8D5A] group-hover:text-[#5C8D5A]">
+                  {item.title}
+                </h3>
+              </button>
 
               <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-gray-600">{item.description}</p>
 
-              <div className="flex items-center justify-between border-t border-gray-100 pt-3">
+              <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-3">
                 <div className="flex items-center gap-2 text-sm text-gray-500">
                   <i className="ri-calendar-line" />
                   <span>{item.date}</span>
                 </div>
-                {hasImages && !hasImageError && (
-                  <button
-                    onClick={() => onItemClick(item.images, item.title, item.category, item.date, item.description)}
-                    className="text-sm font-medium text-[#5C8D5A] transition-colors hover:text-[#4A7548]"
-                  >
-                    자세히 보기 →
-                  </button>
-                )}
               </div>
             </div>
           </article>

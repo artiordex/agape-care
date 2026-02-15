@@ -6,7 +6,7 @@
 
 import { CreateMealPlanRequest, GetMealPlanItemsQuery, GetMealPlansQuery, GetSchedulesQuery } from '@agape-care/api-contract';
 import { Prisma, PrismaService } from '@agape-care/database';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import * as serialize from './utils/serialization.utils';
 
 @Injectable()
@@ -84,31 +84,64 @@ export class NoticesService {
    */
   async findOnePost(where: Prisma.WebBoardPostDetailWhereUniqueInput) {
     try {
-      console.log('🔍 [DEBUG] findOnePost - Start', { where });
+      const id = BigInt((where as any).id);
+      console.log('🔍 [DEBUG] findOnePost - Start', { id });
 
       // Increment view count on the table
-      if ((where as any).id) {
+      if (id) {
         try {
-          console.log('🔍 [DEBUG] findOnePost - Updating view count for id:', (where as any).id);
+          console.log('🔍 [DEBUG] findOnePost - Updating view count for id:', id);
           await this.prisma.boardPost.update({
-            where: { id: (where as any).id },
+            where: { id: id },
             data: { viewCount: { increment: 1 } },
           });
           console.log('🔍 [DEBUG] findOnePost - View count updated');
         } catch (updateError) {
           console.error('⚠️ [WARN] findOnePost - View count update failed (ignoring):', updateError);
         }
-      } else {
-        console.warn('⚠️ [WARN] findOnePost - No ID found in where clause for view count update');
       }
 
       console.log('🔍 [DEBUG] findOnePost - Finding unique post...');
       const post = await this.prisma.webBoardPostDetail.findUnique({
-        where,
+        where: { id: id },
       });
       console.log('🔍 [DEBUG] findOnePost - Post found:', !!post);
 
       if (!post) return null;
+
+      // [Fix] Use queryRaw to ensure all fields like guest_nickname are correctly fetched
+      const allComments: any[] = await this.prisma.$queryRawUnsafe(
+        `
+        SELECT * FROM board_comments
+        WHERE post_id = $1 AND is_deleted = false
+        ORDER BY created_at ASC
+      `,
+        id,
+      );
+
+      // Build Comment Tree
+      const commentMap = new Map<string, any>();
+      const rootComments: any[] = [];
+
+      allComments.forEach(c => {
+        commentMap.set(c.id.toString(), { ...c, replies: [] });
+      });
+
+      allComments.forEach(c => {
+        const commentWithReplies = commentMap.get(c.id.toString());
+        if (c.parentId) {
+          const parent = commentMap.get(c.parentId.toString());
+          if (parent) {
+            parent.replies.push(commentWithReplies);
+          } else {
+            rootComments.push(commentWithReplies);
+          }
+        } else {
+          rootComments.push(commentWithReplies);
+        }
+      });
+
+      (post as any).comments = rootComments;
 
       console.log('🔍 [DEBUG] findOnePost - Serializing...');
       const result = serialize.serializeWebBoardPostDetail(post);
@@ -121,20 +154,26 @@ export class NoticesService {
   }
 
   // 게시글 작성
-  async createPost(data: Prisma.BoardPostCreateInput) {
+  async createPost(data: any) {
     const post = await this.prisma.boardPost.create({
-      data,
+      data: {
+        ...data,
+        authorId: data.authorId ? BigInt(data.authorId) : null,
+      },
       include: { author: true, files: { include: { file: true } } },
     });
     return serialize.serializePost(post);
   }
 
   // 게시글 수정
-  async updatePost(params: { where: Prisma.BoardPostWhereUniqueInput; data: Prisma.BoardPostUpdateInput }) {
+  async updatePost(params: { where: Prisma.BoardPostWhereUniqueInput; data: any }) {
     const { where, data } = params;
     const post = await this.prisma.boardPost.update({
-      where,
-      data,
+      where: { id: BigInt((where as any).id) },
+      data: {
+        ...data,
+        authorId: data.authorId ? BigInt(data.authorId) : null,
+      },
       include: { author: true, files: { include: { file: true } } },
     });
     return serialize.serializePost(post);
@@ -143,29 +182,93 @@ export class NoticesService {
   // 게시글 삭제
   async deletePost(where: Prisma.BoardPostWhereUniqueInput) {
     return this.prisma.boardPost.delete({
-      where,
+      where: { id: BigInt((where as any).id) },
     });
   }
 
   /**
    * [게시판] 댓글 생성
    */
-  async createComment(data: Prisma.BoardCommentCreateInput) {
-    const comment = await this.prisma.boardComment.create({
-      data,
-      include: { author: true },
-    });
-    return serialize.serializeComment(comment);
+  async createComment(input: any) {
+    try {
+      console.log('📝 [DEBUG] createComment - START (RAW SQL MODE)');
+      const postId = input.postId ? BigInt(input.postId) : null;
+      const parentId = input.parentId ? BigInt(input.parentId) : null;
+      const authorId = input.authorId ? BigInt(input.authorId) : null;
+
+      if (!postId) throw new Error('postId is required');
+
+      // Use executeRaw to bypass any model/client mismatches
+      await this.prisma.$executeRawUnsafe(
+        `
+        INSERT INTO board_comments (post_id, parent_id, author_id, content, guest_nickname, guest_password, is_deleted, created_at, updated_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW())
+      `,
+        postId,
+        parentId,
+        authorId,
+        input.content || '',
+        input.guestNickname || null,
+        input.guestPassword || null,
+        false,
+      );
+
+      console.log('📝 [DEBUG] createComment - SQL EXECUTION SUCCESS');
+
+      // Fetch the last inserted comment to return
+      const [lastComment]: any[] = await this.prisma.$queryRawUnsafe(`
+        SELECT * FROM board_comments ORDER BY created_at DESC LIMIT 1
+      `);
+
+      if (!lastComment) throw new Error('Failed to retrieve created comment');
+
+      const serialized = serialize.serializeComment(lastComment);
+      return serialized;
+    } catch (error: any) {
+      console.error('💥 [ERROR] createComment (RAW) failed!');
+      console.error('💥 [ERROR] Message:', error.message);
+      if (error.stack) console.error('💥 [ERROR] Stack:', error.stack);
+      throw error;
+    }
   }
 
-  /**
-   * [게시판] 댓글 삭제
-   */
-  async deleteComment(where: Prisma.BoardCommentWhereUniqueInput) {
-    return this.prisma.boardComment.update({
-      where,
-      data: { isDeleted: true, content: 'Deleted Comment' },
-    });
+  async deleteComment(params: { id: bigint; password?: string }) {
+    const { id, password } = params;
+
+    // [Fix] Raw SQL fetch to ensure correct column access
+    const comments: any[] = await this.prisma.$queryRawUnsafe(`SELECT * FROM board_comments WHERE id = $1`, id);
+    const comment = comments[0];
+
+    if (!comment) {
+      throw new NotFoundException('Comment not found');
+    }
+
+    // [Fix] 비회원 댓글(author_id IS NULL)인 경우 비밀번호 검증
+    const authorId = comment.author_id === undefined ? comment.authorId : comment.author_id;
+    console.log(`🔒 [DEBUG] deleteComment - id: ${id}, author_id: ${authorId} (${typeof authorId}), input pass: [${password}]`);
+
+    if (authorId == null) {
+      const dbPassword = comment.guest_password;
+      console.log(`🔒 [DEBUG] Guest Password check: DB[${dbPassword}] vs Input[${password}]`);
+
+      // 공백 제거 후 비교
+      const isMatch = (dbPassword || '').toString().trim() === (password || '').trim();
+      if (!isMatch) {
+        throw new ForbiddenException('비밀번호가 일치하지 않습니다.');
+      }
+    } else {
+      console.log(`🔒 [DEBUG] Member comment block: author_id is ${authorId}`);
+      throw new ForbiddenException('회원 댓글은 비밀번호로 삭제할 수 없습니다.');
+    }
+
+    await this.prisma.$executeRawUnsafe(
+      `
+      UPDATE board_comments SET is_deleted = true, content = '삭제된 댓글입니다.', updated_at = NOW() WHERE id = $1
+    `,
+      id,
+    );
+
+    return { success: true };
   }
 
   /**
@@ -218,14 +321,17 @@ export class NoticesService {
       this.prisma.webMealPlan.count(),
     ]);
 
+    console.log(`🔍 [DEBUG] getMealPlans found: ${mealPlans.length} plans, total: ${total}`);
+    if (mealPlans.length > 0) {
+      console.log('🔍 [DEBUG] First Plan WeekMeals:', JSON.stringify(mealPlans[0]?.weekMeals, null, 2));
+    }
+
     return {
       data: mealPlans.map(mp => serialize.serializeWebMealPlan(mp)).filter((item): item is NonNullable<typeof item> => item !== null),
-      pagination: {
-        total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
-      },
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
     };
   }
 

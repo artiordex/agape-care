@@ -7,6 +7,8 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
+
+import { api } from '@/lib/api';
 import { useState } from 'react';
 
 interface ContactFormModalProps {
@@ -26,17 +28,10 @@ export default function ContactFormModal({ isOpen, onClose }: ContactFormModalPr
     message: '',
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    setTimeout(() => {
+  const { mutate: createInquiry, isPending } = api.webInquiry.createWebInquiry.useMutation({
+    onSuccess: () => {
       alert('상담 신청이 접수되었습니다. 담당자가 확인 후 연락드리겠습니다.');
-      setIsSubmitting(false);
       onClose();
-
       setFormData({
         name: '',
         phone: '',
@@ -47,7 +42,29 @@ export default function ContactFormModal({ isOpen, onClose }: ContactFormModalPr
         preferredDate: '',
         message: '',
       });
-    }, 1500);
+    },
+    onError: (error: any) => {
+      console.error('Failed to submit inquiry:', error);
+      alert('상담 신청 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    createInquiry({
+      body: {
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email || null,
+        type: formData.inquiryType,
+        residentAge: formData.residentAge || null,
+        careGrade: formData.careLevel || null,
+        preferredDate: formData.preferredDate || null,
+        message: formData.message || null,
+        isConsented: true,
+      },
+    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -305,14 +322,14 @@ export default function ContactFormModal({ isOpen, onClose }: ContactFormModalPr
                     </button>
                     <button
                       type="submit"
-                      disabled={isSubmitting}
+                      disabled={isPending}
                       className={`flex-1 rounded-xl px-8 py-4 font-bold text-white shadow-lg transition-all ${
-                        isSubmitting
+                        isPending
                           ? 'cursor-not-allowed bg-gray-400'
                           : 'bg-[#5C8D5A] hover:bg-[#4A7548] hover:shadow-xl active:scale-[0.98]'
                       }`}
                     >
-                      {isSubmitting ? (
+                      {isPending ? (
                         <>
                           <i className="ri-loader-4-line mr-2 animate-spin" /> 상담 신청 중...
                         </>

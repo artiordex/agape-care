@@ -13,14 +13,15 @@ import {
   GalleryItemSchema,
   NoticeSchema,
 } from '../schemas/contents/index.js';
-import { MealPlanItemSchema, MealTypeSchema, WebMealPlanSchema } from '../schemas/meal/index.js';
+import { MealPlanItemSchema, MealTypeSchema, WebMealPlanSchema } from '../schemas/contents/meal-plan.schema.js';
+
 import {
   GetProgramsQuerySchema,
   GetProgramsResponseSchema,
   GetSchedulesQuerySchema,
-  GetSchedulesResponseSchema,
   ProgramSchema,
 } from '../schemas/program/index.js';
+import { ProgramScheduleSchema } from '../schemas/program/schedule.schema.js';
 
 export const webpageContract = {
   /**
@@ -191,6 +192,9 @@ export const webpageContract = {
     pathParams: z.object({
       id: z.string(),
     }),
+    query: z.object({
+      password: z.string().optional(),
+    }),
     body: z.object({}),
     responses: {
       200: ApiResponseSchema(z.object({ success: z.boolean() })),
@@ -236,13 +240,7 @@ export const webpageContract = {
       limit: z.coerce.number().default(20),
     }),
     responses: {
-      200: z.object({
-        data: z.array(WebMealPlanSchema),
-        total: z.number(),
-        page: z.number(),
-        limit: z.number(),
-        totalPages: z.number(),
-      }),
+      200: PaginatedResponseSchema(WebMealPlanSchema),
     },
   },
 
@@ -348,10 +346,15 @@ export const webpageContract = {
     path: '/notices/program-schedule',
     query: GetSchedulesQuerySchema,
     responses: {
-      200: GetSchedulesResponseSchema,
+      200: PaginatedResponseSchema(ProgramScheduleSchema),
     },
   },
 } as const;
 
 // Contract 타입 추출
 export type WebpageContract = typeof webpageContract;
+
+export type GetPostsQuery = z.infer<typeof webpageContract.getPosts.query>;
+export type GetMealPlansWebQuery = z.infer<typeof webpageContract.getMealPlans.query>;
+export type GetMealPlanItemsWebQuery = z.infer<typeof webpageContract.getMealPlanItems.query>;
+export type GetSchedulesWebQuery = z.infer<typeof webpageContract.getProgramSchedules.query>;

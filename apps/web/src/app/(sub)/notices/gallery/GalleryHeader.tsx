@@ -122,6 +122,15 @@ export default function GalleryHeader({
         {/* 뷰 모드 전환 */}
         <div className="flex border border-[#5C8D5A] bg-white p-1">
           <button
+            onClick={() => onViewModeChange('all')}
+            className={`flex h-10 items-center gap-2 px-5 text-sm font-bold transition-colors ${
+              viewMode === 'all' ? 'bg-[#5C8D5A] text-white' : 'text-gray-500 hover:text-[#5C8D5A]'
+            }`}
+          >
+            <i className="ri-list-check" /> 목록
+          </button>
+
+          <button
             onClick={() => onViewModeChange('week')}
             className={`flex h-10 items-center gap-2 px-5 text-sm font-bold transition-colors ${
               viewMode === 'week' ? 'bg-[#5C8D5A] text-white' : 'text-gray-500 hover:text-[#5C8D5A]'

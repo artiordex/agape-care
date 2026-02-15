@@ -30,8 +30,13 @@ interface BoardCommentProps {
   postId: string;
   comments: Comment[];
   isLocked?: boolean;
-  onCommentSubmit: (content: string, parentId: string | null) => Promise<void>;
-  onCommentDelete: (commentId: string) => Promise<void>;
+  onCommentSubmit: (
+    content: string,
+    parentId: string | null,
+    guestNickname?: string,
+    guestPassword?: string,
+  ) => Promise<void>;
+  onCommentDelete: (commentId: string, password?: string) => Promise<void>;
 }
 
 export default function BoardComment({
@@ -42,8 +47,12 @@ export default function BoardComment({
   onCommentDelete,
 }: BoardCommentProps) {
   const [newComment, setNewComment] = useState('');
+  const [guestNickname, setGuestNickname] = useState('');
+  const [guestPassword, setGuestPassword] = useState('');
   const [replyTo, setReplyTo] = useState<string | null>(null);
   const [replyContent, setReplyContent] = useState('');
+  const [replyGuestNickname, setReplyGuestNickname] = useState('');
+  const [replyGuestPassword, setReplyGuestPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 최상위 댓글만 필터링 (parentId가 null인 댓글)
@@ -56,10 +65,17 @@ export default function BoardComment({
       return;
     }
 
+    if (!guestNickname.trim() || !guestPassword.trim()) {
+      alert('닉네임과 비밀번호를 입력해주세요.');
+      return;
+    }
+
     try {
       setIsSubmitting(true);
-      await onCommentSubmit(newComment.trim(), null);
+      await onCommentSubmit(newComment.trim(), null, guestNickname, guestPassword);
       setNewComment('');
+      setGuestNickname('');
+      setGuestPassword('');
     } catch (error) {
       console.error('댓글 작성 실패:', error);
       alert('댓글 작성에 실패했습니다.');
@@ -75,10 +91,17 @@ export default function BoardComment({
       return;
     }
 
+    if (!replyGuestNickname.trim() || !replyGuestPassword.trim()) {
+      alert('닉네임과 비밀번호를 입력해주세요.');
+      return;
+    }
+
     try {
       setIsSubmitting(true);
-      await onCommentSubmit(replyContent.trim(), parentId);
+      await onCommentSubmit(replyContent.trim(), parentId, replyGuestNickname, replyGuestPassword);
       setReplyContent('');
+      setReplyGuestNickname('');
+      setReplyGuestPassword('');
       setReplyTo(null);
     } catch (error) {
       console.error('답글 작성 실패:', error);
@@ -88,15 +111,46 @@ export default function BoardComment({
     }
   };
 
+  // 삭제 모달 상태
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deletePassword, setDeletePassword] = useState('');
+  const [commentToDelete, setCommentToDelete] = useState<Comment | null>(null);
+
   // 댓글 삭제 핸들러
-  const handleDeleteComment = async (commentId: string) => {
-    if (!confirm('정말 삭제하시겠습니까?')) return;
+  const handleDeleteComment = async (comment: Comment) => {
+    // authorId가 없으면 비회원 댓글로 간주하여 비밀번호 확인 모달 표시
+    if (!comment.authorId) {
+      setCommentToDelete(comment);
+      setIsDeleteModalOpen(true);
+      setDeletePassword('');
+    } else {
+      if (!confirm('정말 삭제하시겠습니까?')) return;
+      try {
+        await onCommentDelete(comment.id);
+      } catch (error) {
+        console.error('댓글 삭제 실패:', error);
+      }
+    }
+  };
+
+  // 모달을 통한 삭제 확인
+  const handleConfirmDelete = async () => {
+    if (!commentToDelete) return;
+    if (!deletePassword.trim()) {
+      alert('비밀번호를 입력해주세요.');
+      return;
+    }
 
     try {
-      await onCommentDelete(commentId);
+      setIsSubmitting(true);
+      await onCommentDelete(commentToDelete.id, deletePassword);
+      setIsDeleteModalOpen(false);
+      setCommentToDelete(null);
+      setDeletePassword('');
     } catch (error) {
-      console.error('댓글 삭제 실패:', error);
-      alert('댓글 삭제에 실패했습니다.');
+      console.error('삭제 실패:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -140,7 +194,7 @@ export default function BoardComment({
                   </button>
                 )}
                 <button
-                  onClick={() => handleDeleteComment(comment.id)}
+                  onClick={() => handleDeleteComment(comment)}
                   className="text-xs text-red-500 transition-colors hover:text-red-600"
                 >
                   <i className="ri-delete-bin-line" /> 삭제
@@ -161,6 +215,22 @@ export default function BoardComment({
           {/* 답글 작성 폼 */}
           {replyTo === comment.id && !isLocked && (
             <div className="mt-4 rounded bg-gray-50 p-4">
+              <div className="mb-3 grid grid-cols-2 gap-2">
+                <input
+                  type="text"
+                  placeholder="닉네임"
+                  value={replyGuestNickname}
+                  onChange={e => setReplyGuestNickname(e.target.value)}
+                  className="rounded border border-gray-300 p-2 text-sm outline-none focus:border-[#5C8D5A]"
+                />
+                <input
+                  type="password"
+                  placeholder="비밀번호"
+                  value={replyGuestPassword}
+                  onChange={e => setReplyGuestPassword(e.target.value)}
+                  className="rounded border border-gray-300 p-2 text-sm outline-none focus:border-[#5C8D5A]"
+                />
+              </div>
               <textarea
                 value={replyContent}
                 onChange={e => setReplyContent(e.target.value)}
@@ -174,6 +244,8 @@ export default function BoardComment({
                   onClick={() => {
                     setReplyTo(null);
                     setReplyContent('');
+                    setReplyGuestNickname('');
+                    setReplyGuestPassword('');
                   }}
                   className="rounded border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-100"
                   disabled={isSubmitting}
@@ -218,6 +290,22 @@ export default function BoardComment({
       {/* 댓글 작성 폼 */}
       {!isLocked && (
         <div className="mb-8 rounded border border-gray-200 bg-white p-4">
+          <div className="mb-3 grid grid-cols-2 gap-2 md:w-1/2">
+            <input
+              type="text"
+              placeholder="닉네임"
+              value={guestNickname}
+              onChange={e => setGuestNickname(e.target.value)}
+              className="rounded border border-gray-300 p-2 text-sm outline-none focus:border-[#5C8D5A]"
+            />
+            <input
+              type="password"
+              placeholder="비밀번호"
+              value={guestPassword}
+              onChange={e => setGuestPassword(e.target.value)}
+              className="rounded border border-gray-300 p-2 text-sm outline-none focus:border-[#5C8D5A]"
+            />
+          </div>
           <textarea
             value={newComment}
             onChange={e => setNewComment(e.target.value)}
@@ -249,6 +337,55 @@ export default function BoardComment({
           topLevelComments.map(comment => renderComment(comment))
         )}
       </div>
+      {/* 삭제 확인 모달 */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-sm rounded-xl bg-white p-6 shadow-2xl">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
+                <i className="ri-delete-bin-6-line text-lg text-red-600" />
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-gray-900">댓글 삭제</h4>
+                <p className="text-sm text-gray-500">삭제를 위해 비밀번호를 입력해주세요.</p>
+              </div>
+            </div>
+
+            <div className="mb-6">
+              <input
+                type="password"
+                placeholder="비밀번호"
+                value={deletePassword}
+                onChange={e => setDeletePassword(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && handleConfirmDelete()}
+                className="w-full rounded-lg border border-gray-300 p-3 text-sm outline-none transition-all focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+                autoFocus
+              />
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                onClick={() => {
+                  setIsDeleteModalOpen(false);
+                  setCommentToDelete(null);
+                  setDeletePassword('');
+                }}
+                className="flex-1 rounded-lg border border-gray-300 py-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
+                disabled={isSubmitting}
+              >
+                취소
+              </button>
+              <button
+                onClick={handleConfirmDelete}
+                className="flex-1 rounded-lg bg-red-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-red-700 disabled:bg-red-300"
+                disabled={isSubmitting || !deletePassword.trim()}
+              >
+                {isSubmitting ? '삭제 중...' : '삭제'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

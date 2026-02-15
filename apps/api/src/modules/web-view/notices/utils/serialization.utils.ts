@@ -59,18 +59,38 @@ export const serializeBoardFile = (bf: any) => {
 export const serializeComment = (comment: any): any => {
   if (!comment) return null;
 
+  // Handle both snake_case (from raw JSON/View) and camelCase
+  const idStr = toString(comment.id);
+  const postIdStr = toString(comment.postId || comment.post_id);
+  const parentIdVal = comment.parentId || comment.parent_id;
+  const authorIdVal = comment.authorId !== undefined ? comment.authorId : comment.author_id;
+  const authorNameVal = comment.authorName || comment.author_name;
+  const guestNicknameVal = comment.guest_nickname || comment.guestNickname;
+  const contentVal = comment.content;
+  const isDeletedVal = comment.isDeleted !== undefined ? comment.isDeleted : comment.is_deleted;
+  const createdAtVal = comment.createdAt || comment.created_at;
+  const updatedAtVal = comment.updatedAt || comment.updated_at;
+
+  console.log(
+    `🔍 [DEBUG] serializeComment - id: ${idStr}, authorId: ${authorIdVal} (${typeof authorIdVal}), guestNickname: ${guestNicknameVal}`,
+  );
+
   return {
-    id: toString(comment.id),
-    postId: toString(comment.postId),
-    parentId: comment.parentId ? toString(comment.parentId) : null,
-    authorId: comment.authorId ? toString(comment.authorId) : null,
-    content: comment.content || '',
-    isDeleted: !!comment.isDeleted,
-    createdAt: comment.createdAt || new Date(),
-    updatedAt: comment.updatedAt || new Date(),
+    id: idStr,
+    postId: postIdStr,
+    parentId: parentIdVal ? toString(parentIdVal) : null,
+    authorId: authorIdVal ? toString(authorIdVal) : null,
+    content: contentVal || '',
+    isDeleted: !!isDeletedVal,
+    createdAt: createdAtVal ? new Date(createdAtVal) : new Date(),
+    updatedAt: updatedAtVal ? new Date(updatedAtVal) : new Date(),
     author:
-      serializeAuthor(comment.author) ||
-      (comment.authorId && comment.authorName ? { id: toString(comment.authorId), name: comment.authorName, email: null } : null),
+      authorIdVal !== null && authorIdVal !== undefined
+        ? serializeAuthor(comment.author) || { id: toString(authorIdVal), name: authorNameVal || '회원', email: null }
+        : guestNicknameVal
+          ? { id: 'guest', name: guestNicknameVal, email: null }
+          : { id: 'unknown', name: '알 수 없음', email: null },
+    guestNickname: guestNicknameVal || null,
     // 재귀적으로 대댓글 직렬화
     replies: Array.isArray(comment.replies) ? comment.replies.map((r: any) => serializeComment(r)) : [],
   };
@@ -243,46 +263,83 @@ export const serializeWebGalleryItem = (item: any) => {
 export const groupMealPlanItemsByDate = (items: any[]) => {
   const grouped = new Map<string, any>();
 
+  // [Fix] Handle structure from View (nested { mealDate, meals: [] })
+  // If items contains objects with 'meals' array, flatten it first or process it directly.
+  const flatItems: any[] = [];
   items.forEach(item => {
-    const dateStr = item.date instanceof Date ? item.date.toISOString().split('T')[0] : String(item.date);
+    if (item.meals && Array.isArray(item.meals)) {
+      item.meals.forEach((subItem: any) => {
+        // Ensure date is propagated if missing in subItem
+        flatItems.push({
+          ...subItem,
+          date: subItem.date || subItem.mealDate || item.mealDate || item.date,
+          // Use subItem.id or fallback to item.id if available.
+          // Note: item.id might be undefined in view structure, subItem.id should be there.
+          id: subItem.id || item.id,
+          mealPlanId: subItem.mealPlanId || item.id || '', // Fallback to empty string if missing
+        });
+      });
+    } else {
+      flatItems.push(item);
+    }
+  });
+
+  flatItems.forEach(item => {
+    const dateVal = item.date || item.mealDate;
+    if (!dateVal) return;
+
+    const dateStr = dateVal instanceof Date ? dateVal.toISOString().split('T')[0] : String(dateVal);
 
     if (!grouped.has(dateStr)) {
       grouped.set(dateStr, {
-        id: toString(item.id),
-        mealPlanId: toString(item.mealPlanId),
+        id: toString(item.id || ''),
+        mealPlanId: toString(item.mealPlanId || item.meal_plan_id || ''),
         date: dateStr,
-        breakfast: null,
-        morningSnack: null,
-        lunch: null,
-        afternoonSnack: null,
-        dinner: null,
-        createdAt: item.createdAt,
-        updatedAt: item.updatedAt,
+        breakfast: '',
+        breakfastImage: null,
+        morningSnack: '',
+        lunch: '',
+        lunchImage: null,
+        afternoonSnack: '',
+        dinner: '',
+        dinnerImage: null,
+        createdAt:
+          item.createdAt instanceof Date ? item.createdAt.toISOString() : item.createdAt || item.created_at || new Date().toISOString(),
+        updatedAt:
+          item.updatedAt instanceof Date ? item.updatedAt.toISOString() : item.updatedAt || item.updated_at || new Date().toISOString(),
       });
     }
 
     const dailyMeal = grouped.get(dateStr)!;
 
-    switch (item.type?.toUpperCase() || item.mealType?.toUpperCase()) {
+    // View returns 'menuContent', 'mealType'. Direct query might return 'mainMenu', 'sideMenu', etc.
+    // If 'menuContent' exists, use it directly. Otherwise join main/side/soup/dessert.
+    const menuContent = item.menuContent || item.menu_content;
+    const constructedMenu =
+      (menuContent
+        ? menuContent
+        : [item.mainMenu || item.main_menu, item.sideMenu || item.side_menu, item.soup, item.dessert].filter(Boolean).join('\n')) || '';
+
+    switch (item.type?.toUpperCase() || item.mealType?.toUpperCase() || item.meal_type?.toUpperCase()) {
       case 'BREAKFAST':
-        dailyMeal.breakfast = [item.mainMenu, item.sideMenu, item.soup, item.dessert].filter(Boolean).join('\n');
+        dailyMeal.breakfast = constructedMenu;
         break;
       case 'MORNING_SNACK':
-        dailyMeal.morningSnack = [item.mainMenu, item.sideMenu].filter(Boolean).join('\n');
+        dailyMeal.morningSnack = constructedMenu;
         break;
       case 'LUNCH':
-        dailyMeal.lunch = [item.mainMenu, item.sideMenu, item.soup, item.dessert].filter(Boolean).join('\n');
+        dailyMeal.lunch = constructedMenu;
         break;
       case 'AFTERNOON_SNACK':
-        dailyMeal.afternoonSnack = [item.mainMenu, item.sideMenu].filter(Boolean).join('\n');
+        dailyMeal.afternoonSnack = constructedMenu;
         break;
       case 'DINNER':
-        dailyMeal.dinner = [item.mainMenu, item.sideMenu, item.soup, item.dessert].filter(Boolean).join('\n');
+        dailyMeal.dinner = constructedMenu;
         break;
     }
   });
 
-  return Array.from(grouped.values());
+  return Array.from(grouped.values()).sort((a, b) => a.date.localeCompare(b.date));
 };
 
 /**
@@ -293,20 +350,20 @@ export const serializeWebMealPlan = (mp: any) => {
   return {
     id: toString(mp.id),
     facilityCode: mp.facilityCode,
-    weekStartDate: mp.weekStartDate,
+    weekStartDate: mp.weekStartDate instanceof Date ? mp.weekStartDate.toISOString() : mp.weekStartDate,
     mealMonth: mp.mealMonth || (mp.weekStartDate ? Number(new Date(mp.weekStartDate).toISOString().slice(0, 7).replace('-', '')) : 0),
     status: mp.status,
     nutritionManager: mp.nutritionManager,
     notes: mp.notes,
     createdBy: toString(mp.creatorId),
-    createdAt: mp.createdAt,
-    updatedAt: mp.updatedAt,
+    createdAt: mp.createdAt instanceof Date ? mp.createdAt.toISOString() : mp.createdAt,
+    updatedAt: mp.updatedAt instanceof Date ? mp.updatedAt.toISOString() : mp.updatedAt,
     creator: mp.creatorId
       ? {
           id: toString(mp.creatorId),
           name: mp.creatorName,
         }
       : null,
-    dailyMeals: groupMealPlanItemsByDate(mp.weekMeals || mp.mealPlanItems || []),
+    dailyMeals: groupMealPlanItemsByDate(mp.weekMeals || mp.week_meals || mp.mealPlanItems || mp.meal_plan_items || []),
   };
 };

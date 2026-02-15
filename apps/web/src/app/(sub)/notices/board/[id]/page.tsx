@@ -50,20 +50,6 @@ export default function BoardDetailPage() {
     },
   );
 
-  console.log('🔍 Debug Info [Board]:', {
-    postId,
-    isError,
-    postResult,
-    error: error instanceof Error ? { message: error.message, name: error.name } : error,
-  });
-
-  // 추가 로그
-  console.log('📦 postResult.body:', postResult?.body);
-  console.log('📦 postResult.body type:', typeof postResult?.body);
-  if (postResult?.body) {
-    console.log('📦 body keys:', Object.keys(postResult.body));
-  }
-
   // All Posts for Prev/Next navigation
   const { data: allPostsResult } = api.webpage.getPosts.useQuery(['webpage-posts', 'FREE'], {
     query: { boardKey: 'FREE', page: 1, limit: 100 },
@@ -78,30 +64,9 @@ export default function BoardDetailPage() {
     const p = (postResult.body as any).data;
     if (!p) return null;
 
-    // 댓글 트리 구조 생성 (부모-자식 관계)
-    const commentMap = new Map();
-    const flatComments = p.comments || [];
-
-    // 1단계: 모든 댓글을 맵에 담기 ( replies 배열 초기화 )
-    flatComments.forEach((c: any) => {
-      commentMap.set(String(c.id), { ...c, replies: [] });
-    });
-
-    // 2단계: 부모-자식 관계 연결
-    const nestedComments: any[] = [];
-    commentMap.forEach(c => {
-      if (c.parentId) {
-        const parent = commentMap.get(String(c.parentId));
-        if (parent) {
-          parent.replies.push(c);
-        } else {
-          // 부모가 없으면(삭제 등) 최상위에 둠
-          nestedComments.push(c);
-        }
-      } else {
-        nestedComments.push(c);
-      }
-    });
+    // API returns nested comments structure (roots with replies)
+    // We can use it directly instead of rebuilding the tree
+    const nestedComments = p.comments || [];
 
     return {
       id: String(p.id),
@@ -132,13 +97,20 @@ export default function BoardDetailPage() {
   const deletePostMutation = api.content.deletePost.useMutation();
 
   // 댓글 작성 핸들러
-  const handleCommentSubmit = async (content: string, parentId: string | null) => {
+  const handleCommentSubmit = async (
+    content: string,
+    parentId: string | null,
+    guestNickname?: string,
+    guestPassword?: string,
+  ) => {
     try {
       await createCommentMutation.mutateAsync({
         body: {
           postId: postId,
           content,
           parentId: parentId || null,
+          guestNickname: guestNickname || undefined,
+          guestPassword: guestPassword || undefined,
         },
       });
 
@@ -155,19 +127,21 @@ export default function BoardDetailPage() {
   const deleteCommentMutation = api.webpage.deleteComment.useMutation();
 
   // 댓글 삭제 핸들러
-  const handleCommentDelete = async (commentId: string) => {
+  const handleCommentDelete = async (commentId: string, password?: string) => {
     try {
-      if (!confirm('댓글을 삭제하시겠습니까?')) return;
-
+      // confirm은 BoardComment 컴포넌트 내부에서 처리하므로 여기서 중복 호출하지 않음
       await deleteCommentMutation.mutateAsync({
         params: { id: commentId },
-        body: {},
+        query: { password },
       });
 
       await refetch();
       alert('댓글이 삭제되었습니다.');
-    } catch (error) {
+    } catch (error: any) {
       console.error('댓글 삭제 실패:', error);
+      const errorMessage =
+        error?.response?.data?.message || error?.message || '비밀번호가 일치하지 않거나 삭제에 실패했습니다.';
+      alert(errorMessage);
       throw error;
     }
   };
