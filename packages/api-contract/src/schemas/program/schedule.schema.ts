@@ -5,6 +5,8 @@
  */
 import { z } from 'zod';
 
+import { ProgramSchema } from './program.schema.js';
+
 /**
  * 일정 기본 구조
  */
@@ -18,6 +20,7 @@ export const ProgramScheduleSchema = z.object({
   notes: z.string().nullable(),
   createdAt: z.string(),
   updatedAt: z.string(),
+  program: ProgramSchema.optional(),
 });
 
 /**

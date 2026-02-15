@@ -39,21 +39,19 @@ export default function BoardDetailPage() {
     isError,
     refetch,
   } = api.webpage.getPost.useQuery(
+    ['getPost', postId],
     {
       params: { id: postId },
     },
     {
+      queryKey: ['getPost', postId],
       enabled: !!postId,
       retry: false,
-      onError: err => {
-        console.error('❌ Board Query Error:', err);
-      },
     },
   );
 
   console.log('🔍 Debug Info [Board]:', {
     postId,
-    isLoading,
     isError,
     postResult,
     error: error instanceof Error ? { message: error.message, name: error.name } : error,
@@ -67,12 +65,9 @@ export default function BoardDetailPage() {
   }
 
   // All Posts for Prev/Next navigation
-  const { data: allPostsResult } = api.webpage.getPosts.useQuery(
-    { boardKey: 'FREE', page: 1, limit: 100 },
-    {
-      queryKey: ['webpage-posts', 'FREE'],
-    },
-  );
+  const { data: allPostsResult } = api.webpage.getPosts.useQuery(['webpage-posts', 'FREE'], {
+    query: { boardKey: 'FREE', page: 1, limit: 100 },
+  });
 
   const post = useMemo(() => {
     // postResult.body가 undefined일 수 있으므로 안전하게 접근
@@ -278,7 +273,7 @@ export default function BoardDetailPage() {
                 <div className="flex-1">
                   <span className="font-semibold text-gray-900">첨부파일</span>
                   <div className="mt-2 flex flex-col gap-2">
-                    {post.image_urls.map((url, index) => (
+                    {post.image_urls.map((url: string, index: number) => (
                       <a
                         key={url}
                         href={url}
@@ -301,7 +296,7 @@ export default function BoardDetailPage() {
             {/* Images */}
             {post.image_urls && post.image_urls.length > 0 && (
               <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2">
-                {post.image_urls.map((url, index) => (
+                {post.image_urls.map((url: string, index: number) => (
                   <div key={url} className="overflow-hidden rounded border border-gray-200">
                     <img src={url} alt={`Image ${index + 1}`} className="h-auto w-full object-contain" />
                   </div>

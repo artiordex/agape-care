@@ -18,16 +18,11 @@ export default function GalleryNoticeSection() {
   const [activeTab, setActiveTab] = useState<TabType>('notice');
 
   // API에서 공지사항 데이터 가져오기
-  const { data: noticesData } = api.webpage.getNotices.useQuery(
-    {
-      query: {
-        isActive: true,
-      },
-    } as any,
-    {
-      queryKey: ['webpage-notices-home'],
+  const { data: noticesData } = api.webpage.getNotices.useQuery(['webpage-notices-home'], {
+    query: {
+      isActive: true,
     },
-  );
+  });
 
   // 공지사항 데이터 변환
   const latestNotices = useMemo(() => {
@@ -45,9 +40,7 @@ export default function GalleryNoticeSection() {
   }, [noticesData]);
 
   // 갤러리 데이터 가져오기
-  const { data: galleryItemsData } = api.webpage.getGalleryItems.useQuery({} as any, {
-    queryKey: ['home-gallery'],
-  });
+  const { data: galleryItemsData } = api.webpage.getGalleryItems.useQuery(['home-gallery'], {});
 
   // 갤러리 데이터 변환
   const latestGallery = useMemo(() => {
@@ -60,17 +53,12 @@ export default function GalleryNoticeSection() {
   }, [galleryItemsData]);
 
   // 게시판 데이터 가져오기
-  const { data: postsData } = api.webpage.getPosts.useQuery(
-    {
-      query: {
-        page: 1,
-        limit: 3,
-      },
-    } as any,
-    {
-      queryKey: ['home-board-posts'],
+  const { data: postsData } = api.webpage.getPosts.useQuery(['home-board-posts'], {
+    query: {
+      page: 1,
+      limit: 3,
     },
-  );
+  });
 
   // 게시판 데이터 변환
   const latestBoard = useMemo(() => {

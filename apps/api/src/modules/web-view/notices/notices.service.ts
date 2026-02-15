@@ -219,11 +219,13 @@ export class NoticesService {
     ]);
 
     return {
-      data: mealPlans.map(mp => serialize.serializeWebMealPlan(mp)),
-      total,
-      page,
-      limit,
-      totalPages: Math.ceil(total / limit),
+      data: mealPlans.map(mp => serialize.serializeWebMealPlan(mp)).filter((item): item is NonNullable<typeof item> => item !== null),
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
     };
   }
 
@@ -285,8 +287,21 @@ export class NoticesService {
    * [식단표] 식단판 세부 항목 조회
    */
   async getMealPlanItems(mealPlanId: string, query: GetMealPlanItemsQuery) {
+    const { mealType, mealDate } = query;
+    const where: Prisma.MealPlanItemWhereInput = {
+      mealPlanId: BigInt(mealPlanId),
+    };
+
+    if (mealType) {
+      where.mealType = mealType;
+    }
+
+    if (mealDate) {
+      where.mealDate = new Date(mealDate);
+    }
+
     const items = await this.prisma.mealPlanItem.findMany({
-      where: { mealPlanId: BigInt(mealPlanId) },
+      where,
       orderBy: { mealDate: 'asc' },
     });
 
@@ -360,37 +375,46 @@ export class NoticesService {
    * [일정] 일정 목록 조회
    */
   async getSchedules(query: GetSchedulesQuery) {
-    const { programId } = query;
+    const { programId, page, limit } = query;
     const where: Prisma.ProgramScheduleWhereInput = {};
 
     if (programId) where.programId = BigInt(programId);
 
-    const schedules = await this.prisma.programSchedule.findMany({
-      where,
-      orderBy: { startsAt: 'asc' },
-      include: { program: true },
-    });
+    const pageNum = Number(page) || 1;
+    const limitNum = Number(limit) || 20;
+    const skip = (pageNum - 1) * limitNum;
 
-    return schedules.map(s => this.serializeSchedule(s));
+    const [schedules, totalCount] = await Promise.all([
+      this.prisma.programSchedule.findMany({
+        where,
+        skip,
+        take: limitNum,
+        orderBy: { startsAt: 'asc' },
+        include: { program: true },
+      }),
+      this.prisma.programSchedule.count({ where }),
+    ]);
+
+    return {
+      items: schedules.map(s => this.serializeSchedule(s)),
+      totalCount,
+      page: pageNum,
+      limit: limitNum,
+    };
   }
 
   private serializeSchedule(schedule: any) {
     return {
       id: schedule.id.toString(),
       programId: schedule.programId.toString(),
-      startsAt: schedule.startsAt,
-      endsAt: schedule.endsAt,
+      startTime: schedule.startsAt.toISOString(),
+      endTime: schedule.endsAt ? schedule.endsAt.toISOString() : null,
       location: schedule.location,
-      capacity: schedule.capacity,
-      status: schedule.status,
-      createdAt: schedule.createdAt,
-      updatedAt: schedule.updatedAt,
-      program: schedule.program
-        ? {
-            id: schedule.program.id.toString(),
-            title: schedule.program.title,
-          }
-        : null,
+      notes: null, // DB definition missing
+      facilitatorId: null, // DB definition missing
+      createdAt: schedule.createdAt.toISOString(),
+      updatedAt: schedule.updatedAt.toISOString(),
+      program: schedule.program ? this.serializeProgram(schedule.program) : undefined,
     };
   }
 }

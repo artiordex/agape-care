@@ -6,7 +6,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import CategoryFilter from './ProgramFilter';
 import MonthHeader from './ProgramHeader';
 import ProgramModal from './ProgramModal';
@@ -23,46 +23,41 @@ const CATEGORIES = [
   { id: 'event', name: '특별행사', color: '#EF4444', icon: 'ri-gift-line' },
 ];
 
-export default function ProgramScheduleSection() {
+interface ProgramScheduleSectionProps {
+  schedules?: any[];
+  isLoading?: boolean;
+}
+
+export default function ProgramScheduleSection({ schedules = [], isLoading }: ProgramScheduleSectionProps) {
   const [viewMode, setViewMode] = useState<'calendar' | 'list'>('calendar');
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedCategory, setSelectedCategory] = useState('전체');
   const [selectedProgramId, setSelectedProgramId] = useState<string | null>(null);
 
-  // 임시 데이터 세트 (실제 환경에서는 API 호출을 통해 관리)
-  const programs = [
-    {
-      id: '1',
-      title: '오전 인지 정밀 케어',
-      date: '2026-02-02',
-      start_time: '10:00',
-      end_time: '11:00',
-      category: 'cognitive',
-      staff: '민시우 복지사',
-      location: '1층 프로그램실',
-      description: '전문 교구를 활용한 집중 인지 자극 활동입니다.',
-    },
-    {
-      id: '2',
-      title: '실버 리듬 치료',
-      date: '2026-02-02',
-      start_time: '14:00',
-      end_time: '15:30',
-      category: 'music',
-      staff: '김희진 강사',
-      location: '2층 다목적홀',
-      description: '전통 악기를 활용한 리듬 정서 지원 프로그램입니다.',
-    },
-  ];
+  // API 데이터를 UI 형식으로 변환
+  const programs = useMemo(() => {
+    return schedules.map(item => ({
+      id: item.id,
+      title: item.program?.title || 'Unnamed Program',
+      date: item.startTime.split('T')[0],
+      start_time: item.startTime.split('T')[1].substring(0, 5),
+      end_time: item.endTime ? item.endTime.split('T')[1].substring(0, 5) : '',
+      category: item.program?.category || 'cognitive',
+      staff: item.facilitatorId || '',
+      location: item.location || '',
+      description: item.program?.description || '',
+    }));
+  }, [schedules]);
 
   // 데이터 필터링 로직
-  const filteredPrograms =
-    selectedCategory === '전체'
+  const filteredPrograms = useMemo(() => {
+    return selectedCategory === '전체'
       ? programs
       : programs.filter(p => {
           const category = CATEGORIES.find(c => c.id === p.category);
           return category ? category.name === selectedCategory : false;
         });
+  }, [programs, selectedCategory]);
 
   const getCategoryInfo = (categoryId: string) => {
     const category = CATEGORIES.find(c => c.id === categoryId) || CATEGORIES[0];
@@ -71,7 +66,16 @@ export default function ProgramScheduleSection() {
       color: category!.color,
     };
   };
-  const selectedProgram = programs.find(p => p.id === selectedProgramId);
+
+  const selectedProgram = useMemo(() => programs.find(p => p.id === selectedProgramId), [programs, selectedProgramId]);
+
+  if (isLoading) {
+    return (
+      <section className="flex h-[600px] items-center justify-center border border-gray-200 bg-white p-10 shadow-sm">
+        <div className="h-12 w-12 animate-spin rounded-full border-4 border-[#5C8D5A] border-t-transparent"></div>
+      </section>
+    );
+  }
 
   return (
     <section>

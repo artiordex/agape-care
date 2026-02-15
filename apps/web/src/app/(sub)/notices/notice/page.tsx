@@ -28,12 +28,9 @@ export default function NoticePage() {
   const [activeSearchQuery, setActiveSearchQuery] = useState('');
 
   // 1. API 데이터 로드
-  const { data: noticesData, isLoading } = api.webpage.getNotices.useQuery(
-    { isActive: true },
-    {
-      queryKey: ['webpage-notices'],
-    },
-  );
+  const { data: noticesData, isLoading } = api.webpage.getNotices.useQuery(['webpage-notices'], {
+    query: { isActive: true },
+  });
 
   // 2. 데이터 가공
   const allNotices = useMemo(() => {

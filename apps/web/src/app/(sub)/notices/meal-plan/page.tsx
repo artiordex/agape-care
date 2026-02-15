@@ -39,17 +39,12 @@ export default function MealPlanPage() {
   const [selectedMeal, setSelectedMeal] = useState<MealPlan | null>(null);
 
   // API 데이터 로드
-  const { data: mealPlansData, isLoading } = api.webpage.getMealPlans.useQuery(
-    {
-      query: {
-        page: 1,
-        limit: 100, // 충분한 데이터를 가져오기 위해 큰 값 설정
-      },
+  const { data: mealPlansData, isLoading } = api.webpage.getMealPlans.useQuery(['meal-plans'], {
+    query: {
+      page: 1,
+      limit: 100, // 충분한 데이터를 가져오기 위해 큰 값 설정
     },
-    {
-      queryKey: ['meal-plans'],
-    },
-  );
+  });
 
   // API 응답 데이터를 UI에 맞게 변환
   const MEAL_DATA: MealPlan[] = useMemo(() => {

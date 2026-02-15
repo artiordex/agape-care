@@ -32,14 +32,9 @@ export default function NoticeDetailPage() {
   console.log('NOTICE RESULT:', noticeResult);
 
   // All Notices for Prev/Next navigation
-  const { data: allNoticesResult } = api.webpage.getNotices.useQuery(
-    {
-      query: { isActive: true },
-    },
-    {
-      queryKey: ['webpage-notices-nav'],
-    },
-  );
+  const { data: allNoticesResult } = api.webpage.getNotices.useQuery(['webpage-notices-nav'], {
+    query: { isActive: true },
+  });
 
   const notice = useMemo(() => {
     if (noticeResult?.status !== 200 || !noticeResult.body?.data) return null;

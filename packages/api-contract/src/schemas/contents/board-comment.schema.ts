@@ -11,7 +11,7 @@ export const BoardCommentBaseSchema = z.object({
   updatedAt: z.coerce.date(),
   author: z
     .object({
-      id: z.string(),
+      id: z.coerce.string(),
       name: z.string(),
     })
     .nullable()

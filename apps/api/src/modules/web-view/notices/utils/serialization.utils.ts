@@ -294,6 +294,7 @@ export const serializeWebMealPlan = (mp: any) => {
     id: toString(mp.id),
     facilityCode: mp.facilityCode,
     weekStartDate: mp.weekStartDate,
+    mealMonth: mp.mealMonth || (mp.weekStartDate ? Number(new Date(mp.weekStartDate).toISOString().slice(0, 7).replace('-', '')) : 0),
     status: mp.status,
     nutritionManager: mp.nutritionManager,
     notes: mp.notes,

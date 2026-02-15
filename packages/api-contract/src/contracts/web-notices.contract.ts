@@ -13,8 +13,14 @@ import {
   GalleryItemSchema,
   NoticeSchema,
 } from '../schemas/contents/index.js';
-import { MealPlanSchema } from '../schemas/meal/index.js';
-import { ProgramScheduleSchema } from '../schemas/program/index.js';
+import { MealPlanItemSchema, MealTypeSchema, WebMealPlanSchema } from '../schemas/meal/index.js';
+import {
+  GetProgramsQuerySchema,
+  GetProgramsResponseSchema,
+  GetSchedulesQuerySchema,
+  GetSchedulesResponseSchema,
+  ProgramSchema,
+} from '../schemas/program/index.js';
 
 export const webpageContract = {
   /**
@@ -45,7 +51,10 @@ export const webpageContract = {
     }),
     responses: {
       200: ApiResponseSchema(NoticeSchema),
-      404: z.null(),
+      404: z.object({
+        success: z.boolean(),
+        message: z.string(),
+      }),
     },
   },
 
@@ -57,7 +66,7 @@ export const webpageContract = {
     method: 'GET' as const,
     path: '/notices/board',
     query: z.object({
-      boardKey: z.string().optional(),
+      boardKey: z.string().default('ALL'), // .optional() → .default('ALL')로 변경
       page: z.coerce.number().default(1),
       limit: z.coerce.number().default(10),
     }),
@@ -228,38 +237,104 @@ export const webpageContract = {
     }),
     responses: {
       200: z.object({
-        data: z.array(
-          MealPlanSchema.extend({
-            creator: z
-              .object({
-                id: z.string(),
-                name: z.string(),
-              })
-              .nullable()
-              .optional(),
-            dailyMeals: z.array(
-              z.object({
-                id: z.string(),
-                mealPlanId: z.string(),
-                date: z.string(),
-                breakfast: z.string().nullable(),
-                breakfastImage: z.string().nullable(),
-                morningSnack: z.string().nullable(),
-                lunch: z.string().nullable(),
-                lunchImage: z.string().nullable(),
-                afternoonSnack: z.string().nullable(),
-                dinner: z.string().nullable(),
-                dinnerImage: z.string().nullable(),
-                createdAt: z.string(),
-                updatedAt: z.string(),
-              }),
-            ),
-          }),
-        ),
+        data: z.array(WebMealPlanSchema),
         total: z.number(),
         page: z.number(),
         limit: z.number(),
         totalPages: z.number(),
+      }),
+    },
+  },
+
+  /**
+   * [식단표] GET /notices/meal-plan/:id
+   * 식단표 상세 조회
+   */
+  getMealPlan: {
+    method: 'GET' as const,
+    path: '/notices/meal-plan/:id',
+    pathParams: z.object({
+      id: z.string(),
+    }),
+    responses: {
+      200: WebMealPlanSchema,
+      404: z.object({
+        success: z.boolean(),
+        message: z.string(),
+      }),
+    },
+  },
+
+  /**
+   * [식단표] GET /notices/meal-plan/:mealPlanId/items
+   * 식단표 항목 목록 조회
+   */
+  getMealPlanItems: {
+    method: 'GET' as const,
+    path: '/notices/meal-plan/:mealPlanId/items',
+    pathParams: z.object({
+      mealPlanId: z.string(),
+    }),
+    query: z.object({
+      mealType: MealTypeSchema.optional(),
+      mealDate: z.string().optional(),
+    }),
+    responses: {
+      200: z.object({
+        data: z.array(MealPlanItemSchema),
+        total: z.number(),
+      }),
+    },
+  },
+
+  /**
+   * [식단표] GET /notices/meal-plan/current-week
+   * 이번 주 식단표 조회
+   */
+  getCurrentWeekMealPlan: {
+    method: 'GET' as const,
+    path: '/notices/meal-plan/current-week',
+    query: z.object({
+      facilityCode: z.string().default('DEFAULT'),
+      date: z.string().optional(),
+    }),
+    responses: {
+      200: WebMealPlanSchema,
+      404: z.object({
+        statusCode: z.number(),
+        message: z.string(),
+      }),
+    },
+  },
+
+  /**
+   * [프로그램] GET /notices/programs
+   * 프로그램 목록 조회
+   */
+  getPrograms: {
+    method: 'GET' as const,
+    path: '/notices/programs',
+    query: GetProgramsQuerySchema,
+    responses: {
+      200: GetProgramsResponseSchema,
+    },
+  },
+
+  /**
+   * [프로그램] GET /notices/programs/:id
+   * 프로그램 상세 조회
+   */
+  getProgram: {
+    method: 'GET' as const,
+    path: '/notices/programs/:id',
+    pathParams: z.object({
+      id: z.string(),
+    }),
+    responses: {
+      200: ProgramSchema,
+      404: z.object({
+        statusCode: z.number(),
+        message: z.string(),
       }),
     },
   },
@@ -271,8 +346,9 @@ export const webpageContract = {
   getProgramSchedules: {
     method: 'GET' as const,
     path: '/notices/program-schedule',
+    query: GetSchedulesQuerySchema,
     responses: {
-      200: ApiResponseSchema(z.array(ProgramScheduleSchema)),
+      200: GetSchedulesResponseSchema,
     },
   },
 } as const;

@@ -11,6 +11,39 @@ import { z } from 'zod';
  */
 export const MealTypeSchema = z.enum(['BREAKFAST', 'LUNCH', 'DINNER', 'SNACK']);
 
+import { MealPlanSchema } from './meal-plan-item.schema.js';
+
+/**
+ * Web용 식단표 상세 스키마 (dailyMeals 포함)
+ */
+export const WebMealPlanSchema = MealPlanSchema.extend({
+  weekStartDate: z.string().optional(),
+  creator: z
+    .object({
+      id: z.string(),
+      name: z.string(),
+    })
+    .nullable()
+    .optional(),
+  dailyMeals: z.array(
+    z.object({
+      id: z.string(),
+      mealPlanId: z.string(),
+      date: z.string(),
+      breakfast: z.string().nullable(),
+      breakfastImage: z.string().nullable(),
+      morningSnack: z.string().nullable(),
+      lunch: z.string().nullable(),
+      lunchImage: z.string().nullable(),
+      afternoonSnack: z.string().nullable(),
+      dinner: z.string().nullable(),
+      dinnerImage: z.string().nullable(),
+      createdAt: z.string(),
+      updatedAt: z.string(),
+    }),
+  ),
+});
+
 /**
  * 일별 식단 항목 정보 (DailyMeal)
  */
@@ -64,7 +97,7 @@ export const UpdateMealPlanItemRequestSchema = z.object({
  * 식단 항목 목록 조회 쿼리
  */
 export const GetMealPlanItemsQuerySchema = z.object({
-  mealPlanId: z.string(),
+  mealPlanId: z.string().optional(),
   mealType: MealTypeSchema.optional(),
   mealDate: z.string().optional(), // 특정 날짜
 });

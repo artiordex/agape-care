@@ -49,10 +49,7 @@ export default function GalleryPage() {
   const categories = ['전체', '행사', '일상', '인지프로그램', '여가활동'];
 
   // API 데이터 로드
-  const { data: galleryResult, isLoading } = api.content.getGalleryItems.useQuery({
-    queryKey: ['web-gallery'],
-    query: { isPublic: true },
-  });
+  const { data: galleryResult, isLoading } = api.content.getGalleryItems.useQuery(['web-gallery'], {});
 
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
 

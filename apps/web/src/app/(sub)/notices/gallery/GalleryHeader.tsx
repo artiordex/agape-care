@@ -10,12 +10,12 @@ import SearchBar from './SearchBar';
 
 interface GalleryHeaderProps {
   currentDate: Date;
-  viewMode: 'week' | 'month' | 'grid';
+  viewMode: 'week' | 'month' | 'grid' | 'all';
   searchQuery: string;
   onPrev: () => void;
   onNext: () => void;
   onToday: () => void;
-  onViewModeChange: (mode: 'week' | 'month' | 'grid') => void;
+  onViewModeChange: (mode: 'week' | 'month' | 'grid' | 'all') => void;
   onSearchChange: (query: string) => void;
 }
 
@@ -40,6 +40,9 @@ export default function GalleryHeader({
     if (viewMode === 'month') {
       return `${currentDate.getFullYear()}년 ${month}월`;
     }
+    if (viewMode === 'all') {
+      return '전체 보기';
+    }
     return '그리드 보기';
   };
 
@@ -51,6 +54,10 @@ export default function GalleryHeader({
         return '월간 갤러리';
       case 'grid':
         return '그리드 보기';
+      case 'all':
+        return '전체 갤러리';
+      default:
+        return '';
     }
   };
 

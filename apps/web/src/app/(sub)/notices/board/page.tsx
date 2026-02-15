@@ -1,17 +1,11 @@
-/**
- * Description : page.tsx - 📌 게시판 목록 페이지
- * Author : Shiwoo Min
- * Date : 2026-02-02
- */
-
 'use client';
 
 import { api } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
-import BoardSearch from './BoardSearch';
-import BoardMobileList from './BoardMobileList';
 import BoardList from './BoardList';
+import BoardMobileList from './BoardMobileList';
+import BoardSearch from './BoardSearch';
 import Pagination from './Pagination';
 
 interface Post {
@@ -34,33 +28,41 @@ export default function BoardPage() {
   const postsPerPage = 10;
 
   // API 데이터 로드
-  const { data: postsData, isLoading } = api.webpage.getPosts.useQuery(
-    {
-      query: {
-        boardKey: 'FREE',
-        page: currentPage,
-        limit: postsPerPage,
-      },
+  const { data: postsData, isLoading } = api.webpage.getPosts.useQuery(['board-posts', currentPage], {
+    query: {
+      board_key: 'FREE',
+      page: currentPage,
+      limit: postsPerPage,
     },
-    {
-      queryKey: ['board-posts', currentPage],
-    },
-  );
+  });
 
   const allPosts = useMemo(() => {
-    if (postsData?.status !== 200) return [];
+    if (!postsData) {
+      return [];
+    }
 
-    return postsData.body.data.map((post: any) => ({
+    if (postsData.status !== 200) {
+      return [];
+    }
+
+    const posts = postsData.body?.data;
+
+    if (!posts || !Array.isArray(posts)) {
+      return [];
+    }
+
+    const mappedPosts = posts.map((post: any) => ({
       id: post.id,
       title: post.title,
-      writer_name: '관리자', // TODO: authorId로 이름 가져오기
+      writer_name: post.authorName || '관리자',
       content: post.content,
       view_count: post.viewCount || 0,
-      image_urls: [], // TODO: 이미지 지원 시 추가
+      image_urls: [],
       is_hidden: false,
       created_at: post.createdAt,
       updated_at: post.updatedAt,
     }));
+    return mappedPosts;
   }, [postsData]);
 
   const totalPosts = postsData?.body?.meta?.total ?? 0;

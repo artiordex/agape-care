@@ -4,6 +4,7 @@
  * Date : 2026-01-29
  */
 export const dynamic = 'force-dynamic';
+import QueryProvider from '@/providers/query-provider';
 import type { Metadata } from 'next';
 import './globals.css';
 
@@ -19,7 +20,9 @@ export default function AdminLayout({ children }: Readonly<{ children: React.Rea
         {/* Remix Icon CDN */}
         <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet" />
       </head>
-      <body className="antialiased">{/* <QueryProvider>{children}</QueryProvider> */}</body>
+      <body className="antialiased">
+        <QueryProvider>{children}</QueryProvider>
+      </body>
     </html>
   );
 }
