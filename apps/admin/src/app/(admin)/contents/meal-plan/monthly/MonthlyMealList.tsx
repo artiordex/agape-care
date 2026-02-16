@@ -19,17 +19,19 @@ interface MealPlan {
 }
 
 interface Props {
-  readonly monthPlans: MealPlan[];
+  readonly currentMonth: Date;
+  readonly mealPlans: MealPlan[];
   readonly onEditClick: (date: string) => void;
+  readonly onDeleteClick: (id: string) => void;
 }
 
 /**
  * [Component] 월간 식단 누적 리스트 테이블
  * 아가페 그린(#5C8D5A) 테마 및 고밀도 ERP 명세서 스타일 적용
  */
-export default function MonthlyMealList({ monthPlans, onEditClick }: Props) {
+export default function MonthlyMealList({ currentMonth, mealPlans, onEditClick, onDeleteClick }: Props) {
   // 데이터 부재 시 대기 화면
-  if (monthPlans.length === 0) {
+  if (!mealPlans || mealPlans.length === 0) {
     return (
       <div className="flex h-64 flex-col items-center justify-center border border-blue-400 bg-white">
         <i className="ri-database-2-line mb-2 text-4xl text-gray-200"></i>
@@ -52,7 +54,7 @@ export default function MonthlyMealList({ monthPlans, onEditClick }: Props) {
         </div>
         <div className="flex items-center gap-3 text-[9px] font-bold text-blue-400">
           <span className="flex items-center gap-1">
-            <i className="ri-list-check"></i> Total: {monthPlans.length} Days
+            <i className="ri-list-check"></i> Total: {mealPlans.length} Days
           </span>
         </div>
       </div>
@@ -76,7 +78,7 @@ export default function MonthlyMealList({ monthPlans, onEditClick }: Props) {
           </thead>
 
           <tbody className="divide-y divide-blue-100">
-            {monthPlans.map(plan => (
+            {mealPlans.map(plan => (
               <tr key={plan.id} className="group transition-colors hover:bg-emerald-50/30">
                 {/* 1. 날짜 정보 */}
                 <td className="border-r border-blue-400 p-2 text-center font-mono text-[11px] font-black text-blue-900">
@@ -124,12 +126,20 @@ export default function MonthlyMealList({ monthPlans, onEditClick }: Props) {
 
                 {/* 10. 제어 액션 */}
                 <td className="p-2 text-center">
-                  <button
-                    onClick={() => onEditClick(plan.date)}
-                    className="rounded border border-gray-300 bg-white px-2 py-1 text-[10px] font-black text-gray-600 transition-all hover:border-[#5C8D5A] hover:text-[#5C8D5A] hover:shadow-sm"
-                  >
-                    상세수정
-                  </button>
+                  <div className="flex items-center justify-center gap-1">
+                    <button
+                      onClick={() => onEditClick(plan.date)}
+                      className="rounded border border-gray-300 bg-white px-2 py-1 text-[10px] font-black text-gray-600 transition-all hover:border-[#5C8D5A] hover:text-[#5C8D5A] hover:shadow-sm"
+                    >
+                      수정
+                    </button>
+                    <button
+                      onClick={() => onDeleteClick(plan.id)}
+                      className="rounded border border-red-300 bg-white px-2 py-1 text-[10px] font-black text-red-600 transition-all hover:bg-red-50 hover:shadow-sm"
+                    >
+                      삭제
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
