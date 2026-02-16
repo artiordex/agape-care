@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { api } from '@/lib/api';
 import WeeklyExcelActions from './WeeklyExcelActions';
 import WeeklyMealTable from './WeeklyMealTable';
 
@@ -28,18 +29,93 @@ interface MealPlan {
 export default function WeeklyMealPlan() {
   const [mealPlans, setMealPlans] = useState<MealPlan[]>([]);
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(new Date());
-  const [isLoading, setIsLoading] = useState(true);
   const [nutritionManager, setNutritionManager] = useState('김영양 영양사');
   const [editingDates, setEditingDates] = useState<Set<string>>(new Set());
+  const [mealPlanId, setMealPlanId] = useState<string | null>(null);
 
   const days = [0, 1, 2, 3, 4, 5, 6]; // 월~일 인덱스
+
+  // API: 현재 주 식단표 조회
+  const { data: weeklyData, refetch } = api.meal.getCurrentWeekMealPlan.useQuery(
+    ['currentWeekMealPlan'],
+    {
+      queryData: {
+        facilityCode: 'DEFAULT',
+        date: getDateString(currentWeekStart, 0),
+      },
+    },
+  );
+
+  // API: 식단 항목 생성
+  const createMealItem = api.meal.createMealPlanItem.useMutation({
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
+  // API: 식단 항목 수정
+  const updateMealItem = api.meal.updateMealPlanItem.useMutation({
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
+  // API: 식단 항목 삭제
+  const deleteMealItem = api.meal.deleteMealPlanItem.useMutation({
+    onSuccess: () => {
+      refetch();
+    },
+  });
 
   // 초기 데이터 로드 및 주간 날짜 설정
   useEffect(() => {
     const monday = getMonday(new Date());
     setCurrentWeekStart(monday);
-    loadWeekMealPlans(monday);
   }, []);
+
+  // API 데이터를 로컬 상태로 변환
+  useEffect(() => {
+    if (weeklyData?.body) {
+      const { mealPlan, dailyMeals } = weeklyData.body;
+
+      if (mealPlan) {
+        setMealPlanId(mealPlan.id);
+        setNutritionManager(mealPlan.nutritionManager || '김영양 영양사');
+      }
+
+      const dates = days.map(idx => getDateString(currentWeekStart, idx));
+      const weekPlans = dates.map(date => {
+        const dailyMeal = dailyMeals?.find((dm: any) => dm.date === date);
+        const mealItem = dailyMeal?.meals;
+
+        return {
+          id: mealItem?.breakfast?.id || Math.random().toString(36).substr(2, 9),
+          date,
+          breakfast: {
+            menu: mealItem?.breakfast?.breakfast || '',
+            calories: '', // API에 칼로리 정보가 없으면 빈값
+          },
+          lunch: {
+            menu: mealItem?.lunch?.lunch || '',
+            calories: '',
+          },
+          dinner: {
+            menu: mealItem?.dinner?.dinner || '',
+            calories: '',
+          },
+          morningSnack: mealItem?.breakfast?.morningSnack || '',
+          afternoonSnack: mealItem?.lunch?.afternoonSnack || '',
+          allergyInfo: {
+            possible: [],
+            restricted: [],
+          },
+          nutrition_manager: mealPlan?.nutritionManager || nutritionManager,
+        };
+      });
+
+      setMealPlans(weekPlans);
+    }
+  }, [weeklyData, currentWeekStart]);
 
   /** 주간 월요일 계산 */
   const getMonday = (date: Date) => {
@@ -58,46 +134,48 @@ export default function WeeklyMealPlan() {
     return date.toISOString().split('T')[0];
   };
 
-  /** 주간 식단 데이터 로딩 (LocalStorage 기반) */
-  const loadWeekMealPlans = (monday: Date) => {
-    setIsLoading(true);
-    const saved = localStorage.getItem('agape_weekly_meal_enhanced');
-    const allPlans: MealPlan[] = saved ? JSON.parse(saved) : [];
-
-    const dates = days.map(idx => getDateString(monday, idx));
-    const weekPlans = dates.map(date => {
-      const exists = allPlans.find(p => p.date === date);
-      return (
-        exists || {
-          id: Math.random().toString(36).substr(2, 9),
-          date,
-          breakfast: { menu: '', calories: '' },
-          lunch: { menu: '', calories: '' },
-          dinner: { menu: '', calories: '' },
-          morningSnack: '',
-          afternoonSnack: '',
-          allergyInfo: { possible: [], restricted: [] },
-          nutrition_manager: nutritionManager,
-        }
-      );
-    });
-
-    setMealPlans(weekPlans);
-    setIsLoading(false);
-  };
-
   /** 단일 날짜 데이터 저장 */
   const handleSave = (index: number) => {
     const plan = mealPlans[index];
-    const saved = localStorage.getItem('agape_weekly_meal_enhanced');
-    const allPlans: MealPlan[] = saved ? JSON.parse(saved) : [];
-    const info = { ...plan, nutrition_manager: nutritionManager };
 
-    const existIndex = allPlans.findIndex(p => p.date === plan.date);
-    if (existIndex > -1) allPlans[existIndex] = info;
-    else allPlans.push(info);
+    if (!mealPlanId) {
+      alert('식단표 ID가 없습니다. 먼저 식단표를 생성해주세요.');
+      return;
+    }
 
-    localStorage.setItem('agape_weekly_meal_enhanced', JSON.stringify(allPlans));
+    const dailyMeal = weeklyData?.body?.dailyMeals?.find((dm: any) => dm.date === plan.date);
+    const existingItemId = dailyMeal?.meals?.breakfast?.id;
+
+    if (existingItemId) {
+      // 수정
+      updateMealItem.mutate({
+        params: {
+          mealPlanId,
+          id: existingItemId,
+        },
+        body: {
+          date: plan.date,
+          breakfast: plan.breakfast.menu || null,
+          lunch: plan.lunch.menu || null,
+          dinner: plan.dinner.menu || null,
+          morningSnack: plan.morningSnack || null,
+          afternoonSnack: plan.afternoonSnack || null,
+        },
+      });
+    } else {
+      // 생성
+      createMealItem.mutate({
+        params: { mealPlanId },
+        body: {
+          date: plan.date,
+          breakfast: plan.breakfast.menu,
+          lunch: plan.lunch.menu,
+          dinner: plan.dinner.menu,
+          morningSnack: plan.morningSnack,
+          afternoonSnack: plan.afternoonSnack,
+        },
+      });
+    }
 
     const newEditingDates = new Set(editingDates);
     newEditingDates.delete(plan.date);
@@ -109,31 +187,43 @@ export default function WeeklyMealPlan() {
   /** 단일 날짜 데이터 삭제 */
   const handleDelete = (index: number) => {
     if (!confirm('해당 날짜의 식단을 삭제하시겠습니까?')) return;
-    const plan = mealPlans[index];
-    const saved = localStorage.getItem('agape_weekly_meal_enhanced');
 
-    if (saved) {
-      const allPlans: MealPlan[] = JSON.parse(saved);
-      const filtered = allPlans.filter(p => p.date !== plan.date);
-      localStorage.setItem('agape_weekly_meal_enhanced', JSON.stringify(filtered));
+    const plan = mealPlans[index];
+    if (!mealPlanId) return;
+
+    const dailyMeal = weeklyData?.body?.dailyMeals?.find((dm: any) => dm.date === plan.date);
+    const existingItemId = dailyMeal?.meals?.breakfast?.id;
+
+    if (existingItemId) {
+      deleteMealItem.mutate({
+        params: {
+          mealPlanId,
+          id: existingItemId,
+        },
+      });
     }
 
-    loadWeekMealPlans(currentWeekStart);
     alert('삭제되었습니다.');
   };
 
   /** 주간 전체 초기화 */
   const handleDeleteAll = () => {
     if (!confirm('현재 주간의 모든 식단을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) return;
-    const saved = localStorage.getItem('agape_weekly_meal_enhanced');
-    if (!saved) return;
 
-    const allPlans: MealPlan[] = JSON.parse(saved);
-    const dates = days.map(idx => getDateString(currentWeekStart, idx));
-    const filtered = allPlans.filter(p => !dates.includes(p.date));
+    if (!mealPlanId || !weeklyData?.body?.dailyMeals) return;
 
-    localStorage.setItem('agape_weekly_meal_enhanced', JSON.stringify(filtered));
-    loadWeekMealPlans(currentWeekStart);
+    weeklyData.body.dailyMeals.forEach((dm: any) => {
+      const itemId = dm.meals?.breakfast?.id;
+      if (itemId) {
+        deleteMealItem.mutate({
+          params: {
+            mealPlanId,
+            id: itemId,
+          },
+        });
+      }
+    });
+
     alert('현재 주간 데이터가 초기화되었습니다.');
   };
 
@@ -161,6 +251,8 @@ export default function WeeklyMealPlan() {
     updated[idx] = { ...updated[idx], allergyInfo: { ...updated[idx].allergyInfo, [type]: items } };
     setMealPlans(updated);
   };
+
+  const isLoading = !weeklyData;
 
   if (isLoading)
     return (

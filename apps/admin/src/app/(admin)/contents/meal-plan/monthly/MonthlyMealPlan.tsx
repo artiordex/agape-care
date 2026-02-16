@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import * as XLSX from 'xlsx';
+import { api } from '@/lib/api';
 import MealPlanStatBanner from '../MealPlanStatBanner';
 import ExcelUploadModal from './ExcelUploadModal';
 import MonthlyEditModal from './MonthlyEditModal';
@@ -36,6 +37,7 @@ type SaveMode = 'overwrite' | 'merge' | 'selective';
 export default function MonthlyMealPlan() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [mealPlans, setMealPlans] = useState<MealPlan[]>([]);
+  const [mealPlanId, setMealPlanId] = useState<string | null>(null);
 
   // 모달 및 편집 상태
   const [showEditModal, setShowEditModal] = useState(false);
@@ -61,16 +63,98 @@ export default function MonthlyMealPlan() {
   const [saveMode, setSaveMode] = useState<SaveMode>('overwrite');
   const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set());
 
-  // 데이터 로드
-  useEffect(() => {
-    const saved = localStorage.getItem('agape_meal_plans_enhanced');
-    if (saved) setMealPlans(JSON.parse(saved));
-  }, []);
+  // API: 식단표 목록 조회
+  const mealMonth = currentMonth.getFullYear() * 100 + (currentMonth.getMonth() + 1);
+  const { data: mealPlansData, refetch } = api.meal.getMealPlans.useQuery(
+    ['mealPlans', mealMonth],
+    {
+      queryData: {
+        page: 1,
+        limit: 100,
+        facilityCode: 'DEFAULT',
+      },
+    },
+  );
 
-  const saveToStorage = (updatedPlans: MealPlan[]) => {
-    localStorage.setItem('agape_meal_plans_enhanced', JSON.stringify(updatedPlans));
-    setMealPlans(updatedPlans);
-  };
+  // API: 식단 항목 조회
+  const { data: mealItemsData } = api.meal.getMealPlanItems.useQuery(
+    ['mealPlanItems', mealPlanId],
+    {
+      queryData: {
+        mealPlanId: mealPlanId || '',
+      },
+    },
+    {
+      enabled: !!mealPlanId,
+    },
+  );
+
+  // API: 식단 항목 생성
+  const createMealItem = api.meal.createMealPlanItem.useMutation({
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
+  // API: 식단 항목 수정
+  const updateMealItem = api.meal.updateMealPlanItem.useMutation({
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
+  // API: 식단 항목 삭제
+  const deleteMealItem = api.meal.deleteMealPlanItem.useMutation({
+    onSuccess: () => {
+      refetch();
+    },
+  });
+
+  // API 데이터를 로컬 상태로 변환
+  useEffect(() => {
+    if (mealPlansData?.body?.data) {
+      const plans = mealPlansData.body.data;
+      const currentMonthPlan = plans.find((p: any) => p.mealMonth === mealMonth);
+
+      if (currentMonthPlan) {
+        setMealPlanId(currentMonthPlan.id);
+      }
+    }
+  }, [mealPlansData, mealMonth]);
+
+  useEffect(() => {
+    if (mealItemsData?.body) {
+      const items = mealItemsData.body;
+      const converted: MealPlan[] = items.map((item: any) => ({
+        id: item.id,
+        date: item.date,
+        breakfast: {
+          menu: item.breakfast || '',
+          calories: '',
+        },
+        lunch: {
+          menu: item.lunch || '',
+          calories: '',
+        },
+        dinner: {
+          menu: item.dinner || '',
+          calories: '',
+        },
+        morningSnack: item.morningSnack || '',
+        afternoonSnack: item.afternoonSnack || '',
+        allergyInfo: {
+          possible: [],
+          restricted: [],
+        },
+        memo: '',
+        nutrition_manager: '김영양 영양사',
+        created_at: item.createdAt,
+        updated_at: item.updatedAt,
+      }));
+
+      setMealPlans(converted);
+    }
+  }, [mealItemsData]);
 
   // 현재 월의 데이터 필터링
   const monthPlans = useMemo(() => {
@@ -135,34 +219,57 @@ export default function MonthlyMealPlan() {
 
   /** 식단 저장 처리 */
   const handleSaveMeal = () => {
-    const newMeal: MealPlan = {
-      id: editingMeal?.id || Math.random().toString(36).substr(2, 9),
-      date: selectedDate,
-      breakfast: formData.breakfast,
-      lunch: formData.lunch,
-      dinner: formData.dinner,
-      morningSnack: formData.morningSnack,
-      afternoonSnack: formData.afternoonSnack,
-      allergyInfo: {
-        possible: formData.allergyPossible
-          .split(',')
-          .map(s => s.trim())
-          .filter(Boolean),
-        restricted: formData.allergyRestricted
-          .split(',')
-          .map(s => s.trim())
-          .filter(Boolean),
-      },
-      memo: formData.memo,
-      nutrition_manager: formData.manager,
-      created_at: editingMeal?.created_at || new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
+    if (!mealPlanId) {
+      alert('식단표 ID가 없습니다.');
+      return;
+    }
 
-    const updated = editingMeal ? mealPlans.map(p => (p.id === editingMeal.id ? newMeal : p)) : [...mealPlans, newMeal];
+    if (editingMeal) {
+      // 수정
+      updateMealItem.mutate({
+        params: {
+          mealPlanId,
+          id: editingMeal.id,
+        },
+        body: {
+          date: selectedDate,
+          breakfast: formData.breakfast.menu || null,
+          lunch: formData.lunch.menu || null,
+          dinner: formData.dinner.menu || null,
+          morningSnack: formData.morningSnack || null,
+          afternoonSnack: formData.afternoonSnack || null,
+        },
+      });
+    } else {
+      // 생성
+      createMealItem.mutate({
+        params: { mealPlanId },
+        body: {
+          date: selectedDate,
+          breakfast: formData.breakfast.menu,
+          lunch: formData.lunch.menu,
+          dinner: formData.dinner.menu,
+          morningSnack: formData.morningSnack,
+          afternoonSnack: formData.afternoonSnack,
+        },
+      });
+    }
 
-    saveToStorage(updated);
     setShowEditModal(false);
+  };
+
+  /** 식단 삭제 */
+  const handleDelete = (id: string) => {
+    if (!confirm('정말로 이 식단을 삭제하시겠습니까?')) return;
+
+    if (mealPlanId) {
+      deleteMealItem.mutate({
+        params: {
+          mealPlanId,
+          id,
+        },
+      });
+    }
   };
 
   /** 엑셀 파일 파싱 로직 */
@@ -198,143 +305,179 @@ export default function MonthlyMealPlan() {
 
   /** 엑셀 데이터 최종 반영 */
   const commitExcelData = () => {
-    const updatedPlans = [...mealPlans];
-    const dataToApply = saveMode === 'selective' ? excelData.filter(d => selectedDates.has(d.date)) : excelData;
+    if (!mealPlanId) {
+      alert('식단표 ID가 없습니다.');
+      return;
+    }
 
-    dataToApply.forEach(row => {
-      const idx = updatedPlans.findIndex(p => p.date === row.date);
-      const existing = updatedPlans[idx];
-      const newPlan: MealPlan = {
-        id: existing?.id || Math.random().toString(36).substr(2, 9),
-        date: row.date,
-        breakfast: saveMode === 'merge' && existing?.breakfast.menu ? existing.breakfast : row.breakfast,
-        lunch: saveMode === 'merge' && existing?.lunch.menu ? existing.lunch : row.lunch,
-        dinner: saveMode === 'merge' && existing?.dinner.menu ? existing.dinner : row.dinner,
-        morningSnack: saveMode === 'merge' && existing?.morningSnack ? existing.morningSnack : row.morningSnack,
-        afternoonSnack: saveMode === 'merge' && existing?.afternoonSnack ? existing.afternoonSnack : row.afternoonSnack,
-        allergyInfo: {
-          possible: row.allergyPossible
-            .split(',')
-            .map((s: string) => s.trim())
-            .filter(Boolean),
-          restricted: row.allergyRestricted
-            .split(',')
-            .map((s: string) => s.trim())
-            .filter(Boolean),
-        },
-        memo: saveMode === 'merge' && existing?.memo ? existing.memo : row.memo,
-        nutrition_manager: row.manager,
-        created_at: existing?.created_at || new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
-      if (idx > -1) updatedPlans[idx] = newPlan;
-      else updatedPlans.push(newPlan);
+    const filtered = excelData.filter(d => selectedDates.has(d.date));
+
+    filtered.forEach(data => {
+      const existing = mealPlans.find(p => p.date === data.date);
+
+      if (existing) {
+        // 수정
+        updateMealItem.mutate({
+          params: {
+            mealPlanId,
+            id: existing.id,
+          },
+          body: {
+            date: data.date,
+            breakfast: data.breakfast.menu || null,
+            lunch: data.lunch.menu || null,
+            dinner: data.dinner.menu || null,
+            morningSnack: data.morningSnack || null,
+            afternoonSnack: data.afternoonSnack || null,
+          },
+        });
+      } else {
+        // 생성
+        createMealItem.mutate({
+          params: { mealPlanId },
+          body: {
+            date: data.date,
+            breakfast: data.breakfast.menu,
+            lunch: data.lunch.menu,
+            dinner: data.dinner.menu,
+            morningSnack: data.morningSnack,
+            afternoonSnack: data.afternoonSnack,
+          },
+        });
+      }
     });
 
-    saveToStorage(updatedPlans);
     setShowExcelPreview(false);
+    alert(`✅ ${filtered.length}건의 식단이 업로드되었습니다.`);
+  };
+
+  /** 엑셀 다운로드 (현재 월 기준) */
+  const handleExportExcel = () => {
+    const data = monthPlans.map(p => ({
+      '날짜(YYYY-MM-DD)': p.date,
+      아침메뉴: p.breakfast.menu,
+      아침칼로리: p.breakfast.calories,
+      점심메뉴: p.lunch.menu,
+      점심칼로리: p.lunch.calories,
+      저녁메뉴: p.dinner.menu,
+      저녁칼로리: p.dinner.calories,
+      오전간식: p.morningSnack,
+      오후간식: p.afternoonSnack,
+      가능별식이: p.allergyInfo.possible.join(','),
+      저녁별식이: p.allergyInfo.restricted.join(','),
+      메모: p.memo || '',
+      영양사: p.nutrition_manager,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, '월간식단표');
+    const fileName = `월간식단표_${currentMonth.getFullYear()}년${currentMonth.getMonth() + 1}월.xlsx`;
+    XLSX.writeFile(workbook, fileName);
   };
 
   return (
-    <div className="space-y-0 font-sans antialiased">
-      {/* 1. 월간 날짜 제어 및 통계 배너 */}
-      <div className="flex items-center justify-between border-b border-gray-300 bg-white p-3 shadow-sm">
-        <div className="flex items-center gap-2">
-          <div className="rounded bg-[#5C8D5A] p-1.5 text-white shadow-md">
-            <i className="ri-calendar-event-line text-lg"></i>
-          </div>
-          <div>
-            <h1 className="text-[13px] font-black tracking-tight text-gray-900">월간 식단 관리 프로토콜</h1>
-            <p className="text-[9px] font-bold uppercase tracking-wider text-gray-400">
-              {currentMonth.getFullYear()}년 {currentMonth.getMonth() + 1}월
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-1 rounded border border-gray-200 bg-[#f8fafc] p-0.5 shadow-inner">
+    <div className="space-y-4 p-4">
+      {/* 1. 상단 통계 배너 */}
+      <MealPlanStatBanner
+        month={currentMonth}
+        stats={stats}
+        onPrevMonth={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))}
+        onNextMonth={() => setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))}
+      />
+
+      {/* 2. 액션 버튼 그룹 */}
+      <div className="flex items-center justify-between border border-gray-200 bg-white p-4">
+        <div className="flex gap-2">
           <button
-            onClick={() => setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() - 1)))}
-            className="h-7 w-7 border border-gray-200 bg-white text-gray-400 transition-all hover:text-[#5C8D5A]"
+            onClick={() => setShowUploadModal(true)}
+            className="flex items-center gap-2 border border-[#5C8D5A] bg-white px-4 py-2 text-[11px] font-black uppercase text-[#5C8D5A] transition-all hover:bg-[#5C8D5A] hover:text-white"
           >
-            <i className="ri-arrow-left-s-line"></i>
+            <i className="ri-upload-2-line"></i>
+            Excel Upload
           </button>
           <button
-            onClick={() => setCurrentMonth(new Date())}
-            className="px-3 text-[10px] font-bold text-gray-600 hover:text-[#5C8D5A]"
+            onClick={handleExportExcel}
+            className="flex items-center gap-2 border border-gray-300 bg-white px-4 py-2 text-[11px] font-black uppercase text-gray-700 transition-all hover:bg-gray-50"
           >
-            이번 달
-          </button>
-          <button
-            onClick={() => setCurrentMonth(new Date(currentMonth.setMonth(currentMonth.getMonth() + 1)))}
-            className="h-7 w-7 border border-gray-200 bg-white text-gray-400 transition-all hover:text-[#5C8D5A]"
-          >
-            <i className="ri-arrow-right-s-line"></i>
+            <i className="ri-download-2-line"></i>
+            Export Excel
           </button>
         </div>
       </div>
 
-      <MealPlanStatBanner stats={stats} />
+      {/* 3. 월간 식단 리스트 */}
+      <MonthlyMealList
+        currentMonth={currentMonth}
+        mealPlans={monthPlans}
+        onEditClick={handleEditClick}
+        onDeleteClick={handleDelete}
+      />
 
-      {/* 2. 상단 액션 바 */}
-      <div className="flex items-center justify-end gap-1 border-b border-gray-200 bg-[#f8fafc] px-3 py-2">
-        <button
-          onClick={() => setShowUploadModal(true)}
-          className="flex items-center gap-1.5 border border-gray-300 bg-white px-3 py-1 text-[10px] font-black text-gray-600 transition-all hover:border-[#5C8D5A] hover:text-[#5C8D5A]"
-        >
-          <i className="ri-upload-2-line text-sm"></i> 식단 업로드
-        </button>
-        <button
-          onClick={() => alert('월간 데이터 다운로드')}
-          className="flex items-center gap-1.5 bg-[#5C8D5A] px-3 py-1 text-[10px] font-black text-white shadow-sm transition-all hover:bg-[#4A7548]"
-        >
-          <i className="ri-download-2-line text-sm"></i> 월간 엑셀 출력
-        </button>
-      </div>
-
-      {/* 3. 월간 리스트 컨텐츠 */}
-      <div className="min-h-full bg-[#f8fafc] p-4">
-        <MonthlyMealList monthPlans={monthPlans} onEditClick={handleEditClick} />
-      </div>
-
-      {/* 4. 각종 모달 레이어 */}
+      {/* 4. 모달들 */}
       {showEditModal && (
         <MonthlyEditModal
+          isOpen={showEditModal}
           selectedDate={selectedDate}
-          editingMeal={editingMeal}
           formData={formData}
           onFormChange={setFormData}
           onSave={handleSaveMeal}
-          onDelete={() => {
-            if (confirm('식단을 삭제하시겠습니까?')) {
-              saveToStorage(mealPlans.filter(p => p.id !== editingMeal?.id));
-              setShowEditModal(false);
-            }
-          }}
           onClose={() => setShowEditModal(false)}
         />
       )}
 
-      {(showUploadModal || showExcelPreview) && (
+      {showUploadModal && (
         <ExcelUploadModal
-          excelData={excelData}
-          showPreview={showExcelPreview}
-          saveMode={saveMode}
-          selectedDates={selectedDates}
+          isOpen={showUploadModal}
+          onClose={() => setShowUploadModal(false)}
           onFileChange={handleExcelUpload}
-          onDownloadTemplate={() => alert('Template Download')}
-          onSetSaveMode={setSaveMode}
-          onToggleDate={d => {
-            const s = new Set(selectedDates);
-            if (s.has(d)) s.delete(d);
-            else s.add(d);
-            setSelectedDates(s);
-          }}
-          onSelectAll={c => setSelectedDates(c ? new Set(excelData.map(d => d.date)) : new Set())}
-          onCommit={commitExcelData}
-          onClose={() => {
-            setShowUploadModal(false);
-            setShowExcelPreview(false);
-          }}
         />
+      )}
+
+      {showExcelPreview && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50">
+          <div className="max-h-[80vh] w-full max-w-4xl overflow-hidden bg-white shadow-2xl">
+            <div className="border-b border-gray-200 bg-white p-4">
+              <h3 className="text-[14px] font-black uppercase text-gray-800">Excel Preview</h3>
+            </div>
+            <div className="max-h-[60vh] overflow-y-auto p-4">
+              <div className="space-y-2">
+                {excelData.map((item, idx) => (
+                  <label key={idx} className="flex items-center gap-2 border border-gray-200 bg-white p-3">
+                    <input
+                      type="checkbox"
+                      checked={selectedDates.has(item.date)}
+                      onChange={e => {
+                        const newSet = new Set(selectedDates);
+                        e.target.checked ? newSet.add(item.date) : newSet.delete(item.date);
+                        setSelectedDates(newSet);
+                      }}
+                      className="h-4 w-4"
+                    />
+                    <span className="font-mono text-[12px] font-bold text-gray-700">{item.date}</span>
+                    <span className="text-[11px] text-gray-500">
+                      {item.breakfast.menu} / {item.lunch.menu} / {item.dinner.menu}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div className="flex justify-between border-t border-gray-200 bg-white p-4">
+              <button
+                onClick={() => setShowExcelPreview(false)}
+                className="border border-gray-300 px-4 py-2 text-[11px] font-black uppercase text-gray-700"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={commitExcelData}
+                className="bg-[#5C8D5A] px-6 py-2 text-[11px] font-black uppercase text-white"
+              >
+                Commit {selectedDates.size} Items
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
