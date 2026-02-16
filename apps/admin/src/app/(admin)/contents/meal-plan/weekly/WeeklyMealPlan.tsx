@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { api } from '@/lib/api';
+import { useEffect, useState } from 'react';
+import WeeklyCalendar from './WeeklyCalendar';
 import WeeklyExcelActions from './WeeklyExcelActions';
 import WeeklyMealTable from './WeeklyMealTable';
 
@@ -43,25 +44,39 @@ const getDateString = (baseDate: Date, offset: number) => {
   return date.toISOString().split('T')[0];
 };
 
-export default function WeeklyMealPlan() {
+interface Props {
+  readonly selectedDate?: string;
+}
+
+export default function WeeklyMealPlan({ selectedDate }: Props) {
   const [mealPlans, setMealPlans] = useState<MealPlan[]>([]);
   const [currentWeekStart, setCurrentWeekStart] = useState<Date>(getMonday(new Date()));
+
+  useEffect(() => {
+    if (selectedDate) {
+      setCurrentWeekStart(getMonday(new Date(selectedDate)));
+    }
+  }, [selectedDate]);
   const [nutritionManager, setNutritionManager] = useState('김영양 영양사');
   const [editingDates, setEditingDates] = useState<Set<string>>(new Set());
   const [mealPlanId, setMealPlanId] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'calendar' | 'table'>('calendar');
 
   const days = [0, 1, 2, 3, 4, 5, 6]; // 월~일 인덱스
 
   // API: 현재 주 식단표 조회
-  const { data: weeklyData, refetch } = api.meal.getCurrentWeekMealPlan.useQuery(
-    ['currentWeekMealPlan'],
-    {
-      queryData: {
-        facilityCode: 'DEFAULT',
-        date: getDateString(currentWeekStart, 0),
-      },
+  const { data: weeklyData, refetch } = api.meal.getCurrentWeekMealPlan.useQuery(['currentWeekMealPlan'], {
+    query: {
+      facilityCode: 'DEFAULT',
+      date: getDateString(currentWeekStart, 0),
     },
-  );
+  });
+
+  useEffect(() => {
+    if (weeklyData) {
+      console.log('[DEBUG] WeeklyMealPlan - weeklyData:', weeklyData);
+    }
+  }, [weeklyData]);
 
   // API: 식단 항목 생성
   const createMealItem = api.meal.createMealPlanItem.useMutation({
@@ -97,25 +112,28 @@ export default function WeeklyMealPlan() {
       const dates = days.map(idx => getDateString(currentWeekStart, idx));
       const weekPlans = dates.map(date => {
         const dailyMeal = dailyMeals?.find((dm: any) => dm.date === date);
-        const mealItem = dailyMeal?.meals;
+        const meals = dailyMeal?.meals;
+
+        // meals.breakfast IS the MealPlanItem (grouped day summary)
+        const summary = meals?.breakfast;
 
         return {
-          id: mealItem?.breakfast?.id || Math.random().toString(36).substr(2, 9),
+          id: summary?.id || Math.random().toString(36).substr(2, 9),
           date,
           breakfast: {
-            menu: mealItem?.breakfast?.breakfast || '',
-            calories: '', // API에 칼로리 정보가 없으면 빈값
+            menu: summary?.breakfast || '',
+            calories: '',
           },
           lunch: {
-            menu: mealItem?.lunch?.lunch || '',
+            menu: summary?.lunch || '',
             calories: '',
           },
           dinner: {
-            menu: mealItem?.dinner?.dinner || '',
+            menu: summary?.dinner || '',
             calories: '',
           },
-          morningSnack: mealItem?.breakfast?.morningSnack || '',
-          afternoonSnack: mealItem?.lunch?.afternoonSnack || '',
+          morningSnack: summary?.morningSnack || '',
+          afternoonSnack: summary?.afternoonSnack || '',
           allergyInfo: {
             possible: [],
             restricted: [],
@@ -272,21 +290,60 @@ export default function WeeklyMealPlan() {
         onDeleteAll={handleDeleteAll}
       />
 
-      {/* 2. 주간 고밀도 식단 테이블 */}
-      <WeeklyMealTable
-        mealPlans={mealPlans}
-        editingDates={editingDates}
-        onToggleEdit={(date: string) => {
-          const newSet = new Set(editingDates);
-          editingDates.has(date) ? newSet.delete(date) : newSet.add(date);
-          setEditingDates(newSet);
-        }}
-        onUpdateMeal={updateMeal}
-        onUpdateSnack={updateSnack}
-        onUpdateAllergy={updateAllergy}
-        onSave={handleSave}
-        onDelete={handleDelete}
-      />
+      {/* 1.5 뷰 모드 토글 */}
+      <div className="flex justify-end px-4 pb-2">
+        <div className="flex items-center gap-1 rounded bg-gray-100 p-1">
+          <button
+            onClick={() => setViewMode('calendar')}
+            className={`rounded px-3 py-1 text-[10px] font-bold transition-all ${
+              viewMode === 'calendar' ? 'bg-white text-[#5C8D5A] shadow' : 'text-gray-400 hover:text-gray-600'
+            }`}
+          >
+            <i className="ri-calendar-line mr-1"></i> Calendar
+          </button>
+          <button
+            onClick={() => setViewMode('table')}
+            className={`rounded px-3 py-1 text-[10px] font-bold transition-all ${
+              viewMode === 'table' ? 'bg-white text-[#5C8D5A] shadow' : 'text-gray-400 hover:text-gray-600'
+            }`}
+          >
+            <i className="ri-table-line mr-1"></i> ERP Grid
+          </button>
+        </div>
+      </div>
+
+      {/* 2. 주간 고밀도 식단 테이블 / 캘린더 */}
+      {viewMode === 'calendar' ? (
+        <WeeklyCalendar
+          mealPlans={mealPlans}
+          editingDates={editingDates}
+          onToggleEdit={(date: string) => {
+            const newSet = new Set(editingDates);
+            editingDates.has(date) ? newSet.delete(date) : newSet.add(date);
+            setEditingDates(newSet);
+          }}
+          onUpdateMeal={updateMeal}
+          onUpdateSnack={updateSnack}
+          onUpdateAllergy={updateAllergy}
+          onSave={handleSave}
+          onDelete={handleDelete}
+        />
+      ) : (
+        <WeeklyMealTable
+          mealPlans={mealPlans}
+          editingDates={editingDates}
+          onToggleEdit={(date: string) => {
+            const newSet = new Set(editingDates);
+            editingDates.has(date) ? newSet.delete(date) : newSet.add(date);
+            setEditingDates(newSet);
+          }}
+          onUpdateMeal={updateMeal}
+          onUpdateSnack={updateSnack}
+          onUpdateAllergy={updateAllergy}
+          onSave={handleSave}
+          onDelete={handleDelete}
+        />
+      )}
 
       {/* 3. 섹션 푸터 정보 */}
       <div className="mt-4 border border-gray-200 bg-white p-3">

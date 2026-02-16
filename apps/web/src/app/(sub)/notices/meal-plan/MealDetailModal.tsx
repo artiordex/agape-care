@@ -1,12 +1,13 @@
 /**
- * Description : MealDetailModal.tsx - 📌 알림마당 식단표 상세 모달
+ * Description : MealDetailModal.tsx - 📌 알림마당 식단표 상세 모달 (사진 업로드 기능 포함)
  * Author : Shiwoo Min
  * Date : 2026-02-01
+ * Updated : 2026-02-16 - 사진 업로드/수정/삭제 기능 추가
  */
 
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 interface MealImage {
   id: string;
@@ -33,14 +34,174 @@ interface MealPlan {
 interface Props {
   meal: MealPlan | null;
   onClose: () => void;
+  onUpdateImage?: (mealType: 'breakfast' | 'lunch' | 'dinner', file: File) => Promise<void>;
+  onDeleteImage?: (mealType: 'breakfast' | 'lunch' | 'dinner') => Promise<void>;
+  isEditable?: boolean; // 편집 가능 여부 (권한에 따라)
 }
 
 const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
 
-export default function MealDetailModal({ meal, onClose }: Props) {
+export default function MealDetailModal({ meal, onClose, onUpdateImage, onDeleteImage, isEditable = false }: Props) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [uploadingType, setUploadingType] = useState<'breakfast' | 'lunch' | 'dinner' | null>(null);
+
+  const breakfastInputRef = useRef<HTMLInputElement>(null);
+  const lunchInputRef = useRef<HTMLInputElement>(null);
+  const dinnerInputRef = useRef<HTMLInputElement>(null);
 
   if (!meal) return null;
+
+  /**
+   * 사진 업로드 핸들러
+   */
+  const handleImageUpload = async (mealType: 'breakfast' | 'lunch' | 'dinner', file: File) => {
+    if (!onUpdateImage) return;
+
+    // 파일 크기 체크 (5MB 제한)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('파일 크기는 5MB를 초과할 수 없습니다.');
+      return;
+    }
+
+    // 파일 타입 체크
+    if (!file.type.startsWith('image/')) {
+      alert('이미지 파일만 업로드 가능합니다.');
+      return;
+    }
+
+    setUploadingType(mealType);
+    try {
+      await onUpdateImage(mealType, file);
+    } catch (error) {
+      console.error('Image upload failed:', error);
+      alert('사진 업로드에 실패했습니다.');
+    } finally {
+      setUploadingType(null);
+    }
+  };
+
+  /**
+   * 사진 삭제 핸들러
+   */
+  const handleImageDelete = async (mealType: 'breakfast' | 'lunch' | 'dinner') => {
+    if (!onDeleteImage) return;
+
+    if (!confirm('사진을 삭제하시겠습니까?')) return;
+
+    setUploadingType(mealType);
+    try {
+      await onDeleteImage(mealType);
+    } catch (error) {
+      console.error('Image delete failed:', error);
+      alert('사진 삭제에 실패했습니다.');
+    } finally {
+      setUploadingType(null);
+    }
+  };
+
+  /**
+   * 파일 선택 핸들러
+   */
+  const handleFileChange = (mealType: 'breakfast' | 'lunch' | 'dinner', event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      handleImageUpload(mealType, file);
+    }
+    // input 초기화 (같은 파일 재선택 가능하도록)
+    event.target.value = '';
+  };
+
+  /**
+   * 급식 사진 컴포넌트
+   */
+  const MealImageSection = ({
+    mealType,
+    imageUrl,
+    label,
+    inputRef,
+  }: {
+    mealType: 'breakfast' | 'lunch' | 'dinner';
+    imageUrl?: string;
+    label: string;
+    inputRef: React.RefObject<HTMLInputElement>;
+  }) => {
+    const isUploading = uploadingType === mealType;
+
+    return (
+      <div className="border-l border-[#5C8D5A]/10 p-4">
+        {imageUrl ? (
+          <div className="relative">
+            <img
+              src={imageUrl}
+              alt={`${label} 급식 사진`}
+              className="h-48 w-full cursor-pointer rounded-lg object-cover transition-opacity hover:opacity-90"
+              onClick={() => setSelectedImage(imageUrl)}
+            />
+            {isEditable && (
+              <div className="absolute right-2 top-2 flex gap-2">
+                <button
+                  onClick={() => inputRef.current?.click()}
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition-all hover:bg-blue-700 active:scale-95"
+                  title="사진 변경"
+                  disabled={isUploading}
+                >
+                  <i className={`${isUploading ? 'ri-loader-4-line animate-spin' : 'ri-edit-line'} text-sm`} />
+                </button>
+                <button
+                  onClick={() => handleImageDelete(mealType)}
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-red-600 text-white shadow-lg transition-all hover:bg-red-700 active:scale-95"
+                  title="사진 삭제"
+                  disabled={isUploading}
+                >
+                  <i className="ri-delete-bin-line text-sm" />
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div
+            className={`flex h-48 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed transition-colors ${
+              isEditable
+                ? 'border-[#5C8D5A]/30 bg-[#5C8D5A]/5 hover:border-[#5C8D5A]/50 hover:bg-[#5C8D5A]/10'
+                : 'border-[#5C8D5A]/20 bg-gray-50'
+            }`}
+            onClick={() => isEditable && inputRef.current?.click()}
+          >
+            <div className="text-center text-sm">
+              {isUploading ? (
+                <>
+                  <i className="ri-loader-4-line mb-2 animate-spin text-2xl text-[#5C8D5A]" />
+                  <p className="text-[#5C8D5A]">업로드 중...</p>
+                </>
+              ) : isEditable ? (
+                <>
+                  <i className="ri-upload-cloud-line mb-2 text-2xl text-[#5C8D5A]" />
+                  <p className="text-[#5C8D5A]">클릭하여 사진 업로드</p>
+                  <p className="mt-1 text-xs text-gray-400">(최대 5MB)</p>
+                </>
+              ) : (
+                <>
+                  <i className="ri-image-line mb-2 text-2xl text-gray-400" />
+                  <p className="text-gray-400">사진 준비중</p>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* 숨겨진 파일 input */}
+        {isEditable && (
+          <input
+            ref={inputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={e => handleFileChange(mealType, e)}
+          />
+        )}
+      </div>
+    );
+  };
 
   return (
     <>
@@ -70,6 +231,16 @@ export default function MealDetailModal({ meal, onClose }: Props) {
           </div>
 
           <div className="p-6">
+            {/* 편집 모드 표시 */}
+            {isEditable && (
+              <div className="mb-4 flex items-center gap-2 rounded-lg border border-blue-200 bg-blue-50 p-3">
+                <i className="ri-edit-box-line text-blue-600" />
+                <span className="text-sm font-medium text-blue-700">
+                  사진을 클릭하여 업로드하거나 변경할 수 있습니다.
+                </span>
+              </div>
+            )}
+
             {/* 식단 및 사진 */}
             <div className="mb-6 space-y-4">
               {/* 아침 */}
@@ -86,23 +257,12 @@ export default function MealDetailModal({ meal, onClose }: Props) {
                       </p>
                     </div>
                     {/* 사진 */}
-                    <div className="border-l border-[#5C8D5A]/10 p-4">
-                      {meal.breakfast_image ? (
-                        <img
-                          src={meal.breakfast_image}
-                          alt="아침 급식 사진"
-                          className="h-48 w-full cursor-pointer rounded-lg object-cover transition-opacity hover:opacity-90"
-                          onClick={() => setSelectedImage(meal.breakfast_image!)}
-                        />
-                      ) : (
-                        <div className="flex h-48 items-center justify-center rounded-lg border-2 border-dashed border-[#5C8D5A]/20 bg-gray-50">
-                          <div className="text-center text-sm text-gray-400">
-                            <i className="ri-image-line mb-2 text-2xl" />
-                            <p>사진 준비중</p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                    <MealImageSection
+                      mealType="breakfast"
+                      imageUrl={meal.breakfast_image}
+                      label="아침"
+                      inputRef={breakfastInputRef}
+                    />
                   </div>
                 </div>
               )}
@@ -133,23 +293,12 @@ export default function MealDetailModal({ meal, onClose }: Props) {
                       <p className="whitespace-pre-line text-sm text-gray-900">{meal.lunch.replace(/,\s*/g, '\n')}</p>
                     </div>
                     {/* 사진 */}
-                    <div className="border-l border-[#5C8D5A]/10 p-4">
-                      {meal.lunch_image ? (
-                        <img
-                          src={meal.lunch_image}
-                          alt="점심 급식 사진"
-                          className="h-48 w-full cursor-pointer rounded-lg object-cover transition-opacity hover:opacity-90"
-                          onClick={() => setSelectedImage(meal.lunch_image!)}
-                        />
-                      ) : (
-                        <div className="flex h-48 items-center justify-center rounded-lg border-2 border-dashed border-[#5C8D5A]/20 bg-gray-50">
-                          <div className="text-center text-sm text-gray-400">
-                            <i className="ri-image-line mb-2 text-2xl" />
-                            <p>사진 준비중</p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                    <MealImageSection
+                      mealType="lunch"
+                      imageUrl={meal.lunch_image}
+                      label="점심"
+                      inputRef={lunchInputRef}
+                    />
                   </div>
                 </div>
               )}
@@ -180,23 +329,12 @@ export default function MealDetailModal({ meal, onClose }: Props) {
                       <p className="whitespace-pre-line text-sm text-gray-900">{meal.dinner.replace(/,\s*/g, '\n')}</p>
                     </div>
                     {/* 사진 */}
-                    <div className="border-l border-[#5C8D5A]/10 p-4">
-                      {meal.dinner_image ? (
-                        <img
-                          src={meal.dinner_image}
-                          alt="저녁 급식 사진"
-                          className="h-48 w-full cursor-pointer rounded-lg object-cover transition-opacity hover:opacity-90"
-                          onClick={() => setSelectedImage(meal.dinner_image!)}
-                        />
-                      ) : (
-                        <div className="flex h-48 items-center justify-center rounded-lg border-2 border-dashed border-[#5C8D5A]/20 bg-gray-50">
-                          <div className="text-center text-sm text-gray-400">
-                            <i className="ri-image-line mb-2 text-2xl" />
-                            <p>사진 준비중</p>
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                    <MealImageSection
+                      mealType="dinner"
+                      imageUrl={meal.dinner_image}
+                      label="저녁"
+                      inputRef={dinnerInputRef}
+                    />
                   </div>
                 </div>
               )}

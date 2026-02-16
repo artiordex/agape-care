@@ -44,17 +44,14 @@ export class NoticeController {
         body: {
           success: true,
           data: data.filter((item): item is NonNullable<typeof item> => item !== null),
-          meta:
-            page && limit
-              ? {
-                  page,
-                  limit,
-                  total,
-                  totalPages: Math.ceil(total / limit),
-                  hasNext: page < Math.ceil(total / limit),
-                  hasPrev: page > 1,
-                }
-              : undefined,
+          meta: {
+            page: page || 1,
+            limit: limit || 20,
+            total,
+            totalPages: Math.ceil(total / (limit || 20)),
+            hasNext: (page || 1) < Math.ceil(total / (limit || 20)),
+            hasPrev: (page || 1) > 1,
+          },
         },
       };
     });

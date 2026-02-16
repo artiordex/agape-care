@@ -69,6 +69,21 @@ export type Program = $Result.DefaultSelection<Prisma.$ProgramPayload>
  */
 export type ProgramSchedule = $Result.DefaultSelection<Prisma.$ProgramSchedulePayload>
 /**
+ * Model VisitReservation
+ * 면회문의
+ */
+export type VisitReservation = $Result.DefaultSelection<Prisma.$VisitReservationPayload>
+/**
+ * Model WebInquiry
+ * 상담문의
+ */
+export type WebInquiry = $Result.DefaultSelection<Prisma.$WebInquiryPayload>
+/**
+ * Model PopupBanner
+ * 팝업 배너
+ */
+export type PopupBanner = $Result.DefaultSelection<Prisma.$PopupBannerPayload>
+/**
  * Model Department
  * 부서 정보
  */
@@ -118,11 +133,6 @@ export type ResidentMedication = $Result.DefaultSelection<Prisma.$ResidentMedica
  * 입소자 활력징후 (바이탈 사인)
  */
 export type ResidentVital = $Result.DefaultSelection<Prisma.$ResidentVitalPayload>
-/**
- * Model PopupBanner
- * 팝업 배너
- */
-export type PopupBanner = $Result.DefaultSelection<Prisma.$PopupBannerPayload>
 /**
  * Model WebsiteSetting
  * 웹사이트 설정
@@ -335,23 +345,6 @@ export type SystemSetting = $Result.DefaultSelection<Prisma.$SystemSettingPayloa
  * ===============================
  */
 export type NotificationQueue = $Result.DefaultSelection<Prisma.$NotificationQueuePayload>
-/**
- * Model VisitReservation
- * ===============================
- * 면회 예약
- * - 홈페이지 면회 예약 신청 관리
- * ===============================
- */
-export type VisitReservation = $Result.DefaultSelection<Prisma.$VisitReservationPayload>
-/**
- * Model WebInquiry
- * ===============================
- * 웹사이트 상담 문의
- * - 홈페이지 상담 신청 접수용
- * - 관리자 페이지에서 처리 상태 관리
- * ===============================
- */
-export type WebInquiry = $Result.DefaultSelection<Prisma.$WebInquiryPayload>
 /**
  * Model WebNotice
  * Web 공지사항 목록 조회 뷰
@@ -616,6 +609,36 @@ export class PrismaClient<
   get programSchedule(): Prisma.ProgramScheduleDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.visitReservation`: Exposes CRUD operations for the **VisitReservation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VisitReservations
+    * const visitReservations = await prisma.visitReservation.findMany()
+    * ```
+    */
+  get visitReservation(): Prisma.VisitReservationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.webInquiry`: Exposes CRUD operations for the **WebInquiry** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more WebInquiries
+    * const webInquiries = await prisma.webInquiry.findMany()
+    * ```
+    */
+  get webInquiry(): Prisma.WebInquiryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.popupBanner`: Exposes CRUD operations for the **PopupBanner** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PopupBanners
+    * const popupBanners = await prisma.popupBanner.findMany()
+    * ```
+    */
+  get popupBanner(): Prisma.PopupBannerDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.department`: Exposes CRUD operations for the **Department** model.
     * Example usage:
     * ```ts
@@ -714,16 +737,6 @@ export class PrismaClient<
     * ```
     */
   get residentVital(): Prisma.ResidentVitalDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.popupBanner`: Exposes CRUD operations for the **PopupBanner** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more PopupBanners
-    * const popupBanners = await prisma.popupBanner.findMany()
-    * ```
-    */
-  get popupBanner(): Prisma.PopupBannerDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.websiteSetting`: Exposes CRUD operations for the **WebsiteSetting** model.
@@ -1124,26 +1137,6 @@ export class PrismaClient<
     * ```
     */
   get notificationQueue(): Prisma.NotificationQueueDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.visitReservation`: Exposes CRUD operations for the **VisitReservation** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more VisitReservations
-    * const visitReservations = await prisma.visitReservation.findMany()
-    * ```
-    */
-  get visitReservation(): Prisma.VisitReservationDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.webInquiry`: Exposes CRUD operations for the **WebInquiry** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more WebInquiries
-    * const webInquiries = await prisma.webInquiry.findMany()
-    * ```
-    */
-  get webInquiry(): Prisma.WebInquiryDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.webNotice`: Exposes CRUD operations for the **WebNotice** model.
@@ -1659,6 +1652,9 @@ export namespace Prisma {
     MealPlanItem: 'MealPlanItem',
     Program: 'Program',
     ProgramSchedule: 'ProgramSchedule',
+    VisitReservation: 'VisitReservation',
+    WebInquiry: 'WebInquiry',
+    PopupBanner: 'PopupBanner',
     Department: 'Department',
     EmployeeRole: 'EmployeeRole',
     Employee: 'Employee',
@@ -1669,7 +1665,6 @@ export namespace Prisma {
     ResidentHealthNote: 'ResidentHealthNote',
     ResidentMedication: 'ResidentMedication',
     ResidentVital: 'ResidentVital',
-    PopupBanner: 'PopupBanner',
     WebsiteSetting: 'WebsiteSetting',
     ProgramAttendance: 'ProgramAttendance',
     CarePlan: 'CarePlan',
@@ -1710,8 +1705,6 @@ export namespace Prisma {
     AuditLog: 'AuditLog',
     SystemSetting: 'SystemSetting',
     NotificationQueue: 'NotificationQueue',
-    VisitReservation: 'VisitReservation',
-    WebInquiry: 'WebInquiry',
     WebNotice: 'WebNotice',
     WebNoticeDetail: 'WebNoticeDetail',
     WebBoardPost: 'WebBoardPost',
@@ -1734,7 +1727,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "notice" | "noticeFile" | "boardPost" | "boardFile" | "boardComment" | "galleryItem" | "galleryFile" | "mealPlan" | "mealPlanItem" | "program" | "programSchedule" | "department" | "employeeRole" | "employee" | "employeeEducation" | "resident" | "residentRoom" | "residentContact" | "residentHealthNote" | "residentMedication" | "residentVital" | "popupBanner" | "websiteSetting" | "programAttendance" | "carePlan" | "carePlanItem" | "consultationRecord" | "consultationFile" | "incident" | "incidentFile" | "careTask" | "dailyCareRecord" | "attendanceRecord" | "shiftTemplate" | "shiftAssignment" | "leaveRequest" | "leaveApproval" | "accountCategory" | "account" | "supplier" | "transaction" | "transactionItem" | "payrollRecord" | "payrollItem" | "invoiceHeader" | "invoiceItem" | "insuranceClaim" | "insuranceClaimItem" | "insuranceClaimHistory" | "inventoryItem" | "inventoryTransaction" | "vehicle" | "transportRequest" | "cctvDevice" | "cctvViewLog" | "grievance" | "facilityInspection" | "smsSendLog" | "fileStorage" | "auditLog" | "systemSetting" | "notificationQueue" | "visitReservation" | "webInquiry" | "webNotice" | "webNoticeDetail" | "webBoardPost" | "webBoardPostDetail" | "webGalleryItem" | "webMealPlan" | "webLatestContent"
+      modelProps: "notice" | "noticeFile" | "boardPost" | "boardFile" | "boardComment" | "galleryItem" | "galleryFile" | "mealPlan" | "mealPlanItem" | "program" | "programSchedule" | "visitReservation" | "webInquiry" | "popupBanner" | "department" | "employeeRole" | "employee" | "employeeEducation" | "resident" | "residentRoom" | "residentContact" | "residentHealthNote" | "residentMedication" | "residentVital" | "websiteSetting" | "programAttendance" | "carePlan" | "carePlanItem" | "consultationRecord" | "consultationFile" | "incident" | "incidentFile" | "careTask" | "dailyCareRecord" | "attendanceRecord" | "shiftTemplate" | "shiftAssignment" | "leaveRequest" | "leaveApproval" | "accountCategory" | "account" | "supplier" | "transaction" | "transactionItem" | "payrollRecord" | "payrollItem" | "invoiceHeader" | "invoiceItem" | "insuranceClaim" | "insuranceClaimItem" | "insuranceClaimHistory" | "inventoryItem" | "inventoryTransaction" | "vehicle" | "transportRequest" | "cctvDevice" | "cctvViewLog" | "grievance" | "facilityInspection" | "smsSendLog" | "fileStorage" | "auditLog" | "systemSetting" | "notificationQueue" | "webNotice" | "webNoticeDetail" | "webBoardPost" | "webBoardPostDetail" | "webGalleryItem" | "webMealPlan" | "webLatestContent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2552,6 +2545,228 @@ export namespace Prisma {
           }
         }
       }
+      VisitReservation: {
+        payload: Prisma.$VisitReservationPayload<ExtArgs>
+        fields: Prisma.VisitReservationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VisitReservationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VisitReservationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>
+          }
+          findFirst: {
+            args: Prisma.VisitReservationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VisitReservationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>
+          }
+          findMany: {
+            args: Prisma.VisitReservationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>[]
+          }
+          create: {
+            args: Prisma.VisitReservationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>
+          }
+          createMany: {
+            args: Prisma.VisitReservationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VisitReservationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>[]
+          }
+          delete: {
+            args: Prisma.VisitReservationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>
+          }
+          update: {
+            args: Prisma.VisitReservationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>
+          }
+          deleteMany: {
+            args: Prisma.VisitReservationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VisitReservationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VisitReservationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>[]
+          }
+          upsert: {
+            args: Prisma.VisitReservationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>
+          }
+          aggregate: {
+            args: Prisma.VisitReservationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVisitReservation>
+          }
+          groupBy: {
+            args: Prisma.VisitReservationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VisitReservationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VisitReservationCountArgs<ExtArgs>
+            result: $Utils.Optional<VisitReservationCountAggregateOutputType> | number
+          }
+        }
+      }
+      WebInquiry: {
+        payload: Prisma.$WebInquiryPayload<ExtArgs>
+        fields: Prisma.WebInquiryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.WebInquiryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.WebInquiryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>
+          }
+          findFirst: {
+            args: Prisma.WebInquiryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.WebInquiryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>
+          }
+          findMany: {
+            args: Prisma.WebInquiryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>[]
+          }
+          create: {
+            args: Prisma.WebInquiryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>
+          }
+          createMany: {
+            args: Prisma.WebInquiryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.WebInquiryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>[]
+          }
+          delete: {
+            args: Prisma.WebInquiryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>
+          }
+          update: {
+            args: Prisma.WebInquiryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>
+          }
+          deleteMany: {
+            args: Prisma.WebInquiryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.WebInquiryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.WebInquiryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>[]
+          }
+          upsert: {
+            args: Prisma.WebInquiryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>
+          }
+          aggregate: {
+            args: Prisma.WebInquiryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateWebInquiry>
+          }
+          groupBy: {
+            args: Prisma.WebInquiryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<WebInquiryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.WebInquiryCountArgs<ExtArgs>
+            result: $Utils.Optional<WebInquiryCountAggregateOutputType> | number
+          }
+        }
+      }
+      PopupBanner: {
+        payload: Prisma.$PopupBannerPayload<ExtArgs>
+        fields: Prisma.PopupBannerFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PopupBannerFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PopupBannerFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>
+          }
+          findFirst: {
+            args: Prisma.PopupBannerFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PopupBannerFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>
+          }
+          findMany: {
+            args: Prisma.PopupBannerFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>[]
+          }
+          create: {
+            args: Prisma.PopupBannerCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>
+          }
+          createMany: {
+            args: Prisma.PopupBannerCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PopupBannerCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>[]
+          }
+          delete: {
+            args: Prisma.PopupBannerDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>
+          }
+          update: {
+            args: Prisma.PopupBannerUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>
+          }
+          deleteMany: {
+            args: Prisma.PopupBannerDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PopupBannerUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PopupBannerUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>[]
+          }
+          upsert: {
+            args: Prisma.PopupBannerUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>
+          }
+          aggregate: {
+            args: Prisma.PopupBannerAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePopupBanner>
+          }
+          groupBy: {
+            args: Prisma.PopupBannerGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PopupBannerGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PopupBannerCountArgs<ExtArgs>
+            result: $Utils.Optional<PopupBannerCountAggregateOutputType> | number
+          }
+        }
+      }
       Department: {
         payload: Prisma.$DepartmentPayload<ExtArgs>
         fields: Prisma.DepartmentFieldRefs
@@ -3289,80 +3504,6 @@ export namespace Prisma {
           count: {
             args: Prisma.ResidentVitalCountArgs<ExtArgs>
             result: $Utils.Optional<ResidentVitalCountAggregateOutputType> | number
-          }
-        }
-      }
-      PopupBanner: {
-        payload: Prisma.$PopupBannerPayload<ExtArgs>
-        fields: Prisma.PopupBannerFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.PopupBannerFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.PopupBannerFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>
-          }
-          findFirst: {
-            args: Prisma.PopupBannerFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.PopupBannerFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>
-          }
-          findMany: {
-            args: Prisma.PopupBannerFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>[]
-          }
-          create: {
-            args: Prisma.PopupBannerCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>
-          }
-          createMany: {
-            args: Prisma.PopupBannerCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.PopupBannerCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>[]
-          }
-          delete: {
-            args: Prisma.PopupBannerDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>
-          }
-          update: {
-            args: Prisma.PopupBannerUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>
-          }
-          deleteMany: {
-            args: Prisma.PopupBannerDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.PopupBannerUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.PopupBannerUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>[]
-          }
-          upsert: {
-            args: Prisma.PopupBannerUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PopupBannerPayload>
-          }
-          aggregate: {
-            args: Prisma.PopupBannerAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregatePopupBanner>
-          }
-          groupBy: {
-            args: Prisma.PopupBannerGroupByArgs<ExtArgs>
-            result: $Utils.Optional<PopupBannerGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.PopupBannerCountArgs<ExtArgs>
-            result: $Utils.Optional<PopupBannerCountAggregateOutputType> | number
           }
         }
       }
@@ -6326,154 +6467,6 @@ export namespace Prisma {
           }
         }
       }
-      VisitReservation: {
-        payload: Prisma.$VisitReservationPayload<ExtArgs>
-        fields: Prisma.VisitReservationFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.VisitReservationFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.VisitReservationFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>
-          }
-          findFirst: {
-            args: Prisma.VisitReservationFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.VisitReservationFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>
-          }
-          findMany: {
-            args: Prisma.VisitReservationFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>[]
-          }
-          create: {
-            args: Prisma.VisitReservationCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>
-          }
-          createMany: {
-            args: Prisma.VisitReservationCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.VisitReservationCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>[]
-          }
-          delete: {
-            args: Prisma.VisitReservationDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>
-          }
-          update: {
-            args: Prisma.VisitReservationUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>
-          }
-          deleteMany: {
-            args: Prisma.VisitReservationDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.VisitReservationUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.VisitReservationUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>[]
-          }
-          upsert: {
-            args: Prisma.VisitReservationUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VisitReservationPayload>
-          }
-          aggregate: {
-            args: Prisma.VisitReservationAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateVisitReservation>
-          }
-          groupBy: {
-            args: Prisma.VisitReservationGroupByArgs<ExtArgs>
-            result: $Utils.Optional<VisitReservationGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.VisitReservationCountArgs<ExtArgs>
-            result: $Utils.Optional<VisitReservationCountAggregateOutputType> | number
-          }
-        }
-      }
-      WebInquiry: {
-        payload: Prisma.$WebInquiryPayload<ExtArgs>
-        fields: Prisma.WebInquiryFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.WebInquiryFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.WebInquiryFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>
-          }
-          findFirst: {
-            args: Prisma.WebInquiryFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.WebInquiryFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>
-          }
-          findMany: {
-            args: Prisma.WebInquiryFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>[]
-          }
-          create: {
-            args: Prisma.WebInquiryCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>
-          }
-          createMany: {
-            args: Prisma.WebInquiryCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.WebInquiryCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>[]
-          }
-          delete: {
-            args: Prisma.WebInquiryDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>
-          }
-          update: {
-            args: Prisma.WebInquiryUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>
-          }
-          deleteMany: {
-            args: Prisma.WebInquiryDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.WebInquiryUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.WebInquiryUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>[]
-          }
-          upsert: {
-            args: Prisma.WebInquiryUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebInquiryPayload>
-          }
-          aggregate: {
-            args: Prisma.WebInquiryAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateWebInquiry>
-          }
-          groupBy: {
-            args: Prisma.WebInquiryGroupByArgs<ExtArgs>
-            result: $Utils.Optional<WebInquiryGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.WebInquiryCountArgs<ExtArgs>
-            result: $Utils.Optional<WebInquiryCountAggregateOutputType> | number
-          }
-        }
-      }
       WebNotice: {
         payload: Prisma.$WebNoticePayload<ExtArgs>
         fields: Prisma.WebNoticeFieldRefs
@@ -6859,6 +6852,9 @@ export namespace Prisma {
     mealPlanItem?: MealPlanItemOmit
     program?: ProgramOmit
     programSchedule?: ProgramScheduleOmit
+    visitReservation?: VisitReservationOmit
+    webInquiry?: WebInquiryOmit
+    popupBanner?: PopupBannerOmit
     department?: DepartmentOmit
     employeeRole?: EmployeeRoleOmit
     employee?: EmployeeOmit
@@ -6869,7 +6865,6 @@ export namespace Prisma {
     residentHealthNote?: ResidentHealthNoteOmit
     residentMedication?: ResidentMedicationOmit
     residentVital?: ResidentVitalOmit
-    popupBanner?: PopupBannerOmit
     websiteSetting?: WebsiteSettingOmit
     programAttendance?: ProgramAttendanceOmit
     carePlan?: CarePlanOmit
@@ -6910,8 +6905,6 @@ export namespace Prisma {
     auditLog?: AuditLogOmit
     systemSetting?: SystemSettingOmit
     notificationQueue?: NotificationQueueOmit
-    visitReservation?: VisitReservationOmit
-    webInquiry?: WebInquiryOmit
     webNotice?: WebNoticeOmit
     webNoticeDetail?: WebNoticeDetailOmit
     webBoardPost?: WebBoardPostOmit
@@ -13100,6 +13093,8 @@ export namespace Prisma {
     authorId: bigint | null
     content: string | null
     isDeleted: boolean | null
+    guestNickname: string | null
+    guestPassword: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -13111,6 +13106,8 @@ export namespace Prisma {
     authorId: bigint | null
     content: string | null
     isDeleted: boolean | null
+    guestNickname: string | null
+    guestPassword: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -13122,6 +13119,8 @@ export namespace Prisma {
     authorId: number
     content: number
     isDeleted: number
+    guestNickname: number
+    guestPassword: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -13149,6 +13148,8 @@ export namespace Prisma {
     authorId?: true
     content?: true
     isDeleted?: true
+    guestNickname?: true
+    guestPassword?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -13160,6 +13161,8 @@ export namespace Prisma {
     authorId?: true
     content?: true
     isDeleted?: true
+    guestNickname?: true
+    guestPassword?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -13171,6 +13174,8 @@ export namespace Prisma {
     authorId?: true
     content?: true
     isDeleted?: true
+    guestNickname?: true
+    guestPassword?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -13269,6 +13274,8 @@ export namespace Prisma {
     authorId: bigint | null
     content: string
     isDeleted: boolean
+    guestNickname: string | null
+    guestPassword: string | null
     createdAt: Date
     updatedAt: Date
     _count: BoardCommentCountAggregateOutputType | null
@@ -13299,6 +13306,8 @@ export namespace Prisma {
     authorId?: boolean
     content?: boolean
     isDeleted?: boolean
+    guestNickname?: boolean
+    guestPassword?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     author?: boolean | BoardComment$authorArgs<ExtArgs>
@@ -13315,6 +13324,8 @@ export namespace Prisma {
     authorId?: boolean
     content?: boolean
     isDeleted?: boolean
+    guestNickname?: boolean
+    guestPassword?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     author?: boolean | BoardComment$authorArgs<ExtArgs>
@@ -13329,6 +13340,8 @@ export namespace Prisma {
     authorId?: boolean
     content?: boolean
     isDeleted?: boolean
+    guestNickname?: boolean
+    guestPassword?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     author?: boolean | BoardComment$authorArgs<ExtArgs>
@@ -13343,11 +13356,13 @@ export namespace Prisma {
     authorId?: boolean
     content?: boolean
     isDeleted?: boolean
+    guestNickname?: boolean
+    guestPassword?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BoardCommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "parentId" | "authorId" | "content" | "isDeleted" | "createdAt" | "updatedAt", ExtArgs["result"]["boardComment"]>
+  export type BoardCommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "parentId" | "authorId" | "content" | "isDeleted" | "guestNickname" | "guestPassword" | "createdAt" | "updatedAt", ExtArgs["result"]["boardComment"]>
   export type BoardCommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | BoardComment$authorArgs<ExtArgs>
     parent?: boolean | BoardComment$parentArgs<ExtArgs>
@@ -13399,6 +13414,14 @@ export namespace Prisma {
        * 삭제 여부
        */
       isDeleted: boolean
+      /**
+       * 비회원 닉네임
+       */
+      guestNickname: string | null
+      /**
+       * 비회원 비밀번호
+       */
+      guestPassword: string | null
       /**
        * 생성일시
        */
@@ -13840,6 +13863,8 @@ export namespace Prisma {
     readonly authorId: FieldRef<"BoardComment", 'BigInt'>
     readonly content: FieldRef<"BoardComment", 'String'>
     readonly isDeleted: FieldRef<"BoardComment", 'Boolean'>
+    readonly guestNickname: FieldRef<"BoardComment", 'String'>
+    readonly guestPassword: FieldRef<"BoardComment", 'String'>
     readonly createdAt: FieldRef<"BoardComment", 'DateTime'>
     readonly updatedAt: FieldRef<"BoardComment", 'DateTime'>
   }
@@ -17925,11 +17950,13 @@ export namespace Prisma {
   export type MealPlanItemAvgAggregateOutputType = {
     id: number | null
     mealPlanId: number | null
+    calories: number | null
   }
 
   export type MealPlanItemSumAggregateOutputType = {
     id: bigint | null
     mealPlanId: bigint | null
+    calories: number | null
   }
 
   export type MealPlanItemMinAggregateOutputType = {
@@ -17941,6 +17968,7 @@ export namespace Prisma {
     sideMenu: string | null
     soup: string | null
     dessert: string | null
+    calories: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -17954,6 +17982,7 @@ export namespace Prisma {
     sideMenu: string | null
     soup: string | null
     dessert: string | null
+    calories: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -17967,6 +17996,7 @@ export namespace Prisma {
     sideMenu: number
     soup: number
     dessert: number
+    calories: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -17976,11 +18006,13 @@ export namespace Prisma {
   export type MealPlanItemAvgAggregateInputType = {
     id?: true
     mealPlanId?: true
+    calories?: true
   }
 
   export type MealPlanItemSumAggregateInputType = {
     id?: true
     mealPlanId?: true
+    calories?: true
   }
 
   export type MealPlanItemMinAggregateInputType = {
@@ -17992,6 +18024,7 @@ export namespace Prisma {
     sideMenu?: true
     soup?: true
     dessert?: true
+    calories?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -18005,6 +18038,7 @@ export namespace Prisma {
     sideMenu?: true
     soup?: true
     dessert?: true
+    calories?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -18018,6 +18052,7 @@ export namespace Prisma {
     sideMenu?: true
     soup?: true
     dessert?: true
+    calories?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -18118,6 +18153,7 @@ export namespace Prisma {
     sideMenu: string | null
     soup: string | null
     dessert: string | null
+    calories: number | null
     createdAt: Date
     updatedAt: Date
     _count: MealPlanItemCountAggregateOutputType | null
@@ -18150,6 +18186,7 @@ export namespace Prisma {
     sideMenu?: boolean
     soup?: boolean
     dessert?: boolean
+    calories?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     mealPlan?: boolean | MealPlanDefaultArgs<ExtArgs>
@@ -18164,6 +18201,7 @@ export namespace Prisma {
     sideMenu?: boolean
     soup?: boolean
     dessert?: boolean
+    calories?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     mealPlan?: boolean | MealPlanDefaultArgs<ExtArgs>
@@ -18178,6 +18216,7 @@ export namespace Prisma {
     sideMenu?: boolean
     soup?: boolean
     dessert?: boolean
+    calories?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     mealPlan?: boolean | MealPlanDefaultArgs<ExtArgs>
@@ -18192,11 +18231,12 @@ export namespace Prisma {
     sideMenu?: boolean
     soup?: boolean
     dessert?: boolean
+    calories?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type MealPlanItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "mealPlanId" | "mealDate" | "mealType" | "mainMenu" | "sideMenu" | "soup" | "dessert" | "createdAt" | "updatedAt", ExtArgs["result"]["mealPlanItem"]>
+  export type MealPlanItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "mealPlanId" | "mealDate" | "mealType" | "mainMenu" | "sideMenu" | "soup" | "dessert" | "calories" | "createdAt" | "updatedAt", ExtArgs["result"]["mealPlanItem"]>
   export type MealPlanItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mealPlan?: boolean | MealPlanDefaultArgs<ExtArgs>
   }
@@ -18245,6 +18285,7 @@ export namespace Prisma {
        * 디저트/김치
        */
       dessert: string | null
+      calories: number | null
       /**
        * 생성일시
        */
@@ -18685,6 +18726,7 @@ export namespace Prisma {
     readonly sideMenu: FieldRef<"MealPlanItem", 'String'>
     readonly soup: FieldRef<"MealPlanItem", 'String'>
     readonly dessert: FieldRef<"MealPlanItem", 'String'>
+    readonly calories: FieldRef<"MealPlanItem", 'Int'>
     readonly createdAt: FieldRef<"MealPlanItem", 'DateTime'>
     readonly updatedAt: FieldRef<"MealPlanItem", 'DateTime'>
   }
@@ -21527,6 +21569,3802 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ProgramScheduleInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model VisitReservation
+   */
+
+  export type AggregateVisitReservation = {
+    _count: VisitReservationCountAggregateOutputType | null
+    _avg: VisitReservationAvgAggregateOutputType | null
+    _sum: VisitReservationSumAggregateOutputType | null
+    _min: VisitReservationMinAggregateOutputType | null
+    _max: VisitReservationMaxAggregateOutputType | null
+  }
+
+  export type VisitReservationAvgAggregateOutputType = {
+    id: number | null
+    visitorCount: number | null
+  }
+
+  export type VisitReservationSumAggregateOutputType = {
+    id: bigint | null
+    visitorCount: number | null
+  }
+
+  export type VisitReservationMinAggregateOutputType = {
+    id: bigint | null
+    visitorName: string | null
+    visitorPhone: string | null
+    visitorRelationship: string | null
+    residentName: string | null
+    visitDate: Date | null
+    visitTime: string | null
+    visitorCount: number | null
+    visitPurpose: string | null
+    healthCheckSymptoms: boolean | null
+    healthCheckAssistance: boolean | null
+    notes: string | null
+    isConsented: boolean | null
+    status: string | null
+    ipAddress: string | null
+    userAgent: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VisitReservationMaxAggregateOutputType = {
+    id: bigint | null
+    visitorName: string | null
+    visitorPhone: string | null
+    visitorRelationship: string | null
+    residentName: string | null
+    visitDate: Date | null
+    visitTime: string | null
+    visitorCount: number | null
+    visitPurpose: string | null
+    healthCheckSymptoms: boolean | null
+    healthCheckAssistance: boolean | null
+    notes: string | null
+    isConsented: boolean | null
+    status: string | null
+    ipAddress: string | null
+    userAgent: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type VisitReservationCountAggregateOutputType = {
+    id: number
+    visitorName: number
+    visitorPhone: number
+    visitorRelationship: number
+    residentName: number
+    visitDate: number
+    visitTime: number
+    visitorCount: number
+    visitPurpose: number
+    healthCheckSymptoms: number
+    healthCheckAssistance: number
+    notes: number
+    isConsented: number
+    status: number
+    ipAddress: number
+    userAgent: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type VisitReservationAvgAggregateInputType = {
+    id?: true
+    visitorCount?: true
+  }
+
+  export type VisitReservationSumAggregateInputType = {
+    id?: true
+    visitorCount?: true
+  }
+
+  export type VisitReservationMinAggregateInputType = {
+    id?: true
+    visitorName?: true
+    visitorPhone?: true
+    visitorRelationship?: true
+    residentName?: true
+    visitDate?: true
+    visitTime?: true
+    visitorCount?: true
+    visitPurpose?: true
+    healthCheckSymptoms?: true
+    healthCheckAssistance?: true
+    notes?: true
+    isConsented?: true
+    status?: true
+    ipAddress?: true
+    userAgent?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VisitReservationMaxAggregateInputType = {
+    id?: true
+    visitorName?: true
+    visitorPhone?: true
+    visitorRelationship?: true
+    residentName?: true
+    visitDate?: true
+    visitTime?: true
+    visitorCount?: true
+    visitPurpose?: true
+    healthCheckSymptoms?: true
+    healthCheckAssistance?: true
+    notes?: true
+    isConsented?: true
+    status?: true
+    ipAddress?: true
+    userAgent?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type VisitReservationCountAggregateInputType = {
+    id?: true
+    visitorName?: true
+    visitorPhone?: true
+    visitorRelationship?: true
+    residentName?: true
+    visitDate?: true
+    visitTime?: true
+    visitorCount?: true
+    visitPurpose?: true
+    healthCheckSymptoms?: true
+    healthCheckAssistance?: true
+    notes?: true
+    isConsented?: true
+    status?: true
+    ipAddress?: true
+    userAgent?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type VisitReservationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VisitReservation to aggregate.
+     */
+    where?: VisitReservationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VisitReservations to fetch.
+     */
+    orderBy?: VisitReservationOrderByWithRelationInput | VisitReservationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VisitReservationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VisitReservations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VisitReservations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VisitReservations
+    **/
+    _count?: true | VisitReservationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VisitReservationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VisitReservationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VisitReservationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VisitReservationMaxAggregateInputType
+  }
+
+  export type GetVisitReservationAggregateType<T extends VisitReservationAggregateArgs> = {
+        [P in keyof T & keyof AggregateVisitReservation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVisitReservation[P]>
+      : GetScalarType<T[P], AggregateVisitReservation[P]>
+  }
+
+
+
+
+  export type VisitReservationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VisitReservationWhereInput
+    orderBy?: VisitReservationOrderByWithAggregationInput | VisitReservationOrderByWithAggregationInput[]
+    by: VisitReservationScalarFieldEnum[] | VisitReservationScalarFieldEnum
+    having?: VisitReservationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VisitReservationCountAggregateInputType | true
+    _avg?: VisitReservationAvgAggregateInputType
+    _sum?: VisitReservationSumAggregateInputType
+    _min?: VisitReservationMinAggregateInputType
+    _max?: VisitReservationMaxAggregateInputType
+  }
+
+  export type VisitReservationGroupByOutputType = {
+    id: bigint
+    visitorName: string
+    visitorPhone: string
+    visitorRelationship: string
+    residentName: string
+    visitDate: Date
+    visitTime: string
+    visitorCount: number
+    visitPurpose: string | null
+    healthCheckSymptoms: boolean
+    healthCheckAssistance: boolean
+    notes: string | null
+    isConsented: boolean
+    status: string
+    ipAddress: string | null
+    userAgent: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: VisitReservationCountAggregateOutputType | null
+    _avg: VisitReservationAvgAggregateOutputType | null
+    _sum: VisitReservationSumAggregateOutputType | null
+    _min: VisitReservationMinAggregateOutputType | null
+    _max: VisitReservationMaxAggregateOutputType | null
+  }
+
+  type GetVisitReservationGroupByPayload<T extends VisitReservationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VisitReservationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VisitReservationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VisitReservationGroupByOutputType[P]>
+            : GetScalarType<T[P], VisitReservationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VisitReservationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    visitorName?: boolean
+    visitorPhone?: boolean
+    visitorRelationship?: boolean
+    residentName?: boolean
+    visitDate?: boolean
+    visitTime?: boolean
+    visitorCount?: boolean
+    visitPurpose?: boolean
+    healthCheckSymptoms?: boolean
+    healthCheckAssistance?: boolean
+    notes?: boolean
+    isConsented?: boolean
+    status?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["visitReservation"]>
+
+  export type VisitReservationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    visitorName?: boolean
+    visitorPhone?: boolean
+    visitorRelationship?: boolean
+    residentName?: boolean
+    visitDate?: boolean
+    visitTime?: boolean
+    visitorCount?: boolean
+    visitPurpose?: boolean
+    healthCheckSymptoms?: boolean
+    healthCheckAssistance?: boolean
+    notes?: boolean
+    isConsented?: boolean
+    status?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["visitReservation"]>
+
+  export type VisitReservationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    visitorName?: boolean
+    visitorPhone?: boolean
+    visitorRelationship?: boolean
+    residentName?: boolean
+    visitDate?: boolean
+    visitTime?: boolean
+    visitorCount?: boolean
+    visitPurpose?: boolean
+    healthCheckSymptoms?: boolean
+    healthCheckAssistance?: boolean
+    notes?: boolean
+    isConsented?: boolean
+    status?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["visitReservation"]>
+
+  export type VisitReservationSelectScalar = {
+    id?: boolean
+    visitorName?: boolean
+    visitorPhone?: boolean
+    visitorRelationship?: boolean
+    residentName?: boolean
+    visitDate?: boolean
+    visitTime?: boolean
+    visitorCount?: boolean
+    visitPurpose?: boolean
+    healthCheckSymptoms?: boolean
+    healthCheckAssistance?: boolean
+    notes?: boolean
+    isConsented?: boolean
+    status?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type VisitReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "visitorName" | "visitorPhone" | "visitorRelationship" | "residentName" | "visitDate" | "visitTime" | "visitorCount" | "visitPurpose" | "healthCheckSymptoms" | "healthCheckAssistance" | "notes" | "isConsented" | "status" | "ipAddress" | "userAgent" | "createdAt" | "updatedAt", ExtArgs["result"]["visitReservation"]>
+
+  export type $VisitReservationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VisitReservation"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      /**
+       * 예약 ID (Primary Key)
+       */
+      id: bigint
+      /**
+       * 방문자 성함
+       */
+      visitorName: string
+      /**
+       * 방문자 연락처
+       */
+      visitorPhone: string
+      /**
+       * 어르신과의 관계
+       */
+      visitorRelationship: string
+      /**
+       * 어르신 성함
+       */
+      residentName: string
+      /**
+       * 방문 희망일
+       */
+      visitDate: Date
+      /**
+       * 방문 희망시간
+       */
+      visitTime: string
+      /**
+       * 방문 인원
+       */
+      visitorCount: number
+      /**
+       * 방문 목적
+       */
+      visitPurpose: string | null
+      /**
+       * 감염 증상 여부 (발열, 기침 등)
+       */
+      healthCheckSymptoms: boolean
+      /**
+       * 이동 보조 필요 여부
+       */
+      healthCheckAssistance: boolean
+      /**
+       * 추가 요청사항
+       */
+      notes: string | null
+      /**
+       * 개인정보 수집 동의 여부
+       */
+      isConsented: boolean
+      /**
+       * 처리 상태 (PENDING, APPROVED, REJECTED, CANCELLED)
+       */
+      status: string
+      /**
+       * 신청 IP 주소
+       */
+      ipAddress: string | null
+      /**
+       * 사용자 브라우저 정보
+       */
+      userAgent: string | null
+      /**
+       * 신청 시각
+       */
+      createdAt: Date
+      /**
+       * 수정 시각
+       */
+      updatedAt: Date
+    }, ExtArgs["result"]["visitReservation"]>
+    composites: {}
+  }
+
+  type VisitReservationGetPayload<S extends boolean | null | undefined | VisitReservationDefaultArgs> = $Result.GetResult<Prisma.$VisitReservationPayload, S>
+
+  type VisitReservationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VisitReservationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VisitReservationCountAggregateInputType | true
+    }
+
+  export interface VisitReservationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VisitReservation'], meta: { name: 'VisitReservation' } }
+    /**
+     * Find zero or one VisitReservation that matches the filter.
+     * @param {VisitReservationFindUniqueArgs} args - Arguments to find a VisitReservation
+     * @example
+     * // Get one VisitReservation
+     * const visitReservation = await prisma.visitReservation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VisitReservationFindUniqueArgs>(args: SelectSubset<T, VisitReservationFindUniqueArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one VisitReservation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VisitReservationFindUniqueOrThrowArgs} args - Arguments to find a VisitReservation
+     * @example
+     * // Get one VisitReservation
+     * const visitReservation = await prisma.visitReservation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VisitReservationFindUniqueOrThrowArgs>(args: SelectSubset<T, VisitReservationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VisitReservation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VisitReservationFindFirstArgs} args - Arguments to find a VisitReservation
+     * @example
+     * // Get one VisitReservation
+     * const visitReservation = await prisma.visitReservation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VisitReservationFindFirstArgs>(args?: SelectSubset<T, VisitReservationFindFirstArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VisitReservation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VisitReservationFindFirstOrThrowArgs} args - Arguments to find a VisitReservation
+     * @example
+     * // Get one VisitReservation
+     * const visitReservation = await prisma.visitReservation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VisitReservationFindFirstOrThrowArgs>(args?: SelectSubset<T, VisitReservationFindFirstOrThrowArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VisitReservations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VisitReservationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VisitReservations
+     * const visitReservations = await prisma.visitReservation.findMany()
+     * 
+     * // Get first 10 VisitReservations
+     * const visitReservations = await prisma.visitReservation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const visitReservationWithIdOnly = await prisma.visitReservation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VisitReservationFindManyArgs>(args?: SelectSubset<T, VisitReservationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a VisitReservation.
+     * @param {VisitReservationCreateArgs} args - Arguments to create a VisitReservation.
+     * @example
+     * // Create one VisitReservation
+     * const VisitReservation = await prisma.visitReservation.create({
+     *   data: {
+     *     // ... data to create a VisitReservation
+     *   }
+     * })
+     * 
+     */
+    create<T extends VisitReservationCreateArgs>(args: SelectSubset<T, VisitReservationCreateArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many VisitReservations.
+     * @param {VisitReservationCreateManyArgs} args - Arguments to create many VisitReservations.
+     * @example
+     * // Create many VisitReservations
+     * const visitReservation = await prisma.visitReservation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VisitReservationCreateManyArgs>(args?: SelectSubset<T, VisitReservationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VisitReservations and returns the data saved in the database.
+     * @param {VisitReservationCreateManyAndReturnArgs} args - Arguments to create many VisitReservations.
+     * @example
+     * // Create many VisitReservations
+     * const visitReservation = await prisma.visitReservation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VisitReservations and only return the `id`
+     * const visitReservationWithIdOnly = await prisma.visitReservation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VisitReservationCreateManyAndReturnArgs>(args?: SelectSubset<T, VisitReservationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a VisitReservation.
+     * @param {VisitReservationDeleteArgs} args - Arguments to delete one VisitReservation.
+     * @example
+     * // Delete one VisitReservation
+     * const VisitReservation = await prisma.visitReservation.delete({
+     *   where: {
+     *     // ... filter to delete one VisitReservation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VisitReservationDeleteArgs>(args: SelectSubset<T, VisitReservationDeleteArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one VisitReservation.
+     * @param {VisitReservationUpdateArgs} args - Arguments to update one VisitReservation.
+     * @example
+     * // Update one VisitReservation
+     * const visitReservation = await prisma.visitReservation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VisitReservationUpdateArgs>(args: SelectSubset<T, VisitReservationUpdateArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more VisitReservations.
+     * @param {VisitReservationDeleteManyArgs} args - Arguments to filter VisitReservations to delete.
+     * @example
+     * // Delete a few VisitReservations
+     * const { count } = await prisma.visitReservation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VisitReservationDeleteManyArgs>(args?: SelectSubset<T, VisitReservationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VisitReservations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VisitReservationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VisitReservations
+     * const visitReservation = await prisma.visitReservation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VisitReservationUpdateManyArgs>(args: SelectSubset<T, VisitReservationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VisitReservations and returns the data updated in the database.
+     * @param {VisitReservationUpdateManyAndReturnArgs} args - Arguments to update many VisitReservations.
+     * @example
+     * // Update many VisitReservations
+     * const visitReservation = await prisma.visitReservation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VisitReservations and only return the `id`
+     * const visitReservationWithIdOnly = await prisma.visitReservation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VisitReservationUpdateManyAndReturnArgs>(args: SelectSubset<T, VisitReservationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one VisitReservation.
+     * @param {VisitReservationUpsertArgs} args - Arguments to update or create a VisitReservation.
+     * @example
+     * // Update or create a VisitReservation
+     * const visitReservation = await prisma.visitReservation.upsert({
+     *   create: {
+     *     // ... data to create a VisitReservation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VisitReservation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VisitReservationUpsertArgs>(args: SelectSubset<T, VisitReservationUpsertArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of VisitReservations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VisitReservationCountArgs} args - Arguments to filter VisitReservations to count.
+     * @example
+     * // Count the number of VisitReservations
+     * const count = await prisma.visitReservation.count({
+     *   where: {
+     *     // ... the filter for the VisitReservations we want to count
+     *   }
+     * })
+    **/
+    count<T extends VisitReservationCountArgs>(
+      args?: Subset<T, VisitReservationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VisitReservationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VisitReservation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VisitReservationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VisitReservationAggregateArgs>(args: Subset<T, VisitReservationAggregateArgs>): Prisma.PrismaPromise<GetVisitReservationAggregateType<T>>
+
+    /**
+     * Group by VisitReservation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VisitReservationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VisitReservationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VisitReservationGroupByArgs['orderBy'] }
+        : { orderBy?: VisitReservationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VisitReservationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVisitReservationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VisitReservation model
+   */
+  readonly fields: VisitReservationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VisitReservation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VisitReservationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VisitReservation model
+   */
+  interface VisitReservationFieldRefs {
+    readonly id: FieldRef<"VisitReservation", 'BigInt'>
+    readonly visitorName: FieldRef<"VisitReservation", 'String'>
+    readonly visitorPhone: FieldRef<"VisitReservation", 'String'>
+    readonly visitorRelationship: FieldRef<"VisitReservation", 'String'>
+    readonly residentName: FieldRef<"VisitReservation", 'String'>
+    readonly visitDate: FieldRef<"VisitReservation", 'DateTime'>
+    readonly visitTime: FieldRef<"VisitReservation", 'String'>
+    readonly visitorCount: FieldRef<"VisitReservation", 'Int'>
+    readonly visitPurpose: FieldRef<"VisitReservation", 'String'>
+    readonly healthCheckSymptoms: FieldRef<"VisitReservation", 'Boolean'>
+    readonly healthCheckAssistance: FieldRef<"VisitReservation", 'Boolean'>
+    readonly notes: FieldRef<"VisitReservation", 'String'>
+    readonly isConsented: FieldRef<"VisitReservation", 'Boolean'>
+    readonly status: FieldRef<"VisitReservation", 'String'>
+    readonly ipAddress: FieldRef<"VisitReservation", 'String'>
+    readonly userAgent: FieldRef<"VisitReservation", 'String'>
+    readonly createdAt: FieldRef<"VisitReservation", 'DateTime'>
+    readonly updatedAt: FieldRef<"VisitReservation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VisitReservation findUnique
+   */
+  export type VisitReservationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitReservation
+     */
+    select?: VisitReservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitReservation
+     */
+    omit?: VisitReservationOmit<ExtArgs> | null
+    /**
+     * Filter, which VisitReservation to fetch.
+     */
+    where: VisitReservationWhereUniqueInput
+  }
+
+  /**
+   * VisitReservation findUniqueOrThrow
+   */
+  export type VisitReservationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitReservation
+     */
+    select?: VisitReservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitReservation
+     */
+    omit?: VisitReservationOmit<ExtArgs> | null
+    /**
+     * Filter, which VisitReservation to fetch.
+     */
+    where: VisitReservationWhereUniqueInput
+  }
+
+  /**
+   * VisitReservation findFirst
+   */
+  export type VisitReservationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitReservation
+     */
+    select?: VisitReservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitReservation
+     */
+    omit?: VisitReservationOmit<ExtArgs> | null
+    /**
+     * Filter, which VisitReservation to fetch.
+     */
+    where?: VisitReservationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VisitReservations to fetch.
+     */
+    orderBy?: VisitReservationOrderByWithRelationInput | VisitReservationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VisitReservations.
+     */
+    cursor?: VisitReservationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VisitReservations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VisitReservations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VisitReservations.
+     */
+    distinct?: VisitReservationScalarFieldEnum | VisitReservationScalarFieldEnum[]
+  }
+
+  /**
+   * VisitReservation findFirstOrThrow
+   */
+  export type VisitReservationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitReservation
+     */
+    select?: VisitReservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitReservation
+     */
+    omit?: VisitReservationOmit<ExtArgs> | null
+    /**
+     * Filter, which VisitReservation to fetch.
+     */
+    where?: VisitReservationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VisitReservations to fetch.
+     */
+    orderBy?: VisitReservationOrderByWithRelationInput | VisitReservationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VisitReservations.
+     */
+    cursor?: VisitReservationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VisitReservations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VisitReservations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VisitReservations.
+     */
+    distinct?: VisitReservationScalarFieldEnum | VisitReservationScalarFieldEnum[]
+  }
+
+  /**
+   * VisitReservation findMany
+   */
+  export type VisitReservationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitReservation
+     */
+    select?: VisitReservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitReservation
+     */
+    omit?: VisitReservationOmit<ExtArgs> | null
+    /**
+     * Filter, which VisitReservations to fetch.
+     */
+    where?: VisitReservationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VisitReservations to fetch.
+     */
+    orderBy?: VisitReservationOrderByWithRelationInput | VisitReservationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VisitReservations.
+     */
+    cursor?: VisitReservationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VisitReservations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VisitReservations.
+     */
+    skip?: number
+    distinct?: VisitReservationScalarFieldEnum | VisitReservationScalarFieldEnum[]
+  }
+
+  /**
+   * VisitReservation create
+   */
+  export type VisitReservationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitReservation
+     */
+    select?: VisitReservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitReservation
+     */
+    omit?: VisitReservationOmit<ExtArgs> | null
+    /**
+     * The data needed to create a VisitReservation.
+     */
+    data: XOR<VisitReservationCreateInput, VisitReservationUncheckedCreateInput>
+  }
+
+  /**
+   * VisitReservation createMany
+   */
+  export type VisitReservationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VisitReservations.
+     */
+    data: VisitReservationCreateManyInput | VisitReservationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VisitReservation createManyAndReturn
+   */
+  export type VisitReservationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitReservation
+     */
+    select?: VisitReservationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitReservation
+     */
+    omit?: VisitReservationOmit<ExtArgs> | null
+    /**
+     * The data used to create many VisitReservations.
+     */
+    data: VisitReservationCreateManyInput | VisitReservationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VisitReservation update
+   */
+  export type VisitReservationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitReservation
+     */
+    select?: VisitReservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitReservation
+     */
+    omit?: VisitReservationOmit<ExtArgs> | null
+    /**
+     * The data needed to update a VisitReservation.
+     */
+    data: XOR<VisitReservationUpdateInput, VisitReservationUncheckedUpdateInput>
+    /**
+     * Choose, which VisitReservation to update.
+     */
+    where: VisitReservationWhereUniqueInput
+  }
+
+  /**
+   * VisitReservation updateMany
+   */
+  export type VisitReservationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VisitReservations.
+     */
+    data: XOR<VisitReservationUpdateManyMutationInput, VisitReservationUncheckedUpdateManyInput>
+    /**
+     * Filter which VisitReservations to update
+     */
+    where?: VisitReservationWhereInput
+    /**
+     * Limit how many VisitReservations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VisitReservation updateManyAndReturn
+   */
+  export type VisitReservationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitReservation
+     */
+    select?: VisitReservationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitReservation
+     */
+    omit?: VisitReservationOmit<ExtArgs> | null
+    /**
+     * The data used to update VisitReservations.
+     */
+    data: XOR<VisitReservationUpdateManyMutationInput, VisitReservationUncheckedUpdateManyInput>
+    /**
+     * Filter which VisitReservations to update
+     */
+    where?: VisitReservationWhereInput
+    /**
+     * Limit how many VisitReservations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VisitReservation upsert
+   */
+  export type VisitReservationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitReservation
+     */
+    select?: VisitReservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitReservation
+     */
+    omit?: VisitReservationOmit<ExtArgs> | null
+    /**
+     * The filter to search for the VisitReservation to update in case it exists.
+     */
+    where: VisitReservationWhereUniqueInput
+    /**
+     * In case the VisitReservation found by the `where` argument doesn't exist, create a new VisitReservation with this data.
+     */
+    create: XOR<VisitReservationCreateInput, VisitReservationUncheckedCreateInput>
+    /**
+     * In case the VisitReservation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VisitReservationUpdateInput, VisitReservationUncheckedUpdateInput>
+  }
+
+  /**
+   * VisitReservation delete
+   */
+  export type VisitReservationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitReservation
+     */
+    select?: VisitReservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitReservation
+     */
+    omit?: VisitReservationOmit<ExtArgs> | null
+    /**
+     * Filter which VisitReservation to delete.
+     */
+    where: VisitReservationWhereUniqueInput
+  }
+
+  /**
+   * VisitReservation deleteMany
+   */
+  export type VisitReservationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VisitReservations to delete
+     */
+    where?: VisitReservationWhereInput
+    /**
+     * Limit how many VisitReservations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * VisitReservation without action
+   */
+  export type VisitReservationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitReservation
+     */
+    select?: VisitReservationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitReservation
+     */
+    omit?: VisitReservationOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model WebInquiry
+   */
+
+  export type AggregateWebInquiry = {
+    _count: WebInquiryCountAggregateOutputType | null
+    _avg: WebInquiryAvgAggregateOutputType | null
+    _sum: WebInquirySumAggregateOutputType | null
+    _min: WebInquiryMinAggregateOutputType | null
+    _max: WebInquiryMaxAggregateOutputType | null
+  }
+
+  export type WebInquiryAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type WebInquirySumAggregateOutputType = {
+    id: bigint | null
+  }
+
+  export type WebInquiryMinAggregateOutputType = {
+    id: bigint | null
+    name: string | null
+    phone: string | null
+    email: string | null
+    type: string | null
+    residentAge: string | null
+    careGrade: string | null
+    preferredDate: Date | null
+    message: string | null
+    isConsented: boolean | null
+    status: string | null
+    ipAddress: string | null
+    userAgent: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WebInquiryMaxAggregateOutputType = {
+    id: bigint | null
+    name: string | null
+    phone: string | null
+    email: string | null
+    type: string | null
+    residentAge: string | null
+    careGrade: string | null
+    preferredDate: Date | null
+    message: string | null
+    isConsented: boolean | null
+    status: string | null
+    ipAddress: string | null
+    userAgent: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type WebInquiryCountAggregateOutputType = {
+    id: number
+    name: number
+    phone: number
+    email: number
+    type: number
+    residentAge: number
+    careGrade: number
+    preferredDate: number
+    message: number
+    isConsented: number
+    status: number
+    ipAddress: number
+    userAgent: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type WebInquiryAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type WebInquirySumAggregateInputType = {
+    id?: true
+  }
+
+  export type WebInquiryMinAggregateInputType = {
+    id?: true
+    name?: true
+    phone?: true
+    email?: true
+    type?: true
+    residentAge?: true
+    careGrade?: true
+    preferredDate?: true
+    message?: true
+    isConsented?: true
+    status?: true
+    ipAddress?: true
+    userAgent?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WebInquiryMaxAggregateInputType = {
+    id?: true
+    name?: true
+    phone?: true
+    email?: true
+    type?: true
+    residentAge?: true
+    careGrade?: true
+    preferredDate?: true
+    message?: true
+    isConsented?: true
+    status?: true
+    ipAddress?: true
+    userAgent?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type WebInquiryCountAggregateInputType = {
+    id?: true
+    name?: true
+    phone?: true
+    email?: true
+    type?: true
+    residentAge?: true
+    careGrade?: true
+    preferredDate?: true
+    message?: true
+    isConsented?: true
+    status?: true
+    ipAddress?: true
+    userAgent?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type WebInquiryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebInquiry to aggregate.
+     */
+    where?: WebInquiryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebInquiries to fetch.
+     */
+    orderBy?: WebInquiryOrderByWithRelationInput | WebInquiryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: WebInquiryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebInquiries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebInquiries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned WebInquiries
+    **/
+    _count?: true | WebInquiryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: WebInquiryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: WebInquirySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: WebInquiryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: WebInquiryMaxAggregateInputType
+  }
+
+  export type GetWebInquiryAggregateType<T extends WebInquiryAggregateArgs> = {
+        [P in keyof T & keyof AggregateWebInquiry]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateWebInquiry[P]>
+      : GetScalarType<T[P], AggregateWebInquiry[P]>
+  }
+
+
+
+
+  export type WebInquiryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: WebInquiryWhereInput
+    orderBy?: WebInquiryOrderByWithAggregationInput | WebInquiryOrderByWithAggregationInput[]
+    by: WebInquiryScalarFieldEnum[] | WebInquiryScalarFieldEnum
+    having?: WebInquiryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: WebInquiryCountAggregateInputType | true
+    _avg?: WebInquiryAvgAggregateInputType
+    _sum?: WebInquirySumAggregateInputType
+    _min?: WebInquiryMinAggregateInputType
+    _max?: WebInquiryMaxAggregateInputType
+  }
+
+  export type WebInquiryGroupByOutputType = {
+    id: bigint
+    name: string
+    phone: string
+    email: string | null
+    type: string
+    residentAge: string | null
+    careGrade: string | null
+    preferredDate: Date | null
+    message: string | null
+    isConsented: boolean
+    status: string
+    ipAddress: string | null
+    userAgent: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: WebInquiryCountAggregateOutputType | null
+    _avg: WebInquiryAvgAggregateOutputType | null
+    _sum: WebInquirySumAggregateOutputType | null
+    _min: WebInquiryMinAggregateOutputType | null
+    _max: WebInquiryMaxAggregateOutputType | null
+  }
+
+  type GetWebInquiryGroupByPayload<T extends WebInquiryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<WebInquiryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof WebInquiryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], WebInquiryGroupByOutputType[P]>
+            : GetScalarType<T[P], WebInquiryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type WebInquirySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    phone?: boolean
+    email?: boolean
+    type?: boolean
+    residentAge?: boolean
+    careGrade?: boolean
+    preferredDate?: boolean
+    message?: boolean
+    isConsented?: boolean
+    status?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["webInquiry"]>
+
+  export type WebInquirySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    phone?: boolean
+    email?: boolean
+    type?: boolean
+    residentAge?: boolean
+    careGrade?: boolean
+    preferredDate?: boolean
+    message?: boolean
+    isConsented?: boolean
+    status?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["webInquiry"]>
+
+  export type WebInquirySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    phone?: boolean
+    email?: boolean
+    type?: boolean
+    residentAge?: boolean
+    careGrade?: boolean
+    preferredDate?: boolean
+    message?: boolean
+    isConsented?: boolean
+    status?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["webInquiry"]>
+
+  export type WebInquirySelectScalar = {
+    id?: boolean
+    name?: boolean
+    phone?: boolean
+    email?: boolean
+    type?: boolean
+    residentAge?: boolean
+    careGrade?: boolean
+    preferredDate?: boolean
+    message?: boolean
+    isConsented?: boolean
+    status?: boolean
+    ipAddress?: boolean
+    userAgent?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type WebInquiryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "phone" | "email" | "type" | "residentAge" | "careGrade" | "preferredDate" | "message" | "isConsented" | "status" | "ipAddress" | "userAgent" | "createdAt" | "updatedAt", ExtArgs["result"]["webInquiry"]>
+
+  export type $WebInquiryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "WebInquiry"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      /**
+       * 문의 ID (Primary Key)
+       */
+      id: bigint
+      /**
+       * 상담자 이름
+       */
+      name: string
+      /**
+       * 상담자 연락처
+       */
+      phone: string
+      /**
+       * 이메일
+       */
+      email: string | null
+      /**
+       * 문의 유형
+       * 입소 상담, 비용 상담, 방문 상담, 기타
+       */
+      type: string
+      /**
+       * 어르신 연령
+       */
+      residentAge: string | null
+      /**
+       * 장기요양등급
+       */
+      careGrade: string | null
+      /**
+       * 방문 상담 희망일
+       */
+      preferredDate: Date | null
+      /**
+       * 상세 문의사항
+       */
+      message: string | null
+      /**
+       * 개인정보 수집 동의 여부
+       */
+      isConsented: boolean
+      /**
+       * 처리 상태
+       * PENDING: 접수, IN_PROGRESS: 상담중, DONE: 완료, CANCELLED: 취소
+       */
+      status: string
+      /**
+       * 문의 접수 IP 주소
+       */
+      ipAddress: string | null
+      /**
+       * 사용자 브라우저 정보
+       */
+      userAgent: string | null
+      /**
+       * 문의 생성 시각
+       */
+      createdAt: Date
+      /**
+       * 수정 시각
+       */
+      updatedAt: Date
+    }, ExtArgs["result"]["webInquiry"]>
+    composites: {}
+  }
+
+  type WebInquiryGetPayload<S extends boolean | null | undefined | WebInquiryDefaultArgs> = $Result.GetResult<Prisma.$WebInquiryPayload, S>
+
+  type WebInquiryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<WebInquiryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: WebInquiryCountAggregateInputType | true
+    }
+
+  export interface WebInquiryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WebInquiry'], meta: { name: 'WebInquiry' } }
+    /**
+     * Find zero or one WebInquiry that matches the filter.
+     * @param {WebInquiryFindUniqueArgs} args - Arguments to find a WebInquiry
+     * @example
+     * // Get one WebInquiry
+     * const webInquiry = await prisma.webInquiry.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends WebInquiryFindUniqueArgs>(args: SelectSubset<T, WebInquiryFindUniqueArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one WebInquiry that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {WebInquiryFindUniqueOrThrowArgs} args - Arguments to find a WebInquiry
+     * @example
+     * // Get one WebInquiry
+     * const webInquiry = await prisma.webInquiry.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends WebInquiryFindUniqueOrThrowArgs>(args: SelectSubset<T, WebInquiryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebInquiry that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebInquiryFindFirstArgs} args - Arguments to find a WebInquiry
+     * @example
+     * // Get one WebInquiry
+     * const webInquiry = await prisma.webInquiry.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends WebInquiryFindFirstArgs>(args?: SelectSubset<T, WebInquiryFindFirstArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first WebInquiry that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebInquiryFindFirstOrThrowArgs} args - Arguments to find a WebInquiry
+     * @example
+     * // Get one WebInquiry
+     * const webInquiry = await prisma.webInquiry.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends WebInquiryFindFirstOrThrowArgs>(args?: SelectSubset<T, WebInquiryFindFirstOrThrowArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more WebInquiries that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebInquiryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all WebInquiries
+     * const webInquiries = await prisma.webInquiry.findMany()
+     * 
+     * // Get first 10 WebInquiries
+     * const webInquiries = await prisma.webInquiry.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const webInquiryWithIdOnly = await prisma.webInquiry.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends WebInquiryFindManyArgs>(args?: SelectSubset<T, WebInquiryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a WebInquiry.
+     * @param {WebInquiryCreateArgs} args - Arguments to create a WebInquiry.
+     * @example
+     * // Create one WebInquiry
+     * const WebInquiry = await prisma.webInquiry.create({
+     *   data: {
+     *     // ... data to create a WebInquiry
+     *   }
+     * })
+     * 
+     */
+    create<T extends WebInquiryCreateArgs>(args: SelectSubset<T, WebInquiryCreateArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many WebInquiries.
+     * @param {WebInquiryCreateManyArgs} args - Arguments to create many WebInquiries.
+     * @example
+     * // Create many WebInquiries
+     * const webInquiry = await prisma.webInquiry.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends WebInquiryCreateManyArgs>(args?: SelectSubset<T, WebInquiryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many WebInquiries and returns the data saved in the database.
+     * @param {WebInquiryCreateManyAndReturnArgs} args - Arguments to create many WebInquiries.
+     * @example
+     * // Create many WebInquiries
+     * const webInquiry = await prisma.webInquiry.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many WebInquiries and only return the `id`
+     * const webInquiryWithIdOnly = await prisma.webInquiry.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends WebInquiryCreateManyAndReturnArgs>(args?: SelectSubset<T, WebInquiryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a WebInquiry.
+     * @param {WebInquiryDeleteArgs} args - Arguments to delete one WebInquiry.
+     * @example
+     * // Delete one WebInquiry
+     * const WebInquiry = await prisma.webInquiry.delete({
+     *   where: {
+     *     // ... filter to delete one WebInquiry
+     *   }
+     * })
+     * 
+     */
+    delete<T extends WebInquiryDeleteArgs>(args: SelectSubset<T, WebInquiryDeleteArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one WebInquiry.
+     * @param {WebInquiryUpdateArgs} args - Arguments to update one WebInquiry.
+     * @example
+     * // Update one WebInquiry
+     * const webInquiry = await prisma.webInquiry.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends WebInquiryUpdateArgs>(args: SelectSubset<T, WebInquiryUpdateArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more WebInquiries.
+     * @param {WebInquiryDeleteManyArgs} args - Arguments to filter WebInquiries to delete.
+     * @example
+     * // Delete a few WebInquiries
+     * const { count } = await prisma.webInquiry.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends WebInquiryDeleteManyArgs>(args?: SelectSubset<T, WebInquiryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WebInquiries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebInquiryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many WebInquiries
+     * const webInquiry = await prisma.webInquiry.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends WebInquiryUpdateManyArgs>(args: SelectSubset<T, WebInquiryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more WebInquiries and returns the data updated in the database.
+     * @param {WebInquiryUpdateManyAndReturnArgs} args - Arguments to update many WebInquiries.
+     * @example
+     * // Update many WebInquiries
+     * const webInquiry = await prisma.webInquiry.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more WebInquiries and only return the `id`
+     * const webInquiryWithIdOnly = await prisma.webInquiry.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends WebInquiryUpdateManyAndReturnArgs>(args: SelectSubset<T, WebInquiryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one WebInquiry.
+     * @param {WebInquiryUpsertArgs} args - Arguments to update or create a WebInquiry.
+     * @example
+     * // Update or create a WebInquiry
+     * const webInquiry = await prisma.webInquiry.upsert({
+     *   create: {
+     *     // ... data to create a WebInquiry
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the WebInquiry we want to update
+     *   }
+     * })
+     */
+    upsert<T extends WebInquiryUpsertArgs>(args: SelectSubset<T, WebInquiryUpsertArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of WebInquiries.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebInquiryCountArgs} args - Arguments to filter WebInquiries to count.
+     * @example
+     * // Count the number of WebInquiries
+     * const count = await prisma.webInquiry.count({
+     *   where: {
+     *     // ... the filter for the WebInquiries we want to count
+     *   }
+     * })
+    **/
+    count<T extends WebInquiryCountArgs>(
+      args?: Subset<T, WebInquiryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], WebInquiryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a WebInquiry.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebInquiryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends WebInquiryAggregateArgs>(args: Subset<T, WebInquiryAggregateArgs>): Prisma.PrismaPromise<GetWebInquiryAggregateType<T>>
+
+    /**
+     * Group by WebInquiry.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {WebInquiryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends WebInquiryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: WebInquiryGroupByArgs['orderBy'] }
+        : { orderBy?: WebInquiryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, WebInquiryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebInquiryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the WebInquiry model
+   */
+  readonly fields: WebInquiryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for WebInquiry.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__WebInquiryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the WebInquiry model
+   */
+  interface WebInquiryFieldRefs {
+    readonly id: FieldRef<"WebInquiry", 'BigInt'>
+    readonly name: FieldRef<"WebInquiry", 'String'>
+    readonly phone: FieldRef<"WebInquiry", 'String'>
+    readonly email: FieldRef<"WebInquiry", 'String'>
+    readonly type: FieldRef<"WebInquiry", 'String'>
+    readonly residentAge: FieldRef<"WebInquiry", 'String'>
+    readonly careGrade: FieldRef<"WebInquiry", 'String'>
+    readonly preferredDate: FieldRef<"WebInquiry", 'DateTime'>
+    readonly message: FieldRef<"WebInquiry", 'String'>
+    readonly isConsented: FieldRef<"WebInquiry", 'Boolean'>
+    readonly status: FieldRef<"WebInquiry", 'String'>
+    readonly ipAddress: FieldRef<"WebInquiry", 'String'>
+    readonly userAgent: FieldRef<"WebInquiry", 'String'>
+    readonly createdAt: FieldRef<"WebInquiry", 'DateTime'>
+    readonly updatedAt: FieldRef<"WebInquiry", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * WebInquiry findUnique
+   */
+  export type WebInquiryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebInquiry
+     */
+    select?: WebInquirySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebInquiry
+     */
+    omit?: WebInquiryOmit<ExtArgs> | null
+    /**
+     * Filter, which WebInquiry to fetch.
+     */
+    where: WebInquiryWhereUniqueInput
+  }
+
+  /**
+   * WebInquiry findUniqueOrThrow
+   */
+  export type WebInquiryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebInquiry
+     */
+    select?: WebInquirySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebInquiry
+     */
+    omit?: WebInquiryOmit<ExtArgs> | null
+    /**
+     * Filter, which WebInquiry to fetch.
+     */
+    where: WebInquiryWhereUniqueInput
+  }
+
+  /**
+   * WebInquiry findFirst
+   */
+  export type WebInquiryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebInquiry
+     */
+    select?: WebInquirySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebInquiry
+     */
+    omit?: WebInquiryOmit<ExtArgs> | null
+    /**
+     * Filter, which WebInquiry to fetch.
+     */
+    where?: WebInquiryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebInquiries to fetch.
+     */
+    orderBy?: WebInquiryOrderByWithRelationInput | WebInquiryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebInquiries.
+     */
+    cursor?: WebInquiryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebInquiries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebInquiries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebInquiries.
+     */
+    distinct?: WebInquiryScalarFieldEnum | WebInquiryScalarFieldEnum[]
+  }
+
+  /**
+   * WebInquiry findFirstOrThrow
+   */
+  export type WebInquiryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebInquiry
+     */
+    select?: WebInquirySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebInquiry
+     */
+    omit?: WebInquiryOmit<ExtArgs> | null
+    /**
+     * Filter, which WebInquiry to fetch.
+     */
+    where?: WebInquiryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebInquiries to fetch.
+     */
+    orderBy?: WebInquiryOrderByWithRelationInput | WebInquiryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for WebInquiries.
+     */
+    cursor?: WebInquiryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebInquiries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebInquiries.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of WebInquiries.
+     */
+    distinct?: WebInquiryScalarFieldEnum | WebInquiryScalarFieldEnum[]
+  }
+
+  /**
+   * WebInquiry findMany
+   */
+  export type WebInquiryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebInquiry
+     */
+    select?: WebInquirySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebInquiry
+     */
+    omit?: WebInquiryOmit<ExtArgs> | null
+    /**
+     * Filter, which WebInquiries to fetch.
+     */
+    where?: WebInquiryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of WebInquiries to fetch.
+     */
+    orderBy?: WebInquiryOrderByWithRelationInput | WebInquiryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing WebInquiries.
+     */
+    cursor?: WebInquiryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` WebInquiries from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` WebInquiries.
+     */
+    skip?: number
+    distinct?: WebInquiryScalarFieldEnum | WebInquiryScalarFieldEnum[]
+  }
+
+  /**
+   * WebInquiry create
+   */
+  export type WebInquiryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebInquiry
+     */
+    select?: WebInquirySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebInquiry
+     */
+    omit?: WebInquiryOmit<ExtArgs> | null
+    /**
+     * The data needed to create a WebInquiry.
+     */
+    data: XOR<WebInquiryCreateInput, WebInquiryUncheckedCreateInput>
+  }
+
+  /**
+   * WebInquiry createMany
+   */
+  export type WebInquiryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many WebInquiries.
+     */
+    data: WebInquiryCreateManyInput | WebInquiryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WebInquiry createManyAndReturn
+   */
+  export type WebInquiryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebInquiry
+     */
+    select?: WebInquirySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebInquiry
+     */
+    omit?: WebInquiryOmit<ExtArgs> | null
+    /**
+     * The data used to create many WebInquiries.
+     */
+    data: WebInquiryCreateManyInput | WebInquiryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * WebInquiry update
+   */
+  export type WebInquiryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebInquiry
+     */
+    select?: WebInquirySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebInquiry
+     */
+    omit?: WebInquiryOmit<ExtArgs> | null
+    /**
+     * The data needed to update a WebInquiry.
+     */
+    data: XOR<WebInquiryUpdateInput, WebInquiryUncheckedUpdateInput>
+    /**
+     * Choose, which WebInquiry to update.
+     */
+    where: WebInquiryWhereUniqueInput
+  }
+
+  /**
+   * WebInquiry updateMany
+   */
+  export type WebInquiryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update WebInquiries.
+     */
+    data: XOR<WebInquiryUpdateManyMutationInput, WebInquiryUncheckedUpdateManyInput>
+    /**
+     * Filter which WebInquiries to update
+     */
+    where?: WebInquiryWhereInput
+    /**
+     * Limit how many WebInquiries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WebInquiry updateManyAndReturn
+   */
+  export type WebInquiryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebInquiry
+     */
+    select?: WebInquirySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebInquiry
+     */
+    omit?: WebInquiryOmit<ExtArgs> | null
+    /**
+     * The data used to update WebInquiries.
+     */
+    data: XOR<WebInquiryUpdateManyMutationInput, WebInquiryUncheckedUpdateManyInput>
+    /**
+     * Filter which WebInquiries to update
+     */
+    where?: WebInquiryWhereInput
+    /**
+     * Limit how many WebInquiries to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * WebInquiry upsert
+   */
+  export type WebInquiryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebInquiry
+     */
+    select?: WebInquirySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebInquiry
+     */
+    omit?: WebInquiryOmit<ExtArgs> | null
+    /**
+     * The filter to search for the WebInquiry to update in case it exists.
+     */
+    where: WebInquiryWhereUniqueInput
+    /**
+     * In case the WebInquiry found by the `where` argument doesn't exist, create a new WebInquiry with this data.
+     */
+    create: XOR<WebInquiryCreateInput, WebInquiryUncheckedCreateInput>
+    /**
+     * In case the WebInquiry was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<WebInquiryUpdateInput, WebInquiryUncheckedUpdateInput>
+  }
+
+  /**
+   * WebInquiry delete
+   */
+  export type WebInquiryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebInquiry
+     */
+    select?: WebInquirySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebInquiry
+     */
+    omit?: WebInquiryOmit<ExtArgs> | null
+    /**
+     * Filter which WebInquiry to delete.
+     */
+    where: WebInquiryWhereUniqueInput
+  }
+
+  /**
+   * WebInquiry deleteMany
+   */
+  export type WebInquiryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which WebInquiries to delete
+     */
+    where?: WebInquiryWhereInput
+    /**
+     * Limit how many WebInquiries to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * WebInquiry without action
+   */
+  export type WebInquiryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the WebInquiry
+     */
+    select?: WebInquirySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the WebInquiry
+     */
+    omit?: WebInquiryOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PopupBanner
+   */
+
+  export type AggregatePopupBanner = {
+    _count: PopupBannerCountAggregateOutputType | null
+    _avg: PopupBannerAvgAggregateOutputType | null
+    _sum: PopupBannerSumAggregateOutputType | null
+    _min: PopupBannerMinAggregateOutputType | null
+    _max: PopupBannerMaxAggregateOutputType | null
+  }
+
+  export type PopupBannerAvgAggregateOutputType = {
+    id: number | null
+    width: number | null
+    height: number | null
+    priority: number | null
+    createdBy: number | null
+  }
+
+  export type PopupBannerSumAggregateOutputType = {
+    id: bigint | null
+    width: number | null
+    height: number | null
+    priority: number | null
+    createdBy: bigint | null
+  }
+
+  export type PopupBannerMinAggregateOutputType = {
+    id: bigint | null
+    title: string | null
+    content: string | null
+    imageUrl: string | null
+    linkUrl: string | null
+    displayType: string | null
+    position: string | null
+    width: number | null
+    height: number | null
+    startDate: Date | null
+    endDate: Date | null
+    isActive: boolean | null
+    showOnce: boolean | null
+    priority: number | null
+    createdBy: bigint | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PopupBannerMaxAggregateOutputType = {
+    id: bigint | null
+    title: string | null
+    content: string | null
+    imageUrl: string | null
+    linkUrl: string | null
+    displayType: string | null
+    position: string | null
+    width: number | null
+    height: number | null
+    startDate: Date | null
+    endDate: Date | null
+    isActive: boolean | null
+    showOnce: boolean | null
+    priority: number | null
+    createdBy: bigint | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PopupBannerCountAggregateOutputType = {
+    id: number
+    title: number
+    content: number
+    imageUrl: number
+    linkUrl: number
+    displayType: number
+    position: number
+    width: number
+    height: number
+    startDate: number
+    endDate: number
+    isActive: number
+    showOnce: number
+    priority: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PopupBannerAvgAggregateInputType = {
+    id?: true
+    width?: true
+    height?: true
+    priority?: true
+    createdBy?: true
+  }
+
+  export type PopupBannerSumAggregateInputType = {
+    id?: true
+    width?: true
+    height?: true
+    priority?: true
+    createdBy?: true
+  }
+
+  export type PopupBannerMinAggregateInputType = {
+    id?: true
+    title?: true
+    content?: true
+    imageUrl?: true
+    linkUrl?: true
+    displayType?: true
+    position?: true
+    width?: true
+    height?: true
+    startDate?: true
+    endDate?: true
+    isActive?: true
+    showOnce?: true
+    priority?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PopupBannerMaxAggregateInputType = {
+    id?: true
+    title?: true
+    content?: true
+    imageUrl?: true
+    linkUrl?: true
+    displayType?: true
+    position?: true
+    width?: true
+    height?: true
+    startDate?: true
+    endDate?: true
+    isActive?: true
+    showOnce?: true
+    priority?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PopupBannerCountAggregateInputType = {
+    id?: true
+    title?: true
+    content?: true
+    imageUrl?: true
+    linkUrl?: true
+    displayType?: true
+    position?: true
+    width?: true
+    height?: true
+    startDate?: true
+    endDate?: true
+    isActive?: true
+    showOnce?: true
+    priority?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PopupBannerAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PopupBanner to aggregate.
+     */
+    where?: PopupBannerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopupBanners to fetch.
+     */
+    orderBy?: PopupBannerOrderByWithRelationInput | PopupBannerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PopupBannerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopupBanners from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopupBanners.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PopupBanners
+    **/
+    _count?: true | PopupBannerCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PopupBannerAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PopupBannerSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PopupBannerMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PopupBannerMaxAggregateInputType
+  }
+
+  export type GetPopupBannerAggregateType<T extends PopupBannerAggregateArgs> = {
+        [P in keyof T & keyof AggregatePopupBanner]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePopupBanner[P]>
+      : GetScalarType<T[P], AggregatePopupBanner[P]>
+  }
+
+
+
+
+  export type PopupBannerGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PopupBannerWhereInput
+    orderBy?: PopupBannerOrderByWithAggregationInput | PopupBannerOrderByWithAggregationInput[]
+    by: PopupBannerScalarFieldEnum[] | PopupBannerScalarFieldEnum
+    having?: PopupBannerScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PopupBannerCountAggregateInputType | true
+    _avg?: PopupBannerAvgAggregateInputType
+    _sum?: PopupBannerSumAggregateInputType
+    _min?: PopupBannerMinAggregateInputType
+    _max?: PopupBannerMaxAggregateInputType
+  }
+
+  export type PopupBannerGroupByOutputType = {
+    id: bigint
+    title: string
+    content: string | null
+    imageUrl: string | null
+    linkUrl: string | null
+    displayType: string
+    position: string | null
+    width: number | null
+    height: number | null
+    startDate: Date
+    endDate: Date
+    isActive: boolean
+    showOnce: boolean
+    priority: number
+    createdBy: bigint | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PopupBannerCountAggregateOutputType | null
+    _avg: PopupBannerAvgAggregateOutputType | null
+    _sum: PopupBannerSumAggregateOutputType | null
+    _min: PopupBannerMinAggregateOutputType | null
+    _max: PopupBannerMaxAggregateOutputType | null
+  }
+
+  type GetPopupBannerGroupByPayload<T extends PopupBannerGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PopupBannerGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PopupBannerGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PopupBannerGroupByOutputType[P]>
+            : GetScalarType<T[P], PopupBannerGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PopupBannerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    content?: boolean
+    imageUrl?: boolean
+    linkUrl?: boolean
+    displayType?: boolean
+    position?: boolean
+    width?: boolean
+    height?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    isActive?: boolean
+    showOnce?: boolean
+    priority?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creator?: boolean | PopupBanner$creatorArgs<ExtArgs>
+  }, ExtArgs["result"]["popupBanner"]>
+
+  export type PopupBannerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    content?: boolean
+    imageUrl?: boolean
+    linkUrl?: boolean
+    displayType?: boolean
+    position?: boolean
+    width?: boolean
+    height?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    isActive?: boolean
+    showOnce?: boolean
+    priority?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creator?: boolean | PopupBanner$creatorArgs<ExtArgs>
+  }, ExtArgs["result"]["popupBanner"]>
+
+  export type PopupBannerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    content?: boolean
+    imageUrl?: boolean
+    linkUrl?: boolean
+    displayType?: boolean
+    position?: boolean
+    width?: boolean
+    height?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    isActive?: boolean
+    showOnce?: boolean
+    priority?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creator?: boolean | PopupBanner$creatorArgs<ExtArgs>
+  }, ExtArgs["result"]["popupBanner"]>
+
+  export type PopupBannerSelectScalar = {
+    id?: boolean
+    title?: boolean
+    content?: boolean
+    imageUrl?: boolean
+    linkUrl?: boolean
+    displayType?: boolean
+    position?: boolean
+    width?: boolean
+    height?: boolean
+    startDate?: boolean
+    endDate?: boolean
+    isActive?: boolean
+    showOnce?: boolean
+    priority?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PopupBannerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "imageUrl" | "linkUrl" | "displayType" | "position" | "width" | "height" | "startDate" | "endDate" | "isActive" | "showOnce" | "priority" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["popupBanner"]>
+  export type PopupBannerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | PopupBanner$creatorArgs<ExtArgs>
+  }
+  export type PopupBannerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | PopupBanner$creatorArgs<ExtArgs>
+  }
+  export type PopupBannerIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | PopupBanner$creatorArgs<ExtArgs>
+  }
+
+  export type $PopupBannerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PopupBanner"
+    objects: {
+      creator: Prisma.$EmployeePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      /**
+       * 배너 ID (Primary Key)
+       */
+      id: bigint
+      /**
+       * 배너 제목
+       */
+      title: string
+      /**
+       * 배너 내용
+       */
+      content: string | null
+      /**
+       * 이미지 URL
+       */
+      imageUrl: string | null
+      /**
+       * 링크 URL
+       */
+      linkUrl: string | null
+      /**
+       * 표시 유형 (POPUP, MODAL, BANNER 등)
+       */
+      displayType: string
+      /**
+       * 위치 (TOP, CENTER, BOTTOM 등)
+       */
+      position: string | null
+      /**
+       * 너비 (px)
+       */
+      width: number | null
+      /**
+       * 높이 (px)
+       */
+      height: number | null
+      /**
+       * 시작일
+       */
+      startDate: Date
+      /**
+       * 종료일
+       */
+      endDate: Date
+      /**
+       * 활성화 여부
+       */
+      isActive: boolean
+      /**
+       * 하루 동안 보지 않기 옵션
+       */
+      showOnce: boolean
+      /**
+       * 우선순위 (높을수록 먼저 표시)
+       */
+      priority: number
+      /**
+       * 작성자 ID (외래키)
+       */
+      createdBy: bigint | null
+      /**
+       * 생성일시
+       */
+      createdAt: Date
+      /**
+       * 수정일시
+       */
+      updatedAt: Date
+    }, ExtArgs["result"]["popupBanner"]>
+    composites: {}
+  }
+
+  type PopupBannerGetPayload<S extends boolean | null | undefined | PopupBannerDefaultArgs> = $Result.GetResult<Prisma.$PopupBannerPayload, S>
+
+  type PopupBannerCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PopupBannerFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PopupBannerCountAggregateInputType | true
+    }
+
+  export interface PopupBannerDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PopupBanner'], meta: { name: 'PopupBanner' } }
+    /**
+     * Find zero or one PopupBanner that matches the filter.
+     * @param {PopupBannerFindUniqueArgs} args - Arguments to find a PopupBanner
+     * @example
+     * // Get one PopupBanner
+     * const popupBanner = await prisma.popupBanner.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PopupBannerFindUniqueArgs>(args: SelectSubset<T, PopupBannerFindUniqueArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PopupBanner that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PopupBannerFindUniqueOrThrowArgs} args - Arguments to find a PopupBanner
+     * @example
+     * // Get one PopupBanner
+     * const popupBanner = await prisma.popupBanner.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PopupBannerFindUniqueOrThrowArgs>(args: SelectSubset<T, PopupBannerFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PopupBanner that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupBannerFindFirstArgs} args - Arguments to find a PopupBanner
+     * @example
+     * // Get one PopupBanner
+     * const popupBanner = await prisma.popupBanner.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PopupBannerFindFirstArgs>(args?: SelectSubset<T, PopupBannerFindFirstArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PopupBanner that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupBannerFindFirstOrThrowArgs} args - Arguments to find a PopupBanner
+     * @example
+     * // Get one PopupBanner
+     * const popupBanner = await prisma.popupBanner.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PopupBannerFindFirstOrThrowArgs>(args?: SelectSubset<T, PopupBannerFindFirstOrThrowArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PopupBanners that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupBannerFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PopupBanners
+     * const popupBanners = await prisma.popupBanner.findMany()
+     * 
+     * // Get first 10 PopupBanners
+     * const popupBanners = await prisma.popupBanner.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const popupBannerWithIdOnly = await prisma.popupBanner.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PopupBannerFindManyArgs>(args?: SelectSubset<T, PopupBannerFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PopupBanner.
+     * @param {PopupBannerCreateArgs} args - Arguments to create a PopupBanner.
+     * @example
+     * // Create one PopupBanner
+     * const PopupBanner = await prisma.popupBanner.create({
+     *   data: {
+     *     // ... data to create a PopupBanner
+     *   }
+     * })
+     * 
+     */
+    create<T extends PopupBannerCreateArgs>(args: SelectSubset<T, PopupBannerCreateArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PopupBanners.
+     * @param {PopupBannerCreateManyArgs} args - Arguments to create many PopupBanners.
+     * @example
+     * // Create many PopupBanners
+     * const popupBanner = await prisma.popupBanner.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PopupBannerCreateManyArgs>(args?: SelectSubset<T, PopupBannerCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PopupBanners and returns the data saved in the database.
+     * @param {PopupBannerCreateManyAndReturnArgs} args - Arguments to create many PopupBanners.
+     * @example
+     * // Create many PopupBanners
+     * const popupBanner = await prisma.popupBanner.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PopupBanners and only return the `id`
+     * const popupBannerWithIdOnly = await prisma.popupBanner.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PopupBannerCreateManyAndReturnArgs>(args?: SelectSubset<T, PopupBannerCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PopupBanner.
+     * @param {PopupBannerDeleteArgs} args - Arguments to delete one PopupBanner.
+     * @example
+     * // Delete one PopupBanner
+     * const PopupBanner = await prisma.popupBanner.delete({
+     *   where: {
+     *     // ... filter to delete one PopupBanner
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PopupBannerDeleteArgs>(args: SelectSubset<T, PopupBannerDeleteArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PopupBanner.
+     * @param {PopupBannerUpdateArgs} args - Arguments to update one PopupBanner.
+     * @example
+     * // Update one PopupBanner
+     * const popupBanner = await prisma.popupBanner.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PopupBannerUpdateArgs>(args: SelectSubset<T, PopupBannerUpdateArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PopupBanners.
+     * @param {PopupBannerDeleteManyArgs} args - Arguments to filter PopupBanners to delete.
+     * @example
+     * // Delete a few PopupBanners
+     * const { count } = await prisma.popupBanner.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PopupBannerDeleteManyArgs>(args?: SelectSubset<T, PopupBannerDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PopupBanners.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupBannerUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PopupBanners
+     * const popupBanner = await prisma.popupBanner.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PopupBannerUpdateManyArgs>(args: SelectSubset<T, PopupBannerUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PopupBanners and returns the data updated in the database.
+     * @param {PopupBannerUpdateManyAndReturnArgs} args - Arguments to update many PopupBanners.
+     * @example
+     * // Update many PopupBanners
+     * const popupBanner = await prisma.popupBanner.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PopupBanners and only return the `id`
+     * const popupBannerWithIdOnly = await prisma.popupBanner.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PopupBannerUpdateManyAndReturnArgs>(args: SelectSubset<T, PopupBannerUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PopupBanner.
+     * @param {PopupBannerUpsertArgs} args - Arguments to update or create a PopupBanner.
+     * @example
+     * // Update or create a PopupBanner
+     * const popupBanner = await prisma.popupBanner.upsert({
+     *   create: {
+     *     // ... data to create a PopupBanner
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PopupBanner we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PopupBannerUpsertArgs>(args: SelectSubset<T, PopupBannerUpsertArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PopupBanners.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupBannerCountArgs} args - Arguments to filter PopupBanners to count.
+     * @example
+     * // Count the number of PopupBanners
+     * const count = await prisma.popupBanner.count({
+     *   where: {
+     *     // ... the filter for the PopupBanners we want to count
+     *   }
+     * })
+    **/
+    count<T extends PopupBannerCountArgs>(
+      args?: Subset<T, PopupBannerCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PopupBannerCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PopupBanner.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupBannerAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PopupBannerAggregateArgs>(args: Subset<T, PopupBannerAggregateArgs>): Prisma.PrismaPromise<GetPopupBannerAggregateType<T>>
+
+    /**
+     * Group by PopupBanner.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PopupBannerGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PopupBannerGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PopupBannerGroupByArgs['orderBy'] }
+        : { orderBy?: PopupBannerGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PopupBannerGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPopupBannerGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PopupBanner model
+   */
+  readonly fields: PopupBannerFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PopupBanner.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PopupBannerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    creator<T extends PopupBanner$creatorArgs<ExtArgs> = {}>(args?: Subset<T, PopupBanner$creatorArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PopupBanner model
+   */
+  interface PopupBannerFieldRefs {
+    readonly id: FieldRef<"PopupBanner", 'BigInt'>
+    readonly title: FieldRef<"PopupBanner", 'String'>
+    readonly content: FieldRef<"PopupBanner", 'String'>
+    readonly imageUrl: FieldRef<"PopupBanner", 'String'>
+    readonly linkUrl: FieldRef<"PopupBanner", 'String'>
+    readonly displayType: FieldRef<"PopupBanner", 'String'>
+    readonly position: FieldRef<"PopupBanner", 'String'>
+    readonly width: FieldRef<"PopupBanner", 'Int'>
+    readonly height: FieldRef<"PopupBanner", 'Int'>
+    readonly startDate: FieldRef<"PopupBanner", 'DateTime'>
+    readonly endDate: FieldRef<"PopupBanner", 'DateTime'>
+    readonly isActive: FieldRef<"PopupBanner", 'Boolean'>
+    readonly showOnce: FieldRef<"PopupBanner", 'Boolean'>
+    readonly priority: FieldRef<"PopupBanner", 'Int'>
+    readonly createdBy: FieldRef<"PopupBanner", 'BigInt'>
+    readonly createdAt: FieldRef<"PopupBanner", 'DateTime'>
+    readonly updatedAt: FieldRef<"PopupBanner", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PopupBanner findUnique
+   */
+  export type PopupBannerFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupBanner
+     */
+    select?: PopupBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupBanner
+     */
+    omit?: PopupBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PopupBannerInclude<ExtArgs> | null
+    /**
+     * Filter, which PopupBanner to fetch.
+     */
+    where: PopupBannerWhereUniqueInput
+  }
+
+  /**
+   * PopupBanner findUniqueOrThrow
+   */
+  export type PopupBannerFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupBanner
+     */
+    select?: PopupBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupBanner
+     */
+    omit?: PopupBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PopupBannerInclude<ExtArgs> | null
+    /**
+     * Filter, which PopupBanner to fetch.
+     */
+    where: PopupBannerWhereUniqueInput
+  }
+
+  /**
+   * PopupBanner findFirst
+   */
+  export type PopupBannerFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupBanner
+     */
+    select?: PopupBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupBanner
+     */
+    omit?: PopupBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PopupBannerInclude<ExtArgs> | null
+    /**
+     * Filter, which PopupBanner to fetch.
+     */
+    where?: PopupBannerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopupBanners to fetch.
+     */
+    orderBy?: PopupBannerOrderByWithRelationInput | PopupBannerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PopupBanners.
+     */
+    cursor?: PopupBannerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopupBanners from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopupBanners.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PopupBanners.
+     */
+    distinct?: PopupBannerScalarFieldEnum | PopupBannerScalarFieldEnum[]
+  }
+
+  /**
+   * PopupBanner findFirstOrThrow
+   */
+  export type PopupBannerFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupBanner
+     */
+    select?: PopupBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupBanner
+     */
+    omit?: PopupBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PopupBannerInclude<ExtArgs> | null
+    /**
+     * Filter, which PopupBanner to fetch.
+     */
+    where?: PopupBannerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopupBanners to fetch.
+     */
+    orderBy?: PopupBannerOrderByWithRelationInput | PopupBannerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PopupBanners.
+     */
+    cursor?: PopupBannerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopupBanners from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopupBanners.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PopupBanners.
+     */
+    distinct?: PopupBannerScalarFieldEnum | PopupBannerScalarFieldEnum[]
+  }
+
+  /**
+   * PopupBanner findMany
+   */
+  export type PopupBannerFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupBanner
+     */
+    select?: PopupBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupBanner
+     */
+    omit?: PopupBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PopupBannerInclude<ExtArgs> | null
+    /**
+     * Filter, which PopupBanners to fetch.
+     */
+    where?: PopupBannerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PopupBanners to fetch.
+     */
+    orderBy?: PopupBannerOrderByWithRelationInput | PopupBannerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PopupBanners.
+     */
+    cursor?: PopupBannerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PopupBanners from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PopupBanners.
+     */
+    skip?: number
+    distinct?: PopupBannerScalarFieldEnum | PopupBannerScalarFieldEnum[]
+  }
+
+  /**
+   * PopupBanner create
+   */
+  export type PopupBannerCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupBanner
+     */
+    select?: PopupBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupBanner
+     */
+    omit?: PopupBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PopupBannerInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PopupBanner.
+     */
+    data: XOR<PopupBannerCreateInput, PopupBannerUncheckedCreateInput>
+  }
+
+  /**
+   * PopupBanner createMany
+   */
+  export type PopupBannerCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PopupBanners.
+     */
+    data: PopupBannerCreateManyInput | PopupBannerCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PopupBanner createManyAndReturn
+   */
+  export type PopupBannerCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupBanner
+     */
+    select?: PopupBannerSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupBanner
+     */
+    omit?: PopupBannerOmit<ExtArgs> | null
+    /**
+     * The data used to create many PopupBanners.
+     */
+    data: PopupBannerCreateManyInput | PopupBannerCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PopupBannerIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PopupBanner update
+   */
+  export type PopupBannerUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupBanner
+     */
+    select?: PopupBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupBanner
+     */
+    omit?: PopupBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PopupBannerInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PopupBanner.
+     */
+    data: XOR<PopupBannerUpdateInput, PopupBannerUncheckedUpdateInput>
+    /**
+     * Choose, which PopupBanner to update.
+     */
+    where: PopupBannerWhereUniqueInput
+  }
+
+  /**
+   * PopupBanner updateMany
+   */
+  export type PopupBannerUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PopupBanners.
+     */
+    data: XOR<PopupBannerUpdateManyMutationInput, PopupBannerUncheckedUpdateManyInput>
+    /**
+     * Filter which PopupBanners to update
+     */
+    where?: PopupBannerWhereInput
+    /**
+     * Limit how many PopupBanners to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PopupBanner updateManyAndReturn
+   */
+  export type PopupBannerUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupBanner
+     */
+    select?: PopupBannerSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupBanner
+     */
+    omit?: PopupBannerOmit<ExtArgs> | null
+    /**
+     * The data used to update PopupBanners.
+     */
+    data: XOR<PopupBannerUpdateManyMutationInput, PopupBannerUncheckedUpdateManyInput>
+    /**
+     * Filter which PopupBanners to update
+     */
+    where?: PopupBannerWhereInput
+    /**
+     * Limit how many PopupBanners to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PopupBannerIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PopupBanner upsert
+   */
+  export type PopupBannerUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupBanner
+     */
+    select?: PopupBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupBanner
+     */
+    omit?: PopupBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PopupBannerInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PopupBanner to update in case it exists.
+     */
+    where: PopupBannerWhereUniqueInput
+    /**
+     * In case the PopupBanner found by the `where` argument doesn't exist, create a new PopupBanner with this data.
+     */
+    create: XOR<PopupBannerCreateInput, PopupBannerUncheckedCreateInput>
+    /**
+     * In case the PopupBanner was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PopupBannerUpdateInput, PopupBannerUncheckedUpdateInput>
+  }
+
+  /**
+   * PopupBanner delete
+   */
+  export type PopupBannerDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupBanner
+     */
+    select?: PopupBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupBanner
+     */
+    omit?: PopupBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PopupBannerInclude<ExtArgs> | null
+    /**
+     * Filter which PopupBanner to delete.
+     */
+    where: PopupBannerWhereUniqueInput
+  }
+
+  /**
+   * PopupBanner deleteMany
+   */
+  export type PopupBannerDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PopupBanners to delete
+     */
+    where?: PopupBannerWhereInput
+    /**
+     * Limit how many PopupBanners to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PopupBanner.creator
+   */
+  export type PopupBanner$creatorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Employee
+     */
+    select?: EmployeeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Employee
+     */
+    omit?: EmployeeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EmployeeInclude<ExtArgs> | null
+    where?: EmployeeWhereInput
+  }
+
+  /**
+   * PopupBanner without action
+   */
+  export type PopupBannerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PopupBanner
+     */
+    select?: PopupBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PopupBanner
+     */
+    omit?: PopupBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PopupBannerInclude<ExtArgs> | null
   }
 
 
@@ -34935,1340 +38773,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ResidentVitalInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model PopupBanner
-   */
-
-  export type AggregatePopupBanner = {
-    _count: PopupBannerCountAggregateOutputType | null
-    _avg: PopupBannerAvgAggregateOutputType | null
-    _sum: PopupBannerSumAggregateOutputType | null
-    _min: PopupBannerMinAggregateOutputType | null
-    _max: PopupBannerMaxAggregateOutputType | null
-  }
-
-  export type PopupBannerAvgAggregateOutputType = {
-    id: number | null
-    width: number | null
-    height: number | null
-    priority: number | null
-    createdBy: number | null
-  }
-
-  export type PopupBannerSumAggregateOutputType = {
-    id: bigint | null
-    width: number | null
-    height: number | null
-    priority: number | null
-    createdBy: bigint | null
-  }
-
-  export type PopupBannerMinAggregateOutputType = {
-    id: bigint | null
-    title: string | null
-    content: string | null
-    imageUrl: string | null
-    linkUrl: string | null
-    displayType: string | null
-    position: string | null
-    width: number | null
-    height: number | null
-    startDate: Date | null
-    endDate: Date | null
-    isActive: boolean | null
-    showOnce: boolean | null
-    priority: number | null
-    createdBy: bigint | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type PopupBannerMaxAggregateOutputType = {
-    id: bigint | null
-    title: string | null
-    content: string | null
-    imageUrl: string | null
-    linkUrl: string | null
-    displayType: string | null
-    position: string | null
-    width: number | null
-    height: number | null
-    startDate: Date | null
-    endDate: Date | null
-    isActive: boolean | null
-    showOnce: boolean | null
-    priority: number | null
-    createdBy: bigint | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type PopupBannerCountAggregateOutputType = {
-    id: number
-    title: number
-    content: number
-    imageUrl: number
-    linkUrl: number
-    displayType: number
-    position: number
-    width: number
-    height: number
-    startDate: number
-    endDate: number
-    isActive: number
-    showOnce: number
-    priority: number
-    createdBy: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type PopupBannerAvgAggregateInputType = {
-    id?: true
-    width?: true
-    height?: true
-    priority?: true
-    createdBy?: true
-  }
-
-  export type PopupBannerSumAggregateInputType = {
-    id?: true
-    width?: true
-    height?: true
-    priority?: true
-    createdBy?: true
-  }
-
-  export type PopupBannerMinAggregateInputType = {
-    id?: true
-    title?: true
-    content?: true
-    imageUrl?: true
-    linkUrl?: true
-    displayType?: true
-    position?: true
-    width?: true
-    height?: true
-    startDate?: true
-    endDate?: true
-    isActive?: true
-    showOnce?: true
-    priority?: true
-    createdBy?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type PopupBannerMaxAggregateInputType = {
-    id?: true
-    title?: true
-    content?: true
-    imageUrl?: true
-    linkUrl?: true
-    displayType?: true
-    position?: true
-    width?: true
-    height?: true
-    startDate?: true
-    endDate?: true
-    isActive?: true
-    showOnce?: true
-    priority?: true
-    createdBy?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type PopupBannerCountAggregateInputType = {
-    id?: true
-    title?: true
-    content?: true
-    imageUrl?: true
-    linkUrl?: true
-    displayType?: true
-    position?: true
-    width?: true
-    height?: true
-    startDate?: true
-    endDate?: true
-    isActive?: true
-    showOnce?: true
-    priority?: true
-    createdBy?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type PopupBannerAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which PopupBanner to aggregate.
-     */
-    where?: PopupBannerWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of PopupBanners to fetch.
-     */
-    orderBy?: PopupBannerOrderByWithRelationInput | PopupBannerOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: PopupBannerWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` PopupBanners from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` PopupBanners.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned PopupBanners
-    **/
-    _count?: true | PopupBannerCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: PopupBannerAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: PopupBannerSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: PopupBannerMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: PopupBannerMaxAggregateInputType
-  }
-
-  export type GetPopupBannerAggregateType<T extends PopupBannerAggregateArgs> = {
-        [P in keyof T & keyof AggregatePopupBanner]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregatePopupBanner[P]>
-      : GetScalarType<T[P], AggregatePopupBanner[P]>
-  }
-
-
-
-
-  export type PopupBannerGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PopupBannerWhereInput
-    orderBy?: PopupBannerOrderByWithAggregationInput | PopupBannerOrderByWithAggregationInput[]
-    by: PopupBannerScalarFieldEnum[] | PopupBannerScalarFieldEnum
-    having?: PopupBannerScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: PopupBannerCountAggregateInputType | true
-    _avg?: PopupBannerAvgAggregateInputType
-    _sum?: PopupBannerSumAggregateInputType
-    _min?: PopupBannerMinAggregateInputType
-    _max?: PopupBannerMaxAggregateInputType
-  }
-
-  export type PopupBannerGroupByOutputType = {
-    id: bigint
-    title: string
-    content: string | null
-    imageUrl: string | null
-    linkUrl: string | null
-    displayType: string
-    position: string | null
-    width: number | null
-    height: number | null
-    startDate: Date
-    endDate: Date
-    isActive: boolean
-    showOnce: boolean
-    priority: number
-    createdBy: bigint | null
-    createdAt: Date
-    updatedAt: Date
-    _count: PopupBannerCountAggregateOutputType | null
-    _avg: PopupBannerAvgAggregateOutputType | null
-    _sum: PopupBannerSumAggregateOutputType | null
-    _min: PopupBannerMinAggregateOutputType | null
-    _max: PopupBannerMaxAggregateOutputType | null
-  }
-
-  type GetPopupBannerGroupByPayload<T extends PopupBannerGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<PopupBannerGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof PopupBannerGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], PopupBannerGroupByOutputType[P]>
-            : GetScalarType<T[P], PopupBannerGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type PopupBannerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    title?: boolean
-    content?: boolean
-    imageUrl?: boolean
-    linkUrl?: boolean
-    displayType?: boolean
-    position?: boolean
-    width?: boolean
-    height?: boolean
-    startDate?: boolean
-    endDate?: boolean
-    isActive?: boolean
-    showOnce?: boolean
-    priority?: boolean
-    createdBy?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    creator?: boolean | PopupBanner$creatorArgs<ExtArgs>
-  }, ExtArgs["result"]["popupBanner"]>
-
-  export type PopupBannerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    title?: boolean
-    content?: boolean
-    imageUrl?: boolean
-    linkUrl?: boolean
-    displayType?: boolean
-    position?: boolean
-    width?: boolean
-    height?: boolean
-    startDate?: boolean
-    endDate?: boolean
-    isActive?: boolean
-    showOnce?: boolean
-    priority?: boolean
-    createdBy?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    creator?: boolean | PopupBanner$creatorArgs<ExtArgs>
-  }, ExtArgs["result"]["popupBanner"]>
-
-  export type PopupBannerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    title?: boolean
-    content?: boolean
-    imageUrl?: boolean
-    linkUrl?: boolean
-    displayType?: boolean
-    position?: boolean
-    width?: boolean
-    height?: boolean
-    startDate?: boolean
-    endDate?: boolean
-    isActive?: boolean
-    showOnce?: boolean
-    priority?: boolean
-    createdBy?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    creator?: boolean | PopupBanner$creatorArgs<ExtArgs>
-  }, ExtArgs["result"]["popupBanner"]>
-
-  export type PopupBannerSelectScalar = {
-    id?: boolean
-    title?: boolean
-    content?: boolean
-    imageUrl?: boolean
-    linkUrl?: boolean
-    displayType?: boolean
-    position?: boolean
-    width?: boolean
-    height?: boolean
-    startDate?: boolean
-    endDate?: boolean
-    isActive?: boolean
-    showOnce?: boolean
-    priority?: boolean
-    createdBy?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type PopupBannerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "imageUrl" | "linkUrl" | "displayType" | "position" | "width" | "height" | "startDate" | "endDate" | "isActive" | "showOnce" | "priority" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["popupBanner"]>
-  export type PopupBannerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    creator?: boolean | PopupBanner$creatorArgs<ExtArgs>
-  }
-  export type PopupBannerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    creator?: boolean | PopupBanner$creatorArgs<ExtArgs>
-  }
-  export type PopupBannerIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    creator?: boolean | PopupBanner$creatorArgs<ExtArgs>
-  }
-
-  export type $PopupBannerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "PopupBanner"
-    objects: {
-      creator: Prisma.$EmployeePayload<ExtArgs> | null
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      /**
-       * 배너 ID (Primary Key)
-       */
-      id: bigint
-      /**
-       * 배너 제목
-       */
-      title: string
-      /**
-       * 배너 내용
-       */
-      content: string | null
-      /**
-       * 이미지 URL
-       */
-      imageUrl: string | null
-      /**
-       * 링크 URL
-       */
-      linkUrl: string | null
-      /**
-       * 표시 유형 (POPUP, MODAL, BANNER 등)
-       */
-      displayType: string
-      /**
-       * 위치 (TOP, CENTER, BOTTOM 등)
-       */
-      position: string | null
-      /**
-       * 너비 (px)
-       */
-      width: number | null
-      /**
-       * 높이 (px)
-       */
-      height: number | null
-      /**
-       * 시작일
-       */
-      startDate: Date
-      /**
-       * 종료일
-       */
-      endDate: Date
-      /**
-       * 활성화 여부
-       */
-      isActive: boolean
-      /**
-       * 하루 동안 보지 않기 옵션
-       */
-      showOnce: boolean
-      /**
-       * 우선순위 (높을수록 먼저 표시)
-       */
-      priority: number
-      /**
-       * 작성자 ID (외래키)
-       */
-      createdBy: bigint | null
-      /**
-       * 생성일시
-       */
-      createdAt: Date
-      /**
-       * 수정일시
-       */
-      updatedAt: Date
-    }, ExtArgs["result"]["popupBanner"]>
-    composites: {}
-  }
-
-  type PopupBannerGetPayload<S extends boolean | null | undefined | PopupBannerDefaultArgs> = $Result.GetResult<Prisma.$PopupBannerPayload, S>
-
-  type PopupBannerCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<PopupBannerFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: PopupBannerCountAggregateInputType | true
-    }
-
-  export interface PopupBannerDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PopupBanner'], meta: { name: 'PopupBanner' } }
-    /**
-     * Find zero or one PopupBanner that matches the filter.
-     * @param {PopupBannerFindUniqueArgs} args - Arguments to find a PopupBanner
-     * @example
-     * // Get one PopupBanner
-     * const popupBanner = await prisma.popupBanner.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends PopupBannerFindUniqueArgs>(args: SelectSubset<T, PopupBannerFindUniqueArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one PopupBanner that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {PopupBannerFindUniqueOrThrowArgs} args - Arguments to find a PopupBanner
-     * @example
-     * // Get one PopupBanner
-     * const popupBanner = await prisma.popupBanner.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends PopupBannerFindUniqueOrThrowArgs>(args: SelectSubset<T, PopupBannerFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first PopupBanner that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PopupBannerFindFirstArgs} args - Arguments to find a PopupBanner
-     * @example
-     * // Get one PopupBanner
-     * const popupBanner = await prisma.popupBanner.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends PopupBannerFindFirstArgs>(args?: SelectSubset<T, PopupBannerFindFirstArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first PopupBanner that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PopupBannerFindFirstOrThrowArgs} args - Arguments to find a PopupBanner
-     * @example
-     * // Get one PopupBanner
-     * const popupBanner = await prisma.popupBanner.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends PopupBannerFindFirstOrThrowArgs>(args?: SelectSubset<T, PopupBannerFindFirstOrThrowArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more PopupBanners that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PopupBannerFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all PopupBanners
-     * const popupBanners = await prisma.popupBanner.findMany()
-     * 
-     * // Get first 10 PopupBanners
-     * const popupBanners = await prisma.popupBanner.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const popupBannerWithIdOnly = await prisma.popupBanner.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends PopupBannerFindManyArgs>(args?: SelectSubset<T, PopupBannerFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a PopupBanner.
-     * @param {PopupBannerCreateArgs} args - Arguments to create a PopupBanner.
-     * @example
-     * // Create one PopupBanner
-     * const PopupBanner = await prisma.popupBanner.create({
-     *   data: {
-     *     // ... data to create a PopupBanner
-     *   }
-     * })
-     * 
-     */
-    create<T extends PopupBannerCreateArgs>(args: SelectSubset<T, PopupBannerCreateArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many PopupBanners.
-     * @param {PopupBannerCreateManyArgs} args - Arguments to create many PopupBanners.
-     * @example
-     * // Create many PopupBanners
-     * const popupBanner = await prisma.popupBanner.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends PopupBannerCreateManyArgs>(args?: SelectSubset<T, PopupBannerCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many PopupBanners and returns the data saved in the database.
-     * @param {PopupBannerCreateManyAndReturnArgs} args - Arguments to create many PopupBanners.
-     * @example
-     * // Create many PopupBanners
-     * const popupBanner = await prisma.popupBanner.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many PopupBanners and only return the `id`
-     * const popupBannerWithIdOnly = await prisma.popupBanner.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends PopupBannerCreateManyAndReturnArgs>(args?: SelectSubset<T, PopupBannerCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a PopupBanner.
-     * @param {PopupBannerDeleteArgs} args - Arguments to delete one PopupBanner.
-     * @example
-     * // Delete one PopupBanner
-     * const PopupBanner = await prisma.popupBanner.delete({
-     *   where: {
-     *     // ... filter to delete one PopupBanner
-     *   }
-     * })
-     * 
-     */
-    delete<T extends PopupBannerDeleteArgs>(args: SelectSubset<T, PopupBannerDeleteArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one PopupBanner.
-     * @param {PopupBannerUpdateArgs} args - Arguments to update one PopupBanner.
-     * @example
-     * // Update one PopupBanner
-     * const popupBanner = await prisma.popupBanner.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends PopupBannerUpdateArgs>(args: SelectSubset<T, PopupBannerUpdateArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more PopupBanners.
-     * @param {PopupBannerDeleteManyArgs} args - Arguments to filter PopupBanners to delete.
-     * @example
-     * // Delete a few PopupBanners
-     * const { count } = await prisma.popupBanner.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends PopupBannerDeleteManyArgs>(args?: SelectSubset<T, PopupBannerDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more PopupBanners.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PopupBannerUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many PopupBanners
-     * const popupBanner = await prisma.popupBanner.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends PopupBannerUpdateManyArgs>(args: SelectSubset<T, PopupBannerUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more PopupBanners and returns the data updated in the database.
-     * @param {PopupBannerUpdateManyAndReturnArgs} args - Arguments to update many PopupBanners.
-     * @example
-     * // Update many PopupBanners
-     * const popupBanner = await prisma.popupBanner.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more PopupBanners and only return the `id`
-     * const popupBannerWithIdOnly = await prisma.popupBanner.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends PopupBannerUpdateManyAndReturnArgs>(args: SelectSubset<T, PopupBannerUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one PopupBanner.
-     * @param {PopupBannerUpsertArgs} args - Arguments to update or create a PopupBanner.
-     * @example
-     * // Update or create a PopupBanner
-     * const popupBanner = await prisma.popupBanner.upsert({
-     *   create: {
-     *     // ... data to create a PopupBanner
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the PopupBanner we want to update
-     *   }
-     * })
-     */
-    upsert<T extends PopupBannerUpsertArgs>(args: SelectSubset<T, PopupBannerUpsertArgs<ExtArgs>>): Prisma__PopupBannerClient<$Result.GetResult<Prisma.$PopupBannerPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of PopupBanners.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PopupBannerCountArgs} args - Arguments to filter PopupBanners to count.
-     * @example
-     * // Count the number of PopupBanners
-     * const count = await prisma.popupBanner.count({
-     *   where: {
-     *     // ... the filter for the PopupBanners we want to count
-     *   }
-     * })
-    **/
-    count<T extends PopupBannerCountArgs>(
-      args?: Subset<T, PopupBannerCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], PopupBannerCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a PopupBanner.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PopupBannerAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends PopupBannerAggregateArgs>(args: Subset<T, PopupBannerAggregateArgs>): Prisma.PrismaPromise<GetPopupBannerAggregateType<T>>
-
-    /**
-     * Group by PopupBanner.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {PopupBannerGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends PopupBannerGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: PopupBannerGroupByArgs['orderBy'] }
-        : { orderBy?: PopupBannerGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, PopupBannerGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPopupBannerGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the PopupBanner model
-   */
-  readonly fields: PopupBannerFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for PopupBanner.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__PopupBannerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    creator<T extends PopupBanner$creatorArgs<ExtArgs> = {}>(args?: Subset<T, PopupBanner$creatorArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the PopupBanner model
-   */
-  interface PopupBannerFieldRefs {
-    readonly id: FieldRef<"PopupBanner", 'BigInt'>
-    readonly title: FieldRef<"PopupBanner", 'String'>
-    readonly content: FieldRef<"PopupBanner", 'String'>
-    readonly imageUrl: FieldRef<"PopupBanner", 'String'>
-    readonly linkUrl: FieldRef<"PopupBanner", 'String'>
-    readonly displayType: FieldRef<"PopupBanner", 'String'>
-    readonly position: FieldRef<"PopupBanner", 'String'>
-    readonly width: FieldRef<"PopupBanner", 'Int'>
-    readonly height: FieldRef<"PopupBanner", 'Int'>
-    readonly startDate: FieldRef<"PopupBanner", 'DateTime'>
-    readonly endDate: FieldRef<"PopupBanner", 'DateTime'>
-    readonly isActive: FieldRef<"PopupBanner", 'Boolean'>
-    readonly showOnce: FieldRef<"PopupBanner", 'Boolean'>
-    readonly priority: FieldRef<"PopupBanner", 'Int'>
-    readonly createdBy: FieldRef<"PopupBanner", 'BigInt'>
-    readonly createdAt: FieldRef<"PopupBanner", 'DateTime'>
-    readonly updatedAt: FieldRef<"PopupBanner", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * PopupBanner findUnique
-   */
-  export type PopupBannerFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PopupBanner
-     */
-    select?: PopupBannerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PopupBanner
-     */
-    omit?: PopupBannerOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PopupBannerInclude<ExtArgs> | null
-    /**
-     * Filter, which PopupBanner to fetch.
-     */
-    where: PopupBannerWhereUniqueInput
-  }
-
-  /**
-   * PopupBanner findUniqueOrThrow
-   */
-  export type PopupBannerFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PopupBanner
-     */
-    select?: PopupBannerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PopupBanner
-     */
-    omit?: PopupBannerOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PopupBannerInclude<ExtArgs> | null
-    /**
-     * Filter, which PopupBanner to fetch.
-     */
-    where: PopupBannerWhereUniqueInput
-  }
-
-  /**
-   * PopupBanner findFirst
-   */
-  export type PopupBannerFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PopupBanner
-     */
-    select?: PopupBannerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PopupBanner
-     */
-    omit?: PopupBannerOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PopupBannerInclude<ExtArgs> | null
-    /**
-     * Filter, which PopupBanner to fetch.
-     */
-    where?: PopupBannerWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of PopupBanners to fetch.
-     */
-    orderBy?: PopupBannerOrderByWithRelationInput | PopupBannerOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for PopupBanners.
-     */
-    cursor?: PopupBannerWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` PopupBanners from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` PopupBanners.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of PopupBanners.
-     */
-    distinct?: PopupBannerScalarFieldEnum | PopupBannerScalarFieldEnum[]
-  }
-
-  /**
-   * PopupBanner findFirstOrThrow
-   */
-  export type PopupBannerFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PopupBanner
-     */
-    select?: PopupBannerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PopupBanner
-     */
-    omit?: PopupBannerOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PopupBannerInclude<ExtArgs> | null
-    /**
-     * Filter, which PopupBanner to fetch.
-     */
-    where?: PopupBannerWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of PopupBanners to fetch.
-     */
-    orderBy?: PopupBannerOrderByWithRelationInput | PopupBannerOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for PopupBanners.
-     */
-    cursor?: PopupBannerWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` PopupBanners from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` PopupBanners.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of PopupBanners.
-     */
-    distinct?: PopupBannerScalarFieldEnum | PopupBannerScalarFieldEnum[]
-  }
-
-  /**
-   * PopupBanner findMany
-   */
-  export type PopupBannerFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PopupBanner
-     */
-    select?: PopupBannerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PopupBanner
-     */
-    omit?: PopupBannerOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PopupBannerInclude<ExtArgs> | null
-    /**
-     * Filter, which PopupBanners to fetch.
-     */
-    where?: PopupBannerWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of PopupBanners to fetch.
-     */
-    orderBy?: PopupBannerOrderByWithRelationInput | PopupBannerOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing PopupBanners.
-     */
-    cursor?: PopupBannerWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` PopupBanners from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` PopupBanners.
-     */
-    skip?: number
-    distinct?: PopupBannerScalarFieldEnum | PopupBannerScalarFieldEnum[]
-  }
-
-  /**
-   * PopupBanner create
-   */
-  export type PopupBannerCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PopupBanner
-     */
-    select?: PopupBannerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PopupBanner
-     */
-    omit?: PopupBannerOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PopupBannerInclude<ExtArgs> | null
-    /**
-     * The data needed to create a PopupBanner.
-     */
-    data: XOR<PopupBannerCreateInput, PopupBannerUncheckedCreateInput>
-  }
-
-  /**
-   * PopupBanner createMany
-   */
-  export type PopupBannerCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many PopupBanners.
-     */
-    data: PopupBannerCreateManyInput | PopupBannerCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * PopupBanner createManyAndReturn
-   */
-  export type PopupBannerCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PopupBanner
-     */
-    select?: PopupBannerSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the PopupBanner
-     */
-    omit?: PopupBannerOmit<ExtArgs> | null
-    /**
-     * The data used to create many PopupBanners.
-     */
-    data: PopupBannerCreateManyInput | PopupBannerCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PopupBannerIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * PopupBanner update
-   */
-  export type PopupBannerUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PopupBanner
-     */
-    select?: PopupBannerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PopupBanner
-     */
-    omit?: PopupBannerOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PopupBannerInclude<ExtArgs> | null
-    /**
-     * The data needed to update a PopupBanner.
-     */
-    data: XOR<PopupBannerUpdateInput, PopupBannerUncheckedUpdateInput>
-    /**
-     * Choose, which PopupBanner to update.
-     */
-    where: PopupBannerWhereUniqueInput
-  }
-
-  /**
-   * PopupBanner updateMany
-   */
-  export type PopupBannerUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update PopupBanners.
-     */
-    data: XOR<PopupBannerUpdateManyMutationInput, PopupBannerUncheckedUpdateManyInput>
-    /**
-     * Filter which PopupBanners to update
-     */
-    where?: PopupBannerWhereInput
-    /**
-     * Limit how many PopupBanners to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * PopupBanner updateManyAndReturn
-   */
-  export type PopupBannerUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PopupBanner
-     */
-    select?: PopupBannerSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the PopupBanner
-     */
-    omit?: PopupBannerOmit<ExtArgs> | null
-    /**
-     * The data used to update PopupBanners.
-     */
-    data: XOR<PopupBannerUpdateManyMutationInput, PopupBannerUncheckedUpdateManyInput>
-    /**
-     * Filter which PopupBanners to update
-     */
-    where?: PopupBannerWhereInput
-    /**
-     * Limit how many PopupBanners to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PopupBannerIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * PopupBanner upsert
-   */
-  export type PopupBannerUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PopupBanner
-     */
-    select?: PopupBannerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PopupBanner
-     */
-    omit?: PopupBannerOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PopupBannerInclude<ExtArgs> | null
-    /**
-     * The filter to search for the PopupBanner to update in case it exists.
-     */
-    where: PopupBannerWhereUniqueInput
-    /**
-     * In case the PopupBanner found by the `where` argument doesn't exist, create a new PopupBanner with this data.
-     */
-    create: XOR<PopupBannerCreateInput, PopupBannerUncheckedCreateInput>
-    /**
-     * In case the PopupBanner was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<PopupBannerUpdateInput, PopupBannerUncheckedUpdateInput>
-  }
-
-  /**
-   * PopupBanner delete
-   */
-  export type PopupBannerDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PopupBanner
-     */
-    select?: PopupBannerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PopupBanner
-     */
-    omit?: PopupBannerOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PopupBannerInclude<ExtArgs> | null
-    /**
-     * Filter which PopupBanner to delete.
-     */
-    where: PopupBannerWhereUniqueInput
-  }
-
-  /**
-   * PopupBanner deleteMany
-   */
-  export type PopupBannerDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which PopupBanners to delete
-     */
-    where?: PopupBannerWhereInput
-    /**
-     * Limit how many PopupBanners to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * PopupBanner.creator
-   */
-  export type PopupBanner$creatorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Employee
-     */
-    select?: EmployeeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Employee
-     */
-    omit?: EmployeeOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmployeeInclude<ExtArgs> | null
-    where?: EmployeeWhereInput
-  }
-
-  /**
-   * PopupBanner without action
-   */
-  export type PopupBannerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PopupBanner
-     */
-    select?: PopupBannerSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PopupBanner
-     */
-    omit?: PopupBannerOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PopupBannerInclude<ExtArgs> | null
   }
 
 
@@ -84963,2468 +87467,6 @@ export namespace Prisma {
 
 
   /**
-   * Model VisitReservation
-   */
-
-  export type AggregateVisitReservation = {
-    _count: VisitReservationCountAggregateOutputType | null
-    _avg: VisitReservationAvgAggregateOutputType | null
-    _sum: VisitReservationSumAggregateOutputType | null
-    _min: VisitReservationMinAggregateOutputType | null
-    _max: VisitReservationMaxAggregateOutputType | null
-  }
-
-  export type VisitReservationAvgAggregateOutputType = {
-    id: number | null
-    visitorCount: number | null
-  }
-
-  export type VisitReservationSumAggregateOutputType = {
-    id: bigint | null
-    visitorCount: number | null
-  }
-
-  export type VisitReservationMinAggregateOutputType = {
-    id: bigint | null
-    visitorName: string | null
-    visitorPhone: string | null
-    visitorRelationship: string | null
-    residentName: string | null
-    visitDate: Date | null
-    visitTime: string | null
-    visitorCount: number | null
-    visitPurpose: string | null
-    healthCheckSymptoms: boolean | null
-    healthCheckAssistance: boolean | null
-    notes: string | null
-    isConsented: boolean | null
-    status: string | null
-    ipAddress: string | null
-    userAgent: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type VisitReservationMaxAggregateOutputType = {
-    id: bigint | null
-    visitorName: string | null
-    visitorPhone: string | null
-    visitorRelationship: string | null
-    residentName: string | null
-    visitDate: Date | null
-    visitTime: string | null
-    visitorCount: number | null
-    visitPurpose: string | null
-    healthCheckSymptoms: boolean | null
-    healthCheckAssistance: boolean | null
-    notes: string | null
-    isConsented: boolean | null
-    status: string | null
-    ipAddress: string | null
-    userAgent: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type VisitReservationCountAggregateOutputType = {
-    id: number
-    visitorName: number
-    visitorPhone: number
-    visitorRelationship: number
-    residentName: number
-    visitDate: number
-    visitTime: number
-    visitorCount: number
-    visitPurpose: number
-    healthCheckSymptoms: number
-    healthCheckAssistance: number
-    notes: number
-    isConsented: number
-    status: number
-    ipAddress: number
-    userAgent: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type VisitReservationAvgAggregateInputType = {
-    id?: true
-    visitorCount?: true
-  }
-
-  export type VisitReservationSumAggregateInputType = {
-    id?: true
-    visitorCount?: true
-  }
-
-  export type VisitReservationMinAggregateInputType = {
-    id?: true
-    visitorName?: true
-    visitorPhone?: true
-    visitorRelationship?: true
-    residentName?: true
-    visitDate?: true
-    visitTime?: true
-    visitorCount?: true
-    visitPurpose?: true
-    healthCheckSymptoms?: true
-    healthCheckAssistance?: true
-    notes?: true
-    isConsented?: true
-    status?: true
-    ipAddress?: true
-    userAgent?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type VisitReservationMaxAggregateInputType = {
-    id?: true
-    visitorName?: true
-    visitorPhone?: true
-    visitorRelationship?: true
-    residentName?: true
-    visitDate?: true
-    visitTime?: true
-    visitorCount?: true
-    visitPurpose?: true
-    healthCheckSymptoms?: true
-    healthCheckAssistance?: true
-    notes?: true
-    isConsented?: true
-    status?: true
-    ipAddress?: true
-    userAgent?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type VisitReservationCountAggregateInputType = {
-    id?: true
-    visitorName?: true
-    visitorPhone?: true
-    visitorRelationship?: true
-    residentName?: true
-    visitDate?: true
-    visitTime?: true
-    visitorCount?: true
-    visitPurpose?: true
-    healthCheckSymptoms?: true
-    healthCheckAssistance?: true
-    notes?: true
-    isConsented?: true
-    status?: true
-    ipAddress?: true
-    userAgent?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type VisitReservationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which VisitReservation to aggregate.
-     */
-    where?: VisitReservationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of VisitReservations to fetch.
-     */
-    orderBy?: VisitReservationOrderByWithRelationInput | VisitReservationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: VisitReservationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` VisitReservations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` VisitReservations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned VisitReservations
-    **/
-    _count?: true | VisitReservationCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: VisitReservationAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: VisitReservationSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: VisitReservationMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: VisitReservationMaxAggregateInputType
-  }
-
-  export type GetVisitReservationAggregateType<T extends VisitReservationAggregateArgs> = {
-        [P in keyof T & keyof AggregateVisitReservation]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateVisitReservation[P]>
-      : GetScalarType<T[P], AggregateVisitReservation[P]>
-  }
-
-
-
-
-  export type VisitReservationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: VisitReservationWhereInput
-    orderBy?: VisitReservationOrderByWithAggregationInput | VisitReservationOrderByWithAggregationInput[]
-    by: VisitReservationScalarFieldEnum[] | VisitReservationScalarFieldEnum
-    having?: VisitReservationScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: VisitReservationCountAggregateInputType | true
-    _avg?: VisitReservationAvgAggregateInputType
-    _sum?: VisitReservationSumAggregateInputType
-    _min?: VisitReservationMinAggregateInputType
-    _max?: VisitReservationMaxAggregateInputType
-  }
-
-  export type VisitReservationGroupByOutputType = {
-    id: bigint
-    visitorName: string
-    visitorPhone: string
-    visitorRelationship: string
-    residentName: string
-    visitDate: Date
-    visitTime: string
-    visitorCount: number
-    visitPurpose: string | null
-    healthCheckSymptoms: boolean
-    healthCheckAssistance: boolean
-    notes: string | null
-    isConsented: boolean
-    status: string
-    ipAddress: string | null
-    userAgent: string | null
-    createdAt: Date
-    updatedAt: Date
-    _count: VisitReservationCountAggregateOutputType | null
-    _avg: VisitReservationAvgAggregateOutputType | null
-    _sum: VisitReservationSumAggregateOutputType | null
-    _min: VisitReservationMinAggregateOutputType | null
-    _max: VisitReservationMaxAggregateOutputType | null
-  }
-
-  type GetVisitReservationGroupByPayload<T extends VisitReservationGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<VisitReservationGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof VisitReservationGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], VisitReservationGroupByOutputType[P]>
-            : GetScalarType<T[P], VisitReservationGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type VisitReservationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    visitorName?: boolean
-    visitorPhone?: boolean
-    visitorRelationship?: boolean
-    residentName?: boolean
-    visitDate?: boolean
-    visitTime?: boolean
-    visitorCount?: boolean
-    visitPurpose?: boolean
-    healthCheckSymptoms?: boolean
-    healthCheckAssistance?: boolean
-    notes?: boolean
-    isConsented?: boolean
-    status?: boolean
-    ipAddress?: boolean
-    userAgent?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["visitReservation"]>
-
-  export type VisitReservationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    visitorName?: boolean
-    visitorPhone?: boolean
-    visitorRelationship?: boolean
-    residentName?: boolean
-    visitDate?: boolean
-    visitTime?: boolean
-    visitorCount?: boolean
-    visitPurpose?: boolean
-    healthCheckSymptoms?: boolean
-    healthCheckAssistance?: boolean
-    notes?: boolean
-    isConsented?: boolean
-    status?: boolean
-    ipAddress?: boolean
-    userAgent?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["visitReservation"]>
-
-  export type VisitReservationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    visitorName?: boolean
-    visitorPhone?: boolean
-    visitorRelationship?: boolean
-    residentName?: boolean
-    visitDate?: boolean
-    visitTime?: boolean
-    visitorCount?: boolean
-    visitPurpose?: boolean
-    healthCheckSymptoms?: boolean
-    healthCheckAssistance?: boolean
-    notes?: boolean
-    isConsented?: boolean
-    status?: boolean
-    ipAddress?: boolean
-    userAgent?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["visitReservation"]>
-
-  export type VisitReservationSelectScalar = {
-    id?: boolean
-    visitorName?: boolean
-    visitorPhone?: boolean
-    visitorRelationship?: boolean
-    residentName?: boolean
-    visitDate?: boolean
-    visitTime?: boolean
-    visitorCount?: boolean
-    visitPurpose?: boolean
-    healthCheckSymptoms?: boolean
-    healthCheckAssistance?: boolean
-    notes?: boolean
-    isConsented?: boolean
-    status?: boolean
-    ipAddress?: boolean
-    userAgent?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type VisitReservationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "visitorName" | "visitorPhone" | "visitorRelationship" | "residentName" | "visitDate" | "visitTime" | "visitorCount" | "visitPurpose" | "healthCheckSymptoms" | "healthCheckAssistance" | "notes" | "isConsented" | "status" | "ipAddress" | "userAgent" | "createdAt" | "updatedAt", ExtArgs["result"]["visitReservation"]>
-
-  export type $VisitReservationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "VisitReservation"
-    objects: {}
-    scalars: $Extensions.GetPayloadResult<{
-      /**
-       * 예약 ID (Primary Key)
-       */
-      id: bigint
-      /**
-       * 방문자 성함
-       */
-      visitorName: string
-      /**
-       * 방문자 연락처
-       */
-      visitorPhone: string
-      /**
-       * 어르신과의 관계
-       */
-      visitorRelationship: string
-      /**
-       * 어르신 성함
-       */
-      residentName: string
-      /**
-       * 방문 희망일
-       */
-      visitDate: Date
-      /**
-       * 방문 희망시간
-       */
-      visitTime: string
-      /**
-       * 방문 인원
-       */
-      visitorCount: number
-      /**
-       * 방문 목적
-       */
-      visitPurpose: string | null
-      /**
-       * 감염 증상 여부 (발열, 기침 등)
-       */
-      healthCheckSymptoms: boolean
-      /**
-       * 이동 보조 필요 여부
-       */
-      healthCheckAssistance: boolean
-      /**
-       * 추가 요청사항
-       */
-      notes: string | null
-      /**
-       * 개인정보 수집 동의 여부
-       */
-      isConsented: boolean
-      /**
-       * 처리 상태 (PENDING, APPROVED, REJECTED, CANCELLED)
-       */
-      status: string
-      /**
-       * 신청 IP 주소
-       */
-      ipAddress: string | null
-      /**
-       * 사용자 브라우저 정보
-       */
-      userAgent: string | null
-      /**
-       * 신청 시각
-       */
-      createdAt: Date
-      /**
-       * 수정 시각
-       */
-      updatedAt: Date
-    }, ExtArgs["result"]["visitReservation"]>
-    composites: {}
-  }
-
-  type VisitReservationGetPayload<S extends boolean | null | undefined | VisitReservationDefaultArgs> = $Result.GetResult<Prisma.$VisitReservationPayload, S>
-
-  type VisitReservationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<VisitReservationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: VisitReservationCountAggregateInputType | true
-    }
-
-  export interface VisitReservationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VisitReservation'], meta: { name: 'VisitReservation' } }
-    /**
-     * Find zero or one VisitReservation that matches the filter.
-     * @param {VisitReservationFindUniqueArgs} args - Arguments to find a VisitReservation
-     * @example
-     * // Get one VisitReservation
-     * const visitReservation = await prisma.visitReservation.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends VisitReservationFindUniqueArgs>(args: SelectSubset<T, VisitReservationFindUniqueArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one VisitReservation that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {VisitReservationFindUniqueOrThrowArgs} args - Arguments to find a VisitReservation
-     * @example
-     * // Get one VisitReservation
-     * const visitReservation = await prisma.visitReservation.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends VisitReservationFindUniqueOrThrowArgs>(args: SelectSubset<T, VisitReservationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first VisitReservation that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {VisitReservationFindFirstArgs} args - Arguments to find a VisitReservation
-     * @example
-     * // Get one VisitReservation
-     * const visitReservation = await prisma.visitReservation.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends VisitReservationFindFirstArgs>(args?: SelectSubset<T, VisitReservationFindFirstArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first VisitReservation that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {VisitReservationFindFirstOrThrowArgs} args - Arguments to find a VisitReservation
-     * @example
-     * // Get one VisitReservation
-     * const visitReservation = await prisma.visitReservation.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends VisitReservationFindFirstOrThrowArgs>(args?: SelectSubset<T, VisitReservationFindFirstOrThrowArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more VisitReservations that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {VisitReservationFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all VisitReservations
-     * const visitReservations = await prisma.visitReservation.findMany()
-     * 
-     * // Get first 10 VisitReservations
-     * const visitReservations = await prisma.visitReservation.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const visitReservationWithIdOnly = await prisma.visitReservation.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends VisitReservationFindManyArgs>(args?: SelectSubset<T, VisitReservationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a VisitReservation.
-     * @param {VisitReservationCreateArgs} args - Arguments to create a VisitReservation.
-     * @example
-     * // Create one VisitReservation
-     * const VisitReservation = await prisma.visitReservation.create({
-     *   data: {
-     *     // ... data to create a VisitReservation
-     *   }
-     * })
-     * 
-     */
-    create<T extends VisitReservationCreateArgs>(args: SelectSubset<T, VisitReservationCreateArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many VisitReservations.
-     * @param {VisitReservationCreateManyArgs} args - Arguments to create many VisitReservations.
-     * @example
-     * // Create many VisitReservations
-     * const visitReservation = await prisma.visitReservation.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends VisitReservationCreateManyArgs>(args?: SelectSubset<T, VisitReservationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many VisitReservations and returns the data saved in the database.
-     * @param {VisitReservationCreateManyAndReturnArgs} args - Arguments to create many VisitReservations.
-     * @example
-     * // Create many VisitReservations
-     * const visitReservation = await prisma.visitReservation.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many VisitReservations and only return the `id`
-     * const visitReservationWithIdOnly = await prisma.visitReservation.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends VisitReservationCreateManyAndReturnArgs>(args?: SelectSubset<T, VisitReservationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a VisitReservation.
-     * @param {VisitReservationDeleteArgs} args - Arguments to delete one VisitReservation.
-     * @example
-     * // Delete one VisitReservation
-     * const VisitReservation = await prisma.visitReservation.delete({
-     *   where: {
-     *     // ... filter to delete one VisitReservation
-     *   }
-     * })
-     * 
-     */
-    delete<T extends VisitReservationDeleteArgs>(args: SelectSubset<T, VisitReservationDeleteArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one VisitReservation.
-     * @param {VisitReservationUpdateArgs} args - Arguments to update one VisitReservation.
-     * @example
-     * // Update one VisitReservation
-     * const visitReservation = await prisma.visitReservation.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends VisitReservationUpdateArgs>(args: SelectSubset<T, VisitReservationUpdateArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more VisitReservations.
-     * @param {VisitReservationDeleteManyArgs} args - Arguments to filter VisitReservations to delete.
-     * @example
-     * // Delete a few VisitReservations
-     * const { count } = await prisma.visitReservation.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends VisitReservationDeleteManyArgs>(args?: SelectSubset<T, VisitReservationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more VisitReservations.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {VisitReservationUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many VisitReservations
-     * const visitReservation = await prisma.visitReservation.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends VisitReservationUpdateManyArgs>(args: SelectSubset<T, VisitReservationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more VisitReservations and returns the data updated in the database.
-     * @param {VisitReservationUpdateManyAndReturnArgs} args - Arguments to update many VisitReservations.
-     * @example
-     * // Update many VisitReservations
-     * const visitReservation = await prisma.visitReservation.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more VisitReservations and only return the `id`
-     * const visitReservationWithIdOnly = await prisma.visitReservation.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends VisitReservationUpdateManyAndReturnArgs>(args: SelectSubset<T, VisitReservationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one VisitReservation.
-     * @param {VisitReservationUpsertArgs} args - Arguments to update or create a VisitReservation.
-     * @example
-     * // Update or create a VisitReservation
-     * const visitReservation = await prisma.visitReservation.upsert({
-     *   create: {
-     *     // ... data to create a VisitReservation
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the VisitReservation we want to update
-     *   }
-     * })
-     */
-    upsert<T extends VisitReservationUpsertArgs>(args: SelectSubset<T, VisitReservationUpsertArgs<ExtArgs>>): Prisma__VisitReservationClient<$Result.GetResult<Prisma.$VisitReservationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of VisitReservations.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {VisitReservationCountArgs} args - Arguments to filter VisitReservations to count.
-     * @example
-     * // Count the number of VisitReservations
-     * const count = await prisma.visitReservation.count({
-     *   where: {
-     *     // ... the filter for the VisitReservations we want to count
-     *   }
-     * })
-    **/
-    count<T extends VisitReservationCountArgs>(
-      args?: Subset<T, VisitReservationCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], VisitReservationCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a VisitReservation.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {VisitReservationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends VisitReservationAggregateArgs>(args: Subset<T, VisitReservationAggregateArgs>): Prisma.PrismaPromise<GetVisitReservationAggregateType<T>>
-
-    /**
-     * Group by VisitReservation.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {VisitReservationGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends VisitReservationGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: VisitReservationGroupByArgs['orderBy'] }
-        : { orderBy?: VisitReservationGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, VisitReservationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVisitReservationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the VisitReservation model
-   */
-  readonly fields: VisitReservationFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for VisitReservation.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__VisitReservationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the VisitReservation model
-   */
-  interface VisitReservationFieldRefs {
-    readonly id: FieldRef<"VisitReservation", 'BigInt'>
-    readonly visitorName: FieldRef<"VisitReservation", 'String'>
-    readonly visitorPhone: FieldRef<"VisitReservation", 'String'>
-    readonly visitorRelationship: FieldRef<"VisitReservation", 'String'>
-    readonly residentName: FieldRef<"VisitReservation", 'String'>
-    readonly visitDate: FieldRef<"VisitReservation", 'DateTime'>
-    readonly visitTime: FieldRef<"VisitReservation", 'String'>
-    readonly visitorCount: FieldRef<"VisitReservation", 'Int'>
-    readonly visitPurpose: FieldRef<"VisitReservation", 'String'>
-    readonly healthCheckSymptoms: FieldRef<"VisitReservation", 'Boolean'>
-    readonly healthCheckAssistance: FieldRef<"VisitReservation", 'Boolean'>
-    readonly notes: FieldRef<"VisitReservation", 'String'>
-    readonly isConsented: FieldRef<"VisitReservation", 'Boolean'>
-    readonly status: FieldRef<"VisitReservation", 'String'>
-    readonly ipAddress: FieldRef<"VisitReservation", 'String'>
-    readonly userAgent: FieldRef<"VisitReservation", 'String'>
-    readonly createdAt: FieldRef<"VisitReservation", 'DateTime'>
-    readonly updatedAt: FieldRef<"VisitReservation", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * VisitReservation findUnique
-   */
-  export type VisitReservationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the VisitReservation
-     */
-    select?: VisitReservationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the VisitReservation
-     */
-    omit?: VisitReservationOmit<ExtArgs> | null
-    /**
-     * Filter, which VisitReservation to fetch.
-     */
-    where: VisitReservationWhereUniqueInput
-  }
-
-  /**
-   * VisitReservation findUniqueOrThrow
-   */
-  export type VisitReservationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the VisitReservation
-     */
-    select?: VisitReservationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the VisitReservation
-     */
-    omit?: VisitReservationOmit<ExtArgs> | null
-    /**
-     * Filter, which VisitReservation to fetch.
-     */
-    where: VisitReservationWhereUniqueInput
-  }
-
-  /**
-   * VisitReservation findFirst
-   */
-  export type VisitReservationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the VisitReservation
-     */
-    select?: VisitReservationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the VisitReservation
-     */
-    omit?: VisitReservationOmit<ExtArgs> | null
-    /**
-     * Filter, which VisitReservation to fetch.
-     */
-    where?: VisitReservationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of VisitReservations to fetch.
-     */
-    orderBy?: VisitReservationOrderByWithRelationInput | VisitReservationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for VisitReservations.
-     */
-    cursor?: VisitReservationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` VisitReservations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` VisitReservations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of VisitReservations.
-     */
-    distinct?: VisitReservationScalarFieldEnum | VisitReservationScalarFieldEnum[]
-  }
-
-  /**
-   * VisitReservation findFirstOrThrow
-   */
-  export type VisitReservationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the VisitReservation
-     */
-    select?: VisitReservationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the VisitReservation
-     */
-    omit?: VisitReservationOmit<ExtArgs> | null
-    /**
-     * Filter, which VisitReservation to fetch.
-     */
-    where?: VisitReservationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of VisitReservations to fetch.
-     */
-    orderBy?: VisitReservationOrderByWithRelationInput | VisitReservationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for VisitReservations.
-     */
-    cursor?: VisitReservationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` VisitReservations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` VisitReservations.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of VisitReservations.
-     */
-    distinct?: VisitReservationScalarFieldEnum | VisitReservationScalarFieldEnum[]
-  }
-
-  /**
-   * VisitReservation findMany
-   */
-  export type VisitReservationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the VisitReservation
-     */
-    select?: VisitReservationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the VisitReservation
-     */
-    omit?: VisitReservationOmit<ExtArgs> | null
-    /**
-     * Filter, which VisitReservations to fetch.
-     */
-    where?: VisitReservationWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of VisitReservations to fetch.
-     */
-    orderBy?: VisitReservationOrderByWithRelationInput | VisitReservationOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing VisitReservations.
-     */
-    cursor?: VisitReservationWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` VisitReservations from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` VisitReservations.
-     */
-    skip?: number
-    distinct?: VisitReservationScalarFieldEnum | VisitReservationScalarFieldEnum[]
-  }
-
-  /**
-   * VisitReservation create
-   */
-  export type VisitReservationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the VisitReservation
-     */
-    select?: VisitReservationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the VisitReservation
-     */
-    omit?: VisitReservationOmit<ExtArgs> | null
-    /**
-     * The data needed to create a VisitReservation.
-     */
-    data: XOR<VisitReservationCreateInput, VisitReservationUncheckedCreateInput>
-  }
-
-  /**
-   * VisitReservation createMany
-   */
-  export type VisitReservationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many VisitReservations.
-     */
-    data: VisitReservationCreateManyInput | VisitReservationCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * VisitReservation createManyAndReturn
-   */
-  export type VisitReservationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the VisitReservation
-     */
-    select?: VisitReservationSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the VisitReservation
-     */
-    omit?: VisitReservationOmit<ExtArgs> | null
-    /**
-     * The data used to create many VisitReservations.
-     */
-    data: VisitReservationCreateManyInput | VisitReservationCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * VisitReservation update
-   */
-  export type VisitReservationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the VisitReservation
-     */
-    select?: VisitReservationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the VisitReservation
-     */
-    omit?: VisitReservationOmit<ExtArgs> | null
-    /**
-     * The data needed to update a VisitReservation.
-     */
-    data: XOR<VisitReservationUpdateInput, VisitReservationUncheckedUpdateInput>
-    /**
-     * Choose, which VisitReservation to update.
-     */
-    where: VisitReservationWhereUniqueInput
-  }
-
-  /**
-   * VisitReservation updateMany
-   */
-  export type VisitReservationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update VisitReservations.
-     */
-    data: XOR<VisitReservationUpdateManyMutationInput, VisitReservationUncheckedUpdateManyInput>
-    /**
-     * Filter which VisitReservations to update
-     */
-    where?: VisitReservationWhereInput
-    /**
-     * Limit how many VisitReservations to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * VisitReservation updateManyAndReturn
-   */
-  export type VisitReservationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the VisitReservation
-     */
-    select?: VisitReservationSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the VisitReservation
-     */
-    omit?: VisitReservationOmit<ExtArgs> | null
-    /**
-     * The data used to update VisitReservations.
-     */
-    data: XOR<VisitReservationUpdateManyMutationInput, VisitReservationUncheckedUpdateManyInput>
-    /**
-     * Filter which VisitReservations to update
-     */
-    where?: VisitReservationWhereInput
-    /**
-     * Limit how many VisitReservations to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * VisitReservation upsert
-   */
-  export type VisitReservationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the VisitReservation
-     */
-    select?: VisitReservationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the VisitReservation
-     */
-    omit?: VisitReservationOmit<ExtArgs> | null
-    /**
-     * The filter to search for the VisitReservation to update in case it exists.
-     */
-    where: VisitReservationWhereUniqueInput
-    /**
-     * In case the VisitReservation found by the `where` argument doesn't exist, create a new VisitReservation with this data.
-     */
-    create: XOR<VisitReservationCreateInput, VisitReservationUncheckedCreateInput>
-    /**
-     * In case the VisitReservation was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<VisitReservationUpdateInput, VisitReservationUncheckedUpdateInput>
-  }
-
-  /**
-   * VisitReservation delete
-   */
-  export type VisitReservationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the VisitReservation
-     */
-    select?: VisitReservationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the VisitReservation
-     */
-    omit?: VisitReservationOmit<ExtArgs> | null
-    /**
-     * Filter which VisitReservation to delete.
-     */
-    where: VisitReservationWhereUniqueInput
-  }
-
-  /**
-   * VisitReservation deleteMany
-   */
-  export type VisitReservationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which VisitReservations to delete
-     */
-    where?: VisitReservationWhereInput
-    /**
-     * Limit how many VisitReservations to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * VisitReservation without action
-   */
-  export type VisitReservationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the VisitReservation
-     */
-    select?: VisitReservationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the VisitReservation
-     */
-    omit?: VisitReservationOmit<ExtArgs> | null
-  }
-
-
-  /**
-   * Model WebInquiry
-   */
-
-  export type AggregateWebInquiry = {
-    _count: WebInquiryCountAggregateOutputType | null
-    _avg: WebInquiryAvgAggregateOutputType | null
-    _sum: WebInquirySumAggregateOutputType | null
-    _min: WebInquiryMinAggregateOutputType | null
-    _max: WebInquiryMaxAggregateOutputType | null
-  }
-
-  export type WebInquiryAvgAggregateOutputType = {
-    id: number | null
-  }
-
-  export type WebInquirySumAggregateOutputType = {
-    id: bigint | null
-  }
-
-  export type WebInquiryMinAggregateOutputType = {
-    id: bigint | null
-    name: string | null
-    phone: string | null
-    email: string | null
-    type: string | null
-    residentAge: string | null
-    careGrade: string | null
-    preferredDate: Date | null
-    message: string | null
-    isConsented: boolean | null
-    status: string | null
-    ipAddress: string | null
-    userAgent: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type WebInquiryMaxAggregateOutputType = {
-    id: bigint | null
-    name: string | null
-    phone: string | null
-    email: string | null
-    type: string | null
-    residentAge: string | null
-    careGrade: string | null
-    preferredDate: Date | null
-    message: string | null
-    isConsented: boolean | null
-    status: string | null
-    ipAddress: string | null
-    userAgent: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type WebInquiryCountAggregateOutputType = {
-    id: number
-    name: number
-    phone: number
-    email: number
-    type: number
-    residentAge: number
-    careGrade: number
-    preferredDate: number
-    message: number
-    isConsented: number
-    status: number
-    ipAddress: number
-    userAgent: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type WebInquiryAvgAggregateInputType = {
-    id?: true
-  }
-
-  export type WebInquirySumAggregateInputType = {
-    id?: true
-  }
-
-  export type WebInquiryMinAggregateInputType = {
-    id?: true
-    name?: true
-    phone?: true
-    email?: true
-    type?: true
-    residentAge?: true
-    careGrade?: true
-    preferredDate?: true
-    message?: true
-    isConsented?: true
-    status?: true
-    ipAddress?: true
-    userAgent?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type WebInquiryMaxAggregateInputType = {
-    id?: true
-    name?: true
-    phone?: true
-    email?: true
-    type?: true
-    residentAge?: true
-    careGrade?: true
-    preferredDate?: true
-    message?: true
-    isConsented?: true
-    status?: true
-    ipAddress?: true
-    userAgent?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type WebInquiryCountAggregateInputType = {
-    id?: true
-    name?: true
-    phone?: true
-    email?: true
-    type?: true
-    residentAge?: true
-    careGrade?: true
-    preferredDate?: true
-    message?: true
-    isConsented?: true
-    status?: true
-    ipAddress?: true
-    userAgent?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type WebInquiryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which WebInquiry to aggregate.
-     */
-    where?: WebInquiryWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WebInquiries to fetch.
-     */
-    orderBy?: WebInquiryOrderByWithRelationInput | WebInquiryOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: WebInquiryWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WebInquiries from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WebInquiries.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned WebInquiries
-    **/
-    _count?: true | WebInquiryCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: WebInquiryAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: WebInquirySumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: WebInquiryMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: WebInquiryMaxAggregateInputType
-  }
-
-  export type GetWebInquiryAggregateType<T extends WebInquiryAggregateArgs> = {
-        [P in keyof T & keyof AggregateWebInquiry]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateWebInquiry[P]>
-      : GetScalarType<T[P], AggregateWebInquiry[P]>
-  }
-
-
-
-
-  export type WebInquiryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: WebInquiryWhereInput
-    orderBy?: WebInquiryOrderByWithAggregationInput | WebInquiryOrderByWithAggregationInput[]
-    by: WebInquiryScalarFieldEnum[] | WebInquiryScalarFieldEnum
-    having?: WebInquiryScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: WebInquiryCountAggregateInputType | true
-    _avg?: WebInquiryAvgAggregateInputType
-    _sum?: WebInquirySumAggregateInputType
-    _min?: WebInquiryMinAggregateInputType
-    _max?: WebInquiryMaxAggregateInputType
-  }
-
-  export type WebInquiryGroupByOutputType = {
-    id: bigint
-    name: string
-    phone: string
-    email: string | null
-    type: string
-    residentAge: string | null
-    careGrade: string | null
-    preferredDate: Date | null
-    message: string | null
-    isConsented: boolean
-    status: string
-    ipAddress: string | null
-    userAgent: string | null
-    createdAt: Date
-    updatedAt: Date
-    _count: WebInquiryCountAggregateOutputType | null
-    _avg: WebInquiryAvgAggregateOutputType | null
-    _sum: WebInquirySumAggregateOutputType | null
-    _min: WebInquiryMinAggregateOutputType | null
-    _max: WebInquiryMaxAggregateOutputType | null
-  }
-
-  type GetWebInquiryGroupByPayload<T extends WebInquiryGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<WebInquiryGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof WebInquiryGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], WebInquiryGroupByOutputType[P]>
-            : GetScalarType<T[P], WebInquiryGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type WebInquirySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    phone?: boolean
-    email?: boolean
-    type?: boolean
-    residentAge?: boolean
-    careGrade?: boolean
-    preferredDate?: boolean
-    message?: boolean
-    isConsented?: boolean
-    status?: boolean
-    ipAddress?: boolean
-    userAgent?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["webInquiry"]>
-
-  export type WebInquirySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    phone?: boolean
-    email?: boolean
-    type?: boolean
-    residentAge?: boolean
-    careGrade?: boolean
-    preferredDate?: boolean
-    message?: boolean
-    isConsented?: boolean
-    status?: boolean
-    ipAddress?: boolean
-    userAgent?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["webInquiry"]>
-
-  export type WebInquirySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    phone?: boolean
-    email?: boolean
-    type?: boolean
-    residentAge?: boolean
-    careGrade?: boolean
-    preferredDate?: boolean
-    message?: boolean
-    isConsented?: boolean
-    status?: boolean
-    ipAddress?: boolean
-    userAgent?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["webInquiry"]>
-
-  export type WebInquirySelectScalar = {
-    id?: boolean
-    name?: boolean
-    phone?: boolean
-    email?: boolean
-    type?: boolean
-    residentAge?: boolean
-    careGrade?: boolean
-    preferredDate?: boolean
-    message?: boolean
-    isConsented?: boolean
-    status?: boolean
-    ipAddress?: boolean
-    userAgent?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type WebInquiryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "phone" | "email" | "type" | "residentAge" | "careGrade" | "preferredDate" | "message" | "isConsented" | "status" | "ipAddress" | "userAgent" | "createdAt" | "updatedAt", ExtArgs["result"]["webInquiry"]>
-
-  export type $WebInquiryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "WebInquiry"
-    objects: {}
-    scalars: $Extensions.GetPayloadResult<{
-      /**
-       * 문의 ID (Primary Key)
-       */
-      id: bigint
-      /**
-       * 상담자 이름
-       */
-      name: string
-      /**
-       * 상담자 연락처
-       */
-      phone: string
-      /**
-       * 이메일
-       */
-      email: string | null
-      /**
-       * 문의 유형
-       * 입소 상담, 비용 상담, 방문 상담, 기타
-       */
-      type: string
-      /**
-       * 어르신 연령
-       */
-      residentAge: string | null
-      /**
-       * 장기요양등급
-       */
-      careGrade: string | null
-      /**
-       * 방문 상담 희망일
-       */
-      preferredDate: Date | null
-      /**
-       * 상세 문의사항
-       */
-      message: string | null
-      /**
-       * 개인정보 수집 동의 여부
-       */
-      isConsented: boolean
-      /**
-       * 처리 상태
-       * PENDING: 접수, IN_PROGRESS: 상담중, DONE: 완료, CANCELLED: 취소
-       */
-      status: string
-      /**
-       * 문의 접수 IP 주소
-       */
-      ipAddress: string | null
-      /**
-       * 사용자 브라우저 정보
-       */
-      userAgent: string | null
-      /**
-       * 문의 생성 시각
-       */
-      createdAt: Date
-      /**
-       * 수정 시각
-       */
-      updatedAt: Date
-    }, ExtArgs["result"]["webInquiry"]>
-    composites: {}
-  }
-
-  type WebInquiryGetPayload<S extends boolean | null | undefined | WebInquiryDefaultArgs> = $Result.GetResult<Prisma.$WebInquiryPayload, S>
-
-  type WebInquiryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<WebInquiryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: WebInquiryCountAggregateInputType | true
-    }
-
-  export interface WebInquiryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WebInquiry'], meta: { name: 'WebInquiry' } }
-    /**
-     * Find zero or one WebInquiry that matches the filter.
-     * @param {WebInquiryFindUniqueArgs} args - Arguments to find a WebInquiry
-     * @example
-     * // Get one WebInquiry
-     * const webInquiry = await prisma.webInquiry.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends WebInquiryFindUniqueArgs>(args: SelectSubset<T, WebInquiryFindUniqueArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one WebInquiry that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {WebInquiryFindUniqueOrThrowArgs} args - Arguments to find a WebInquiry
-     * @example
-     * // Get one WebInquiry
-     * const webInquiry = await prisma.webInquiry.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends WebInquiryFindUniqueOrThrowArgs>(args: SelectSubset<T, WebInquiryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first WebInquiry that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WebInquiryFindFirstArgs} args - Arguments to find a WebInquiry
-     * @example
-     * // Get one WebInquiry
-     * const webInquiry = await prisma.webInquiry.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends WebInquiryFindFirstArgs>(args?: SelectSubset<T, WebInquiryFindFirstArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first WebInquiry that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WebInquiryFindFirstOrThrowArgs} args - Arguments to find a WebInquiry
-     * @example
-     * // Get one WebInquiry
-     * const webInquiry = await prisma.webInquiry.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends WebInquiryFindFirstOrThrowArgs>(args?: SelectSubset<T, WebInquiryFindFirstOrThrowArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more WebInquiries that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WebInquiryFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all WebInquiries
-     * const webInquiries = await prisma.webInquiry.findMany()
-     * 
-     * // Get first 10 WebInquiries
-     * const webInquiries = await prisma.webInquiry.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const webInquiryWithIdOnly = await prisma.webInquiry.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends WebInquiryFindManyArgs>(args?: SelectSubset<T, WebInquiryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a WebInquiry.
-     * @param {WebInquiryCreateArgs} args - Arguments to create a WebInquiry.
-     * @example
-     * // Create one WebInquiry
-     * const WebInquiry = await prisma.webInquiry.create({
-     *   data: {
-     *     // ... data to create a WebInquiry
-     *   }
-     * })
-     * 
-     */
-    create<T extends WebInquiryCreateArgs>(args: SelectSubset<T, WebInquiryCreateArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many WebInquiries.
-     * @param {WebInquiryCreateManyArgs} args - Arguments to create many WebInquiries.
-     * @example
-     * // Create many WebInquiries
-     * const webInquiry = await prisma.webInquiry.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends WebInquiryCreateManyArgs>(args?: SelectSubset<T, WebInquiryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many WebInquiries and returns the data saved in the database.
-     * @param {WebInquiryCreateManyAndReturnArgs} args - Arguments to create many WebInquiries.
-     * @example
-     * // Create many WebInquiries
-     * const webInquiry = await prisma.webInquiry.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many WebInquiries and only return the `id`
-     * const webInquiryWithIdOnly = await prisma.webInquiry.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends WebInquiryCreateManyAndReturnArgs>(args?: SelectSubset<T, WebInquiryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a WebInquiry.
-     * @param {WebInquiryDeleteArgs} args - Arguments to delete one WebInquiry.
-     * @example
-     * // Delete one WebInquiry
-     * const WebInquiry = await prisma.webInquiry.delete({
-     *   where: {
-     *     // ... filter to delete one WebInquiry
-     *   }
-     * })
-     * 
-     */
-    delete<T extends WebInquiryDeleteArgs>(args: SelectSubset<T, WebInquiryDeleteArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one WebInquiry.
-     * @param {WebInquiryUpdateArgs} args - Arguments to update one WebInquiry.
-     * @example
-     * // Update one WebInquiry
-     * const webInquiry = await prisma.webInquiry.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends WebInquiryUpdateArgs>(args: SelectSubset<T, WebInquiryUpdateArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more WebInquiries.
-     * @param {WebInquiryDeleteManyArgs} args - Arguments to filter WebInquiries to delete.
-     * @example
-     * // Delete a few WebInquiries
-     * const { count } = await prisma.webInquiry.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends WebInquiryDeleteManyArgs>(args?: SelectSubset<T, WebInquiryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more WebInquiries.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WebInquiryUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many WebInquiries
-     * const webInquiry = await prisma.webInquiry.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends WebInquiryUpdateManyArgs>(args: SelectSubset<T, WebInquiryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more WebInquiries and returns the data updated in the database.
-     * @param {WebInquiryUpdateManyAndReturnArgs} args - Arguments to update many WebInquiries.
-     * @example
-     * // Update many WebInquiries
-     * const webInquiry = await prisma.webInquiry.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more WebInquiries and only return the `id`
-     * const webInquiryWithIdOnly = await prisma.webInquiry.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends WebInquiryUpdateManyAndReturnArgs>(args: SelectSubset<T, WebInquiryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one WebInquiry.
-     * @param {WebInquiryUpsertArgs} args - Arguments to update or create a WebInquiry.
-     * @example
-     * // Update or create a WebInquiry
-     * const webInquiry = await prisma.webInquiry.upsert({
-     *   create: {
-     *     // ... data to create a WebInquiry
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the WebInquiry we want to update
-     *   }
-     * })
-     */
-    upsert<T extends WebInquiryUpsertArgs>(args: SelectSubset<T, WebInquiryUpsertArgs<ExtArgs>>): Prisma__WebInquiryClient<$Result.GetResult<Prisma.$WebInquiryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of WebInquiries.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WebInquiryCountArgs} args - Arguments to filter WebInquiries to count.
-     * @example
-     * // Count the number of WebInquiries
-     * const count = await prisma.webInquiry.count({
-     *   where: {
-     *     // ... the filter for the WebInquiries we want to count
-     *   }
-     * })
-    **/
-    count<T extends WebInquiryCountArgs>(
-      args?: Subset<T, WebInquiryCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], WebInquiryCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a WebInquiry.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WebInquiryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends WebInquiryAggregateArgs>(args: Subset<T, WebInquiryAggregateArgs>): Prisma.PrismaPromise<GetWebInquiryAggregateType<T>>
-
-    /**
-     * Group by WebInquiry.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WebInquiryGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends WebInquiryGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: WebInquiryGroupByArgs['orderBy'] }
-        : { orderBy?: WebInquiryGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, WebInquiryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebInquiryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the WebInquiry model
-   */
-  readonly fields: WebInquiryFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for WebInquiry.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__WebInquiryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the WebInquiry model
-   */
-  interface WebInquiryFieldRefs {
-    readonly id: FieldRef<"WebInquiry", 'BigInt'>
-    readonly name: FieldRef<"WebInquiry", 'String'>
-    readonly phone: FieldRef<"WebInquiry", 'String'>
-    readonly email: FieldRef<"WebInquiry", 'String'>
-    readonly type: FieldRef<"WebInquiry", 'String'>
-    readonly residentAge: FieldRef<"WebInquiry", 'String'>
-    readonly careGrade: FieldRef<"WebInquiry", 'String'>
-    readonly preferredDate: FieldRef<"WebInquiry", 'DateTime'>
-    readonly message: FieldRef<"WebInquiry", 'String'>
-    readonly isConsented: FieldRef<"WebInquiry", 'Boolean'>
-    readonly status: FieldRef<"WebInquiry", 'String'>
-    readonly ipAddress: FieldRef<"WebInquiry", 'String'>
-    readonly userAgent: FieldRef<"WebInquiry", 'String'>
-    readonly createdAt: FieldRef<"WebInquiry", 'DateTime'>
-    readonly updatedAt: FieldRef<"WebInquiry", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * WebInquiry findUnique
-   */
-  export type WebInquiryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebInquiry
-     */
-    select?: WebInquirySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebInquiry
-     */
-    omit?: WebInquiryOmit<ExtArgs> | null
-    /**
-     * Filter, which WebInquiry to fetch.
-     */
-    where: WebInquiryWhereUniqueInput
-  }
-
-  /**
-   * WebInquiry findUniqueOrThrow
-   */
-  export type WebInquiryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebInquiry
-     */
-    select?: WebInquirySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebInquiry
-     */
-    omit?: WebInquiryOmit<ExtArgs> | null
-    /**
-     * Filter, which WebInquiry to fetch.
-     */
-    where: WebInquiryWhereUniqueInput
-  }
-
-  /**
-   * WebInquiry findFirst
-   */
-  export type WebInquiryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebInquiry
-     */
-    select?: WebInquirySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebInquiry
-     */
-    omit?: WebInquiryOmit<ExtArgs> | null
-    /**
-     * Filter, which WebInquiry to fetch.
-     */
-    where?: WebInquiryWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WebInquiries to fetch.
-     */
-    orderBy?: WebInquiryOrderByWithRelationInput | WebInquiryOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for WebInquiries.
-     */
-    cursor?: WebInquiryWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WebInquiries from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WebInquiries.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of WebInquiries.
-     */
-    distinct?: WebInquiryScalarFieldEnum | WebInquiryScalarFieldEnum[]
-  }
-
-  /**
-   * WebInquiry findFirstOrThrow
-   */
-  export type WebInquiryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebInquiry
-     */
-    select?: WebInquirySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebInquiry
-     */
-    omit?: WebInquiryOmit<ExtArgs> | null
-    /**
-     * Filter, which WebInquiry to fetch.
-     */
-    where?: WebInquiryWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WebInquiries to fetch.
-     */
-    orderBy?: WebInquiryOrderByWithRelationInput | WebInquiryOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for WebInquiries.
-     */
-    cursor?: WebInquiryWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WebInquiries from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WebInquiries.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of WebInquiries.
-     */
-    distinct?: WebInquiryScalarFieldEnum | WebInquiryScalarFieldEnum[]
-  }
-
-  /**
-   * WebInquiry findMany
-   */
-  export type WebInquiryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebInquiry
-     */
-    select?: WebInquirySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebInquiry
-     */
-    omit?: WebInquiryOmit<ExtArgs> | null
-    /**
-     * Filter, which WebInquiries to fetch.
-     */
-    where?: WebInquiryWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WebInquiries to fetch.
-     */
-    orderBy?: WebInquiryOrderByWithRelationInput | WebInquiryOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing WebInquiries.
-     */
-    cursor?: WebInquiryWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WebInquiries from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WebInquiries.
-     */
-    skip?: number
-    distinct?: WebInquiryScalarFieldEnum | WebInquiryScalarFieldEnum[]
-  }
-
-  /**
-   * WebInquiry create
-   */
-  export type WebInquiryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebInquiry
-     */
-    select?: WebInquirySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebInquiry
-     */
-    omit?: WebInquiryOmit<ExtArgs> | null
-    /**
-     * The data needed to create a WebInquiry.
-     */
-    data: XOR<WebInquiryCreateInput, WebInquiryUncheckedCreateInput>
-  }
-
-  /**
-   * WebInquiry createMany
-   */
-  export type WebInquiryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many WebInquiries.
-     */
-    data: WebInquiryCreateManyInput | WebInquiryCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * WebInquiry createManyAndReturn
-   */
-  export type WebInquiryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebInquiry
-     */
-    select?: WebInquirySelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebInquiry
-     */
-    omit?: WebInquiryOmit<ExtArgs> | null
-    /**
-     * The data used to create many WebInquiries.
-     */
-    data: WebInquiryCreateManyInput | WebInquiryCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * WebInquiry update
-   */
-  export type WebInquiryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebInquiry
-     */
-    select?: WebInquirySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebInquiry
-     */
-    omit?: WebInquiryOmit<ExtArgs> | null
-    /**
-     * The data needed to update a WebInquiry.
-     */
-    data: XOR<WebInquiryUpdateInput, WebInquiryUncheckedUpdateInput>
-    /**
-     * Choose, which WebInquiry to update.
-     */
-    where: WebInquiryWhereUniqueInput
-  }
-
-  /**
-   * WebInquiry updateMany
-   */
-  export type WebInquiryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update WebInquiries.
-     */
-    data: XOR<WebInquiryUpdateManyMutationInput, WebInquiryUncheckedUpdateManyInput>
-    /**
-     * Filter which WebInquiries to update
-     */
-    where?: WebInquiryWhereInput
-    /**
-     * Limit how many WebInquiries to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * WebInquiry updateManyAndReturn
-   */
-  export type WebInquiryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebInquiry
-     */
-    select?: WebInquirySelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebInquiry
-     */
-    omit?: WebInquiryOmit<ExtArgs> | null
-    /**
-     * The data used to update WebInquiries.
-     */
-    data: XOR<WebInquiryUpdateManyMutationInput, WebInquiryUncheckedUpdateManyInput>
-    /**
-     * Filter which WebInquiries to update
-     */
-    where?: WebInquiryWhereInput
-    /**
-     * Limit how many WebInquiries to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * WebInquiry upsert
-   */
-  export type WebInquiryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebInquiry
-     */
-    select?: WebInquirySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebInquiry
-     */
-    omit?: WebInquiryOmit<ExtArgs> | null
-    /**
-     * The filter to search for the WebInquiry to update in case it exists.
-     */
-    where: WebInquiryWhereUniqueInput
-    /**
-     * In case the WebInquiry found by the `where` argument doesn't exist, create a new WebInquiry with this data.
-     */
-    create: XOR<WebInquiryCreateInput, WebInquiryUncheckedCreateInput>
-    /**
-     * In case the WebInquiry was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<WebInquiryUpdateInput, WebInquiryUncheckedUpdateInput>
-  }
-
-  /**
-   * WebInquiry delete
-   */
-  export type WebInquiryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebInquiry
-     */
-    select?: WebInquirySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebInquiry
-     */
-    omit?: WebInquiryOmit<ExtArgs> | null
-    /**
-     * Filter which WebInquiry to delete.
-     */
-    where: WebInquiryWhereUniqueInput
-  }
-
-  /**
-   * WebInquiry deleteMany
-   */
-  export type WebInquiryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which WebInquiries to delete
-     */
-    where?: WebInquiryWhereInput
-    /**
-     * Limit how many WebInquiries to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * WebInquiry without action
-   */
-  export type WebInquiryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebInquiry
-     */
-    select?: WebInquirySelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebInquiry
-     */
-    omit?: WebInquiryOmit<ExtArgs> | null
-  }
-
-
-  /**
    * Model WebNotice
    */
 
@@ -92884,6 +92926,8 @@ export namespace Prisma {
     authorId: 'authorId',
     content: 'content',
     isDeleted: 'isDeleted',
+    guestNickname: 'guestNickname',
+    guestPassword: 'guestPassword',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -92942,6 +92986,7 @@ export namespace Prisma {
     sideMenu: 'sideMenu',
     soup: 'soup',
     dessert: 'dessert',
+    calories: 'calories',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -92977,6 +93022,74 @@ export namespace Prisma {
   };
 
   export type ProgramScheduleScalarFieldEnum = (typeof ProgramScheduleScalarFieldEnum)[keyof typeof ProgramScheduleScalarFieldEnum]
+
+
+  export const VisitReservationScalarFieldEnum: {
+    id: 'id',
+    visitorName: 'visitorName',
+    visitorPhone: 'visitorPhone',
+    visitorRelationship: 'visitorRelationship',
+    residentName: 'residentName',
+    visitDate: 'visitDate',
+    visitTime: 'visitTime',
+    visitorCount: 'visitorCount',
+    visitPurpose: 'visitPurpose',
+    healthCheckSymptoms: 'healthCheckSymptoms',
+    healthCheckAssistance: 'healthCheckAssistance',
+    notes: 'notes',
+    isConsented: 'isConsented',
+    status: 'status',
+    ipAddress: 'ipAddress',
+    userAgent: 'userAgent',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type VisitReservationScalarFieldEnum = (typeof VisitReservationScalarFieldEnum)[keyof typeof VisitReservationScalarFieldEnum]
+
+
+  export const WebInquiryScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    phone: 'phone',
+    email: 'email',
+    type: 'type',
+    residentAge: 'residentAge',
+    careGrade: 'careGrade',
+    preferredDate: 'preferredDate',
+    message: 'message',
+    isConsented: 'isConsented',
+    status: 'status',
+    ipAddress: 'ipAddress',
+    userAgent: 'userAgent',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type WebInquiryScalarFieldEnum = (typeof WebInquiryScalarFieldEnum)[keyof typeof WebInquiryScalarFieldEnum]
+
+
+  export const PopupBannerScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    content: 'content',
+    imageUrl: 'imageUrl',
+    linkUrl: 'linkUrl',
+    displayType: 'displayType',
+    position: 'position',
+    width: 'width',
+    height: 'height',
+    startDate: 'startDate',
+    endDate: 'endDate',
+    isActive: 'isActive',
+    showOnce: 'showOnce',
+    priority: 'priority',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PopupBannerScalarFieldEnum = (typeof PopupBannerScalarFieldEnum)[keyof typeof PopupBannerScalarFieldEnum]
 
 
   export const DepartmentScalarFieldEnum: {
@@ -93137,29 +93250,6 @@ export namespace Prisma {
   };
 
   export type ResidentVitalScalarFieldEnum = (typeof ResidentVitalScalarFieldEnum)[keyof typeof ResidentVitalScalarFieldEnum]
-
-
-  export const PopupBannerScalarFieldEnum: {
-    id: 'id',
-    title: 'title',
-    content: 'content',
-    imageUrl: 'imageUrl',
-    linkUrl: 'linkUrl',
-    displayType: 'displayType',
-    position: 'position',
-    width: 'width',
-    height: 'height',
-    startDate: 'startDate',
-    endDate: 'endDate',
-    isActive: 'isActive',
-    showOnce: 'showOnce',
-    priority: 'priority',
-    createdBy: 'createdBy',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type PopupBannerScalarFieldEnum = (typeof PopupBannerScalarFieldEnum)[keyof typeof PopupBannerScalarFieldEnum]
 
 
   export const WebsiteSettingScalarFieldEnum: {
@@ -93789,51 +93879,6 @@ export namespace Prisma {
   export type NotificationQueueScalarFieldEnum = (typeof NotificationQueueScalarFieldEnum)[keyof typeof NotificationQueueScalarFieldEnum]
 
 
-  export const VisitReservationScalarFieldEnum: {
-    id: 'id',
-    visitorName: 'visitorName',
-    visitorPhone: 'visitorPhone',
-    visitorRelationship: 'visitorRelationship',
-    residentName: 'residentName',
-    visitDate: 'visitDate',
-    visitTime: 'visitTime',
-    visitorCount: 'visitorCount',
-    visitPurpose: 'visitPurpose',
-    healthCheckSymptoms: 'healthCheckSymptoms',
-    healthCheckAssistance: 'healthCheckAssistance',
-    notes: 'notes',
-    isConsented: 'isConsented',
-    status: 'status',
-    ipAddress: 'ipAddress',
-    userAgent: 'userAgent',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type VisitReservationScalarFieldEnum = (typeof VisitReservationScalarFieldEnum)[keyof typeof VisitReservationScalarFieldEnum]
-
-
-  export const WebInquiryScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    phone: 'phone',
-    email: 'email',
-    type: 'type',
-    residentAge: 'residentAge',
-    careGrade: 'careGrade',
-    preferredDate: 'preferredDate',
-    message: 'message',
-    isConsented: 'isConsented',
-    status: 'status',
-    ipAddress: 'ipAddress',
-    userAgent: 'userAgent',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type WebInquiryScalarFieldEnum = (typeof WebInquiryScalarFieldEnum)[keyof typeof WebInquiryScalarFieldEnum]
-
-
   export const WebNoticeScalarFieldEnum: {
     id: 'id',
     title: 'title',
@@ -94426,6 +94471,8 @@ export namespace Prisma {
     authorId?: BigIntNullableFilter<"BoardComment"> | bigint | number | null
     content?: StringFilter<"BoardComment"> | string
     isDeleted?: BoolFilter<"BoardComment"> | boolean
+    guestNickname?: StringNullableFilter<"BoardComment"> | string | null
+    guestPassword?: StringNullableFilter<"BoardComment"> | string | null
     createdAt?: DateTimeFilter<"BoardComment"> | Date | string
     updatedAt?: DateTimeFilter<"BoardComment"> | Date | string
     author?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
@@ -94441,6 +94488,8 @@ export namespace Prisma {
     authorId?: SortOrderInput | SortOrder
     content?: SortOrder
     isDeleted?: SortOrder
+    guestNickname?: SortOrderInput | SortOrder
+    guestPassword?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     author?: EmployeeOrderByWithRelationInput
@@ -94459,6 +94508,8 @@ export namespace Prisma {
     authorId?: BigIntNullableFilter<"BoardComment"> | bigint | number | null
     content?: StringFilter<"BoardComment"> | string
     isDeleted?: BoolFilter<"BoardComment"> | boolean
+    guestNickname?: StringNullableFilter<"BoardComment"> | string | null
+    guestPassword?: StringNullableFilter<"BoardComment"> | string | null
     createdAt?: DateTimeFilter<"BoardComment"> | Date | string
     updatedAt?: DateTimeFilter<"BoardComment"> | Date | string
     author?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
@@ -94474,6 +94525,8 @@ export namespace Prisma {
     authorId?: SortOrderInput | SortOrder
     content?: SortOrder
     isDeleted?: SortOrder
+    guestNickname?: SortOrderInput | SortOrder
+    guestPassword?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: BoardCommentCountOrderByAggregateInput
@@ -94493,6 +94546,8 @@ export namespace Prisma {
     authorId?: BigIntNullableWithAggregatesFilter<"BoardComment"> | bigint | number | null
     content?: StringWithAggregatesFilter<"BoardComment"> | string
     isDeleted?: BoolWithAggregatesFilter<"BoardComment"> | boolean
+    guestNickname?: StringNullableWithAggregatesFilter<"BoardComment"> | string | null
+    guestPassword?: StringNullableWithAggregatesFilter<"BoardComment"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"BoardComment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BoardComment"> | Date | string
   }
@@ -94735,6 +94790,7 @@ export namespace Prisma {
     sideMenu?: StringNullableFilter<"MealPlanItem"> | string | null
     soup?: StringNullableFilter<"MealPlanItem"> | string | null
     dessert?: StringNullableFilter<"MealPlanItem"> | string | null
+    calories?: IntNullableFilter<"MealPlanItem"> | number | null
     createdAt?: DateTimeFilter<"MealPlanItem"> | Date | string
     updatedAt?: DateTimeFilter<"MealPlanItem"> | Date | string
     mealPlan?: XOR<MealPlanScalarRelationFilter, MealPlanWhereInput>
@@ -94749,6 +94805,7 @@ export namespace Prisma {
     sideMenu?: SortOrderInput | SortOrder
     soup?: SortOrderInput | SortOrder
     dessert?: SortOrderInput | SortOrder
+    calories?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     mealPlan?: MealPlanOrderByWithRelationInput
@@ -94766,6 +94823,7 @@ export namespace Prisma {
     sideMenu?: StringNullableFilter<"MealPlanItem"> | string | null
     soup?: StringNullableFilter<"MealPlanItem"> | string | null
     dessert?: StringNullableFilter<"MealPlanItem"> | string | null
+    calories?: IntNullableFilter<"MealPlanItem"> | number | null
     createdAt?: DateTimeFilter<"MealPlanItem"> | Date | string
     updatedAt?: DateTimeFilter<"MealPlanItem"> | Date | string
     mealPlan?: XOR<MealPlanScalarRelationFilter, MealPlanWhereInput>
@@ -94780,6 +94838,7 @@ export namespace Prisma {
     sideMenu?: SortOrderInput | SortOrder
     soup?: SortOrderInput | SortOrder
     dessert?: SortOrderInput | SortOrder
+    calories?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: MealPlanItemCountOrderByAggregateInput
@@ -94801,6 +94860,7 @@ export namespace Prisma {
     sideMenu?: StringNullableWithAggregatesFilter<"MealPlanItem"> | string | null
     soup?: StringNullableWithAggregatesFilter<"MealPlanItem"> | string | null
     dessert?: StringNullableWithAggregatesFilter<"MealPlanItem"> | string | null
+    calories?: IntNullableWithAggregatesFilter<"MealPlanItem"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"MealPlanItem"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MealPlanItem"> | Date | string
   }
@@ -94963,6 +95023,346 @@ export namespace Prisma {
     status?: StringWithAggregatesFilter<"ProgramSchedule"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ProgramSchedule"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ProgramSchedule"> | Date | string
+  }
+
+  export type VisitReservationWhereInput = {
+    AND?: VisitReservationWhereInput | VisitReservationWhereInput[]
+    OR?: VisitReservationWhereInput[]
+    NOT?: VisitReservationWhereInput | VisitReservationWhereInput[]
+    id?: BigIntFilter<"VisitReservation"> | bigint | number
+    visitorName?: StringFilter<"VisitReservation"> | string
+    visitorPhone?: StringFilter<"VisitReservation"> | string
+    visitorRelationship?: StringFilter<"VisitReservation"> | string
+    residentName?: StringFilter<"VisitReservation"> | string
+    visitDate?: DateTimeFilter<"VisitReservation"> | Date | string
+    visitTime?: StringFilter<"VisitReservation"> | string
+    visitorCount?: IntFilter<"VisitReservation"> | number
+    visitPurpose?: StringNullableFilter<"VisitReservation"> | string | null
+    healthCheckSymptoms?: BoolFilter<"VisitReservation"> | boolean
+    healthCheckAssistance?: BoolFilter<"VisitReservation"> | boolean
+    notes?: StringNullableFilter<"VisitReservation"> | string | null
+    isConsented?: BoolFilter<"VisitReservation"> | boolean
+    status?: StringFilter<"VisitReservation"> | string
+    ipAddress?: StringNullableFilter<"VisitReservation"> | string | null
+    userAgent?: StringNullableFilter<"VisitReservation"> | string | null
+    createdAt?: DateTimeFilter<"VisitReservation"> | Date | string
+    updatedAt?: DateTimeFilter<"VisitReservation"> | Date | string
+  }
+
+  export type VisitReservationOrderByWithRelationInput = {
+    id?: SortOrder
+    visitorName?: SortOrder
+    visitorPhone?: SortOrder
+    visitorRelationship?: SortOrder
+    residentName?: SortOrder
+    visitDate?: SortOrder
+    visitTime?: SortOrder
+    visitorCount?: SortOrder
+    visitPurpose?: SortOrderInput | SortOrder
+    healthCheckSymptoms?: SortOrder
+    healthCheckAssistance?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    isConsented?: SortOrder
+    status?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VisitReservationWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: VisitReservationWhereInput | VisitReservationWhereInput[]
+    OR?: VisitReservationWhereInput[]
+    NOT?: VisitReservationWhereInput | VisitReservationWhereInput[]
+    visitorName?: StringFilter<"VisitReservation"> | string
+    visitorPhone?: StringFilter<"VisitReservation"> | string
+    visitorRelationship?: StringFilter<"VisitReservation"> | string
+    residentName?: StringFilter<"VisitReservation"> | string
+    visitDate?: DateTimeFilter<"VisitReservation"> | Date | string
+    visitTime?: StringFilter<"VisitReservation"> | string
+    visitorCount?: IntFilter<"VisitReservation"> | number
+    visitPurpose?: StringNullableFilter<"VisitReservation"> | string | null
+    healthCheckSymptoms?: BoolFilter<"VisitReservation"> | boolean
+    healthCheckAssistance?: BoolFilter<"VisitReservation"> | boolean
+    notes?: StringNullableFilter<"VisitReservation"> | string | null
+    isConsented?: BoolFilter<"VisitReservation"> | boolean
+    status?: StringFilter<"VisitReservation"> | string
+    ipAddress?: StringNullableFilter<"VisitReservation"> | string | null
+    userAgent?: StringNullableFilter<"VisitReservation"> | string | null
+    createdAt?: DateTimeFilter<"VisitReservation"> | Date | string
+    updatedAt?: DateTimeFilter<"VisitReservation"> | Date | string
+  }, "id">
+
+  export type VisitReservationOrderByWithAggregationInput = {
+    id?: SortOrder
+    visitorName?: SortOrder
+    visitorPhone?: SortOrder
+    visitorRelationship?: SortOrder
+    residentName?: SortOrder
+    visitDate?: SortOrder
+    visitTime?: SortOrder
+    visitorCount?: SortOrder
+    visitPurpose?: SortOrderInput | SortOrder
+    healthCheckSymptoms?: SortOrder
+    healthCheckAssistance?: SortOrder
+    notes?: SortOrderInput | SortOrder
+    isConsented?: SortOrder
+    status?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: VisitReservationCountOrderByAggregateInput
+    _avg?: VisitReservationAvgOrderByAggregateInput
+    _max?: VisitReservationMaxOrderByAggregateInput
+    _min?: VisitReservationMinOrderByAggregateInput
+    _sum?: VisitReservationSumOrderByAggregateInput
+  }
+
+  export type VisitReservationScalarWhereWithAggregatesInput = {
+    AND?: VisitReservationScalarWhereWithAggregatesInput | VisitReservationScalarWhereWithAggregatesInput[]
+    OR?: VisitReservationScalarWhereWithAggregatesInput[]
+    NOT?: VisitReservationScalarWhereWithAggregatesInput | VisitReservationScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"VisitReservation"> | bigint | number
+    visitorName?: StringWithAggregatesFilter<"VisitReservation"> | string
+    visitorPhone?: StringWithAggregatesFilter<"VisitReservation"> | string
+    visitorRelationship?: StringWithAggregatesFilter<"VisitReservation"> | string
+    residentName?: StringWithAggregatesFilter<"VisitReservation"> | string
+    visitDate?: DateTimeWithAggregatesFilter<"VisitReservation"> | Date | string
+    visitTime?: StringWithAggregatesFilter<"VisitReservation"> | string
+    visitorCount?: IntWithAggregatesFilter<"VisitReservation"> | number
+    visitPurpose?: StringNullableWithAggregatesFilter<"VisitReservation"> | string | null
+    healthCheckSymptoms?: BoolWithAggregatesFilter<"VisitReservation"> | boolean
+    healthCheckAssistance?: BoolWithAggregatesFilter<"VisitReservation"> | boolean
+    notes?: StringNullableWithAggregatesFilter<"VisitReservation"> | string | null
+    isConsented?: BoolWithAggregatesFilter<"VisitReservation"> | boolean
+    status?: StringWithAggregatesFilter<"VisitReservation"> | string
+    ipAddress?: StringNullableWithAggregatesFilter<"VisitReservation"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"VisitReservation"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"VisitReservation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"VisitReservation"> | Date | string
+  }
+
+  export type WebInquiryWhereInput = {
+    AND?: WebInquiryWhereInput | WebInquiryWhereInput[]
+    OR?: WebInquiryWhereInput[]
+    NOT?: WebInquiryWhereInput | WebInquiryWhereInput[]
+    id?: BigIntFilter<"WebInquiry"> | bigint | number
+    name?: StringFilter<"WebInquiry"> | string
+    phone?: StringFilter<"WebInquiry"> | string
+    email?: StringNullableFilter<"WebInquiry"> | string | null
+    type?: StringFilter<"WebInquiry"> | string
+    residentAge?: StringNullableFilter<"WebInquiry"> | string | null
+    careGrade?: StringNullableFilter<"WebInquiry"> | string | null
+    preferredDate?: DateTimeNullableFilter<"WebInquiry"> | Date | string | null
+    message?: StringNullableFilter<"WebInquiry"> | string | null
+    isConsented?: BoolFilter<"WebInquiry"> | boolean
+    status?: StringFilter<"WebInquiry"> | string
+    ipAddress?: StringNullableFilter<"WebInquiry"> | string | null
+    userAgent?: StringNullableFilter<"WebInquiry"> | string | null
+    createdAt?: DateTimeFilter<"WebInquiry"> | Date | string
+    updatedAt?: DateTimeFilter<"WebInquiry"> | Date | string
+  }
+
+  export type WebInquiryOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    email?: SortOrderInput | SortOrder
+    type?: SortOrder
+    residentAge?: SortOrderInput | SortOrder
+    careGrade?: SortOrderInput | SortOrder
+    preferredDate?: SortOrderInput | SortOrder
+    message?: SortOrderInput | SortOrder
+    isConsented?: SortOrder
+    status?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WebInquiryWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: WebInquiryWhereInput | WebInquiryWhereInput[]
+    OR?: WebInquiryWhereInput[]
+    NOT?: WebInquiryWhereInput | WebInquiryWhereInput[]
+    name?: StringFilter<"WebInquiry"> | string
+    phone?: StringFilter<"WebInquiry"> | string
+    email?: StringNullableFilter<"WebInquiry"> | string | null
+    type?: StringFilter<"WebInquiry"> | string
+    residentAge?: StringNullableFilter<"WebInquiry"> | string | null
+    careGrade?: StringNullableFilter<"WebInquiry"> | string | null
+    preferredDate?: DateTimeNullableFilter<"WebInquiry"> | Date | string | null
+    message?: StringNullableFilter<"WebInquiry"> | string | null
+    isConsented?: BoolFilter<"WebInquiry"> | boolean
+    status?: StringFilter<"WebInquiry"> | string
+    ipAddress?: StringNullableFilter<"WebInquiry"> | string | null
+    userAgent?: StringNullableFilter<"WebInquiry"> | string | null
+    createdAt?: DateTimeFilter<"WebInquiry"> | Date | string
+    updatedAt?: DateTimeFilter<"WebInquiry"> | Date | string
+  }, "id">
+
+  export type WebInquiryOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    email?: SortOrderInput | SortOrder
+    type?: SortOrder
+    residentAge?: SortOrderInput | SortOrder
+    careGrade?: SortOrderInput | SortOrder
+    preferredDate?: SortOrderInput | SortOrder
+    message?: SortOrderInput | SortOrder
+    isConsented?: SortOrder
+    status?: SortOrder
+    ipAddress?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: WebInquiryCountOrderByAggregateInput
+    _avg?: WebInquiryAvgOrderByAggregateInput
+    _max?: WebInquiryMaxOrderByAggregateInput
+    _min?: WebInquiryMinOrderByAggregateInput
+    _sum?: WebInquirySumOrderByAggregateInput
+  }
+
+  export type WebInquiryScalarWhereWithAggregatesInput = {
+    AND?: WebInquiryScalarWhereWithAggregatesInput | WebInquiryScalarWhereWithAggregatesInput[]
+    OR?: WebInquiryScalarWhereWithAggregatesInput[]
+    NOT?: WebInquiryScalarWhereWithAggregatesInput | WebInquiryScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"WebInquiry"> | bigint | number
+    name?: StringWithAggregatesFilter<"WebInquiry"> | string
+    phone?: StringWithAggregatesFilter<"WebInquiry"> | string
+    email?: StringNullableWithAggregatesFilter<"WebInquiry"> | string | null
+    type?: StringWithAggregatesFilter<"WebInquiry"> | string
+    residentAge?: StringNullableWithAggregatesFilter<"WebInquiry"> | string | null
+    careGrade?: StringNullableWithAggregatesFilter<"WebInquiry"> | string | null
+    preferredDate?: DateTimeNullableWithAggregatesFilter<"WebInquiry"> | Date | string | null
+    message?: StringNullableWithAggregatesFilter<"WebInquiry"> | string | null
+    isConsented?: BoolWithAggregatesFilter<"WebInquiry"> | boolean
+    status?: StringWithAggregatesFilter<"WebInquiry"> | string
+    ipAddress?: StringNullableWithAggregatesFilter<"WebInquiry"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"WebInquiry"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"WebInquiry"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"WebInquiry"> | Date | string
+  }
+
+  export type PopupBannerWhereInput = {
+    AND?: PopupBannerWhereInput | PopupBannerWhereInput[]
+    OR?: PopupBannerWhereInput[]
+    NOT?: PopupBannerWhereInput | PopupBannerWhereInput[]
+    id?: BigIntFilter<"PopupBanner"> | bigint | number
+    title?: StringFilter<"PopupBanner"> | string
+    content?: StringNullableFilter<"PopupBanner"> | string | null
+    imageUrl?: StringNullableFilter<"PopupBanner"> | string | null
+    linkUrl?: StringNullableFilter<"PopupBanner"> | string | null
+    displayType?: StringFilter<"PopupBanner"> | string
+    position?: StringNullableFilter<"PopupBanner"> | string | null
+    width?: IntNullableFilter<"PopupBanner"> | number | null
+    height?: IntNullableFilter<"PopupBanner"> | number | null
+    startDate?: DateTimeFilter<"PopupBanner"> | Date | string
+    endDate?: DateTimeFilter<"PopupBanner"> | Date | string
+    isActive?: BoolFilter<"PopupBanner"> | boolean
+    showOnce?: BoolFilter<"PopupBanner"> | boolean
+    priority?: IntFilter<"PopupBanner"> | number
+    createdBy?: BigIntNullableFilter<"PopupBanner"> | bigint | number | null
+    createdAt?: DateTimeFilter<"PopupBanner"> | Date | string
+    updatedAt?: DateTimeFilter<"PopupBanner"> | Date | string
+    creator?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
+  }
+
+  export type PopupBannerOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    linkUrl?: SortOrderInput | SortOrder
+    displayType?: SortOrder
+    position?: SortOrderInput | SortOrder
+    width?: SortOrderInput | SortOrder
+    height?: SortOrderInput | SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    isActive?: SortOrder
+    showOnce?: SortOrder
+    priority?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creator?: EmployeeOrderByWithRelationInput
+  }
+
+  export type PopupBannerWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    AND?: PopupBannerWhereInput | PopupBannerWhereInput[]
+    OR?: PopupBannerWhereInput[]
+    NOT?: PopupBannerWhereInput | PopupBannerWhereInput[]
+    title?: StringFilter<"PopupBanner"> | string
+    content?: StringNullableFilter<"PopupBanner"> | string | null
+    imageUrl?: StringNullableFilter<"PopupBanner"> | string | null
+    linkUrl?: StringNullableFilter<"PopupBanner"> | string | null
+    displayType?: StringFilter<"PopupBanner"> | string
+    position?: StringNullableFilter<"PopupBanner"> | string | null
+    width?: IntNullableFilter<"PopupBanner"> | number | null
+    height?: IntNullableFilter<"PopupBanner"> | number | null
+    startDate?: DateTimeFilter<"PopupBanner"> | Date | string
+    endDate?: DateTimeFilter<"PopupBanner"> | Date | string
+    isActive?: BoolFilter<"PopupBanner"> | boolean
+    showOnce?: BoolFilter<"PopupBanner"> | boolean
+    priority?: IntFilter<"PopupBanner"> | number
+    createdBy?: BigIntNullableFilter<"PopupBanner"> | bigint | number | null
+    createdAt?: DateTimeFilter<"PopupBanner"> | Date | string
+    updatedAt?: DateTimeFilter<"PopupBanner"> | Date | string
+    creator?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
+  }, "id">
+
+  export type PopupBannerOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    linkUrl?: SortOrderInput | SortOrder
+    displayType?: SortOrder
+    position?: SortOrderInput | SortOrder
+    width?: SortOrderInput | SortOrder
+    height?: SortOrderInput | SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    isActive?: SortOrder
+    showOnce?: SortOrder
+    priority?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PopupBannerCountOrderByAggregateInput
+    _avg?: PopupBannerAvgOrderByAggregateInput
+    _max?: PopupBannerMaxOrderByAggregateInput
+    _min?: PopupBannerMinOrderByAggregateInput
+    _sum?: PopupBannerSumOrderByAggregateInput
+  }
+
+  export type PopupBannerScalarWhereWithAggregatesInput = {
+    AND?: PopupBannerScalarWhereWithAggregatesInput | PopupBannerScalarWhereWithAggregatesInput[]
+    OR?: PopupBannerScalarWhereWithAggregatesInput[]
+    NOT?: PopupBannerScalarWhereWithAggregatesInput | PopupBannerScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"PopupBanner"> | bigint | number
+    title?: StringWithAggregatesFilter<"PopupBanner"> | string
+    content?: StringNullableWithAggregatesFilter<"PopupBanner"> | string | null
+    imageUrl?: StringNullableWithAggregatesFilter<"PopupBanner"> | string | null
+    linkUrl?: StringNullableWithAggregatesFilter<"PopupBanner"> | string | null
+    displayType?: StringWithAggregatesFilter<"PopupBanner"> | string
+    position?: StringNullableWithAggregatesFilter<"PopupBanner"> | string | null
+    width?: IntNullableWithAggregatesFilter<"PopupBanner"> | number | null
+    height?: IntNullableWithAggregatesFilter<"PopupBanner"> | number | null
+    startDate?: DateTimeWithAggregatesFilter<"PopupBanner"> | Date | string
+    endDate?: DateTimeWithAggregatesFilter<"PopupBanner"> | Date | string
+    isActive?: BoolWithAggregatesFilter<"PopupBanner"> | boolean
+    showOnce?: BoolWithAggregatesFilter<"PopupBanner"> | boolean
+    priority?: IntWithAggregatesFilter<"PopupBanner"> | number
+    createdBy?: BigIntNullableWithAggregatesFilter<"PopupBanner"> | bigint | number | null
+    createdAt?: DateTimeWithAggregatesFilter<"PopupBanner"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PopupBanner"> | Date | string
   }
 
   export type DepartmentWhereInput = {
@@ -95936,123 +96336,6 @@ export namespace Prisma {
     respiratoryRate?: IntNullableWithAggregatesFilter<"ResidentVital"> | number | null
     spo2?: IntNullableWithAggregatesFilter<"ResidentVital"> | number | null
     notes?: StringNullableWithAggregatesFilter<"ResidentVital"> | string | null
-  }
-
-  export type PopupBannerWhereInput = {
-    AND?: PopupBannerWhereInput | PopupBannerWhereInput[]
-    OR?: PopupBannerWhereInput[]
-    NOT?: PopupBannerWhereInput | PopupBannerWhereInput[]
-    id?: BigIntFilter<"PopupBanner"> | bigint | number
-    title?: StringFilter<"PopupBanner"> | string
-    content?: StringNullableFilter<"PopupBanner"> | string | null
-    imageUrl?: StringNullableFilter<"PopupBanner"> | string | null
-    linkUrl?: StringNullableFilter<"PopupBanner"> | string | null
-    displayType?: StringFilter<"PopupBanner"> | string
-    position?: StringNullableFilter<"PopupBanner"> | string | null
-    width?: IntNullableFilter<"PopupBanner"> | number | null
-    height?: IntNullableFilter<"PopupBanner"> | number | null
-    startDate?: DateTimeFilter<"PopupBanner"> | Date | string
-    endDate?: DateTimeFilter<"PopupBanner"> | Date | string
-    isActive?: BoolFilter<"PopupBanner"> | boolean
-    showOnce?: BoolFilter<"PopupBanner"> | boolean
-    priority?: IntFilter<"PopupBanner"> | number
-    createdBy?: BigIntNullableFilter<"PopupBanner"> | bigint | number | null
-    createdAt?: DateTimeFilter<"PopupBanner"> | Date | string
-    updatedAt?: DateTimeFilter<"PopupBanner"> | Date | string
-    creator?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
-  }
-
-  export type PopupBannerOrderByWithRelationInput = {
-    id?: SortOrder
-    title?: SortOrder
-    content?: SortOrderInput | SortOrder
-    imageUrl?: SortOrderInput | SortOrder
-    linkUrl?: SortOrderInput | SortOrder
-    displayType?: SortOrder
-    position?: SortOrderInput | SortOrder
-    width?: SortOrderInput | SortOrder
-    height?: SortOrderInput | SortOrder
-    startDate?: SortOrder
-    endDate?: SortOrder
-    isActive?: SortOrder
-    showOnce?: SortOrder
-    priority?: SortOrder
-    createdBy?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    creator?: EmployeeOrderByWithRelationInput
-  }
-
-  export type PopupBannerWhereUniqueInput = Prisma.AtLeast<{
-    id?: bigint | number
-    AND?: PopupBannerWhereInput | PopupBannerWhereInput[]
-    OR?: PopupBannerWhereInput[]
-    NOT?: PopupBannerWhereInput | PopupBannerWhereInput[]
-    title?: StringFilter<"PopupBanner"> | string
-    content?: StringNullableFilter<"PopupBanner"> | string | null
-    imageUrl?: StringNullableFilter<"PopupBanner"> | string | null
-    linkUrl?: StringNullableFilter<"PopupBanner"> | string | null
-    displayType?: StringFilter<"PopupBanner"> | string
-    position?: StringNullableFilter<"PopupBanner"> | string | null
-    width?: IntNullableFilter<"PopupBanner"> | number | null
-    height?: IntNullableFilter<"PopupBanner"> | number | null
-    startDate?: DateTimeFilter<"PopupBanner"> | Date | string
-    endDate?: DateTimeFilter<"PopupBanner"> | Date | string
-    isActive?: BoolFilter<"PopupBanner"> | boolean
-    showOnce?: BoolFilter<"PopupBanner"> | boolean
-    priority?: IntFilter<"PopupBanner"> | number
-    createdBy?: BigIntNullableFilter<"PopupBanner"> | bigint | number | null
-    createdAt?: DateTimeFilter<"PopupBanner"> | Date | string
-    updatedAt?: DateTimeFilter<"PopupBanner"> | Date | string
-    creator?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
-  }, "id">
-
-  export type PopupBannerOrderByWithAggregationInput = {
-    id?: SortOrder
-    title?: SortOrder
-    content?: SortOrderInput | SortOrder
-    imageUrl?: SortOrderInput | SortOrder
-    linkUrl?: SortOrderInput | SortOrder
-    displayType?: SortOrder
-    position?: SortOrderInput | SortOrder
-    width?: SortOrderInput | SortOrder
-    height?: SortOrderInput | SortOrder
-    startDate?: SortOrder
-    endDate?: SortOrder
-    isActive?: SortOrder
-    showOnce?: SortOrder
-    priority?: SortOrder
-    createdBy?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: PopupBannerCountOrderByAggregateInput
-    _avg?: PopupBannerAvgOrderByAggregateInput
-    _max?: PopupBannerMaxOrderByAggregateInput
-    _min?: PopupBannerMinOrderByAggregateInput
-    _sum?: PopupBannerSumOrderByAggregateInput
-  }
-
-  export type PopupBannerScalarWhereWithAggregatesInput = {
-    AND?: PopupBannerScalarWhereWithAggregatesInput | PopupBannerScalarWhereWithAggregatesInput[]
-    OR?: PopupBannerScalarWhereWithAggregatesInput[]
-    NOT?: PopupBannerScalarWhereWithAggregatesInput | PopupBannerScalarWhereWithAggregatesInput[]
-    id?: BigIntWithAggregatesFilter<"PopupBanner"> | bigint | number
-    title?: StringWithAggregatesFilter<"PopupBanner"> | string
-    content?: StringNullableWithAggregatesFilter<"PopupBanner"> | string | null
-    imageUrl?: StringNullableWithAggregatesFilter<"PopupBanner"> | string | null
-    linkUrl?: StringNullableWithAggregatesFilter<"PopupBanner"> | string | null
-    displayType?: StringWithAggregatesFilter<"PopupBanner"> | string
-    position?: StringNullableWithAggregatesFilter<"PopupBanner"> | string | null
-    width?: IntNullableWithAggregatesFilter<"PopupBanner"> | number | null
-    height?: IntNullableWithAggregatesFilter<"PopupBanner"> | number | null
-    startDate?: DateTimeWithAggregatesFilter<"PopupBanner"> | Date | string
-    endDate?: DateTimeWithAggregatesFilter<"PopupBanner"> | Date | string
-    isActive?: BoolWithAggregatesFilter<"PopupBanner"> | boolean
-    showOnce?: BoolWithAggregatesFilter<"PopupBanner"> | boolean
-    priority?: IntWithAggregatesFilter<"PopupBanner"> | number
-    createdBy?: BigIntNullableWithAggregatesFilter<"PopupBanner"> | bigint | number | null
-    createdAt?: DateTimeWithAggregatesFilter<"PopupBanner"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"PopupBanner"> | Date | string
   }
 
   export type WebsiteSettingWhereInput = {
@@ -99385,229 +99668,6 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"NotificationQueue"> | Date | string
   }
 
-  export type VisitReservationWhereInput = {
-    AND?: VisitReservationWhereInput | VisitReservationWhereInput[]
-    OR?: VisitReservationWhereInput[]
-    NOT?: VisitReservationWhereInput | VisitReservationWhereInput[]
-    id?: BigIntFilter<"VisitReservation"> | bigint | number
-    visitorName?: StringFilter<"VisitReservation"> | string
-    visitorPhone?: StringFilter<"VisitReservation"> | string
-    visitorRelationship?: StringFilter<"VisitReservation"> | string
-    residentName?: StringFilter<"VisitReservation"> | string
-    visitDate?: DateTimeFilter<"VisitReservation"> | Date | string
-    visitTime?: StringFilter<"VisitReservation"> | string
-    visitorCount?: IntFilter<"VisitReservation"> | number
-    visitPurpose?: StringNullableFilter<"VisitReservation"> | string | null
-    healthCheckSymptoms?: BoolFilter<"VisitReservation"> | boolean
-    healthCheckAssistance?: BoolFilter<"VisitReservation"> | boolean
-    notes?: StringNullableFilter<"VisitReservation"> | string | null
-    isConsented?: BoolFilter<"VisitReservation"> | boolean
-    status?: StringFilter<"VisitReservation"> | string
-    ipAddress?: StringNullableFilter<"VisitReservation"> | string | null
-    userAgent?: StringNullableFilter<"VisitReservation"> | string | null
-    createdAt?: DateTimeFilter<"VisitReservation"> | Date | string
-    updatedAt?: DateTimeFilter<"VisitReservation"> | Date | string
-  }
-
-  export type VisitReservationOrderByWithRelationInput = {
-    id?: SortOrder
-    visitorName?: SortOrder
-    visitorPhone?: SortOrder
-    visitorRelationship?: SortOrder
-    residentName?: SortOrder
-    visitDate?: SortOrder
-    visitTime?: SortOrder
-    visitorCount?: SortOrder
-    visitPurpose?: SortOrderInput | SortOrder
-    healthCheckSymptoms?: SortOrder
-    healthCheckAssistance?: SortOrder
-    notes?: SortOrderInput | SortOrder
-    isConsented?: SortOrder
-    status?: SortOrder
-    ipAddress?: SortOrderInput | SortOrder
-    userAgent?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type VisitReservationWhereUniqueInput = Prisma.AtLeast<{
-    id?: bigint | number
-    AND?: VisitReservationWhereInput | VisitReservationWhereInput[]
-    OR?: VisitReservationWhereInput[]
-    NOT?: VisitReservationWhereInput | VisitReservationWhereInput[]
-    visitorName?: StringFilter<"VisitReservation"> | string
-    visitorPhone?: StringFilter<"VisitReservation"> | string
-    visitorRelationship?: StringFilter<"VisitReservation"> | string
-    residentName?: StringFilter<"VisitReservation"> | string
-    visitDate?: DateTimeFilter<"VisitReservation"> | Date | string
-    visitTime?: StringFilter<"VisitReservation"> | string
-    visitorCount?: IntFilter<"VisitReservation"> | number
-    visitPurpose?: StringNullableFilter<"VisitReservation"> | string | null
-    healthCheckSymptoms?: BoolFilter<"VisitReservation"> | boolean
-    healthCheckAssistance?: BoolFilter<"VisitReservation"> | boolean
-    notes?: StringNullableFilter<"VisitReservation"> | string | null
-    isConsented?: BoolFilter<"VisitReservation"> | boolean
-    status?: StringFilter<"VisitReservation"> | string
-    ipAddress?: StringNullableFilter<"VisitReservation"> | string | null
-    userAgent?: StringNullableFilter<"VisitReservation"> | string | null
-    createdAt?: DateTimeFilter<"VisitReservation"> | Date | string
-    updatedAt?: DateTimeFilter<"VisitReservation"> | Date | string
-  }, "id">
-
-  export type VisitReservationOrderByWithAggregationInput = {
-    id?: SortOrder
-    visitorName?: SortOrder
-    visitorPhone?: SortOrder
-    visitorRelationship?: SortOrder
-    residentName?: SortOrder
-    visitDate?: SortOrder
-    visitTime?: SortOrder
-    visitorCount?: SortOrder
-    visitPurpose?: SortOrderInput | SortOrder
-    healthCheckSymptoms?: SortOrder
-    healthCheckAssistance?: SortOrder
-    notes?: SortOrderInput | SortOrder
-    isConsented?: SortOrder
-    status?: SortOrder
-    ipAddress?: SortOrderInput | SortOrder
-    userAgent?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: VisitReservationCountOrderByAggregateInput
-    _avg?: VisitReservationAvgOrderByAggregateInput
-    _max?: VisitReservationMaxOrderByAggregateInput
-    _min?: VisitReservationMinOrderByAggregateInput
-    _sum?: VisitReservationSumOrderByAggregateInput
-  }
-
-  export type VisitReservationScalarWhereWithAggregatesInput = {
-    AND?: VisitReservationScalarWhereWithAggregatesInput | VisitReservationScalarWhereWithAggregatesInput[]
-    OR?: VisitReservationScalarWhereWithAggregatesInput[]
-    NOT?: VisitReservationScalarWhereWithAggregatesInput | VisitReservationScalarWhereWithAggregatesInput[]
-    id?: BigIntWithAggregatesFilter<"VisitReservation"> | bigint | number
-    visitorName?: StringWithAggregatesFilter<"VisitReservation"> | string
-    visitorPhone?: StringWithAggregatesFilter<"VisitReservation"> | string
-    visitorRelationship?: StringWithAggregatesFilter<"VisitReservation"> | string
-    residentName?: StringWithAggregatesFilter<"VisitReservation"> | string
-    visitDate?: DateTimeWithAggregatesFilter<"VisitReservation"> | Date | string
-    visitTime?: StringWithAggregatesFilter<"VisitReservation"> | string
-    visitorCount?: IntWithAggregatesFilter<"VisitReservation"> | number
-    visitPurpose?: StringNullableWithAggregatesFilter<"VisitReservation"> | string | null
-    healthCheckSymptoms?: BoolWithAggregatesFilter<"VisitReservation"> | boolean
-    healthCheckAssistance?: BoolWithAggregatesFilter<"VisitReservation"> | boolean
-    notes?: StringNullableWithAggregatesFilter<"VisitReservation"> | string | null
-    isConsented?: BoolWithAggregatesFilter<"VisitReservation"> | boolean
-    status?: StringWithAggregatesFilter<"VisitReservation"> | string
-    ipAddress?: StringNullableWithAggregatesFilter<"VisitReservation"> | string | null
-    userAgent?: StringNullableWithAggregatesFilter<"VisitReservation"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"VisitReservation"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"VisitReservation"> | Date | string
-  }
-
-  export type WebInquiryWhereInput = {
-    AND?: WebInquiryWhereInput | WebInquiryWhereInput[]
-    OR?: WebInquiryWhereInput[]
-    NOT?: WebInquiryWhereInput | WebInquiryWhereInput[]
-    id?: BigIntFilter<"WebInquiry"> | bigint | number
-    name?: StringFilter<"WebInquiry"> | string
-    phone?: StringFilter<"WebInquiry"> | string
-    email?: StringNullableFilter<"WebInquiry"> | string | null
-    type?: StringFilter<"WebInquiry"> | string
-    residentAge?: StringNullableFilter<"WebInquiry"> | string | null
-    careGrade?: StringNullableFilter<"WebInquiry"> | string | null
-    preferredDate?: DateTimeNullableFilter<"WebInquiry"> | Date | string | null
-    message?: StringNullableFilter<"WebInquiry"> | string | null
-    isConsented?: BoolFilter<"WebInquiry"> | boolean
-    status?: StringFilter<"WebInquiry"> | string
-    ipAddress?: StringNullableFilter<"WebInquiry"> | string | null
-    userAgent?: StringNullableFilter<"WebInquiry"> | string | null
-    createdAt?: DateTimeFilter<"WebInquiry"> | Date | string
-    updatedAt?: DateTimeFilter<"WebInquiry"> | Date | string
-  }
-
-  export type WebInquiryOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    phone?: SortOrder
-    email?: SortOrderInput | SortOrder
-    type?: SortOrder
-    residentAge?: SortOrderInput | SortOrder
-    careGrade?: SortOrderInput | SortOrder
-    preferredDate?: SortOrderInput | SortOrder
-    message?: SortOrderInput | SortOrder
-    isConsented?: SortOrder
-    status?: SortOrder
-    ipAddress?: SortOrderInput | SortOrder
-    userAgent?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type WebInquiryWhereUniqueInput = Prisma.AtLeast<{
-    id?: bigint | number
-    AND?: WebInquiryWhereInput | WebInquiryWhereInput[]
-    OR?: WebInquiryWhereInput[]
-    NOT?: WebInquiryWhereInput | WebInquiryWhereInput[]
-    name?: StringFilter<"WebInquiry"> | string
-    phone?: StringFilter<"WebInquiry"> | string
-    email?: StringNullableFilter<"WebInquiry"> | string | null
-    type?: StringFilter<"WebInquiry"> | string
-    residentAge?: StringNullableFilter<"WebInquiry"> | string | null
-    careGrade?: StringNullableFilter<"WebInquiry"> | string | null
-    preferredDate?: DateTimeNullableFilter<"WebInquiry"> | Date | string | null
-    message?: StringNullableFilter<"WebInquiry"> | string | null
-    isConsented?: BoolFilter<"WebInquiry"> | boolean
-    status?: StringFilter<"WebInquiry"> | string
-    ipAddress?: StringNullableFilter<"WebInquiry"> | string | null
-    userAgent?: StringNullableFilter<"WebInquiry"> | string | null
-    createdAt?: DateTimeFilter<"WebInquiry"> | Date | string
-    updatedAt?: DateTimeFilter<"WebInquiry"> | Date | string
-  }, "id">
-
-  export type WebInquiryOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    phone?: SortOrder
-    email?: SortOrderInput | SortOrder
-    type?: SortOrder
-    residentAge?: SortOrderInput | SortOrder
-    careGrade?: SortOrderInput | SortOrder
-    preferredDate?: SortOrderInput | SortOrder
-    message?: SortOrderInput | SortOrder
-    isConsented?: SortOrder
-    status?: SortOrder
-    ipAddress?: SortOrderInput | SortOrder
-    userAgent?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: WebInquiryCountOrderByAggregateInput
-    _avg?: WebInquiryAvgOrderByAggregateInput
-    _max?: WebInquiryMaxOrderByAggregateInput
-    _min?: WebInquiryMinOrderByAggregateInput
-    _sum?: WebInquirySumOrderByAggregateInput
-  }
-
-  export type WebInquiryScalarWhereWithAggregatesInput = {
-    AND?: WebInquiryScalarWhereWithAggregatesInput | WebInquiryScalarWhereWithAggregatesInput[]
-    OR?: WebInquiryScalarWhereWithAggregatesInput[]
-    NOT?: WebInquiryScalarWhereWithAggregatesInput | WebInquiryScalarWhereWithAggregatesInput[]
-    id?: BigIntWithAggregatesFilter<"WebInquiry"> | bigint | number
-    name?: StringWithAggregatesFilter<"WebInquiry"> | string
-    phone?: StringWithAggregatesFilter<"WebInquiry"> | string
-    email?: StringNullableWithAggregatesFilter<"WebInquiry"> | string | null
-    type?: StringWithAggregatesFilter<"WebInquiry"> | string
-    residentAge?: StringNullableWithAggregatesFilter<"WebInquiry"> | string | null
-    careGrade?: StringNullableWithAggregatesFilter<"WebInquiry"> | string | null
-    preferredDate?: DateTimeNullableWithAggregatesFilter<"WebInquiry"> | Date | string | null
-    message?: StringNullableWithAggregatesFilter<"WebInquiry"> | string | null
-    isConsented?: BoolWithAggregatesFilter<"WebInquiry"> | boolean
-    status?: StringWithAggregatesFilter<"WebInquiry"> | string
-    ipAddress?: StringNullableWithAggregatesFilter<"WebInquiry"> | string | null
-    userAgent?: StringNullableWithAggregatesFilter<"WebInquiry"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"WebInquiry"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"WebInquiry"> | Date | string
-  }
-
   export type WebNoticeWhereInput = {
     AND?: WebNoticeWhereInput | WebNoticeWhereInput[]
     OR?: WebNoticeWhereInput[]
@@ -100563,6 +100623,8 @@ export namespace Prisma {
     id?: bigint | number
     content: string
     isDeleted?: boolean
+    guestNickname?: string | null
+    guestPassword?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     author?: EmployeeCreateNestedOneWithoutBoardCommentsAuthoredInput
@@ -100578,6 +100640,8 @@ export namespace Prisma {
     authorId?: bigint | number | null
     content: string
     isDeleted?: boolean
+    guestNickname?: string | null
+    guestPassword?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     replies?: BoardCommentUncheckedCreateNestedManyWithoutParentInput
@@ -100587,6 +100651,8 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    guestNickname?: NullableStringFieldUpdateOperationsInput | string | null
+    guestPassword?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: EmployeeUpdateOneWithoutBoardCommentsAuthoredNestedInput
@@ -100602,6 +100668,8 @@ export namespace Prisma {
     authorId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    guestNickname?: NullableStringFieldUpdateOperationsInput | string | null
+    guestPassword?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     replies?: BoardCommentUncheckedUpdateManyWithoutParentNestedInput
@@ -100614,6 +100682,8 @@ export namespace Prisma {
     authorId?: bigint | number | null
     content: string
     isDeleted?: boolean
+    guestNickname?: string | null
+    guestPassword?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -100622,6 +100692,8 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    guestNickname?: NullableStringFieldUpdateOperationsInput | string | null
+    guestPassword?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -100633,6 +100705,8 @@ export namespace Prisma {
     authorId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    guestNickname?: NullableStringFieldUpdateOperationsInput | string | null
+    guestPassword?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -100880,6 +100954,7 @@ export namespace Prisma {
     sideMenu?: string | null
     soup?: string | null
     dessert?: string | null
+    calories?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     mealPlan: MealPlanCreateNestedOneWithoutMealPlanItemsInput
@@ -100894,6 +100969,7 @@ export namespace Prisma {
     sideMenu?: string | null
     soup?: string | null
     dessert?: string | null
+    calories?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -100906,6 +100982,7 @@ export namespace Prisma {
     sideMenu?: NullableStringFieldUpdateOperationsInput | string | null
     soup?: NullableStringFieldUpdateOperationsInput | string | null
     dessert?: NullableStringFieldUpdateOperationsInput | string | null
+    calories?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mealPlan?: MealPlanUpdateOneRequiredWithoutMealPlanItemsNestedInput
@@ -100920,6 +100997,7 @@ export namespace Prisma {
     sideMenu?: NullableStringFieldUpdateOperationsInput | string | null
     soup?: NullableStringFieldUpdateOperationsInput | string | null
     dessert?: NullableStringFieldUpdateOperationsInput | string | null
+    calories?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -100933,6 +101011,7 @@ export namespace Prisma {
     sideMenu?: string | null
     soup?: string | null
     dessert?: string | null
+    calories?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -100945,6 +101024,7 @@ export namespace Prisma {
     sideMenu?: NullableStringFieldUpdateOperationsInput | string | null
     soup?: NullableStringFieldUpdateOperationsInput | string | null
     dessert?: NullableStringFieldUpdateOperationsInput | string | null
+    calories?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -100958,6 +101038,7 @@ export namespace Prisma {
     sideMenu?: NullableStringFieldUpdateOperationsInput | string | null
     soup?: NullableStringFieldUpdateOperationsInput | string | null
     dessert?: NullableStringFieldUpdateOperationsInput | string | null
+    calories?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -101132,6 +101213,418 @@ export namespace Prisma {
     location?: NullableStringFieldUpdateOperationsInput | string | null
     capacity?: NullableIntFieldUpdateOperationsInput | number | null
     status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VisitReservationCreateInput = {
+    id?: bigint | number
+    visitorName: string
+    visitorPhone: string
+    visitorRelationship: string
+    residentName: string
+    visitDate: Date | string
+    visitTime: string
+    visitorCount?: number
+    visitPurpose?: string | null
+    healthCheckSymptoms?: boolean
+    healthCheckAssistance?: boolean
+    notes?: string | null
+    isConsented?: boolean
+    status?: string
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VisitReservationUncheckedCreateInput = {
+    id?: bigint | number
+    visitorName: string
+    visitorPhone: string
+    visitorRelationship: string
+    residentName: string
+    visitDate: Date | string
+    visitTime: string
+    visitorCount?: number
+    visitPurpose?: string | null
+    healthCheckSymptoms?: boolean
+    healthCheckAssistance?: boolean
+    notes?: string | null
+    isConsented?: boolean
+    status?: string
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VisitReservationUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    visitorName?: StringFieldUpdateOperationsInput | string
+    visitorPhone?: StringFieldUpdateOperationsInput | string
+    visitorRelationship?: StringFieldUpdateOperationsInput | string
+    residentName?: StringFieldUpdateOperationsInput | string
+    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitTime?: StringFieldUpdateOperationsInput | string
+    visitorCount?: IntFieldUpdateOperationsInput | number
+    visitPurpose?: NullableStringFieldUpdateOperationsInput | string | null
+    healthCheckSymptoms?: BoolFieldUpdateOperationsInput | boolean
+    healthCheckAssistance?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isConsented?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VisitReservationUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    visitorName?: StringFieldUpdateOperationsInput | string
+    visitorPhone?: StringFieldUpdateOperationsInput | string
+    visitorRelationship?: StringFieldUpdateOperationsInput | string
+    residentName?: StringFieldUpdateOperationsInput | string
+    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitTime?: StringFieldUpdateOperationsInput | string
+    visitorCount?: IntFieldUpdateOperationsInput | number
+    visitPurpose?: NullableStringFieldUpdateOperationsInput | string | null
+    healthCheckSymptoms?: BoolFieldUpdateOperationsInput | boolean
+    healthCheckAssistance?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isConsented?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VisitReservationCreateManyInput = {
+    id?: bigint | number
+    visitorName: string
+    visitorPhone: string
+    visitorRelationship: string
+    residentName: string
+    visitDate: Date | string
+    visitTime: string
+    visitorCount?: number
+    visitPurpose?: string | null
+    healthCheckSymptoms?: boolean
+    healthCheckAssistance?: boolean
+    notes?: string | null
+    isConsented?: boolean
+    status?: string
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type VisitReservationUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    visitorName?: StringFieldUpdateOperationsInput | string
+    visitorPhone?: StringFieldUpdateOperationsInput | string
+    visitorRelationship?: StringFieldUpdateOperationsInput | string
+    residentName?: StringFieldUpdateOperationsInput | string
+    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitTime?: StringFieldUpdateOperationsInput | string
+    visitorCount?: IntFieldUpdateOperationsInput | number
+    visitPurpose?: NullableStringFieldUpdateOperationsInput | string | null
+    healthCheckSymptoms?: BoolFieldUpdateOperationsInput | boolean
+    healthCheckAssistance?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isConsented?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VisitReservationUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    visitorName?: StringFieldUpdateOperationsInput | string
+    visitorPhone?: StringFieldUpdateOperationsInput | string
+    visitorRelationship?: StringFieldUpdateOperationsInput | string
+    residentName?: StringFieldUpdateOperationsInput | string
+    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitTime?: StringFieldUpdateOperationsInput | string
+    visitorCount?: IntFieldUpdateOperationsInput | number
+    visitPurpose?: NullableStringFieldUpdateOperationsInput | string | null
+    healthCheckSymptoms?: BoolFieldUpdateOperationsInput | boolean
+    healthCheckAssistance?: BoolFieldUpdateOperationsInput | boolean
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    isConsented?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebInquiryCreateInput = {
+    id?: bigint | number
+    name: string
+    phone: string
+    email?: string | null
+    type: string
+    residentAge?: string | null
+    careGrade?: string | null
+    preferredDate?: Date | string | null
+    message?: string | null
+    isConsented?: boolean
+    status?: string
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WebInquiryUncheckedCreateInput = {
+    id?: bigint | number
+    name: string
+    phone: string
+    email?: string | null
+    type: string
+    residentAge?: string | null
+    careGrade?: string | null
+    preferredDate?: Date | string | null
+    message?: string | null
+    isConsented?: boolean
+    status?: string
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WebInquiryUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    residentAge?: NullableStringFieldUpdateOperationsInput | string | null
+    careGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    isConsented?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebInquiryUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    residentAge?: NullableStringFieldUpdateOperationsInput | string | null
+    careGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    isConsented?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebInquiryCreateManyInput = {
+    id?: bigint | number
+    name: string
+    phone: string
+    email?: string | null
+    type: string
+    residentAge?: string | null
+    careGrade?: string | null
+    preferredDate?: Date | string | null
+    message?: string | null
+    isConsented?: boolean
+    status?: string
+    ipAddress?: string | null
+    userAgent?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type WebInquiryUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    residentAge?: NullableStringFieldUpdateOperationsInput | string | null
+    careGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    isConsented?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type WebInquiryUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    name?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    residentAge?: NullableStringFieldUpdateOperationsInput | string | null
+    careGrade?: NullableStringFieldUpdateOperationsInput | string | null
+    preferredDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    isConsented?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PopupBannerCreateInput = {
+    id?: bigint | number
+    title: string
+    content?: string | null
+    imageUrl?: string | null
+    linkUrl?: string | null
+    displayType?: string
+    position?: string | null
+    width?: number | null
+    height?: number | null
+    startDate: Date | string
+    endDate: Date | string
+    isActive?: boolean
+    showOnce?: boolean
+    priority?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creator?: EmployeeCreateNestedOneWithoutPopupBannersCreatedInput
+  }
+
+  export type PopupBannerUncheckedCreateInput = {
+    id?: bigint | number
+    title: string
+    content?: string | null
+    imageUrl?: string | null
+    linkUrl?: string | null
+    displayType?: string
+    position?: string | null
+    width?: number | null
+    height?: number | null
+    startDate: Date | string
+    endDate: Date | string
+    isActive?: boolean
+    showOnce?: boolean
+    priority?: number
+    createdBy?: bigint | number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PopupBannerUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    linkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    displayType?: StringFieldUpdateOperationsInput | string
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    width?: NullableIntFieldUpdateOperationsInput | number | null
+    height?: NullableIntFieldUpdateOperationsInput | number | null
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    showOnce?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: EmployeeUpdateOneWithoutPopupBannersCreatedNestedInput
+  }
+
+  export type PopupBannerUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    linkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    displayType?: StringFieldUpdateOperationsInput | string
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    width?: NullableIntFieldUpdateOperationsInput | number | null
+    height?: NullableIntFieldUpdateOperationsInput | number | null
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    showOnce?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    createdBy?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PopupBannerCreateManyInput = {
+    id?: bigint | number
+    title: string
+    content?: string | null
+    imageUrl?: string | null
+    linkUrl?: string | null
+    displayType?: string
+    position?: string | null
+    width?: number | null
+    height?: number | null
+    startDate: Date | string
+    endDate: Date | string
+    isActive?: boolean
+    showOnce?: boolean
+    priority?: number
+    createdBy?: bigint | number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PopupBannerUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    linkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    displayType?: StringFieldUpdateOperationsInput | string
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    width?: NullableIntFieldUpdateOperationsInput | number | null
+    height?: NullableIntFieldUpdateOperationsInput | number | null
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    showOnce?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PopupBannerUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    linkUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    displayType?: StringFieldUpdateOperationsInput | string
+    position?: NullableStringFieldUpdateOperationsInput | string | null
+    width?: NullableIntFieldUpdateOperationsInput | number | null
+    height?: NullableIntFieldUpdateOperationsInput | number | null
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    showOnce?: BoolFieldUpdateOperationsInput | boolean
+    priority?: IntFieldUpdateOperationsInput | number
+    createdBy?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -102238,145 +102731,6 @@ export namespace Prisma {
     respiratoryRate?: NullableIntFieldUpdateOperationsInput | number | null
     spo2?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type PopupBannerCreateInput = {
-    id?: bigint | number
-    title: string
-    content?: string | null
-    imageUrl?: string | null
-    linkUrl?: string | null
-    displayType?: string
-    position?: string | null
-    width?: number | null
-    height?: number | null
-    startDate: Date | string
-    endDate: Date | string
-    isActive?: boolean
-    showOnce?: boolean
-    priority?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    creator?: EmployeeCreateNestedOneWithoutPopupBannersCreatedInput
-  }
-
-  export type PopupBannerUncheckedCreateInput = {
-    id?: bigint | number
-    title: string
-    content?: string | null
-    imageUrl?: string | null
-    linkUrl?: string | null
-    displayType?: string
-    position?: string | null
-    width?: number | null
-    height?: number | null
-    startDate: Date | string
-    endDate: Date | string
-    isActive?: boolean
-    showOnce?: boolean
-    priority?: number
-    createdBy?: bigint | number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type PopupBannerUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    displayType?: StringFieldUpdateOperationsInput | string
-    position?: NullableStringFieldUpdateOperationsInput | string | null
-    width?: NullableIntFieldUpdateOperationsInput | number | null
-    height?: NullableIntFieldUpdateOperationsInput | number | null
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    showOnce?: BoolFieldUpdateOperationsInput | boolean
-    priority?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    creator?: EmployeeUpdateOneWithoutPopupBannersCreatedNestedInput
-  }
-
-  export type PopupBannerUncheckedUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    displayType?: StringFieldUpdateOperationsInput | string
-    position?: NullableStringFieldUpdateOperationsInput | string | null
-    width?: NullableIntFieldUpdateOperationsInput | number | null
-    height?: NullableIntFieldUpdateOperationsInput | number | null
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    showOnce?: BoolFieldUpdateOperationsInput | boolean
-    priority?: IntFieldUpdateOperationsInput | number
-    createdBy?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PopupBannerCreateManyInput = {
-    id?: bigint | number
-    title: string
-    content?: string | null
-    imageUrl?: string | null
-    linkUrl?: string | null
-    displayType?: string
-    position?: string | null
-    width?: number | null
-    height?: number | null
-    startDate: Date | string
-    endDate: Date | string
-    isActive?: boolean
-    showOnce?: boolean
-    priority?: number
-    createdBy?: bigint | number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type PopupBannerUpdateManyMutationInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    displayType?: StringFieldUpdateOperationsInput | string
-    position?: NullableStringFieldUpdateOperationsInput | string | null
-    width?: NullableIntFieldUpdateOperationsInput | number | null
-    height?: NullableIntFieldUpdateOperationsInput | number | null
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    showOnce?: BoolFieldUpdateOperationsInput | boolean
-    priority?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PopupBannerUncheckedUpdateManyInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    title?: StringFieldUpdateOperationsInput | string
-    content?: NullableStringFieldUpdateOperationsInput | string | null
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    linkUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    displayType?: StringFieldUpdateOperationsInput | string
-    position?: NullableStringFieldUpdateOperationsInput | string | null
-    width?: NullableIntFieldUpdateOperationsInput | number | null
-    height?: NullableIntFieldUpdateOperationsInput | number | null
-    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    showOnce?: BoolFieldUpdateOperationsInput | boolean
-    priority?: IntFieldUpdateOperationsInput | number
-    createdBy?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type WebsiteSettingCreateInput = {
@@ -105962,279 +106316,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type VisitReservationCreateInput = {
-    id?: bigint | number
-    visitorName: string
-    visitorPhone: string
-    visitorRelationship: string
-    residentName: string
-    visitDate: Date | string
-    visitTime: string
-    visitorCount?: number
-    visitPurpose?: string | null
-    healthCheckSymptoms?: boolean
-    healthCheckAssistance?: boolean
-    notes?: string | null
-    isConsented?: boolean
-    status?: string
-    ipAddress?: string | null
-    userAgent?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type VisitReservationUncheckedCreateInput = {
-    id?: bigint | number
-    visitorName: string
-    visitorPhone: string
-    visitorRelationship: string
-    residentName: string
-    visitDate: Date | string
-    visitTime: string
-    visitorCount?: number
-    visitPurpose?: string | null
-    healthCheckSymptoms?: boolean
-    healthCheckAssistance?: boolean
-    notes?: string | null
-    isConsented?: boolean
-    status?: string
-    ipAddress?: string | null
-    userAgent?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type VisitReservationUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    visitorName?: StringFieldUpdateOperationsInput | string
-    visitorPhone?: StringFieldUpdateOperationsInput | string
-    visitorRelationship?: StringFieldUpdateOperationsInput | string
-    residentName?: StringFieldUpdateOperationsInput | string
-    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    visitTime?: StringFieldUpdateOperationsInput | string
-    visitorCount?: IntFieldUpdateOperationsInput | number
-    visitPurpose?: NullableStringFieldUpdateOperationsInput | string | null
-    healthCheckSymptoms?: BoolFieldUpdateOperationsInput | boolean
-    healthCheckAssistance?: BoolFieldUpdateOperationsInput | boolean
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    isConsented?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type VisitReservationUncheckedUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    visitorName?: StringFieldUpdateOperationsInput | string
-    visitorPhone?: StringFieldUpdateOperationsInput | string
-    visitorRelationship?: StringFieldUpdateOperationsInput | string
-    residentName?: StringFieldUpdateOperationsInput | string
-    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    visitTime?: StringFieldUpdateOperationsInput | string
-    visitorCount?: IntFieldUpdateOperationsInput | number
-    visitPurpose?: NullableStringFieldUpdateOperationsInput | string | null
-    healthCheckSymptoms?: BoolFieldUpdateOperationsInput | boolean
-    healthCheckAssistance?: BoolFieldUpdateOperationsInput | boolean
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    isConsented?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type VisitReservationCreateManyInput = {
-    id?: bigint | number
-    visitorName: string
-    visitorPhone: string
-    visitorRelationship: string
-    residentName: string
-    visitDate: Date | string
-    visitTime: string
-    visitorCount?: number
-    visitPurpose?: string | null
-    healthCheckSymptoms?: boolean
-    healthCheckAssistance?: boolean
-    notes?: string | null
-    isConsented?: boolean
-    status?: string
-    ipAddress?: string | null
-    userAgent?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type VisitReservationUpdateManyMutationInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    visitorName?: StringFieldUpdateOperationsInput | string
-    visitorPhone?: StringFieldUpdateOperationsInput | string
-    visitorRelationship?: StringFieldUpdateOperationsInput | string
-    residentName?: StringFieldUpdateOperationsInput | string
-    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    visitTime?: StringFieldUpdateOperationsInput | string
-    visitorCount?: IntFieldUpdateOperationsInput | number
-    visitPurpose?: NullableStringFieldUpdateOperationsInput | string | null
-    healthCheckSymptoms?: BoolFieldUpdateOperationsInput | boolean
-    healthCheckAssistance?: BoolFieldUpdateOperationsInput | boolean
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    isConsented?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type VisitReservationUncheckedUpdateManyInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    visitorName?: StringFieldUpdateOperationsInput | string
-    visitorPhone?: StringFieldUpdateOperationsInput | string
-    visitorRelationship?: StringFieldUpdateOperationsInput | string
-    residentName?: StringFieldUpdateOperationsInput | string
-    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
-    visitTime?: StringFieldUpdateOperationsInput | string
-    visitorCount?: IntFieldUpdateOperationsInput | number
-    visitPurpose?: NullableStringFieldUpdateOperationsInput | string | null
-    healthCheckSymptoms?: BoolFieldUpdateOperationsInput | boolean
-    healthCheckAssistance?: BoolFieldUpdateOperationsInput | boolean
-    notes?: NullableStringFieldUpdateOperationsInput | string | null
-    isConsented?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WebInquiryCreateInput = {
-    id?: bigint | number
-    name: string
-    phone: string
-    email?: string | null
-    type: string
-    residentAge?: string | null
-    careGrade?: string | null
-    preferredDate?: Date | string | null
-    message?: string | null
-    isConsented?: boolean
-    status?: string
-    ipAddress?: string | null
-    userAgent?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type WebInquiryUncheckedCreateInput = {
-    id?: bigint | number
-    name: string
-    phone: string
-    email?: string | null
-    type: string
-    residentAge?: string | null
-    careGrade?: string | null
-    preferredDate?: Date | string | null
-    message?: string | null
-    isConsented?: boolean
-    status?: string
-    ipAddress?: string | null
-    userAgent?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type WebInquiryUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
-    residentAge?: NullableStringFieldUpdateOperationsInput | string | null
-    careGrade?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    message?: NullableStringFieldUpdateOperationsInput | string | null
-    isConsented?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WebInquiryUncheckedUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
-    residentAge?: NullableStringFieldUpdateOperationsInput | string | null
-    careGrade?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    message?: NullableStringFieldUpdateOperationsInput | string | null
-    isConsented?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WebInquiryCreateManyInput = {
-    id?: bigint | number
-    name: string
-    phone: string
-    email?: string | null
-    type: string
-    residentAge?: string | null
-    careGrade?: string | null
-    preferredDate?: Date | string | null
-    message?: string | null
-    isConsented?: boolean
-    status?: string
-    ipAddress?: string | null
-    userAgent?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type WebInquiryUpdateManyMutationInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
-    residentAge?: NullableStringFieldUpdateOperationsInput | string | null
-    careGrade?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    message?: NullableStringFieldUpdateOperationsInput | string | null
-    isConsented?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WebInquiryUncheckedUpdateManyInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    name?: StringFieldUpdateOperationsInput | string
-    phone?: StringFieldUpdateOperationsInput | string
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    type?: StringFieldUpdateOperationsInput | string
-    residentAge?: NullableStringFieldUpdateOperationsInput | string | null
-    careGrade?: NullableStringFieldUpdateOperationsInput | string | null
-    preferredDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    message?: NullableStringFieldUpdateOperationsInput | string | null
-    isConsented?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    ipAddress?: NullableStringFieldUpdateOperationsInput | string | null
-    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type BigIntFilter<$PrismaModel = never> = {
     equals?: bigint | number | BigIntFieldRefInput<$PrismaModel>
     in?: bigint[] | number[] | ListBigIntFieldRefInput<$PrismaModel>
@@ -106683,6 +106764,8 @@ export namespace Prisma {
     authorId?: SortOrder
     content?: SortOrder
     isDeleted?: SortOrder
+    guestNickname?: SortOrder
+    guestPassword?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -106701,6 +106784,8 @@ export namespace Prisma {
     authorId?: SortOrder
     content?: SortOrder
     isDeleted?: SortOrder
+    guestNickname?: SortOrder
+    guestPassword?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -106712,6 +106797,8 @@ export namespace Prisma {
     authorId?: SortOrder
     content?: SortOrder
     isDeleted?: SortOrder
+    guestNickname?: SortOrder
+    guestPassword?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -106888,6 +106975,17 @@ export namespace Prisma {
     createdBy?: SortOrder
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type MealPlanScalarRelationFilter = {
     is?: MealPlanWhereInput
     isNot?: MealPlanWhereInput
@@ -106902,6 +107000,7 @@ export namespace Prisma {
     sideMenu?: SortOrder
     soup?: SortOrder
     dessert?: SortOrder
+    calories?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -106909,6 +107008,7 @@ export namespace Prisma {
   export type MealPlanItemAvgOrderByAggregateInput = {
     id?: SortOrder
     mealPlanId?: SortOrder
+    calories?: SortOrder
   }
 
   export type MealPlanItemMaxOrderByAggregateInput = {
@@ -106920,6 +107020,7 @@ export namespace Prisma {
     sideMenu?: SortOrder
     soup?: SortOrder
     dessert?: SortOrder
+    calories?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -106933,6 +107034,7 @@ export namespace Prisma {
     sideMenu?: SortOrder
     soup?: SortOrder
     dessert?: SortOrder
+    calories?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -106940,6 +107042,23 @@ export namespace Prisma {
   export type MealPlanItemSumOrderByAggregateInput = {
     id?: SortOrder
     mealPlanId?: SortOrder
+    calories?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
   export type JsonFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -107045,17 +107164,6 @@ export namespace Prisma {
     _max?: NestedJsonFilter<$PrismaModel>
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type ProgramAttendanceListRelationFilter = {
     every?: ProgramAttendanceWhereInput
     some?: ProgramAttendanceWhereInput
@@ -107119,20 +107227,215 @@ export namespace Prisma {
     capacity?: SortOrder
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
+  export type VisitReservationCountOrderByAggregateInput = {
+    id?: SortOrder
+    visitorName?: SortOrder
+    visitorPhone?: SortOrder
+    visitorRelationship?: SortOrder
+    residentName?: SortOrder
+    visitDate?: SortOrder
+    visitTime?: SortOrder
+    visitorCount?: SortOrder
+    visitPurpose?: SortOrder
+    healthCheckSymptoms?: SortOrder
+    healthCheckAssistance?: SortOrder
+    notes?: SortOrder
+    isConsented?: SortOrder
+    status?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VisitReservationAvgOrderByAggregateInput = {
+    id?: SortOrder
+    visitorCount?: SortOrder
+  }
+
+  export type VisitReservationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    visitorName?: SortOrder
+    visitorPhone?: SortOrder
+    visitorRelationship?: SortOrder
+    residentName?: SortOrder
+    visitDate?: SortOrder
+    visitTime?: SortOrder
+    visitorCount?: SortOrder
+    visitPurpose?: SortOrder
+    healthCheckSymptoms?: SortOrder
+    healthCheckAssistance?: SortOrder
+    notes?: SortOrder
+    isConsented?: SortOrder
+    status?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VisitReservationMinOrderByAggregateInput = {
+    id?: SortOrder
+    visitorName?: SortOrder
+    visitorPhone?: SortOrder
+    visitorRelationship?: SortOrder
+    residentName?: SortOrder
+    visitDate?: SortOrder
+    visitTime?: SortOrder
+    visitorCount?: SortOrder
+    visitPurpose?: SortOrder
+    healthCheckSymptoms?: SortOrder
+    healthCheckAssistance?: SortOrder
+    notes?: SortOrder
+    isConsented?: SortOrder
+    status?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type VisitReservationSumOrderByAggregateInput = {
+    id?: SortOrder
+    visitorCount?: SortOrder
+  }
+
+  export type WebInquiryCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    type?: SortOrder
+    residentAge?: SortOrder
+    careGrade?: SortOrder
+    preferredDate?: SortOrder
+    message?: SortOrder
+    isConsented?: SortOrder
+    status?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WebInquiryAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type WebInquiryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    type?: SortOrder
+    residentAge?: SortOrder
+    careGrade?: SortOrder
+    preferredDate?: SortOrder
+    message?: SortOrder
+    isConsented?: SortOrder
+    status?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WebInquiryMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    phone?: SortOrder
+    email?: SortOrder
+    type?: SortOrder
+    residentAge?: SortOrder
+    careGrade?: SortOrder
+    preferredDate?: SortOrder
+    message?: SortOrder
+    isConsented?: SortOrder
+    status?: SortOrder
+    ipAddress?: SortOrder
+    userAgent?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type WebInquirySumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type PopupBannerCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    imageUrl?: SortOrder
+    linkUrl?: SortOrder
+    displayType?: SortOrder
+    position?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    isActive?: SortOrder
+    showOnce?: SortOrder
+    priority?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PopupBannerAvgOrderByAggregateInput = {
+    id?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    priority?: SortOrder
+    createdBy?: SortOrder
+  }
+
+  export type PopupBannerMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    imageUrl?: SortOrder
+    linkUrl?: SortOrder
+    displayType?: SortOrder
+    position?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    isActive?: SortOrder
+    showOnce?: SortOrder
+    priority?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PopupBannerMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    imageUrl?: SortOrder
+    linkUrl?: SortOrder
+    displayType?: SortOrder
+    position?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    startDate?: SortOrder
+    endDate?: SortOrder
+    isActive?: SortOrder
+    showOnce?: SortOrder
+    priority?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PopupBannerSumOrderByAggregateInput = {
+    id?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    priority?: SortOrder
+    createdBy?: SortOrder
   }
 
   export type EmployeeListRelationFilter = {
@@ -108038,82 +108341,6 @@ export namespace Prisma {
     temperature?: SortOrder
     respiratoryRate?: SortOrder
     spo2?: SortOrder
-  }
-
-  export type PopupBannerCountOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    content?: SortOrder
-    imageUrl?: SortOrder
-    linkUrl?: SortOrder
-    displayType?: SortOrder
-    position?: SortOrder
-    width?: SortOrder
-    height?: SortOrder
-    startDate?: SortOrder
-    endDate?: SortOrder
-    isActive?: SortOrder
-    showOnce?: SortOrder
-    priority?: SortOrder
-    createdBy?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type PopupBannerAvgOrderByAggregateInput = {
-    id?: SortOrder
-    width?: SortOrder
-    height?: SortOrder
-    priority?: SortOrder
-    createdBy?: SortOrder
-  }
-
-  export type PopupBannerMaxOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    content?: SortOrder
-    imageUrl?: SortOrder
-    linkUrl?: SortOrder
-    displayType?: SortOrder
-    position?: SortOrder
-    width?: SortOrder
-    height?: SortOrder
-    startDate?: SortOrder
-    endDate?: SortOrder
-    isActive?: SortOrder
-    showOnce?: SortOrder
-    priority?: SortOrder
-    createdBy?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type PopupBannerMinOrderByAggregateInput = {
-    id?: SortOrder
-    title?: SortOrder
-    content?: SortOrder
-    imageUrl?: SortOrder
-    linkUrl?: SortOrder
-    displayType?: SortOrder
-    position?: SortOrder
-    width?: SortOrder
-    height?: SortOrder
-    startDate?: SortOrder
-    endDate?: SortOrder
-    isActive?: SortOrder
-    showOnce?: SortOrder
-    priority?: SortOrder
-    createdBy?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type PopupBannerSumOrderByAggregateInput = {
-    id?: SortOrder
-    width?: SortOrder
-    height?: SortOrder
-    priority?: SortOrder
-    createdBy?: SortOrder
   }
 
   export type WebsiteSettingCategoryKeyCompoundUniqueInput = {
@@ -110395,141 +110622,6 @@ export namespace Prisma {
     targetId?: SortOrder
   }
 
-  export type VisitReservationCountOrderByAggregateInput = {
-    id?: SortOrder
-    visitorName?: SortOrder
-    visitorPhone?: SortOrder
-    visitorRelationship?: SortOrder
-    residentName?: SortOrder
-    visitDate?: SortOrder
-    visitTime?: SortOrder
-    visitorCount?: SortOrder
-    visitPurpose?: SortOrder
-    healthCheckSymptoms?: SortOrder
-    healthCheckAssistance?: SortOrder
-    notes?: SortOrder
-    isConsented?: SortOrder
-    status?: SortOrder
-    ipAddress?: SortOrder
-    userAgent?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type VisitReservationAvgOrderByAggregateInput = {
-    id?: SortOrder
-    visitorCount?: SortOrder
-  }
-
-  export type VisitReservationMaxOrderByAggregateInput = {
-    id?: SortOrder
-    visitorName?: SortOrder
-    visitorPhone?: SortOrder
-    visitorRelationship?: SortOrder
-    residentName?: SortOrder
-    visitDate?: SortOrder
-    visitTime?: SortOrder
-    visitorCount?: SortOrder
-    visitPurpose?: SortOrder
-    healthCheckSymptoms?: SortOrder
-    healthCheckAssistance?: SortOrder
-    notes?: SortOrder
-    isConsented?: SortOrder
-    status?: SortOrder
-    ipAddress?: SortOrder
-    userAgent?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type VisitReservationMinOrderByAggregateInput = {
-    id?: SortOrder
-    visitorName?: SortOrder
-    visitorPhone?: SortOrder
-    visitorRelationship?: SortOrder
-    residentName?: SortOrder
-    visitDate?: SortOrder
-    visitTime?: SortOrder
-    visitorCount?: SortOrder
-    visitPurpose?: SortOrder
-    healthCheckSymptoms?: SortOrder
-    healthCheckAssistance?: SortOrder
-    notes?: SortOrder
-    isConsented?: SortOrder
-    status?: SortOrder
-    ipAddress?: SortOrder
-    userAgent?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type VisitReservationSumOrderByAggregateInput = {
-    id?: SortOrder
-    visitorCount?: SortOrder
-  }
-
-  export type WebInquiryCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    phone?: SortOrder
-    email?: SortOrder
-    type?: SortOrder
-    residentAge?: SortOrder
-    careGrade?: SortOrder
-    preferredDate?: SortOrder
-    message?: SortOrder
-    isConsented?: SortOrder
-    status?: SortOrder
-    ipAddress?: SortOrder
-    userAgent?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type WebInquiryAvgOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
-  export type WebInquiryMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    phone?: SortOrder
-    email?: SortOrder
-    type?: SortOrder
-    residentAge?: SortOrder
-    careGrade?: SortOrder
-    preferredDate?: SortOrder
-    message?: SortOrder
-    isConsented?: SortOrder
-    status?: SortOrder
-    ipAddress?: SortOrder
-    userAgent?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type WebInquiryMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    phone?: SortOrder
-    email?: SortOrder
-    type?: SortOrder
-    residentAge?: SortOrder
-    careGrade?: SortOrder
-    preferredDate?: SortOrder
-    message?: SortOrder
-    isConsented?: SortOrder
-    status?: SortOrder
-    ipAddress?: SortOrder
-    userAgent?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type WebInquirySumOrderByAggregateInput = {
-    id?: SortOrder
-  }
-
   export type WebNoticeCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -111430,6 +111522,14 @@ export namespace Prisma {
     connect?: MealPlanWhereUniqueInput
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type MealPlanUpdateOneRequiredWithoutMealPlanItemsNestedInput = {
     create?: XOR<MealPlanCreateWithoutMealPlanItemsInput, MealPlanUncheckedCreateWithoutMealPlanItemsInput>
     connectOrCreate?: MealPlanCreateOrConnectWithoutMealPlanItemsInput
@@ -111516,14 +111616,6 @@ export namespace Prisma {
     connect?: ProgramAttendanceWhereUniqueInput | ProgramAttendanceWhereUniqueInput[]
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
   export type ProgramAttendanceUpdateManyWithoutScheduleNestedInput = {
     create?: XOR<ProgramAttendanceCreateWithoutScheduleInput, ProgramAttendanceUncheckedCreateWithoutScheduleInput> | ProgramAttendanceCreateWithoutScheduleInput[] | ProgramAttendanceUncheckedCreateWithoutScheduleInput[]
     connectOrCreate?: ProgramAttendanceCreateOrConnectWithoutScheduleInput | ProgramAttendanceCreateOrConnectWithoutScheduleInput[]
@@ -111558,6 +111650,22 @@ export namespace Prisma {
     update?: ProgramAttendanceUpdateWithWhereUniqueWithoutScheduleInput | ProgramAttendanceUpdateWithWhereUniqueWithoutScheduleInput[]
     updateMany?: ProgramAttendanceUpdateManyWithWhereWithoutScheduleInput | ProgramAttendanceUpdateManyWithWhereWithoutScheduleInput[]
     deleteMany?: ProgramAttendanceScalarWhereInput | ProgramAttendanceScalarWhereInput[]
+  }
+
+  export type EmployeeCreateNestedOneWithoutPopupBannersCreatedInput = {
+    create?: XOR<EmployeeCreateWithoutPopupBannersCreatedInput, EmployeeUncheckedCreateWithoutPopupBannersCreatedInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutPopupBannersCreatedInput
+    connect?: EmployeeWhereUniqueInput
+  }
+
+  export type EmployeeUpdateOneWithoutPopupBannersCreatedNestedInput = {
+    create?: XOR<EmployeeCreateWithoutPopupBannersCreatedInput, EmployeeUncheckedCreateWithoutPopupBannersCreatedInput>
+    connectOrCreate?: EmployeeCreateOrConnectWithoutPopupBannersCreatedInput
+    upsert?: EmployeeUpsertWithoutPopupBannersCreatedInput
+    disconnect?: EmployeeWhereInput | boolean
+    delete?: EmployeeWhereInput | boolean
+    connect?: EmployeeWhereUniqueInput
+    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutPopupBannersCreatedInput, EmployeeUpdateWithoutPopupBannersCreatedInput>, EmployeeUncheckedUpdateWithoutPopupBannersCreatedInput>
   }
 
   export type EmployeeCreateNestedManyWithoutDepartmentInput = {
@@ -113858,22 +113966,6 @@ export namespace Prisma {
     update?: XOR<XOR<ResidentUpdateToOneWithWhereWithoutVitalsInput, ResidentUpdateWithoutVitalsInput>, ResidentUncheckedUpdateWithoutVitalsInput>
   }
 
-  export type EmployeeCreateNestedOneWithoutPopupBannersCreatedInput = {
-    create?: XOR<EmployeeCreateWithoutPopupBannersCreatedInput, EmployeeUncheckedCreateWithoutPopupBannersCreatedInput>
-    connectOrCreate?: EmployeeCreateOrConnectWithoutPopupBannersCreatedInput
-    connect?: EmployeeWhereUniqueInput
-  }
-
-  export type EmployeeUpdateOneWithoutPopupBannersCreatedNestedInput = {
-    create?: XOR<EmployeeCreateWithoutPopupBannersCreatedInput, EmployeeUncheckedCreateWithoutPopupBannersCreatedInput>
-    connectOrCreate?: EmployeeCreateOrConnectWithoutPopupBannersCreatedInput
-    upsert?: EmployeeUpsertWithoutPopupBannersCreatedInput
-    disconnect?: EmployeeWhereInput | boolean
-    delete?: EmployeeWhereInput | boolean
-    connect?: EmployeeWhereUniqueInput
-    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutPopupBannersCreatedInput, EmployeeUpdateWithoutPopupBannersCreatedInput>, EmployeeUncheckedUpdateWithoutPopupBannersCreatedInput>
-  }
-
   export type EmployeeCreateNestedOneWithoutWebsiteSettingsUpdatedInput = {
     create?: XOR<EmployeeCreateWithoutWebsiteSettingsUpdatedInput, EmployeeUncheckedCreateWithoutWebsiteSettingsUpdatedInput>
     connectOrCreate?: EmployeeCreateOrConnectWithoutWebsiteSettingsUpdatedInput
@@ -115856,6 +115948,22 @@ export namespace Prisma {
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
   export type NestedJsonFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
@@ -115878,22 +115986,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type NestedDecimalNullableFilter<$PrismaModel = never> = {
@@ -116397,6 +116489,8 @@ export namespace Prisma {
     id?: bigint | number
     content: string
     isDeleted?: boolean
+    guestNickname?: string | null
+    guestPassword?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     author?: EmployeeCreateNestedOneWithoutBoardCommentsAuthoredInput
@@ -116410,6 +116504,8 @@ export namespace Prisma {
     authorId?: bigint | number | null
     content: string
     isDeleted?: boolean
+    guestNickname?: string | null
+    guestPassword?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     replies?: BoardCommentUncheckedCreateNestedManyWithoutParentInput
@@ -116580,6 +116676,8 @@ export namespace Prisma {
     authorId?: BigIntNullableFilter<"BoardComment"> | bigint | number | null
     content?: StringFilter<"BoardComment"> | string
     isDeleted?: BoolFilter<"BoardComment"> | boolean
+    guestNickname?: StringNullableFilter<"BoardComment"> | string | null
+    guestPassword?: StringNullableFilter<"BoardComment"> | string | null
     createdAt?: DateTimeFilter<"BoardComment"> | Date | string
     updatedAt?: DateTimeFilter<"BoardComment"> | Date | string
   }
@@ -116986,6 +117084,8 @@ export namespace Prisma {
     id?: bigint | number
     content: string
     isDeleted?: boolean
+    guestNickname?: string | null
+    guestPassword?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     author?: EmployeeCreateNestedOneWithoutBoardCommentsAuthoredInput
@@ -117000,6 +117100,8 @@ export namespace Prisma {
     authorId?: bigint | number | null
     content: string
     isDeleted?: boolean
+    guestNickname?: string | null
+    guestPassword?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -117013,6 +117115,8 @@ export namespace Prisma {
     id?: bigint | number
     content: string
     isDeleted?: boolean
+    guestNickname?: string | null
+    guestPassword?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     author?: EmployeeCreateNestedOneWithoutBoardCommentsAuthoredInput
@@ -117026,6 +117130,8 @@ export namespace Prisma {
     authorId?: bigint | number | null
     content: string
     isDeleted?: boolean
+    guestNickname?: string | null
+    guestPassword?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     replies?: BoardCommentUncheckedCreateNestedManyWithoutParentInput
@@ -117202,6 +117308,8 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    guestNickname?: NullableStringFieldUpdateOperationsInput | string | null
+    guestPassword?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: EmployeeUpdateOneWithoutBoardCommentsAuthoredNestedInput
@@ -117216,6 +117324,8 @@ export namespace Prisma {
     authorId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    guestNickname?: NullableStringFieldUpdateOperationsInput | string | null
+    guestPassword?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -117698,6 +117808,7 @@ export namespace Prisma {
     sideMenu?: string | null
     soup?: string | null
     dessert?: string | null
+    calories?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -117710,6 +117821,7 @@ export namespace Prisma {
     sideMenu?: string | null
     soup?: string | null
     dessert?: string | null
+    calories?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -117859,6 +117971,7 @@ export namespace Prisma {
     sideMenu?: StringNullableFilter<"MealPlanItem"> | string | null
     soup?: StringNullableFilter<"MealPlanItem"> | string | null
     dessert?: StringNullableFilter<"MealPlanItem"> | string | null
+    calories?: IntNullableFilter<"MealPlanItem"> | number | null
     createdAt?: DateTimeFilter<"MealPlanItem"> | Date | string
     updatedAt?: DateTimeFilter<"MealPlanItem"> | Date | string
   }
@@ -118456,6 +118569,226 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type EmployeeCreateWithoutPopupBannersCreatedInput = {
+    id?: bigint | number
+    email?: string | null
+    passwordHash?: string | null
+    name: string
+    phoneNumber?: string | null
+    hireDate?: Date | string | null
+    resignDate?: Date | string | null
+    status?: string
+    isAdmin?: boolean
+    meta?: JsonNullValueInput | InputJsonValue
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    attendanceRecords?: AttendanceRecordCreateNestedManyWithoutEmployeeInput
+    auditLogsAsActor?: AuditLogCreateNestedManyWithoutActorInput
+    boardCommentsAuthored?: BoardCommentCreateNestedManyWithoutAuthorInput
+    boardPostsAuthored?: BoardPostCreateNestedManyWithoutAuthorInput
+    carePlansCreated?: CarePlanCreateNestedManyWithoutCreatorInput
+    careTasksAssigned?: CareTaskCreateNestedManyWithoutAssigneeInput
+    cctvViewLogsApproved?: CctvViewLogCreateNestedManyWithoutApproverInput
+    cctvViewLogsAsViewer?: CctvViewLogCreateNestedManyWithoutViewerInput
+    consultationsCounseled?: ConsultationRecordCreateNestedManyWithoutCounselorInput
+    educations?: EmployeeEducationCreateNestedManyWithoutEmployeeInput
+    department?: DepartmentCreateNestedOneWithoutEmployeesInput
+    role?: EmployeeRoleCreateNestedOneWithoutEmployeesInput
+    inspectionsPerformed?: FacilityInspectionCreateNestedManyWithoutInspectorInput
+    filesCreated?: FileStorageCreateNestedManyWithoutCreatorInput
+    galleryItemsCreated?: GalleryItemCreateNestedManyWithoutCreatorInput
+    grievancesAssigned?: GrievanceCreateNestedManyWithoutAssigneeInput
+    incidentsReported?: IncidentCreateNestedManyWithoutReporterInput
+    insuranceClaimHistoryChanged?: InsuranceClaimHistoryCreateNestedManyWithoutChangerInput
+    insuranceClaimsCreated?: InsuranceClaimCreateNestedManyWithoutCreatorInput
+    inventoryTransactionsCreated?: InventoryTransactionCreateNestedManyWithoutCreatorInput
+    leaveApprovalsGiven?: LeaveApprovalCreateNestedManyWithoutApproverInput
+    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
+    mealPlansCreated?: MealPlanCreateNestedManyWithoutCreatorInput
+    noticesCreated?: NoticeCreateNestedManyWithoutCreatorInput
+    payrollRecords?: PayrollRecordCreateNestedManyWithoutEmployeeInput
+    programAttendance?: ProgramAttendanceCreateNestedManyWithoutEmployeeInput
+    programsCreated?: ProgramCreateNestedManyWithoutCreatorInput
+    healthNotesRecorded?: ResidentHealthNoteCreateNestedManyWithoutRecorderInput
+    vitalsRecorded?: ResidentVitalCreateNestedManyWithoutRecorderInput
+    shiftAssignments?: ShiftAssignmentCreateNestedManyWithoutEmployeeInput
+    smsLogsSent?: SmsSendLogCreateNestedManyWithoutSenderInput
+    transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
+    transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
+    transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
+    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
+  }
+
+  export type EmployeeUncheckedCreateWithoutPopupBannersCreatedInput = {
+    id?: bigint | number
+    departmentId?: bigint | number | null
+    roleId?: bigint | number | null
+    email?: string | null
+    passwordHash?: string | null
+    name: string
+    phoneNumber?: string | null
+    hireDate?: Date | string | null
+    resignDate?: Date | string | null
+    status?: string
+    isAdmin?: boolean
+    meta?: JsonNullValueInput | InputJsonValue
+    lastLoginAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    attendanceRecords?: AttendanceRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    auditLogsAsActor?: AuditLogUncheckedCreateNestedManyWithoutActorInput
+    boardCommentsAuthored?: BoardCommentUncheckedCreateNestedManyWithoutAuthorInput
+    boardPostsAuthored?: BoardPostUncheckedCreateNestedManyWithoutAuthorInput
+    carePlansCreated?: CarePlanUncheckedCreateNestedManyWithoutCreatorInput
+    careTasksAssigned?: CareTaskUncheckedCreateNestedManyWithoutAssigneeInput
+    cctvViewLogsApproved?: CctvViewLogUncheckedCreateNestedManyWithoutApproverInput
+    cctvViewLogsAsViewer?: CctvViewLogUncheckedCreateNestedManyWithoutViewerInput
+    consultationsCounseled?: ConsultationRecordUncheckedCreateNestedManyWithoutCounselorInput
+    educations?: EmployeeEducationUncheckedCreateNestedManyWithoutEmployeeInput
+    inspectionsPerformed?: FacilityInspectionUncheckedCreateNestedManyWithoutInspectorInput
+    filesCreated?: FileStorageUncheckedCreateNestedManyWithoutCreatorInput
+    galleryItemsCreated?: GalleryItemUncheckedCreateNestedManyWithoutCreatorInput
+    grievancesAssigned?: GrievanceUncheckedCreateNestedManyWithoutAssigneeInput
+    incidentsReported?: IncidentUncheckedCreateNestedManyWithoutReporterInput
+    insuranceClaimHistoryChanged?: InsuranceClaimHistoryUncheckedCreateNestedManyWithoutChangerInput
+    insuranceClaimsCreated?: InsuranceClaimUncheckedCreateNestedManyWithoutCreatorInput
+    inventoryTransactionsCreated?: InventoryTransactionUncheckedCreateNestedManyWithoutCreatorInput
+    leaveApprovalsGiven?: LeaveApprovalUncheckedCreateNestedManyWithoutApproverInput
+    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
+    mealPlansCreated?: MealPlanUncheckedCreateNestedManyWithoutCreatorInput
+    noticesCreated?: NoticeUncheckedCreateNestedManyWithoutCreatorInput
+    payrollRecords?: PayrollRecordUncheckedCreateNestedManyWithoutEmployeeInput
+    programAttendance?: ProgramAttendanceUncheckedCreateNestedManyWithoutEmployeeInput
+    programsCreated?: ProgramUncheckedCreateNestedManyWithoutCreatorInput
+    healthNotesRecorded?: ResidentHealthNoteUncheckedCreateNestedManyWithoutRecorderInput
+    vitalsRecorded?: ResidentVitalUncheckedCreateNestedManyWithoutRecorderInput
+    shiftAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutEmployeeInput
+    smsLogsSent?: SmsSendLogUncheckedCreateNestedManyWithoutSenderInput
+    transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
+    transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
+    transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
+    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
+  }
+
+  export type EmployeeCreateOrConnectWithoutPopupBannersCreatedInput = {
+    where: EmployeeWhereUniqueInput
+    create: XOR<EmployeeCreateWithoutPopupBannersCreatedInput, EmployeeUncheckedCreateWithoutPopupBannersCreatedInput>
+  }
+
+  export type EmployeeUpsertWithoutPopupBannersCreatedInput = {
+    update: XOR<EmployeeUpdateWithoutPopupBannersCreatedInput, EmployeeUncheckedUpdateWithoutPopupBannersCreatedInput>
+    create: XOR<EmployeeCreateWithoutPopupBannersCreatedInput, EmployeeUncheckedCreateWithoutPopupBannersCreatedInput>
+    where?: EmployeeWhereInput
+  }
+
+  export type EmployeeUpdateToOneWithWhereWithoutPopupBannersCreatedInput = {
+    where?: EmployeeWhereInput
+    data: XOR<EmployeeUpdateWithoutPopupBannersCreatedInput, EmployeeUncheckedUpdateWithoutPopupBannersCreatedInput>
+  }
+
+  export type EmployeeUpdateWithoutPopupBannersCreatedInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    hireDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resignDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    meta?: JsonNullValueInput | InputJsonValue
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attendanceRecords?: AttendanceRecordUpdateManyWithoutEmployeeNestedInput
+    auditLogsAsActor?: AuditLogUpdateManyWithoutActorNestedInput
+    boardCommentsAuthored?: BoardCommentUpdateManyWithoutAuthorNestedInput
+    boardPostsAuthored?: BoardPostUpdateManyWithoutAuthorNestedInput
+    carePlansCreated?: CarePlanUpdateManyWithoutCreatorNestedInput
+    careTasksAssigned?: CareTaskUpdateManyWithoutAssigneeNestedInput
+    cctvViewLogsApproved?: CctvViewLogUpdateManyWithoutApproverNestedInput
+    cctvViewLogsAsViewer?: CctvViewLogUpdateManyWithoutViewerNestedInput
+    consultationsCounseled?: ConsultationRecordUpdateManyWithoutCounselorNestedInput
+    educations?: EmployeeEducationUpdateManyWithoutEmployeeNestedInput
+    department?: DepartmentUpdateOneWithoutEmployeesNestedInput
+    role?: EmployeeRoleUpdateOneWithoutEmployeesNestedInput
+    inspectionsPerformed?: FacilityInspectionUpdateManyWithoutInspectorNestedInput
+    filesCreated?: FileStorageUpdateManyWithoutCreatorNestedInput
+    galleryItemsCreated?: GalleryItemUpdateManyWithoutCreatorNestedInput
+    grievancesAssigned?: GrievanceUpdateManyWithoutAssigneeNestedInput
+    incidentsReported?: IncidentUpdateManyWithoutReporterNestedInput
+    insuranceClaimHistoryChanged?: InsuranceClaimHistoryUpdateManyWithoutChangerNestedInput
+    insuranceClaimsCreated?: InsuranceClaimUpdateManyWithoutCreatorNestedInput
+    inventoryTransactionsCreated?: InventoryTransactionUpdateManyWithoutCreatorNestedInput
+    leaveApprovalsGiven?: LeaveApprovalUpdateManyWithoutApproverNestedInput
+    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
+    mealPlansCreated?: MealPlanUpdateManyWithoutCreatorNestedInput
+    noticesCreated?: NoticeUpdateManyWithoutCreatorNestedInput
+    payrollRecords?: PayrollRecordUpdateManyWithoutEmployeeNestedInput
+    programAttendance?: ProgramAttendanceUpdateManyWithoutEmployeeNestedInput
+    programsCreated?: ProgramUpdateManyWithoutCreatorNestedInput
+    healthNotesRecorded?: ResidentHealthNoteUpdateManyWithoutRecorderNestedInput
+    vitalsRecorded?: ResidentVitalUpdateManyWithoutRecorderNestedInput
+    shiftAssignments?: ShiftAssignmentUpdateManyWithoutEmployeeNestedInput
+    smsLogsSent?: SmsSendLogUpdateManyWithoutSenderNestedInput
+    transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
+    transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
+    transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
+    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
+  }
+
+  export type EmployeeUncheckedUpdateWithoutPopupBannersCreatedInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    departmentId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    roleId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    hireDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    resignDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    meta?: JsonNullValueInput | InputJsonValue
+    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    attendanceRecords?: AttendanceRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    auditLogsAsActor?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
+    boardCommentsAuthored?: BoardCommentUncheckedUpdateManyWithoutAuthorNestedInput
+    boardPostsAuthored?: BoardPostUncheckedUpdateManyWithoutAuthorNestedInput
+    carePlansCreated?: CarePlanUncheckedUpdateManyWithoutCreatorNestedInput
+    careTasksAssigned?: CareTaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    cctvViewLogsApproved?: CctvViewLogUncheckedUpdateManyWithoutApproverNestedInput
+    cctvViewLogsAsViewer?: CctvViewLogUncheckedUpdateManyWithoutViewerNestedInput
+    consultationsCounseled?: ConsultationRecordUncheckedUpdateManyWithoutCounselorNestedInput
+    educations?: EmployeeEducationUncheckedUpdateManyWithoutEmployeeNestedInput
+    inspectionsPerformed?: FacilityInspectionUncheckedUpdateManyWithoutInspectorNestedInput
+    filesCreated?: FileStorageUncheckedUpdateManyWithoutCreatorNestedInput
+    galleryItemsCreated?: GalleryItemUncheckedUpdateManyWithoutCreatorNestedInput
+    grievancesAssigned?: GrievanceUncheckedUpdateManyWithoutAssigneeNestedInput
+    incidentsReported?: IncidentUncheckedUpdateManyWithoutReporterNestedInput
+    insuranceClaimHistoryChanged?: InsuranceClaimHistoryUncheckedUpdateManyWithoutChangerNestedInput
+    insuranceClaimsCreated?: InsuranceClaimUncheckedUpdateManyWithoutCreatorNestedInput
+    inventoryTransactionsCreated?: InventoryTransactionUncheckedUpdateManyWithoutCreatorNestedInput
+    leaveApprovalsGiven?: LeaveApprovalUncheckedUpdateManyWithoutApproverNestedInput
+    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
+    mealPlansCreated?: MealPlanUncheckedUpdateManyWithoutCreatorNestedInput
+    noticesCreated?: NoticeUncheckedUpdateManyWithoutCreatorNestedInput
+    payrollRecords?: PayrollRecordUncheckedUpdateManyWithoutEmployeeNestedInput
+    programAttendance?: ProgramAttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
+    programsCreated?: ProgramUncheckedUpdateManyWithoutCreatorNestedInput
+    healthNotesRecorded?: ResidentHealthNoteUncheckedUpdateManyWithoutRecorderNestedInput
+    vitalsRecorded?: ResidentVitalUncheckedUpdateManyWithoutRecorderNestedInput
+    shiftAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutEmployeeNestedInput
+    smsLogsSent?: SmsSendLogUncheckedUpdateManyWithoutSenderNestedInput
+    transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
+    transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
+    transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
+    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
+  }
+
   export type EmployeeCreateWithoutDepartmentInput = {
     id?: bigint | number
     email?: string | null
@@ -118801,6 +119134,8 @@ export namespace Prisma {
     id?: bigint | number
     content: string
     isDeleted?: boolean
+    guestNickname?: string | null
+    guestPassword?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     parent?: BoardCommentCreateNestedOneWithoutRepliesInput
@@ -118814,6 +119149,8 @@ export namespace Prisma {
     parentId?: bigint | number | null
     content: string
     isDeleted?: boolean
+    guestNickname?: string | null
+    guestPassword?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     replies?: BoardCommentUncheckedCreateNestedManyWithoutParentInput
@@ -123365,226 +123702,6 @@ export namespace Prisma {
     medications?: ResidentMedicationUncheckedUpdateManyWithoutResidentNestedInput
     rooms?: ResidentRoomUncheckedUpdateManyWithoutResidentNestedInput
     transportRequests?: TransportRequestUncheckedUpdateManyWithoutResidentNestedInput
-  }
-
-  export type EmployeeCreateWithoutPopupBannersCreatedInput = {
-    id?: bigint | number
-    email?: string | null
-    passwordHash?: string | null
-    name: string
-    phoneNumber?: string | null
-    hireDate?: Date | string | null
-    resignDate?: Date | string | null
-    status?: string
-    isAdmin?: boolean
-    meta?: JsonNullValueInput | InputJsonValue
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    attendanceRecords?: AttendanceRecordCreateNestedManyWithoutEmployeeInput
-    auditLogsAsActor?: AuditLogCreateNestedManyWithoutActorInput
-    boardCommentsAuthored?: BoardCommentCreateNestedManyWithoutAuthorInput
-    boardPostsAuthored?: BoardPostCreateNestedManyWithoutAuthorInput
-    carePlansCreated?: CarePlanCreateNestedManyWithoutCreatorInput
-    careTasksAssigned?: CareTaskCreateNestedManyWithoutAssigneeInput
-    cctvViewLogsApproved?: CctvViewLogCreateNestedManyWithoutApproverInput
-    cctvViewLogsAsViewer?: CctvViewLogCreateNestedManyWithoutViewerInput
-    consultationsCounseled?: ConsultationRecordCreateNestedManyWithoutCounselorInput
-    educations?: EmployeeEducationCreateNestedManyWithoutEmployeeInput
-    department?: DepartmentCreateNestedOneWithoutEmployeesInput
-    role?: EmployeeRoleCreateNestedOneWithoutEmployeesInput
-    inspectionsPerformed?: FacilityInspectionCreateNestedManyWithoutInspectorInput
-    filesCreated?: FileStorageCreateNestedManyWithoutCreatorInput
-    galleryItemsCreated?: GalleryItemCreateNestedManyWithoutCreatorInput
-    grievancesAssigned?: GrievanceCreateNestedManyWithoutAssigneeInput
-    incidentsReported?: IncidentCreateNestedManyWithoutReporterInput
-    insuranceClaimHistoryChanged?: InsuranceClaimHistoryCreateNestedManyWithoutChangerInput
-    insuranceClaimsCreated?: InsuranceClaimCreateNestedManyWithoutCreatorInput
-    inventoryTransactionsCreated?: InventoryTransactionCreateNestedManyWithoutCreatorInput
-    leaveApprovalsGiven?: LeaveApprovalCreateNestedManyWithoutApproverInput
-    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
-    mealPlansCreated?: MealPlanCreateNestedManyWithoutCreatorInput
-    noticesCreated?: NoticeCreateNestedManyWithoutCreatorInput
-    payrollRecords?: PayrollRecordCreateNestedManyWithoutEmployeeInput
-    programAttendance?: ProgramAttendanceCreateNestedManyWithoutEmployeeInput
-    programsCreated?: ProgramCreateNestedManyWithoutCreatorInput
-    healthNotesRecorded?: ResidentHealthNoteCreateNestedManyWithoutRecorderInput
-    vitalsRecorded?: ResidentVitalCreateNestedManyWithoutRecorderInput
-    shiftAssignments?: ShiftAssignmentCreateNestedManyWithoutEmployeeInput
-    smsLogsSent?: SmsSendLogCreateNestedManyWithoutSenderInput
-    transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
-    transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
-    transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
-  }
-
-  export type EmployeeUncheckedCreateWithoutPopupBannersCreatedInput = {
-    id?: bigint | number
-    departmentId?: bigint | number | null
-    roleId?: bigint | number | null
-    email?: string | null
-    passwordHash?: string | null
-    name: string
-    phoneNumber?: string | null
-    hireDate?: Date | string | null
-    resignDate?: Date | string | null
-    status?: string
-    isAdmin?: boolean
-    meta?: JsonNullValueInput | InputJsonValue
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    attendanceRecords?: AttendanceRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    auditLogsAsActor?: AuditLogUncheckedCreateNestedManyWithoutActorInput
-    boardCommentsAuthored?: BoardCommentUncheckedCreateNestedManyWithoutAuthorInput
-    boardPostsAuthored?: BoardPostUncheckedCreateNestedManyWithoutAuthorInput
-    carePlansCreated?: CarePlanUncheckedCreateNestedManyWithoutCreatorInput
-    careTasksAssigned?: CareTaskUncheckedCreateNestedManyWithoutAssigneeInput
-    cctvViewLogsApproved?: CctvViewLogUncheckedCreateNestedManyWithoutApproverInput
-    cctvViewLogsAsViewer?: CctvViewLogUncheckedCreateNestedManyWithoutViewerInput
-    consultationsCounseled?: ConsultationRecordUncheckedCreateNestedManyWithoutCounselorInput
-    educations?: EmployeeEducationUncheckedCreateNestedManyWithoutEmployeeInput
-    inspectionsPerformed?: FacilityInspectionUncheckedCreateNestedManyWithoutInspectorInput
-    filesCreated?: FileStorageUncheckedCreateNestedManyWithoutCreatorInput
-    galleryItemsCreated?: GalleryItemUncheckedCreateNestedManyWithoutCreatorInput
-    grievancesAssigned?: GrievanceUncheckedCreateNestedManyWithoutAssigneeInput
-    incidentsReported?: IncidentUncheckedCreateNestedManyWithoutReporterInput
-    insuranceClaimHistoryChanged?: InsuranceClaimHistoryUncheckedCreateNestedManyWithoutChangerInput
-    insuranceClaimsCreated?: InsuranceClaimUncheckedCreateNestedManyWithoutCreatorInput
-    inventoryTransactionsCreated?: InventoryTransactionUncheckedCreateNestedManyWithoutCreatorInput
-    leaveApprovalsGiven?: LeaveApprovalUncheckedCreateNestedManyWithoutApproverInput
-    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
-    mealPlansCreated?: MealPlanUncheckedCreateNestedManyWithoutCreatorInput
-    noticesCreated?: NoticeUncheckedCreateNestedManyWithoutCreatorInput
-    payrollRecords?: PayrollRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    programAttendance?: ProgramAttendanceUncheckedCreateNestedManyWithoutEmployeeInput
-    programsCreated?: ProgramUncheckedCreateNestedManyWithoutCreatorInput
-    healthNotesRecorded?: ResidentHealthNoteUncheckedCreateNestedManyWithoutRecorderInput
-    vitalsRecorded?: ResidentVitalUncheckedCreateNestedManyWithoutRecorderInput
-    shiftAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutEmployeeInput
-    smsLogsSent?: SmsSendLogUncheckedCreateNestedManyWithoutSenderInput
-    transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
-    transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
-    transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
-  }
-
-  export type EmployeeCreateOrConnectWithoutPopupBannersCreatedInput = {
-    where: EmployeeWhereUniqueInput
-    create: XOR<EmployeeCreateWithoutPopupBannersCreatedInput, EmployeeUncheckedCreateWithoutPopupBannersCreatedInput>
-  }
-
-  export type EmployeeUpsertWithoutPopupBannersCreatedInput = {
-    update: XOR<EmployeeUpdateWithoutPopupBannersCreatedInput, EmployeeUncheckedUpdateWithoutPopupBannersCreatedInput>
-    create: XOR<EmployeeCreateWithoutPopupBannersCreatedInput, EmployeeUncheckedCreateWithoutPopupBannersCreatedInput>
-    where?: EmployeeWhereInput
-  }
-
-  export type EmployeeUpdateToOneWithWhereWithoutPopupBannersCreatedInput = {
-    where?: EmployeeWhereInput
-    data: XOR<EmployeeUpdateWithoutPopupBannersCreatedInput, EmployeeUncheckedUpdateWithoutPopupBannersCreatedInput>
-  }
-
-  export type EmployeeUpdateWithoutPopupBannersCreatedInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    hireDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    resignDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    meta?: JsonNullValueInput | InputJsonValue
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attendanceRecords?: AttendanceRecordUpdateManyWithoutEmployeeNestedInput
-    auditLogsAsActor?: AuditLogUpdateManyWithoutActorNestedInput
-    boardCommentsAuthored?: BoardCommentUpdateManyWithoutAuthorNestedInput
-    boardPostsAuthored?: BoardPostUpdateManyWithoutAuthorNestedInput
-    carePlansCreated?: CarePlanUpdateManyWithoutCreatorNestedInput
-    careTasksAssigned?: CareTaskUpdateManyWithoutAssigneeNestedInput
-    cctvViewLogsApproved?: CctvViewLogUpdateManyWithoutApproverNestedInput
-    cctvViewLogsAsViewer?: CctvViewLogUpdateManyWithoutViewerNestedInput
-    consultationsCounseled?: ConsultationRecordUpdateManyWithoutCounselorNestedInput
-    educations?: EmployeeEducationUpdateManyWithoutEmployeeNestedInput
-    department?: DepartmentUpdateOneWithoutEmployeesNestedInput
-    role?: EmployeeRoleUpdateOneWithoutEmployeesNestedInput
-    inspectionsPerformed?: FacilityInspectionUpdateManyWithoutInspectorNestedInput
-    filesCreated?: FileStorageUpdateManyWithoutCreatorNestedInput
-    galleryItemsCreated?: GalleryItemUpdateManyWithoutCreatorNestedInput
-    grievancesAssigned?: GrievanceUpdateManyWithoutAssigneeNestedInput
-    incidentsReported?: IncidentUpdateManyWithoutReporterNestedInput
-    insuranceClaimHistoryChanged?: InsuranceClaimHistoryUpdateManyWithoutChangerNestedInput
-    insuranceClaimsCreated?: InsuranceClaimUpdateManyWithoutCreatorNestedInput
-    inventoryTransactionsCreated?: InventoryTransactionUpdateManyWithoutCreatorNestedInput
-    leaveApprovalsGiven?: LeaveApprovalUpdateManyWithoutApproverNestedInput
-    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
-    mealPlansCreated?: MealPlanUpdateManyWithoutCreatorNestedInput
-    noticesCreated?: NoticeUpdateManyWithoutCreatorNestedInput
-    payrollRecords?: PayrollRecordUpdateManyWithoutEmployeeNestedInput
-    programAttendance?: ProgramAttendanceUpdateManyWithoutEmployeeNestedInput
-    programsCreated?: ProgramUpdateManyWithoutCreatorNestedInput
-    healthNotesRecorded?: ResidentHealthNoteUpdateManyWithoutRecorderNestedInput
-    vitalsRecorded?: ResidentVitalUpdateManyWithoutRecorderNestedInput
-    shiftAssignments?: ShiftAssignmentUpdateManyWithoutEmployeeNestedInput
-    smsLogsSent?: SmsSendLogUpdateManyWithoutSenderNestedInput
-    transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
-    transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
-    transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
-  }
-
-  export type EmployeeUncheckedUpdateWithoutPopupBannersCreatedInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    departmentId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    roleId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    hireDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    resignDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    meta?: JsonNullValueInput | InputJsonValue
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attendanceRecords?: AttendanceRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    auditLogsAsActor?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
-    boardCommentsAuthored?: BoardCommentUncheckedUpdateManyWithoutAuthorNestedInput
-    boardPostsAuthored?: BoardPostUncheckedUpdateManyWithoutAuthorNestedInput
-    carePlansCreated?: CarePlanUncheckedUpdateManyWithoutCreatorNestedInput
-    careTasksAssigned?: CareTaskUncheckedUpdateManyWithoutAssigneeNestedInput
-    cctvViewLogsApproved?: CctvViewLogUncheckedUpdateManyWithoutApproverNestedInput
-    cctvViewLogsAsViewer?: CctvViewLogUncheckedUpdateManyWithoutViewerNestedInput
-    consultationsCounseled?: ConsultationRecordUncheckedUpdateManyWithoutCounselorNestedInput
-    educations?: EmployeeEducationUncheckedUpdateManyWithoutEmployeeNestedInput
-    inspectionsPerformed?: FacilityInspectionUncheckedUpdateManyWithoutInspectorNestedInput
-    filesCreated?: FileStorageUncheckedUpdateManyWithoutCreatorNestedInput
-    galleryItemsCreated?: GalleryItemUncheckedUpdateManyWithoutCreatorNestedInput
-    grievancesAssigned?: GrievanceUncheckedUpdateManyWithoutAssigneeNestedInput
-    incidentsReported?: IncidentUncheckedUpdateManyWithoutReporterNestedInput
-    insuranceClaimHistoryChanged?: InsuranceClaimHistoryUncheckedUpdateManyWithoutChangerNestedInput
-    insuranceClaimsCreated?: InsuranceClaimUncheckedUpdateManyWithoutCreatorNestedInput
-    inventoryTransactionsCreated?: InventoryTransactionUncheckedUpdateManyWithoutCreatorNestedInput
-    leaveApprovalsGiven?: LeaveApprovalUncheckedUpdateManyWithoutApproverNestedInput
-    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
-    mealPlansCreated?: MealPlanUncheckedUpdateManyWithoutCreatorNestedInput
-    noticesCreated?: NoticeUncheckedUpdateManyWithoutCreatorNestedInput
-    payrollRecords?: PayrollRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    programAttendance?: ProgramAttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
-    programsCreated?: ProgramUncheckedUpdateManyWithoutCreatorNestedInput
-    healthNotesRecorded?: ResidentHealthNoteUncheckedUpdateManyWithoutRecorderNestedInput
-    vitalsRecorded?: ResidentVitalUncheckedUpdateManyWithoutRecorderNestedInput
-    shiftAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutEmployeeNestedInput
-    smsLogsSent?: SmsSendLogUncheckedUpdateManyWithoutSenderNestedInput
-    transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
-    transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
-    transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
   }
 
   export type EmployeeCreateWithoutWebsiteSettingsUpdatedInput = {
@@ -132882,6 +132999,8 @@ export namespace Prisma {
     authorId?: bigint | number | null
     content: string
     isDeleted?: boolean
+    guestNickname?: string | null
+    guestPassword?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -132896,6 +133015,8 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    guestNickname?: NullableStringFieldUpdateOperationsInput | string | null
+    guestPassword?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: EmployeeUpdateOneWithoutBoardCommentsAuthoredNestedInput
@@ -132909,6 +133030,8 @@ export namespace Prisma {
     authorId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    guestNickname?: NullableStringFieldUpdateOperationsInput | string | null
+    guestPassword?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     replies?: BoardCommentUncheckedUpdateManyWithoutParentNestedInput
@@ -132920,6 +133043,8 @@ export namespace Prisma {
     authorId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    guestNickname?: NullableStringFieldUpdateOperationsInput | string | null
+    guestPassword?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -132948,6 +133073,8 @@ export namespace Prisma {
     authorId?: bigint | number | null
     content: string
     isDeleted?: boolean
+    guestNickname?: string | null
+    guestPassword?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -132956,6 +133083,8 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    guestNickname?: NullableStringFieldUpdateOperationsInput | string | null
+    guestPassword?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: EmployeeUpdateOneWithoutBoardCommentsAuthoredNestedInput
@@ -132969,6 +133098,8 @@ export namespace Prisma {
     authorId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    guestNickname?: NullableStringFieldUpdateOperationsInput | string | null
+    guestPassword?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     replies?: BoardCommentUncheckedUpdateManyWithoutParentNestedInput
@@ -132980,6 +133111,8 @@ export namespace Prisma {
     authorId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    guestNickname?: NullableStringFieldUpdateOperationsInput | string | null
+    guestPassword?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -133020,6 +133153,7 @@ export namespace Prisma {
     sideMenu?: string | null
     soup?: string | null
     dessert?: string | null
+    calories?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -133032,6 +133166,7 @@ export namespace Prisma {
     sideMenu?: NullableStringFieldUpdateOperationsInput | string | null
     soup?: NullableStringFieldUpdateOperationsInput | string | null
     dessert?: NullableStringFieldUpdateOperationsInput | string | null
+    calories?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -133044,6 +133179,7 @@ export namespace Prisma {
     sideMenu?: NullableStringFieldUpdateOperationsInput | string | null
     soup?: NullableStringFieldUpdateOperationsInput | string | null
     dessert?: NullableStringFieldUpdateOperationsInput | string | null
+    calories?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -133056,6 +133192,7 @@ export namespace Prisma {
     sideMenu?: NullableStringFieldUpdateOperationsInput | string | null
     soup?: NullableStringFieldUpdateOperationsInput | string | null
     dessert?: NullableStringFieldUpdateOperationsInput | string | null
+    calories?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -133450,6 +133587,8 @@ export namespace Prisma {
     parentId?: bigint | number | null
     content: string
     isDeleted?: boolean
+    guestNickname?: string | null
+    guestPassword?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -133919,6 +134058,8 @@ export namespace Prisma {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    guestNickname?: NullableStringFieldUpdateOperationsInput | string | null
+    guestPassword?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: BoardCommentUpdateOneWithoutRepliesNestedInput
@@ -133932,6 +134073,8 @@ export namespace Prisma {
     parentId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    guestNickname?: NullableStringFieldUpdateOperationsInput | string | null
+    guestPassword?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     replies?: BoardCommentUncheckedUpdateManyWithoutParentNestedInput
@@ -133943,6 +134086,8 @@ export namespace Prisma {
     parentId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
     content?: StringFieldUpdateOperationsInput | string
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    guestNickname?: NullableStringFieldUpdateOperationsInput | string | null
+    guestPassword?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

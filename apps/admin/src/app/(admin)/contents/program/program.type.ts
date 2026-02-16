@@ -21,6 +21,9 @@ export interface Program {
   color: string; // 캘린더 표시 색상
   createdAt: string;
   updatedAt: string;
+  // Backend references (API 연동용)
+  programId?: string; // Program 테이블 ID
+  scheduleId?: string; // ProgramSchedule 테이블 ID
 }
 
 export interface ProgramStats {

@@ -305,7 +305,7 @@ export const groupMealPlanItemsByDate = (items: any[]) => {
           date: subItem.date || subItem.mealDate || item.mealDate || item.date,
           // Use subItem.id or fallback to item.id if available.
           // Note: item.id might be undefined in view structure, subItem.id should be there.
-          id: subItem.id || item.id,
+          id: subItem.id || item.id || `virtual-${Math.random().toString(36).substring(2, 9)}`,
           mealPlanId: subItem.mealPlanId || item.id || '', // Fallback to empty string if missing
         });
       });

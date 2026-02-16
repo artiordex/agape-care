@@ -12,6 +12,8 @@ import {
   CreateScheduleRequestSchema,
   GetProgramsQuerySchema,
   GetProgramsResponseSchema,
+  GetSchedulesEnrichedQuerySchema,
+  GetSchedulesEnrichedResponseSchema,
   GetSchedulesQuerySchema,
   GetSchedulesResponseSchema,
   ProgramSchema,
@@ -138,6 +140,21 @@ export const programContract = {
   },
 
   /**
+   * GET /api/programs/schedules/enriched
+   * 프로그램 일정 상세 조회 (캘린더용 - Program + Schedule 결합)
+   */
+  getSchedulesEnriched: {
+    method: 'GET' as const,
+    path: '/programs/schedules/enriched',
+    query: GetSchedulesEnrichedQuerySchema,
+    responses: {
+      200: GetSchedulesEnrichedResponseSchema,
+    },
+    summary: '프로그램 일정 상세 조회 (캘린더용)',
+    headers: authHeader,
+  },
+
+  /**
    * POST /api/programs/:programId/schedules
    * 프로그램 일정 생성
    */
@@ -185,6 +202,7 @@ export const programContract = {
     pathParams: z.object({
       id: z.string(),
     }),
+    body: z.object({}),
     responses: {
       200: z.object({
         message: z.string(),

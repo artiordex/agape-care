@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import { api } from '@/lib/api';
+import React, { useState, useMemo } from 'react';
 import PopupHeader from './PopupHeader';
 import PopupFilter from './PopupFilter';
 import PopupTable from './PopupTable';
@@ -10,26 +11,79 @@ import { Popup } from './popup.type';
 
 /**
  * [Page] 아가페 홈페이지 팝업 관리 시스템
- * LocalStorage 기반 완전한 CRUD 구현
+ * API 기반 CRUD 구현
  */
 export default function PopupManagementPage() {
-  const [popups, setPopups] = useState<Popup[]>([]);
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [editingPopup, setEditingPopup] = useState<Popup | null>(null);
   const [selectedPopup, setSelectedPopup] = useState<Popup | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
-  // 초기 데이터 로드
-  useEffect(() => {
-    const saved = localStorage.getItem('agape_popups');
-    if (saved) {
-      setPopups(JSON.parse(saved));
-    } else {
-      // 샘플 데이터
-      const initial: Popup[] = [
+  // API로부터 팝업 데이터 로드
+  const {
+    data: popupsData,
+    isLoading,
+    refetch,
+  } = api.content.getPopups.useQuery(['popups', filterStatus, searchTerm], {
+    query: {
+      page: 1,
+      limit: 100,
+      status: filterStatus !== 'all' ? filterStatus : undefined,
+      search: searchTerm || undefined,
+    },
+  });
+
+  const popups = popupsData?.body?.data || [];
+
+  // 디버깅
+  console.log('[DEBUG] popupsData:', popupsData);
+  console.log('[DEBUG] popups:', popups);
+
+  // 생성 mutation
+  const createMutation = api.content.createPopup.useMutation({
+    onSuccess: () => {
+      refetch();
+      setIsFormModalOpen(false);
+      setEditingPopup(null);
+      alert('✅ 새로운 팝업이 등록되었습니다.');
+    },
+    onError: error => {
+      console.error('[ERROR] Failed to create popup:', error);
+      alert('팝업 생성에 실패했습니다.');
+    },
+  });
+
+  // 수정 mutation
+  const updateMutation = api.content.updatePopup.useMutation({
+    onSuccess: () => {
+      refetch();
+      setIsFormModalOpen(false);
+      setEditingPopup(null);
+      alert('✅ 팝업이 수정되었습니다.');
+    },
+    onError: error => {
+      console.error('[ERROR] Failed to update popup:', error);
+      alert('팝업 수정에 실패했습니다.');
+    },
+  });
+
+  // 삭제 mutation
+  const deleteMutation = api.content.deletePopup.useMutation({
+    onSuccess: () => {
+      refetch();
+      setIsDetailModalOpen(false);
+      alert('✅ 팝업이 삭제되었습니다.');
+    },
+    onError: error => {
+      console.error('[ERROR] Failed to delete popup:', error);
+      alert('팝업 삭제에 실패했습니다.');
+    },
+  });
+
+  // 샘플 데이터 (로컬 테스트용, 나중에 제거 가능)
+  const sampleData: Popup[] = [
         {
           id: '1',
           title: '2026 설맞이 특별 면회 안내',
@@ -77,17 +131,7 @@ export default function PopupManagementPage() {
           updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
         },
       ];
-      setPopups(initial);
-      localStorage.setItem('agape_popups', JSON.stringify(initial));
-    }
-    setIsLoading(false);
-  }, []);
-
-  // 저장
-  const saveToStorage = (data: Popup[]) => {
-    localStorage.setItem('agape_popups', JSON.stringify(data));
-    setPopups(data);
-  };
+  console.log('[INFO] Sample data available for reference:', sampleData.length);
 
   // 필터링된 데이터
   const filteredData = useMemo(() => {
@@ -140,50 +184,68 @@ export default function PopupManagementPage() {
   const handleDelete = (id: string) => {
     if (!confirm('정말로 이 팝업을 삭제하시겠습니까?')) return;
 
-    const updated = popups.filter(p => p.id !== id);
-    saveToStorage(updated);
-    setIsDetailModalOpen(false);
-    alert('✅ 팝업이 삭제되었습니다.');
+    deleteMutation.mutate({
+      params: { id },
+    });
   };
 
   // 저장 (신규/수정)
   const handleSave = (data: Partial<Popup>) => {
-    let updated: Popup[];
-
     if (editingPopup) {
       // 수정
-      updated = popups.map(p =>
-        p.id === editingPopup.id ? { ...p, ...data, updatedAt: new Date().toISOString() } : p,
-      );
-      alert('✅ 팝업이 수정되었습니다.');
+      updateMutation.mutate({
+        params: { id: editingPopup.id },
+        body: {
+          title: data.title!,
+          content: null,
+          imageUrl: data.imageUrl,
+          linkUrl: data.linkUrl,
+          displayType: 'POPUP',
+          position: data.position,
+          width: data.width,
+          height: data.height,
+          startDate: new Date(data.startDate!),
+          endDate: new Date(data.endDate!),
+          isActive: data.status !== '비활성',
+          showOnce: data.showOnce,
+          priority: data.priority,
+        },
+      });
     } else {
       // 신규
-      const maxId = Math.max(0, ...popups.map(p => parseInt(p.id))) + 1;
-      const newPopup: Popup = {
-        ...data,
-        id: maxId.toString(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      } as Popup;
-      updated = [newPopup, ...popups];
-      alert('✅ 새로운 팝업이 등록되었습니다.');
+      createMutation.mutate({
+        body: {
+          title: data.title!,
+          content: null,
+          imageUrl: data.imageUrl,
+          linkUrl: data.linkUrl,
+          displayType: 'POPUP',
+          position: data.position,
+          width: data.width,
+          height: data.height,
+          startDate: new Date(data.startDate!),
+          endDate: new Date(data.endDate!),
+          isActive: data.status !== '비활성',
+          showOnce: data.showOnce ?? false,
+          priority: data.priority ?? 0,
+        },
+      });
     }
-
-    saveToStorage(updated);
-    setIsFormModalOpen(false);
-    setEditingPopup(null);
   };
 
   // 상태 토글
   const handleToggleStatus = (id: string) => {
-    const updated = popups.map(p => {
-      if (p.id === id) {
-        const newStatus = p.status === '활성' ? '비활성' : '활성';
-        return { ...p, status: newStatus, updatedAt: new Date().toISOString() };
-      }
-      return p;
+    const popup = popups.find(p => p.id === id);
+    if (!popup) return;
+
+    const newIsActive = popup.status === '활성' ? false : true;
+
+    updateMutation.mutate({
+      params: { id },
+      body: {
+        isActive: newIsActive,
+      },
     });
-    saveToStorage(updated);
   };
 
   return (

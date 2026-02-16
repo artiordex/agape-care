@@ -231,6 +231,14 @@ model MealPlanItem {
   soup        String?
   /// 디저트/김치
   dessert     String?
+  /// 이미지 URL
+  imageUrl    String?  @map("image_url")
+  /// 메뉴 내용
+  menuContent String?  @map("menu_content")
+  /// 칼로리
+  calories    Int?     @map("calories")
+  /// 비고
+  notes       String?  @map("notes")
   /// 생성일시
   createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   /// 수정일시
@@ -293,6 +301,34 @@ model ProgramSchedule {
 
   @@index([programId, startsAt], map: "idx_program_schedules_program_time")
   @@map("program_schedules")
+}
+
+/// 프로그램 참석 기록
+model ProgramAttendance {
+  /// 참석 ID (Primary Key)
+  id         BigInt          @id @default(autoincrement())
+  /// 일정 ID (외래키)
+  scheduleId BigInt          @map("schedule_id")
+  /// 입소자 ID (외래키)
+  residentId BigInt?         @map("resident_id")
+  /// 직원 ID (외래키)
+  employeeId BigInt?         @map("employee_id")
+  /// 역할 (PARTICIPANT, FACILITATOR 등)
+  role       String          @default("PARTICIPANT")
+  /// 참석 여부
+  attended   Boolean         @default(false)
+  /// 체크인 일시
+  checkedAt  DateTime?       @map("checked_at") @db.Timestamptz(6)
+  /// 비고
+  notes      String?
+  /// 생성일시
+  createdAt  DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
+  employee   Employee?       @relation(fields: [employeeId], references: [id], onUpdate: NoAction)
+  resident   Resident?       @relation(fields: [residentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  schedule   ProgramSchedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([scheduleId, residentId], map: "program_attendance_uniq")
+  @@map("program_attendance")
 }
 
 
@@ -946,33 +982,7 @@ model WebsiteSetting {
   @@map("website_settings")
 }
 
-/// 프로그램 참석 기록
-model ProgramAttendance {
-  /// 참석 ID (Primary Key)
-  id         BigInt          @id @default(autoincrement())
-  /// 일정 ID (외래키)
-  scheduleId BigInt          @map("schedule_id")
-  /// 입소자 ID (외래키)
-  residentId BigInt?         @map("resident_id")
-  /// 직원 ID (외래키)
-  employeeId BigInt?         @map("employee_id")
-  /// 역할 (PARTICIPANT, FACILITATOR 등)
-  role       String          @default("PARTICIPANT")
-  /// 참석 여부
-  attended   Boolean         @default(false)
-  /// 체크인 일시
-  checkedAt  DateTime?       @map("checked_at") @db.Timestamptz(6)
-  /// 비고
-  notes      String?
-  /// 생성일시
-  createdAt  DateTime        @default(now()) @map("created_at") @db.Timestamptz(6)
-  employee   Employee?       @relation(fields: [employeeId], references: [id], onUpdate: NoAction)
-  resident   Resident?       @relation(fields: [residentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  schedule   ProgramSchedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
-  @@unique([scheduleId, residentId], map: "program_attendance_uniq")
-  @@map("program_attendance")
-}
 
 /// 케어 플랜 (돌봄 계획)
 model CarePlan {

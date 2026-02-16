@@ -125,3 +125,4 @@ dist/
 __pycache__/
 *.pyc
 *.pyo
+.claude/

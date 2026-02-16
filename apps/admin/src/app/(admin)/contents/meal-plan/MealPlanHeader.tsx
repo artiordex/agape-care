@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 interface Props {
   readonly selectedDate: string;
   readonly selectedTab: 'weekly' | 'monthly';
@@ -23,21 +21,42 @@ export default function MealPlanHeader({
   onPrintWeekly,
   onPrintMonthly,
 }: Props) {
-  /** 날짜 가감 로직 (일 단위) */
+  /** 날짜 가감 로직 (탭에 따라 월/주 단위 이동) */
   const handleDateChange = (offset: number) => {
     if (onDateChange) {
       const currentDate = new Date(selectedDate);
-      currentDate.setDate(currentDate.getDate() + offset);
+      if (selectedTab === 'monthly') {
+        currentDate.setMonth(currentDate.getMonth() + offset);
+      } else {
+        currentDate.setDate(currentDate.getDate() + offset * 7);
+      }
       onDateChange(currentDate.toISOString().split('T')[0]);
     }
   };
 
-  /** 요일 포함 날짜 문자열 생성 */
+  /** 탭에 따른 날짜 표시 형식 */
   const getDisplayDate = () => {
     const date = new Date(selectedDate);
-    const days = ['일', '월', '화', '수', '목', '금', '토'];
-    const dayOfWeek = days[date.getDay()];
-    return `${selectedDate} (${dayOfWeek})`;
+
+    if (selectedTab === 'monthly') {
+      return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}`;
+    }
+
+    // 주간: 주간 범위 표시 (YYYY.MM.DD ~ DD)
+    const startOfWeek = new Date(date);
+    const day = startOfWeek.getDay();
+    const diff = startOfWeek.getDate() - day + (day === 0 ? -6 : 1); // 월요일 시작
+    startOfWeek.setDate(diff);
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+
+    // 같은 달이면 YYYY.MM.DD ~ DD
+    if (startOfWeek.getMonth() === endOfWeek.getMonth()) {
+      return `${startOfWeek.getFullYear()}.${String(startOfWeek.getMonth() + 1).padStart(2, '0')}.${String(startOfWeek.getDate()).padStart(2, '0')} ~ ${String(endOfWeek.getDate()).padStart(2, '0')}`;
+    }
+    // 다른 달이면 YYYY.MM.DD ~ MM.DD
+    return `${startOfWeek.getFullYear()}.${String(startOfWeek.getMonth() + 1).padStart(2, '0')}.${String(startOfWeek.getDate()).padStart(2, '0')} ~ ${String(endOfWeek.getMonth() + 1).padStart(2, '0')}.${String(endOfWeek.getDate()).padStart(2, '0')}`;
   };
 
   return (
@@ -50,14 +69,9 @@ export default function MealPlanHeader({
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-lg font-black leading-tight tracking-tighter text-gray-900">급식관리 및 식단표 관제</h1>
-            <span className="rounded border border-emerald-100 bg-emerald-50 px-1.5 py-0.5 text-[9px] font-black uppercase tracking-widest text-[#5C8D5A]">
-              Real-time Meal Monitoring
-            </span>
           </div>
           <div className="mt-0.5 flex items-center gap-2">
             <p className="text-[10px] font-bold text-[#5C8D5A]">Daily Meal Planning & Nutrition Management</p>
-            <span className="h-2 w-[1px] bg-gray-300"></span>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Agape-Care Meal Protocol</p>
           </div>
         </div>
       </div>

@@ -168,6 +168,8 @@ exports.Prisma.BoardCommentScalarFieldEnum = {
   authorId: 'authorId',
   content: 'content',
   isDeleted: 'isDeleted',
+  guestNickname: 'guestNickname',
+  guestPassword: 'guestPassword',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -214,6 +216,7 @@ exports.Prisma.MealPlanItemScalarFieldEnum = {
   sideMenu: 'sideMenu',
   soup: 'soup',
   dessert: 'dessert',
+  calories: 'calories',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -238,6 +241,65 @@ exports.Prisma.ProgramScheduleScalarFieldEnum = {
   location: 'location',
   capacity: 'capacity',
   status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VisitReservationScalarFieldEnum = {
+  id: 'id',
+  visitorName: 'visitorName',
+  visitorPhone: 'visitorPhone',
+  visitorRelationship: 'visitorRelationship',
+  residentName: 'residentName',
+  visitDate: 'visitDate',
+  visitTime: 'visitTime',
+  visitorCount: 'visitorCount',
+  visitPurpose: 'visitPurpose',
+  healthCheckSymptoms: 'healthCheckSymptoms',
+  healthCheckAssistance: 'healthCheckAssistance',
+  notes: 'notes',
+  isConsented: 'isConsented',
+  status: 'status',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.WebInquiryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  phone: 'phone',
+  email: 'email',
+  type: 'type',
+  residentAge: 'residentAge',
+  careGrade: 'careGrade',
+  preferredDate: 'preferredDate',
+  message: 'message',
+  isConsented: 'isConsented',
+  status: 'status',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PopupBannerScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  imageUrl: 'imageUrl',
+  linkUrl: 'linkUrl',
+  displayType: 'displayType',
+  position: 'position',
+  width: 'width',
+  height: 'height',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isActive: 'isActive',
+  showOnce: 'showOnce',
+  priority: 'priority',
+  createdBy: 'createdBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -370,26 +432,6 @@ exports.Prisma.ResidentVitalScalarFieldEnum = {
   respiratoryRate: 'respiratoryRate',
   spo2: 'spo2',
   notes: 'notes'
-};
-
-exports.Prisma.PopupBannerScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  content: 'content',
-  imageUrl: 'imageUrl',
-  linkUrl: 'linkUrl',
-  displayType: 'displayType',
-  position: 'position',
-  width: 'width',
-  height: 'height',
-  startDate: 'startDate',
-  endDate: 'endDate',
-  isActive: 'isActive',
-  showOnce: 'showOnce',
-  priority: 'priority',
-  createdBy: 'createdBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.WebsiteSettingScalarFieldEnum = {
@@ -899,45 +941,6 @@ exports.Prisma.NotificationQueueScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.VisitReservationScalarFieldEnum = {
-  id: 'id',
-  visitorName: 'visitorName',
-  visitorPhone: 'visitorPhone',
-  visitorRelationship: 'visitorRelationship',
-  residentName: 'residentName',
-  visitDate: 'visitDate',
-  visitTime: 'visitTime',
-  visitorCount: 'visitorCount',
-  visitPurpose: 'visitPurpose',
-  healthCheckSymptoms: 'healthCheckSymptoms',
-  healthCheckAssistance: 'healthCheckAssistance',
-  notes: 'notes',
-  isConsented: 'isConsented',
-  status: 'status',
-  ipAddress: 'ipAddress',
-  userAgent: 'userAgent',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.WebInquiryScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  phone: 'phone',
-  email: 'email',
-  type: 'type',
-  residentAge: 'residentAge',
-  careGrade: 'careGrade',
-  preferredDate: 'preferredDate',
-  message: 'message',
-  isConsented: 'isConsented',
-  status: 'status',
-  ipAddress: 'ipAddress',
-  userAgent: 'userAgent',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.WebNoticeScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -1093,6 +1096,9 @@ exports.Prisma.ModelName = {
   MealPlanItem: 'MealPlanItem',
   Program: 'Program',
   ProgramSchedule: 'ProgramSchedule',
+  VisitReservation: 'VisitReservation',
+  WebInquiry: 'WebInquiry',
+  PopupBanner: 'PopupBanner',
   Department: 'Department',
   EmployeeRole: 'EmployeeRole',
   Employee: 'Employee',
@@ -1103,7 +1109,6 @@ exports.Prisma.ModelName = {
   ResidentHealthNote: 'ResidentHealthNote',
   ResidentMedication: 'ResidentMedication',
   ResidentVital: 'ResidentVital',
-  PopupBanner: 'PopupBanner',
   WebsiteSetting: 'WebsiteSetting',
   ProgramAttendance: 'ProgramAttendance',
   CarePlan: 'CarePlan',
@@ -1144,8 +1149,6 @@ exports.Prisma.ModelName = {
   AuditLog: 'AuditLog',
   SystemSetting: 'SystemSetting',
   NotificationQueue: 'NotificationQueue',
-  VisitReservation: 'VisitReservation',
-  WebInquiry: 'WebInquiry',
   WebNotice: 'WebNotice',
   WebNoticeDetail: 'WebNoticeDetail',
   WebBoardPost: 'WebBoardPost',

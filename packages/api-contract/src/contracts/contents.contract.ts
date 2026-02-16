@@ -256,6 +256,24 @@ export const contentContract = {
   },
 
   /**
+   * [팝업] GET /contents/popups
+   * 팝업 목록 조회 (관리자용)
+   */
+  getPopups: {
+    method: 'GET' as const,
+    path: '/contents/popups',
+    query: z.object({
+      page: z.coerce.number().default(1),
+      limit: z.coerce.number().default(20),
+      status: z.string().optional(), // 활성/비활성/예약
+      search: z.string().optional(),
+    }),
+    responses: {
+      200: PaginatedResponseSchema(PopupBannerSchema),
+    },
+  },
+
+  /**
    * [팝업] GET /contents/popups/active
    * 현재 노출 기간에 해당하는 활성 팝업 목록 조회
    */
@@ -264,6 +282,65 @@ export const contentContract = {
     path: '/contents/popups/active',
     responses: {
       200: ApiResponseSchema(z.array(PopupBannerSchema)),
+    },
+  },
+
+  /**
+   * [팝업] GET /contents/popups/:id
+   * 팝업 상세 조회
+   */
+  getPopup: {
+    method: 'GET' as const,
+    path: '/contents/popups/:id',
+    pathParams: z.object({
+      id: z.string(),
+    }),
+    responses: {
+      200: ApiResponseSchema(PopupBannerSchema),
+    },
+  },
+
+  /**
+   * [팝업] POST /contents/popups
+   * 팝업 생성
+   */
+  createPopup: {
+    method: 'POST' as const,
+    path: '/contents/popups',
+    body: PopupBannerSchema.omit({ id: true, createdAt: true, updatedAt: true }),
+    responses: {
+      201: ApiResponseSchema(PopupBannerSchema),
+    },
+  },
+
+  /**
+   * [팝업] PATCH /contents/popups/:id
+   * 팝업 수정
+   */
+  updatePopup: {
+    method: 'PATCH' as const,
+    path: '/contents/popups/:id',
+    pathParams: z.object({
+      id: z.string(),
+    }),
+    body: PopupBannerSchema.omit({ id: true, createdAt: true, updatedAt: true }).partial(),
+    responses: {
+      200: ApiResponseSchema(PopupBannerSchema),
+    },
+  },
+
+  /**
+   * [팝업] DELETE /contents/popups/:id
+   * 팝업 삭제
+   */
+  deletePopup: {
+    method: 'DELETE' as const,
+    path: '/contents/popups/:id',
+    pathParams: z.object({
+      id: z.string(),
+    }),
+    responses: {
+      200: ApiResponseSchema(z.object({ message: z.string() })),
     },
   },
 

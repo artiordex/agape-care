@@ -7,5 +7,7 @@ console.log('Contract Notification Keys:', Object.keys(contract.notification || 
 
 export const api = initQueryClient(contract, {
   baseUrl,
-  baseHeaders: {},
+  baseHeaders: {
+    authorization: 'Bearer dummy-token',
+  },
 });

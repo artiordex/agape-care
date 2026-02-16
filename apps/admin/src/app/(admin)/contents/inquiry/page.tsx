@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { api } from '@/lib/api';
+import { useMemo, useState } from 'react';
 import InquiryDetailModal from './InquiryDetailModal';
 import InquiryTable from './InquiryTable';
-import VisitReservationTable from './VisitReservationTable';
 import VisitReservationDetailModal from './VisitReservationDetailModal';
-import { WebInquiry, InquiryStatus, VisitReservation, VisitStatus } from './inquiry.type';
-import { api } from '@/lib/api';
+import VisitReservationTable from './VisitReservationTable';
+import { InquiryStatus, VisitReservation, VisitStatus, WebInquiry } from './inquiry.type';
 
 type TabType = 'inquiry' | 'visit';
 
@@ -29,7 +29,7 @@ export default function InquiryPage() {
   const { data: inquiriesData, refetch: refetchInquiries } = api.webInquiry.getWebInquiries.useQuery(
     ['webInquiries', inquiryStatusFilter],
     {
-      queryData: {
+      query: {
         page: 1,
         limit: 100,
         status: inquiryStatusFilter !== 'ALL' ? inquiryStatusFilter : undefined,
@@ -38,14 +38,16 @@ export default function InquiryPage() {
   );
 
   // API: 방문 예약 목록 조회
-  const { data: visitReservationsData, refetch: refetchVisits } =
-    api.visitReservation.getVisitReservations.useQuery(['visitReservations', visitStatusFilter], {
-      queryData: {
+  const { data: visitReservationsData, refetch: refetchVisits } = api.visitReservation.getVisitReservations.useQuery(
+    ['visitReservations', visitStatusFilter],
+    {
+      query: {
         page: 1,
         limit: 100,
         status: visitStatusFilter !== 'ALL' ? visitStatusFilter : undefined,
       },
-    });
+    },
+  );
 
   // API: 상담 문의 상태 업데이트
   const updateInquiryStatus = api.webInquiry.updateWebInquiryStatus.useMutation({
@@ -148,8 +150,7 @@ export default function InquiryPage() {
     }
   };
 
-  const isLoading =
-    (activeTab === 'inquiry' && !inquiriesData) || (activeTab === 'visit' && !visitReservationsData);
+  const isLoading = (activeTab === 'inquiry' && !inquiriesData) || (activeTab === 'visit' && !visitReservationsData);
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-[#f0f2f5] font-sans antialiased">
@@ -161,9 +162,7 @@ export default function InquiryPage() {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-xl font-black uppercase leading-none tracking-tighter text-gray-900">
-                웹 문의 관리
-              </h1>
+              <h1 className="text-xl font-black uppercase leading-none tracking-tighter text-gray-900">웹 문의 관리</h1>
               <span className="border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[9px] font-black uppercase tracking-widest text-[#5C8D5A]">
                 Admin Node
               </span>
@@ -317,9 +316,7 @@ export default function InquiryPage() {
               {/* 필터 버튼 */}
               <div className="flex items-center gap-2 border-l-4 border-[#5C8D5A] py-1 pl-4">
                 <h2 className="text-[14px] font-black uppercase tracking-tight text-gray-800">예약 목록</h2>
-                <span className="text-[11px] font-bold text-gray-400">
-                  (검색결과: {visitReservations.length}건)
-                </span>
+                <span className="text-[11px] font-bold text-gray-400">(검색결과: {visitReservations.length}건)</span>
               </div>
 
               {/* 테이블 */}

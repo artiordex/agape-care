@@ -1,5 +1,6 @@
 'use client';
 
+import { api } from '@/lib/api';
 import { useEffect, useMemo, useState } from 'react';
 import ProgramCalendar from './ProgramCalendar';
 import ProgramDetailModal from './ProgramDetailModal';
@@ -11,10 +12,9 @@ import { Program, ProgramCategory } from './program.type';
 
 /**
  * [Page] 아가페 프로그램 관리 시스템
- * LocalStorage 기반 완전한 CRUD 구현
+ * API 기반 CRUD 구현
  */
 export default function ProgramManagementPage() {
-  const [programs, setPrograms] = useState<Program[]>([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [activeCategory, setActiveCategory] = useState<ProgramCategory>('전체');
   const [viewMode, setViewMode] = useState<'calendar' | 'list'>('calendar');
@@ -23,16 +23,108 @@ export default function ProgramManagementPage() {
   const [editingProgram, setEditingProgram] = useState<Program | null>(null);
   const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(true);
 
-  // 초기 데이터 로드
+  // API로부터 프로그램 데이터 로드
+  const queryParams = {
+    page: 1,
+    limit: 100,
+    category: activeCategory !== '전체' ? activeCategory : undefined,
+  };
+
+  const {
+    data: programsData,
+    isLoading,
+    refetch,
+    error,
+    isError,
+  } = api.program.getSchedulesEnriched.useQuery(['programs', activeCategory], {
+    query: queryParams,
+  });
+
   useEffect(() => {
-    const saved = localStorage.getItem('agape_programs');
-    if (saved) {
-      setPrograms(JSON.parse(saved));
-    } else {
-      // 샘플 데이터
-      const initial: Program[] = [
+    console.log('=== [Program API Debug] ===');
+    console.log('Query Params:', queryParams);
+    console.log('Loading:', isLoading);
+    console.log('Error State:', isError);
+    if (error) console.error('API Error:', error);
+    if (programsData) console.log('API Data:', programsData);
+    console.log('===========================');
+  }, [isLoading, isError, error, programsData, activeCategory]);
+
+  const programs = (programsData?.body?.items || []) as Program[];
+  console.log('[DEBUG] Component Render - Programs Count:', programs.length);
+  console.log('[DEBUG] Component Render - Query Params:', queryParams);
+
+  // 생성 mutation
+  const createProgramMutation = api.program.createProgram.useMutation({
+    onSuccess: async program => {
+      console.log('[DEBUG] Program created:', program);
+      // 프로그램 생성 후 일정도 생성해야 함 (다음 단계에서 처리)
+      refetch();
+    },
+    onError: error => {
+      console.error('[ERROR] Failed to create program:', error);
+      alert('프로그램 생성에 실패했습니다.');
+    },
+  });
+
+  // 일정 생성 mutation
+  const createScheduleMutation = api.program.createSchedule.useMutation({
+    onSuccess: () => {
+      refetch();
+      alert('✅ 새로운 프로그램이 등록되었습니다.');
+      setIsFormModalOpen(false);
+      setEditingProgram(null);
+      setSelectedDate('');
+    },
+    onError: error => {
+      console.error('[ERROR] Failed to create schedule:', error);
+      alert('일정 생성에 실패했습니다.');
+    },
+  });
+
+  // 프로그램 수정 mutation
+  const updateProgramMutation = api.program.updateProgram.useMutation({
+    onSuccess: () => {
+      console.log('[DEBUG] Program updated');
+    },
+    onError: error => {
+      console.error('[ERROR] Failed to update program:', error);
+    },
+  });
+
+  // 일정 수정 mutation
+  const updateScheduleMutation = api.program.updateSchedule.useMutation({
+    onSuccess: () => {
+      refetch();
+      alert('✅ 프로그램이 수정되었습니다.');
+      setIsFormModalOpen(false);
+      setEditingProgram(null);
+    },
+    onError: error => {
+      console.error('[ERROR] Failed to update schedule:', error);
+      alert('일정 수정에 실패했습니다.');
+    },
+  });
+
+  // 삭제 mutation
+  const deleteScheduleMutation = api.program.deleteSchedule.useMutation({
+    onSuccess: () => {
+      refetch();
+      setIsDetailModalOpen(false);
+      alert('✅ 프로그램이 삭제되었습니다.');
+    },
+    onError: error => {
+      console.error('[ERROR] Failed to delete schedule:', error);
+      alert('프로그램 삭제에 실패했습니다.');
+    },
+  });
+
+  // 초기 샘플 데이터 로드 (API가 비어있을 때만)
+  useEffect(() => {
+    if (!isLoading && programs.length === 0) {
+      // 샘플 데이터를 API에 생성 (선택사항)
+      const samplePrograms = [
         {
           id: '1',
           title: '뇌건강 체조',
@@ -102,17 +194,10 @@ export default function ProgramManagementPage() {
           updatedAt: new Date().toISOString(),
         },
       ];
-      setPrograms(initial);
-      localStorage.setItem('agape_programs', JSON.stringify(initial));
+      console.log('[INFO] No programs found, sample data available:', samplePrograms.length);
+      // 필요시 샘플 데이터를 API로 생성할 수 있음
     }
-    setIsLoading(false);
-  }, []);
-
-  // 저장
-  const saveToStorage = (data: Program[]) => {
-    localStorage.setItem('agape_programs', JSON.stringify(data));
-    setPrograms(data);
-  };
+  }, [isLoading, programs.length]);
 
   // 필터링된 데이터
   const filteredData = useMemo(() => {
@@ -193,39 +278,81 @@ export default function ProgramManagementPage() {
   const handleDelete = (id: string) => {
     if (!confirm('정말로 이 프로그램을 삭제하시겠습니까?')) return;
 
-    const updated = programs.filter(p => p.id !== id);
-    saveToStorage(updated);
-    setIsDetailModalOpen(false);
-    alert('✅ 프로그램이 삭제되었습니다.');
+    deleteScheduleMutation.mutate({
+      params: { id },
+      body: {},
+    });
   };
 
   // 저장 (신규/수정)
-  const handleSave = (data: Partial<Program>) => {
-    let updated: Program[];
-
+  const handleSave = async (data: Partial<Program>) => {
     if (editingProgram) {
-      // 수정
-      updated = programs.map(p =>
-        p.id === editingProgram.id ? { ...p, ...data, updatedAt: new Date().toISOString() } : p,
-      );
-      alert('✅ 프로그램이 수정되었습니다.');
-    } else {
-      // 신규
-      const maxId = Math.max(0, ...programs.map(p => parseInt(p.id))) + 1;
-      const newProgram: Program = {
-        ...data,
-        id: maxId.toString(),
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      } as Program;
-      updated = [newProgram, ...programs];
-      alert('✅ 새로운 프로그램이 등록되었습니다.');
-    }
+      // 수정: Program과 Schedule 모두 업데이트
+      const programId = editingProgram.programId!;
+      const scheduleId = editingProgram.scheduleId || editingProgram.id;
 
-    saveToStorage(updated);
-    setIsFormModalOpen(false);
-    setEditingProgram(null);
-    setSelectedDate('');
+      // Program 메타 업데이트 (instructor, color)
+      await updateProgramMutation.mutateAsync({
+        params: { id: programId },
+        body: {
+          title: data.title,
+          category: data.category,
+          description: data.description,
+          meta: {
+            instructor: data.instructor,
+            color: data.color,
+          },
+        },
+      });
+
+      // Schedule 시간/장소 업데이트
+      const startTime = new Date(`${data.date}T${data.time}:00`).toISOString();
+      const endTime = new Date(
+        new Date(`${data.date}T${data.time}:00`).getTime() + (data.duration || 60) * 60000,
+      ).toISOString();
+
+      updateScheduleMutation.mutate({
+        params: { id: scheduleId },
+        body: {
+          startTime,
+          endTime,
+          location: data.location,
+          capacity: data.maxParticipants,
+          status: data.status,
+        },
+      });
+    } else {
+      // 신규: Program 생성 후 Schedule 생성
+      const programResponse = await createProgramMutation.mutateAsync({
+        body: {
+          title: data.title!,
+          category: data.category,
+          description: data.description,
+          isActive: true,
+          meta: {
+            instructor: data.instructor,
+            color: data.color,
+          },
+        },
+      });
+
+      if (programResponse.body) {
+        const programId = programResponse.body.id;
+        const startTime = new Date(`${data.date}T${data.time}:00`).toISOString();
+        const endTime = new Date(
+          new Date(`${data.date}T${data.time}:00`).getTime() + (data.duration || 60) * 60000,
+        ).toISOString();
+
+        createScheduleMutation.mutate({
+          params: { programId },
+          body: {
+            startTime,
+            endTime,
+            location: data.location,
+          },
+        });
+      }
+    }
   };
 
   return (

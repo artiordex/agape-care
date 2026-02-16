@@ -20,7 +20,10 @@ import { LoggerMiddleware } from './modules/common/middleware/logger.middleware'
 import { BoardModule } from './modules/contents/board/board.module';
 import { GalleryModule } from './modules/contents/gallery/gallery.module';
 import { InquiryModule } from './modules/contents/inquiry/inquiry.module';
+import { MealPlanModule } from './modules/contents/meal/meal-plan.module';
 import { NoticeModule } from './modules/contents/notice/notice.module';
+import { PopupBannerModule } from './modules/contents/popup/popup.module';
+import { ProgramModule } from './modules/contents/program/program.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { HealthModule } from './modules/health/health.module';
 import { MyPageModule } from './modules/mypage/mypage.module';
@@ -92,6 +95,9 @@ import { PopupModule } from './modules/web-view/popup/popup.module';
     GalleryModule,
     InquiryModule,
     FileModule,
+    MealPlanModule,
+    PopupBannerModule,
+    ProgramModule,
   ],
 
   controllers: [],

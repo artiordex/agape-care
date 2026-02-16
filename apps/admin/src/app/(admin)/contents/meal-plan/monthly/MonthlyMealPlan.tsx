@@ -1,10 +1,11 @@
 'use client';
 
+import { api } from '@/lib/api';
 import { useEffect, useMemo, useState } from 'react';
 import * as XLSX from 'xlsx';
-import { api } from '@/lib/api';
 import MealPlanStatBanner from '../MealPlanStatBanner';
 import ExcelUploadModal from './ExcelUploadModal';
+import MonthlyCalendar from './MonthlyCalendar';
 import MonthlyEditModal from './MonthlyEditModal';
 import MonthlyMealList from './MonthlyMealList';
 
@@ -34,16 +35,27 @@ interface MealPlan {
 
 type SaveMode = 'overwrite' | 'merge' | 'selective';
 
-export default function MonthlyMealPlan() {
+interface Props {
+  readonly selectedDate?: string;
+}
+
+export default function MonthlyMealPlan({ selectedDate }: Props) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
+
+  useEffect(() => {
+    if (selectedDate) {
+      setCurrentMonth(new Date(selectedDate));
+    }
+  }, [selectedDate]);
   const [mealPlans, setMealPlans] = useState<MealPlan[]>([]);
   const [mealPlanId, setMealPlanId] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'calendar' | 'list'>('calendar');
 
   // 모달 및 편집 상태
   const [showEditModal, setShowEditModal] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showExcelPreview, setShowExcelPreview] = useState(false);
-  const [selectedDate, setSelectedDate] = useState('');
+  const [focusedDate, setFocusedDate] = useState('');
   const [editingMeal, setEditingMeal] = useState<MealPlan | null>(null);
 
   // 폼 및 엑셀 데이터
@@ -65,22 +77,26 @@ export default function MonthlyMealPlan() {
 
   // API: 식단표 목록 조회
   const mealMonth = currentMonth.getFullYear() * 100 + (currentMonth.getMonth() + 1);
-  const { data: mealPlansData, refetch } = api.meal.getMealPlans.useQuery(
-    ['mealPlans', mealMonth],
-    {
-      queryData: {
-        page: 1,
-        limit: 100,
-        facilityCode: 'DEFAULT',
-      },
+  const { data: mealPlansData, refetch } = api.meal.getMealPlans.useQuery(['mealPlans', mealMonth], {
+    query: {
+      page: 1,
+      limit: 100,
+      facilityCode: 'DEFAULT',
     },
-  );
+  });
+
+  useEffect(() => {
+    if (mealPlansData) {
+      console.log('[DEBUG] MonthlyMealPlan - mealPlansData:', mealPlansData);
+    }
+  }, [mealPlansData]);
 
   // API: 식단 항목 조회
   const { data: mealItemsData } = api.meal.getMealPlanItems.useQuery(
     ['mealPlanItems', mealPlanId],
     {
-      queryData: {
+      params: { mealPlanId: mealPlanId || '' },
+      query: {
         mealPlanId: mealPlanId || '',
       },
     },
@@ -88,6 +104,12 @@ export default function MonthlyMealPlan() {
       enabled: !!mealPlanId,
     },
   );
+
+  useEffect(() => {
+    if (mealItemsData) {
+      console.log('[DEBUG] MonthlyMealPlan - mealItemsData:', mealItemsData);
+    }
+  }, [mealItemsData]);
 
   // API: 식단 항목 생성
   const createMealItem = api.meal.createMealPlanItem.useMutation({
@@ -114,10 +136,15 @@ export default function MonthlyMealPlan() {
   useEffect(() => {
     if (mealPlansData?.body?.data) {
       const plans = mealPlansData.body.data;
+      console.log('[DEBUG] MonthlyMealPlan - searching for mealMonth:', mealMonth, 'in plans:', plans);
       const currentMonthPlan = plans.find((p: any) => p.mealMonth === mealMonth);
 
       if (currentMonthPlan) {
+        console.log('[DEBUG] MonthlyMealPlan - Found currentMonthPlan:', currentMonthPlan);
         setMealPlanId(currentMonthPlan.id);
+      } else {
+        console.log('[DEBUG] MonthlyMealPlan - No plan found for month:', mealMonth);
+        setMealPlanId(null);
       }
     }
   }, [mealPlansData, mealMonth]);
@@ -186,7 +213,7 @@ export default function MonthlyMealPlan() {
   /** 상세 편집 모달 오픈 */
   const handleEditClick = (dateStr: string) => {
     const existing = mealPlans.find(m => m.date === dateStr);
-    setSelectedDate(dateStr);
+    setFocusedDate(dateStr);
     if (existing) {
       setEditingMeal(existing);
       setFormData({
@@ -232,7 +259,7 @@ export default function MonthlyMealPlan() {
           id: editingMeal.id,
         },
         body: {
-          date: selectedDate,
+          date: focusedDate,
           breakfast: formData.breakfast.menu || null,
           lunch: formData.lunch.menu || null,
           dinner: formData.dinner.menu || null,
@@ -245,7 +272,7 @@ export default function MonthlyMealPlan() {
       createMealItem.mutate({
         params: { mealPlanId },
         body: {
-          date: selectedDate,
+          date: focusedDate,
           breakfast: formData.breakfast.menu,
           lunch: formData.lunch.menu,
           dinner: formData.dinner.menu,
@@ -269,6 +296,80 @@ export default function MonthlyMealPlan() {
           id,
         },
       });
+    }
+  };
+
+  /** 모달에서 삭제 */
+  const handleDeleteFromModal = () => {
+    if (!editingMeal) return;
+    handleDelete(editingMeal.id);
+    setShowEditModal(false);
+  };
+
+  /**
+   * 사진 업로드 핸들러
+   */
+  const handleImageUpload = async (mealType: 'breakfast' | 'lunch' | 'dinner', file: File) => {
+    try {
+      // FormData 생성
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('mealType', mealType);
+      if (editingMeal) {
+        formData.append('mealItemId', editingMeal.id);
+      }
+
+      // TODO: API 엔드포인트 연결 필요
+      // const response = await fetch('/api/admin/meal-plans/upload-image', {
+      //   method: 'POST',
+      //   body: formData,
+      // });
+
+      // 임시: 로컬 URL 생성
+      const imageUrl = URL.createObjectURL(file);
+
+      // formData 상태 업데이트
+      setFormData(prev => ({
+        ...prev,
+        [mealType]: {
+          ...prev[mealType],
+          image: imageUrl,
+        },
+      }));
+
+      console.log('✅ 사진 업로드 성공 (임시):', mealType, imageUrl);
+      alert('사진이 업로드되었습니다. (임시 - API 연결 필요)');
+    } catch (error) {
+      console.error('❌ 사진 업로드 실패:', error);
+      throw error;
+    }
+  };
+
+  /**
+   * 사진 삭제 핸들러
+   */
+  const handleImageDelete = async (mealType: 'breakfast' | 'lunch' | 'dinner') => {
+    try {
+      // TODO: API 엔드포인트 연결 필요
+      // await fetch('/api/admin/meal-plans/delete-image', {
+      //   method: 'DELETE',
+      //   body: JSON.stringify({ mealItemId: editingMeal?.id, mealType }),
+      // });
+
+      // formData 상태 업데이트
+      setFormData(prev => ({
+        ...prev,
+        [mealType]: {
+          ...prev[mealType],
+          image: undefined,
+        },
+      }));
+
+      console.log('✅ 사진 삭제 성공 (임시):', mealType);
+      alert('사진이 삭제되었습니다. (임시 - API 연결 필요)');
+    } catch (error) {
+      console.error('❌ 사진 삭제 실패:', error);
+      throw error;
     }
   };
 
@@ -406,23 +507,57 @@ export default function MonthlyMealPlan() {
         </div>
       </div>
 
-      {/* 3. 월간 식단 리스트 */}
-      <MonthlyMealList
-        currentMonth={currentMonth}
-        mealPlans={monthPlans}
-        onEditClick={handleEditClick}
-        onDeleteClick={handleDelete}
-      />
+      {/* 2.5 뷰 모드 토글 */}
+      <div className="flex justify-end px-4 pb-2">
+        <div className="flex items-center gap-1 rounded bg-gray-100 p-1">
+          <button
+            onClick={() => setViewMode('calendar')}
+            className={`rounded px-3 py-1 text-[10px] font-bold transition-all ${
+              viewMode === 'calendar' ? 'bg-white text-[#5C8D5A] shadow' : 'text-gray-400 hover:text-gray-600'
+            }`}
+          >
+            <i className="ri-calendar-line mr-1"></i> Calendar
+          </button>
+          <button
+            onClick={() => setViewMode('list')}
+            className={`rounded px-3 py-1 text-[10px] font-bold transition-all ${
+              viewMode === 'list' ? 'bg-white text-[#5C8D5A] shadow' : 'text-gray-400 hover:text-gray-600'
+            }`}
+          >
+            <i className="ri-list-check mr-1"></i> List View
+          </button>
+        </div>
+      </div>
+
+      {/* 3. 월간 식단 리스트/캘린더 */}
+      {viewMode === 'calendar' ? (
+        <MonthlyCalendar
+          currentMonth={currentMonth}
+          mealPlans={monthPlans}
+          onEditClick={handleEditClick}
+          onDeleteClick={handleDelete}
+        />
+      ) : (
+        <MonthlyMealList
+          currentMonth={currentMonth}
+          mealPlans={monthPlans}
+          onEditClick={handleEditClick}
+          onDeleteClick={handleDelete}
+        />
+      )}
 
       {/* 4. 모달들 */}
       {showEditModal && (
         <MonthlyEditModal
-          isOpen={showEditModal}
-          selectedDate={selectedDate}
+          selectedDate={focusedDate}
+          editingMeal={editingMeal}
           formData={formData}
           onFormChange={setFormData}
           onSave={handleSaveMeal}
+          onDelete={handleDeleteFromModal}
           onClose={() => setShowEditModal(false)}
+          onImageUpload={handleImageUpload}
+          onImageDelete={handleImageDelete}
         />
       )}
 

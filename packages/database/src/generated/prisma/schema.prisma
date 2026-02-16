@@ -9,7 +9,8 @@ datasource db {
 }
 
 // ============================================================================
-// WEB 알림마당
+// WEB 알림마당 > 공지사항, 게시판, 갤러리, 식단표, 프로그램 일정표
+// ADMIN 콘텐츠 관리 > 공지사항 관리, 게시판 관리, 갤러리 관리, 식단표 관리, 프로그램 관리
 // ============================================================================
 
 // 공지사항
@@ -111,25 +112,29 @@ model BoardFile {
 // 게시판 - 댓글
 model BoardComment {
   /// 댓글 ID
-  id        BigInt         @id @default(autoincrement())
+  id            BigInt         @id @default(autoincrement())
   /// 게시글 ID
-  postId    BigInt         @map("post_id")
+  postId        BigInt         @map("post_id")
   /// 부모 댓글 ID (대댓글인 경우, 외래키)
-  parentId  BigInt?        @map("parent_id")
+  parentId      BigInt?        @map("parent_id")
   /// 작성자 ID
-  authorId  BigInt?        @map("author_id")
+  authorId      BigInt?        @map("author_id")
   /// 댓글 내용
-  content   String
+  content       String
   /// 삭제 여부
-  isDeleted Boolean        @default(false) @map("is_deleted")
+  isDeleted     Boolean        @default(false) @map("is_deleted")
+  /// 비회원 닉네임
+  guestNickname String?        @map("guest_nickname")
+  /// 비회원 비밀번호
+  guestPassword String?        @map("guest_password")
   /// 생성일시
-  createdAt DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  createdAt     DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
   /// 수정일시
-  updatedAt DateTime       @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-  author    Employee?      @relation(fields: [authorId], references: [id], onUpdate: NoAction)
-  parent    BoardComment?  @relation("BoardCommentParent", fields: [parentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-  replies   BoardComment[] @relation("BoardCommentParent")
-  post      BoardPost      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  updatedAt     DateTime       @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  author        Employee?      @relation(fields: [authorId], references: [id], onUpdate: NoAction)
+  parent        BoardComment?  @relation("BoardCommentParent", fields: [parentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  replies       BoardComment[] @relation("BoardCommentParent")
+  post          BoardPost      @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
   @@map("board_comments")
 }
@@ -226,6 +231,7 @@ model MealPlanItem {
   soup       String?
   /// 디저트/김치
   dessert    String?
+  calories   Int?     @map("calories")
   /// 생성일시
   createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   /// 수정일시
@@ -289,6 +295,279 @@ model ProgramSchedule {
   @@index([programId, startsAt], map: "idx_program_schedules_program_time")
   @@map("program_schedules")
 }
+
+// ============================================================================
+// WEB 알림마당 Views
+// ============================================================================
+
+/// Web 공지사항 목록 조회 뷰
+view WebNotice {
+  id          BigInt    @unique
+  title       String
+  content     String
+  category    String?
+  isPinned    Boolean   @map("is_pinned")
+  isActive    Boolean   @map("is_active")
+  viewCount   Int       @map("view_count")
+  publishedAt DateTime? @map("published_at") @db.Timestamptz(6)
+  createdAt   DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime  @map("updated_at") @db.Timestamptz(6)
+  creatorName String?   @map("creator_name")
+  creatorId   BigInt?   @map("creator_id")
+  fileCount   Int       @map("file_count")
+  files       Json
+
+  @@map("v_web_notices")
+}
+
+/// Web 공지사항 상세 조회 뷰
+view WebNoticeDetail {
+  id          BigInt    @unique
+  title       String
+  content     String
+  category    String?
+  isPinned    Boolean   @map("is_pinned")
+  viewCount   Int       @map("view_count")
+  publishedAt DateTime? @map("published_at") @db.Timestamptz(6)
+  createdAt   DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime  @map("updated_at") @db.Timestamptz(6)
+  creatorName String?   @map("creator_name")
+  creatorId   BigInt?   @map("creator_id")
+  files       Json
+  prevNotice  Json?     @map("prev_notice")
+  nextNotice  Json?     @map("next_notice")
+
+  @@map("v_web_notice_detail")
+}
+
+/// Web 게시판 목록 조회 뷰
+view WebBoardPost {
+  id           BigInt   @unique
+  boardKey     String   @map("board_key")
+  title        String
+  content      String
+  viewCount    Int      @map("view_count")
+  isPinned     Boolean  @map("is_pinned")
+  isLocked     Boolean  @map("is_locked")
+  createdAt    DateTime @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime @map("updated_at") @db.Timestamptz(6)
+  authorName   String?  @map("author_name")
+  authorId     BigInt?  @map("author_id")
+  commentCount Int      @map("comment_count")
+  fileCount    Int      @map("file_count")
+  files        Json
+
+  @@map("v_web_board_posts")
+}
+
+/// Web 게시글 상세 조회 뷰
+view WebBoardPostDetail {
+  id           BigInt   @unique
+  boardKey     String   @map("board_key")
+  title        String
+  content      String
+  viewCount    Int      @map("view_count")
+  isPinned     Boolean  @map("is_pinned")
+  isLocked     Boolean  @map("is_locked")
+  createdAt    DateTime @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime @map("updated_at") @db.Timestamptz(6)
+  authorName   String?  @map("author_name")
+  authorId     BigInt?  @map("author_id")
+  files        Json
+  comments     Json
+  commentCount Int      @map("comment_count")
+  prevPost     Json?    @map("prev_post")
+  nextPost     Json?    @map("next_post")
+
+  @@map("v_web_board_post_detail")
+}
+
+/// Web 갤러리 목록 조회 뷰
+view WebGalleryItem {
+  id          BigInt    @unique
+  title       String?
+  description String?
+  category    String?
+  eventDate   DateTime? @map("event_date") @db.Date
+  isPublic    Boolean   @map("is_public")
+  createdAt   DateTime  @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime  @map("updated_at") @db.Timestamptz(6)
+  creatorName String?   @map("creator_name")
+  creatorId   BigInt?   @map("creator_id")
+  fileCount   Int       @map("file_count")
+  thumbnail   Json?
+  files       Json
+
+  @@map("v_web_gallery_items")
+}
+
+/// Web 식단표 목록 조회 뷰
+view WebMealPlan {
+  id               BigInt   @unique
+  facilityCode     String   @map("facility_code")
+  weekStartDate    DateTime @map("week_start_date") @db.Date
+  status           String
+  nutritionManager String?  @map("nutrition_manager")
+  notes            String?
+  createdAt        DateTime @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime @map("updated_at") @db.Timestamptz(6)
+  creatorName      String?  @map("creator_name")
+  creatorId        BigInt?  @map("creator_id")
+  weekMeals        Json     @map("week_meals")
+
+  @@map("v_web_meal_plans")
+}
+
+/// 최신 콘텐츠 통합 조회 뷰
+view WebLatestContent {
+  id           BigInt   @unique
+  contentType  String   @map("content_type")
+  title        String
+  summary      String?
+  createdAt    DateTime @map("created_at") @db.Timestamptz(6)
+  viewCount    Int      @map("view_count")
+  commentCount Int?     @map("comment_count")
+  fileCount    Int      @map("file_count")
+  authorName   String?  @map("author_name")
+
+  @@map("v_web_latest_contents")
+}
+
+// ============================================================================
+// WEB 이용안내 > 면회문의, 상담문의
+// ADMIN 콘텐츠 관리 > 문의 관리
+// ============================================================================
+
+/// 면회문의
+model VisitReservation {
+  /// 예약 ID (Primary Key)
+  id                    BigInt   @id @default(autoincrement())
+  /// 방문자 성함
+  visitorName           String   @map("visitor_name")
+  /// 방문자 연락처
+  visitorPhone          String   @map("visitor_phone")
+  /// 어르신과의 관계
+  visitorRelationship   String   @map("visitor_relationship")
+  /// 어르신 성함
+  residentName          String   @map("resident_name")
+  /// 방문 희망일
+  visitDate             DateTime @map("visit_date") @db.Date
+  /// 방문 희망시간
+  visitTime             String   @map("visit_time")
+  /// 방문 인원
+  visitorCount          Int      @default(1) @map("visitor_count")
+  /// 방문 목적
+  visitPurpose          String?  @map("visit_purpose")
+  /// 감염 증상 여부 (발열, 기침 등)
+  healthCheckSymptoms   Boolean  @default(false) @map("health_check_symptoms")
+  /// 이동 보조 필요 여부
+  healthCheckAssistance Boolean  @default(false) @map("health_check_assistance")
+  /// 추가 요청사항
+  notes                 String?
+  /// 개인정보 수집 동의 여부
+  isConsented           Boolean  @default(false) @map("is_consented")
+  /// 처리 상태 (PENDING, APPROVED, REJECTED, CANCELLED)
+  status                String   @default("PENDING")
+  /// 신청 IP 주소
+  ipAddress             String?  @map("ip_address")
+  /// 사용자 브라우저 정보
+  userAgent             String?  @map("user_agent")
+  /// 신청 시각
+  createdAt             DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정 시각
+  updatedAt             DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("visit_reservations")
+}
+
+/// 상담문의
+model WebInquiry {
+  /// 문의 ID (Primary Key)
+  id            BigInt    @id @default(autoincrement())
+  /// 상담자 이름
+  name          String
+  /// 상담자 연락처
+  phone         String
+  /// 이메일
+  email         String?
+  /// 문의 유형
+  /// 입소 상담, 비용 상담, 방문 상담, 기타
+  type          String
+  /// 어르신 연령
+  residentAge   String?   @map("resident_age")
+  /// 장기요양등급
+  careGrade     String?   @map("care_grade")
+  /// 방문 상담 희망일
+  preferredDate DateTime? @map("preferred_date") @db.Date
+  /// 상세 문의사항
+  message       String?
+  /// 개인정보 수집 동의 여부
+  isConsented   Boolean   @default(false) @map("is_consented")
+  /// 처리 상태
+  /// PENDING: 접수, IN_PROGRESS: 상담중, DONE: 완료, CANCELLED: 취소
+  status        String    @default("PENDING")
+  /// 문의 접수 IP 주소
+  ipAddress     String?   @map("ip_address")
+  /// 사용자 브라우저 정보
+  userAgent     String?   @map("user_agent")
+  /// 문의 생성 시각
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정 시각
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("web_inquiries")
+}
+
+// ============================================================================
+// ADMIN 콘텐츠 관리 > 팝업 관리
+// ============================================================================
+
+/// 팝업 배너
+model PopupBanner {
+  /// 배너 ID (Primary Key)
+  id          BigInt    @id @default(autoincrement())
+  /// 배너 제목
+  title       String
+  /// 배너 내용
+  content     String?
+  /// 이미지 URL
+  imageUrl    String?   @map("image_url")
+  /// 링크 URL
+  linkUrl     String?   @map("link_url")
+  /// 표시 유형 (POPUP, MODAL, BANNER 등)
+  displayType String    @default("POPUP") @map("display_type")
+  /// 위치 (TOP, CENTER, BOTTOM 등)
+  position    String?
+  /// 너비 (px)
+  width       Int?
+  /// 높이 (px)
+  height      Int?
+  /// 시작일
+  startDate   DateTime  @map("start_date") @db.Date
+  /// 종료일
+  endDate     DateTime  @map("end_date") @db.Date
+  /// 활성화 여부
+  isActive    Boolean   @default(true) @map("is_active")
+  /// 하루 동안 보지 않기 옵션
+  showOnce    Boolean   @default(false) @map("show_once")
+  /// 우선순위 (높을수록 먼저 표시)
+  priority    Int       @default(0)
+  /// 작성자 ID (외래키)
+  createdBy   BigInt?   @map("created_by")
+  /// 생성일시
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정일시
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  creator     Employee? @relation(fields: [createdBy], references: [id], onUpdate: NoAction)
+
+  @@index([isActive, startDate, endDate], map: "idx_popup_banners_active_dates")
+  @@index([priority(sort: Desc)], map: "idx_popup_banners_priority")
+  @@map("popup_banners")
+}
+
+// ============================================================================
+// ADMIN 시스템 설정 > 권한 관리, 시설 정보 관리, 사이트 설정
+// ============================================================================
 
 /// 부서 정보
 model Department {
@@ -619,49 +898,6 @@ model ResidentVital {
 
   @@index([residentId, measuredAt(sort: Desc)], map: "idx_resident_vitals_resident_time")
   @@map("resident_vitals")
-}
-
-/// 팝업 배너
-model PopupBanner {
-  /// 배너 ID (Primary Key)
-  id          BigInt    @id @default(autoincrement())
-  /// 배너 제목
-  title       String
-  /// 배너 내용
-  content     String?
-  /// 이미지 URL
-  imageUrl    String?   @map("image_url")
-  /// 링크 URL
-  linkUrl     String?   @map("link_url")
-  /// 표시 유형 (POPUP, MODAL, BANNER 등)
-  displayType String    @default("POPUP") @map("display_type")
-  /// 위치 (TOP, CENTER, BOTTOM 등)
-  position    String?
-  /// 너비 (px)
-  width       Int?
-  /// 높이 (px)
-  height      Int?
-  /// 시작일
-  startDate   DateTime  @map("start_date") @db.Date
-  /// 종료일
-  endDate     DateTime  @map("end_date") @db.Date
-  /// 활성화 여부
-  isActive    Boolean   @default(true) @map("is_active")
-  /// 하루 동안 보지 않기 옵션
-  showOnce    Boolean   @default(false) @map("show_once")
-  /// 우선순위 (높을수록 먼저 표시)
-  priority    Int       @default(0)
-  /// 작성자 ID (외래키)
-  createdBy   BigInt?   @map("created_by")
-  /// 생성일시
-  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  /// 수정일시
-  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-  creator     Employee? @relation(fields: [createdBy], references: [id], onUpdate: NoAction)
-
-  @@index([isActive, startDate, endDate], map: "idx_popup_banners_active_dates")
-  @@index([priority(sort: Desc)], map: "idx_popup_banners_priority")
-  @@map("popup_banners")
 }
 
 /// 웹사이트 설정
@@ -1826,228 +2062,4 @@ model NotificationQueue {
 
   @@index([status, scheduledAt], map: "idx_notification_queue_status_sched")
   @@map("notification_queue")
-}
-
-/// ===============================
-/// 면회 예약
-/// - 홈페이지 면회 예약 신청 관리
-/// ===============================
-model VisitReservation {
-  /// 예약 ID (Primary Key)
-  id                    BigInt   @id @default(autoincrement())
-  /// 방문자 성함
-  visitorName           String   @map("visitor_name")
-  /// 방문자 연락처
-  visitorPhone          String   @map("visitor_phone")
-  /// 어르신과의 관계
-  visitorRelationship   String   @map("visitor_relationship")
-  /// 어르신 성함
-  residentName          String   @map("resident_name")
-  /// 방문 희망일
-  visitDate             DateTime @map("visit_date") @db.Date
-  /// 방문 희망시간
-  visitTime             String   @map("visit_time")
-  /// 방문 인원
-  visitorCount          Int      @default(1) @map("visitor_count")
-  /// 방문 목적
-  visitPurpose          String?  @map("visit_purpose")
-  /// 감염 증상 여부 (발열, 기침 등)
-  healthCheckSymptoms   Boolean  @default(false) @map("health_check_symptoms")
-  /// 이동 보조 필요 여부
-  healthCheckAssistance Boolean  @default(false) @map("health_check_assistance")
-  /// 추가 요청사항
-  notes                 String?
-  /// 개인정보 수집 동의 여부
-  isConsented           Boolean  @default(false) @map("is_consented")
-  /// 처리 상태 (PENDING, APPROVED, REJECTED, CANCELLED)
-  status                String   @default("PENDING")
-  /// 신청 IP 주소
-  ipAddress             String?  @map("ip_address")
-  /// 사용자 브라우저 정보
-  userAgent             String?  @map("user_agent")
-  /// 신청 시각
-  createdAt             DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  /// 수정 시각
-  updatedAt             DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  @@map("visit_reservations")
-}
-
-/// ===============================
-/// 웹사이트 상담 문의
-/// - 홈페이지 상담 신청 접수용
-/// - 관리자 페이지에서 처리 상태 관리
-/// ===============================
-model WebInquiry {
-  /// 문의 ID (Primary Key)
-  id            BigInt    @id @default(autoincrement())
-  /// 상담자 이름
-  name          String
-  /// 상담자 연락처
-  phone         String
-  /// 이메일
-  email         String?
-  /// 문의 유형
-  /// 입소 상담, 비용 상담, 방문 상담, 기타
-  type          String
-  /// 어르신 연령
-  residentAge   String?   @map("resident_age")
-  /// 장기요양등급
-  careGrade     String?   @map("care_grade")
-  /// 방문 상담 희망일
-  preferredDate DateTime? @map("preferred_date") @db.Date
-  /// 상세 문의사항
-  message       String?
-  /// 개인정보 수집 동의 여부
-  isConsented   Boolean   @default(false) @map("is_consented")
-  /// 처리 상태
-  /// PENDING: 접수, IN_PROGRESS: 상담중, DONE: 완료, CANCELLED: 취소
-  status        String    @default("PENDING")
-  /// 문의 접수 IP 주소
-  ipAddress     String?   @map("ip_address")
-  /// 사용자 브라우저 정보
-  userAgent     String?   @map("user_agent")
-  /// 문의 생성 시각
-  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  /// 수정 시각
-  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  @@map("web_inquiries")
-}
-
-// ============================================================================
-// WEB 알림마당 Views
-// ============================================================================
-
-/// Web 공지사항 목록 조회 뷰
-view WebNotice {
-  id          BigInt    @unique
-  title       String
-  content     String
-  category    String?
-  isPinned    Boolean   @map("is_pinned")
-  isActive    Boolean   @map("is_active")
-  viewCount   Int       @map("view_count")
-  publishedAt DateTime? @map("published_at") @db.Timestamptz(6)
-  createdAt   DateTime  @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime  @map("updated_at") @db.Timestamptz(6)
-  creatorName String?   @map("creator_name")
-  creatorId   BigInt?   @map("creator_id")
-  fileCount   Int       @map("file_count")
-  files       Json
-
-  @@map("v_web_notices")
-}
-
-/// Web 공지사항 상세 조회 뷰
-view WebNoticeDetail {
-  id          BigInt    @unique
-  title       String
-  content     String
-  category    String?
-  isPinned    Boolean   @map("is_pinned")
-  viewCount   Int       @map("view_count")
-  publishedAt DateTime? @map("published_at") @db.Timestamptz(6)
-  createdAt   DateTime  @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime  @map("updated_at") @db.Timestamptz(6)
-  creatorName String?   @map("creator_name")
-  creatorId   BigInt?   @map("creator_id")
-  files       Json
-  prevNotice  Json?     @map("prev_notice")
-  nextNotice  Json?     @map("next_notice")
-
-  @@map("v_web_notice_detail")
-}
-
-/// Web 게시판 목록 조회 뷰
-view WebBoardPost {
-  id           BigInt   @unique
-  boardKey     String   @map("board_key")
-  title        String
-  content      String
-  viewCount    Int      @map("view_count")
-  isPinned     Boolean  @map("is_pinned")
-  isLocked     Boolean  @map("is_locked")
-  createdAt    DateTime @map("created_at") @db.Timestamptz(6)
-  updatedAt    DateTime @map("updated_at") @db.Timestamptz(6)
-  authorName   String?  @map("author_name")
-  authorId     BigInt?  @map("author_id")
-  commentCount Int      @map("comment_count")
-  fileCount    Int      @map("file_count")
-  files        Json
-
-  @@map("v_web_board_posts")
-}
-
-/// Web 게시글 상세 조회 뷰
-view WebBoardPostDetail {
-  id           BigInt   @unique
-  boardKey     String   @map("board_key")
-  title        String
-  content      String
-  viewCount    Int      @map("view_count")
-  isPinned     Boolean  @map("is_pinned")
-  isLocked     Boolean  @map("is_locked")
-  createdAt    DateTime @map("created_at") @db.Timestamptz(6)
-  updatedAt    DateTime @map("updated_at") @db.Timestamptz(6)
-  authorName   String?  @map("author_name")
-  authorId     BigInt?  @map("author_id")
-  files        Json
-  comments     Json
-  commentCount Int      @map("comment_count")
-  prevPost     Json?    @map("prev_post")
-  nextPost     Json?    @map("next_post")
-
-  @@map("v_web_board_post_detail")
-}
-
-/// Web 갤러리 목록 조회 뷰
-view WebGalleryItem {
-  id          BigInt    @unique
-  title       String?
-  description String?
-  category    String?
-  eventDate   DateTime? @map("event_date") @db.Date
-  isPublic    Boolean   @map("is_public")
-  createdAt   DateTime  @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime  @map("updated_at") @db.Timestamptz(6)
-  creatorName String?   @map("creator_name")
-  creatorId   BigInt?   @map("creator_id")
-  fileCount   Int       @map("file_count")
-  thumbnail   Json?
-  files       Json
-
-  @@map("v_web_gallery_items")
-}
-
-/// Web 식단표 목록 조회 뷰
-view WebMealPlan {
-  id               BigInt   @unique
-  facilityCode     String   @map("facility_code")
-  weekStartDate    DateTime @map("week_start_date") @db.Date
-  status           String
-  nutritionManager String?  @map("nutrition_manager")
-  notes            String?
-  createdAt        DateTime @map("created_at") @db.Timestamptz(6)
-  updatedAt        DateTime @map("updated_at") @db.Timestamptz(6)
-  creatorName      String?  @map("creator_name")
-  creatorId        BigInt?  @map("creator_id")
-  weekMeals        Json     @map("week_meals")
-
-  @@map("v_web_meal_plans")
-}
-
-/// 최신 콘텐츠 통합 조회 뷰
-view WebLatestContent {
-  id           BigInt   @unique
-  contentType  String   @map("content_type")
-  title        String
-  summary      String?
-  createdAt    DateTime @map("created_at") @db.Timestamptz(6)
-  viewCount    Int      @map("view_count")
-  commentCount Int?     @map("comment_count")
-  fileCount    Int      @map("file_count")
-  authorName   String?  @map("author_name")
-
-  @@map("v_web_latest_contents")
 }

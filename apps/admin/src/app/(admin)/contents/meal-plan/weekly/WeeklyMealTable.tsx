@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
 import clsx from 'clsx';
+import React from 'react';
 
 interface MealDetail {
   menu: string;
@@ -111,6 +111,7 @@ export default function WeeklyMealTable({
             {mealPlans.map((meal, idx) => {
               const isEditing = editingDates.has(meal.date);
               const hasData = meal.breakfast.menu || meal.lunch.menu || meal.dinner.menu;
+              const dayName = days[new Date(meal.date).getDay()];
 
               return (
                 <tr
@@ -124,7 +125,7 @@ export default function WeeklyMealTable({
 
                   {/* 2. 날짜 정보 */}
                   <td className="border-r border-blue-400 p-2 text-center">
-                    <div className="font-black text-blue-900">{days[idx]}요일</div>
+                    <div className="font-black text-blue-900">{dayName}요일</div>
                     <div className="font-mono text-[9px] font-bold text-gray-400">{meal.date}</div>
                   </td>
 

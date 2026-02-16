@@ -24,10 +24,13 @@ interface MealPlan {
   id: string;
   date: string;
   breakfast: string;
+  breakfast_image?: string;
   morning_snack: string;
   lunch: string;
+  lunch_image?: string;
   afternoon_snack: string;
   dinner: string;
+  dinner_image?: string;
   memo?: string;
   nutrition_manager: string;
   images: MealImage[];
@@ -35,7 +38,8 @@ interface MealPlan {
 
 export default function MealPlanPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [viewMode, setViewMode] = useState<'week' | 'month'>('week');
+  const [viewMode, setViewMode] = useState<'month' | 'week'>('month');
+
   const [selectedMeal, setSelectedMeal] = useState<MealPlan | null>(null);
 
   // API 데이터 로드
@@ -56,23 +60,28 @@ export default function MealPlanPage() {
 
     const allDailyMeals: MealPlan[] = [];
 
-    // 각 meal plan의 dailyMeals를 평탄화
-    mealPlansData.body.data.forEach(mealPlan => {
-      mealPlan.dailyMeals?.forEach((dailyMeal: any) => {
-        allDailyMeals.push({
-          id: dailyMeal.id,
-          date: String(dailyMeal.date),
-          breakfast: dailyMeal.breakfast || '',
-          morning_snack: dailyMeal.morningSnack || '',
-          lunch: dailyMeal.lunch || '',
-          afternoon_snack: dailyMeal.afternoonSnack || '',
-          dinner: dailyMeal.dinner || '',
-          memo: mealPlan.notes || undefined,
-          nutrition_manager: mealPlan.nutritionManager || '미지정',
-          images: [], // TODO: 이미지 지원 시 추가
+    // 각 meal plan의 dailyMeals를 평탄화 (Optional chaining check included)
+    if (mealPlansData?.body?.data) {
+      mealPlansData.body.data.forEach(mealPlan => {
+        mealPlan.dailyMeals?.forEach((dailyMeal: any) => {
+          allDailyMeals.push({
+            id: dailyMeal.id,
+            date: String(dailyMeal.date),
+            breakfast: dailyMeal.breakfast || '',
+            breakfast_image: dailyMeal.breakfastImage || undefined,
+            morning_snack: dailyMeal.morningSnack || '',
+            lunch: dailyMeal.lunch || '',
+            lunch_image: dailyMeal.lunchImage || undefined,
+            afternoon_snack: dailyMeal.afternoonSnack || '',
+            dinner: dailyMeal.dinner || '',
+            dinner_image: dailyMeal.dinnerImage || undefined,
+            memo: mealPlan.notes || undefined,
+            nutrition_manager: mealPlan.nutritionManager || '미지정',
+            images: [], // TODO: 이미지 지원 시 추가
+          });
         });
       });
-    });
+    }
 
     console.log('🔍 [DEBUG] MEAL_DATA constructed:', allDailyMeals);
     return allDailyMeals;
@@ -80,38 +89,64 @@ export default function MealPlanPage() {
 
   // 현재 월에 해당하는 데이터만 필터링 (월간 보기용)
   const mealPlans = MEAL_DATA.filter(meal => {
-    // [Fix] compare strings directly if possible, or ensure Date is correct
-    // meal.date is YYYY-MM-DD string.
-    // currentDate is Date object.
-    const mealDate = new Date(meal.date);
-    const match =
-      mealDate.getFullYear() === currentDate.getFullYear() && mealDate.getMonth() === currentDate.getMonth();
-    console.log(`🔍 [DEBUG] Filtering meal date: ${meal.date}, Match: ${match}, Current: ${currentDate.toISOString()}`);
+    if (!meal.date) return false;
+
+    // meal.date is expected to be 'YYYY-MM-DD'
+    const parts = meal.date.split('-');
+    if (parts.length < 2) return false;
+
+    const year = parseInt(parts[0] ?? '', 10);
+    const month = parseInt(parts[1] ?? '', 10);
+
+    // currentDate's year and month (0-indexed)
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1; // 1-indexed
+
+    const match = year === currentYear && month === currentMonth;
     return match;
   });
+
+  // 주간 데이터 필터링
+  const getWeekDays = (): { date: string; meal: MealPlan | null }[] => {
+    const startOfWeek = new Date(currentDate);
+    const day = startOfWeek.getDay();
+    const diff = startOfWeek.getDate() - day + (day === 0 ? -6 : 1); // 월요일 시작
+    startOfWeek.setDate(diff);
+
+    const days = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(startOfWeek);
+      d.setDate(startOfWeek.getDate() + i);
+      const dateStr = d.toISOString().split('T')[0];
+      const meal = MEAL_DATA.find(m => m.date === dateStr) || null;
+      days.push({ date: dateStr, meal });
+    }
+    return days;
+  };
+
   // 네비게이션 핸들러
   const handlePrev = () => {
-    if (viewMode === 'week') {
-      // 주간: 7일 전으로
-      const newDate = new Date(currentDate);
-      newDate.setDate(currentDate.getDate() - 7);
-      setCurrentDate(newDate);
-    } else {
+    if (viewMode === 'month') {
       // 월간: 이전 달로
       const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+      setCurrentDate(newDate);
+    } else {
+      // 주간: 이전 주로
+      const newDate = new Date(currentDate);
+      newDate.setDate(newDate.getDate() - 7);
       setCurrentDate(newDate);
     }
   };
 
   const handleNext = () => {
-    if (viewMode === 'week') {
-      // 주간: 7일 후로
-      const newDate = new Date(currentDate);
-      newDate.setDate(currentDate.getDate() + 7);
-      setCurrentDate(newDate);
-    } else {
+    if (viewMode === 'month') {
       // 월간: 다음 달로
       const newDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+      setCurrentDate(newDate);
+    } else {
+      // 주간: 다음 주로
+      const newDate = new Date(currentDate);
+      newDate.setDate(newDate.getDate() + 7);
       setCurrentDate(newDate);
     }
   };
@@ -120,28 +155,74 @@ export default function MealPlanPage() {
     setCurrentDate(new Date());
   };
 
-  // 주간 보기 데이터
-  const getWeekDays = (): { date: string; meal: MealPlan | null }[] => {
-    const targetDate = new Date(currentDate);
-    const currentDay = targetDate.getDay();
+  /**
+   * 사진 업로드 핸들러
+   */
+  const handleImageUpload = async (mealType: 'breakfast' | 'lunch' | 'dinner', file: File) => {
+    if (!selectedMeal) return;
 
-    const monday = new Date(targetDate);
-    monday.setDate(targetDate.getDate() - currentDay + (currentDay === 0 ? -6 : 1));
+    try {
+      // FormData 생성
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('mealType', mealType);
+      formData.append('dailyMealId', selectedMeal.id);
 
-    const days: { date: string; meal: MealPlan | null }[] = [];
+      // TODO: API 엔드포인트 연결 필요
+      // const response = await fetch('/api/meal-plans/upload-image', {
+      //   method: 'POST',
+      //   body: formData,
+      // });
 
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(monday);
-      date.setDate(monday.getDate() + i);
+      // 임시: 로컬 URL 생성 (실제로는 서버에서 받은 URL 사용)
+      const imageUrl = URL.createObjectURL(file);
 
-      const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+      // 상태 업데이트
+      setSelectedMeal(prev => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          [`${mealType}_image`]: imageUrl,
+        };
+      });
 
-      const meal = MEAL_DATA.find(m => m.date === dateStr) ?? null;
-
-      days.push({ date: dateStr, meal });
+      console.log('✅ 사진 업로드 성공 (임시):', mealType, imageUrl);
+      alert('사진이 업로드되었습니다. (임시 - API 연결 필요)');
+    } catch (error) {
+      console.error('❌ 사진 업로드 실패:', error);
+      throw error;
     }
+  };
 
-    return days;
+  /**
+   * 사진 삭제 핸들러
+   */
+  const handleImageDelete = async (mealType: 'breakfast' | 'lunch' | 'dinner') => {
+    if (!selectedMeal) return;
+
+    try {
+      // TODO: API 엔드포인트 연결 필요
+      // await fetch('/api/meal-plans/delete-image', {
+      //   method: 'DELETE',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ dailyMealId: selectedMeal.id, mealType }),
+      // });
+
+      // 상태 업데이트
+      setSelectedMeal(prev => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          [`${mealType}_image`]: undefined,
+        };
+      });
+
+      console.log('✅ 사진 삭제 성공 (임시):', mealType);
+      alert('사진이 삭제되었습니다. (임시 - API 연결 필요)');
+    } catch (error) {
+      console.error('❌ 사진 삭제 실패:', error);
+      throw error;
+    }
   };
 
   // 월간 보기 데이터
@@ -180,10 +261,10 @@ export default function MealPlanPage() {
         <MealPlanHeader
           currentDate={currentDate}
           viewMode={viewMode}
+          onViewModeChange={setViewMode}
           onPrev={handlePrev}
           onNext={handleNext}
           onToday={handleToday}
-          onViewModeChange={setViewMode}
         />
 
         {/* 로딩 상태 */}
@@ -194,19 +275,22 @@ export default function MealPlanPage() {
         )}
 
         {/* 데이터 로드 완료 */}
-        {!isLoading && (
-          <>
-            {/* 주간 보기 */}
-            {viewMode === 'week' && <WeekTab weekDays={getWeekDays()} onMealClick={setSelectedMeal} />}
-
-            {/* 월간 보기 */}
-            {viewMode === 'month' && <MonthTab monthDays={getMonthDays()} onMealClick={setSelectedMeal} />}
-          </>
-        )}
+        {!isLoading &&
+          (viewMode === 'month' ? (
+            <MonthTab monthDays={getMonthDays()} onMealClick={setSelectedMeal} />
+          ) : (
+            <WeekTab weekDays={getWeekDays()} onMealClick={setSelectedMeal} />
+          ))}
       </div>
 
       {/* 상세 모달 */}
-      <MealDetailModal meal={selectedMeal} onClose={() => setSelectedMeal(null)} />
+      <MealDetailModal
+        meal={selectedMeal}
+        onClose={() => setSelectedMeal(null)}
+        onUpdateImage={handleImageUpload}
+        onDeleteImage={handleImageDelete}
+        isEditable={true} // TODO: 권한에 따라 동적으로 설정
+      />
     </main>
   );
 }

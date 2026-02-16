@@ -13,7 +13,7 @@ import WeeklyMealPlan from './weekly/WeeklyMealPlan';
 export default function MealPage() {
   // 1. 글로벌 상태 관리
   const [tab, setTab] = useState<'weekly' | 'monthly'>('weekly');
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0] ?? '');
 
   // 2. 출력 핸들러
   const handlePrintWeekly = () => {
@@ -45,23 +45,16 @@ export default function MealPage() {
           {tab === 'weekly' ? (
             /* [섹션] 주간 식단 모듈 */
             <section className="animate-in fade-in duration-500">
-              <WeeklyMealPlan />
+              <WeeklyMealPlan selectedDate={selectedDate} />
             </section>
           ) : (
             /* [섹션] 월간 식단 모듈 */
             <section className="animate-in fade-in duration-500">
-              <MonthlyMealPlan />
+              <MonthlyMealPlan selectedDate={selectedDate} />
             </section>
           )}
         </div>
       </main>
-
-      {/* 시스템 알림 바 (선택 사항) */}
-      <div className="bg-[#5C8D5A] px-4 py-1 text-right">
-        <p className="text-[9px] font-black uppercase italic tracking-tighter text-white/80">
-          Agape-Care High-Density ERP System Connected
-        </p>
-      </div>
     </div>
   );
 }
