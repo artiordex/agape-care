@@ -1,115 +1,98 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
-// 섹션 컴포넌트 Import
 import FacilityHeader from './FacilityHeader';
 import FacilityPreview from './FacilityPreview';
-import AddressSection from './sections/AddressSection';
-import BasicInfoSection from './sections/BasicInfoSection';
-import CapacitySection from './sections/CapacitySection';
-import ContactSection from './sections/ContactSection';
-import StampSection from './sections/StampSection';
+import FacilitySettingsSection, { FacilitySettingsData } from './FacilitySettingsSection';
 
-// 데이터 인터페이스 정의
-export interface FacilityData {
+const STORAGE_KEY = 'agape_facility_info';
+
+const DEFAULT_DATA: FacilitySettingsData = {
   basic: {
-    orgCode: string;
-    facilityName: string;
-    facilityDesc: string;
-    facilityType: string;
-    designatedDate: string;
-    director: string;
-    directorPhone: string;
-    ceoName: string;
-    businessNo: string;
-    bizType: string;
-    staffCount: number;
-  };
+    orgCode: 'F-2026-001',
+    facilityName: '아가페케어 요양센터',
+    facilityDesc: '어르신들의 존엄한 노후를 위한 프리미엄 케어 서비스를 제공합니다.',
+    facilityType: '노인요양시설',
+    designatedDate: '2026-01-01',
+    director: '홍길동',
+    directorPhone: '010-1234-5678',
+    ceoName: '이아무개',
+    businessNo: '123-45-67890',
+    bizType: '사회복지서비스업',
+    staffCount: 35,
+  },
   contact: {
-    phone: string;
-    fax: string;
-    email: string;
-    homepage: string;
-  };
-  capacity: {
-    total: number;
-    shortStay: number;
-    dayCare: number;
-  };
+    phone: '02-1234-5678',
+    fax: '02-1234-5679',
+    email: 'admin@agape-care.com',
+    homepage: 'https://agape-care.com',
+  },
+  capacity: { total: 49, shortStay: 5, dayCare: 10 },
   address: {
-    zip: string;
-    addr1: string;
-    addr2: string;
-  };
-  stampImage: string;
-}
+    zip: '06234',
+    addr1: '서울특별시 강남구 테헤란로 123',
+    addr2: '아카이브 빌딩 7층',
+  },
+  stampImage: '',
+};
 
 export default function FacilityManagementPage() {
-  // --- [1] 초기 기본 데이터 설정 ---
-  const [facilityData, setFacilityData] = useState<FacilityData>({
-    basic: {
-      orgCode: 'F-2026-001',
-      facilityName: '아가페케어 요양센터',
-      facilityDesc: '어르신들의 존엄한 노후를 위한 프리미엄 케어 서비스를 제공합니다.',
-      facilityType: '노인요양시설',
-      designatedDate: '2026-01-01',
-      director: '홍길동',
-      directorPhone: '010-1234-5678',
-      ceoName: '이아무개',
-      businessNo: '123-45-67890',
-      bizType: '사회복지서비스업',
-      staffCount: 35,
-    },
-    contact: {
-      phone: '02-1234-5678',
-      fax: '02-1234-5679',
-      email: 'admin@agape-care.com',
-      homepage: 'https://agape-care.com',
-    },
-    capacity: { total: 49, shortStay: 5, dayCare: 10 },
-    address: {
-      zip: '06234',
-      addr1: '서울특별시 강남구 테헤란로 123',
-      addr2: '아카이브 빌딩 7층',
-    },
-    stampImage: '',
-  });
-
+  const [facilityData, setFacilityData] = useState<FacilitySettingsData>(DEFAULT_DATA);
   const [isSaving, setIsSaving] = useState(false);
 
-  // --- [2] 로컬 스토리지 데이터 로드 ---
+  // 로컬 스토리지 데이터 로드
   useEffect(() => {
-    const savedData = localStorage.getItem('agape_facility_info');
+    const savedData = localStorage.getItem(STORAGE_KEY);
     if (savedData) {
       try {
         setFacilityData(JSON.parse(savedData));
       } catch (e) {
         console.error('데이터 파싱 오류:', e);
+        toast.error('저장된 데이터를 불러오는 데 실패했습니다.');
       }
     }
   }, []);
 
-  // --- [3] 전역 액션 핸들러 ---
   const handleSave = async () => {
     setIsSaving(true);
-    // 실제 API 연동 시 fetch/axios 호출 영역
-    await new Promise(resolve => setTimeout(resolve, 800));
-    localStorage.setItem('agape_facility_info', JSON.stringify(facilityData));
-    setIsSaving(false);
-    alert('✅ 시설 정보가 성공적으로 저장되었습니다.');
+    try {
+      // 실제 API 연동 시 fetch/axios 호출 영역
+      await new Promise(resolve => setTimeout(resolve, 800));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(facilityData));
+      toast.success('시설 정보가 성공적으로 저장되었습니다.');
+    } catch (e) {
+      toast.error('저장 중 오류가 발생했습니다.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const handleReset = () => {
-    if (confirm('저장된 마지막 정보로 되돌리시겠습니까? 현재 입력 중인 내용은 사라집니다.')) {
-      const savedData = localStorage.getItem('agape_facility_info');
-      if (savedData) setFacilityData(JSON.parse(savedData));
-    }
+    toast.warning('저장된 마지막 정보로 되돌리시겠습니까?', {
+      action: {
+        label: '되돌리기',
+        onClick: () => {
+          const savedData = localStorage.getItem(STORAGE_KEY);
+          if (savedData) {
+            setFacilityData(JSON.parse(savedData));
+            toast.success('마지막 저장 상태로 복원되었습니다.');
+          } else {
+            toast.error('저장된 데이터가 없습니다.');
+          }
+        },
+      },
+      cancel: {
+        label: '취소',
+        onClick: () => {},
+      },
+    });
   };
 
   return (
     <main className="flex h-screen flex-col overflow-hidden bg-[#f0f2f5]">
-      {/* 1. 컨트롤 헤더 */}
+      {/* 컨트롤 헤더 */}
       <FacilityHeader
         facilityName={facilityData.basic.facilityName}
         isSaving={isSaving}
@@ -117,39 +100,16 @@ export default function FacilityManagementPage() {
         onReset={handleReset}
       />
 
-      {/* 2. 메인 컨텐츠 스크롤 영역 */}
+      {/* 메인 컨텐츠 */}
       <div className="flex-1 overflow-y-auto p-4">
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-            {/* 좌측: 입력 폼 섹션 그룹 (2/3 영역) */}
-            <div className="space-y-6 lg:col-span-2">
-              <BasicInfoSection
-                value={facilityData.basic}
-                onChange={basic => setFacilityData(prev => ({ ...prev, basic }))}
-              />
-
-              <ContactSection
-                value={facilityData.contact}
-                onChange={contact => setFacilityData(prev => ({ ...prev, contact }))}
-              />
-
-              <AddressSection
-                value={facilityData.address}
-                onChange={address => setFacilityData(prev => ({ ...prev, address }))}
-              />
-
-              <CapacitySection
-                value={facilityData.capacity}
-                onChange={capacity => setFacilityData(prev => ({ ...prev, capacity }))}
-              />
-
-              <StampSection
-                value={facilityData.stampImage}
-                onChange={stampImage => setFacilityData(prev => ({ ...prev, stampImage }))}
-              />
+            {/* 좌측: 입력 폼 (2/3) */}
+            <div className="lg:col-span-2">
+              <FacilitySettingsSection value={facilityData} onChange={setFacilityData} />
             </div>
 
-            {/* 우측: 실시간 프리뷰 사이드바 (1/3 영역) */}
+            {/* 우측: 실시간 프리뷰 (1/3) */}
             <div className="hidden lg:block">
               <FacilityPreview data={facilityData} />
             </div>

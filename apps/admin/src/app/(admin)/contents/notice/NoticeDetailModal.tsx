@@ -13,16 +13,16 @@ interface Props {
   readonly onSave: (data: Partial<Notice>) => void;
 }
 
+const CATEGORY_STYLES: Record<string, string> = {
+  긴급: 'text-red-600 bg-red-50 border-red-100',
+  교육: 'text-blue-600 bg-blue-50 border-blue-100',
+  일반: 'text-gray-500 bg-gray-50 border-gray-100',
+  행사: 'text-emerald-600 bg-emerald-50 border-emerald-100',
+  점검: 'text-orange-600 bg-orange-50 border-orange-100',
+};
+
 export default function NoticeDetailModal({ isOpen, notice, onClose, onEdit, onDelete, onSave }: Props) {
   if (!isOpen || !notice) return null;
-
-  const categoryStyles: any = {
-    긴급: 'text-red-600 bg-red-50 border-red-100',
-    교육: 'text-blue-600 bg-blue-50 border-blue-100',
-    일반: 'text-gray-500 bg-gray-50 border-gray-100',
-    행사: 'text-emerald-600 bg-emerald-50 border-emerald-100',
-    점검: 'text-orange-600 bg-orange-50 border-orange-100',
-  };
 
   const handlePrint = () => {
     window.print();
@@ -70,7 +70,6 @@ export default function NoticeDetailModal({ isOpen, notice, onClose, onEdit, onD
             <i className="ri-edit-line text-lg"></i>
             수정
           </button>
-
           <button
             onClick={handlePrint}
             className="flex items-center gap-2 bg-[#5C8D5A] px-6 py-2.5 text-[12px] font-black text-white shadow-lg transition-all hover:bg-[#4A7548] active:scale-95"
@@ -78,7 +77,6 @@ export default function NoticeDetailModal({ isOpen, notice, onClose, onEdit, onD
             <i className="ri-printer-line text-lg"></i>
             인쇄
           </button>
-
           <button onClick={onClose} className="p-2 text-gray-400 transition-all hover:text-red-500">
             <i className="ri-close-line text-2xl"></i>
           </button>
@@ -88,7 +86,7 @@ export default function NoticeDetailModal({ isOpen, notice, onClose, onEdit, onD
       {/* 메인 문서 영역 */}
       <div className="flex-1 overflow-y-auto p-12 print:overflow-visible print:p-0">
         <div className="mx-auto max-w-[800px] bg-white p-[60px] shadow-2xl ring-1 ring-gray-200 print:shadow-none print:ring-0">
-          {/* 문서 타이틀 헤더 */}
+          {/* 문서 타이틀 */}
           <div className="mb-12 border-b-4 border-gray-900 pb-6 text-center">
             <h1 className="text-[28px] font-black uppercase tracking-[0.2em] text-gray-900">공 지 사 항</h1>
             <p className="mt-2 text-[11px] font-bold uppercase italic tracking-[0.3em] text-gray-400">
@@ -105,7 +103,7 @@ export default function NoticeDetailModal({ isOpen, notice, onClose, onEdit, onD
                   <span
                     className={clsx(
                       'rounded-none border px-3 py-1 text-[11px] font-black',
-                      categoryStyles[notice.category] || categoryStyles['일반'],
+                      CATEGORY_STYLES[notice.category] || CATEGORY_STYLES['일반'],
                     )}
                   >
                     {notice.category}
