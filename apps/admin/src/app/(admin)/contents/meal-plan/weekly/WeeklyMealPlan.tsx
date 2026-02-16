@@ -26,9 +26,26 @@ interface MealPlan {
   nutrition_manager: string;
 }
 
+/** 주간 월요일 계산 */
+const getMonday = (date: Date) => {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  const monday = new Date(d.setDate(diff));
+  monday.setHours(0, 0, 0, 0);
+  return monday;
+};
+
+/** 날짜 문자열 변환 (YYYY-MM-DD) */
+const getDateString = (baseDate: Date, offset: number) => {
+  const date = new Date(baseDate);
+  date.setDate(date.getDate() + offset);
+  return date.toISOString().split('T')[0];
+};
+
 export default function WeeklyMealPlan() {
   const [mealPlans, setMealPlans] = useState<MealPlan[]>([]);
-  const [currentWeekStart, setCurrentWeekStart] = useState<Date>(new Date());
+  const [currentWeekStart, setCurrentWeekStart] = useState<Date>(getMonday(new Date()));
   const [nutritionManager, setNutritionManager] = useState('김영양 영양사');
   const [editingDates, setEditingDates] = useState<Set<string>>(new Set());
   const [mealPlanId, setMealPlanId] = useState<string | null>(null);
@@ -66,12 +83,6 @@ export default function WeeklyMealPlan() {
       refetch();
     },
   });
-
-  // 초기 데이터 로드 및 주간 날짜 설정
-  useEffect(() => {
-    const monday = getMonday(new Date());
-    setCurrentWeekStart(monday);
-  }, []);
 
   // API 데이터를 로컬 상태로 변환
   useEffect(() => {
@@ -115,24 +126,7 @@ export default function WeeklyMealPlan() {
 
       setMealPlans(weekPlans);
     }
-  }, [weeklyData, currentWeekStart]);
-
-  /** 주간 월요일 계산 */
-  const getMonday = (date: Date) => {
-    const d = new Date(date);
-    const day = d.getDay();
-    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-    const monday = new Date(d.setDate(diff));
-    monday.setHours(0, 0, 0, 0);
-    return monday;
-  };
-
-  /** 날짜 문자열 변환 (YYYY-MM-DD) */
-  const getDateString = (baseDate: Date, offset: number) => {
-    const date = new Date(baseDate);
-    date.setDate(date.getDate() + offset);
-    return date.toISOString().split('T')[0];
-  };
+  }, [weeklyData, currentWeekStart, days, nutritionManager]);
 
   /** 단일 날짜 데이터 저장 */
   const handleSave = (index: number) => {
