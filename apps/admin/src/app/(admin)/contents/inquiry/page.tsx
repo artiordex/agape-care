@@ -1,154 +1,82 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import InquiryDetailModal from './InquiryDetailModal';
 import InquiryTable from './InquiryTable';
 import VisitReservationTable from './VisitReservationTable';
 import VisitReservationDetailModal from './VisitReservationDetailModal';
 import { WebInquiry, InquiryStatus, VisitReservation, VisitStatus } from './inquiry.type';
+import { api } from '@/lib/api';
 
 type TabType = 'inquiry' | 'visit';
 
 /**
  * [Page] 아가페 웹 상담/방문 문의 관리 시스템
- * LocalStorage 기반 데이터 관리
+ * API 기반 데이터 관리
  */
 export default function InquiryPage() {
   const [activeTab, setActiveTab] = useState<TabType>('inquiry');
 
   // 상담 문의 상태
-  const [inquiries, setInquiries] = useState<WebInquiry[]>([]);
   const [inquiryStatusFilter, setInquiryStatusFilter] = useState<InquiryStatus | 'ALL'>('ALL');
   const [selectedInquiry, setSelectedInquiry] = useState<WebInquiry | null>(null);
 
   // 방문 예약 상태
-  const [visitReservations, setVisitReservations] = useState<VisitReservation[]>([]);
   const [visitStatusFilter, setVisitStatusFilter] = useState<VisitStatus | 'ALL'>('ALL');
   const [selectedVisit, setSelectedVisit] = useState<VisitReservation | null>(null);
 
-  const [isLoading, setIsLoading] = useState(true);
+  // API: 상담 문의 목록 조회
+  const { data: inquiriesData, refetch: refetchInquiries } = api.webInquiry.getWebInquiries.useQuery(
+    ['webInquiries', inquiryStatusFilter],
+    {
+      queryData: {
+        page: 1,
+        limit: 100,
+        status: inquiryStatusFilter !== 'ALL' ? inquiryStatusFilter : undefined,
+      },
+    },
+  );
 
-  // 초기 데이터 로드 - 상담 문의
-  useEffect(() => {
-    const saved = localStorage.getItem('agape_inquiries');
-    if (saved) {
-      setInquiries(JSON.parse(saved));
-    } else {
-      // 샘플 데이터
-      const initial: WebInquiry[] = [
-        {
-          id: '3',
-          type: '입소상담',
-          name: '김영희',
-          phone: '010-1234-5678',
-          email: 'kim@example.com',
-          residentAge: '85세',
-          careGrade: '3등급',
-          preferredDate: '2024-03-15',
-          message: '부모님 입소 상담을 받고 싶습니다.\n시설 방문 가능한 날짜를 알려주시면 감사하겠습니다.',
-          status: 'PENDING',
-          createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-          updatedAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-        },
-        {
-          id: '2',
-          type: '시설문의',
-          name: '이철수',
-          phone: '010-9876-5432',
-          email: 'lee@example.com',
-          message: '시설 내 의료 서비스에 대해 자세히 알고 싶습니다.\n간호사가 상주하시나요?',
-          status: 'IN_PROGRESS',
-          createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
-          updatedAt: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
-        },
-        {
-          id: '1',
-          type: '채용문의',
-          name: '박민수',
-          phone: '010-5555-6666',
-          message: '요양보호사 채용 공고를 보고 연락드립니다.\n면접 일정을 잡고 싶습니다.',
-          status: 'DONE',
-          createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
-          updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-        },
-      ];
-      setInquiries(initial);
-      localStorage.setItem('agape_inquiries', JSON.stringify(initial));
-    }
-    setIsLoading(false);
-  }, []);
+  // API: 방문 예약 목록 조회
+  const { data: visitReservationsData, refetch: refetchVisits } =
+    api.visitReservation.getVisitReservations.useQuery(['visitReservations', visitStatusFilter], {
+      queryData: {
+        page: 1,
+        limit: 100,
+        status: visitStatusFilter !== 'ALL' ? visitStatusFilter : undefined,
+      },
+    });
 
-  // 초기 데이터 로드 - 방문 예약
-  useEffect(() => {
-    const saved = localStorage.getItem('agape_visit_reservations');
-    if (saved) {
-      setVisitReservations(JSON.parse(saved));
-    } else {
-      // 샘플 데이터
-      const initial: VisitReservation[] = [
-        {
-          id: '101',
-          visitorName: '최민지',
-          visitorPhone: '010-1111-2222',
-          visitorRelationship: '딸',
-          residentName: '최순자',
-          visitDate: '2024-03-20',
-          visitTime: '14:00',
-          visitorCount: 2,
-          visitPurpose: '어머니 생신 축하',
-          healthCheckSymptoms: false,
-          healthCheckAssistance: false,
-          notes: null,
-          status: 'PENDING',
-          createdAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
-          updatedAt: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
-        },
-        {
-          id: '102',
-          visitorName: '정태우',
-          visitorPhone: '010-3333-4444',
-          visitorRelationship: '아들',
-          residentName: '정한수',
-          visitDate: '2024-03-18',
-          visitTime: '10:30',
-          visitorCount: 1,
-          visitPurpose: '정기 방문',
-          healthCheckSymptoms: false,
-          healthCheckAssistance: true,
-          notes: '휠체어 준비 필요',
-          status: 'APPROVED',
-          createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-          updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-        },
-      ];
-      setVisitReservations(initial);
-      localStorage.setItem('agape_visit_reservations', JSON.stringify(initial));
-    }
-  }, []);
+  // API: 상담 문의 상태 업데이트
+  const updateInquiryStatus = api.webInquiry.updateWebInquiryStatus.useMutation({
+    onSuccess: () => {
+      refetchInquiries();
+    },
+  });
 
-  // 상담 문의 저장
-  const saveInquiriesToStorage = (data: WebInquiry[]) => {
-    localStorage.setItem('agape_inquiries', JSON.stringify(data));
-    setInquiries(data);
-  };
+  // API: 방문 예약 상태 업데이트
+  const updateVisitStatus = api.visitReservation.updateVisitReservationStatus.useMutation({
+    onSuccess: () => {
+      refetchVisits();
+    },
+  });
 
-  // 방문 예약 저장
-  const saveVisitReservationsToStorage = (data: VisitReservation[]) => {
-    localStorage.setItem('agape_visit_reservations', JSON.stringify(data));
-    setVisitReservations(data);
-  };
+  // API: 상담 문의 삭제
+  const deleteInquiry = api.webInquiry.deleteWebInquiry.useMutation({
+    onSuccess: () => {
+      refetchInquiries();
+    },
+  });
 
-  // 필터링된 상담 문의
-  const filteredInquiries = useMemo(() => {
-    if (inquiryStatusFilter === 'ALL') return inquiries;
-    return inquiries.filter(item => item.status === inquiryStatusFilter);
-  }, [inquiries, inquiryStatusFilter]);
+  // API: 방문 예약 삭제
+  const deleteVisit = api.visitReservation.deleteVisitReservation.useMutation({
+    onSuccess: () => {
+      refetchVisits();
+    },
+  });
 
-  // 필터링된 방문 예약
-  const filteredVisitReservations = useMemo(() => {
-    if (visitStatusFilter === 'ALL') return visitReservations;
-    return visitReservations.filter(item => item.status === visitStatusFilter);
-  }, [visitReservations, visitStatusFilter]);
+  const inquiries = inquiriesData?.body?.data || [];
+  const visitReservations = visitReservationsData?.body?.data || [];
 
   // 상담 문의 통계
   const inquiryStats = useMemo(() => {
@@ -172,10 +100,10 @@ export default function InquiryPage() {
 
   // 상담 문의 상태 업데이트
   const handleUpdateInquiryStatus = (id: string, status: InquiryStatus) => {
-    const updated = inquiries.map(item =>
-      item.id === id ? { ...item, status, updatedAt: new Date().toISOString() } : item,
-    );
-    saveInquiriesToStorage(updated);
+    updateInquiryStatus.mutate({
+      params: { id },
+      body: { status },
+    });
 
     if (selectedInquiry?.id === id) {
       setSelectedInquiry({ ...selectedInquiry, status, updatedAt: new Date().toISOString() });
@@ -184,10 +112,10 @@ export default function InquiryPage() {
 
   // 방문 예약 상태 업데이트
   const handleUpdateVisitStatus = (id: string, status: VisitStatus) => {
-    const updated = visitReservations.map(item =>
-      item.id === id ? { ...item, status, updatedAt: new Date().toISOString() } : item,
-    );
-    saveVisitReservationsToStorage(updated);
+    updateVisitStatus.mutate({
+      params: { id },
+      body: { status },
+    });
 
     if (selectedVisit?.id === id) {
       setSelectedVisit({ ...selectedVisit, status, updatedAt: new Date().toISOString() });
@@ -198,8 +126,9 @@ export default function InquiryPage() {
   const handleDeleteInquiry = (id: string) => {
     if (!confirm('정말로 이 문의를 삭제하시겠습니까?')) return;
 
-    const updated = inquiries.filter(item => item.id !== id);
-    saveInquiriesToStorage(updated);
+    deleteInquiry.mutate({
+      params: { id },
+    });
 
     if (selectedInquiry?.id === id) {
       setSelectedInquiry(null);
@@ -210,13 +139,17 @@ export default function InquiryPage() {
   const handleDeleteVisit = (id: string) => {
     if (!confirm('정말로 이 예약을 삭제하시겠습니까?')) return;
 
-    const updated = visitReservations.filter(item => item.id !== id);
-    saveVisitReservationsToStorage(updated);
+    deleteVisit.mutate({
+      params: { id },
+    });
 
     if (selectedVisit?.id === id) {
       setSelectedVisit(null);
     }
   };
+
+  const isLoading =
+    (activeTab === 'inquiry' && !inquiriesData) || (activeTab === 'visit' && !visitReservationsData);
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-[#f0f2f5] font-sans antialiased">
@@ -251,9 +184,7 @@ export default function InquiryPage() {
         <button
           onClick={() => setActiveTab('inquiry')}
           className={`relative px-6 py-4 text-[13px] font-black uppercase tracking-wide transition-all ${
-            activeTab === 'inquiry'
-              ? 'text-[#5C8D5A]'
-              : 'text-gray-400 hover:text-gray-600'
+            activeTab === 'inquiry' ? 'text-[#5C8D5A]' : 'text-gray-400 hover:text-gray-600'
           }`}
         >
           <i className="ri-chat-4-line mr-2"></i>
@@ -261,16 +192,12 @@ export default function InquiryPage() {
           <span className="ml-2 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-black text-gray-600">
             {inquiryStats.total}
           </span>
-          {activeTab === 'inquiry' && (
-            <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#5C8D5A]"></div>
-          )}
+          {activeTab === 'inquiry' && <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#5C8D5A]"></div>}
         </button>
         <button
           onClick={() => setActiveTab('visit')}
           className={`relative px-6 py-4 text-[13px] font-black uppercase tracking-wide transition-all ${
-            activeTab === 'visit'
-              ? 'text-[#5C8D5A]'
-              : 'text-gray-400 hover:text-gray-600'
+            activeTab === 'visit' ? 'text-[#5C8D5A]' : 'text-gray-400 hover:text-gray-600'
           }`}
         >
           <i className="ri-calendar-check-line mr-2"></i>
@@ -278,9 +205,7 @@ export default function InquiryPage() {
           <span className="ml-2 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-black text-gray-600">
             {visitStats.total}
           </span>
-          {activeTab === 'visit' && (
-            <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#5C8D5A]"></div>
-          )}
+          {activeTab === 'visit' && <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#5C8D5A]"></div>}
         </button>
       </div>
 
@@ -328,9 +253,7 @@ export default function InquiryPage() {
               {/* 필터 버튼 */}
               <div className="flex items-center gap-2 border-l-4 border-[#5C8D5A] py-1 pl-4">
                 <h2 className="text-[14px] font-black uppercase tracking-tight text-gray-800">문의 목록</h2>
-                <span className="text-[11px] font-bold text-gray-400">
-                  (검색결과: {filteredInquiries.length}건)
-                </span>
+                <span className="text-[11px] font-bold text-gray-400">(검색결과: {inquiries.length}건)</span>
               </div>
 
               {/* 테이블 */}
@@ -343,7 +266,7 @@ export default function InquiryPage() {
                 </div>
               ) : (
                 <InquiryTable
-                  data={filteredInquiries}
+                  data={inquiries as WebInquiry[]}
                   onView={setSelectedInquiry}
                   onUpdateStatus={handleUpdateInquiryStatus}
                   onDelete={handleDeleteInquiry}
@@ -395,7 +318,7 @@ export default function InquiryPage() {
               <div className="flex items-center gap-2 border-l-4 border-[#5C8D5A] py-1 pl-4">
                 <h2 className="text-[14px] font-black uppercase tracking-tight text-gray-800">예약 목록</h2>
                 <span className="text-[11px] font-bold text-gray-400">
-                  (검색결과: {filteredVisitReservations.length}건)
+                  (검색결과: {visitReservations.length}건)
                 </span>
               </div>
 
@@ -409,7 +332,7 @@ export default function InquiryPage() {
                 </div>
               ) : (
                 <VisitReservationTable
-                  data={filteredVisitReservations}
+                  data={visitReservations as VisitReservation[]}
                   onView={setSelectedVisit}
                   onUpdateStatus={handleUpdateVisitStatus}
                   onDelete={handleDeleteVisit}
