@@ -3,10 +3,11 @@
  * Author : Shiwoo Min
  * Date : 2026-01-29
  */
-export const dynamic = 'force-dynamic';
 import QueryProvider from '@/providers/query-provider';
 import type { Metadata } from 'next';
+import { Toaster } from 'sonner';
 import './globals.css';
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Agape Care 요양원 관리자 대시보드',
@@ -22,6 +23,7 @@ export default function AdminLayout({ children }: Readonly<{ children: React.Rea
       </head>
       <body className="antialiased">
         <QueryProvider>{children}</QueryProvider>
+        <Toaster richColors position="top-center" />
       </body>
     </html>
   );

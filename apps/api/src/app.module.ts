@@ -15,8 +15,12 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AccountingModule } from './modules/accounting/accounting.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CareModule } from './modules/care/care.module';
+import { FileModule } from './modules/common/file/file.module';
 import { LoggerMiddleware } from './modules/common/middleware/logger.middleware';
-import { ContentModule } from './modules/contents/contents.module';
+import { BoardModule } from './modules/contents/board/board.module';
+import { GalleryModule } from './modules/contents/gallery/gallery.module';
+import { InquiryModule } from './modules/contents/inquiry/inquiry.module';
+import { NoticeModule } from './modules/contents/notice/notice.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { HealthModule } from './modules/health/health.module';
 import { MyPageModule } from './modules/mypage/mypage.module';
@@ -24,9 +28,8 @@ import { NotificationModule } from './modules/notification/notification.module';
 import { ResidentModule } from './modules/resident/resident.module';
 import { RoleModule } from './modules/role/role.module';
 import { SettingModule } from './modules/setting/setting.module';
-import { WebInquiryModule } from './modules/web-view/contact-inquiry/contact-inquiry.module';
 import { NoticesModule } from './modules/web-view/notices/notices.module';
-import { VisitReservationModule } from './modules/web-view/visit-inquiry/visit-inquiry.module';
+import { PopupModule } from './modules/web-view/popup/popup.module';
 
 @Module({
   imports: [
@@ -81,11 +84,14 @@ import { VisitReservationModule } from './modules/web-view/visit-inquiry/visit-i
     DashboardModule,
     MyPageModule,
     SettingModule,
-    WebInquiryModule,
     NoticesModule,
-    VisitReservationModule,
+    PopupModule,
     RoleModule,
-    ContentModule,
+    NoticeModule,
+    BoardModule,
+    GalleryModule,
+    InquiryModule,
+    FileModule,
   ],
 
   controllers: [],
@@ -102,13 +108,5 @@ export class AppModule implements NestModule {
 
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('*');
-  }
-
-  async onModuleInit() {
-    this.logger.info('Agape-Care Auth API Starting...', { category: 'SYSTEM' });
-  }
-
-  async onModuleDestroy() {
-    this.logger.info('Agape-Care API Shutting down...', { category: 'SYSTEM' });
   }
 }

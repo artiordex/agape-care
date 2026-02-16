@@ -1,22 +1,25 @@
+/**
+ * Description : GalleryAdmin.tsx - 📌 갤러리 관리 통합 시스템
+ * Author : (User)
+ * Date : 2026-02-16
+ */
+
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import { GalleryItem, GalleryFilterType } from './gallery.type';
+import { api } from '@/lib/api';
+import { useMemo, useState } from 'react';
+import { toast } from 'sonner';
+import { GalleryFilterType, GalleryItem } from './gallery.type';
 
 // 하위 컴포넌트 임포트
-import GalleryHeader from './GalleryHeader';
-import GalleryFilter from './GalleryFilter';
-import GalleryTable from './GalleryTable';
-import GalleryManagement from './GalleryManagement';
-import GalleryFormModal from './GalleryFormModal';
 import GalleryDetailModal from './GalleryDetailModal';
+import GalleryFilter from './GalleryFilter';
+import GalleryFormModal from './GalleryFormModal';
+import GalleryHeader from './GalleryHeader';
+import GalleryManagement from './GalleryManagement';
+import GalleryTable from './GalleryTable';
 
-interface Props {
-  readonly initialData: GalleryItem[];
-}
-
-export default function GalleryAdmin({ initialData }: Props) {
-  const [items, setItems] = useState<GalleryItem[]>(initialData);
+export default function GalleryAdmin() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [filter, setFilter] = useState<GalleryFilterType>({
     category: '전체',
@@ -28,15 +31,131 @@ export default function GalleryAdmin({ initialData }: Props) {
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
 
+  // API 호출
+  const { data: apiResponse, isLoading, refetch } = api.content.getGalleryItems.useQuery(['gallery-items']);
+
+  // Mutations
+  const createMutation = api.content.createGalleryItem.useMutation({
+    onSuccess: () => {
+      refetch();
+      setIsFormOpen(false);
+      toast.success('갤러리가 등록되었습니다.');
+    },
+    onError: () => toast.error('등록 중 오류가 발생했습니다.'),
+  });
+
+  const updateMutation = api.content.updateGalleryItem.useMutation({
+    onSuccess: () => {
+      refetch();
+      setIsFormOpen(false);
+      toast.success('수정되었습니다.');
+    },
+    onError: () => toast.error('수정 중 오류가 발생했습니다.'),
+  });
+
+  const deleteMutation = api.content.deleteGalleryItem.useMutation({
+    onSuccess: () => {
+      refetch();
+      setIsDetailOpen(false);
+      toast.success('삭제되었습니다.');
+    },
+    onError: () => toast.error('삭제 중 오류가 발생했습니다.'),
+  });
+
+  const uploadMutation = api.file.uploadFiles.useMutation();
+
+  const handleGallerySubmit = async (data: any) => {
+    try {
+      const { images, ...rest } = data;
+
+      // 1. Identify existing and new images
+      const existingFileIds = images.filter((img: any) => img.file === null && img.id).map((img: any) => img.id);
+      const newFiles = images.filter((img: any) => img.file !== null).map((img: any) => img.file);
+      let uploadedFileIds: string[] = [];
+
+      if (newFiles.length > 0) {
+        const formData = new FormData();
+        newFiles.forEach((file: File) => formData.append('files', file));
+
+        const uploadRes = await uploadMutation.mutateAsync({
+          body: formData,
+        });
+
+        if (uploadRes.status === 201) {
+          uploadedFileIds = (uploadRes.body.data as any[]).map((f: any) => f.id);
+        }
+      }
+
+      // 2. Merge all file IDs
+      const fileIds = [...existingFileIds, ...uploadedFileIds];
+
+      const body = {
+        title: rest.title,
+        description: rest.description,
+        category: rest.category,
+        isPublic: rest.isPublic,
+        fileIds, // We assume the backend expects fileIds
+      };
+
+      if (selectedItem) {
+        updateMutation.mutate({
+          params: { id: selectedItem.id },
+          body: body as any,
+        });
+      } else {
+        createMutation.mutate({
+          body: body as any,
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('오류가 발생했습니다.');
+    }
+  };
+
+  const handleDelete = (id: string) => {
+    if (confirm('정말로 삭제하시겠습니까?')) {
+      deleteMutation.mutate({ params: { id }, body: {} });
+    }
+  };
+
+  // API 데이터를 GalleryItem 타입으로 매핑
+  const items = useMemo(() => {
+    if (!apiResponse?.body?.data) return [];
+
+    // ApiResponseSchema(z.array(GalleryItemSchema)) 이므로 body.data가 실제 배열
+    const rawItems = apiResponse.body.data as any[];
+
+    return rawItems.map((item): GalleryItem => {
+      const firstFile = item.files?.[0]?.file;
+      return {
+        id: item.id,
+        category: item.category || '기타',
+        title: item.title || '(제목 없음)',
+        description: item.description || '',
+        imageUrl: firstFile?.url || '',
+        thumbnailUrl: firstFile?.url || '',
+        authorName: item.author?.name || '관리자',
+        authorId: item.createdBy || '',
+        viewCount: item.viewCount || 0,
+        status: item.isPublic ? '게시' : '숨김',
+        isPublic: !!item.isPublic,
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt,
+        files: item.files,
+      };
+    });
+  }, [apiResponse]);
+
   // 필터링 로직
   const filteredItems = useMemo(() => {
     return items.filter(item => {
       const matchesCategory = filter.category === '전체' || item.category === filter.category;
       const keyword = filter.searchKeyword.toLowerCase();
       let matchesSearch = false;
-      if (filter.searchType === 'title') matchesSearch = item.title.toLowerCase().includes(keyword);
-      if (filter.searchType === 'description') matchesSearch = item.description.toLowerCase().includes(keyword);
-      if (filter.searchType === 'author') matchesSearch = item.authorName.toLowerCase().includes(keyword);
+      if (filter.searchType === 'title') matchesSearch = (item.title || '').toLowerCase().includes(keyword);
+      if (filter.searchType === 'description') matchesSearch = (item.description || '').toLowerCase().includes(keyword);
+      if (filter.searchType === 'author') matchesSearch = (item.authorName || '').toLowerCase().includes(keyword);
       return matchesCategory && matchesSearch;
     });
   }, [items, filter]);
@@ -48,6 +167,17 @@ export default function GalleryAdmin({ initialData }: Props) {
     else next.add(id);
     setSelectedIds(next);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-[#f0f2f5]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-[#5C8D5A] border-t-transparent"></div>
+          <p className="text-sm font-bold text-gray-500">갤러리 데이터를 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     /** * [구조] h-screen과 overflow-hidden을 통해 브라우저 자체 스크롤을 막고
@@ -77,19 +207,25 @@ export default function GalleryAdmin({ initialData }: Props) {
             />
             <StatCard
               label="게시 중"
-              value={items.filter(i => i.status === '게시').length}
+              value={items.filter(i => i.isPublic).length}
               unit="ACTIVE"
               icon="ri-checkbox-circle-line"
               color="text-[#5C8D5A]"
             />
             <StatCard
               label="숨김 처리"
-              value={items.filter(i => i.status === '숨김').length}
+              value={items.filter(i => !i.isPublic).length}
               unit="HIDDEN"
               icon="ri-eye-off-line"
               color="text-orange-500"
             />
-            <StatCard label="신규 업로드" value={2} unit="TODAY" icon="ri-upload-cloud-2-line" color="text-blue-500" />
+            <StatCard
+              label="최근 업데이트"
+              value={items.length > 0 ? 'ONLINE' : 'NONE'}
+              unit="STATE"
+              icon="ri-upload-cloud-2-line"
+              color="text-blue-500"
+            />
           </div>
 
           {/* 필터 및 리스트 섹션 */}
@@ -114,7 +250,7 @@ export default function GalleryAdmin({ initialData }: Props) {
                 setSelectedItem(item);
                 setIsFormOpen(true);
               }}
-              onDelete={id => setItems(items.filter(i => i.id !== id))}
+              onDelete={id => handleDelete(id)}
               onDetail={item => {
                 setSelectedItem(item);
                 setIsDetailOpen(true);
@@ -138,15 +274,19 @@ export default function GalleryAdmin({ initialData }: Props) {
       <GalleryFormModal
         isOpen={isFormOpen}
         onClose={() => setIsFormOpen(false)}
-        onSubmit={() => {}}
+        onSubmit={handleGallerySubmit}
         initialData={selectedItem}
       />
       <GalleryDetailModal
         isOpen={isDetailOpen}
         onClose={() => setIsDetailOpen(false)}
         item={selectedItem}
-        onEdit={() => {}}
-        onDelete={() => {}}
+        onEdit={item => {
+          setSelectedItem(item);
+          setIsDetailOpen(false);
+          setIsFormOpen(true);
+        }}
+        onDelete={id => handleDelete(id)}
       />
 
       {/* 커스텀 스크롤바 스타일 */}

@@ -13,6 +13,9 @@ export * from './attendance.contract.js';
 // 사용자 인증 및 세션 관리 API
 export * from './auth.contract.js';
 
+// 파일 업로드 및 관리 API
+export * from './file.contract.js';
+
 // 간호 기록, 요양 서비스 및 사고 보고 API
 export * from './care.contract.js';
 
@@ -47,3 +50,4 @@ export * from './mypage.contract.js';
 export * from './setting.contract.js';
 export * from './web-inquiry.contract.js';
 export * from './web-notices.contract.js';
+export * from './web-popup.contract.js';

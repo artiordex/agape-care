@@ -13,7 +13,7 @@ import {
   GalleryItemSchema,
   NoticeSchema,
 } from '../schemas/contents/index.js';
-import { MealPlanItemSchema, MealTypeSchema, WebMealPlanSchema } from '../schemas/contents/meal-plan.schema.js';
+import { MealPlanItemSchema, MealTypeSchema, WebMealPlanSchema } from '../schemas/meal/index.js';
 
 import {
   GetProgramsQuerySchema,

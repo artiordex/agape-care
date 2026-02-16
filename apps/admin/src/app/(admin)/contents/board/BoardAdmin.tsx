@@ -1,5 +1,6 @@
 'use client';
 
+import { api } from '@/lib/api';
 import { useMemo, useState } from 'react';
 import { FreeBoardFilter as FilterType, FreeBoardFormValues, FreeBoardPost } from './board.type';
 
@@ -10,18 +11,11 @@ import FreeBoardFormModal from './BoardFormModal';
 import FreeBoardHeader from './BoardHeader';
 import FreeBoardTable from './BoardTable';
 
-interface Props {
-  readonly initialData: FreeBoardPost[];
-}
-
 /**
  * [Component] 자유게시판 통합 관리 컨트롤러
  * 고정형 레이아웃(Fixed Header/Footer) 및 아가페 그린(#5C8D5A) 테마 적용
  */
-export default function FreeBoardAdmin({ initialData }: Props) {
-  // --- 상태 관리 ---
-  const [posts, setPosts] = useState<FreeBoardPost[]>(initialData);
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+export default function FreeBoardAdmin() {
   const [filter, setFilter] = useState<FilterType>({
     category: '전체',
     searchType: 'title',
@@ -32,6 +26,60 @@ export default function FreeBoardAdmin({ initialData }: Props) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<FreeBoardPost | null>(null);
+
+  // API Hooks
+  const { data: postsData, refetch } = api.content.getPosts.useQuery(['posts', filter.category], {
+    query: {
+      boardKey: 'ALL',
+      page: 1,
+      limit: 100, // Pagination to be implemented properly later
+    },
+  });
+
+  const createPost = api.content.createPost.useMutation({
+    onSuccess: () => {
+      refetch();
+      setIsFormOpen(false);
+      alert('✅ 게시글이 등록되었습니다.');
+    },
+  });
+
+  const updatePost = api.content.updatePost.useMutation({
+    onSuccess: () => {
+      refetch();
+      setIsFormOpen(false);
+      alert('✅ 게시글이 수정되었습니다.');
+    },
+  });
+
+  const deletePost = api.content.deletePost.useMutation({
+    onSuccess: () => {
+      refetch();
+      setIsDetailOpen(false);
+      alert('✅ 게시글이 삭제되었습니다.');
+    },
+  });
+
+  // 데이터 매핑 (API -> UI)
+  const posts: FreeBoardPost[] = useMemo(() => {
+    if (postsData?.status === 200 && postsData.body.data) {
+      return postsData.body.data.map((post: any) => ({
+        id: post.id,
+        category: (post.category as any) || '일반',
+        title: post.title,
+        content: post.content,
+        authorName: post.authorName || '관리자',
+        authorId: post.authorId || '',
+        viewCount: post.viewCount || 0,
+        commentCount: post.commentCount || 0,
+        status: post.isActive ? '게시' : '숨김',
+        isNotice: post.isPinned || false,
+        createdAt: post.createdAt,
+        updatedAt: post.updatedAt,
+      }));
+    }
+    return [];
+  }, [postsData]);
 
   // --- 필터링 로직 ---
   const filteredPosts = useMemo(() => {
@@ -67,30 +115,34 @@ export default function FreeBoardAdmin({ initialData }: Props) {
 
   const handleDeletePost = (id: string) => {
     if (confirm('정말로 이 게시글을 삭제하시겠습니까?')) {
-      setPosts(posts.filter(p => p.id !== id));
-      setIsDetailOpen(false);
+      deletePost.mutate({ params: { id }, body: {} });
     }
   };
 
   const handleSubmitForm = (values: FreeBoardFormValues) => {
+    const commonBody = {
+      boardKey: 'FREE', // Default to FREE when creating new posts from this page
+      title: values.title,
+      content: values.content,
+      category: values.category,
+      isPinned: values.isNotice,
+      // isActive is not directly in standard form values but 'status' is
+      // We assume '게시' = active
+    };
+
     if (selectedPost) {
-      setPosts(
-        posts.map(p => (p.id === selectedPost.id ? { ...p, ...values, updatedAt: new Date().toISOString() } : p)),
-      );
+      updatePost.mutate({
+        params: { id: selectedPost.id },
+        body: {
+          ...commonBody,
+          // Add specific update logic if needed
+        },
+      });
     } else {
-      const newPost: FreeBoardPost = {
-        id: Date.now().toString(),
-        ...values,
-        authorName: '관리자',
-        authorId: 'admin_me',
-        viewCount: 0,
-        commentCount: 0,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-      setPosts([newPost, ...posts]);
+      createPost.mutate({
+        body: commonBody,
+      });
     }
-    setIsFormOpen(false);
   };
 
   return (

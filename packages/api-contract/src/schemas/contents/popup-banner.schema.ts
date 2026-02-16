@@ -9,8 +9,9 @@ export const PopupBannerSchema = z.object({
   id: z.coerce.string(),
   title: z.string().min(1, '제목은 필수입니다.'),
   content: z.string().nullable().optional(),
-  imageUrl: z.string().url('유효한 이미지 URL이 필요합니다.').nullable().optional(),
-  linkUrl: z.string().url().nullable().optional(),
+  // 상대 경로도 허용하도록 수정
+  imageUrl: z.string().nullable().optional(),
+  linkUrl: z.string().nullable().optional(),
   displayType: z.enum(['POPUP', 'BANNER', 'MODAL']).default('POPUP'),
   position: z.string().nullable().optional(),
   width: z.number().int().nullable().optional(),
@@ -21,8 +22,9 @@ export const PopupBannerSchema = z.object({
   showOnce: z.boolean().default(false),
   priority: z.number().int().default(0),
   createdBy: z.coerce.string().nullable().optional(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  // 문자열도 허용하도록 수정
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
 });
 
 export type PopupBanner = z.infer<typeof PopupBannerSchema>;

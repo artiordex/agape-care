@@ -4,11 +4,12 @@
  * Date : 2026-02-09
  */
 
-import { GetProgramsQuery, GetSchedulesQuery, webpageContract } from '@agape-care/api-contract';
-import { Controller, Req } from '@nestjs/common';
+import { contentContract, GetProgramsQuery, GetSchedulesQuery, mealContract, webpageContract } from '@agape-care/api-contract';
+import { Body, Controller, Post, Req } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { tsRestHandler, TsRestHandler } from '@ts-rest/nest';
 import { Public } from '../../auth/decorators/public.decorator';
+import { ZodValidationPipe } from '../../common/pipes/zod-validation.pipe';
 import { NoticesService } from './notices.service';
 
 @ApiTags('Web - Notices')
@@ -386,5 +387,24 @@ export class NoticesController {
         },
       };
     });
+  }
+
+  // 웹사이트 설정 조회
+  @Public()
+  @ApiOperation({ summary: '웹사이트 설정 조회' })
+  @TsRestHandler(contentContract.getWebsiteSettings)
+  async getWebsiteSettings() {
+    return tsRestHandler(contentContract.getWebsiteSettings, async () => {
+      return { status: 200, body: { success: true, data: [] } };
+    });
+  }
+
+  // 식단 생성
+  @Post(mealContract.createMealPlan.path)
+  async createMealPlan(
+    @Body(new ZodValidationPipe(mealContract.createMealPlan.body))
+    body: any,
+  ) {
+    return this.noticesService.createMealPlan(body);
   }
 }

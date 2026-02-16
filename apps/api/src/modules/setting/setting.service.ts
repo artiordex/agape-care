@@ -47,8 +47,8 @@ export class SettingService {
         name: '관리자',
         description: '전체 권한',
         permissions: {},
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
       {
         id: 'r2',
@@ -56,8 +56,8 @@ export class SettingService {
         name: '간호사',
         description: '간호 업무 권한',
         permissions: {},
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ];
   }
@@ -67,8 +67,8 @@ export class SettingService {
       id: Math.random().toString(),
       ...data,
       permissions: {},
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
   }
 
@@ -91,8 +91,8 @@ export class SettingService {
         name: '요양팀',
         description: '요양 보호 및 생활 지원',
         isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
       {
         id: 'd2',
@@ -100,8 +100,8 @@ export class SettingService {
         name: '간호팀',
         description: '의료 및 간호 처치',
         isActive: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       },
     ];
   }
@@ -110,8 +110,8 @@ export class SettingService {
     return {
       id: Math.random().toString(),
       isActive: true,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
       ...data,
     };
   }

@@ -151,7 +151,7 @@ export const serializeGalleryItem = (item: any) => {
 
   return {
     id: toString(item.id),
-    category: item.category || 'GALLERY',
+    category: translateGalleryCategory(item.category),
     title: item.title || '',
     description: item.description || '',
     authorId: authorId ? toString(authorId) : null,
@@ -161,6 +161,34 @@ export const serializeGalleryItem = (item: any) => {
     author: serializeAuthor(author),
     files: Array.isArray(item.files) ? item.files.map((f: any) => serializeGalleryFile(f)) : [],
   };
+};
+
+/**
+ * [Utils] Translate Gallery Category from DB (English) to Korean
+ */
+export const translateGalleryCategory = (category?: string | null): string => {
+  if (!category) return '기타';
+  const mapping: Record<string, string> = {
+    DAILY: '활동',
+    EVENT: '행사',
+    GENERAL: '시설',
+  };
+  return mapping[category] || category;
+};
+
+/**
+ * [Utils] Translate Gallery Category from Korean to DB (English)
+ */
+export const mapGalleryCategoryToDb = (category?: string | null): string => {
+  if (!category) return 'GENERAL';
+  const mapping: Record<string, string> = {
+    활동: 'DAILY',
+    일상: 'DAILY',
+    행사: 'EVENT',
+    시설: 'GENERAL',
+    기타: 'GENERAL',
+  };
+  return mapping[category] || category;
 };
 
 /**
@@ -216,6 +244,8 @@ export const serializeWebBoardPost = (post: any): any => {
     authorName: post.authorName || '알 수 없음',
     authorId: toString(post.authorId) || null,
     commentCount: post.commentCount ? Number(post.commentCount) : 0,
+    category: post.category || '일반',
+    isActive: post.isActive !== undefined ? !!post.isActive : true,
     fileCount: post.fileCount ? Number(post.fileCount) : 0,
     files: Array.isArray(post.files) ? post.files : [],
   };
@@ -288,7 +318,7 @@ export const groupMealPlanItemsByDate = (items: any[]) => {
     const dateVal = item.date || item.mealDate;
     if (!dateVal) return;
 
-    const dateStr = dateVal instanceof Date ? dateVal.toISOString().split('T')[0] : String(dateVal);
+    const dateStr = (dateVal instanceof Date ? dateVal.toISOString().split('T')[0] : String(dateVal || '')) as string;
 
     if (!grouped.has(dateStr)) {
       grouped.set(dateStr, {

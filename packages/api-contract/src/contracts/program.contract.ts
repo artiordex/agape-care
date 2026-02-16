@@ -275,10 +275,3 @@ export const programContract = {
 } as const;
 
 export type ProgramContract = typeof programContract;
-
-export type GetProgramsQuery = z.infer<typeof programContract.getPrograms.query>;
-export type GetSchedulesQuery = z.infer<typeof programContract.getSchedules.query>;
-export type CreateProgramRequest = z.infer<typeof programContract.createProgram.body>;
-export type UpdateProgramRequest = z.infer<typeof programContract.updateProgram.body>;
-export type CreateScheduleRequest = z.infer<typeof programContract.createSchedule.body>;
-export type UpdateScheduleRequest = z.infer<typeof programContract.updateSchedule.body>;

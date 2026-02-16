@@ -218,8 +218,3 @@ export const mealContract = {
 } as const;
 
 export type MealContract = typeof mealContract;
-
-export type GetMealPlansQuery = z.infer<typeof mealContract.getMealPlans.query>;
-export type GetMealPlanItemsQuery = z.infer<typeof mealContract.getMealPlanItems.query>;
-export type CreateMealPlanRequest = z.infer<typeof mealContract.createMealPlan.body>;
-export type GetCurrentWeekMealPlanQuery = z.infer<typeof mealContract.getCurrentWeekMealPlan.query>;

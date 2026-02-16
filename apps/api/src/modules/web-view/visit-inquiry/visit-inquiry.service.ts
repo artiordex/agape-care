@@ -10,7 +10,7 @@ export class VisitReservationService {
     const reservation = await this.db.visitReservation.create({
       data: {
         ...data,
-        visitDate: new Date(data.visitDate),
+        visitDate: data.visitDate ? new Date(data.visitDate) : new Date(),
         status: 'PENDING',
       },
     });

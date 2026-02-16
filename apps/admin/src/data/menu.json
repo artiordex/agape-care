@@ -380,7 +380,7 @@
         },
         {
           "id": "popup-management",
-          "name": "팝업관리",
+          "name": "팝업 관리",
           "description": "팝업 설정 관리",
           "icon": "ri-window-line",
           "path": "/contents/popup",

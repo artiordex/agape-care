@@ -1,7 +1,7 @@
 /**
  * [Type] 갤러리 카테고리 정의
  */
-export type GalleryCategory = '활동' | '시설' | '행사' | '기타';
+export type GalleryCategory = '활동' | '시설' | '행사' | '기타' | string;
 
 /**
  * [Type] 게시 상태 (어드민 관리용)
@@ -16,20 +16,32 @@ export interface GalleryItem {
   category: GalleryCategory;
   title: string;
   description: string;
-  imageUrl: string; // 원본 이미지 경로
-  thumbnailUrl: string; // 리스트용 썸네일 경로
+  imageUrl?: string; // 원본 이미지 경로
+  thumbnailUrl?: string; // 리스트용 썸네일 경로
   authorName: string;
   authorId: string;
   viewCount: number;
   status: GalleryStatus;
+  isPublic: boolean;
   createdAt: string;
   updatedAt: string;
+  files?: Array<{
+    id: string;
+    file?: {
+      id: string;
+      url: string;
+      filename: string;
+    } | null;
+  }>;
 }
 
 /**
  * [Type] 등록/수정을 위한 폼 데이터 타입
  */
-export type GalleryFormValues = Pick<GalleryItem, 'category' | 'title' | 'description' | 'status' | 'imageUrl'>;
+export type GalleryFormValues = Pick<GalleryItem, 'category' | 'title' | 'description' | 'isPublic'> & {
+  status: GalleryStatus;
+  imageUrl?: string;
+};
 
 /**
  * [Interface] 검색 및 필터링 조건 프로토콜

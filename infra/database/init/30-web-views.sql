@@ -864,6 +864,34 @@ CREATE INDEX IF NOT EXISTS idx_program_schedules_upcoming
   WHERE status NOT IN ('CANCELLED');
 
 -- ============================================
+-- 팝업 배너 조회 뷰
+-- ============================================
+
+-- 활성 팝업 배너 조회
+CREATE OR REPLACE VIEW v_web_active_popups AS
+SELECT
+  pb.id,
+  pb.title,
+  pb.content,
+  pb.image_url,
+  pb.link_url,
+  pb.display_type,
+  pb.position,
+  pb.width,
+  pb.height,
+  pb.start_date,
+  pb.end_date,
+  pb.show_once,
+  pb.priority
+FROM popup_banners pb
+WHERE pb.is_active = true
+  AND pb.start_date <= CURRENT_DATE
+  AND pb.end_date >= CURRENT_DATE
+ORDER BY pb.priority DESC, pb.created_at DESC;
+
+COMMENT ON VIEW v_web_active_popups IS 'Web 활성 팝업 배너 조회 뷰 - 현재 일자에 활성화된 팝업 목록 제공';
+
+-- ============================================
 -- 완료 메시지
 -- ============================================
 
@@ -880,6 +908,7 @@ BEGIN
   RAISE NOTICE '  - v_web_meal_plan_items (식단 항목)';
   RAISE NOTICE '  - v_web_programs (프로그램 목록)';
   RAISE NOTICE '  - v_web_program_schedules (프로그램 일정)';
+  RAISE NOTICE '  - v_web_active_popups (팝업 목록)';
   RAISE NOTICE '  - v_web_latest_contents (최신 콘텐츠 통합)';
   RAISE NOTICE '';
   RAISE NOTICE '생성된 상세 View:';

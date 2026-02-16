@@ -77,7 +77,13 @@ const Footer = () => {
           <div className="mt-12 flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
             <div className="max-w-sm">
               <div className="mb-4 flex items-center gap-3">
-                <Image src={branding.logo} alt={branding.alt} width={48} height={48} className="opacity-90" />
+                <Image
+                  src={branding.logo}
+                  alt={branding.alt}
+                  width={48}
+                  height={48}
+                  style={{ height: 'auto', opacity: 0.9 }}
+                />
                 <span className="text-lg font-bold tracking-tight text-gray-900">{branding.name}</span>
               </div>
               <p className="text-[13px] leading-relaxed text-gray-500">
@@ -116,7 +122,7 @@ const Footer = () => {
       <div className="flex h-[120px] items-center justify-center md:hidden">
         <div className="flex w-full max-w-[90%] items-center justify-between">
           <div className="flex items-center gap-3">
-            <Image src={branding.logo} alt={branding.alt} width={50} height={50} />
+            <Image src={branding.logo} alt={branding.alt} width={50} height={50} style={{ height: 'auto' }} />
             <span className="text-base font-semibold text-gray-900">{branding.name}</span>
           </div>
           <BandIcon />

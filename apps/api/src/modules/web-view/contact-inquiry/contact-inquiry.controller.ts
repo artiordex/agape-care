@@ -1,10 +1,12 @@
 import { contract } from '@agape-care/api-contract';
 import { Controller } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';
 import { WebInquiryService } from './contact-inquiry.service';
 
+@ApiTags('Web - Contact')
 @Controller()
-export class WebInquiryController {
+export class ContactInquiryController {
   constructor(private readonly service: WebInquiryService) {}
 
   @TsRestHandler(contract.webInquiry.createWebInquiry)

@@ -12,9 +12,12 @@ export * from './common/index.js';
 export * from './contents/index.js';
 export * from './dashboard/index.js';
 export * from './employee/index.js';
+export * from './meal/index.js';
 export * from './mypage/index.js';
 export * from './notification/index.js';
 export * from './operations/index.js';
 export * from './program/index.js';
 export * from './resident/index.js';
 export * from './setting/index.js';
+// Note: staff schemas are not exported here to avoid conflicts with employee schemas
+// Import directly from './staff/index.js' if needed

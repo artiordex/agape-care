@@ -22,11 +22,5 @@ export * from './popup-banner.schema.js';
 // 웹사이트 일반 설정 정보 (JSON 설정 포함)
 export * from './website-setting.schema.js';
 
-// 웹사이트 식단표 정보
-export * from './meal-plan.schema.js';
-
-// 웹사이트 상담 문의 정보
-export * from './web-inquiry.schema.js';
-
-// 웹사이트 면회 예약 정보
-export * from './visit-reservation.schema.js';
+// 문의 및 예약 통합 스키마 (Contact Inquiry & Visit Reservation)
+export * from './inquiry.schema.js';

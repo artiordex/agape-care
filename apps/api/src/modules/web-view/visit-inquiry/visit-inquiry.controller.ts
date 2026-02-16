@@ -1,8 +1,10 @@
 import { contract } from '@agape-care/api-contract';
 import { Controller } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';
 import { VisitReservationService } from './visit-inquiry.service';
 
+@ApiTags('Web - Visit')
 @Controller()
 export class VisitReservationController {
   constructor(private readonly service: VisitReservationService) {}

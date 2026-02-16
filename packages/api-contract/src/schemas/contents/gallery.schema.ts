@@ -30,6 +30,7 @@ export const GalleryItemSchema = z.object({
       }),
     )
     .optional(),
+  fileIds: z.array(z.string()).optional(),
 });
 
 export type GalleryItem = z.infer<typeof GalleryItemSchema>;

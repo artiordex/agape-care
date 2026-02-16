@@ -35,11 +35,11 @@ export default function NoticeManagementPage() {
   const [editingItem, setEditingItem] = useState<Notice | null>(null);
 
   // API Hooks
-  const { data: noticesData, refetch } = api.content.getNotices.useQuery({
-    queryKey: ['notices'],
+  const { data: noticesData, refetch } = api.content.getNotices.useQuery(['notices', filterCategory], {
     query: {
       category: filterCategory === 'all' ? undefined : categoryToEng(filterCategory),
-      isActive: true,
+      page: 1, // Default pending pagination implementation
+      isActive: undefined, // Show all (active & inactive)
     },
   });
 
@@ -69,17 +69,21 @@ export default function NoticeManagementPage() {
 
   // 데이터 매핑 (API -> UI)
   useEffect(() => {
+    console.log('Notice Page - noticesData:', noticesData);
     if (noticesData?.status === 200) {
+      console.log('Notice Page - noticesData.body.data:', noticesData.body.data);
       const mapped: Notice[] = noticesData.body.data.map((notice: any) => ({
         id: notice.id,
         category: categoryToKor(notice.category),
         title: notice.title,
-        author: notice.creator?.name || '관리자',
+        author: notice.creatorName || notice.creator?.name || '관리자',
         createdAt: format(new Date(notice.createdAt), 'yyyy.MM.dd'),
         views: notice.viewCount || 0,
         content: notice.content,
         isPinned: notice.isPinned,
-        attachments: [],
+        attachments: Array.isArray(notice.files)
+          ? notice.files.map((f: any) => ({ name: f.filename || f.name || '파일', url: f.url }))
+          : [],
       }));
       setNotices(mapped);
     }
@@ -141,25 +145,31 @@ export default function NoticeManagementPage() {
 
   // 8. 저장 (신규/수정)
   const handleSave = (data: Partial<Notice>) => {
-    const apiBody = {
+    const commonBody = {
       title: data.title || '',
       content: data.content || '',
       category: categoryToEng(data.category || '일반'),
       isPinned: data.isPinned || false,
       isActive: true,
-      publishedAt: new Date(),
     };
 
     if (editingItem) {
       updateNotice.mutate({
         params: { id: editingItem.id },
-        body: apiBody,
+        body: {
+          ...commonBody,
+          // publishedAt is intentionally omitted to preserve original publish date
+        },
       });
     } else {
       createNotice.mutate({
-        body: apiBody,
+        body: {
+          ...commonBody,
+          publishedAt: new Date(),
+        },
       });
     }
+    setIsFormModalOpen(false);
     setEditingItem(null);
   };
 
@@ -257,6 +267,7 @@ export default function NoticeManagementPage() {
         }}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        onSave={handleSave}
       />
 
       <style jsx global>{`

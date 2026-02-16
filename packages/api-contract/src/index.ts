@@ -7,6 +7,7 @@ import {
   contentContract,
   dashboardContract,
   employeeContract,
+  fileContract,
   mealContract,
   myPageContract,
   notificationContract,
@@ -17,6 +18,7 @@ import {
   visitReservationContract,
   webInquiryContract,
   webpageContract,
+  webPopupContract,
 } from './contracts/index.js';
 
 export * from './contracts/index.js';
@@ -42,5 +44,7 @@ export const contract = c.router({
   setting: settingContract,
   webInquiry: webInquiryContract,
   webpage: webpageContract,
+  webPopup: webPopupContract,
   visitReservation: visitReservationContract,
+  file: fileContract,
 });

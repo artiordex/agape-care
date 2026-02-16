@@ -44,6 +44,11 @@ const nextConfig = {
   poweredByHeader: false,
   compress: true,
 
+  // Suppress React DevTools warning in development
+  compiler: {
+    removeConsole: false,
+  },
+
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
 

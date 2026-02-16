@@ -1,6 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
+import { toast } from 'sonner';
 import { Notice } from './notice.type';
 
 interface Props {
@@ -9,13 +10,10 @@ interface Props {
   readonly onClose: () => void;
   readonly onEdit: (notice: Notice) => void;
   readonly onDelete: (id: string) => void;
+  readonly onSave: (data: Partial<Notice>) => void;
 }
 
-/**
- * [Component] 공지사항 상세 조회 및 인쇄용 모달
- * 아가페 표준 UI 적용
- */
-export default function NoticeDetailModal({ isOpen, notice, onClose, onEdit, onDelete }: Props) {
+export default function NoticeDetailModal({ isOpen, notice, onClose, onEdit, onDelete, onSave }: Props) {
   if (!isOpen || !notice) return null;
 
   const categoryStyles: any = {
@@ -28,11 +26,29 @@ export default function NoticeDetailModal({ isOpen, notice, onClose, onEdit, onD
 
   const handlePrint = () => {
     window.print();
+    toast.success('인쇄를 시작합니다.');
+  };
+
+  const handleDelete = () => {
+    toast.warning('정말 삭제하시겠습니까?', {
+      action: {
+        label: '삭제',
+        onClick: () => {
+          onDelete(notice.id);
+          toast.success('공지사항이 삭제되었습니다.');
+          onClose();
+        },
+      },
+      cancel: {
+        label: '취소',
+        onClick: () => {},
+      },
+    });
   };
 
   return (
     <div className="fixed inset-0 z-[250] flex flex-col bg-gray-100 font-sans text-gray-900 antialiased print:bg-white">
-      {/* 상단 관제 바 (인쇄 시 숨김) */}
+      {/* 상단 관제 바 */}
       <div className="flex shrink-0 items-center justify-between border-b border-gray-300 bg-white px-8 py-4 shadow-sm print:hidden">
         <div className="flex items-center gap-4">
           <button
@@ -146,7 +162,7 @@ export default function NoticeDetailModal({ isOpen, notice, onClose, onEdit, onD
         </div>
       </div>
 
-      {/* 하단 액션 바 (인쇄 시 숨김) */}
+      {/* 하단 액션 바 */}
       <div className="flex shrink-0 justify-center gap-3 border-t border-gray-200 bg-white p-4 print:hidden">
         <button
           onClick={() => onEdit(notice)}
@@ -156,7 +172,7 @@ export default function NoticeDetailModal({ isOpen, notice, onClose, onEdit, onD
           수정하기
         </button>
         <button
-          onClick={() => onDelete(notice.id)}
+          onClick={handleDelete}
           className="flex items-center gap-2 border border-red-300 bg-red-50 px-8 py-3 text-[13px] font-black text-red-600 shadow-sm transition-all hover:bg-red-100"
         >
           <i className="ri-delete-bin-line"></i>

@@ -250,7 +250,7 @@ export default function GalleryNoticeSection() {
                           transition={{ duration: 0.4, delay: index * 0.1 }}
                         >
                           <Link
-                            href="/gallery"
+                            href="/notices/gallery"
                             className="group block aspect-square overflow-hidden rounded-lg bg-gray-100"
                           >
                             <img
@@ -292,7 +292,7 @@ export default function GalleryNoticeSection() {
                       transition={{ duration: 0.3, delay: index * 0.1 }}
                     >
                       <Link
-                        href={`/board/${post.id}`}
+                        href={`/notices/board/${post.id}`}
                         className="group flex items-center justify-between gap-4 rounded-lg border border-gray-200 p-4 transition-all hover:border-[#5C8D5A] hover:bg-[#5C8D5A]/5"
                       >
                         <div className="flex flex-1 items-center gap-3">
@@ -412,6 +412,7 @@ export default function GalleryNoticeSection() {
 
             <p className="text-sm text-gray-600">무엇이든지 물어보세요.</p>
           </motion.div>
+          
         </div>
       </div>
     </section>

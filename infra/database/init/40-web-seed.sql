@@ -472,6 +472,15 @@ INSERT INTO program_schedules (id, program_id, starts_at, ends_at, location, cap
 ON CONFLICT (id) DO NOTHING;
 
 -- ============================================
+-- 6. 팝업 배너 (POPUP_BANNERS)
+-- ============================================
+
+INSERT INTO popup_banners (id, title, content, image_url, link_url, display_type, start_date, end_date, is_active, priority) VALUES
+  (1, '신규 입소 상담 안내', '2026년 상반기 신규 입소 상담을 진행 중입니다.', '/images/popups/consultation.jpg', '/intro/consultation', 'POPUP', '2026-02-01', '2026-12-31', TRUE, 10),
+  (2, '보호자 전용 앱 런칭', '아가페케어 보호자 전용 앱이 런칭되었습니다.', '/images/popups/app_launch.jpg', '/notices/notice/1', 'MODAL', '2026-02-10', '2026-03-31', TRUE, 5)
+ON CONFLICT (id) DO NOTHING;
+
+-- ============================================
 -- Sequence 업데이트
 -- ============================================
 
@@ -487,6 +496,7 @@ SELECT setval('gallery_items_id_seq', (SELECT MAX(id) FROM gallery_items));
 SELECT setval('meal_plans_id_seq', (SELECT MAX(id) FROM meal_plans));
 SELECT setval('programs_id_seq', (SELECT MAX(id) FROM programs));
 SELECT setval('program_schedules_id_seq', (SELECT MAX(id) FROM program_schedules));
+SELECT setval('popup_banners_id_seq', (SELECT MAX(id) FROM popup_banners));
 
 -- ============================================
 -- 완료 메시지
@@ -505,6 +515,7 @@ BEGIN
   RAISE NOTICE '식단표: 2주차 (게시됨)';
   RAISE NOTICE '프로그램: 7종';
   RAISE NOTICE '프로그램 일정: 12건';
+  RAISE NOTICE '팝업 배너: 2건';
   RAISE NOTICE '========================================';
   RAISE NOTICE 'View 테스트 가능:';
   RAISE NOTICE '  - v_web_notices';
@@ -517,5 +528,6 @@ BEGIN
   RAISE NOTICE '  - v_web_meal_plan_detail';
   RAISE NOTICE '  - v_web_programs';
   RAISE NOTICE '  - v_web_program_detail';
+  RAISE NOTICE '  - v_web_active_popups';
   RAISE NOTICE '========================================';
 END$$;

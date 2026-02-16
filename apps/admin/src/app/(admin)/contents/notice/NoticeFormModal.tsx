@@ -1,7 +1,9 @@
 'use client';
 
+import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor } from '@toast-ui/react-editor';
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Notice, NoticeCategory } from './notice.type';
 
 interface Props {
@@ -11,12 +13,8 @@ interface Props {
   readonly notice?: Notice | null;
 }
 
-/**
- * [Modal] 공지사항 작성 및 수정 프로토콜
- * 아가페 표준 직각형 레이아웃 적용
- * 첨부파일 관리 기능 포함
- */
 export default function NoticeFormModal({ isOpen, onClose, onSave, notice }: Props) {
+  const editorRef = useRef<Editor>(null);
   const [formData, setFormData] = useState<Partial<Notice>>({
     category: '일반',
     title: '',
@@ -31,6 +29,8 @@ export default function NoticeFormModal({ isOpen, onClose, onSave, notice }: Pro
   useEffect(() => {
     if (notice) {
       setFormData({ ...notice });
+      // 에디터에 기존 내용 세팅
+      editorRef.current?.getInstance().setMarkdown(notice.content || '');
     } else {
       setFormData({
         category: '일반',
@@ -40,16 +40,20 @@ export default function NoticeFormModal({ isOpen, onClose, onSave, notice }: Pro
         author: '관리자',
         attachments: [],
       });
+      editorRef.current?.getInstance().setMarkdown('');
     }
   }, [notice, isOpen]);
 
   const handleSubmit = () => {
-    if (!formData.title || !formData.content) {
+    // 에디터에서 content 추출
+    const content = editorRef.current?.getInstance().getMarkdown() || '';
+
+    if (!formData.title || !content.trim()) {
       alert('⚠️ 제목과 내용을 입력해주세요.');
       return;
     }
 
-    onSave(formData);
+    onSave({ ...formData, content });
   };
 
   const handleAddAttachment = () => {
@@ -160,21 +164,21 @@ export default function NoticeFormModal({ isOpen, onClose, onSave, notice }: Pro
             <div className="text-right text-[10px] font-bold text-gray-400">{formData.title?.length || 0} / 100자</div>
           </div>
 
-          {/* 본문 */}
+          {/* Toast UI Editor */}
           <div className="space-y-2">
             <label className="text-[10px] font-black uppercase text-gray-400">상세 내용 *</label>
-            <textarea
-              rows={14}
-              value={formData.content}
-              onChange={e => setFormData({ ...formData, content: e.target.value })}
-              className="w-full resize-none rounded-none border border-gray-200 bg-white px-4 py-4 text-[13px] font-medium leading-relaxed shadow-inner outline-none focus:border-[#5C8D5A]"
-              placeholder="공지할 상세 내용을 기록하십시오.
-
- • 주요 내용을 명확하게 작성해주세요.
- • 날짜, 장소, 대상 등 필수 정보를 포함해주세요.
- • 문의처나 담당자 정보를 추가하면 좋습니다."
-            />
-            <div className="text-right text-[10px] font-bold text-gray-400">{formData.content?.length || 0}자</div>
+            <div className="border border-gray-200">
+              <Editor
+                ref={editorRef}
+                initialValue={notice?.content || ''}
+                previewStyle="vertical"
+                height="400px"
+                initialEditType="wysiwyg"
+                useCommandShortcut={true}
+                language="ko-KR"
+                placeholder="공지할 상세 내용을 기록하십시오."
+              />
+            </div>
           </div>
 
           {/* 첨부파일 */}

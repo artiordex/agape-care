@@ -9,7 +9,8 @@ datasource db {
 }
 
 // ============================================================================
-// WEB 알림마당
+// WEB 알림마당 > 공지사항, 게시판, 갤러리, 식단표, 프로그램 일정표
+// ADMIN 콘텐츠 관리 > 공지사항 관리, 게시판 관리, 갤러리 관리, 식단표 관리, 프로그램 관리
 // ============================================================================
 
 // 공지사항
@@ -432,10 +433,12 @@ view WebLatestContent {
   @@map("v_web_latest_contents")
 }
 
-/// ===============================
-/// 면회 예약
-/// - 홈페이지 면회 예약 신청 관리
-/// ===============================
+// ============================================================================
+// WEB 이용안내 > 면회문의, 상담문의
+// ADMIN 콘텐츠 관리 > 문의 관리
+// ============================================================================
+
+/// 면회문의
 model VisitReservation {
   /// 예약 ID (Primary Key)
   id                    BigInt   @id @default(autoincrement())
@@ -477,11 +480,7 @@ model VisitReservation {
   @@map("visit_reservations")
 }
 
-/// ===============================
-/// 웹사이트 상담 문의
-/// - 홈페이지 상담 신청 접수용
-/// - 관리자 페이지에서 처리 상태 관리
-/// ===============================
+/// 상담문의
 model WebInquiry {
   /// 문의 ID (Primary Key)
   id            BigInt    @id @default(autoincrement())
@@ -519,15 +518,56 @@ model WebInquiry {
   @@map("web_inquiries")
 }
 
+// ============================================================================
+// ADMIN 콘텐츠 관리 > 팝업 관리
+// ============================================================================
 
+/// 팝업 배너
+model PopupBanner {
+  /// 배너 ID (Primary Key)
+  id          BigInt    @id @default(autoincrement())
+  /// 배너 제목
+  title       String
+  /// 배너 내용
+  content     String?
+  /// 이미지 URL
+  imageUrl    String?   @map("image_url")
+  /// 링크 URL
+  linkUrl     String?   @map("link_url")
+  /// 표시 유형 (POPUP, MODAL, BANNER 등)
+  displayType String    @default("POPUP") @map("display_type")
+  /// 위치 (TOP, CENTER, BOTTOM 등)
+  position    String?
+  /// 너비 (px)
+  width       Int?
+  /// 높이 (px)
+  height      Int?
+  /// 시작일
+  startDate   DateTime  @map("start_date") @db.Date
+  /// 종료일
+  endDate     DateTime  @map("end_date") @db.Date
+  /// 활성화 여부
+  isActive    Boolean   @default(true) @map("is_active")
+  /// 하루 동안 보지 않기 옵션
+  showOnce    Boolean   @default(false) @map("show_once")
+  /// 우선순위 (높을수록 먼저 표시)
+  priority    Int       @default(0)
+  /// 작성자 ID (외래키)
+  createdBy   BigInt?   @map("created_by")
+  /// 생성일시
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정일시
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  creator     Employee? @relation(fields: [createdBy], references: [id], onUpdate: NoAction)
 
+  @@index([isActive, startDate, endDate], map: "idx_popup_banners_active_dates")
+  @@index([priority(sort: Desc)], map: "idx_popup_banners_priority")
+  @@map("popup_banners")
+}
 
-
-
-
-
-
-
+// ============================================================================
+// ADMIN 시스템 설정 > 권한 관리, 시설 정보 관리, 사이트 설정
+// ============================================================================
 
 /// 부서 정보
 model Department {
@@ -646,6 +686,22 @@ model Employee {
   @@index([status], map: "idx_employees_status")
   @@map("employees")
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /// 직원 교육 이력
 model EmployeeEducation {
@@ -860,48 +916,7 @@ model ResidentVital {
   @@map("resident_vitals")
 }
 
-/// 팝업 배너
-model PopupBanner {
-  /// 배너 ID (Primary Key)
-  id          BigInt    @id @default(autoincrement())
-  /// 배너 제목
-  title       String
-  /// 배너 내용
-  content     String?
-  /// 이미지 URL
-  imageUrl    String?   @map("image_url")
-  /// 링크 URL
-  linkUrl     String?   @map("link_url")
-  /// 표시 유형 (POPUP, MODAL, BANNER 등)
-  displayType String    @default("POPUP") @map("display_type")
-  /// 위치 (TOP, CENTER, BOTTOM 등)
-  position    String?
-  /// 너비 (px)
-  width       Int?
-  /// 높이 (px)
-  height      Int?
-  /// 시작일
-  startDate   DateTime  @map("start_date") @db.Date
-  /// 종료일
-  endDate     DateTime  @map("end_date") @db.Date
-  /// 활성화 여부
-  isActive    Boolean   @default(true) @map("is_active")
-  /// 하루 동안 보지 않기 옵션
-  showOnce    Boolean   @default(false) @map("show_once")
-  /// 우선순위 (높을수록 먼저 표시)
-  priority    Int       @default(0)
-  /// 작성자 ID (외래키)
-  createdBy   BigInt?   @map("created_by")
-  /// 생성일시
-  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  /// 수정일시
-  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-  creator     Employee? @relation(fields: [createdBy], references: [id], onUpdate: NoAction)
 
-  @@index([isActive, startDate, endDate], map: "idx_popup_banners_active_dates")
-  @@index([priority(sort: Desc)], map: "idx_popup_banners_priority")
-  @@map("popup_banners")
-}
 
 /// 웹사이트 설정
 model WebsiteSetting {

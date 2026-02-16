@@ -16,6 +16,7 @@
     "@hookform/resolvers": "^3.7.0",
     "@tanstack/react-query": "^5.61.0",
     "@tanstack/react-table": "^8.20.5",
+    "@toast-ui/react-editor": "^3.2.3",
     "@ts-rest/core": "^3.52.1",
     "@ts-rest/react-query": "^3.52.1",
     "axios": "^1.6.0",
@@ -32,6 +33,7 @@
     "react-icons": "^5.5.0",
     "react-select": "^5.8.2",
     "recharts": "^2.14.1",
+    "sonner": "^2.0.7",
     "zod": "^3.24.1"
   },
   "devDependencies": {

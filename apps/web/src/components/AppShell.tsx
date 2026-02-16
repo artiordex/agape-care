@@ -11,6 +11,7 @@ import type { ReactNode } from 'react';
 import FloatingSidebar from '@/components/FloatingSidebar';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/navbar/Navbar';
+import PopupContainer from '@/components/popup/PopupContainer';
 
 export default function AppShell({ children }: Readonly<{ children: ReactNode }>) {
   return (
@@ -26,6 +27,9 @@ export default function AppShell({ children }: Readonly<{ children: ReactNode }>
 
       {/* 하단 푸터 */}
       <Footer />
+
+      {/* 팝업 컨테이너 */}
+      <PopupContainer />
     </div>
   );
 }

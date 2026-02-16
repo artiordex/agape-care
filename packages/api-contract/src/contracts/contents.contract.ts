@@ -4,7 +4,7 @@
  * @date 2026-01-27
  */
 import { z } from 'zod';
-import { ApiResponseSchema } from '../schemas/common/response.schema.js';
+import { ApiResponseSchema, PaginatedResponseSchema } from '../schemas/common/response.schema.js';
 import {
   BoardCommentBaseSchema,
   BoardCommentSchema,
@@ -31,9 +31,11 @@ export const contentContract = {
     query: z.object({
       category: z.string().optional(),
       isActive: z.coerce.boolean().optional(),
+      page: z.coerce.number().default(1),
+      limit: z.coerce.number().default(20),
     }),
     responses: {
-      200: ApiResponseSchema(z.array(NoticeSchema)),
+      200: PaginatedResponseSchema(NoticeSchema),
     },
   },
 
@@ -97,14 +99,14 @@ export const contentContract = {
    */
   getPosts: {
     method: 'GET' as const,
-    path: '/contents/posts',
+    path: '/contents/board',
     query: z.object({
-      boardKey: z.string(),
+      boardKey: z.string().default('ALL'),
       page: z.coerce.number().default(1),
       limit: z.coerce.number().default(10),
     }),
     responses: {
-      200: ApiResponseSchema(z.array(BoardPostSchema)),
+      200: PaginatedResponseSchema(BoardPostSchema),
     },
   },
 
@@ -114,7 +116,7 @@ export const contentContract = {
    */
   getPost: {
     method: 'GET' as const,
-    path: '/contents/posts/:id',
+    path: '/contents/board/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -129,7 +131,7 @@ export const contentContract = {
    */
   createPost: {
     method: 'POST' as const,
-    path: '/contents/posts',
+    path: '/contents/board',
     body: BoardPostSchema.omit({ id: true, createdAt: true, updatedAt: true }),
     responses: {
       201: ApiResponseSchema(BoardPostSchema),
@@ -142,7 +144,7 @@ export const contentContract = {
    */
   updatePost: {
     method: 'PATCH' as const,
-    path: '/contents/posts/:id',
+    path: '/contents/board/:id',
     body: BoardPostSchema.omit({ id: true, createdAt: true, updatedAt: true }).partial(),
     responses: {
       200: ApiResponseSchema(BoardPostSchema),
@@ -155,7 +157,7 @@ export const contentContract = {
    */
   deletePost: {
     method: 'DELETE' as const,
-    path: '/contents/posts/:id',
+    path: '/contents/board/:id',
     body: z.object({}),
     responses: {
       200: ApiResponseSchema(z.object({ success: z.boolean() })),
@@ -168,7 +170,7 @@ export const contentContract = {
    */
   getComments: {
     method: 'GET' as const,
-    path: '/contents/posts/:postId/comments',
+    path: '/contents/board/:postId/comments',
     responses: {
       200: ApiResponseSchema(z.array(BoardCommentSchema)),
     },
@@ -180,7 +182,7 @@ export const contentContract = {
    */
   createComment: {
     method: 'POST' as const,
-    path: '/contents/comments',
+    path: '/contents/board/comments',
     body: BoardCommentBaseSchema.omit({ id: true, createdAt: true, updatedAt: true }),
     responses: {
       201: ApiResponseSchema(BoardCommentSchema),
@@ -196,6 +198,60 @@ export const contentContract = {
     path: '/contents/gallery',
     responses: {
       200: ApiResponseSchema(z.array(GalleryItemSchema)),
+    },
+  },
+
+  /**
+   * [갤러리] GET /contents/gallery/:id
+   * 특정 갤러리 항목 상세 조회
+   */
+  getGalleryItem: {
+    method: 'GET' as const,
+    path: '/contents/gallery/:id',
+    pathParams: z.object({
+      id: z.string(),
+    }),
+    responses: {
+      200: ApiResponseSchema(GalleryItemSchema),
+    },
+  },
+
+  /**
+   * [갤러리] POST /contents/gallery
+   * 신규 갤러리 항목 작성
+   */
+  createGalleryItem: {
+    method: 'POST' as const,
+    path: '/contents/gallery',
+    body: GalleryItemSchema.omit({ id: true, createdAt: true, updatedAt: true }),
+    responses: {
+      201: ApiResponseSchema(GalleryItemSchema),
+    },
+  },
+
+  /**
+   * [갤러리] PATCH /contents/gallery/:id
+   * 기존 갤러리 항목 수정
+   */
+  updateGalleryItem: {
+    method: 'PATCH' as const,
+    path: '/contents/gallery/:id',
+    body: GalleryItemSchema.omit({ id: true, createdAt: true, updatedAt: true }).partial(),
+    responses: {
+      200: ApiResponseSchema(GalleryItemSchema),
+    },
+  },
+
+  /**
+   * [갤러리] DELETE /contents/gallery/:id
+   * 특정 갤러리 항목 삭제
+   */
+  deleteGalleryItem: {
+    method: 'DELETE' as const,
+    path: '/contents/gallery/:id',
+    body: z.object({}),
+    responses: {
+      200: ApiResponseSchema(z.object({ success: z.boolean() })),
     },
   },
 
