@@ -37,8 +37,6 @@ export default function StatsCards({ stats }: Props) {
               <p className="text-[12px] font-black uppercase tracking-widest text-gray-400">{stat.title}</p>
               <div className="mt-1 flex items-baseline gap-1">
                 <p className="font-mono text-4xl font-black tracking-tighter text-gray-900">{stat.value}</p>
-                {/* 지표별 단위 (필요 시 데이터에서 파싱) */}
-                <span className="text-[12px] font-bold uppercase text-gray-400">단위</span>
               </div>
             </div>
             <div
@@ -51,15 +49,19 @@ export default function StatsCards({ stats }: Props) {
           {/* 카드 하단: 변동 지표 및 가이드 */}
           <div className="flex items-center justify-between border-t border-gray-100 pt-3">
             <div className="flex items-center gap-1.5">
-              {/* 변동률 인디케이터 (임시 로직: '+' 포함 시 상승으로 간주) */}
-              <span
-                className={`flex items-center text-[12px] font-black uppercase ${stat.change.includes('+') ? 'text-emerald-500' : 'text-red-500'}`}
-              >
-                <i
-                  className={`${stat.change.includes('+') ? 'ri-arrow-right-up-line' : 'ri-arrow-right-down-line'} mr-0.5`}
-                ></i>
-                {stat.change}
-              </span>
+              {/* 변동률 인디케이터: '+' → 초록, '-' → 빨강, 그 외 → 회색 */}
+              {(() => {
+                const isUp = stat.change.includes('+');
+                const isDown = stat.change.includes('-');
+                const colorClass = isUp ? 'text-emerald-500' : isDown ? 'text-red-500' : 'text-gray-400';
+                const iconClass = isUp ? 'ri-arrow-right-up-line' : isDown ? 'ri-arrow-right-down-line' : 'ri-subtract-line';
+                return (
+                  <span className={`flex items-center text-[12px] font-black uppercase ${colorClass}`}>
+                    <i className={`${iconClass} mr-0.5`}></i>
+                    {stat.change}
+                  </span>
+                );
+              })()}
               <span className="text-[12px] font-bold uppercase tracking-tighter text-gray-400">지난달 대비</span>
             </div>
 

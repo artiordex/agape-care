@@ -23,7 +23,7 @@ import {
 } from '../schemas/program/index.js';
 
 const authHeader = z.object({
-  authorization: z.string().describe('Bearer {token}'),
+  authorization: z.string().optional().describe('Bearer {token}'),
 });
 
 const errorResponse = (statusCode: number) =>

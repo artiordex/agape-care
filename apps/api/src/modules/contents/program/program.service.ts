@@ -291,8 +291,8 @@ export class ProgramService implements OnModuleInit {
             startsAt: true,
             endsAt: true,
             location: true,
-            // capacity: true, // Missing in DB
-            // status: true,   // Missing in DB
+            capacity: true,
+            status: true,
             createdAt: true,
             updatedAt: true,
             program: true,
@@ -338,8 +338,7 @@ export class ProgramService implements OnModuleInit {
               startsAt: new Date(),
               endsAt: new Date(Date.now() + 3600000),
               location: '1층 로비',
-              // status: 'PLANNED', // Skipped
-              // capacity: 20       // Skipped
+              status: 'PLANNED',
             },
           });
 
@@ -355,6 +354,8 @@ export class ProgramService implements OnModuleInit {
               startsAt: true,
               endsAt: true,
               location: true,
+              capacity: true,
+              status: true,
               createdAt: true,
               updatedAt: true,
               program: true,

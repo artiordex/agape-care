@@ -1,6 +1,7 @@
 'use client';
 
 import { api } from '@/lib/api';
+import { useAuthStore } from '@/stores/auth.store';
 import { useEffect, useMemo, useState } from 'react';
 import * as XLSX from 'xlsx';
 import MealPlanStatBanner from '../MealPlanStatBanner';
@@ -55,7 +56,7 @@ export default function MonthlyMealPlan({ selectedDate }: Props) {
       const parts = selectedDate.split('-');
       if (parts.length === 3) {
         const year = parseInt(parts[0], 10);
-        const month = parseInt(parts[1], 10) - 1; // 0-indexed
+        const month = parseInt(parts[1]!, 10) - 1; // 0-indexed
         setCurrentMonth(new Date(year, month, 1));
       } else {
         setCurrentMonth(new Date(selectedDate));
@@ -90,19 +91,30 @@ export default function MonthlyMealPlan({ selectedDate }: Props) {
   const [saveMode, setSaveMode] = useState<SaveMode>('overwrite');
   const [selectedDates, setSelectedDates] = useState<Set<string>>(new Set());
 
+  const { isInitialized, accessToken } = useAuthStore(state => ({
+    isInitialized: state.isInitialized,
+    accessToken: state.accessToken,
+  }));
+
   // API: 식단표 목록 조회
   const mealMonth = currentMonth.getFullYear() * 100 + (currentMonth.getMonth() + 1);
-  const { data: mealPlansData, refetch } = api.meal.getMealPlans.useQuery(
+  const {
+    data: mealPlansData,
+    refetch,
+    error,
+    isError,
+  } = api.meal.getMealPlans.useQuery(
     ['mealPlans', mealMonth],
     {
       query: {
         page: 1,
         limit: 100,
-        facilityCode: 'DEFAULT',
+        // facilityCode: 'DEFAULT', // 잠시 주석 처리 (에러 원인 파악)
       },
     },
     {
       staleTime: 0, // 항상 최신 데이터 사용 (캐시 우회)
+      enabled: isInitialized && !!accessToken,
     },
   );
 
@@ -122,13 +134,19 @@ export default function MonthlyMealPlan({ selectedDate }: Props) {
       paginationTotal: mealPlansData?.body?.pagination?.total || 0,
     });
 
+    if (error) {
+      console.error('[MONTHLY MEAL-PLAN] ❌ API Error:', error);
+    }
+
     if (mealPlansData?.body?.data && mealPlansData.body.data.length > 0) {
       console.log('[MONTHLY MEAL-PLAN] First meal plan sample:', mealPlansData.body.data[0]);
+    } else if (mealPlansData?.status === 200) {
+      console.warn('[MONTHLY MEAL-PLAN] ⚠️ No meal plans found in response (empty array)');
     } else {
-      console.warn('[MONTHLY MEAL-PLAN] ⚠️ No meal plans found in response');
+      console.warn('[MONTHLY MEAL-PLAN] ⚠️ Unexpected response status:', mealPlansData?.status);
     }
     console.log('═══════════════════════════════════════════');
-  }, [mealPlansData, currentMonth, mealMonth]);
+  }, [mealPlansData, currentMonth, mealMonth, error, isError]);
 
   // API: 식단 항목 조회
   const { data: mealItemsData } = api.meal.getMealPlanItems.useQuery(
@@ -138,10 +156,10 @@ export default function MonthlyMealPlan({ selectedDate }: Props) {
       query: {
         mealPlanId: mealPlanId || '',
       },
-    },
+    } as any,
     {
-      enabled: !!mealPlanId,
-    },
+      enabled: !!mealPlanId && isInitialized && !!accessToken,
+    } as any,
   );
 
   useEffect(() => {
@@ -173,17 +191,22 @@ export default function MonthlyMealPlan({ selectedDate }: Props) {
 
   // API 데이터를 로컬 상태로 변환
   useEffect(() => {
-    if (mealPlansData?.status === 200 && Array.isArray(mealPlansData?.body?.data)) {
+    if (mealPlansData?.status === 200 && mealPlansData.body?.data) {
       const plans = mealPlansData.body.data;
       console.log('[DEBUG] MonthlyMealPlan - searching for mealMonth:', mealMonth, '(type:', typeof mealMonth, ')');
-      console.log('[DEBUG] MonthlyMealPlan - all plans mealMonths:', plans.map((p: any) => ({ id: p.id, mealMonth: p.mealMonth, type: typeof p.mealMonth })));
-      const currentMonthPlan = plans.find((p: any) => p.mealMonth === mealMonth);
+
+      // Robust comparison (String conversion)
+      const currentMonthPlan = plans.find((p: any) => String(p.mealMonth) === String(mealMonth));
 
       if (currentMonthPlan) {
         console.log('[DEBUG] MonthlyMealPlan - Found currentMonthPlan:', currentMonthPlan);
         setMealPlanId(currentMonthPlan.id);
       } else {
         console.log('[DEBUG] MonthlyMealPlan - No plan found for month:', mealMonth);
+        console.log(
+          '[DEBUG] MonthlyMealPlan - Available plans:',
+          plans.map((p: any) => ({ id: p.id, mealMonth: p.mealMonth })),
+        );
         setMealPlanId(null);
       }
     }
@@ -306,7 +329,7 @@ export default function MonthlyMealPlan({ selectedDate }: Props) {
           morningSnack: formData.morningSnack || null,
           afternoonSnack: formData.afternoonSnack || null,
         },
-      });
+      } as any);
     } else {
       // 생성
       createMealItem.mutate({
@@ -319,7 +342,7 @@ export default function MonthlyMealPlan({ selectedDate }: Props) {
           morningSnack: formData.morningSnack,
           afternoonSnack: formData.afternoonSnack,
         },
-      });
+      } as any);
     }
 
     setShowEditModal(false);
@@ -471,7 +494,7 @@ export default function MonthlyMealPlan({ selectedDate }: Props) {
             morningSnack: data.morningSnack || null,
             afternoonSnack: data.afternoonSnack || null,
           },
-        });
+        } as any);
       } else {
         // 생성
         createMealItem.mutate({
@@ -484,7 +507,7 @@ export default function MonthlyMealPlan({ selectedDate }: Props) {
             morningSnack: data.morningSnack,
             afternoonSnack: data.afternoonSnack,
           },
-        });
+        } as any);
       }
     });
 

@@ -440,10 +440,21 @@ exports.Prisma.ResidentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.RoomScalarFieldEnum = {
+  id: 'id',
+  facilityId: 'facilityId',
+  floor: 'floor',
+  roomName: 'roomName',
+  capacity: 'capacity',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ResidentRoomScalarFieldEnum = {
   id: 'id',
   residentId: 'residentId',
-  roomLabel: 'roomLabel',
+  roomId: 'roomId',
   bedLabel: 'bedLabel',
   startsAt: 'startsAt',
   endsAt: 'endsAt',
@@ -498,18 +509,6 @@ exports.Prisma.ResidentVitalScalarFieldEnum = {
   respiratoryRate: 'respiratoryRate',
   spo2: 'spo2',
   notes: 'notes'
-};
-
-exports.Prisma.WebsiteSettingScalarFieldEnum = {
-  id: 'id',
-  category: 'category',
-  key: 'key',
-  value: 'value',
-  description: 'description',
-  isActive: 'isActive',
-  updatedBy: 'updatedBy',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.CarePlanScalarFieldEnum = {
@@ -1162,12 +1161,12 @@ exports.Prisma.ModelName = {
   Employee: 'Employee',
   EmployeeEducation: 'EmployeeEducation',
   Resident: 'Resident',
+  Room: 'Room',
   ResidentRoom: 'ResidentRoom',
   ResidentContact: 'ResidentContact',
   ResidentHealthNote: 'ResidentHealthNote',
   ResidentMedication: 'ResidentMedication',
   ResidentVital: 'ResidentVital',
-  WebsiteSetting: 'WebsiteSetting',
   CarePlan: 'CarePlan',
   CarePlanItem: 'CarePlanItem',
   ConsultationRecord: 'ConsultationRecord',

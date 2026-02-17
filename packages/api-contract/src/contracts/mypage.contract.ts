@@ -9,7 +9,7 @@ import { ApiResponseSchema } from '../schemas/common/response.schema.js';
 import { MyProfileSchema, MyScheduleSchema, UpdateMyProfileSchema } from '../schemas/mypage/mypage.schema.js';
 
 const authHeader = z.object({
-  authorization: z.string().describe('Bearer {token}'),
+  authorization: z.string().optional().describe('Bearer {token}'),
 });
 
 export const myPageContract = {

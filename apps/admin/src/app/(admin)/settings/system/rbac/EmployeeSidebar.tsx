@@ -18,6 +18,8 @@ interface Props {
   readonly setActiveTab: (tab: 'employee' | 'role') => void;
   readonly employees: Employee[];
   readonly roleTemplates: RoleTemplate[];
+  readonly isLoadingEmployees?: boolean;
+  readonly isLoadingRoles?: boolean;
   readonly selectedEmployee: string | null;
   readonly setSelectedEmployee: (id: string) => void;
   readonly selectedRole: string | null;
@@ -41,6 +43,8 @@ export default function EmployeeBar({
   setActiveTab,
   employees,
   roleTemplates,
+  isLoadingEmployees = false,
+  isLoadingRoles = false,
   selectedEmployee,
   setSelectedEmployee,
   selectedRole,
@@ -95,7 +99,18 @@ export default function EmployeeBar({
         {activeTab === 'employee' ? (
           /* 직원 리스트 */
           <div className="divide-y divide-gray-100">
-            {filteredEmployees.map(emp => {
+            {isLoadingEmployees
+              ? /* 로딩 스켈레톤 */
+                Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="px-4 py-3">
+                    <div className="mb-2 flex items-center justify-between">
+                      <div className="h-3 w-20 animate-pulse rounded bg-gray-200" />
+                      <div className="h-2.5 w-12 animate-pulse rounded bg-gray-100" />
+                    </div>
+                    <div className="h-1 w-full animate-pulse rounded-full bg-gray-100" />
+                  </div>
+                ))
+              : filteredEmployees.map(emp => {
               const isSelected = selectedEmployee === emp.id;
               const activePerms = countActivePermissions(emp.id);
 
@@ -144,23 +159,31 @@ export default function EmployeeBar({
         ) : (
           /* 역할 템플릿 리스트 */
           <div className="divide-y divide-gray-100">
-            {roleTemplates.map(role => (
-              <div
-                key={role.id}
-                onClick={() => setSelectedRole(role.id)}
-                className={`cursor-pointer border-l-4 px-4 py-4 transition-all ${selectedRole === role.id ? 'border-emerald-500 bg-emerald-50/30' : 'border-transparent hover:bg-white'} `}
-              >
-                <div className="mb-1 flex items-center gap-2">
-                  <i
-                    className={`ri-shield-star-line ${selectedRole === role.id ? 'text-emerald-500' : 'text-gray-300'}`}
-                  ></i>
-                  <h4 className="font-black text-gray-800">{role.name}</h4>
-                </div>
-                <p className="line-clamp-2 text-[10px] font-medium italic leading-relaxed text-gray-400">
-                  {role.description}
-                </p>
-              </div>
-            ))}
+            {isLoadingRoles
+              ? /* 로딩 스켈레톤 */
+                Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="px-4 py-4">
+                    <div className="mb-2 h-3 w-24 animate-pulse rounded bg-gray-200" />
+                    <div className="h-2.5 w-full animate-pulse rounded bg-gray-100" />
+                  </div>
+                ))
+              : roleTemplates.map(role => (
+                  <div
+                    key={role.id}
+                    onClick={() => setSelectedRole(role.id)}
+                    className={`cursor-pointer border-l-4 px-4 py-4 transition-all ${selectedRole === role.id ? 'border-emerald-500 bg-emerald-50/30' : 'border-transparent hover:bg-white'} `}
+                  >
+                    <div className="mb-1 flex items-center gap-2">
+                      <i
+                        className={`ri-shield-star-line ${selectedRole === role.id ? 'text-emerald-500' : 'text-gray-300'}`}
+                      ></i>
+                      <h4 className="font-black text-gray-800">{role.name}</h4>
+                    </div>
+                    <p className="line-clamp-2 text-[10px] font-medium italic leading-relaxed text-gray-400">
+                      {role.description}
+                    </p>
+                  </div>
+                ))}
           </div>
         )}
       </div>

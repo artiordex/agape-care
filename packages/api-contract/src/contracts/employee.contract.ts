@@ -16,7 +16,7 @@ import {
 } from '../schemas/employee/index.js';
 
 const authHeader = z.object({
-  authorization: z.string().describe('Bearer {token}'),
+  authorization: z.string().optional().describe('Bearer {token}'),
 });
 
 const errorResponse = (statusCode: number) =>
@@ -33,7 +33,7 @@ export const employeeContract = {
    */
   getEmployees: {
     method: 'GET' as const,
-    path: '/api/employees',
+    path: '/employees',
     query: GetEmployeesQuerySchema,
     responses: {
       200: GetEmployeesResponseSchema,
@@ -48,7 +48,7 @@ export const employeeContract = {
    */
   getEmployee: {
     method: 'GET' as const,
-    path: '/api/employees/:id',
+    path: '/employees/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -66,7 +66,7 @@ export const employeeContract = {
    */
   createEmployee: {
     method: 'POST' as const,
-    path: '/api/employees',
+    path: '/employees',
     body: CreateEmployeeRequestSchema,
     responses: {
       201: EmployeeSchema,
@@ -83,7 +83,7 @@ export const employeeContract = {
    */
   updateEmployee: {
     method: 'PATCH' as const,
-    path: '/api/employees/:id',
+    path: '/employees/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -103,7 +103,7 @@ export const employeeContract = {
    */
   deleteEmployee: {
     method: 'DELETE' as const,
-    path: '/api/employees/:id',
+    path: '/employees/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -123,7 +123,7 @@ export const employeeContract = {
    */
   changeEmployeePassword: {
     method: 'POST' as const,
-    path: '/api/employees/:id/change-password',
+    path: '/employees/:id/change-password',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -145,7 +145,7 @@ export const employeeContract = {
    */
   getEmployeeStats: {
     method: 'GET' as const,
-    path: '/api/employees/stats',
+    path: '/employees/stats',
     responses: {
       200: EmployeeStatsSchema,
     },

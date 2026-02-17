@@ -129,6 +129,11 @@ export type EmployeeEducation = $Result.DefaultSelection<Prisma.$EmployeeEducati
  */
 export type Resident = $Result.DefaultSelection<Prisma.$ResidentPayload>
 /**
+ * Model Room
+ * 생활실 정보
+ */
+export type Room = $Result.DefaultSelection<Prisma.$RoomPayload>
+/**
  * Model ResidentRoom
  * 입소자 방/침대 배정 이력
  */
@@ -153,11 +158,6 @@ export type ResidentMedication = $Result.DefaultSelection<Prisma.$ResidentMedica
  * 입소자 활력징후 (바이탈 사인)
  */
 export type ResidentVital = $Result.DefaultSelection<Prisma.$ResidentVitalPayload>
-/**
- * Model WebsiteSetting
- * 웹사이트 설정
- */
-export type WebsiteSetting = $Result.DefaultSelection<Prisma.$WebsiteSettingPayload>
 /**
  * Model CarePlan
  * 케어 플랜 (돌봄 계획)
@@ -744,6 +744,16 @@ export class PrismaClient<
   get resident(): Prisma.ResidentDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.room`: Exposes CRUD operations for the **Room** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Rooms
+    * const rooms = await prisma.room.findMany()
+    * ```
+    */
+  get room(): Prisma.RoomDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.residentRoom`: Exposes CRUD operations for the **ResidentRoom** model.
     * Example usage:
     * ```ts
@@ -792,16 +802,6 @@ export class PrismaClient<
     * ```
     */
   get residentVital(): Prisma.ResidentVitalDelegate<ExtArgs, ClientOptions>;
-
-  /**
-   * `prisma.websiteSetting`: Exposes CRUD operations for the **WebsiteSetting** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more WebsiteSettings
-    * const websiteSettings = await prisma.websiteSetting.findMany()
-    * ```
-    */
-  get websiteSetting(): Prisma.WebsiteSettingDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.carePlan`: Exposes CRUD operations for the **CarePlan** model.
@@ -1709,12 +1709,12 @@ export namespace Prisma {
     Employee: 'Employee',
     EmployeeEducation: 'EmployeeEducation',
     Resident: 'Resident',
+    Room: 'Room',
     ResidentRoom: 'ResidentRoom',
     ResidentContact: 'ResidentContact',
     ResidentHealthNote: 'ResidentHealthNote',
     ResidentMedication: 'ResidentMedication',
     ResidentVital: 'ResidentVital',
-    WebsiteSetting: 'WebsiteSetting',
     CarePlan: 'CarePlan',
     CarePlanItem: 'CarePlanItem',
     ConsultationRecord: 'ConsultationRecord',
@@ -1775,7 +1775,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "notice" | "noticeFile" | "boardPost" | "boardFile" | "boardComment" | "galleryItem" | "galleryFile" | "mealPlan" | "mealPlanItem" | "program" | "programSchedule" | "programAttendance" | "visitReservation" | "webInquiry" | "popupBanner" | "facility" | "siteInfo" | "department" | "employeeRole" | "employeePermission" | "employee" | "employeeEducation" | "resident" | "residentRoom" | "residentContact" | "residentHealthNote" | "residentMedication" | "residentVital" | "websiteSetting" | "carePlan" | "carePlanItem" | "consultationRecord" | "consultationFile" | "incident" | "incidentFile" | "careTask" | "dailyCareRecord" | "attendanceRecord" | "shiftTemplate" | "shiftAssignment" | "leaveRequest" | "leaveApproval" | "accountCategory" | "account" | "supplier" | "transaction" | "transactionItem" | "payrollRecord" | "payrollItem" | "invoiceHeader" | "invoiceItem" | "insuranceClaim" | "insuranceClaimItem" | "insuranceClaimHistory" | "inventoryItem" | "inventoryTransaction" | "vehicle" | "transportRequest" | "cctvDevice" | "cctvViewLog" | "grievance" | "facilityInspection" | "smsSendLog" | "fileStorage" | "auditLog" | "systemSetting" | "notificationQueue" | "webNotice" | "webNoticeDetail" | "webBoardPost" | "webBoardPostDetail" | "webGalleryItem" | "webMealPlan" | "webLatestContent"
+      modelProps: "notice" | "noticeFile" | "boardPost" | "boardFile" | "boardComment" | "galleryItem" | "galleryFile" | "mealPlan" | "mealPlanItem" | "program" | "programSchedule" | "programAttendance" | "visitReservation" | "webInquiry" | "popupBanner" | "facility" | "siteInfo" | "department" | "employeeRole" | "employeePermission" | "employee" | "employeeEducation" | "resident" | "room" | "residentRoom" | "residentContact" | "residentHealthNote" | "residentMedication" | "residentVital" | "carePlan" | "carePlanItem" | "consultationRecord" | "consultationFile" | "incident" | "incidentFile" | "careTask" | "dailyCareRecord" | "attendanceRecord" | "shiftTemplate" | "shiftAssignment" | "leaveRequest" | "leaveApproval" | "accountCategory" | "account" | "supplier" | "transaction" | "transactionItem" | "payrollRecord" | "payrollItem" | "invoiceHeader" | "invoiceItem" | "insuranceClaim" | "insuranceClaimItem" | "insuranceClaimHistory" | "inventoryItem" | "inventoryTransaction" | "vehicle" | "transportRequest" | "cctvDevice" | "cctvViewLog" | "grievance" | "facilityInspection" | "smsSendLog" | "fileStorage" | "auditLog" | "systemSetting" | "notificationQueue" | "webNotice" | "webNoticeDetail" | "webBoardPost" | "webBoardPostDetail" | "webGalleryItem" | "webMealPlan" | "webLatestContent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3481,6 +3481,80 @@ export namespace Prisma {
           }
         }
       }
+      Room: {
+        payload: Prisma.$RoomPayload<ExtArgs>
+        fields: Prisma.RoomFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RoomFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RoomFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>
+          }
+          findFirst: {
+            args: Prisma.RoomFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RoomFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>
+          }
+          findMany: {
+            args: Prisma.RoomFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>[]
+          }
+          create: {
+            args: Prisma.RoomCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>
+          }
+          createMany: {
+            args: Prisma.RoomCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RoomCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>[]
+          }
+          delete: {
+            args: Prisma.RoomDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>
+          }
+          update: {
+            args: Prisma.RoomUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>
+          }
+          deleteMany: {
+            args: Prisma.RoomDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RoomUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RoomUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>[]
+          }
+          upsert: {
+            args: Prisma.RoomUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>
+          }
+          aggregate: {
+            args: Prisma.RoomAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRoom>
+          }
+          groupBy: {
+            args: Prisma.RoomGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RoomGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RoomCountArgs<ExtArgs>
+            result: $Utils.Optional<RoomCountAggregateOutputType> | number
+          }
+        }
+      }
       ResidentRoom: {
         payload: Prisma.$ResidentRoomPayload<ExtArgs>
         fields: Prisma.ResidentRoomFieldRefs
@@ -3848,80 +3922,6 @@ export namespace Prisma {
           count: {
             args: Prisma.ResidentVitalCountArgs<ExtArgs>
             result: $Utils.Optional<ResidentVitalCountAggregateOutputType> | number
-          }
-        }
-      }
-      WebsiteSetting: {
-        payload: Prisma.$WebsiteSettingPayload<ExtArgs>
-        fields: Prisma.WebsiteSettingFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.WebsiteSettingFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebsiteSettingPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.WebsiteSettingFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebsiteSettingPayload>
-          }
-          findFirst: {
-            args: Prisma.WebsiteSettingFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebsiteSettingPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.WebsiteSettingFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebsiteSettingPayload>
-          }
-          findMany: {
-            args: Prisma.WebsiteSettingFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebsiteSettingPayload>[]
-          }
-          create: {
-            args: Prisma.WebsiteSettingCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebsiteSettingPayload>
-          }
-          createMany: {
-            args: Prisma.WebsiteSettingCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.WebsiteSettingCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebsiteSettingPayload>[]
-          }
-          delete: {
-            args: Prisma.WebsiteSettingDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebsiteSettingPayload>
-          }
-          update: {
-            args: Prisma.WebsiteSettingUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebsiteSettingPayload>
-          }
-          deleteMany: {
-            args: Prisma.WebsiteSettingDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.WebsiteSettingUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.WebsiteSettingUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebsiteSettingPayload>[]
-          }
-          upsert: {
-            args: Prisma.WebsiteSettingUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$WebsiteSettingPayload>
-          }
-          aggregate: {
-            args: Prisma.WebsiteSettingAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateWebsiteSetting>
-          }
-          groupBy: {
-            args: Prisma.WebsiteSettingGroupByArgs<ExtArgs>
-            result: $Utils.Optional<WebsiteSettingGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.WebsiteSettingCountArgs<ExtArgs>
-            result: $Utils.Optional<WebsiteSettingCountAggregateOutputType> | number
           }
         }
       }
@@ -7134,12 +7134,12 @@ export namespace Prisma {
     employee?: EmployeeOmit
     employeeEducation?: EmployeeEducationOmit
     resident?: ResidentOmit
+    room?: RoomOmit
     residentRoom?: ResidentRoomOmit
     residentContact?: ResidentContactOmit
     residentHealthNote?: ResidentHealthNoteOmit
     residentMedication?: ResidentMedicationOmit
     residentVital?: ResidentVitalOmit
-    websiteSetting?: WebsiteSettingOmit
     carePlan?: CarePlanOmit
     carePlanItem?: CarePlanItemOmit
     consultationRecord?: ConsultationRecordOmit
@@ -7487,6 +7487,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type FacilityCountOutputType
+   */
+
+  export type FacilityCountOutputType = {
+    rooms: number
+  }
+
+  export type FacilityCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rooms?: boolean | FacilityCountOutputTypeCountRoomsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * FacilityCountOutputType without action
+   */
+  export type FacilityCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FacilityCountOutputType
+     */
+    select?: FacilityCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * FacilityCountOutputType without action
+   */
+  export type FacilityCountOutputTypeCountRoomsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomWhereInput
+  }
+
+
+  /**
    * Count Type DepartmentCountOutputType
    */
 
@@ -7595,7 +7626,6 @@ export namespace Prisma {
     transactionsCreated: number
     transportRequestsCreated: number
     transportRequestsAsDriver: number
-    websiteSettingsUpdated: number
     siteInfosUpdated: number
     employeePermissions: number
     permissionUpdates: number
@@ -7635,7 +7665,6 @@ export namespace Prisma {
     transactionsCreated?: boolean | EmployeeCountOutputTypeCountTransactionsCreatedArgs
     transportRequestsCreated?: boolean | EmployeeCountOutputTypeCountTransportRequestsCreatedArgs
     transportRequestsAsDriver?: boolean | EmployeeCountOutputTypeCountTransportRequestsAsDriverArgs
-    websiteSettingsUpdated?: boolean | EmployeeCountOutputTypeCountWebsiteSettingsUpdatedArgs
     siteInfosUpdated?: boolean | EmployeeCountOutputTypeCountSiteInfosUpdatedArgs
     employeePermissions?: boolean | EmployeeCountOutputTypeCountEmployeePermissionsArgs
     permissionUpdates?: boolean | EmployeeCountOutputTypeCountPermissionUpdatesArgs
@@ -7886,13 +7915,6 @@ export namespace Prisma {
   /**
    * EmployeeCountOutputType without action
    */
-  export type EmployeeCountOutputTypeCountWebsiteSettingsUpdatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: WebsiteSettingWhereInput
-  }
-
-  /**
-   * EmployeeCountOutputType without action
-   */
   export type EmployeeCountOutputTypeCountSiteInfosUpdatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SiteInfoWhereInput
   }
@@ -8066,6 +8088,37 @@ export namespace Prisma {
    */
   export type ResidentCountOutputTypeCountTransportRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TransportRequestWhereInput
+  }
+
+
+  /**
+   * Count Type RoomCountOutputType
+   */
+
+  export type RoomCountOutputType = {
+    residentRooms: number
+  }
+
+  export type RoomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    residentRooms?: boolean | RoomCountOutputTypeCountResidentRoomsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * RoomCountOutputType without action
+   */
+  export type RoomCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomCountOutputType
+     */
+    select?: RoomCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * RoomCountOutputType without action
+   */
+  export type RoomCountOutputTypeCountResidentRoomsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResidentRoomWhereInput
   }
 
 
@@ -27275,6 +27328,8 @@ export namespace Prisma {
     stampImage?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    rooms?: boolean | Facility$roomsArgs<ExtArgs>
+    _count?: boolean | FacilityCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["facility"]>
 
   export type FacilitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -27362,10 +27417,18 @@ export namespace Prisma {
   }
 
   export type FacilityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orgCode" | "facilityName" | "facilityDesc" | "facilityType" | "designatedDate" | "director" | "directorPhone" | "ceoName" | "businessNo" | "bizType" | "staffCount" | "phone" | "fax" | "email" | "homepage" | "zip" | "address1" | "address2" | "totalCapacity" | "shortStayCapacity" | "dayCareCapacity" | "stampImage" | "createdAt" | "updatedAt", ExtArgs["result"]["facility"]>
+  export type FacilityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rooms?: boolean | Facility$roomsArgs<ExtArgs>
+    _count?: boolean | FacilityCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type FacilityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type FacilityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $FacilityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Facility"
-    objects: {}
+    objects: {
+      rooms: Prisma.$RoomPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       /**
        * 시설 ID (Primary Key)
@@ -27861,6 +27924,7 @@ export namespace Prisma {
    */
   export interface Prisma__FacilityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    rooms<T extends Facility$roomsArgs<ExtArgs> = {}>(args?: Subset<T, Facility$roomsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -27932,6 +27996,10 @@ export namespace Prisma {
      */
     omit?: FacilityOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacilityInclude<ExtArgs> | null
+    /**
      * Filter, which Facility to fetch.
      */
     where: FacilityWhereUniqueInput
@@ -27950,6 +28018,10 @@ export namespace Prisma {
      */
     omit?: FacilityOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacilityInclude<ExtArgs> | null
+    /**
      * Filter, which Facility to fetch.
      */
     where: FacilityWhereUniqueInput
@@ -27967,6 +28039,10 @@ export namespace Prisma {
      * Omit specific fields from the Facility
      */
     omit?: FacilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacilityInclude<ExtArgs> | null
     /**
      * Filter, which Facility to fetch.
      */
@@ -28016,6 +28092,10 @@ export namespace Prisma {
      */
     omit?: FacilityOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacilityInclude<ExtArgs> | null
+    /**
      * Filter, which Facility to fetch.
      */
     where?: FacilityWhereInput
@@ -28064,6 +28144,10 @@ export namespace Prisma {
      */
     omit?: FacilityOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacilityInclude<ExtArgs> | null
+    /**
      * Filter, which Facilities to fetch.
      */
     where?: FacilityWhereInput
@@ -28106,6 +28190,10 @@ export namespace Prisma {
      * Omit specific fields from the Facility
      */
     omit?: FacilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacilityInclude<ExtArgs> | null
     /**
      * The data needed to create a Facility.
      */
@@ -28154,6 +28242,10 @@ export namespace Prisma {
      * Omit specific fields from the Facility
      */
     omit?: FacilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacilityInclude<ExtArgs> | null
     /**
      * The data needed to update a Facility.
      */
@@ -28221,6 +28313,10 @@ export namespace Prisma {
      */
     omit?: FacilityOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacilityInclude<ExtArgs> | null
+    /**
      * The filter to search for the Facility to update in case it exists.
      */
     where: FacilityWhereUniqueInput
@@ -28247,6 +28343,10 @@ export namespace Prisma {
      */
     omit?: FacilityOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacilityInclude<ExtArgs> | null
+    /**
      * Filter which Facility to delete.
      */
     where: FacilityWhereUniqueInput
@@ -28267,6 +28367,30 @@ export namespace Prisma {
   }
 
   /**
+   * Facility.rooms
+   */
+  export type Facility$roomsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomInclude<ExtArgs> | null
+    where?: RoomWhereInput
+    orderBy?: RoomOrderByWithRelationInput | RoomOrderByWithRelationInput[]
+    cursor?: RoomWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoomScalarFieldEnum | RoomScalarFieldEnum[]
+  }
+
+  /**
    * Facility without action
    */
   export type FacilityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -28278,6 +28402,10 @@ export namespace Prisma {
      * Omit specific fields from the Facility
      */
     omit?: FacilityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacilityInclude<ExtArgs> | null
   }
 
 
@@ -33399,7 +33527,6 @@ export namespace Prisma {
     transactionsCreated?: boolean | Employee$transactionsCreatedArgs<ExtArgs>
     transportRequestsCreated?: boolean | Employee$transportRequestsCreatedArgs<ExtArgs>
     transportRequestsAsDriver?: boolean | Employee$transportRequestsAsDriverArgs<ExtArgs>
-    websiteSettingsUpdated?: boolean | Employee$websiteSettingsUpdatedArgs<ExtArgs>
     siteInfosUpdated?: boolean | Employee$siteInfosUpdatedArgs<ExtArgs>
     employeePermissions?: boolean | Employee$employeePermissionsArgs<ExtArgs>
     permissionUpdates?: boolean | Employee$permissionUpdatesArgs<ExtArgs>
@@ -33501,7 +33628,6 @@ export namespace Prisma {
     transactionsCreated?: boolean | Employee$transactionsCreatedArgs<ExtArgs>
     transportRequestsCreated?: boolean | Employee$transportRequestsCreatedArgs<ExtArgs>
     transportRequestsAsDriver?: boolean | Employee$transportRequestsAsDriverArgs<ExtArgs>
-    websiteSettingsUpdated?: boolean | Employee$websiteSettingsUpdatedArgs<ExtArgs>
     siteInfosUpdated?: boolean | Employee$siteInfosUpdatedArgs<ExtArgs>
     employeePermissions?: boolean | Employee$employeePermissionsArgs<ExtArgs>
     permissionUpdates?: boolean | Employee$permissionUpdatesArgs<ExtArgs>
@@ -33554,7 +33680,6 @@ export namespace Prisma {
       transactionsCreated: Prisma.$TransactionPayload<ExtArgs>[]
       transportRequestsCreated: Prisma.$TransportRequestPayload<ExtArgs>[]
       transportRequestsAsDriver: Prisma.$TransportRequestPayload<ExtArgs>[]
-      websiteSettingsUpdated: Prisma.$WebsiteSettingPayload<ExtArgs>[]
       siteInfosUpdated: Prisma.$SiteInfoPayload<ExtArgs>[]
       employeePermissions: Prisma.$EmployeePermissionPayload<ExtArgs>[]
       permissionUpdates: Prisma.$EmployeePermissionPayload<ExtArgs>[]
@@ -34049,7 +34174,6 @@ export namespace Prisma {
     transactionsCreated<T extends Employee$transactionsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, Employee$transactionsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transportRequestsCreated<T extends Employee$transportRequestsCreatedArgs<ExtArgs> = {}>(args?: Subset<T, Employee$transportRequestsCreatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransportRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     transportRequestsAsDriver<T extends Employee$transportRequestsAsDriverArgs<ExtArgs> = {}>(args?: Subset<T, Employee$transportRequestsAsDriverArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransportRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    websiteSettingsUpdated<T extends Employee$websiteSettingsUpdatedArgs<ExtArgs> = {}>(args?: Subset<T, Employee$websiteSettingsUpdatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebsiteSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     siteInfosUpdated<T extends Employee$siteInfosUpdatedArgs<ExtArgs> = {}>(args?: Subset<T, Employee$siteInfosUpdatedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SiteInfoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     employeePermissions<T extends Employee$employeePermissionsArgs<ExtArgs> = {}>(args?: Subset<T, Employee$employeePermissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeePermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     permissionUpdates<T extends Employee$permissionUpdatesArgs<ExtArgs> = {}>(args?: Subset<T, Employee$permissionUpdatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmployeePermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -35320,30 +35444,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: TransportRequestScalarFieldEnum | TransportRequestScalarFieldEnum[]
-  }
-
-  /**
-   * Employee.websiteSettingsUpdated
-   */
-  export type Employee$websiteSettingsUpdatedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebsiteSetting
-     */
-    select?: WebsiteSettingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebsiteSetting
-     */
-    omit?: WebsiteSettingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WebsiteSettingInclude<ExtArgs> | null
-    where?: WebsiteSettingWhereInput
-    orderBy?: WebsiteSettingOrderByWithRelationInput | WebsiteSettingOrderByWithRelationInput[]
-    cursor?: WebsiteSettingWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: WebsiteSettingScalarFieldEnum | WebsiteSettingScalarFieldEnum[]
   }
 
   /**
@@ -38316,6 +38416,1199 @@ export namespace Prisma {
 
 
   /**
+   * Model Room
+   */
+
+  export type AggregateRoom = {
+    _count: RoomCountAggregateOutputType | null
+    _avg: RoomAvgAggregateOutputType | null
+    _sum: RoomSumAggregateOutputType | null
+    _min: RoomMinAggregateOutputType | null
+    _max: RoomMaxAggregateOutputType | null
+  }
+
+  export type RoomAvgAggregateOutputType = {
+    id: number | null
+    facilityId: number | null
+    capacity: number | null
+  }
+
+  export type RoomSumAggregateOutputType = {
+    id: bigint | null
+    facilityId: bigint | null
+    capacity: number | null
+  }
+
+  export type RoomMinAggregateOutputType = {
+    id: bigint | null
+    facilityId: bigint | null
+    floor: string | null
+    roomName: string | null
+    capacity: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RoomMaxAggregateOutputType = {
+    id: bigint | null
+    facilityId: bigint | null
+    floor: string | null
+    roomName: string | null
+    capacity: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RoomCountAggregateOutputType = {
+    id: number
+    facilityId: number
+    floor: number
+    roomName: number
+    capacity: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RoomAvgAggregateInputType = {
+    id?: true
+    facilityId?: true
+    capacity?: true
+  }
+
+  export type RoomSumAggregateInputType = {
+    id?: true
+    facilityId?: true
+    capacity?: true
+  }
+
+  export type RoomMinAggregateInputType = {
+    id?: true
+    facilityId?: true
+    floor?: true
+    roomName?: true
+    capacity?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RoomMaxAggregateInputType = {
+    id?: true
+    facilityId?: true
+    floor?: true
+    roomName?: true
+    capacity?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RoomCountAggregateInputType = {
+    id?: true
+    facilityId?: true
+    floor?: true
+    roomName?: true
+    capacity?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RoomAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Room to aggregate.
+     */
+    where?: RoomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Rooms to fetch.
+     */
+    orderBy?: RoomOrderByWithRelationInput | RoomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RoomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Rooms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Rooms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Rooms
+    **/
+    _count?: true | RoomCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RoomAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RoomSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RoomMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RoomMaxAggregateInputType
+  }
+
+  export type GetRoomAggregateType<T extends RoomAggregateArgs> = {
+        [P in keyof T & keyof AggregateRoom]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRoom[P]>
+      : GetScalarType<T[P], AggregateRoom[P]>
+  }
+
+
+
+
+  export type RoomGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomWhereInput
+    orderBy?: RoomOrderByWithAggregationInput | RoomOrderByWithAggregationInput[]
+    by: RoomScalarFieldEnum[] | RoomScalarFieldEnum
+    having?: RoomScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RoomCountAggregateInputType | true
+    _avg?: RoomAvgAggregateInputType
+    _sum?: RoomSumAggregateInputType
+    _min?: RoomMinAggregateInputType
+    _max?: RoomMaxAggregateInputType
+  }
+
+  export type RoomGroupByOutputType = {
+    id: bigint
+    facilityId: bigint
+    floor: string
+    roomName: string
+    capacity: number | null
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: RoomCountAggregateOutputType | null
+    _avg: RoomAvgAggregateOutputType | null
+    _sum: RoomSumAggregateOutputType | null
+    _min: RoomMinAggregateOutputType | null
+    _max: RoomMaxAggregateOutputType | null
+  }
+
+  type GetRoomGroupByPayload<T extends RoomGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RoomGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RoomGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RoomGroupByOutputType[P]>
+            : GetScalarType<T[P], RoomGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RoomSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    facilityId?: boolean
+    floor?: boolean
+    roomName?: boolean
+    capacity?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    facility?: boolean | FacilityDefaultArgs<ExtArgs>
+    residentRooms?: boolean | Room$residentRoomsArgs<ExtArgs>
+    _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["room"]>
+
+  export type RoomSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    facilityId?: boolean
+    floor?: boolean
+    roomName?: boolean
+    capacity?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    facility?: boolean | FacilityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["room"]>
+
+  export type RoomSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    facilityId?: boolean
+    floor?: boolean
+    roomName?: boolean
+    capacity?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    facility?: boolean | FacilityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["room"]>
+
+  export type RoomSelectScalar = {
+    id?: boolean
+    facilityId?: boolean
+    floor?: boolean
+    roomName?: boolean
+    capacity?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "facilityId" | "floor" | "roomName" | "capacity" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["room"]>
+  export type RoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    facility?: boolean | FacilityDefaultArgs<ExtArgs>
+    residentRooms?: boolean | Room$residentRoomsArgs<ExtArgs>
+    _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type RoomIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    facility?: boolean | FacilityDefaultArgs<ExtArgs>
+  }
+  export type RoomIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    facility?: boolean | FacilityDefaultArgs<ExtArgs>
+  }
+
+  export type $RoomPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Room"
+    objects: {
+      facility: Prisma.$FacilityPayload<ExtArgs>
+      residentRooms: Prisma.$ResidentRoomPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      /**
+       * 생활실 ID (Primary Key)
+       */
+      id: bigint
+      /**
+       * 시설 ID (외래키)
+       */
+      facilityId: bigint
+      /**
+       * 층 (예: 1층, 2층)
+       */
+      floor: string
+      /**
+       * 생활실명 (예: 101호)
+       */
+      roomName: string
+      /**
+       * 정원
+       */
+      capacity: number | null
+      /**
+       * 사용 가능 여부
+       */
+      isActive: boolean
+      /**
+       * 생성일시
+       */
+      createdAt: Date
+      /**
+       * 수정일시
+       */
+      updatedAt: Date
+    }, ExtArgs["result"]["room"]>
+    composites: {}
+  }
+
+  type RoomGetPayload<S extends boolean | null | undefined | RoomDefaultArgs> = $Result.GetResult<Prisma.$RoomPayload, S>
+
+  type RoomCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RoomFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RoomCountAggregateInputType | true
+    }
+
+  export interface RoomDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Room'], meta: { name: 'Room' } }
+    /**
+     * Find zero or one Room that matches the filter.
+     * @param {RoomFindUniqueArgs} args - Arguments to find a Room
+     * @example
+     * // Get one Room
+     * const room = await prisma.room.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RoomFindUniqueArgs>(args: SelectSubset<T, RoomFindUniqueArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Room that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RoomFindUniqueOrThrowArgs} args - Arguments to find a Room
+     * @example
+     * // Get one Room
+     * const room = await prisma.room.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RoomFindUniqueOrThrowArgs>(args: SelectSubset<T, RoomFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Room that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomFindFirstArgs} args - Arguments to find a Room
+     * @example
+     * // Get one Room
+     * const room = await prisma.room.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RoomFindFirstArgs>(args?: SelectSubset<T, RoomFindFirstArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Room that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomFindFirstOrThrowArgs} args - Arguments to find a Room
+     * @example
+     * // Get one Room
+     * const room = await prisma.room.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RoomFindFirstOrThrowArgs>(args?: SelectSubset<T, RoomFindFirstOrThrowArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Rooms that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Rooms
+     * const rooms = await prisma.room.findMany()
+     * 
+     * // Get first 10 Rooms
+     * const rooms = await prisma.room.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const roomWithIdOnly = await prisma.room.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RoomFindManyArgs>(args?: SelectSubset<T, RoomFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Room.
+     * @param {RoomCreateArgs} args - Arguments to create a Room.
+     * @example
+     * // Create one Room
+     * const Room = await prisma.room.create({
+     *   data: {
+     *     // ... data to create a Room
+     *   }
+     * })
+     * 
+     */
+    create<T extends RoomCreateArgs>(args: SelectSubset<T, RoomCreateArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Rooms.
+     * @param {RoomCreateManyArgs} args - Arguments to create many Rooms.
+     * @example
+     * // Create many Rooms
+     * const room = await prisma.room.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RoomCreateManyArgs>(args?: SelectSubset<T, RoomCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Rooms and returns the data saved in the database.
+     * @param {RoomCreateManyAndReturnArgs} args - Arguments to create many Rooms.
+     * @example
+     * // Create many Rooms
+     * const room = await prisma.room.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Rooms and only return the `id`
+     * const roomWithIdOnly = await prisma.room.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RoomCreateManyAndReturnArgs>(args?: SelectSubset<T, RoomCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Room.
+     * @param {RoomDeleteArgs} args - Arguments to delete one Room.
+     * @example
+     * // Delete one Room
+     * const Room = await prisma.room.delete({
+     *   where: {
+     *     // ... filter to delete one Room
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RoomDeleteArgs>(args: SelectSubset<T, RoomDeleteArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Room.
+     * @param {RoomUpdateArgs} args - Arguments to update one Room.
+     * @example
+     * // Update one Room
+     * const room = await prisma.room.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RoomUpdateArgs>(args: SelectSubset<T, RoomUpdateArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Rooms.
+     * @param {RoomDeleteManyArgs} args - Arguments to filter Rooms to delete.
+     * @example
+     * // Delete a few Rooms
+     * const { count } = await prisma.room.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RoomDeleteManyArgs>(args?: SelectSubset<T, RoomDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Rooms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Rooms
+     * const room = await prisma.room.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RoomUpdateManyArgs>(args: SelectSubset<T, RoomUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Rooms and returns the data updated in the database.
+     * @param {RoomUpdateManyAndReturnArgs} args - Arguments to update many Rooms.
+     * @example
+     * // Update many Rooms
+     * const room = await prisma.room.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Rooms and only return the `id`
+     * const roomWithIdOnly = await prisma.room.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RoomUpdateManyAndReturnArgs>(args: SelectSubset<T, RoomUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Room.
+     * @param {RoomUpsertArgs} args - Arguments to update or create a Room.
+     * @example
+     * // Update or create a Room
+     * const room = await prisma.room.upsert({
+     *   create: {
+     *     // ... data to create a Room
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Room we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RoomUpsertArgs>(args: SelectSubset<T, RoomUpsertArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Rooms.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomCountArgs} args - Arguments to filter Rooms to count.
+     * @example
+     * // Count the number of Rooms
+     * const count = await prisma.room.count({
+     *   where: {
+     *     // ... the filter for the Rooms we want to count
+     *   }
+     * })
+    **/
+    count<T extends RoomCountArgs>(
+      args?: Subset<T, RoomCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RoomCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Room.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RoomAggregateArgs>(args: Subset<T, RoomAggregateArgs>): Prisma.PrismaPromise<GetRoomAggregateType<T>>
+
+    /**
+     * Group by Room.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RoomGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RoomGroupByArgs['orderBy'] }
+        : { orderBy?: RoomGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RoomGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoomGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Room model
+   */
+  readonly fields: RoomFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Room.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RoomClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    facility<T extends FacilityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FacilityDefaultArgs<ExtArgs>>): Prisma__FacilityClient<$Result.GetResult<Prisma.$FacilityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    residentRooms<T extends Room$residentRoomsArgs<ExtArgs> = {}>(args?: Subset<T, Room$residentRoomsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResidentRoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Room model
+   */
+  interface RoomFieldRefs {
+    readonly id: FieldRef<"Room", 'BigInt'>
+    readonly facilityId: FieldRef<"Room", 'BigInt'>
+    readonly floor: FieldRef<"Room", 'String'>
+    readonly roomName: FieldRef<"Room", 'String'>
+    readonly capacity: FieldRef<"Room", 'Int'>
+    readonly isActive: FieldRef<"Room", 'Boolean'>
+    readonly createdAt: FieldRef<"Room", 'DateTime'>
+    readonly updatedAt: FieldRef<"Room", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Room findUnique
+   */
+  export type RoomFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomInclude<ExtArgs> | null
+    /**
+     * Filter, which Room to fetch.
+     */
+    where: RoomWhereUniqueInput
+  }
+
+  /**
+   * Room findUniqueOrThrow
+   */
+  export type RoomFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomInclude<ExtArgs> | null
+    /**
+     * Filter, which Room to fetch.
+     */
+    where: RoomWhereUniqueInput
+  }
+
+  /**
+   * Room findFirst
+   */
+  export type RoomFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomInclude<ExtArgs> | null
+    /**
+     * Filter, which Room to fetch.
+     */
+    where?: RoomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Rooms to fetch.
+     */
+    orderBy?: RoomOrderByWithRelationInput | RoomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Rooms.
+     */
+    cursor?: RoomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Rooms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Rooms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Rooms.
+     */
+    distinct?: RoomScalarFieldEnum | RoomScalarFieldEnum[]
+  }
+
+  /**
+   * Room findFirstOrThrow
+   */
+  export type RoomFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomInclude<ExtArgs> | null
+    /**
+     * Filter, which Room to fetch.
+     */
+    where?: RoomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Rooms to fetch.
+     */
+    orderBy?: RoomOrderByWithRelationInput | RoomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Rooms.
+     */
+    cursor?: RoomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Rooms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Rooms.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Rooms.
+     */
+    distinct?: RoomScalarFieldEnum | RoomScalarFieldEnum[]
+  }
+
+  /**
+   * Room findMany
+   */
+  export type RoomFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomInclude<ExtArgs> | null
+    /**
+     * Filter, which Rooms to fetch.
+     */
+    where?: RoomWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Rooms to fetch.
+     */
+    orderBy?: RoomOrderByWithRelationInput | RoomOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Rooms.
+     */
+    cursor?: RoomWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Rooms from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Rooms.
+     */
+    skip?: number
+    distinct?: RoomScalarFieldEnum | RoomScalarFieldEnum[]
+  }
+
+  /**
+   * Room create
+   */
+  export type RoomCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Room.
+     */
+    data: XOR<RoomCreateInput, RoomUncheckedCreateInput>
+  }
+
+  /**
+   * Room createMany
+   */
+  export type RoomCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Rooms.
+     */
+    data: RoomCreateManyInput | RoomCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Room createManyAndReturn
+   */
+  export type RoomCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * The data used to create many Rooms.
+     */
+    data: RoomCreateManyInput | RoomCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Room update
+   */
+  export type RoomUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Room.
+     */
+    data: XOR<RoomUpdateInput, RoomUncheckedUpdateInput>
+    /**
+     * Choose, which Room to update.
+     */
+    where: RoomWhereUniqueInput
+  }
+
+  /**
+   * Room updateMany
+   */
+  export type RoomUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Rooms.
+     */
+    data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyInput>
+    /**
+     * Filter which Rooms to update
+     */
+    where?: RoomWhereInput
+    /**
+     * Limit how many Rooms to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Room updateManyAndReturn
+   */
+  export type RoomUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * The data used to update Rooms.
+     */
+    data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyInput>
+    /**
+     * Filter which Rooms to update
+     */
+    where?: RoomWhereInput
+    /**
+     * Limit how many Rooms to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Room upsert
+   */
+  export type RoomUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Room to update in case it exists.
+     */
+    where: RoomWhereUniqueInput
+    /**
+     * In case the Room found by the `where` argument doesn't exist, create a new Room with this data.
+     */
+    create: XOR<RoomCreateInput, RoomUncheckedCreateInput>
+    /**
+     * In case the Room was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RoomUpdateInput, RoomUncheckedUpdateInput>
+  }
+
+  /**
+   * Room delete
+   */
+  export type RoomDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomInclude<ExtArgs> | null
+    /**
+     * Filter which Room to delete.
+     */
+    where: RoomWhereUniqueInput
+  }
+
+  /**
+   * Room deleteMany
+   */
+  export type RoomDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Rooms to delete
+     */
+    where?: RoomWhereInput
+    /**
+     * Limit how many Rooms to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Room.residentRooms
+   */
+  export type Room$residentRoomsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResidentRoom
+     */
+    select?: ResidentRoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResidentRoom
+     */
+    omit?: ResidentRoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ResidentRoomInclude<ExtArgs> | null
+    where?: ResidentRoomWhereInput
+    orderBy?: ResidentRoomOrderByWithRelationInput | ResidentRoomOrderByWithRelationInput[]
+    cursor?: ResidentRoomWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ResidentRoomScalarFieldEnum | ResidentRoomScalarFieldEnum[]
+  }
+
+  /**
+   * Room without action
+   */
+  export type RoomDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model ResidentRoom
    */
 
@@ -38330,17 +39623,19 @@ export namespace Prisma {
   export type ResidentRoomAvgAggregateOutputType = {
     id: number | null
     residentId: number | null
+    roomId: number | null
   }
 
   export type ResidentRoomSumAggregateOutputType = {
     id: bigint | null
     residentId: bigint | null
+    roomId: bigint | null
   }
 
   export type ResidentRoomMinAggregateOutputType = {
     id: bigint | null
     residentId: bigint | null
-    roomLabel: string | null
+    roomId: bigint | null
     bedLabel: string | null
     startsAt: Date | null
     endsAt: Date | null
@@ -38352,7 +39647,7 @@ export namespace Prisma {
   export type ResidentRoomMaxAggregateOutputType = {
     id: bigint | null
     residentId: bigint | null
-    roomLabel: string | null
+    roomId: bigint | null
     bedLabel: string | null
     startsAt: Date | null
     endsAt: Date | null
@@ -38364,7 +39659,7 @@ export namespace Prisma {
   export type ResidentRoomCountAggregateOutputType = {
     id: number
     residentId: number
-    roomLabel: number
+    roomId: number
     bedLabel: number
     startsAt: number
     endsAt: number
@@ -38378,17 +39673,19 @@ export namespace Prisma {
   export type ResidentRoomAvgAggregateInputType = {
     id?: true
     residentId?: true
+    roomId?: true
   }
 
   export type ResidentRoomSumAggregateInputType = {
     id?: true
     residentId?: true
+    roomId?: true
   }
 
   export type ResidentRoomMinAggregateInputType = {
     id?: true
     residentId?: true
-    roomLabel?: true
+    roomId?: true
     bedLabel?: true
     startsAt?: true
     endsAt?: true
@@ -38400,7 +39697,7 @@ export namespace Prisma {
   export type ResidentRoomMaxAggregateInputType = {
     id?: true
     residentId?: true
-    roomLabel?: true
+    roomId?: true
     bedLabel?: true
     startsAt?: true
     endsAt?: true
@@ -38412,7 +39709,7 @@ export namespace Prisma {
   export type ResidentRoomCountAggregateInputType = {
     id?: true
     residentId?: true
-    roomLabel?: true
+    roomId?: true
     bedLabel?: true
     startsAt?: true
     endsAt?: true
@@ -38511,7 +39808,7 @@ export namespace Prisma {
   export type ResidentRoomGroupByOutputType = {
     id: bigint
     residentId: bigint
-    roomLabel: string
+    roomId: bigint
     bedLabel: string | null
     startsAt: Date
     endsAt: Date | null
@@ -38542,7 +39839,7 @@ export namespace Prisma {
   export type ResidentRoomSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     residentId?: boolean
-    roomLabel?: boolean
+    roomId?: boolean
     bedLabel?: boolean
     startsAt?: boolean
     endsAt?: boolean
@@ -38550,12 +39847,13 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     resident?: boolean | ResidentDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["residentRoom"]>
 
   export type ResidentRoomSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     residentId?: boolean
-    roomLabel?: boolean
+    roomId?: boolean
     bedLabel?: boolean
     startsAt?: boolean
     endsAt?: boolean
@@ -38563,12 +39861,13 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     resident?: boolean | ResidentDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["residentRoom"]>
 
   export type ResidentRoomSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     residentId?: boolean
-    roomLabel?: boolean
+    roomId?: boolean
     bedLabel?: boolean
     startsAt?: boolean
     endsAt?: boolean
@@ -38576,12 +39875,13 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     resident?: boolean | ResidentDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["residentRoom"]>
 
   export type ResidentRoomSelectScalar = {
     id?: boolean
     residentId?: boolean
-    roomLabel?: boolean
+    roomId?: boolean
     bedLabel?: boolean
     startsAt?: boolean
     endsAt?: boolean
@@ -38590,21 +39890,25 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ResidentRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "residentId" | "roomLabel" | "bedLabel" | "startsAt" | "endsAt" | "isPrimary" | "createdAt" | "updatedAt", ExtArgs["result"]["residentRoom"]>
+  export type ResidentRoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "residentId" | "roomId" | "bedLabel" | "startsAt" | "endsAt" | "isPrimary" | "createdAt" | "updatedAt", ExtArgs["result"]["residentRoom"]>
   export type ResidentRoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     resident?: boolean | ResidentDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
   }
   export type ResidentRoomIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     resident?: boolean | ResidentDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
   }
   export type ResidentRoomIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     resident?: boolean | ResidentDefaultArgs<ExtArgs>
+    room?: boolean | RoomDefaultArgs<ExtArgs>
   }
 
   export type $ResidentRoomPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ResidentRoom"
     objects: {
       resident: Prisma.$ResidentPayload<ExtArgs>
+      room: Prisma.$RoomPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       /**
@@ -38616,9 +39920,9 @@ export namespace Prisma {
        */
       residentId: bigint
       /**
-       * 방 번호/라벨
+       * 방 ID (외래키)
        */
-      roomLabel: string
+      roomId: bigint
       /**
        * 침대 번호/라벨
        */
@@ -39038,6 +40342,7 @@ export namespace Prisma {
   export interface Prisma__ResidentRoomClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     resident<T extends ResidentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ResidentDefaultArgs<ExtArgs>>): Prisma__ResidentClient<$Result.GetResult<Prisma.$ResidentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    room<T extends RoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoomDefaultArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -39069,7 +40374,7 @@ export namespace Prisma {
   interface ResidentRoomFieldRefs {
     readonly id: FieldRef<"ResidentRoom", 'BigInt'>
     readonly residentId: FieldRef<"ResidentRoom", 'BigInt'>
-    readonly roomLabel: FieldRef<"ResidentRoom", 'String'>
+    readonly roomId: FieldRef<"ResidentRoom", 'BigInt'>
     readonly bedLabel: FieldRef<"ResidentRoom", 'String'>
     readonly startsAt: FieldRef<"ResidentRoom", 'DateTime'>
     readonly endsAt: FieldRef<"ResidentRoom", 'DateTime'>
@@ -44273,1196 +45578,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ResidentVitalInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model WebsiteSetting
-   */
-
-  export type AggregateWebsiteSetting = {
-    _count: WebsiteSettingCountAggregateOutputType | null
-    _avg: WebsiteSettingAvgAggregateOutputType | null
-    _sum: WebsiteSettingSumAggregateOutputType | null
-    _min: WebsiteSettingMinAggregateOutputType | null
-    _max: WebsiteSettingMaxAggregateOutputType | null
-  }
-
-  export type WebsiteSettingAvgAggregateOutputType = {
-    id: number | null
-    updatedBy: number | null
-  }
-
-  export type WebsiteSettingSumAggregateOutputType = {
-    id: bigint | null
-    updatedBy: bigint | null
-  }
-
-  export type WebsiteSettingMinAggregateOutputType = {
-    id: bigint | null
-    category: string | null
-    key: string | null
-    description: string | null
-    isActive: boolean | null
-    updatedBy: bigint | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type WebsiteSettingMaxAggregateOutputType = {
-    id: bigint | null
-    category: string | null
-    key: string | null
-    description: string | null
-    isActive: boolean | null
-    updatedBy: bigint | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type WebsiteSettingCountAggregateOutputType = {
-    id: number
-    category: number
-    key: number
-    value: number
-    description: number
-    isActive: number
-    updatedBy: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type WebsiteSettingAvgAggregateInputType = {
-    id?: true
-    updatedBy?: true
-  }
-
-  export type WebsiteSettingSumAggregateInputType = {
-    id?: true
-    updatedBy?: true
-  }
-
-  export type WebsiteSettingMinAggregateInputType = {
-    id?: true
-    category?: true
-    key?: true
-    description?: true
-    isActive?: true
-    updatedBy?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type WebsiteSettingMaxAggregateInputType = {
-    id?: true
-    category?: true
-    key?: true
-    description?: true
-    isActive?: true
-    updatedBy?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type WebsiteSettingCountAggregateInputType = {
-    id?: true
-    category?: true
-    key?: true
-    value?: true
-    description?: true
-    isActive?: true
-    updatedBy?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type WebsiteSettingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which WebsiteSetting to aggregate.
-     */
-    where?: WebsiteSettingWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WebsiteSettings to fetch.
-     */
-    orderBy?: WebsiteSettingOrderByWithRelationInput | WebsiteSettingOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: WebsiteSettingWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WebsiteSettings from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WebsiteSettings.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned WebsiteSettings
-    **/
-    _count?: true | WebsiteSettingCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: WebsiteSettingAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: WebsiteSettingSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: WebsiteSettingMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: WebsiteSettingMaxAggregateInputType
-  }
-
-  export type GetWebsiteSettingAggregateType<T extends WebsiteSettingAggregateArgs> = {
-        [P in keyof T & keyof AggregateWebsiteSetting]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateWebsiteSetting[P]>
-      : GetScalarType<T[P], AggregateWebsiteSetting[P]>
-  }
-
-
-
-
-  export type WebsiteSettingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: WebsiteSettingWhereInput
-    orderBy?: WebsiteSettingOrderByWithAggregationInput | WebsiteSettingOrderByWithAggregationInput[]
-    by: WebsiteSettingScalarFieldEnum[] | WebsiteSettingScalarFieldEnum
-    having?: WebsiteSettingScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: WebsiteSettingCountAggregateInputType | true
-    _avg?: WebsiteSettingAvgAggregateInputType
-    _sum?: WebsiteSettingSumAggregateInputType
-    _min?: WebsiteSettingMinAggregateInputType
-    _max?: WebsiteSettingMaxAggregateInputType
-  }
-
-  export type WebsiteSettingGroupByOutputType = {
-    id: bigint
-    category: string
-    key: string
-    value: JsonValue
-    description: string | null
-    isActive: boolean
-    updatedBy: bigint | null
-    createdAt: Date
-    updatedAt: Date
-    _count: WebsiteSettingCountAggregateOutputType | null
-    _avg: WebsiteSettingAvgAggregateOutputType | null
-    _sum: WebsiteSettingSumAggregateOutputType | null
-    _min: WebsiteSettingMinAggregateOutputType | null
-    _max: WebsiteSettingMaxAggregateOutputType | null
-  }
-
-  type GetWebsiteSettingGroupByPayload<T extends WebsiteSettingGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<WebsiteSettingGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof WebsiteSettingGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], WebsiteSettingGroupByOutputType[P]>
-            : GetScalarType<T[P], WebsiteSettingGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type WebsiteSettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    category?: boolean
-    key?: boolean
-    value?: boolean
-    description?: boolean
-    isActive?: boolean
-    updatedBy?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    updater?: boolean | WebsiteSetting$updaterArgs<ExtArgs>
-  }, ExtArgs["result"]["websiteSetting"]>
-
-  export type WebsiteSettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    category?: boolean
-    key?: boolean
-    value?: boolean
-    description?: boolean
-    isActive?: boolean
-    updatedBy?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    updater?: boolean | WebsiteSetting$updaterArgs<ExtArgs>
-  }, ExtArgs["result"]["websiteSetting"]>
-
-  export type WebsiteSettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    category?: boolean
-    key?: boolean
-    value?: boolean
-    description?: boolean
-    isActive?: boolean
-    updatedBy?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    updater?: boolean | WebsiteSetting$updaterArgs<ExtArgs>
-  }, ExtArgs["result"]["websiteSetting"]>
-
-  export type WebsiteSettingSelectScalar = {
-    id?: boolean
-    category?: boolean
-    key?: boolean
-    value?: boolean
-    description?: boolean
-    isActive?: boolean
-    updatedBy?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type WebsiteSettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "category" | "key" | "value" | "description" | "isActive" | "updatedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["websiteSetting"]>
-  export type WebsiteSettingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    updater?: boolean | WebsiteSetting$updaterArgs<ExtArgs>
-  }
-  export type WebsiteSettingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    updater?: boolean | WebsiteSetting$updaterArgs<ExtArgs>
-  }
-  export type WebsiteSettingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    updater?: boolean | WebsiteSetting$updaterArgs<ExtArgs>
-  }
-
-  export type $WebsiteSettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "WebsiteSetting"
-    objects: {
-      updater: Prisma.$EmployeePayload<ExtArgs> | null
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      /**
-       * 설정 ID (Primary Key)
-       */
-      id: bigint
-      /**
-       * 설정 카테고리 (GENERAL, SEO, CONTACT 등)
-       */
-      category: string
-      /**
-       * 설정 키
-       */
-      key: string
-      /**
-       * 설정 값 (JSON)
-       */
-      value: Prisma.JsonValue
-      /**
-       * 설명
-       */
-      description: string | null
-      /**
-       * 활성화 여부
-       */
-      isActive: boolean
-      /**
-       * 수정자 ID (외래키)
-       */
-      updatedBy: bigint | null
-      /**
-       * 생성일시
-       */
-      createdAt: Date
-      /**
-       * 수정일시
-       */
-      updatedAt: Date
-    }, ExtArgs["result"]["websiteSetting"]>
-    composites: {}
-  }
-
-  type WebsiteSettingGetPayload<S extends boolean | null | undefined | WebsiteSettingDefaultArgs> = $Result.GetResult<Prisma.$WebsiteSettingPayload, S>
-
-  type WebsiteSettingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<WebsiteSettingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: WebsiteSettingCountAggregateInputType | true
-    }
-
-  export interface WebsiteSettingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['WebsiteSetting'], meta: { name: 'WebsiteSetting' } }
-    /**
-     * Find zero or one WebsiteSetting that matches the filter.
-     * @param {WebsiteSettingFindUniqueArgs} args - Arguments to find a WebsiteSetting
-     * @example
-     * // Get one WebsiteSetting
-     * const websiteSetting = await prisma.websiteSetting.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends WebsiteSettingFindUniqueArgs>(args: SelectSubset<T, WebsiteSettingFindUniqueArgs<ExtArgs>>): Prisma__WebsiteSettingClient<$Result.GetResult<Prisma.$WebsiteSettingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one WebsiteSetting that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {WebsiteSettingFindUniqueOrThrowArgs} args - Arguments to find a WebsiteSetting
-     * @example
-     * // Get one WebsiteSetting
-     * const websiteSetting = await prisma.websiteSetting.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends WebsiteSettingFindUniqueOrThrowArgs>(args: SelectSubset<T, WebsiteSettingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__WebsiteSettingClient<$Result.GetResult<Prisma.$WebsiteSettingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first WebsiteSetting that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WebsiteSettingFindFirstArgs} args - Arguments to find a WebsiteSetting
-     * @example
-     * // Get one WebsiteSetting
-     * const websiteSetting = await prisma.websiteSetting.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends WebsiteSettingFindFirstArgs>(args?: SelectSubset<T, WebsiteSettingFindFirstArgs<ExtArgs>>): Prisma__WebsiteSettingClient<$Result.GetResult<Prisma.$WebsiteSettingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first WebsiteSetting that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WebsiteSettingFindFirstOrThrowArgs} args - Arguments to find a WebsiteSetting
-     * @example
-     * // Get one WebsiteSetting
-     * const websiteSetting = await prisma.websiteSetting.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends WebsiteSettingFindFirstOrThrowArgs>(args?: SelectSubset<T, WebsiteSettingFindFirstOrThrowArgs<ExtArgs>>): Prisma__WebsiteSettingClient<$Result.GetResult<Prisma.$WebsiteSettingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more WebsiteSettings that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WebsiteSettingFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all WebsiteSettings
-     * const websiteSettings = await prisma.websiteSetting.findMany()
-     * 
-     * // Get first 10 WebsiteSettings
-     * const websiteSettings = await prisma.websiteSetting.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const websiteSettingWithIdOnly = await prisma.websiteSetting.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends WebsiteSettingFindManyArgs>(args?: SelectSubset<T, WebsiteSettingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebsiteSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a WebsiteSetting.
-     * @param {WebsiteSettingCreateArgs} args - Arguments to create a WebsiteSetting.
-     * @example
-     * // Create one WebsiteSetting
-     * const WebsiteSetting = await prisma.websiteSetting.create({
-     *   data: {
-     *     // ... data to create a WebsiteSetting
-     *   }
-     * })
-     * 
-     */
-    create<T extends WebsiteSettingCreateArgs>(args: SelectSubset<T, WebsiteSettingCreateArgs<ExtArgs>>): Prisma__WebsiteSettingClient<$Result.GetResult<Prisma.$WebsiteSettingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many WebsiteSettings.
-     * @param {WebsiteSettingCreateManyArgs} args - Arguments to create many WebsiteSettings.
-     * @example
-     * // Create many WebsiteSettings
-     * const websiteSetting = await prisma.websiteSetting.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends WebsiteSettingCreateManyArgs>(args?: SelectSubset<T, WebsiteSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many WebsiteSettings and returns the data saved in the database.
-     * @param {WebsiteSettingCreateManyAndReturnArgs} args - Arguments to create many WebsiteSettings.
-     * @example
-     * // Create many WebsiteSettings
-     * const websiteSetting = await prisma.websiteSetting.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many WebsiteSettings and only return the `id`
-     * const websiteSettingWithIdOnly = await prisma.websiteSetting.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends WebsiteSettingCreateManyAndReturnArgs>(args?: SelectSubset<T, WebsiteSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebsiteSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a WebsiteSetting.
-     * @param {WebsiteSettingDeleteArgs} args - Arguments to delete one WebsiteSetting.
-     * @example
-     * // Delete one WebsiteSetting
-     * const WebsiteSetting = await prisma.websiteSetting.delete({
-     *   where: {
-     *     // ... filter to delete one WebsiteSetting
-     *   }
-     * })
-     * 
-     */
-    delete<T extends WebsiteSettingDeleteArgs>(args: SelectSubset<T, WebsiteSettingDeleteArgs<ExtArgs>>): Prisma__WebsiteSettingClient<$Result.GetResult<Prisma.$WebsiteSettingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one WebsiteSetting.
-     * @param {WebsiteSettingUpdateArgs} args - Arguments to update one WebsiteSetting.
-     * @example
-     * // Update one WebsiteSetting
-     * const websiteSetting = await prisma.websiteSetting.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends WebsiteSettingUpdateArgs>(args: SelectSubset<T, WebsiteSettingUpdateArgs<ExtArgs>>): Prisma__WebsiteSettingClient<$Result.GetResult<Prisma.$WebsiteSettingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more WebsiteSettings.
-     * @param {WebsiteSettingDeleteManyArgs} args - Arguments to filter WebsiteSettings to delete.
-     * @example
-     * // Delete a few WebsiteSettings
-     * const { count } = await prisma.websiteSetting.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends WebsiteSettingDeleteManyArgs>(args?: SelectSubset<T, WebsiteSettingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more WebsiteSettings.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WebsiteSettingUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many WebsiteSettings
-     * const websiteSetting = await prisma.websiteSetting.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends WebsiteSettingUpdateManyArgs>(args: SelectSubset<T, WebsiteSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more WebsiteSettings and returns the data updated in the database.
-     * @param {WebsiteSettingUpdateManyAndReturnArgs} args - Arguments to update many WebsiteSettings.
-     * @example
-     * // Update many WebsiteSettings
-     * const websiteSetting = await prisma.websiteSetting.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more WebsiteSettings and only return the `id`
-     * const websiteSettingWithIdOnly = await prisma.websiteSetting.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends WebsiteSettingUpdateManyAndReturnArgs>(args: SelectSubset<T, WebsiteSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WebsiteSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one WebsiteSetting.
-     * @param {WebsiteSettingUpsertArgs} args - Arguments to update or create a WebsiteSetting.
-     * @example
-     * // Update or create a WebsiteSetting
-     * const websiteSetting = await prisma.websiteSetting.upsert({
-     *   create: {
-     *     // ... data to create a WebsiteSetting
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the WebsiteSetting we want to update
-     *   }
-     * })
-     */
-    upsert<T extends WebsiteSettingUpsertArgs>(args: SelectSubset<T, WebsiteSettingUpsertArgs<ExtArgs>>): Prisma__WebsiteSettingClient<$Result.GetResult<Prisma.$WebsiteSettingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of WebsiteSettings.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WebsiteSettingCountArgs} args - Arguments to filter WebsiteSettings to count.
-     * @example
-     * // Count the number of WebsiteSettings
-     * const count = await prisma.websiteSetting.count({
-     *   where: {
-     *     // ... the filter for the WebsiteSettings we want to count
-     *   }
-     * })
-    **/
-    count<T extends WebsiteSettingCountArgs>(
-      args?: Subset<T, WebsiteSettingCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], WebsiteSettingCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a WebsiteSetting.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WebsiteSettingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends WebsiteSettingAggregateArgs>(args: Subset<T, WebsiteSettingAggregateArgs>): Prisma.PrismaPromise<GetWebsiteSettingAggregateType<T>>
-
-    /**
-     * Group by WebsiteSetting.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {WebsiteSettingGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends WebsiteSettingGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: WebsiteSettingGroupByArgs['orderBy'] }
-        : { orderBy?: WebsiteSettingGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, WebsiteSettingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetWebsiteSettingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the WebsiteSetting model
-   */
-  readonly fields: WebsiteSettingFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for WebsiteSetting.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__WebsiteSettingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    updater<T extends WebsiteSetting$updaterArgs<ExtArgs> = {}>(args?: Subset<T, WebsiteSetting$updaterArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the WebsiteSetting model
-   */
-  interface WebsiteSettingFieldRefs {
-    readonly id: FieldRef<"WebsiteSetting", 'BigInt'>
-    readonly category: FieldRef<"WebsiteSetting", 'String'>
-    readonly key: FieldRef<"WebsiteSetting", 'String'>
-    readonly value: FieldRef<"WebsiteSetting", 'Json'>
-    readonly description: FieldRef<"WebsiteSetting", 'String'>
-    readonly isActive: FieldRef<"WebsiteSetting", 'Boolean'>
-    readonly updatedBy: FieldRef<"WebsiteSetting", 'BigInt'>
-    readonly createdAt: FieldRef<"WebsiteSetting", 'DateTime'>
-    readonly updatedAt: FieldRef<"WebsiteSetting", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * WebsiteSetting findUnique
-   */
-  export type WebsiteSettingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebsiteSetting
-     */
-    select?: WebsiteSettingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebsiteSetting
-     */
-    omit?: WebsiteSettingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WebsiteSettingInclude<ExtArgs> | null
-    /**
-     * Filter, which WebsiteSetting to fetch.
-     */
-    where: WebsiteSettingWhereUniqueInput
-  }
-
-  /**
-   * WebsiteSetting findUniqueOrThrow
-   */
-  export type WebsiteSettingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebsiteSetting
-     */
-    select?: WebsiteSettingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebsiteSetting
-     */
-    omit?: WebsiteSettingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WebsiteSettingInclude<ExtArgs> | null
-    /**
-     * Filter, which WebsiteSetting to fetch.
-     */
-    where: WebsiteSettingWhereUniqueInput
-  }
-
-  /**
-   * WebsiteSetting findFirst
-   */
-  export type WebsiteSettingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebsiteSetting
-     */
-    select?: WebsiteSettingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebsiteSetting
-     */
-    omit?: WebsiteSettingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WebsiteSettingInclude<ExtArgs> | null
-    /**
-     * Filter, which WebsiteSetting to fetch.
-     */
-    where?: WebsiteSettingWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WebsiteSettings to fetch.
-     */
-    orderBy?: WebsiteSettingOrderByWithRelationInput | WebsiteSettingOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for WebsiteSettings.
-     */
-    cursor?: WebsiteSettingWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WebsiteSettings from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WebsiteSettings.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of WebsiteSettings.
-     */
-    distinct?: WebsiteSettingScalarFieldEnum | WebsiteSettingScalarFieldEnum[]
-  }
-
-  /**
-   * WebsiteSetting findFirstOrThrow
-   */
-  export type WebsiteSettingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebsiteSetting
-     */
-    select?: WebsiteSettingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebsiteSetting
-     */
-    omit?: WebsiteSettingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WebsiteSettingInclude<ExtArgs> | null
-    /**
-     * Filter, which WebsiteSetting to fetch.
-     */
-    where?: WebsiteSettingWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WebsiteSettings to fetch.
-     */
-    orderBy?: WebsiteSettingOrderByWithRelationInput | WebsiteSettingOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for WebsiteSettings.
-     */
-    cursor?: WebsiteSettingWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WebsiteSettings from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WebsiteSettings.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of WebsiteSettings.
-     */
-    distinct?: WebsiteSettingScalarFieldEnum | WebsiteSettingScalarFieldEnum[]
-  }
-
-  /**
-   * WebsiteSetting findMany
-   */
-  export type WebsiteSettingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebsiteSetting
-     */
-    select?: WebsiteSettingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebsiteSetting
-     */
-    omit?: WebsiteSettingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WebsiteSettingInclude<ExtArgs> | null
-    /**
-     * Filter, which WebsiteSettings to fetch.
-     */
-    where?: WebsiteSettingWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of WebsiteSettings to fetch.
-     */
-    orderBy?: WebsiteSettingOrderByWithRelationInput | WebsiteSettingOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing WebsiteSettings.
-     */
-    cursor?: WebsiteSettingWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` WebsiteSettings from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` WebsiteSettings.
-     */
-    skip?: number
-    distinct?: WebsiteSettingScalarFieldEnum | WebsiteSettingScalarFieldEnum[]
-  }
-
-  /**
-   * WebsiteSetting create
-   */
-  export type WebsiteSettingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebsiteSetting
-     */
-    select?: WebsiteSettingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebsiteSetting
-     */
-    omit?: WebsiteSettingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WebsiteSettingInclude<ExtArgs> | null
-    /**
-     * The data needed to create a WebsiteSetting.
-     */
-    data: XOR<WebsiteSettingCreateInput, WebsiteSettingUncheckedCreateInput>
-  }
-
-  /**
-   * WebsiteSetting createMany
-   */
-  export type WebsiteSettingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many WebsiteSettings.
-     */
-    data: WebsiteSettingCreateManyInput | WebsiteSettingCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * WebsiteSetting createManyAndReturn
-   */
-  export type WebsiteSettingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebsiteSetting
-     */
-    select?: WebsiteSettingSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebsiteSetting
-     */
-    omit?: WebsiteSettingOmit<ExtArgs> | null
-    /**
-     * The data used to create many WebsiteSettings.
-     */
-    data: WebsiteSettingCreateManyInput | WebsiteSettingCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WebsiteSettingIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * WebsiteSetting update
-   */
-  export type WebsiteSettingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebsiteSetting
-     */
-    select?: WebsiteSettingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebsiteSetting
-     */
-    omit?: WebsiteSettingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WebsiteSettingInclude<ExtArgs> | null
-    /**
-     * The data needed to update a WebsiteSetting.
-     */
-    data: XOR<WebsiteSettingUpdateInput, WebsiteSettingUncheckedUpdateInput>
-    /**
-     * Choose, which WebsiteSetting to update.
-     */
-    where: WebsiteSettingWhereUniqueInput
-  }
-
-  /**
-   * WebsiteSetting updateMany
-   */
-  export type WebsiteSettingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update WebsiteSettings.
-     */
-    data: XOR<WebsiteSettingUpdateManyMutationInput, WebsiteSettingUncheckedUpdateManyInput>
-    /**
-     * Filter which WebsiteSettings to update
-     */
-    where?: WebsiteSettingWhereInput
-    /**
-     * Limit how many WebsiteSettings to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * WebsiteSetting updateManyAndReturn
-   */
-  export type WebsiteSettingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebsiteSetting
-     */
-    select?: WebsiteSettingSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebsiteSetting
-     */
-    omit?: WebsiteSettingOmit<ExtArgs> | null
-    /**
-     * The data used to update WebsiteSettings.
-     */
-    data: XOR<WebsiteSettingUpdateManyMutationInput, WebsiteSettingUncheckedUpdateManyInput>
-    /**
-     * Filter which WebsiteSettings to update
-     */
-    where?: WebsiteSettingWhereInput
-    /**
-     * Limit how many WebsiteSettings to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WebsiteSettingIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * WebsiteSetting upsert
-   */
-  export type WebsiteSettingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebsiteSetting
-     */
-    select?: WebsiteSettingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebsiteSetting
-     */
-    omit?: WebsiteSettingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WebsiteSettingInclude<ExtArgs> | null
-    /**
-     * The filter to search for the WebsiteSetting to update in case it exists.
-     */
-    where: WebsiteSettingWhereUniqueInput
-    /**
-     * In case the WebsiteSetting found by the `where` argument doesn't exist, create a new WebsiteSetting with this data.
-     */
-    create: XOR<WebsiteSettingCreateInput, WebsiteSettingUncheckedCreateInput>
-    /**
-     * In case the WebsiteSetting was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<WebsiteSettingUpdateInput, WebsiteSettingUncheckedUpdateInput>
-  }
-
-  /**
-   * WebsiteSetting delete
-   */
-  export type WebsiteSettingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebsiteSetting
-     */
-    select?: WebsiteSettingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebsiteSetting
-     */
-    omit?: WebsiteSettingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WebsiteSettingInclude<ExtArgs> | null
-    /**
-     * Filter which WebsiteSetting to delete.
-     */
-    where: WebsiteSettingWhereUniqueInput
-  }
-
-  /**
-   * WebsiteSetting deleteMany
-   */
-  export type WebsiteSettingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which WebsiteSettings to delete
-     */
-    where?: WebsiteSettingWhereInput
-    /**
-     * Limit how many WebsiteSettings to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * WebsiteSetting.updater
-   */
-  export type WebsiteSetting$updaterArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Employee
-     */
-    select?: EmployeeSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Employee
-     */
-    omit?: EmployeeOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: EmployeeInclude<ExtArgs> | null
-    where?: EmployeeWhereInput
-  }
-
-  /**
-   * WebsiteSetting without action
-   */
-  export type WebsiteSettingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the WebsiteSetting
-     */
-    select?: WebsiteSettingSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the WebsiteSetting
-     */
-    omit?: WebsiteSettingOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: WebsiteSettingInclude<ExtArgs> | null
   }
 
 
@@ -97518,10 +97633,24 @@ export namespace Prisma {
   export type ResidentScalarFieldEnum = (typeof ResidentScalarFieldEnum)[keyof typeof ResidentScalarFieldEnum]
 
 
+  export const RoomScalarFieldEnum: {
+    id: 'id',
+    facilityId: 'facilityId',
+    floor: 'floor',
+    roomName: 'roomName',
+    capacity: 'capacity',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
+
+
   export const ResidentRoomScalarFieldEnum: {
     id: 'id',
     residentId: 'residentId',
-    roomLabel: 'roomLabel',
+    roomId: 'roomId',
     bedLabel: 'bedLabel',
     startsAt: 'startsAt',
     endsAt: 'endsAt',
@@ -97591,21 +97720,6 @@ export namespace Prisma {
   };
 
   export type ResidentVitalScalarFieldEnum = (typeof ResidentVitalScalarFieldEnum)[keyof typeof ResidentVitalScalarFieldEnum]
-
-
-  export const WebsiteSettingScalarFieldEnum: {
-    id: 'id',
-    category: 'category',
-    key: 'key',
-    value: 'value',
-    description: 'description',
-    isActive: 'isActive',
-    updatedBy: 'updatedBy',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type WebsiteSettingScalarFieldEnum = (typeof WebsiteSettingScalarFieldEnum)[keyof typeof WebsiteSettingScalarFieldEnum]
 
 
   export const CarePlanScalarFieldEnum: {
@@ -99799,6 +99913,7 @@ export namespace Prisma {
     stampImage?: StringNullableFilter<"Facility"> | string | null
     createdAt?: DateTimeFilter<"Facility"> | Date | string
     updatedAt?: DateTimeFilter<"Facility"> | Date | string
+    rooms?: RoomListRelationFilter
   }
 
   export type FacilityOrderByWithRelationInput = {
@@ -99827,6 +99942,7 @@ export namespace Prisma {
     stampImage?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    rooms?: RoomOrderByRelationAggregateInput
   }
 
   export type FacilityWhereUniqueInput = Prisma.AtLeast<{
@@ -99858,6 +99974,7 @@ export namespace Prisma {
     stampImage?: StringNullableFilter<"Facility"> | string | null
     createdAt?: DateTimeFilter<"Facility"> | Date | string
     updatedAt?: DateTimeFilter<"Facility"> | Date | string
+    rooms?: RoomListRelationFilter
   }, "id" | "orgCode">
 
   export type FacilityOrderByWithAggregationInput = {
@@ -100290,7 +100407,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionListRelationFilter
     transportRequestsCreated?: TransportRequestListRelationFilter
     transportRequestsAsDriver?: TransportRequestListRelationFilter
-    websiteSettingsUpdated?: WebsiteSettingListRelationFilter
     siteInfosUpdated?: SiteInfoListRelationFilter
     employeePermissions?: EmployeePermissionListRelationFilter
     permissionUpdates?: EmployeePermissionListRelationFilter
@@ -100347,7 +100463,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionOrderByRelationAggregateInput
     transportRequestsCreated?: TransportRequestOrderByRelationAggregateInput
     transportRequestsAsDriver?: TransportRequestOrderByRelationAggregateInput
-    websiteSettingsUpdated?: WebsiteSettingOrderByRelationAggregateInput
     siteInfosUpdated?: SiteInfoOrderByRelationAggregateInput
     employeePermissions?: EmployeePermissionOrderByRelationAggregateInput
     permissionUpdates?: EmployeePermissionOrderByRelationAggregateInput
@@ -100407,7 +100522,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionListRelationFilter
     transportRequestsCreated?: TransportRequestListRelationFilter
     transportRequestsAsDriver?: TransportRequestListRelationFilter
-    websiteSettingsUpdated?: WebsiteSettingListRelationFilter
     siteInfosUpdated?: SiteInfoListRelationFilter
     employeePermissions?: EmployeePermissionListRelationFilter
     permissionUpdates?: EmployeePermissionListRelationFilter
@@ -100693,13 +100807,89 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Resident"> | Date | string
   }
 
+  export type RoomWhereInput = {
+    AND?: RoomWhereInput | RoomWhereInput[]
+    OR?: RoomWhereInput[]
+    NOT?: RoomWhereInput | RoomWhereInput[]
+    id?: BigIntFilter<"Room"> | bigint | number
+    facilityId?: BigIntFilter<"Room"> | bigint | number
+    floor?: StringFilter<"Room"> | string
+    roomName?: StringFilter<"Room"> | string
+    capacity?: IntNullableFilter<"Room"> | number | null
+    isActive?: BoolFilter<"Room"> | boolean
+    createdAt?: DateTimeFilter<"Room"> | Date | string
+    updatedAt?: DateTimeFilter<"Room"> | Date | string
+    facility?: XOR<FacilityScalarRelationFilter, FacilityWhereInput>
+    residentRooms?: ResidentRoomListRelationFilter
+  }
+
+  export type RoomOrderByWithRelationInput = {
+    id?: SortOrder
+    facilityId?: SortOrder
+    floor?: SortOrder
+    roomName?: SortOrder
+    capacity?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    facility?: FacilityOrderByWithRelationInput
+    residentRooms?: ResidentRoomOrderByRelationAggregateInput
+  }
+
+  export type RoomWhereUniqueInput = Prisma.AtLeast<{
+    id?: bigint | number
+    facilityId_floor_roomName?: RoomFacilityIdFloorRoomNameCompoundUniqueInput
+    AND?: RoomWhereInput | RoomWhereInput[]
+    OR?: RoomWhereInput[]
+    NOT?: RoomWhereInput | RoomWhereInput[]
+    facilityId?: BigIntFilter<"Room"> | bigint | number
+    floor?: StringFilter<"Room"> | string
+    roomName?: StringFilter<"Room"> | string
+    capacity?: IntNullableFilter<"Room"> | number | null
+    isActive?: BoolFilter<"Room"> | boolean
+    createdAt?: DateTimeFilter<"Room"> | Date | string
+    updatedAt?: DateTimeFilter<"Room"> | Date | string
+    facility?: XOR<FacilityScalarRelationFilter, FacilityWhereInput>
+    residentRooms?: ResidentRoomListRelationFilter
+  }, "id" | "facilityId_floor_roomName">
+
+  export type RoomOrderByWithAggregationInput = {
+    id?: SortOrder
+    facilityId?: SortOrder
+    floor?: SortOrder
+    roomName?: SortOrder
+    capacity?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RoomCountOrderByAggregateInput
+    _avg?: RoomAvgOrderByAggregateInput
+    _max?: RoomMaxOrderByAggregateInput
+    _min?: RoomMinOrderByAggregateInput
+    _sum?: RoomSumOrderByAggregateInput
+  }
+
+  export type RoomScalarWhereWithAggregatesInput = {
+    AND?: RoomScalarWhereWithAggregatesInput | RoomScalarWhereWithAggregatesInput[]
+    OR?: RoomScalarWhereWithAggregatesInput[]
+    NOT?: RoomScalarWhereWithAggregatesInput | RoomScalarWhereWithAggregatesInput[]
+    id?: BigIntWithAggregatesFilter<"Room"> | bigint | number
+    facilityId?: BigIntWithAggregatesFilter<"Room"> | bigint | number
+    floor?: StringWithAggregatesFilter<"Room"> | string
+    roomName?: StringWithAggregatesFilter<"Room"> | string
+    capacity?: IntNullableWithAggregatesFilter<"Room"> | number | null
+    isActive?: BoolWithAggregatesFilter<"Room"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Room"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Room"> | Date | string
+  }
+
   export type ResidentRoomWhereInput = {
     AND?: ResidentRoomWhereInput | ResidentRoomWhereInput[]
     OR?: ResidentRoomWhereInput[]
     NOT?: ResidentRoomWhereInput | ResidentRoomWhereInput[]
     id?: BigIntFilter<"ResidentRoom"> | bigint | number
     residentId?: BigIntFilter<"ResidentRoom"> | bigint | number
-    roomLabel?: StringFilter<"ResidentRoom"> | string
+    roomId?: BigIntFilter<"ResidentRoom"> | bigint | number
     bedLabel?: StringNullableFilter<"ResidentRoom"> | string | null
     startsAt?: DateTimeFilter<"ResidentRoom"> | Date | string
     endsAt?: DateTimeNullableFilter<"ResidentRoom"> | Date | string | null
@@ -100707,12 +100897,13 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ResidentRoom"> | Date | string
     updatedAt?: DateTimeFilter<"ResidentRoom"> | Date | string
     resident?: XOR<ResidentScalarRelationFilter, ResidentWhereInput>
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
   }
 
   export type ResidentRoomOrderByWithRelationInput = {
     id?: SortOrder
     residentId?: SortOrder
-    roomLabel?: SortOrder
+    roomId?: SortOrder
     bedLabel?: SortOrderInput | SortOrder
     startsAt?: SortOrder
     endsAt?: SortOrderInput | SortOrder
@@ -100720,6 +100911,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     resident?: ResidentOrderByWithRelationInput
+    room?: RoomOrderByWithRelationInput
   }
 
   export type ResidentRoomWhereUniqueInput = Prisma.AtLeast<{
@@ -100728,7 +100920,7 @@ export namespace Prisma {
     OR?: ResidentRoomWhereInput[]
     NOT?: ResidentRoomWhereInput | ResidentRoomWhereInput[]
     residentId?: BigIntFilter<"ResidentRoom"> | bigint | number
-    roomLabel?: StringFilter<"ResidentRoom"> | string
+    roomId?: BigIntFilter<"ResidentRoom"> | bigint | number
     bedLabel?: StringNullableFilter<"ResidentRoom"> | string | null
     startsAt?: DateTimeFilter<"ResidentRoom"> | Date | string
     endsAt?: DateTimeNullableFilter<"ResidentRoom"> | Date | string | null
@@ -100736,12 +100928,13 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ResidentRoom"> | Date | string
     updatedAt?: DateTimeFilter<"ResidentRoom"> | Date | string
     resident?: XOR<ResidentScalarRelationFilter, ResidentWhereInput>
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
   }, "id">
 
   export type ResidentRoomOrderByWithAggregationInput = {
     id?: SortOrder
     residentId?: SortOrder
-    roomLabel?: SortOrder
+    roomId?: SortOrder
     bedLabel?: SortOrderInput | SortOrder
     startsAt?: SortOrder
     endsAt?: SortOrderInput | SortOrder
@@ -100761,7 +100954,7 @@ export namespace Prisma {
     NOT?: ResidentRoomScalarWhereWithAggregatesInput | ResidentRoomScalarWhereWithAggregatesInput[]
     id?: BigIntWithAggregatesFilter<"ResidentRoom"> | bigint | number
     residentId?: BigIntWithAggregatesFilter<"ResidentRoom"> | bigint | number
-    roomLabel?: StringWithAggregatesFilter<"ResidentRoom"> | string
+    roomId?: BigIntWithAggregatesFilter<"ResidentRoom"> | bigint | number
     bedLabel?: StringNullableWithAggregatesFilter<"ResidentRoom"> | string | null
     startsAt?: DateTimeWithAggregatesFilter<"ResidentRoom"> | Date | string
     endsAt?: DateTimeNullableWithAggregatesFilter<"ResidentRoom"> | Date | string | null
@@ -101082,84 +101275,6 @@ export namespace Prisma {
     respiratoryRate?: IntNullableWithAggregatesFilter<"ResidentVital"> | number | null
     spo2?: IntNullableWithAggregatesFilter<"ResidentVital"> | number | null
     notes?: StringNullableWithAggregatesFilter<"ResidentVital"> | string | null
-  }
-
-  export type WebsiteSettingWhereInput = {
-    AND?: WebsiteSettingWhereInput | WebsiteSettingWhereInput[]
-    OR?: WebsiteSettingWhereInput[]
-    NOT?: WebsiteSettingWhereInput | WebsiteSettingWhereInput[]
-    id?: BigIntFilter<"WebsiteSetting"> | bigint | number
-    category?: StringFilter<"WebsiteSetting"> | string
-    key?: StringFilter<"WebsiteSetting"> | string
-    value?: JsonFilter<"WebsiteSetting">
-    description?: StringNullableFilter<"WebsiteSetting"> | string | null
-    isActive?: BoolFilter<"WebsiteSetting"> | boolean
-    updatedBy?: BigIntNullableFilter<"WebsiteSetting"> | bigint | number | null
-    createdAt?: DateTimeFilter<"WebsiteSetting"> | Date | string
-    updatedAt?: DateTimeFilter<"WebsiteSetting"> | Date | string
-    updater?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
-  }
-
-  export type WebsiteSettingOrderByWithRelationInput = {
-    id?: SortOrder
-    category?: SortOrder
-    key?: SortOrder
-    value?: SortOrder
-    description?: SortOrderInput | SortOrder
-    isActive?: SortOrder
-    updatedBy?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    updater?: EmployeeOrderByWithRelationInput
-  }
-
-  export type WebsiteSettingWhereUniqueInput = Prisma.AtLeast<{
-    id?: bigint | number
-    category_key?: WebsiteSettingCategoryKeyCompoundUniqueInput
-    AND?: WebsiteSettingWhereInput | WebsiteSettingWhereInput[]
-    OR?: WebsiteSettingWhereInput[]
-    NOT?: WebsiteSettingWhereInput | WebsiteSettingWhereInput[]
-    category?: StringFilter<"WebsiteSetting"> | string
-    key?: StringFilter<"WebsiteSetting"> | string
-    value?: JsonFilter<"WebsiteSetting">
-    description?: StringNullableFilter<"WebsiteSetting"> | string | null
-    isActive?: BoolFilter<"WebsiteSetting"> | boolean
-    updatedBy?: BigIntNullableFilter<"WebsiteSetting"> | bigint | number | null
-    createdAt?: DateTimeFilter<"WebsiteSetting"> | Date | string
-    updatedAt?: DateTimeFilter<"WebsiteSetting"> | Date | string
-    updater?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
-  }, "id" | "category_key">
-
-  export type WebsiteSettingOrderByWithAggregationInput = {
-    id?: SortOrder
-    category?: SortOrder
-    key?: SortOrder
-    value?: SortOrder
-    description?: SortOrderInput | SortOrder
-    isActive?: SortOrder
-    updatedBy?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: WebsiteSettingCountOrderByAggregateInput
-    _avg?: WebsiteSettingAvgOrderByAggregateInput
-    _max?: WebsiteSettingMaxOrderByAggregateInput
-    _min?: WebsiteSettingMinOrderByAggregateInput
-    _sum?: WebsiteSettingSumOrderByAggregateInput
-  }
-
-  export type WebsiteSettingScalarWhereWithAggregatesInput = {
-    AND?: WebsiteSettingScalarWhereWithAggregatesInput | WebsiteSettingScalarWhereWithAggregatesInput[]
-    OR?: WebsiteSettingScalarWhereWithAggregatesInput[]
-    NOT?: WebsiteSettingScalarWhereWithAggregatesInput | WebsiteSettingScalarWhereWithAggregatesInput[]
-    id?: BigIntWithAggregatesFilter<"WebsiteSetting"> | bigint | number
-    category?: StringWithAggregatesFilter<"WebsiteSetting"> | string
-    key?: StringWithAggregatesFilter<"WebsiteSetting"> | string
-    value?: JsonWithAggregatesFilter<"WebsiteSetting">
-    description?: StringNullableWithAggregatesFilter<"WebsiteSetting"> | string | null
-    isActive?: BoolWithAggregatesFilter<"WebsiteSetting"> | boolean
-    updatedBy?: BigIntNullableWithAggregatesFilter<"WebsiteSetting"> | bigint | number | null
-    createdAt?: DateTimeWithAggregatesFilter<"WebsiteSetting"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"WebsiteSetting"> | Date | string
   }
 
   export type CarePlanWhereInput = {
@@ -106391,6 +106506,7 @@ export namespace Prisma {
     stampImage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    rooms?: RoomCreateNestedManyWithoutFacilityInput
   }
 
   export type FacilityUncheckedCreateInput = {
@@ -106419,6 +106535,7 @@ export namespace Prisma {
     stampImage?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    rooms?: RoomUncheckedCreateNestedManyWithoutFacilityInput
   }
 
   export type FacilityUpdateInput = {
@@ -106447,6 +106564,7 @@ export namespace Prisma {
     stampImage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rooms?: RoomUpdateManyWithoutFacilityNestedInput
   }
 
   export type FacilityUncheckedUpdateInput = {
@@ -106475,6 +106593,7 @@ export namespace Prisma {
     stampImage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rooms?: RoomUncheckedUpdateManyWithoutFacilityNestedInput
   }
 
   export type FacilityCreateManyInput = {
@@ -106947,7 +107066,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -107002,7 +107120,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -107057,7 +107174,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -107112,7 +107228,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -107453,9 +107568,88 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RoomCreateInput = {
+    id?: bigint | number
+    floor: string
+    roomName: string
+    capacity?: number | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    facility: FacilityCreateNestedOneWithoutRoomsInput
+    residentRooms?: ResidentRoomCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomUncheckedCreateInput = {
+    id?: bigint | number
+    facilityId: bigint | number
+    floor: string
+    roomName: string
+    capacity?: number | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    residentRooms?: ResidentRoomUncheckedCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    floor?: StringFieldUpdateOperationsInput | string
+    roomName?: StringFieldUpdateOperationsInput | string
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    facility?: FacilityUpdateOneRequiredWithoutRoomsNestedInput
+    residentRooms?: ResidentRoomUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomUncheckedUpdateInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    facilityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    floor?: StringFieldUpdateOperationsInput | string
+    roomName?: StringFieldUpdateOperationsInput | string
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    residentRooms?: ResidentRoomUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomCreateManyInput = {
+    id?: bigint | number
+    facilityId: bigint | number
+    floor: string
+    roomName: string
+    capacity?: number | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RoomUpdateManyMutationInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    floor?: StringFieldUpdateOperationsInput | string
+    roomName?: StringFieldUpdateOperationsInput | string
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomUncheckedUpdateManyInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    facilityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    floor?: StringFieldUpdateOperationsInput | string
+    roomName?: StringFieldUpdateOperationsInput | string
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ResidentRoomCreateInput = {
     id?: bigint | number
-    roomLabel: string
     bedLabel?: string | null
     startsAt: Date | string
     endsAt?: Date | string | null
@@ -107463,12 +107657,13 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     resident: ResidentCreateNestedOneWithoutRoomsInput
+    room: RoomCreateNestedOneWithoutResidentRoomsInput
   }
 
   export type ResidentRoomUncheckedCreateInput = {
     id?: bigint | number
     residentId: bigint | number
-    roomLabel: string
+    roomId: bigint | number
     bedLabel?: string | null
     startsAt: Date | string
     endsAt?: Date | string | null
@@ -107479,7 +107674,6 @@ export namespace Prisma {
 
   export type ResidentRoomUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    roomLabel?: StringFieldUpdateOperationsInput | string
     bedLabel?: NullableStringFieldUpdateOperationsInput | string | null
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -107487,12 +107681,13 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     resident?: ResidentUpdateOneRequiredWithoutRoomsNestedInput
+    room?: RoomUpdateOneRequiredWithoutResidentRoomsNestedInput
   }
 
   export type ResidentRoomUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     residentId?: BigIntFieldUpdateOperationsInput | bigint | number
-    roomLabel?: StringFieldUpdateOperationsInput | string
+    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
     bedLabel?: NullableStringFieldUpdateOperationsInput | string | null
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -107504,7 +107699,7 @@ export namespace Prisma {
   export type ResidentRoomCreateManyInput = {
     id?: bigint | number
     residentId: bigint | number
-    roomLabel: string
+    roomId: bigint | number
     bedLabel?: string | null
     startsAt: Date | string
     endsAt?: Date | string | null
@@ -107515,7 +107710,6 @@ export namespace Prisma {
 
   export type ResidentRoomUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    roomLabel?: StringFieldUpdateOperationsInput | string
     bedLabel?: NullableStringFieldUpdateOperationsInput | string | null
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -107527,7 +107721,7 @@ export namespace Prisma {
   export type ResidentRoomUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     residentId?: BigIntFieldUpdateOperationsInput | bigint | number
-    roomLabel?: StringFieldUpdateOperationsInput | string
+    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
     bedLabel?: NullableStringFieldUpdateOperationsInput | string | null
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -107864,89 +108058,6 @@ export namespace Prisma {
     respiratoryRate?: NullableIntFieldUpdateOperationsInput | number | null
     spo2?: NullableIntFieldUpdateOperationsInput | number | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type WebsiteSettingCreateInput = {
-    id?: bigint | number
-    category: string
-    key: string
-    value?: JsonNullValueInput | InputJsonValue
-    description?: string | null
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    updater?: EmployeeCreateNestedOneWithoutWebsiteSettingsUpdatedInput
-  }
-
-  export type WebsiteSettingUncheckedCreateInput = {
-    id?: bigint | number
-    category: string
-    key: string
-    value?: JsonNullValueInput | InputJsonValue
-    description?: string | null
-    isActive?: boolean
-    updatedBy?: bigint | number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type WebsiteSettingUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    category?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updater?: EmployeeUpdateOneWithoutWebsiteSettingsUpdatedNestedInput
-  }
-
-  export type WebsiteSettingUncheckedUpdateInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    category?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    updatedBy?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WebsiteSettingCreateManyInput = {
-    id?: bigint | number
-    category: string
-    key: string
-    value?: JsonNullValueInput | InputJsonValue
-    description?: string | null
-    isActive?: boolean
-    updatedBy?: bigint | number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type WebsiteSettingUpdateManyMutationInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    category?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WebsiteSettingUncheckedUpdateManyInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    category?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    updatedBy?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CarePlanCreateInput = {
@@ -112552,6 +112663,16 @@ export namespace Prisma {
     createdBy?: SortOrder
   }
 
+  export type RoomListRelationFilter = {
+    every?: RoomWhereInput
+    some?: RoomWhereInput
+    none?: RoomWhereInput
+  }
+
+  export type RoomOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type FacilityCountOrderByAggregateInput = {
     id?: SortOrder
     orgCode?: SortOrder
@@ -113038,12 +113159,6 @@ export namespace Prisma {
     none?: TransportRequestWhereInput
   }
 
-  export type WebsiteSettingListRelationFilter = {
-    every?: WebsiteSettingWhereInput
-    some?: WebsiteSettingWhereInput
-    none?: WebsiteSettingWhereInput
-  }
-
   export type SiteInfoListRelationFilter = {
     every?: SiteInfoWhereInput
     some?: SiteInfoWhereInput
@@ -113163,10 +113278,6 @@ export namespace Prisma {
   }
 
   export type TransportRequestOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type WebsiteSettingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -113429,15 +113540,76 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type FacilityScalarRelationFilter = {
+    is?: FacilityWhereInput
+    isNot?: FacilityWhereInput
+  }
+
+  export type RoomFacilityIdFloorRoomNameCompoundUniqueInput = {
+    facilityId: bigint | number
+    floor: string
+    roomName: string
+  }
+
+  export type RoomCountOrderByAggregateInput = {
+    id?: SortOrder
+    facilityId?: SortOrder
+    floor?: SortOrder
+    roomName?: SortOrder
+    capacity?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RoomAvgOrderByAggregateInput = {
+    id?: SortOrder
+    facilityId?: SortOrder
+    capacity?: SortOrder
+  }
+
+  export type RoomMaxOrderByAggregateInput = {
+    id?: SortOrder
+    facilityId?: SortOrder
+    floor?: SortOrder
+    roomName?: SortOrder
+    capacity?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RoomMinOrderByAggregateInput = {
+    id?: SortOrder
+    facilityId?: SortOrder
+    floor?: SortOrder
+    roomName?: SortOrder
+    capacity?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RoomSumOrderByAggregateInput = {
+    id?: SortOrder
+    facilityId?: SortOrder
+    capacity?: SortOrder
+  }
+
   export type ResidentScalarRelationFilter = {
     is?: ResidentWhereInput
     isNot?: ResidentWhereInput
   }
 
+  export type RoomScalarRelationFilter = {
+    is?: RoomWhereInput
+    isNot?: RoomWhereInput
+  }
+
   export type ResidentRoomCountOrderByAggregateInput = {
     id?: SortOrder
     residentId?: SortOrder
-    roomLabel?: SortOrder
+    roomId?: SortOrder
     bedLabel?: SortOrder
     startsAt?: SortOrder
     endsAt?: SortOrder
@@ -113449,12 +113621,13 @@ export namespace Prisma {
   export type ResidentRoomAvgOrderByAggregateInput = {
     id?: SortOrder
     residentId?: SortOrder
+    roomId?: SortOrder
   }
 
   export type ResidentRoomMaxOrderByAggregateInput = {
     id?: SortOrder
     residentId?: SortOrder
-    roomLabel?: SortOrder
+    roomId?: SortOrder
     bedLabel?: SortOrder
     startsAt?: SortOrder
     endsAt?: SortOrder
@@ -113466,7 +113639,7 @@ export namespace Prisma {
   export type ResidentRoomMinOrderByAggregateInput = {
     id?: SortOrder
     residentId?: SortOrder
-    roomLabel?: SortOrder
+    roomId?: SortOrder
     bedLabel?: SortOrder
     startsAt?: SortOrder
     endsAt?: SortOrder
@@ -113478,6 +113651,7 @@ export namespace Prisma {
   export type ResidentRoomSumOrderByAggregateInput = {
     id?: SortOrder
     residentId?: SortOrder
+    roomId?: SortOrder
   }
 
   export type ResidentContactCountOrderByAggregateInput = {
@@ -113678,55 +113852,6 @@ export namespace Prisma {
     temperature?: SortOrder
     respiratoryRate?: SortOrder
     spo2?: SortOrder
-  }
-
-  export type WebsiteSettingCategoryKeyCompoundUniqueInput = {
-    category: string
-    key: string
-  }
-
-  export type WebsiteSettingCountOrderByAggregateInput = {
-    id?: SortOrder
-    category?: SortOrder
-    key?: SortOrder
-    value?: SortOrder
-    description?: SortOrder
-    isActive?: SortOrder
-    updatedBy?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type WebsiteSettingAvgOrderByAggregateInput = {
-    id?: SortOrder
-    updatedBy?: SortOrder
-  }
-
-  export type WebsiteSettingMaxOrderByAggregateInput = {
-    id?: SortOrder
-    category?: SortOrder
-    key?: SortOrder
-    description?: SortOrder
-    isActive?: SortOrder
-    updatedBy?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type WebsiteSettingMinOrderByAggregateInput = {
-    id?: SortOrder
-    category?: SortOrder
-    key?: SortOrder
-    description?: SortOrder
-    isActive?: SortOrder
-    updatedBy?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type WebsiteSettingSumOrderByAggregateInput = {
-    id?: SortOrder
-    updatedBy?: SortOrder
   }
 
   export type CarePlanItemListRelationFilter = {
@@ -116986,6 +117111,48 @@ export namespace Prisma {
     update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutPopupBannersCreatedInput, EmployeeUpdateWithoutPopupBannersCreatedInput>, EmployeeUncheckedUpdateWithoutPopupBannersCreatedInput>
   }
 
+  export type RoomCreateNestedManyWithoutFacilityInput = {
+    create?: XOR<RoomCreateWithoutFacilityInput, RoomUncheckedCreateWithoutFacilityInput> | RoomCreateWithoutFacilityInput[] | RoomUncheckedCreateWithoutFacilityInput[]
+    connectOrCreate?: RoomCreateOrConnectWithoutFacilityInput | RoomCreateOrConnectWithoutFacilityInput[]
+    createMany?: RoomCreateManyFacilityInputEnvelope
+    connect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+  }
+
+  export type RoomUncheckedCreateNestedManyWithoutFacilityInput = {
+    create?: XOR<RoomCreateWithoutFacilityInput, RoomUncheckedCreateWithoutFacilityInput> | RoomCreateWithoutFacilityInput[] | RoomUncheckedCreateWithoutFacilityInput[]
+    connectOrCreate?: RoomCreateOrConnectWithoutFacilityInput | RoomCreateOrConnectWithoutFacilityInput[]
+    createMany?: RoomCreateManyFacilityInputEnvelope
+    connect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+  }
+
+  export type RoomUpdateManyWithoutFacilityNestedInput = {
+    create?: XOR<RoomCreateWithoutFacilityInput, RoomUncheckedCreateWithoutFacilityInput> | RoomCreateWithoutFacilityInput[] | RoomUncheckedCreateWithoutFacilityInput[]
+    connectOrCreate?: RoomCreateOrConnectWithoutFacilityInput | RoomCreateOrConnectWithoutFacilityInput[]
+    upsert?: RoomUpsertWithWhereUniqueWithoutFacilityInput | RoomUpsertWithWhereUniqueWithoutFacilityInput[]
+    createMany?: RoomCreateManyFacilityInputEnvelope
+    set?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    disconnect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    delete?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    connect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    update?: RoomUpdateWithWhereUniqueWithoutFacilityInput | RoomUpdateWithWhereUniqueWithoutFacilityInput[]
+    updateMany?: RoomUpdateManyWithWhereWithoutFacilityInput | RoomUpdateManyWithWhereWithoutFacilityInput[]
+    deleteMany?: RoomScalarWhereInput | RoomScalarWhereInput[]
+  }
+
+  export type RoomUncheckedUpdateManyWithoutFacilityNestedInput = {
+    create?: XOR<RoomCreateWithoutFacilityInput, RoomUncheckedCreateWithoutFacilityInput> | RoomCreateWithoutFacilityInput[] | RoomUncheckedCreateWithoutFacilityInput[]
+    connectOrCreate?: RoomCreateOrConnectWithoutFacilityInput | RoomCreateOrConnectWithoutFacilityInput[]
+    upsert?: RoomUpsertWithWhereUniqueWithoutFacilityInput | RoomUpsertWithWhereUniqueWithoutFacilityInput[]
+    createMany?: RoomCreateManyFacilityInputEnvelope
+    set?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    disconnect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    delete?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    connect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    update?: RoomUpdateWithWhereUniqueWithoutFacilityInput | RoomUpdateWithWhereUniqueWithoutFacilityInput[]
+    updateMany?: RoomUpdateManyWithWhereWithoutFacilityInput | RoomUpdateManyWithWhereWithoutFacilityInput[]
+    deleteMany?: RoomScalarWhereInput | RoomScalarWhereInput[]
+  }
+
   export type EmployeeCreateNestedOneWithoutSiteInfosUpdatedInput = {
     create?: XOR<EmployeeCreateWithoutSiteInfosUpdatedInput, EmployeeUncheckedCreateWithoutSiteInfosUpdatedInput>
     connectOrCreate?: EmployeeCreateOrConnectWithoutSiteInfosUpdatedInput
@@ -117417,13 +117584,6 @@ export namespace Prisma {
     connect?: TransportRequestWhereUniqueInput | TransportRequestWhereUniqueInput[]
   }
 
-  export type WebsiteSettingCreateNestedManyWithoutUpdaterInput = {
-    create?: XOR<WebsiteSettingCreateWithoutUpdaterInput, WebsiteSettingUncheckedCreateWithoutUpdaterInput> | WebsiteSettingCreateWithoutUpdaterInput[] | WebsiteSettingUncheckedCreateWithoutUpdaterInput[]
-    connectOrCreate?: WebsiteSettingCreateOrConnectWithoutUpdaterInput | WebsiteSettingCreateOrConnectWithoutUpdaterInput[]
-    createMany?: WebsiteSettingCreateManyUpdaterInputEnvelope
-    connect?: WebsiteSettingWhereUniqueInput | WebsiteSettingWhereUniqueInput[]
-  }
-
   export type SiteInfoCreateNestedManyWithoutUpdaterInput = {
     create?: XOR<SiteInfoCreateWithoutUpdaterInput, SiteInfoUncheckedCreateWithoutUpdaterInput> | SiteInfoCreateWithoutUpdaterInput[] | SiteInfoUncheckedCreateWithoutUpdaterInput[]
     connectOrCreate?: SiteInfoCreateOrConnectWithoutUpdaterInput | SiteInfoCreateOrConnectWithoutUpdaterInput[]
@@ -117674,13 +117834,6 @@ export namespace Prisma {
     connectOrCreate?: TransportRequestCreateOrConnectWithoutDriverInput | TransportRequestCreateOrConnectWithoutDriverInput[]
     createMany?: TransportRequestCreateManyDriverInputEnvelope
     connect?: TransportRequestWhereUniqueInput | TransportRequestWhereUniqueInput[]
-  }
-
-  export type WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput = {
-    create?: XOR<WebsiteSettingCreateWithoutUpdaterInput, WebsiteSettingUncheckedCreateWithoutUpdaterInput> | WebsiteSettingCreateWithoutUpdaterInput[] | WebsiteSettingUncheckedCreateWithoutUpdaterInput[]
-    connectOrCreate?: WebsiteSettingCreateOrConnectWithoutUpdaterInput | WebsiteSettingCreateOrConnectWithoutUpdaterInput[]
-    createMany?: WebsiteSettingCreateManyUpdaterInputEnvelope
-    connect?: WebsiteSettingWhereUniqueInput | WebsiteSettingWhereUniqueInput[]
   }
 
   export type SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput = {
@@ -118186,20 +118339,6 @@ export namespace Prisma {
     deleteMany?: TransportRequestScalarWhereInput | TransportRequestScalarWhereInput[]
   }
 
-  export type WebsiteSettingUpdateManyWithoutUpdaterNestedInput = {
-    create?: XOR<WebsiteSettingCreateWithoutUpdaterInput, WebsiteSettingUncheckedCreateWithoutUpdaterInput> | WebsiteSettingCreateWithoutUpdaterInput[] | WebsiteSettingUncheckedCreateWithoutUpdaterInput[]
-    connectOrCreate?: WebsiteSettingCreateOrConnectWithoutUpdaterInput | WebsiteSettingCreateOrConnectWithoutUpdaterInput[]
-    upsert?: WebsiteSettingUpsertWithWhereUniqueWithoutUpdaterInput | WebsiteSettingUpsertWithWhereUniqueWithoutUpdaterInput[]
-    createMany?: WebsiteSettingCreateManyUpdaterInputEnvelope
-    set?: WebsiteSettingWhereUniqueInput | WebsiteSettingWhereUniqueInput[]
-    disconnect?: WebsiteSettingWhereUniqueInput | WebsiteSettingWhereUniqueInput[]
-    delete?: WebsiteSettingWhereUniqueInput | WebsiteSettingWhereUniqueInput[]
-    connect?: WebsiteSettingWhereUniqueInput | WebsiteSettingWhereUniqueInput[]
-    update?: WebsiteSettingUpdateWithWhereUniqueWithoutUpdaterInput | WebsiteSettingUpdateWithWhereUniqueWithoutUpdaterInput[]
-    updateMany?: WebsiteSettingUpdateManyWithWhereWithoutUpdaterInput | WebsiteSettingUpdateManyWithWhereWithoutUpdaterInput[]
-    deleteMany?: WebsiteSettingScalarWhereInput | WebsiteSettingScalarWhereInput[]
-  }
-
   export type SiteInfoUpdateManyWithoutUpdaterNestedInput = {
     create?: XOR<SiteInfoCreateWithoutUpdaterInput, SiteInfoUncheckedCreateWithoutUpdaterInput> | SiteInfoCreateWithoutUpdaterInput[] | SiteInfoUncheckedCreateWithoutUpdaterInput[]
     connectOrCreate?: SiteInfoCreateOrConnectWithoutUpdaterInput | SiteInfoCreateOrConnectWithoutUpdaterInput[]
@@ -118702,20 +118841,6 @@ export namespace Prisma {
     update?: TransportRequestUpdateWithWhereUniqueWithoutDriverInput | TransportRequestUpdateWithWhereUniqueWithoutDriverInput[]
     updateMany?: TransportRequestUpdateManyWithWhereWithoutDriverInput | TransportRequestUpdateManyWithWhereWithoutDriverInput[]
     deleteMany?: TransportRequestScalarWhereInput | TransportRequestScalarWhereInput[]
-  }
-
-  export type WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput = {
-    create?: XOR<WebsiteSettingCreateWithoutUpdaterInput, WebsiteSettingUncheckedCreateWithoutUpdaterInput> | WebsiteSettingCreateWithoutUpdaterInput[] | WebsiteSettingUncheckedCreateWithoutUpdaterInput[]
-    connectOrCreate?: WebsiteSettingCreateOrConnectWithoutUpdaterInput | WebsiteSettingCreateOrConnectWithoutUpdaterInput[]
-    upsert?: WebsiteSettingUpsertWithWhereUniqueWithoutUpdaterInput | WebsiteSettingUpsertWithWhereUniqueWithoutUpdaterInput[]
-    createMany?: WebsiteSettingCreateManyUpdaterInputEnvelope
-    set?: WebsiteSettingWhereUniqueInput | WebsiteSettingWhereUniqueInput[]
-    disconnect?: WebsiteSettingWhereUniqueInput | WebsiteSettingWhereUniqueInput[]
-    delete?: WebsiteSettingWhereUniqueInput | WebsiteSettingWhereUniqueInput[]
-    connect?: WebsiteSettingWhereUniqueInput | WebsiteSettingWhereUniqueInput[]
-    update?: WebsiteSettingUpdateWithWhereUniqueWithoutUpdaterInput | WebsiteSettingUpdateWithWhereUniqueWithoutUpdaterInput[]
-    updateMany?: WebsiteSettingUpdateManyWithWhereWithoutUpdaterInput | WebsiteSettingUpdateManyWithWhereWithoutUpdaterInput[]
-    deleteMany?: WebsiteSettingScalarWhereInput | WebsiteSettingScalarWhereInput[]
   }
 
   export type SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput = {
@@ -119412,10 +119537,72 @@ export namespace Prisma {
     deleteMany?: TransportRequestScalarWhereInput | TransportRequestScalarWhereInput[]
   }
 
+  export type FacilityCreateNestedOneWithoutRoomsInput = {
+    create?: XOR<FacilityCreateWithoutRoomsInput, FacilityUncheckedCreateWithoutRoomsInput>
+    connectOrCreate?: FacilityCreateOrConnectWithoutRoomsInput
+    connect?: FacilityWhereUniqueInput
+  }
+
+  export type ResidentRoomCreateNestedManyWithoutRoomInput = {
+    create?: XOR<ResidentRoomCreateWithoutRoomInput, ResidentRoomUncheckedCreateWithoutRoomInput> | ResidentRoomCreateWithoutRoomInput[] | ResidentRoomUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: ResidentRoomCreateOrConnectWithoutRoomInput | ResidentRoomCreateOrConnectWithoutRoomInput[]
+    createMany?: ResidentRoomCreateManyRoomInputEnvelope
+    connect?: ResidentRoomWhereUniqueInput | ResidentRoomWhereUniqueInput[]
+  }
+
+  export type ResidentRoomUncheckedCreateNestedManyWithoutRoomInput = {
+    create?: XOR<ResidentRoomCreateWithoutRoomInput, ResidentRoomUncheckedCreateWithoutRoomInput> | ResidentRoomCreateWithoutRoomInput[] | ResidentRoomUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: ResidentRoomCreateOrConnectWithoutRoomInput | ResidentRoomCreateOrConnectWithoutRoomInput[]
+    createMany?: ResidentRoomCreateManyRoomInputEnvelope
+    connect?: ResidentRoomWhereUniqueInput | ResidentRoomWhereUniqueInput[]
+  }
+
+  export type FacilityUpdateOneRequiredWithoutRoomsNestedInput = {
+    create?: XOR<FacilityCreateWithoutRoomsInput, FacilityUncheckedCreateWithoutRoomsInput>
+    connectOrCreate?: FacilityCreateOrConnectWithoutRoomsInput
+    upsert?: FacilityUpsertWithoutRoomsInput
+    connect?: FacilityWhereUniqueInput
+    update?: XOR<XOR<FacilityUpdateToOneWithWhereWithoutRoomsInput, FacilityUpdateWithoutRoomsInput>, FacilityUncheckedUpdateWithoutRoomsInput>
+  }
+
+  export type ResidentRoomUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<ResidentRoomCreateWithoutRoomInput, ResidentRoomUncheckedCreateWithoutRoomInput> | ResidentRoomCreateWithoutRoomInput[] | ResidentRoomUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: ResidentRoomCreateOrConnectWithoutRoomInput | ResidentRoomCreateOrConnectWithoutRoomInput[]
+    upsert?: ResidentRoomUpsertWithWhereUniqueWithoutRoomInput | ResidentRoomUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: ResidentRoomCreateManyRoomInputEnvelope
+    set?: ResidentRoomWhereUniqueInput | ResidentRoomWhereUniqueInput[]
+    disconnect?: ResidentRoomWhereUniqueInput | ResidentRoomWhereUniqueInput[]
+    delete?: ResidentRoomWhereUniqueInput | ResidentRoomWhereUniqueInput[]
+    connect?: ResidentRoomWhereUniqueInput | ResidentRoomWhereUniqueInput[]
+    update?: ResidentRoomUpdateWithWhereUniqueWithoutRoomInput | ResidentRoomUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: ResidentRoomUpdateManyWithWhereWithoutRoomInput | ResidentRoomUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: ResidentRoomScalarWhereInput | ResidentRoomScalarWhereInput[]
+  }
+
+  export type ResidentRoomUncheckedUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<ResidentRoomCreateWithoutRoomInput, ResidentRoomUncheckedCreateWithoutRoomInput> | ResidentRoomCreateWithoutRoomInput[] | ResidentRoomUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: ResidentRoomCreateOrConnectWithoutRoomInput | ResidentRoomCreateOrConnectWithoutRoomInput[]
+    upsert?: ResidentRoomUpsertWithWhereUniqueWithoutRoomInput | ResidentRoomUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: ResidentRoomCreateManyRoomInputEnvelope
+    set?: ResidentRoomWhereUniqueInput | ResidentRoomWhereUniqueInput[]
+    disconnect?: ResidentRoomWhereUniqueInput | ResidentRoomWhereUniqueInput[]
+    delete?: ResidentRoomWhereUniqueInput | ResidentRoomWhereUniqueInput[]
+    connect?: ResidentRoomWhereUniqueInput | ResidentRoomWhereUniqueInput[]
+    update?: ResidentRoomUpdateWithWhereUniqueWithoutRoomInput | ResidentRoomUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: ResidentRoomUpdateManyWithWhereWithoutRoomInput | ResidentRoomUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: ResidentRoomScalarWhereInput | ResidentRoomScalarWhereInput[]
+  }
+
   export type ResidentCreateNestedOneWithoutRoomsInput = {
     create?: XOR<ResidentCreateWithoutRoomsInput, ResidentUncheckedCreateWithoutRoomsInput>
     connectOrCreate?: ResidentCreateOrConnectWithoutRoomsInput
     connect?: ResidentWhereUniqueInput
+  }
+
+  export type RoomCreateNestedOneWithoutResidentRoomsInput = {
+    create?: XOR<RoomCreateWithoutResidentRoomsInput, RoomUncheckedCreateWithoutResidentRoomsInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutResidentRoomsInput
+    connect?: RoomWhereUniqueInput
   }
 
   export type ResidentUpdateOneRequiredWithoutRoomsNestedInput = {
@@ -119424,6 +119611,14 @@ export namespace Prisma {
     upsert?: ResidentUpsertWithoutRoomsInput
     connect?: ResidentWhereUniqueInput
     update?: XOR<XOR<ResidentUpdateToOneWithWhereWithoutRoomsInput, ResidentUpdateWithoutRoomsInput>, ResidentUncheckedUpdateWithoutRoomsInput>
+  }
+
+  export type RoomUpdateOneRequiredWithoutResidentRoomsNestedInput = {
+    create?: XOR<RoomCreateWithoutResidentRoomsInput, RoomUncheckedCreateWithoutResidentRoomsInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutResidentRoomsInput
+    upsert?: RoomUpsertWithoutResidentRoomsInput
+    connect?: RoomWhereUniqueInput
+    update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutResidentRoomsInput, RoomUpdateWithoutResidentRoomsInput>, RoomUncheckedUpdateWithoutResidentRoomsInput>
   }
 
   export type ResidentCreateNestedOneWithoutContactsInput = {
@@ -119512,22 +119707,6 @@ export namespace Prisma {
     upsert?: ResidentUpsertWithoutVitalsInput
     connect?: ResidentWhereUniqueInput
     update?: XOR<XOR<ResidentUpdateToOneWithWhereWithoutVitalsInput, ResidentUpdateWithoutVitalsInput>, ResidentUncheckedUpdateWithoutVitalsInput>
-  }
-
-  export type EmployeeCreateNestedOneWithoutWebsiteSettingsUpdatedInput = {
-    create?: XOR<EmployeeCreateWithoutWebsiteSettingsUpdatedInput, EmployeeUncheckedCreateWithoutWebsiteSettingsUpdatedInput>
-    connectOrCreate?: EmployeeCreateOrConnectWithoutWebsiteSettingsUpdatedInput
-    connect?: EmployeeWhereUniqueInput
-  }
-
-  export type EmployeeUpdateOneWithoutWebsiteSettingsUpdatedNestedInput = {
-    create?: XOR<EmployeeCreateWithoutWebsiteSettingsUpdatedInput, EmployeeUncheckedCreateWithoutWebsiteSettingsUpdatedInput>
-    connectOrCreate?: EmployeeCreateOrConnectWithoutWebsiteSettingsUpdatedInput
-    upsert?: EmployeeUpsertWithoutWebsiteSettingsUpdatedInput
-    disconnect?: EmployeeWhereInput | boolean
-    delete?: EmployeeWhereInput | boolean
-    connect?: EmployeeWhereUniqueInput
-    update?: XOR<XOR<EmployeeUpdateToOneWithWhereWithoutWebsiteSettingsUpdatedInput, EmployeeUpdateWithoutWebsiteSettingsUpdatedInput>, EmployeeUncheckedUpdateWithoutWebsiteSettingsUpdatedInput>
   }
 
   export type CarePlanItemCreateNestedManyWithoutCarePlanInput = {
@@ -121637,7 +121816,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -121691,7 +121869,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -121787,7 +121964,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -121841,7 +122017,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -122105,7 +122280,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -122159,7 +122333,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -122287,7 +122460,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -122341,7 +122513,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -122547,7 +122718,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -122601,7 +122771,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -122771,7 +122940,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -122825,7 +122993,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -122995,7 +123162,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -123049,7 +123215,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -123146,7 +123311,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -123200,7 +123364,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -123432,7 +123595,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -123486,7 +123648,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -123588,7 +123749,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -123642,7 +123802,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -123798,7 +123957,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -123852,7 +124010,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -123953,7 +124110,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -124007,7 +124163,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -124188,7 +124343,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -124242,7 +124396,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -124410,7 +124563,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -124464,7 +124616,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -124628,7 +124779,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -124682,7 +124832,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -124752,7 +124901,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -124806,10 +124954,71 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
+  }
+
+  export type RoomCreateWithoutFacilityInput = {
+    id?: bigint | number
+    floor: string
+    roomName: string
+    capacity?: number | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    residentRooms?: ResidentRoomCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomUncheckedCreateWithoutFacilityInput = {
+    id?: bigint | number
+    floor: string
+    roomName: string
+    capacity?: number | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    residentRooms?: ResidentRoomUncheckedCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomCreateOrConnectWithoutFacilityInput = {
+    where: RoomWhereUniqueInput
+    create: XOR<RoomCreateWithoutFacilityInput, RoomUncheckedCreateWithoutFacilityInput>
+  }
+
+  export type RoomCreateManyFacilityInputEnvelope = {
+    data: RoomCreateManyFacilityInput | RoomCreateManyFacilityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RoomUpsertWithWhereUniqueWithoutFacilityInput = {
+    where: RoomWhereUniqueInput
+    update: XOR<RoomUpdateWithoutFacilityInput, RoomUncheckedUpdateWithoutFacilityInput>
+    create: XOR<RoomCreateWithoutFacilityInput, RoomUncheckedCreateWithoutFacilityInput>
+  }
+
+  export type RoomUpdateWithWhereUniqueWithoutFacilityInput = {
+    where: RoomWhereUniqueInput
+    data: XOR<RoomUpdateWithoutFacilityInput, RoomUncheckedUpdateWithoutFacilityInput>
+  }
+
+  export type RoomUpdateManyWithWhereWithoutFacilityInput = {
+    where: RoomScalarWhereInput
+    data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyWithoutFacilityInput>
+  }
+
+  export type RoomScalarWhereInput = {
+    AND?: RoomScalarWhereInput | RoomScalarWhereInput[]
+    OR?: RoomScalarWhereInput[]
+    NOT?: RoomScalarWhereInput | RoomScalarWhereInput[]
+    id?: BigIntFilter<"Room"> | bigint | number
+    facilityId?: BigIntFilter<"Room"> | bigint | number
+    floor?: StringFilter<"Room"> | string
+    roomName?: StringFilter<"Room"> | string
+    capacity?: IntNullableFilter<"Room"> | number | null
+    isActive?: BoolFilter<"Room"> | boolean
+    createdAt?: DateTimeFilter<"Room"> | Date | string
+    updatedAt?: DateTimeFilter<"Room"> | Date | string
   }
 
   export type EmployeeCreateWithoutSiteInfosUpdatedInput = {
@@ -124861,7 +125070,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
   }
@@ -124915,7 +125123,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
   }
@@ -124985,7 +125192,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
   }
@@ -125039,7 +125245,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
   }
@@ -125092,7 +125297,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -125146,7 +125350,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -125247,7 +125450,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -125301,7 +125503,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -125439,7 +125640,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
   }
@@ -125493,7 +125693,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
   }
@@ -125579,7 +125778,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
   }
@@ -125633,7 +125831,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
   }
@@ -125703,7 +125900,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
   }
@@ -125757,7 +125953,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
   }
@@ -125855,7 +126050,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
   }
@@ -125909,7 +126103,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
   }
@@ -127172,38 +127365,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type WebsiteSettingCreateWithoutUpdaterInput = {
-    id?: bigint | number
-    category: string
-    key: string
-    value?: JsonNullValueInput | InputJsonValue
-    description?: string | null
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type WebsiteSettingUncheckedCreateWithoutUpdaterInput = {
-    id?: bigint | number
-    category: string
-    key: string
-    value?: JsonNullValueInput | InputJsonValue
-    description?: string | null
-    isActive?: boolean
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type WebsiteSettingCreateOrConnectWithoutUpdaterInput = {
-    where: WebsiteSettingWhereUniqueInput
-    create: XOR<WebsiteSettingCreateWithoutUpdaterInput, WebsiteSettingUncheckedCreateWithoutUpdaterInput>
-  }
-
-  export type WebsiteSettingCreateManyUpdaterInputEnvelope = {
-    data: WebsiteSettingCreateManyUpdaterInput | WebsiteSettingCreateManyUpdaterInput[]
-    skipDuplicates?: boolean
-  }
-
   export type SiteInfoCreateWithoutUpdaterInput = {
     id?: bigint | number
     serviceName: string
@@ -128378,37 +128539,6 @@ export namespace Prisma {
     data: XOR<TransportRequestUpdateManyMutationInput, TransportRequestUncheckedUpdateManyWithoutDriverInput>
   }
 
-  export type WebsiteSettingUpsertWithWhereUniqueWithoutUpdaterInput = {
-    where: WebsiteSettingWhereUniqueInput
-    update: XOR<WebsiteSettingUpdateWithoutUpdaterInput, WebsiteSettingUncheckedUpdateWithoutUpdaterInput>
-    create: XOR<WebsiteSettingCreateWithoutUpdaterInput, WebsiteSettingUncheckedCreateWithoutUpdaterInput>
-  }
-
-  export type WebsiteSettingUpdateWithWhereUniqueWithoutUpdaterInput = {
-    where: WebsiteSettingWhereUniqueInput
-    data: XOR<WebsiteSettingUpdateWithoutUpdaterInput, WebsiteSettingUncheckedUpdateWithoutUpdaterInput>
-  }
-
-  export type WebsiteSettingUpdateManyWithWhereWithoutUpdaterInput = {
-    where: WebsiteSettingScalarWhereInput
-    data: XOR<WebsiteSettingUpdateManyMutationInput, WebsiteSettingUncheckedUpdateManyWithoutUpdaterInput>
-  }
-
-  export type WebsiteSettingScalarWhereInput = {
-    AND?: WebsiteSettingScalarWhereInput | WebsiteSettingScalarWhereInput[]
-    OR?: WebsiteSettingScalarWhereInput[]
-    NOT?: WebsiteSettingScalarWhereInput | WebsiteSettingScalarWhereInput[]
-    id?: BigIntFilter<"WebsiteSetting"> | bigint | number
-    category?: StringFilter<"WebsiteSetting"> | string
-    key?: StringFilter<"WebsiteSetting"> | string
-    value?: JsonFilter<"WebsiteSetting">
-    description?: StringNullableFilter<"WebsiteSetting"> | string | null
-    isActive?: BoolFilter<"WebsiteSetting"> | boolean
-    updatedBy?: BigIntNullableFilter<"WebsiteSetting"> | bigint | number | null
-    createdAt?: DateTimeFilter<"WebsiteSetting"> | Date | string
-    updatedAt?: DateTimeFilter<"WebsiteSetting"> | Date | string
-  }
-
   export type SiteInfoUpsertWithWhereUniqueWithoutUpdaterInput = {
     where: SiteInfoWhereUniqueInput
     update: XOR<SiteInfoUpdateWithoutUpdaterInput, SiteInfoUncheckedUpdateWithoutUpdaterInput>
@@ -128525,7 +128655,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -128579,7 +128708,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -128649,7 +128777,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -128703,7 +128830,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -129147,18 +129273,18 @@ export namespace Prisma {
 
   export type ResidentRoomCreateWithoutResidentInput = {
     id?: bigint | number
-    roomLabel: string
     bedLabel?: string | null
     startsAt: Date | string
     endsAt?: Date | string | null
     isPrimary?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    room: RoomCreateNestedOneWithoutResidentRoomsInput
   }
 
   export type ResidentRoomUncheckedCreateWithoutResidentInput = {
     id?: bigint | number
-    roomLabel: string
+    roomId: bigint | number
     bedLabel?: string | null
     startsAt: Date | string
     endsAt?: Date | string | null
@@ -129533,7 +129659,7 @@ export namespace Prisma {
     NOT?: ResidentRoomScalarWhereInput | ResidentRoomScalarWhereInput[]
     id?: BigIntFilter<"ResidentRoom"> | bigint | number
     residentId?: BigIntFilter<"ResidentRoom"> | bigint | number
-    roomLabel?: StringFilter<"ResidentRoom"> | string
+    roomId?: BigIntFilter<"ResidentRoom"> | bigint | number
     bedLabel?: StringNullableFilter<"ResidentRoom"> | string | null
     startsAt?: DateTimeFilter<"ResidentRoom"> | Date | string
     endsAt?: DateTimeNullableFilter<"ResidentRoom"> | Date | string | null
@@ -129572,6 +129698,182 @@ export namespace Prisma {
   export type TransportRequestUpdateManyWithWhereWithoutResidentInput = {
     where: TransportRequestScalarWhereInput
     data: XOR<TransportRequestUpdateManyMutationInput, TransportRequestUncheckedUpdateManyWithoutResidentInput>
+  }
+
+  export type FacilityCreateWithoutRoomsInput = {
+    id?: bigint | number
+    orgCode: string
+    facilityName: string
+    facilityDesc?: string | null
+    facilityType: string
+    designatedDate?: Date | string | null
+    director: string
+    directorPhone?: string | null
+    ceoName: string
+    businessNo: string
+    bizType?: string | null
+    staffCount?: number | null
+    phone: string
+    fax?: string | null
+    email?: string | null
+    homepage?: string | null
+    zip?: string | null
+    address1: string
+    address2?: string | null
+    totalCapacity?: number | null
+    shortStayCapacity?: number | null
+    dayCareCapacity?: number | null
+    stampImage?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FacilityUncheckedCreateWithoutRoomsInput = {
+    id?: bigint | number
+    orgCode: string
+    facilityName: string
+    facilityDesc?: string | null
+    facilityType: string
+    designatedDate?: Date | string | null
+    director: string
+    directorPhone?: string | null
+    ceoName: string
+    businessNo: string
+    bizType?: string | null
+    staffCount?: number | null
+    phone: string
+    fax?: string | null
+    email?: string | null
+    homepage?: string | null
+    zip?: string | null
+    address1: string
+    address2?: string | null
+    totalCapacity?: number | null
+    shortStayCapacity?: number | null
+    dayCareCapacity?: number | null
+    stampImage?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type FacilityCreateOrConnectWithoutRoomsInput = {
+    where: FacilityWhereUniqueInput
+    create: XOR<FacilityCreateWithoutRoomsInput, FacilityUncheckedCreateWithoutRoomsInput>
+  }
+
+  export type ResidentRoomCreateWithoutRoomInput = {
+    id?: bigint | number
+    bedLabel?: string | null
+    startsAt: Date | string
+    endsAt?: Date | string | null
+    isPrimary?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    resident: ResidentCreateNestedOneWithoutRoomsInput
+  }
+
+  export type ResidentRoomUncheckedCreateWithoutRoomInput = {
+    id?: bigint | number
+    residentId: bigint | number
+    bedLabel?: string | null
+    startsAt: Date | string
+    endsAt?: Date | string | null
+    isPrimary?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ResidentRoomCreateOrConnectWithoutRoomInput = {
+    where: ResidentRoomWhereUniqueInput
+    create: XOR<ResidentRoomCreateWithoutRoomInput, ResidentRoomUncheckedCreateWithoutRoomInput>
+  }
+
+  export type ResidentRoomCreateManyRoomInputEnvelope = {
+    data: ResidentRoomCreateManyRoomInput | ResidentRoomCreateManyRoomInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type FacilityUpsertWithoutRoomsInput = {
+    update: XOR<FacilityUpdateWithoutRoomsInput, FacilityUncheckedUpdateWithoutRoomsInput>
+    create: XOR<FacilityCreateWithoutRoomsInput, FacilityUncheckedCreateWithoutRoomsInput>
+    where?: FacilityWhereInput
+  }
+
+  export type FacilityUpdateToOneWithWhereWithoutRoomsInput = {
+    where?: FacilityWhereInput
+    data: XOR<FacilityUpdateWithoutRoomsInput, FacilityUncheckedUpdateWithoutRoomsInput>
+  }
+
+  export type FacilityUpdateWithoutRoomsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    orgCode?: StringFieldUpdateOperationsInput | string
+    facilityName?: StringFieldUpdateOperationsInput | string
+    facilityDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    facilityType?: StringFieldUpdateOperationsInput | string
+    designatedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    director?: StringFieldUpdateOperationsInput | string
+    directorPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    ceoName?: StringFieldUpdateOperationsInput | string
+    businessNo?: StringFieldUpdateOperationsInput | string
+    bizType?: NullableStringFieldUpdateOperationsInput | string | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    phone?: StringFieldUpdateOperationsInput | string
+    fax?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    homepage?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    address1?: StringFieldUpdateOperationsInput | string
+    address2?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCapacity?: NullableIntFieldUpdateOperationsInput | number | null
+    shortStayCapacity?: NullableIntFieldUpdateOperationsInput | number | null
+    dayCareCapacity?: NullableIntFieldUpdateOperationsInput | number | null
+    stampImage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FacilityUncheckedUpdateWithoutRoomsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    orgCode?: StringFieldUpdateOperationsInput | string
+    facilityName?: StringFieldUpdateOperationsInput | string
+    facilityDesc?: NullableStringFieldUpdateOperationsInput | string | null
+    facilityType?: StringFieldUpdateOperationsInput | string
+    designatedDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    director?: StringFieldUpdateOperationsInput | string
+    directorPhone?: NullableStringFieldUpdateOperationsInput | string | null
+    ceoName?: StringFieldUpdateOperationsInput | string
+    businessNo?: StringFieldUpdateOperationsInput | string
+    bizType?: NullableStringFieldUpdateOperationsInput | string | null
+    staffCount?: NullableIntFieldUpdateOperationsInput | number | null
+    phone?: StringFieldUpdateOperationsInput | string
+    fax?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    homepage?: NullableStringFieldUpdateOperationsInput | string | null
+    zip?: NullableStringFieldUpdateOperationsInput | string | null
+    address1?: StringFieldUpdateOperationsInput | string
+    address2?: NullableStringFieldUpdateOperationsInput | string | null
+    totalCapacity?: NullableIntFieldUpdateOperationsInput | number | null
+    shortStayCapacity?: NullableIntFieldUpdateOperationsInput | number | null
+    dayCareCapacity?: NullableIntFieldUpdateOperationsInput | number | null
+    stampImage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResidentRoomUpsertWithWhereUniqueWithoutRoomInput = {
+    where: ResidentRoomWhereUniqueInput
+    update: XOR<ResidentRoomUpdateWithoutRoomInput, ResidentRoomUncheckedUpdateWithoutRoomInput>
+    create: XOR<ResidentRoomCreateWithoutRoomInput, ResidentRoomUncheckedCreateWithoutRoomInput>
+  }
+
+  export type ResidentRoomUpdateWithWhereUniqueWithoutRoomInput = {
+    where: ResidentRoomWhereUniqueInput
+    data: XOR<ResidentRoomUpdateWithoutRoomInput, ResidentRoomUncheckedUpdateWithoutRoomInput>
+  }
+
+  export type ResidentRoomUpdateManyWithWhereWithoutRoomInput = {
+    where: ResidentRoomScalarWhereInput
+    data: XOR<ResidentRoomUpdateManyMutationInput, ResidentRoomUncheckedUpdateManyWithoutRoomInput>
   }
 
   export type ResidentCreateWithoutRoomsInput = {
@@ -129641,6 +129943,33 @@ export namespace Prisma {
   export type ResidentCreateOrConnectWithoutRoomsInput = {
     where: ResidentWhereUniqueInput
     create: XOR<ResidentCreateWithoutRoomsInput, ResidentUncheckedCreateWithoutRoomsInput>
+  }
+
+  export type RoomCreateWithoutResidentRoomsInput = {
+    id?: bigint | number
+    floor: string
+    roomName: string
+    capacity?: number | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    facility: FacilityCreateNestedOneWithoutRoomsInput
+  }
+
+  export type RoomUncheckedCreateWithoutResidentRoomsInput = {
+    id?: bigint | number
+    facilityId: bigint | number
+    floor: string
+    roomName: string
+    capacity?: number | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RoomCreateOrConnectWithoutResidentRoomsInput = {
+    where: RoomWhereUniqueInput
+    create: XOR<RoomCreateWithoutResidentRoomsInput, RoomUncheckedCreateWithoutResidentRoomsInput>
   }
 
   export type ResidentUpsertWithoutRoomsInput = {
@@ -129716,6 +130045,39 @@ export namespace Prisma {
     medications?: ResidentMedicationUncheckedUpdateManyWithoutResidentNestedInput
     vitals?: ResidentVitalUncheckedUpdateManyWithoutResidentNestedInput
     transportRequests?: TransportRequestUncheckedUpdateManyWithoutResidentNestedInput
+  }
+
+  export type RoomUpsertWithoutResidentRoomsInput = {
+    update: XOR<RoomUpdateWithoutResidentRoomsInput, RoomUncheckedUpdateWithoutResidentRoomsInput>
+    create: XOR<RoomCreateWithoutResidentRoomsInput, RoomUncheckedCreateWithoutResidentRoomsInput>
+    where?: RoomWhereInput
+  }
+
+  export type RoomUpdateToOneWithWhereWithoutResidentRoomsInput = {
+    where?: RoomWhereInput
+    data: XOR<RoomUpdateWithoutResidentRoomsInput, RoomUncheckedUpdateWithoutResidentRoomsInput>
+  }
+
+  export type RoomUpdateWithoutResidentRoomsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    floor?: StringFieldUpdateOperationsInput | string
+    roomName?: StringFieldUpdateOperationsInput | string
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    facility?: FacilityUpdateOneRequiredWithoutRoomsNestedInput
+  }
+
+  export type RoomUncheckedUpdateWithoutResidentRoomsInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    facilityId?: BigIntFieldUpdateOperationsInput | bigint | number
+    floor?: StringFieldUpdateOperationsInput | string
+    roomName?: StringFieldUpdateOperationsInput | string
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ResidentCreateWithoutContactsInput = {
@@ -129910,7 +130272,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -129964,7 +130325,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -130103,7 +130463,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -130157,7 +130516,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -130430,7 +130788,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -130484,7 +130841,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -130623,7 +130979,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -130677,7 +131032,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -130758,238 +131112,6 @@ export namespace Prisma {
     transportRequests?: TransportRequestUncheckedUpdateManyWithoutResidentNestedInput
   }
 
-  export type EmployeeCreateWithoutWebsiteSettingsUpdatedInput = {
-    id?: bigint | number
-    email?: string | null
-    passwordHash?: string | null
-    name: string
-    phoneNumber?: string | null
-    hireDate?: Date | string | null
-    resignDate?: Date | string | null
-    status?: string
-    isAdmin?: boolean
-    meta?: JsonNullValueInput | InputJsonValue
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    attendanceRecords?: AttendanceRecordCreateNestedManyWithoutEmployeeInput
-    auditLogsAsActor?: AuditLogCreateNestedManyWithoutActorInput
-    boardCommentsAuthored?: BoardCommentCreateNestedManyWithoutAuthorInput
-    boardPostsAuthored?: BoardPostCreateNestedManyWithoutAuthorInput
-    carePlansCreated?: CarePlanCreateNestedManyWithoutCreatorInput
-    careTasksAssigned?: CareTaskCreateNestedManyWithoutAssigneeInput
-    cctvViewLogsApproved?: CctvViewLogCreateNestedManyWithoutApproverInput
-    cctvViewLogsAsViewer?: CctvViewLogCreateNestedManyWithoutViewerInput
-    consultationsCounseled?: ConsultationRecordCreateNestedManyWithoutCounselorInput
-    educations?: EmployeeEducationCreateNestedManyWithoutEmployeeInput
-    department?: DepartmentCreateNestedOneWithoutEmployeesInput
-    role?: EmployeeRoleCreateNestedOneWithoutEmployeesInput
-    inspectionsPerformed?: FacilityInspectionCreateNestedManyWithoutInspectorInput
-    filesCreated?: FileStorageCreateNestedManyWithoutCreatorInput
-    galleryItemsCreated?: GalleryItemCreateNestedManyWithoutCreatorInput
-    grievancesAssigned?: GrievanceCreateNestedManyWithoutAssigneeInput
-    incidentsReported?: IncidentCreateNestedManyWithoutReporterInput
-    insuranceClaimHistoryChanged?: InsuranceClaimHistoryCreateNestedManyWithoutChangerInput
-    insuranceClaimsCreated?: InsuranceClaimCreateNestedManyWithoutCreatorInput
-    inventoryTransactionsCreated?: InventoryTransactionCreateNestedManyWithoutCreatorInput
-    leaveApprovalsGiven?: LeaveApprovalCreateNestedManyWithoutApproverInput
-    leaveRequests?: LeaveRequestCreateNestedManyWithoutEmployeeInput
-    mealPlansCreated?: MealPlanCreateNestedManyWithoutCreatorInput
-    noticesCreated?: NoticeCreateNestedManyWithoutCreatorInput
-    payrollRecords?: PayrollRecordCreateNestedManyWithoutEmployeeInput
-    popupBannersCreated?: PopupBannerCreateNestedManyWithoutCreatorInput
-    programAttendance?: ProgramAttendanceCreateNestedManyWithoutEmployeeInput
-    programsCreated?: ProgramCreateNestedManyWithoutCreatorInput
-    healthNotesRecorded?: ResidentHealthNoteCreateNestedManyWithoutRecorderInput
-    vitalsRecorded?: ResidentVitalCreateNestedManyWithoutRecorderInput
-    shiftAssignments?: ShiftAssignmentCreateNestedManyWithoutEmployeeInput
-    smsLogsSent?: SmsSendLogCreateNestedManyWithoutSenderInput
-    transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
-    transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
-    transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
-    employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
-    permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
-  }
-
-  export type EmployeeUncheckedCreateWithoutWebsiteSettingsUpdatedInput = {
-    id?: bigint | number
-    departmentId?: bigint | number | null
-    roleId?: bigint | number | null
-    email?: string | null
-    passwordHash?: string | null
-    name: string
-    phoneNumber?: string | null
-    hireDate?: Date | string | null
-    resignDate?: Date | string | null
-    status?: string
-    isAdmin?: boolean
-    meta?: JsonNullValueInput | InputJsonValue
-    lastLoginAt?: Date | string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    attendanceRecords?: AttendanceRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    auditLogsAsActor?: AuditLogUncheckedCreateNestedManyWithoutActorInput
-    boardCommentsAuthored?: BoardCommentUncheckedCreateNestedManyWithoutAuthorInput
-    boardPostsAuthored?: BoardPostUncheckedCreateNestedManyWithoutAuthorInput
-    carePlansCreated?: CarePlanUncheckedCreateNestedManyWithoutCreatorInput
-    careTasksAssigned?: CareTaskUncheckedCreateNestedManyWithoutAssigneeInput
-    cctvViewLogsApproved?: CctvViewLogUncheckedCreateNestedManyWithoutApproverInput
-    cctvViewLogsAsViewer?: CctvViewLogUncheckedCreateNestedManyWithoutViewerInput
-    consultationsCounseled?: ConsultationRecordUncheckedCreateNestedManyWithoutCounselorInput
-    educations?: EmployeeEducationUncheckedCreateNestedManyWithoutEmployeeInput
-    inspectionsPerformed?: FacilityInspectionUncheckedCreateNestedManyWithoutInspectorInput
-    filesCreated?: FileStorageUncheckedCreateNestedManyWithoutCreatorInput
-    galleryItemsCreated?: GalleryItemUncheckedCreateNestedManyWithoutCreatorInput
-    grievancesAssigned?: GrievanceUncheckedCreateNestedManyWithoutAssigneeInput
-    incidentsReported?: IncidentUncheckedCreateNestedManyWithoutReporterInput
-    insuranceClaimHistoryChanged?: InsuranceClaimHistoryUncheckedCreateNestedManyWithoutChangerInput
-    insuranceClaimsCreated?: InsuranceClaimUncheckedCreateNestedManyWithoutCreatorInput
-    inventoryTransactionsCreated?: InventoryTransactionUncheckedCreateNestedManyWithoutCreatorInput
-    leaveApprovalsGiven?: LeaveApprovalUncheckedCreateNestedManyWithoutApproverInput
-    leaveRequests?: LeaveRequestUncheckedCreateNestedManyWithoutEmployeeInput
-    mealPlansCreated?: MealPlanUncheckedCreateNestedManyWithoutCreatorInput
-    noticesCreated?: NoticeUncheckedCreateNestedManyWithoutCreatorInput
-    payrollRecords?: PayrollRecordUncheckedCreateNestedManyWithoutEmployeeInput
-    popupBannersCreated?: PopupBannerUncheckedCreateNestedManyWithoutCreatorInput
-    programAttendance?: ProgramAttendanceUncheckedCreateNestedManyWithoutEmployeeInput
-    programsCreated?: ProgramUncheckedCreateNestedManyWithoutCreatorInput
-    healthNotesRecorded?: ResidentHealthNoteUncheckedCreateNestedManyWithoutRecorderInput
-    vitalsRecorded?: ResidentVitalUncheckedCreateNestedManyWithoutRecorderInput
-    shiftAssignments?: ShiftAssignmentUncheckedCreateNestedManyWithoutEmployeeInput
-    smsLogsSent?: SmsSendLogUncheckedCreateNestedManyWithoutSenderInput
-    transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
-    transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
-    transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
-    employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
-    permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
-  }
-
-  export type EmployeeCreateOrConnectWithoutWebsiteSettingsUpdatedInput = {
-    where: EmployeeWhereUniqueInput
-    create: XOR<EmployeeCreateWithoutWebsiteSettingsUpdatedInput, EmployeeUncheckedCreateWithoutWebsiteSettingsUpdatedInput>
-  }
-
-  export type EmployeeUpsertWithoutWebsiteSettingsUpdatedInput = {
-    update: XOR<EmployeeUpdateWithoutWebsiteSettingsUpdatedInput, EmployeeUncheckedUpdateWithoutWebsiteSettingsUpdatedInput>
-    create: XOR<EmployeeCreateWithoutWebsiteSettingsUpdatedInput, EmployeeUncheckedCreateWithoutWebsiteSettingsUpdatedInput>
-    where?: EmployeeWhereInput
-  }
-
-  export type EmployeeUpdateToOneWithWhereWithoutWebsiteSettingsUpdatedInput = {
-    where?: EmployeeWhereInput
-    data: XOR<EmployeeUpdateWithoutWebsiteSettingsUpdatedInput, EmployeeUncheckedUpdateWithoutWebsiteSettingsUpdatedInput>
-  }
-
-  export type EmployeeUpdateWithoutWebsiteSettingsUpdatedInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    hireDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    resignDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    meta?: JsonNullValueInput | InputJsonValue
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attendanceRecords?: AttendanceRecordUpdateManyWithoutEmployeeNestedInput
-    auditLogsAsActor?: AuditLogUpdateManyWithoutActorNestedInput
-    boardCommentsAuthored?: BoardCommentUpdateManyWithoutAuthorNestedInput
-    boardPostsAuthored?: BoardPostUpdateManyWithoutAuthorNestedInput
-    carePlansCreated?: CarePlanUpdateManyWithoutCreatorNestedInput
-    careTasksAssigned?: CareTaskUpdateManyWithoutAssigneeNestedInput
-    cctvViewLogsApproved?: CctvViewLogUpdateManyWithoutApproverNestedInput
-    cctvViewLogsAsViewer?: CctvViewLogUpdateManyWithoutViewerNestedInput
-    consultationsCounseled?: ConsultationRecordUpdateManyWithoutCounselorNestedInput
-    educations?: EmployeeEducationUpdateManyWithoutEmployeeNestedInput
-    department?: DepartmentUpdateOneWithoutEmployeesNestedInput
-    role?: EmployeeRoleUpdateOneWithoutEmployeesNestedInput
-    inspectionsPerformed?: FacilityInspectionUpdateManyWithoutInspectorNestedInput
-    filesCreated?: FileStorageUpdateManyWithoutCreatorNestedInput
-    galleryItemsCreated?: GalleryItemUpdateManyWithoutCreatorNestedInput
-    grievancesAssigned?: GrievanceUpdateManyWithoutAssigneeNestedInput
-    incidentsReported?: IncidentUpdateManyWithoutReporterNestedInput
-    insuranceClaimHistoryChanged?: InsuranceClaimHistoryUpdateManyWithoutChangerNestedInput
-    insuranceClaimsCreated?: InsuranceClaimUpdateManyWithoutCreatorNestedInput
-    inventoryTransactionsCreated?: InventoryTransactionUpdateManyWithoutCreatorNestedInput
-    leaveApprovalsGiven?: LeaveApprovalUpdateManyWithoutApproverNestedInput
-    leaveRequests?: LeaveRequestUpdateManyWithoutEmployeeNestedInput
-    mealPlansCreated?: MealPlanUpdateManyWithoutCreatorNestedInput
-    noticesCreated?: NoticeUpdateManyWithoutCreatorNestedInput
-    payrollRecords?: PayrollRecordUpdateManyWithoutEmployeeNestedInput
-    popupBannersCreated?: PopupBannerUpdateManyWithoutCreatorNestedInput
-    programAttendance?: ProgramAttendanceUpdateManyWithoutEmployeeNestedInput
-    programsCreated?: ProgramUpdateManyWithoutCreatorNestedInput
-    healthNotesRecorded?: ResidentHealthNoteUpdateManyWithoutRecorderNestedInput
-    vitalsRecorded?: ResidentVitalUpdateManyWithoutRecorderNestedInput
-    shiftAssignments?: ShiftAssignmentUpdateManyWithoutEmployeeNestedInput
-    smsLogsSent?: SmsSendLogUpdateManyWithoutSenderNestedInput
-    transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
-    transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
-    transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
-    employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
-    permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
-  }
-
-  export type EmployeeUncheckedUpdateWithoutWebsiteSettingsUpdatedInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    departmentId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    roleId?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    email?: NullableStringFieldUpdateOperationsInput | string | null
-    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
-    name?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    hireDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    resignDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    status?: StringFieldUpdateOperationsInput | string
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    meta?: JsonNullValueInput | InputJsonValue
-    lastLoginAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    attendanceRecords?: AttendanceRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    auditLogsAsActor?: AuditLogUncheckedUpdateManyWithoutActorNestedInput
-    boardCommentsAuthored?: BoardCommentUncheckedUpdateManyWithoutAuthorNestedInput
-    boardPostsAuthored?: BoardPostUncheckedUpdateManyWithoutAuthorNestedInput
-    carePlansCreated?: CarePlanUncheckedUpdateManyWithoutCreatorNestedInput
-    careTasksAssigned?: CareTaskUncheckedUpdateManyWithoutAssigneeNestedInput
-    cctvViewLogsApproved?: CctvViewLogUncheckedUpdateManyWithoutApproverNestedInput
-    cctvViewLogsAsViewer?: CctvViewLogUncheckedUpdateManyWithoutViewerNestedInput
-    consultationsCounseled?: ConsultationRecordUncheckedUpdateManyWithoutCounselorNestedInput
-    educations?: EmployeeEducationUncheckedUpdateManyWithoutEmployeeNestedInput
-    inspectionsPerformed?: FacilityInspectionUncheckedUpdateManyWithoutInspectorNestedInput
-    filesCreated?: FileStorageUncheckedUpdateManyWithoutCreatorNestedInput
-    galleryItemsCreated?: GalleryItemUncheckedUpdateManyWithoutCreatorNestedInput
-    grievancesAssigned?: GrievanceUncheckedUpdateManyWithoutAssigneeNestedInput
-    incidentsReported?: IncidentUncheckedUpdateManyWithoutReporterNestedInput
-    insuranceClaimHistoryChanged?: InsuranceClaimHistoryUncheckedUpdateManyWithoutChangerNestedInput
-    insuranceClaimsCreated?: InsuranceClaimUncheckedUpdateManyWithoutCreatorNestedInput
-    inventoryTransactionsCreated?: InventoryTransactionUncheckedUpdateManyWithoutCreatorNestedInput
-    leaveApprovalsGiven?: LeaveApprovalUncheckedUpdateManyWithoutApproverNestedInput
-    leaveRequests?: LeaveRequestUncheckedUpdateManyWithoutEmployeeNestedInput
-    mealPlansCreated?: MealPlanUncheckedUpdateManyWithoutCreatorNestedInput
-    noticesCreated?: NoticeUncheckedUpdateManyWithoutCreatorNestedInput
-    payrollRecords?: PayrollRecordUncheckedUpdateManyWithoutEmployeeNestedInput
-    popupBannersCreated?: PopupBannerUncheckedUpdateManyWithoutCreatorNestedInput
-    programAttendance?: ProgramAttendanceUncheckedUpdateManyWithoutEmployeeNestedInput
-    programsCreated?: ProgramUncheckedUpdateManyWithoutCreatorNestedInput
-    healthNotesRecorded?: ResidentHealthNoteUncheckedUpdateManyWithoutRecorderNestedInput
-    vitalsRecorded?: ResidentVitalUncheckedUpdateManyWithoutRecorderNestedInput
-    shiftAssignments?: ShiftAssignmentUncheckedUpdateManyWithoutEmployeeNestedInput
-    smsLogsSent?: SmsSendLogUncheckedUpdateManyWithoutSenderNestedInput
-    transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
-    transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
-    transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
-    employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
-    permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
-  }
-
   export type CarePlanItemCreateWithoutCarePlanInput = {
     id?: bigint | number
     sequenceNo: number
@@ -131068,7 +131190,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -131122,7 +131243,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -131291,7 +131411,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -131345,7 +131464,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -131564,7 +131682,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -131618,7 +131735,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -131783,7 +131899,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -131837,7 +131952,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -132136,7 +132250,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -132190,7 +132303,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -132355,7 +132467,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -132409,7 +132520,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -132694,7 +132804,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -132748,7 +132857,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -132887,7 +132995,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -132941,7 +133048,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -133214,7 +133320,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -133268,7 +133373,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -133338,7 +133442,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -133392,7 +133495,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -133492,7 +133594,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -133546,7 +133647,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -133641,7 +133741,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -133695,7 +133794,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -133808,7 +133906,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -133862,7 +133959,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -133948,7 +134044,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -134002,7 +134097,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -134056,7 +134150,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -134110,7 +134203,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -134211,7 +134303,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -134265,7 +134356,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -134666,7 +134756,6 @@ export namespace Prisma {
     smsLogsSent?: SmsSendLogCreateNestedManyWithoutSenderInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -134720,7 +134809,6 @@ export namespace Prisma {
     smsLogsSent?: SmsSendLogUncheckedCreateNestedManyWithoutSenderInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -134837,7 +134925,6 @@ export namespace Prisma {
     smsLogsSent?: SmsSendLogUpdateManyWithoutSenderNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -134891,7 +134978,6 @@ export namespace Prisma {
     smsLogsSent?: SmsSendLogUncheckedUpdateManyWithoutSenderNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -135136,7 +135222,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -135190,7 +135275,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -135288,7 +135372,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -135342,7 +135425,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -135802,7 +135884,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -135856,7 +135937,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -136044,7 +136124,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -136098,7 +136177,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -136323,7 +136401,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -136377,7 +136454,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -136492,7 +136568,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -136546,7 +136621,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -136705,7 +136779,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -136759,7 +136832,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -136897,7 +136969,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -136951,7 +137022,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -137145,7 +137215,6 @@ export namespace Prisma {
     smsLogsSent?: SmsSendLogCreateNestedManyWithoutSenderInput
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -137199,7 +137268,6 @@ export namespace Prisma {
     smsLogsSent?: SmsSendLogUncheckedCreateNestedManyWithoutSenderInput
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -137258,7 +137326,6 @@ export namespace Prisma {
     smsLogsSent?: SmsSendLogCreateNestedManyWithoutSenderInput
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -137312,7 +137379,6 @@ export namespace Prisma {
     smsLogsSent?: SmsSendLogUncheckedCreateNestedManyWithoutSenderInput
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -137492,7 +137558,6 @@ export namespace Prisma {
     smsLogsSent?: SmsSendLogUpdateManyWithoutSenderNestedInput
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -137546,7 +137611,6 @@ export namespace Prisma {
     smsLogsSent?: SmsSendLogUncheckedUpdateManyWithoutSenderNestedInput
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -137611,7 +137675,6 @@ export namespace Prisma {
     smsLogsSent?: SmsSendLogUpdateManyWithoutSenderNestedInput
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -137665,7 +137728,6 @@ export namespace Prisma {
     smsLogsSent?: SmsSendLogUncheckedUpdateManyWithoutSenderNestedInput
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -137887,7 +137949,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -137941,7 +138002,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -138033,7 +138093,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -138087,7 +138146,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -138157,7 +138215,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -138211,7 +138268,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -138315,7 +138371,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -138369,7 +138424,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -138423,7 +138477,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -138477,7 +138530,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -138616,7 +138668,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -138670,7 +138721,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -138799,7 +138849,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -138853,7 +138902,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -138923,7 +138971,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -138977,7 +139024,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -139031,7 +139077,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -139085,7 +139130,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -139155,7 +139199,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -139209,7 +139252,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -139307,7 +139349,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -139361,7 +139402,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -139531,7 +139571,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -139585,7 +139624,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -139687,7 +139725,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionCreateNestedManyWithoutUpdaterInput
@@ -139741,7 +139778,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsCreated?: TransportRequestUncheckedCreateNestedManyWithoutCreatorInput
     transportRequestsAsDriver?: TransportRequestUncheckedCreateNestedManyWithoutDriverInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedCreateNestedManyWithoutUpdaterInput
     siteInfosUpdated?: SiteInfoUncheckedCreateNestedManyWithoutUpdaterInput
     employeePermissions?: EmployeePermissionUncheckedCreateNestedManyWithoutEmployeeInput
     permissionUpdates?: EmployeePermissionUncheckedCreateNestedManyWithoutUpdaterInput
@@ -139811,7 +139847,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -139865,7 +139900,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -140185,6 +140219,48 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RoomCreateManyFacilityInput = {
+    id?: bigint | number
+    floor: string
+    roomName: string
+    capacity?: number | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RoomUpdateWithoutFacilityInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    floor?: StringFieldUpdateOperationsInput | string
+    roomName?: StringFieldUpdateOperationsInput | string
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    residentRooms?: ResidentRoomUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomUncheckedUpdateWithoutFacilityInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    floor?: StringFieldUpdateOperationsInput | string
+    roomName?: StringFieldUpdateOperationsInput | string
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    residentRooms?: ResidentRoomUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomUncheckedUpdateManyWithoutFacilityInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    floor?: StringFieldUpdateOperationsInput | string
+    roomName?: StringFieldUpdateOperationsInput | string
+    capacity?: NullableIntFieldUpdateOperationsInput | number | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type EmployeeCreateManyDepartmentInput = {
     id?: bigint | number
     roleId?: bigint | number | null
@@ -140250,7 +140326,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -140304,7 +140379,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -140401,7 +140475,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUpdateManyWithoutUpdaterNestedInput
@@ -140455,7 +140528,6 @@ export namespace Prisma {
     transactionsCreated?: TransactionUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsCreated?: TransportRequestUncheckedUpdateManyWithoutCreatorNestedInput
     transportRequestsAsDriver?: TransportRequestUncheckedUpdateManyWithoutDriverNestedInput
-    websiteSettingsUpdated?: WebsiteSettingUncheckedUpdateManyWithoutUpdaterNestedInput
     siteInfosUpdated?: SiteInfoUncheckedUpdateManyWithoutUpdaterNestedInput
     employeePermissions?: EmployeePermissionUncheckedUpdateManyWithoutEmployeeNestedInput
     permissionUpdates?: EmployeePermissionUncheckedUpdateManyWithoutUpdaterNestedInput
@@ -140919,17 +140991,6 @@ export namespace Prisma {
     actualArrival?: Date | string | null
     notes?: string | null
     createdBy?: bigint | number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type WebsiteSettingCreateManyUpdaterInput = {
-    id?: bigint | number
-    category: string
-    key: string
-    value?: JsonNullValueInput | InputJsonValue
-    description?: string | null
-    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -142262,39 +142323,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type WebsiteSettingUpdateWithoutUpdaterInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    category?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WebsiteSettingUncheckedUpdateWithoutUpdaterInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    category?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type WebsiteSettingUncheckedUpdateManyWithoutUpdaterInput = {
-    id?: BigIntFieldUpdateOperationsInput | bigint | number
-    category?: StringFieldUpdateOperationsInput | string
-    key?: StringFieldUpdateOperationsInput | string
-    value?: JsonNullValueInput | InputJsonValue
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    isActive?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type SiteInfoUpdateWithoutUpdaterInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
     serviceName?: StringFieldUpdateOperationsInput | string
@@ -142551,7 +142579,7 @@ export namespace Prisma {
 
   export type ResidentRoomCreateManyResidentInput = {
     id?: bigint | number
-    roomLabel: string
+    roomId: bigint | number
     bedLabel?: string | null
     startsAt: Date | string
     endsAt?: Date | string | null
@@ -143060,18 +143088,18 @@ export namespace Prisma {
 
   export type ResidentRoomUpdateWithoutResidentInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    roomLabel?: StringFieldUpdateOperationsInput | string
     bedLabel?: NullableStringFieldUpdateOperationsInput | string | null
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    room?: RoomUpdateOneRequiredWithoutResidentRoomsNestedInput
   }
 
   export type ResidentRoomUncheckedUpdateWithoutResidentInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    roomLabel?: StringFieldUpdateOperationsInput | string
+    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
     bedLabel?: NullableStringFieldUpdateOperationsInput | string | null
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -143082,7 +143110,7 @@ export namespace Prisma {
 
   export type ResidentRoomUncheckedUpdateManyWithoutResidentInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    roomLabel?: StringFieldUpdateOperationsInput | string
+    roomId?: BigIntFieldUpdateOperationsInput | bigint | number
     bedLabel?: NullableStringFieldUpdateOperationsInput | string | null
     startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
     endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -143177,6 +143205,50 @@ export namespace Prisma {
     actualArrival?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResidentRoomCreateManyRoomInput = {
+    id?: bigint | number
+    residentId: bigint | number
+    bedLabel?: string | null
+    startsAt: Date | string
+    endsAt?: Date | string | null
+    isPrimary?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ResidentRoomUpdateWithoutRoomInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    bedLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    resident?: ResidentUpdateOneRequiredWithoutRoomsNestedInput
+  }
+
+  export type ResidentRoomUncheckedUpdateWithoutRoomInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    residentId?: BigIntFieldUpdateOperationsInput | bigint | number
+    bedLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResidentRoomUncheckedUpdateManyWithoutRoomInput = {
+    id?: BigIntFieldUpdateOperationsInput | bigint | number
+    residentId?: BigIntFieldUpdateOperationsInput | bigint | number
+    bedLabel?: NullableStringFieldUpdateOperationsInput | string | null
+    startsAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isPrimary?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

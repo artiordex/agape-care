@@ -9,7 +9,7 @@ import { ApiResponseSchema } from '../schemas/common/response.schema.js';
 import { DashboardStatsSchema, DashboardWidgetsSchema } from '../schemas/dashboard/dashboard.schema.js';
 
 const authHeader = z.object({
-  authorization: z.string().describe('Bearer {token}'),
+  authorization: z.string().optional().describe('Bearer {token}'),
 });
 
 export const dashboardContract = {

@@ -3,26 +3,20 @@
  * Author : Shiwoo Min
  * Date : 2026-01-29
  */
-'use client';
-
 import AppShell from '@/components/AppShell';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import AuthInitializer from '@/components/AuthInitializer';
 
 interface AdminLayoutProps {
   readonly children: React.ReactNode;
 }
 
 export default function AdminLayout({ children }: AdminLayoutProps) {
-  const router = useRouter();
-
-  // 관리자 인증 가드
-  useEffect(() => {
-    const isAuth = localStorage.getItem('admin_auth');
-    if (isAuth !== '1') {
-      router.replace('/login');
-    }
-  }, [router]);
-
-  return <AppShell>{children}</AppShell>;
+  // 인증 가드는 middleware.ts에서 처리 (httpOnly Cookie 기반)
+  // AuthInitializer: 새로고침 시 Zustand 스토어 복원
+  return (
+    <>
+      <AuthInitializer />
+      <AppShell>{children}</AppShell>
+    </>
+  );
 }

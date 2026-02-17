@@ -63,3 +63,24 @@ export type CreateRoomRequest = z.infer<typeof CreateRoomRequestSchema>;
 export type UpdateRoomRequest = z.infer<typeof UpdateRoomRequestSchema>;
 export type GetRoomsResponse = z.infer<typeof GetRoomsResponseSchema>;
 export type CurrentRoom = z.infer<typeof CurrentRoomSchema>;
+
+/**
+ * 생활실 마스터 정보 (목록 조회용)
+ */
+export const RoomMasterSchema = z.object({
+  id: z.string(),
+  facilityId: z.string(),
+  floor: z.string(),
+  roomName: z.string(),
+  capacity: z.number(),
+  currentCount: z.number().default(0),
+  isActive: z.boolean(),
+});
+
+/**
+ * 생활실 목록 응답
+ */
+export const GetRoomListResponseSchema = z.array(RoomMasterSchema);
+
+export type RoomMaster = z.infer<typeof RoomMasterSchema>;
+export type GetRoomListResponse = z.infer<typeof GetRoomListResponseSchema>;

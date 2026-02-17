@@ -10,7 +10,6 @@ import clsx from 'clsx';
 import React, { useState } from 'react';
 import SidebarFooter from './SidebarFooter';
 import { useSidebarMenus } from './hooks/useSidebarMenus';
-import { useSidebarUser } from './hooks/useSidebarUser';
 
 /**
  * SidebarProps: 사이드바 제어를 위한 부모 컴포넌트 전달 속성
@@ -33,9 +32,6 @@ interface SidebarProps {
 export default function AdminSidebar({ activeMenu, collapsed, onToggleCollapse, onMenuClick }: SidebarProps) {
   // 메뉴 상태 관리 훅 사용
   const { menus, openMenus, toggleMenu } = useSidebarMenus(activeMenu);
-
-  // 커스텀 훅을 통해 현재 로그인한 사용자 정보 호출
-  const { user } = useSidebarUser();
 
   /* 툴팁 상태 관리 (사이드바가 축소되었을 때 아이콘 옆에 뜨는 설명창) */
   const [hoveredMenu, setHoveredMenu] = useState<string | null>(null); // 현재 호버 중인 메뉴 이름
@@ -159,7 +155,6 @@ export default function AdminSidebar({ activeMenu, collapsed, onToggleCollapse, 
 
         {/* 3. 사이드바 하단 (사용자 정보 카드 영역) */}
         <SidebarFooter
-          user={user}
           collapsed={collapsed}
           onMenuClick={onMenuClick}
           enableTooltip={true}

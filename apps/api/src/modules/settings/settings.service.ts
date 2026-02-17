@@ -1,6 +1,6 @@
 import { EmployeePermissionSchema, FacilitySchema, SiteInfoSchema } from '@agape-care/api-contract';
 import { PrismaService } from '@agape-care/database';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { z } from 'zod';
 
 @Injectable()
@@ -11,7 +11,34 @@ export class SettingsService {
   async getFacilityInfo(): Promise<z.infer<typeof FacilitySchema>> {
     const facility = await this.prisma.facility.findFirst();
     if (!facility) {
-      throw new NotFoundException('Facility info not found');
+      // 404 대신 기본값 반환
+      return {
+        id: '0',
+        orgCode: '',
+        facilityName: '',
+        facilityDesc: '',
+        facilityType: '노인요양시설',
+        designatedDate: null,
+        director: '',
+        directorPhone: '',
+        ceoName: '',
+        businessNo: '',
+        bizType: '',
+        staffCount: 0,
+        phone: '',
+        fax: '',
+        email: '',
+        homepage: '',
+        zip: '',
+        address1: '',
+        address2: '',
+        totalCapacity: 0,
+        shortStayCapacity: 0,
+        dayCareCapacity: 0,
+        stampImage: '',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
     }
 
     return {
@@ -57,7 +84,25 @@ export class SettingsService {
   // Site Info
   async getSiteInfo(): Promise<z.infer<typeof SiteInfoSchema>> {
     const siteInfo = await this.prisma.siteInfo.findFirst();
-    if (!siteInfo) throw new NotFoundException('Site info not found');
+    if (!siteInfo) {
+      // Return default empty object instead of 404
+      return {
+        id: '0',
+        serviceName: '',
+        serviceDesc: '',
+        contactPhone: '',
+        contactEmail: '',
+        customerHours: '',
+        metaTitle: '',
+        metaDescription: '',
+        metaKeywords: '',
+        footerText: '',
+        legalNotice: '',
+        updatedBy: null,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+    }
 
     return {
       ...siteInfo,

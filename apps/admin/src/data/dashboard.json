@@ -62,7 +62,8 @@
     {
       "label": "보고서 생성",
       "icon": "ri-file-chart-line",
-      "color": "from-orange-500 to-orange-600"
+      "color": "from-orange-500 to-orange-600",
+      "action": "generateReport"
     }
   ]
 }

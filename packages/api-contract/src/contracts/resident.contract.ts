@@ -17,6 +17,7 @@ import {
   GetMedicationsResponseSchema,
   GetResidentsQuerySchema,
   GetResidentsResponseSchema,
+  GetRoomListResponseSchema,
   ResidentContactSchema,
   ResidentHealthNoteSchema,
   ResidentMedicationSchema,
@@ -29,7 +30,7 @@ import {
 } from '../schemas/resident/index.js';
 
 const authHeader = z.object({
-  authorization: z.string().describe('Bearer {token}'),
+  authorization: z.string().optional().describe('Bearer {token}'),
 });
 
 const errorResponse = (statusCode: number) =>
@@ -53,6 +54,21 @@ export const residentContract = {
     },
     summary: '입소자 목록 조회',
     description: '입소자 목록을 페이징하여 조회합니다.',
+    headers: authHeader,
+  },
+
+  /**
+   * GET /api/residents/rooms/list
+   * 생활실 목록 조회
+   */
+  getRoomList: {
+    method: 'GET' as const,
+    path: '/api/residents/rooms/list',
+    responses: {
+      200: GetRoomListResponseSchema,
+    },
+    summary: '생활실 목록 조회 (배정 현황)',
+    description: '생활실 목록과 현재 배정 인원을 조회합니다.',
     headers: authHeader,
   },
 

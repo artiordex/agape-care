@@ -92,7 +92,9 @@ export default function MealPlanStatBanner({ stats, month, onPrevMonth, onNextMo
 
           <div className="flex items-center gap-2 text-[11px] font-bold text-gray-400">
             <i className="ri-time-line"></i>
-            <span>마지막 업데이트: {new Date().toLocaleTimeString()}</span>
+            <span>
+              마지막 업데이트: <span suppressHydrationWarning>{new Date().toLocaleTimeString()}</span>
+            </span>
           </div>
         </div>
       )}

@@ -26,10 +26,10 @@ ON CONFLICT (id) DO NOTHING;
 
 -- EMPLOYEES (직원)
 INSERT INTO employees (id, department_id, role_id, email, password_hash, name, phone_number, hire_date, status, is_admin) VALUES
-  (1, 1, 1, 'admin@agape-care.kr', '$2b$10$abcdefghijklmnopqrstuvwxyz1234567890', '시스템관리자', '02-1234-5678', '2020-01-01', 'ACTIVE', TRUE),
-  (2, 1, 2, 'director@agape-care.kr', '$2b$10$abcdefghijklmnopqrstuvwxyz1234567890', '김원장', '010-1111-2222', '2020-01-01', 'ACTIVE', FALSE),
-  (7, 1, 6, 'social1@agape-care.kr', '$2b$10$abcdefghijklmnopqrstuvwxyz1234567890', '정사회복지사', '010-6666-7777', '2021-09-01', 'ACTIVE', FALSE),
-  (6, 4, 5, 'cook1@agape-care.kr', '$2b$10$abcdefghijklmnopqrstuvwxyz1234567890', '강조리사', '010-5555-6666', '2021-04-01', 'ACTIVE', FALSE)
+  (1, 1, 1, 'admin@agape-care.kr', '$2a$10$QHdobw1GNeLT3lxSyl9ms.y6qITjP.1S5DNRW3PcktTpwk22UWguC', '시스템관리자', '02-1234-5678', '2020-01-01', 'ACTIVE', TRUE),
+  (2, 1, 2, 'director@agape-care.kr', '$2a$10$1vuXDmIt3Krmoz7XZozC8OZvQcBv8tS28MzfQXgAy14bq2y94hEZ2', '김원장', '010-1111-2222', '2020-01-01', 'ACTIVE', FALSE),
+  (7, 1, 6, 'social1@agape-care.kr', '$2a$10$dewuQopfw9ixfKYFLtYy9eZCwkK6fendZJH360MJW7bkvUWvwcvti', '정사회복지사', '010-6666-7777', '2021-09-01', 'ACTIVE', FALSE),
+  (6, 4, 5, 'cook1@agape-care.kr', '$2a$10$tD..HvTsKJc7VyAo/DBmv.Sy7ghP/XLdcoX43VTRI.pn1byF6LEeK', '강조리사', '010-5555-6666', '2021-04-01', 'ACTIVE', FALSE)
 ON CONFLICT (id) DO NOTHING;
 
 -- FILE_STORAGE (샘플 파일)

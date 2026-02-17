@@ -24,7 +24,7 @@ import {
 } from '../schemas/settings/settings.schema.js';
 
 const authHeader = z.object({
-  authorization: z.string().describe('Bearer {token}'),
+  authorization: z.string().optional().describe('Bearer {token}'),
 });
 
 export const settingContract = {

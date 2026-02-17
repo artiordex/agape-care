@@ -648,6 +648,7 @@ model Facility {
   createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
   /// 수정일시
   updatedAt         DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  rooms             Room[]
 
   @@map("facilities")
 }
@@ -822,7 +823,6 @@ model Employee {
   transactionsCreated          Transaction[]
   transportRequestsCreated     TransportRequest[]      @relation("TransportCreator")
   transportRequestsAsDriver    TransportRequest[]      @relation("TransportDriver")
-  websiteSettingsUpdated       WebsiteSetting[]        @relation("SettingUpdater")
   siteInfosUpdated             SiteInfo[]              @relation("SiteInfoUpdater")
   employeePermissions          EmployeePermission[]
   permissionUpdates            EmployeePermission[]    @relation("PermissionUpdater")
@@ -918,14 +918,39 @@ model Resident {
   @@map("residents")
 }
 
+/// 생활실 정보
+model Room {
+  /// 생활실 ID (Primary Key)
+  id            BigInt         @id @default(autoincrement())
+  /// 시설 ID (외래키)
+  facilityId    BigInt         @map("facility_id")
+  /// 층 (예: 1층, 2층)
+  floor         String
+  /// 생활실명 (예: 101호)
+  roomName      String         @map("room_name")
+  /// 정원
+  capacity      Int?           @default(4)
+  /// 사용 가능 여부
+  isActive      Boolean        @default(true) @map("is_active")
+  /// 생성일시
+  createdAt     DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정일시
+  updatedAt     DateTime       @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  facility      Facility       @relation(fields: [facilityId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  residentRooms ResidentRoom[]
+
+  @@unique([facilityId, floor, roomName], map: "rooms_name_uniq")
+  @@map("rooms")
+}
+
 /// 입소자 방/침대 배정 이력
 model ResidentRoom {
   /// 배정 ID (Primary Key)
   id         BigInt    @id @default(autoincrement())
   /// 입소자 ID (외래키)
   residentId BigInt    @map("resident_id")
-  /// 방 번호/라벨
-  roomLabel  String    @map("room_label")
+  /// 방 ID (외래키)
+  roomId     BigInt    @map("room_id")
   /// 침대 번호/라벨
   bedLabel   String?   @map("bed_label")
   /// 배정 시작일
@@ -939,8 +964,10 @@ model ResidentRoom {
   /// 수정일시
   updatedAt  DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
   resident   Resident  @relation(fields: [residentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  room       Room      @relation(fields: [roomId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([residentId, startsAt], map: "idx_resident_rooms_resident")
+  @@index([roomId, endsAt], map: "idx_resident_rooms_room_active")
   @@map("resident_rooms")
 }
 
@@ -1045,34 +1072,6 @@ model ResidentVital {
 
   @@index([residentId, measuredAt(sort: Desc)], map: "idx_resident_vitals_resident_time")
   @@map("resident_vitals")
-}
-
-/// 웹사이트 설정
-model WebsiteSetting {
-  /// 설정 ID (Primary Key)
-  id          BigInt    @id @default(autoincrement())
-  /// 설정 카테고리 (GENERAL, SEO, CONTACT 등)
-  category    String
-  /// 설정 키
-  key         String
-  /// 설정 값 (JSON)
-  value       Json      @default("{}")
-  /// 설명
-  description String?
-  /// 활성화 여부
-  isActive    Boolean   @default(true) @map("is_active")
-  /// 수정자 ID (외래키)
-  updatedBy   BigInt?   @map("updated_by")
-  /// 생성일시
-  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  /// 수정일시
-  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-  updater     Employee? @relation("SettingUpdater", fields: [updatedBy], references: [id], onUpdate: NoAction)
-
-  @@unique([category, key], map: "website_settings_uniq")
-  @@index([category, isActive], map: "idx_website_settings_category")
-  @@index([category, key], map: "idx_website_settings_category_key")
-  @@map("website_settings")
 }
 
 /// 케어 플랜 (돌봄 계획)

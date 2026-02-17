@@ -44,7 +44,7 @@ export default function ActivityLog({ activities, onViewAll }: Props) {
         <ul className="divide-y divide-gray-100">
           {activities.length === 0 ? (
             <li className="flex flex-col items-center py-12 text-gray-300">
-              <i className="ri- timer-line mb-2 text-3xl opacity-20"></i>
+              <i className="ri-timer-line mb-2 text-3xl opacity-20"></i>
               <p className="font-bold uppercase tracking-widest">최근 로그가 없습니다</p>
             </li>
           ) : (

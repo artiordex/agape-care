@@ -12,14 +12,31 @@ import { useEffect, useState } from 'react';
  * [Header] 실시간 통합 관제 대시보드 헤더
  * 시스템 상태 인디케이터 및 실시간 타임스탬프 포함
  */
-export default function DashboardHeader() {
+interface Props {
+  readonly onRefresh?: () => void;
+}
+
+export default function DashboardHeader({ onRefresh }: Props) {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // 실시간 시계 업데이트 (ERP의 정밀성 강조)
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
+
+  // 새로고침 핸들러 (로딩 애니메이션 포함)
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    onRefresh?.();
+    setTimeout(() => setIsRefreshing(false), 900);
+  };
+
+  // 보고서 출력 핸들러
+  const handlePrintReport = () => {
+    window.print();
+  };
 
   // 날짜 포맷팅 함수 (YYYY-MM-DD)
   const formatDate = (date: Date) => {
@@ -69,10 +86,18 @@ export default function DashboardHeader() {
 
         {/* 유틸리티 액션 버튼 */}
         <div className="flex items-center gap-2">
-          <button className="flex items-center gap-1.5 border border-gray-300 bg-white px-3 py-2 text-[12px] font-bold text-gray-600 shadow-sm transition-all hover:bg-gray-50 active:scale-95">
-            <i className="ri-refresh-line"></i>데이터 새로고침
+          <button
+            onClick={handleRefresh}
+            disabled={isRefreshing}
+            className="flex items-center gap-1.5 border border-gray-300 bg-white px-3 py-2 text-[12px] font-bold text-gray-600 shadow-sm transition-all hover:bg-gray-50 active:scale-95 disabled:opacity-60"
+          >
+            <i className={`ri-refresh-line ${isRefreshing ? 'animate-spin' : ''}`}></i>
+            {isRefreshing ? '새로고침 중...' : '데이터 새로고침'}
           </button>
-          <button className="flex items-center gap-1.5 bg-[#5C8D5A] px-4 py-2 text-[12px] font-black text-white shadow-md transition-all hover:bg-[#4a7248] active:scale-95">
+          <button
+            onClick={handlePrintReport}
+            className="flex items-center gap-1.5 bg-[#5C8D5A] px-4 py-2 text-[12px] font-black text-white shadow-md transition-all hover:bg-[#4a7248] active:scale-95"
+          >
             <i className="ri-file-chart-line"></i>운영 일일 보고서 출력
           </button>
         </div>

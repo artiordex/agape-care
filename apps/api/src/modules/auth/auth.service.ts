@@ -153,6 +153,7 @@ export class AuthService {
     }
 
     return {
+      sub: employee.id.toString(), // CurrentUserDto.sub 필드 (getMe, refresh에서 사용)
       id: employee.id.toString(),
       email: employee.email,
       name: employee.name,

@@ -124,8 +124,10 @@ export default function AppShell({ children }: AppShellProps) {
   const handleToggleCollapse = () => setCollapsed(prev => !prev);
   const handleCloseMobileMenu = () => setIsMobileMenuOpen(false);
 
-  const handleLogout = () => {
-    localStorage.removeItem('admin_auth');
+  const handleLogout = async () => {
+    // httpOnly Cookie 삭제 (Next.js API Route 통해 서버에서 처리)
+    await fetch('/api/auth/logout', { method: 'POST' });
+    // 로컬 UI 상태 정리
     localStorage.removeItem('active-menu');
     localStorage.removeItem('sidebar-collapsed');
     localStorage.removeItem('sidebar-open-menus');

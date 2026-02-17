@@ -1,17 +1,18 @@
 'use client';
 
-import staffData from '@/data/staff.json';
+import { useAuthStore } from '@/stores/auth.store';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 /**
  * [페이지] 아가페 케어 통합 관리자 로그인
- * 고딕 서체, 한국어 전용 UI, 완전 직각형 디자인 적용
+ * API 기반 JWT 인증 (httpOnly Cookie + Zustand)
  */
 export default function AdminLoginPage() {
   const router = useRouter();
+  const { setAuth } = useAuthStore();
 
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -22,20 +23,42 @@ export default function AdminLoginPage() {
     setError('');
     setIsLoading(true);
 
-    await new Promise(resolve => setTimeout(resolve, 500));
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
 
-    const account = staffData.adminAccounts.find(s => s.username === username);
+      const data = await res.json();
 
-    if (account?.password === password) {
-      localStorage.setItem('admin_auth', '1');
-      localStorage.setItem('admin_username', username);
-      localStorage.setItem('admin_role', account.role);
-      localStorage.setItem('admin_name', account.name);
-      localStorage.setItem('admin_department', account.team);
+      if (!res.ok || !data?.success) {
+        setError(data?.message || '이메일 또는 비밀번호가 올바르지 않습니다.');
+        setIsLoading(false);
+        return;
+      }
+
+      // Zustand 스토어에 사용자 정보 + 토큰 저장
+      const user = data.data?.user;
+      const accessToken = data.data?.accessToken;
+
+      if (user && accessToken) {
+        setAuth(
+          {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            isAdmin: user.isAdmin,
+            roleId: user.roleId ?? null,
+            departmentId: user.departmentId ?? null,
+          },
+          accessToken,
+        );
+      }
 
       router.replace('/dashboard');
-    } else {
-      setError('인증 정보가 올바르지 않습니다. 보안 담당자에게 문의하십시오.');
+    } catch {
+      setError('서버 연결에 실패했습니다. 잠시 후 다시 시도해주세요.');
       setIsLoading(false);
     }
   };
@@ -94,27 +117,28 @@ export default function AdminLoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="space-y-5">
-              {/* 아이디 입력 영역 */}
+              {/* 이메일 입력 영역 */}
               <div className="space-y-2">
                 <label
-                  htmlFor="username"
+                  htmlFor="email"
                   className="flex items-center gap-2 text-[11px] font-black uppercase italic tracking-widest text-gray-500"
                 >
-                  <span className="h-1.5 w-1.5 bg-[#5C8D5A]"></span>관리자 식별 아이디
+                  <span className="h-1.5 w-1.5 bg-[#5C8D5A]"></span>이메일 주소
                 </label>
                 <div className="relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center border-r border-gray-100 pl-4">
-                    <i className="ri-user-line text-lg text-[#5C8D5A]"></i>
+                    <i className="ri-mail-line text-lg text-[#5C8D5A]"></i>
                   </div>
                   <input
-                    id="username"
-                    type="text"
-                    value={username}
-                    onChange={e => setUsername(e.target.value)}
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
                     className="py-4.5 w-full rounded-none border-2 border-gray-200 bg-gray-50 pl-14 pr-4 text-sm font-bold text-gray-800 shadow-inner outline-none transition-all focus:border-[#5C8D5A] focus:bg-white"
-                    placeholder="아이디를 입력하십시오"
+                    placeholder="이메일을 입력하십시오"
                     required
                     disabled={isLoading}
+                    autoComplete="email"
                   />
                 </div>
               </div>
@@ -140,6 +164,7 @@ export default function AdminLoginPage() {
                     placeholder="비밀번호를 입력하십시오"
                     required
                     disabled={isLoading}
+                    autoComplete="current-password"
                   />
                   <button
                     type="button"

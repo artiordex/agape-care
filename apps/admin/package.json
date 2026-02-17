@@ -34,7 +34,8 @@
     "react-select": "^5.8.2",
     "recharts": "^2.14.1",
     "sonner": "^2.0.7",
-    "zod": "^3.24.1"
+    "zod": "^3.24.1",
+    "zustand": "^4.4.2"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

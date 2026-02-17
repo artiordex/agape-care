@@ -1,6 +1,7 @@
 'use client';
 
 import { api } from '@/lib/api';
+import { useAuthStore } from '@/stores/auth.store';
 import { useEffect, useMemo, useState } from 'react';
 import ProgramCalendar from './ProgramCalendar';
 import ProgramDetailModal from './ProgramDetailModal';
@@ -24,12 +25,21 @@ export default function ProgramManagementPage() {
   const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>('');
 
+  const { isInitialized, accessToken } = useAuthStore(state => ({
+    isInitialized: state.isInitialized,
+    accessToken: state.accessToken,
+  }));
+
   // API로부터 프로그램 데이터 로드
   const queryParams = {
     page: 1,
     limit: 100,
-    category: activeCategory !== '전체' ? activeCategory : undefined,
+    ...(activeCategory !== '전체' ? { category: activeCategory } : {}),
   };
+
+  // } = api.program.getSchedulesEnriched.useQuery(['programs', activeCategory], {
+  //   query: queryParams,
+  // } as any);
 
   const {
     data: programsData,
@@ -37,16 +47,22 @@ export default function ProgramManagementPage() {
     refetch,
     error,
     isError,
-  } = api.program.getSchedulesEnriched.useQuery(['programs', activeCategory], {
-    query: queryParams,
-  });
+  } = api.program.getSchedulesEnriched.useQuery(
+    ['programs', activeCategory],
+    {
+      query: queryParams,
+    } as any,
+    {
+      enabled: isInitialized && !!accessToken,
+    } as any,
+  );
 
   useEffect(() => {
     console.log('═══════════════════════════════════════════');
     console.log('[PROGRAM PAGE] Data state changed');
     console.log('[PROGRAM PAGE] isLoading:', isLoading);
     console.log('[PROGRAM PAGE] isError:', isError);
-    console.log('[PROGRAM PAGE] RAW programsData (전체 구조):', programsData);
+    console.log('[PROGRAM PAGE] isError:', isError);
     console.log('[PROGRAM PAGE] programsData:', {
       exists: !!programsData,
       keys: programsData ? Object.keys(programsData) : [],
@@ -60,10 +76,11 @@ export default function ProgramManagementPage() {
 
     if (error) {
       console.error('[PROGRAM PAGE] ❌ API Error:', error);
+      console.error('[PROGRAM PAGE] ❌ API Error Body:', JSON.stringify((error as any)?.body || 'No body'));
     }
 
-    if (programsData?.body?.items && programsData.body.items.length > 0) {
-      console.log('[PROGRAM PAGE] First item sample:', programsData.body.items[0]);
+    if (programsData?.body?.items && programsData.body?.items?.length > 0) {
+      console.log('[PROGRAM PAGE] First item sample:', programsData.body?.items?.[0]);
     } else if (programsData) {
       console.warn('[PROGRAM PAGE] ⚠️ No items in programsData');
     }
@@ -300,7 +317,7 @@ export default function ProgramManagementPage() {
     deleteScheduleMutation.mutate({
       params: { id },
       body: {},
-    });
+    } as any);
   };
 
   // 저장 (신규/수정)
@@ -322,7 +339,7 @@ export default function ProgramManagementPage() {
             color: data.color,
           },
         },
-      });
+      } as any);
 
       // Schedule 시간/장소 업데이트
       const startTime = new Date(`${data.date}T${data.time}:00`).toISOString();
@@ -339,7 +356,7 @@ export default function ProgramManagementPage() {
           capacity: data.maxParticipants,
           status: data.status,
         },
-      });
+      } as any);
     } else {
       // 신규: Program 생성 후 Schedule 생성
       const programResponse = await createProgramMutation.mutateAsync({
@@ -353,7 +370,7 @@ export default function ProgramManagementPage() {
             color: data.color,
           },
         },
-      });
+      } as any);
 
       if (programResponse.body) {
         const programId = programResponse.body.id;
@@ -369,7 +386,7 @@ export default function ProgramManagementPage() {
             endTime,
             location: data.location,
           },
-        });
+        } as any);
       }
     }
   };

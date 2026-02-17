@@ -18,19 +18,126 @@ interface Props {
 export default function ResidentProfile({ resident }: Props) {
   if (!resident) return null;
 
-  // th: 제목 셀 (배경색 및 너비 고정)
   const thClass =
     'bg-[#E8F1F8] border border-[#B8D1E0] px-2 py-1.5 text-center text-[13px] font-bold text-gray-700 w-[120px] shrink-0';
-  // td: 데이터 셀 (격자 밀착)
   const tdClass = 'border border-[#B8D1E0] px-3 py-1.5 text-[13px] text-gray-900';
-  // 버튼 스타일
   const btnTiny =
     'rounded border border-gray-300 bg-white px-1.5 py-0.5 text-[10px] font-normal text-gray-600 hover:bg-gray-50 shrink-0 ml-2';
 
   return (
     <div className="w-full bg-white font-sans antialiased">
-      {/* 메인 컨테이너: 사진 섹션과 표 섹션을 하나의 border-collapse로 묶음 */}
-      <div className="flex w-full border-collapse border border-[#B8D1E0]">
+      {/*
+        -------------------------------------------------------------------------
+        [Mobile View] md:hidden
+        -------------------------------------------------------------------------
+      */}
+      <div className="flex flex-col gap-3 p-3 lg:hidden">
+        {/* 1. 상단 프로필 카드 (사진 + 기본정보) */}
+        <div className="flex gap-3 rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
+          {/* 사진 */}
+          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-md border border-gray-200 bg-gray-50">
+            <i className="ri-user-fill text-4xl text-gray-300"></i>
+          </div>
+
+          {/* 기본 정보 */}
+          <div className="flex min-w-0 flex-1 flex-col justify-center gap-1">
+            <div className="flex items-center gap-2">
+              <h3 className="truncate text-lg font-bold text-gray-900">{resident.name}</h3>
+              <span
+                className={clsx(
+                  'shrink-0 rounded px-2 py-0.5 text-xs font-bold',
+                  resident.status === '입소' ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-600',
+                )}
+              >
+                {resident.status}
+              </span>
+            </div>
+            <div className="text-xs text-gray-500">
+              {resident.gender} · 만 {resident.age}세
+            </div>
+            <div className="flex min-w-0 items-center gap-2 text-sm text-gray-700">
+              <span className="shrink-0 font-semibold text-[#5C8D5A]">{resident.room}</span>
+              <span className="h-3 w-px shrink-0 bg-gray-300"></span>
+              <span className="truncate">{resident.birthDate}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* 2. 상세 정보 — 라벨(좌) + 값(우) 1열 구조 */}
+        <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+
+          {/* 연락처 */}
+          <div className="flex items-center border-b border-gray-100">
+            <div className="w-[90px] shrink-0 bg-[#E8F1F8] px-3 py-2.5 text-[11px] font-bold text-gray-600">연락처</div>
+            <div className="flex min-w-0 flex-1 items-center gap-2 px-3 py-2.5">
+              <span className="truncate text-[13px] font-medium text-gray-900">{resident.phone}</span>
+              <a
+                href={`tel:${resident.phone}`}
+                className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded bg-blue-50 text-blue-600"
+              >
+                <i className="ri-phone-fill text-xs"></i>
+              </a>
+            </div>
+          </div>
+
+          {/* 장기요양등급 */}
+          <div className="flex items-center border-b border-gray-100">
+            <div className="w-[90px] shrink-0 bg-[#E8F1F8] px-3 py-2.5 text-[11px] font-bold text-gray-600">장기요양등급</div>
+            <div className="min-w-0 flex-1 px-3 py-2.5">
+              <span className="text-[13px] font-medium text-gray-900">{resident.grade}</span>
+              <span className="ml-1 text-[11px] text-gray-400">({resident.copaymentRate}%)</span>
+            </div>
+          </div>
+
+          {/* 입소일자 */}
+          <div className="flex items-center border-b border-gray-100">
+            <div className="w-[90px] shrink-0 bg-[#E8F1F8] px-3 py-2.5 text-[11px] font-bold text-gray-600">입소일자</div>
+            <div className="min-w-0 flex-1 px-3 py-2.5 text-[13px] font-medium text-gray-900">{resident.admissionDate}</div>
+          </div>
+
+          {/* 등급유효기간 */}
+          <div className="flex items-center border-b border-gray-100">
+            <div className="w-[90px] shrink-0 bg-[#E8F1F8] px-3 py-2.5 text-[11px] font-bold text-gray-600">등급유효기간</div>
+            <div className="min-w-0 flex-1 px-3 py-2.5 text-[12px] font-medium text-gray-900">
+              {resident.gradeValidUntil} 까지
+            </div>
+          </div>
+
+          {/* 주요질환 */}
+          <div className="flex items-start border-b border-gray-100">
+            <div className="w-[90px] shrink-0 bg-[#E8F1F8] px-3 py-2.5 text-[11px] font-bold text-gray-600">주요질환</div>
+            <div className="min-w-0 flex-1 px-3 py-2.5 text-[13px] leading-snug text-gray-800">
+              {resident.diseases || '-'}
+            </div>
+          </div>
+
+          {/* 거주지 */}
+          <div className="flex items-start">
+            <div className="w-[90px] shrink-0 bg-[#E8F1F8] px-3 py-2.5 text-[11px] font-bold text-gray-600">거주지</div>
+            <div className="min-w-0 flex-1 break-keep px-3 py-2.5 text-[13px] leading-snug text-gray-800">
+              {resident.address}
+            </div>
+          </div>
+        </div>
+
+        {/* 3. 메모 카드 (별도 분리) */}
+        {resident.memo && (
+          <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-3 shadow-sm">
+            <div className="mb-1 flex items-center gap-1 text-[11px] font-bold text-yellow-700">
+              <i className="ri-sticky-note-fill"></i> 특이사항 (메모)
+            </div>
+            <div className="whitespace-pre-wrap text-[13px] leading-relaxed text-gray-800">{resident.memo}</div>
+          </div>
+        )}
+      </div>
+
+      {/*
+        -------------------------------------------------------------------------
+        [PC View] hidden md:flex
+        기존 코드 그대로 유지하되 hidden md:flex 래퍼로 감싸서 분기처리
+        -------------------------------------------------------------------------
+      */}
+      <div className="hidden w-full border-collapse border border-[#B8D1E0] lg:flex">
         {/* 좌측 사진 섹션: 높이를 표 전체와 동기화 */}
         <div className="flex w-[180px] shrink-0 flex-col items-center justify-center border-r border-[#B8D1E0] bg-white p-3">
           <div className="relative mb-2 flex h-[180px] w-[140px] items-center justify-center border border-dashed border-gray-300 bg-gray-50">

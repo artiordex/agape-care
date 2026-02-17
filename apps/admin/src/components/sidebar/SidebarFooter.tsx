@@ -9,9 +9,11 @@
 import clsx from 'clsx';
 import React from 'react';
 
+import { useSidebarUser } from './hooks/useSidebarUser';
+
 /**
  * SidebarFooterProps 인터페이스
- * @property user - 현재 로그인한 사용자의 정보 객체 (이름, 역할, 등급, 접속로그, 아바타)
+ * @property user - (Optional) 사용자 정보 객체. 제공되지 않으면 내부 hook 사용
  * @property collapsed - 사이드바의 축소/확장 상태 여부 (기본값: false)
  * @property onMenuClick - 버튼 클릭 시 이동할 메뉴 ID 전달 (내 정보, 로그아웃 등)
  * @property onClose - (옵션) 모바일 환경 등에서 메뉴 클릭 후 사이드바를 닫을 때 사용
@@ -20,7 +22,7 @@ import React from 'react';
  * @property onLeave - 툴팁 제거를 위한 마우스 리브 이벤트 핸들러
  */
 interface SidebarFooterProps {
-  readonly user: {
+  readonly user?: {
     name: string;
     role: string;
     roleLevel: string;
@@ -41,7 +43,7 @@ interface SidebarFooterProps {
  * 사이드바 하단에 고정되는 사용자 마스터 프로필 영역입니다.
  */
 export default function SidebarFooter({
-  user,
+  user: propUser,
   collapsed = false,
   onMenuClick,
   onClose,
@@ -49,6 +51,8 @@ export default function SidebarFooter({
   onShowTooltip,
   onHideTooltip,
 }: SidebarFooterProps) {
+  const { user: hookUser } = useSidebarUser();
+  const user = propUser || hookUser;
   return (
     // 푸터 컨테이너
     <div className="border-t border-gray-200 bg-white antialiased">
@@ -75,78 +79,91 @@ export default function SidebarFooter({
       </div>
 
       {/* 하단 사용자 마스터 프로필 섹션 */}
-      {user && (
-        <div className={clsx('border-t border-gray-200 bg-[#f8fafc] py-4', collapsed ? 'px-0' : 'px-4')}>
-          {/* 사용자 정보 요약 레이아웃 */}
-          <button
-            type="button"
-            className={clsx('flex w-full items-center text-left focus:outline-none', collapsed ? 'justify-center' : 'gap-3')}
-            onMouseEnter={e =>
-              enableTooltip &&
-              collapsed &&
-              onShowTooltip?.(e, `${user.name}\n${user.role}\n${user.roleLevel}\n마지막 접속: ${user.lastLogin}`)
-            }
-            onMouseLeave={onHideTooltip}
-            onFocus={e =>
-              enableTooltip &&
-              collapsed &&
-              onShowTooltip?.(e, `${user.name}\n${user.role}\n${user.roleLevel}\n마지막 접속: ${user.lastLogin}`)
-            }
-            onBlur={onHideTooltip}
-          >
-            {/* 아바타 이미지: 이중 테두리 및 그림자 효과로 입체감 부여 */}
-            <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border-2 border-white bg-white shadow-md ring-1 ring-emerald-100">
-              <img src={user.avatar} alt={user.name} className="h-full w-full object-cover" />
-            </div>
+      <div className={clsx('border-t border-gray-200 bg-[#f8fafc] py-4', collapsed ? 'px-0' : 'px-4')}>
+        {user ? (
+          <>
+            {/* 사용자 정보 요약 레이아웃 */}
+            <button
+              type="button"
+              className={clsx('flex w-full items-center text-left focus:outline-none', collapsed ? 'justify-center' : 'gap-3')}
+              onMouseEnter={e =>
+                enableTooltip &&
+                collapsed &&
+                onShowTooltip?.(e, `${user.name}\n${user.role}\n${user.roleLevel}\n마지막 접속: ${user.lastLogin}`)
+              }
+              onMouseLeave={onHideTooltip}
+              onFocus={e =>
+                enableTooltip &&
+                collapsed &&
+                onShowTooltip?.(e, `${user.name}\n${user.role}\n${user.roleLevel}\n마지막 접속: ${user.lastLogin}`)
+              }
+              onBlur={onHideTooltip}
+            >
+              {/* 아바타 이미지: 이중 테두리 및 그림자 효과로 입체감 부여 */}
+              <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border-2 border-white bg-white shadow-md ring-1 ring-emerald-100">
+                <img src={user.avatar} alt={user.name} className="h-full w-full object-cover" />
+              </div>
 
-            {/* 확장 모드 시 상세 정보 표시 (이름, 권한, 접속 시간) */}
+              {/* 확장 모드 시 상세 정보 표시 (이름, 권한, 접속 시간) */}
+              {!collapsed && (
+                <div className="min-w-0 flex-1">
+                  {/* 사용자 성함 및 님(접미사) */}
+                  <div className="truncate text-[13px] font-black leading-none text-gray-900">
+                    {user.name} <span className="ml-0.5 font-sans text-[12px] font-bold text-gray-400">님</span>
+                  </div>
+                  {/* 역할(Role) 및 등급(Level) 구분 레이아웃 */}
+                  <div className="mt-1.5 flex items-center gap-1.5 truncate text-[12px]">
+                    <span className="uppercase tracking-tighter text-gray-500">{user.role}</span>
+                    <span className="h-2 w-[1px] bg-gray-300"></span> {/* 구분선 */}
+                    <span className="tracking-tighter text-[#5C8D5A]">{user.roleLevel}</span>
+                  </div>
+                  {/* 접속 정보 */}
+                  <div className="mt-1 text-[12px] tracking-tighter text-gray-500">접속정보: {user.lastLogin}</div>
+                </div>
+              )}
+            </button>
+
+            {/* 세션 제어 버튼 그룹 (확장 모드 전용) */}
             {!collapsed && (
-              <div className="min-w-0 flex-1">
-                {/* 사용자 성함 및 님(접미사) */}
-                <div className="truncate text-[13px] font-black leading-none text-gray-900">
-                  {user.name} <span className="ml-0.5 font-sans text-[12px] font-bold text-gray-400">님</span>
-                </div>
-                {/* 역할(Role) 및 등급(Level) 구분 레이아웃 */}
-                <div className="mt-1.5 flex items-center gap-1.5 truncate text-[12px]">
-                  <span className="uppercase tracking-tighter text-gray-500">{user.role}</span>
-                  <span className="h-2 w-[1px] bg-gray-300"></span> {/* 구분선 */}
-                  <span className="tracking-tighter text-[#5C8D5A]">{user.roleLevel}</span>
-                </div>
-                {/* 접속 정보 */}
-                <div className="mt-1 text-[12px] tracking-tighter text-gray-500">접속정보: {user.lastLogin}</div>
+              <div className="mt-4 flex gap-2">
+                {/* 내 정보 수정 버튼 */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    onMenuClick('mypage');
+                    onClose?.();
+                  }}
+                  className="flex-1 rounded border border-gray-300 bg-white py-2 text-[12px] font-black text-gray-600 shadow-sm transition-all hover:bg-gray-50 active:scale-95"
+                >
+                  내 정보
+                </button>
+                {/* 시스템 로그아웃 버튼 (붉은색 테두리 및 배경 적용으로 경고 의미 부여) */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    onMenuClick('logout');
+                    onClose?.();
+                  }}
+                  className="flex-1 rounded border border-red-100 bg-red-50 py-2 text-[12px] font-black text-red-600 shadow-sm transition-all hover:bg-red-100 active:scale-95"
+                >
+                  로그아웃
+                </button>
               </div>
             )}
-          </button>
-
-          {/* 세션 제어 버튼 그룹 (확장 모드 전용) */}
-          {!collapsed && (
-            <div className="mt-4 flex gap-2">
-              {/* 내 정보 수정 버튼 */}
-              <button
-                type="button"
-                onClick={() => {
-                  onMenuClick('mypage');
-                  onClose?.();
-                }}
-                className="flex-1 rounded border border-gray-300 bg-white py-2 text-[12px] font-black text-gray-600 shadow-sm transition-all hover:bg-gray-50 active:scale-95"
-              >
-                내 정보
-              </button>
-              {/* 시스템 로그아웃 버튼 (붉은색 테두리 및 배경 적용으로 경고 의미 부여) */}
-              <button
-                type="button"
-                onClick={() => {
-                  onMenuClick('logout');
-                  onClose?.();
-                }}
-                className="flex-1 rounded border border-red-100 bg-red-50 py-2 text-[12px] font-black text-red-600 shadow-sm transition-all hover:bg-red-100 active:scale-95"
-              >
-                로그아웃
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+          </>
+        ) : (
+          /* 로딩 스켈레톤: AuthInitializer가 /api/auth/me 완료 전 표시 */
+          <div className={clsx('flex items-center', collapsed ? 'justify-center' : 'gap-3')}>
+            <div className="h-10 w-10 shrink-0 animate-pulse rounded-lg bg-gray-200" />
+            {!collapsed && (
+              <div className="min-w-0 flex-1 space-y-2">
+                <div className="h-3 w-24 animate-pulse rounded bg-gray-200" />
+                <div className="h-2.5 w-16 animate-pulse rounded bg-gray-100" />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

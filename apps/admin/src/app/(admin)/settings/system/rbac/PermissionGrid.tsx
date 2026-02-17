@@ -30,6 +30,7 @@ interface Props {
   readonly toggleMenuCheck: (empId: string, catId: string, menuId: string) => void;
   readonly toggleScreenCheck: (empId: string, catId: string, menuId: string, screenId: string) => void;
   readonly toggleAction: (empId: string, catId: string, menuId: string, screenId: string, action: string) => void;
+  readonly isLoadingPermission?: boolean;
 }
 
 export default function PermissionGrid({
@@ -52,7 +53,19 @@ export default function PermissionGrid({
   toggleMenuCheck,
   toggleScreenCheck,
   toggleAction,
+  isLoadingPermission = false,
 }: Props) {
+  // 직원 선택 후 권한 로딩 중
+  if (selectedEmployee && isLoadingPermission) {
+    return (
+      <div className="flex flex-1 flex-col items-center justify-center bg-gray-50 text-gray-400">
+        <i className="ri-loader-4-line mb-4 animate-spin text-6xl text-[#5C8D5A] opacity-40"></i>
+        <p className="text-[13px] font-black uppercase tracking-widest text-[#5C8D5A]">권한 정보를 불러오는 중...</p>
+      </div>
+    );
+  }
+
+  // 직원 미선택 또는 권한 데이터 없음
   if (!selectedEmployee || !permissions[selectedEmployee]) {
     return (
       <div className="flex flex-1 flex-col items-center justify-center bg-gray-50 text-gray-400">

@@ -23,6 +23,14 @@ interface Props {
  * 시간 중심의 고밀도 작전 명세서 UI
  */
 export default function TodaySchedule({ schedules, onAdd }: Props) {
+  // 오늘 날짜 동적 포맷팅
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+  const todayStr = `${yyyy}.${mm}.${dd} (${dayNames[today.getDay()]})`;
+
   return (
     <section className="overflow-hidden rounded-lg border border-gray-300 bg-white text-[12px] shadow-sm">
       {/* 섹션 헤더: Agape-Care 표준 서식 */}
@@ -32,7 +40,7 @@ export default function TodaySchedule({ schedules, onAdd }: Props) {
           <h3 className="font-black uppercase tracking-tighter text-gray-800">일일 운영 일정</h3>
         </div>
         <span className="font-mono text-[12px] font-bold uppercase tracking-widest text-[#5C8D5A]">
-          2026.01.30 (FRI)
+          {todayStr}
         </span>
       </header>
 

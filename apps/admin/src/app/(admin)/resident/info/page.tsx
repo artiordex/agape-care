@@ -7,20 +7,26 @@
 'use client';
 
 import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
 import React, { useMemo, useState } from 'react';
+import ResidentFormModal from './modal/ResidentFormModal';
 import ResidentHeader from './ResidentHeader';
 import ResidentList from './ResidentList';
 import ResidentProfile from './ResidentProfile';
+import ResidentRegistrationModal from './modal/ResidentRegistrationModal';
 import ResidentTabs from './ResidentTabs';
 
 /* 11개 상세 관리 탭 컴포넌트 임포트 */
 import AdmissionHistoryTab from './tabs/AdmissionHistoryTab';
 import AssessmentTab from './tabs/AssessmentTab';
 import BasicInfoTab from './tabs/BasicInfoTab';
+import CareSummaryTab from './tabs/CareSummaryTab';
 import ConsultationTab from './tabs/ConsultationTab';
 import CopaymentTab from './tabs/CopaymentTab';
 import DocumentsTab from './tabs/DocumentsTab';
 import ExtraCostTab from './tabs/ExtraCostTab';
+import GuardiansTab from './tabs/GuardiansTab';
+import MedicationTab from './tabs/MedicationTab';
 import StandardContractTab from './tabs/StandardContractTab';
 
 // JSON 데이터 import
@@ -31,12 +37,17 @@ import residentsData from '@/data/resident.json';
  * 아가페 그린(#5C8D5A) 테마 기반의 고밀도 ERP 레이아웃
  */
 export default function ResidentManagementPage() {
+  const router = useRouter();
   // 1. 상태 관리: 데이터 및 UI 제어
   const [selectedResident, setSelectedResident] = useState<any>(null);
   const [activeTab, setActiveTab] = useState('basic');
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('전체');
+  const [filterClassification, setFilterClassification] = useState('전체');
+  const [filterRoom, setFilterRoom] = useState('전체');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   // 2. JSON 데이터 변환 (평면 구조로)
   const residents = useMemo(() => {
@@ -76,9 +87,48 @@ export default function ResidentManagementPage() {
     return residents.filter(resident => {
       const matchesSearch = resident.name.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesStatus = filterStatus === '전체' || resident.status === filterStatus;
-      return matchesSearch && matchesStatus;
+      const matchesRoom = filterRoom === '전체' || resident.room === filterRoom;
+
+      let matchesClassification = false;
+      if (filterClassification === '전체') {
+        matchesClassification = true;
+      } else {
+        const rate = resident.copaymentRate;
+        const grade = resident.grade;
+
+        switch (filterClassification) {
+          case '일반 (20%)':
+            matchesClassification = rate === 20;
+            break;
+          case '감경 (12%)':
+            matchesClassification = rate === 12;
+            break;
+          case '감경 (10%)':
+            matchesClassification = rate === 10;
+            break; // 데이터 구분 필요 시 추가 로직
+          case '감경 (8%)':
+            matchesClassification = rate === 8;
+            break;
+          case '기초 (0%)':
+            matchesClassification = rate === 0;
+            break;
+          case '의료 (10%)':
+            matchesClassification = rate === 10;
+            break; // 10% 중복, 우선 rate 일치로 처리
+          case '의료 (8%)':
+            matchesClassification = rate === 8;
+            break; // 8% 중복
+          case '등급외':
+            matchesClassification = grade.includes('등급외');
+            break;
+          default:
+            matchesClassification = true;
+        }
+      }
+
+      return matchesSearch && matchesStatus && matchesClassification && matchesRoom;
     });
-  }, [residents, searchTerm, filterStatus]);
+  }, [residents, searchTerm, filterStatus, filterClassification, filterRoom]);
 
   // 성함/상태 변경 시 첫 번째 어르신 자동 선택 (선택된 어르신이 목록에 없을 경우)
   React.useEffect(() => {
@@ -159,14 +209,9 @@ export default function ResidentManagementPage() {
       <ResidentHeader
         selectedResidentName={selectedResident?.name || null}
         isProcessing={isProcessing}
-        onAddResident={() => {
-          setIsProcessing(true);
-          setTimeout(() => {
-            alert('신규 입소자 등록 시스템을 호출합니다.');
-            setIsProcessing(false);
-          }, 500);
-        }}
+        onEditResident={() => setIsEditModalOpen(true)}
       />
+      {/* ... */}
 
       {/* [중단] 메인 워크스페이스 (좌: 목록 / 우: 상세) */}
       <div className="flex flex-1 overflow-hidden">
@@ -177,11 +222,16 @@ export default function ResidentManagementPage() {
             selectedResident={selectedResident}
             searchTerm={searchTerm}
             filterStatus={filterStatus}
+            filterClassification={filterClassification}
+            filterRoom={filterRoom}
             onSelectResident={setSelectedResident}
             onSearchChange={setSearchTerm}
             onFilterChange={setFilterStatus}
+            onFilterClassificationChange={setFilterClassification}
+            onFilterRoomChange={setFilterRoom}
             getStatusColor={getStatusColor}
             getGradeColor={getGradeColor}
+            onAddResident={() => setIsRegistrationModalOpen(true)}
           />
         </div>
 
@@ -213,7 +263,7 @@ export default function ResidentManagementPage() {
               />
 
               {/* 11개 관리 섹션 탭 내비게이션 */}
-              <ResidentTabs activeTab={activeTab} onTabChange={setActiveTab} />
+              <ResidentTabs activeTab={activeTab as any} onTabChange={setActiveTab} />
 
               {/* 탭별 세부 데이터 출력 영역 (스크롤 가능) */}
               <main className="custom-scrollbar flex-1 overflow-y-auto bg-[#f8fafc] p-4 lg:p-6">
@@ -238,6 +288,37 @@ export default function ResidentManagementPage() {
           )}
         </div>
       </div>
+
+      {/* 신규 등록 모달 */}
+      <ResidentRegistrationModal
+        isOpen={isRegistrationModalOpen}
+        onClose={() => setIsRegistrationModalOpen(false)}
+        onSave={data => {
+          console.log('New Resident Data:', data);
+          alert('신규 입소자 등록이 완료되었습니다.');
+          setIsRegistrationModalOpen(false);
+        }}
+      />
+
+      {/* 기본정보 수정 모달 */}
+      <ResidentFormModal
+        isOpen={isEditModalOpen}
+        mode="edit"
+        initialData={selectedResident}
+        onClose={() => setIsEditModalOpen(false)}
+        onSave={data => {
+          console.log('Updated Resident Data:', data);
+          alert('정보 수정이 완료되었습니다.');
+          setIsEditModalOpen(false);
+        }}
+        onDelete={id => {
+          if (confirm('정말로 이 입소자 정보를 삭제하시겠습니까?')) {
+            alert('삭제되었습니다.');
+            setIsEditModalOpen(false);
+            setSelectedResident(null);
+          }
+        }}
+      />
     </div>
   );
 }

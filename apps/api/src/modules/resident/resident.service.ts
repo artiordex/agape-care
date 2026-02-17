@@ -4,6 +4,7 @@ import {
   GetResidentsQuery,
   ResidentStatus,
   Resident as ResidentType,
+  RoomMaster,
   UpdateResidentRequest,
 } from '@agape-care/api-contract';
 import { Prisma, PrismaService } from '@agape-care/database';
@@ -131,6 +132,34 @@ export class ResidentService {
       byGender: { male, female, other },
       averageAge,
     };
+  }
+
+  async getRoomList(): Promise<RoomMaster[]> {
+    const rooms = await this.prisma.room.findMany({
+      where: { isActive: true },
+      include: {
+        _count: {
+          select: {
+            residentRooms: {
+              where: {
+                OR: [{ endsAt: null }, { endsAt: { gt: new Date() } }],
+              },
+            },
+          },
+        },
+      },
+      orderBy: [{ floor: 'asc' }, { roomName: 'asc' }],
+    });
+
+    return rooms.map(room => ({
+      id: room.id.toString(),
+      facilityId: room.facilityId.toString(),
+      floor: room.floor,
+      roomName: room.roomName,
+      capacity: room.capacity ?? 4,
+      currentCount: room._count.residentRooms,
+      isActive: room.isActive,
+    }));
   }
 
   private serializeResident(resident: Prisma.ResidentGetPayload<object>): ResidentType {

@@ -10,7 +10,6 @@ import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import SidebarFooter from './SidebarFooter';
 import { useSidebarMenus } from './hooks/useSidebarMenus';
-import { useSidebarUser } from './hooks/useSidebarUser';
 
 /* 인터페이스 정의 */
 
@@ -29,9 +28,6 @@ interface MobileSidebarProps {
 export default function MobileSidebar({ activeMenu, isOpen, onClose, onMenuClick }: MobileSidebarProps) {
   // 메뉴 상태 관리 훅 사용
   const { menus, openMenus, toggleMenu } = useSidebarMenus(activeMenu);
-
-  // useSidebarUser 훅을 사용하여 로컬 스토리지 기반의 실시간 사용자 데이터 확보
-  const { user } = useSidebarUser();
 
   return (
     /**
@@ -166,7 +162,7 @@ export default function MobileSidebar({ activeMenu, isOpen, onClose, onMenuClick
             </nav>
 
             {/* [푸터 영역] 사이드바 하단 사용자 세션 관리 버튼 (Hook에서 가져온 user 전달) */}
-            <SidebarFooter user={user} onMenuClick={onMenuClick} onClose={onClose} />
+            <SidebarFooter onMenuClick={onMenuClick} onClose={onClose} />
           </motion.aside>
         </div>
       )}

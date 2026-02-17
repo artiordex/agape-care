@@ -1,14 +1,20 @@
+/**
+ * Description : TemplateFilters.tsx - 템플릿 필터링 바
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 interface Props {
-  categoryFilter: string;
-  onCategoryChange: (category: string) => void;
-  channelFilter: string;
-  onChannelChange: (channel: string) => void;
-  statusFilter: string;
-  onStatusChange: (status: string) => void;
-  searchKeyword: string;
-  onSearchChange: (keyword: string) => void;
+  readonly categoryFilter: string;
+  readonly onCategoryChange: (category: string) => void;
+  readonly channelFilter: string;
+  readonly onChannelChange: (channel: string) => void;
+  readonly statusFilter: string;
+  readonly onStatusChange: (status: string) => void;
+  readonly searchKeyword: string;
+  readonly onSearchChange: (keyword: string) => void;
 }
 
 export default function TemplateFilters({
@@ -21,68 +27,46 @@ export default function TemplateFilters({
   searchKeyword,
   onSearchChange,
 }: Props) {
+  const selectClass =
+    'border border-gray-300 px-3 py-1.5 text-[12px] font-bold outline-none bg-white min-w-[120px] focus:border-[#5C8D5A]';
+
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-5">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        {/* 카테고리 */}
-        <div>
-          <label className="mb-1.5 block text-xs font-medium text-gray-700">카테고리</label>
-          <select
-            value={categoryFilter}
-            onChange={e => onCategoryChange(e.target.value)}
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          >
-            <option value="">전체</option>
-            <option value="notice">일반 공지</option>
-            <option value="urgent">긴급 알림</option>
-            <option value="billing">청구 안내</option>
-            <option value="schedule">일정 안내</option>
-            <option value="health">건강 정보</option>
-            <option value="event">행사 안내</option>
-            <option value="other">기타</option>
-          </select>
-        </div>
+    <div className="flex flex-wrap items-center gap-3 rounded-sm border border-gray-200 bg-white p-3 shadow-sm transition-all">
+      <div className="flex min-w-[200px] flex-1 items-center gap-2 rounded-sm border border-gray-300 bg-gray-50 px-3 py-1.5 transition-all focus-within:border-[#5C8D5A] focus-within:bg-white">
+        <i className="ri-search-line text-gray-400"></i>
+        <input
+          type="text"
+          placeholder="템플릿 명칭 또는 작성자 검색..."
+          className="flex-1 bg-transparent text-[12px] font-medium outline-none"
+          value={searchKeyword}
+          onChange={e => onSearchChange(e.target.value)}
+        />
+      </div>
 
-        {/* 채널 */}
-        <div>
-          <label className="mb-1.5 block text-xs font-medium text-gray-700">채널</label>
-          <select
-            value={channelFilter}
-            onChange={e => onChannelChange(e.target.value)}
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          >
-            <option value="">전체</option>
-            <option value="sms">SMS/LMS</option>
-            <option value="band">Band</option>
-            <option value="kakao">카카오톡</option>
-          </select>
-        </div>
+      <div className="flex gap-2">
+        <select className={selectClass} value={categoryFilter} onChange={e => onCategoryChange(e.target.value)}>
+          <option value="">전체 카테고리</option>
+          <option value="notice">일반 공지</option>
+          <option value="urgent">긴급 알림</option>
+          <option value="billing">청구 안내</option>
+          <option value="schedule">일정 안내</option>
+          <option value="health">건강 정보</option>
+          <option value="event">행사 안내</option>
+          <option value="other">기타</option>
+        </select>
 
-        {/* 상태 */}
-        <div>
-          <label className="mb-1.5 block text-xs font-medium text-gray-700">상태</label>
-          <select
-            value={statusFilter}
-            onChange={e => onStatusChange(e.target.value)}
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          >
-            <option value="">전체</option>
-            <option value="active">사용중</option>
-            <option value="inactive">미사용</option>
-          </select>
-        </div>
+        <select className={selectClass} value={channelFilter} onChange={e => onChannelChange(e.target.value)}>
+          <option value="">모든 채널</option>
+          <option value="sms">SMS/LMS</option>
+          <option value="band">Band</option>
+          <option value="kakao">카카오톡</option>
+        </select>
 
-        {/* 검색 */}
-        <div>
-          <label className="mb-1.5 block text-xs font-medium text-gray-700">검색</label>
-          <input
-            type="text"
-            value={searchKeyword}
-            onChange={e => onSearchChange(e.target.value)}
-            placeholder="템플릿명 검색"
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          />
-        </div>
+        <select className={selectClass} value={statusFilter} onChange={e => onStatusChange(e.target.value)}>
+          <option value="">사용 여부</option>
+          <option value="active">사용중</option>
+          <option value="inactive">미사용</option>
+        </select>
       </div>
     </div>
   );

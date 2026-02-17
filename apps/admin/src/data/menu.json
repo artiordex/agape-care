@@ -25,12 +25,22 @@
           "path": "/resident/info",
           "spa": true,
           "folder": "resident",
-          "component": "ResidentManagement"
+          "component": "ResidentInfo"
+        },
+        {
+          "id": "resident-initial",
+          "name": "전체 기초평가 현황",
+          "description": "전체 기초평가 현황 조회",
+          "icon": "ri-list-check",
+          "path": "/resident/initial",
+          "spa": true,
+          "folder": "resident",
+          "component": "ResidentInitial"
         },
         {
           "id": "outing-management",
-          "name": "외출/외박 관리",
-          "description": "외출/외박 기록 관리",
+          "name": "외출·외박 관리",
+          "description": "외출·외박 기록 관리",
           "icon": "ri-walk-line",
           "path": "/resident/outing",
           "spa": true,
@@ -39,7 +49,7 @@
         },
         {
           "id": "billing-copay",
-          "name": "청구/본인부담금",
+          "name": "청구·본인부담금",
           "description": "청구 및 본인부담금 관리",
           "icon": "ri-bill-line",
           "path": "/resident/billing",
@@ -50,7 +60,7 @@
         },
         {
           "id": "consultation-management",
-          "name": "상담일지/면담일지",
+          "name": "상담일지·면담일지",
           "description": "상담 및 면담 기록",
           "icon": "ri-chat-1-line",
           "path": "/resident/consultation",
@@ -68,11 +78,21 @@
       "path": "/care",
       "children": [
         {
+          "id": "daily-nursing",
+          "name": "수급자 간호 기록",
+          "description": "수급자 간호 기록",
+          "icon": "ri-heart-pulse-line",
+          "path": "/care/daily-nursing",
+          "spa": true,
+          "folder": "care",
+          "component": "DailyNursing"
+        },
+        {
           "id": "daily-care",
-          "name": "일일 케어 기록",
-          "description": "일일 케어 작성",
+          "name": "수급자 요양 기록",
+          "description": "수급자 요양 기록",
           "icon": "ri-file-edit-line",
-          "path": "/care/daily",
+          "path": "/care/daily-care",
           "spa": true,
           "folder": "care",
           "component": "DailyCareRecord"
@@ -98,28 +118,115 @@
           "component": "MedicationManagement"
         },
         {
-          "id": "needs-assessment",
-          "name": "욕구사정 평가",
-          "description": "욕구사정 평가서",
+          "id": "bedsore-prevention",
+          "name": "욕창예방 관리",
+          "description": "욕창예방 관리",
           "icon": "ri-survey-line",
-          "path": "/care/needs-assessment",
+          "path": "/care/bedsore-prevention",
           "spa": true,
           "folder": "care",
-          "component": "NeedsAssessment"
+          "component": "BedsorePrevention"
         }
       ]
     },
-
+    {
+      "id": "document",
+      "name": "문서 관리",
+      "description": "문서 관리",
+      "icon": "ri-file-list-line",
+      "path": "/document",
+      "children": [
+        {
+          "id": "document-daily",
+          "name": "일지 작성 관리",
+          "description": "일지 작성 관리",
+          "icon": "ri-file-list-line",
+          "path": "/document/daily",
+          "spa": true,
+          "folder": "document",
+          "component": "DocumentDaily"
+        },
+        {
+          "id": "document-program",
+          "name": "프로그램 계획서",
+          "description": "프로그램 계획서",
+          "icon": "ri-file-list-line",
+          "path": "/document/program",
+          "spa": true,
+          "folder": "document",
+          "component": "DocumentProgram"
+        },
+        {
+          "id": "document-physical",
+          "name": "물리 치료 관리",
+          "description": "물리 치료 관리",
+          "icon": "ri-file-list-line",
+          "path": "/document/physical",
+          "spa": true,
+          "folder": "document",
+          "component": "DocumentPhysical"
+        },
+        {
+          "id": "document-upload",
+          "name": "문서 업로드",
+          "description": "문서 업로드",
+          "icon": "ri-file-upload-line",
+          "path": "/document/upload",
+          "spa": true,
+          "folder": "document",
+          "component": "DocumentUpload"
+        }
+      ]
+    },
+    {
+      "id": "copay",
+      "name": "본인 부담금 관리",
+      "description": "본인 부담금 관리",
+      "icon": "ri-bill-line",
+      "path": "/copay",
+      "children": [
+        {
+          "id": "copay-billing",
+          "name": "본인부담금 청구 관리",
+          "description": "본인부담금 청구 관리",
+          "icon": "ri-file-edit-line",
+          "path": "/copay/billing",
+          "spa": true,
+          "folder": "copay",
+          "component": "CopayBilling"
+        },
+        {
+          "id": "copay-deposit",
+          "name": "본인부담금 입금 관리",
+          "description": "본인부담금 입금 관리",
+          "icon": "ri-search-line",
+          "path": "/copay/deposit",
+          "spa": true,
+          "folder": "copay",
+          "component": "CopayDeposit"
+        }
+      ]
+    },
     {
       "id": "operations",
-      "name": "운영관리",
+      "name": "운영 관리",
       "description": "시설 운영 및 관리",
       "icon": "ri-settings-4-line",
       "path": "/operations",
       "children": [
         {
+          "id": "facility-management",
+          "name": "건물 및 생활실 설정",
+          "description": "건물 및 생활실 설정",
+          "icon": "ri-building-line",
+          "path": "/operations/facility",
+          "spa": true,
+          "folder": "operations",
+          "component": "FacilityManagement"
+        },
+        {
           "id": "vehicle-management",
-          "name": "차량관리",
+          "name": "차량 관리",
           "description": "차량 운행 및 관리",
           "icon": "ri-car-line",
           "path": "/operations/vehicle",
@@ -129,7 +236,7 @@
         },
         {
           "id": "asset-management",
-          "name": "비품관리",
+          "name": "비품 관리",
           "description": "비품 재고 관리",
           "icon": "ri-archive-line",
           "path": "/operations/asset",
@@ -138,103 +245,62 @@
           "component": "AssetManagement"
         },
         {
-          "id": "cctv-device",
-          "name": "CCTV 설치·운영 관리",
-          "description": "CCTV 설치 현황",
+          "id": "cctv",
+          "name": "CCTV 관리",
+          "description": "CCTV 관리",
           "icon": "ri-camera-line",
-          "path": "/operations/cctv/device",
+          "path": "/operations/cctv",
           "spa": true,
           "folder": "operations",
-          "component": "CCTVDeviceManagement"
+          "component": "CCTVManagement"
         },
         {
-          "id": "cctv-weekly-check",
-          "name": "CCTV 주간 점검대장",
-          "description": "CCTV 주간 점검",
-          "icon": "ri-checkbox-circle-line",
-          "path": "/operations/cctv/weekly-check",
+          "id": "daily-inspection",
+          "name": "일일점검",
+          "description": "일일점검",
+          "icon": "ri-camera-line",
+          "path": "/operations/daily-inspection",
           "spa": true,
           "folder": "operations",
-          "component": "CCTVWeeklyCheck"
+          "component": "DailyInspection"
         },
         {
-          "id": "cctv-room-consent",
-          "name": "CCTV 침실 촬영 동의서",
-          "description": "침실 촬영 동의 관리",
-          "icon": "ri-file-text-line",
-          "path": "/operations/cctv/room-consent",
+          "id": "periodic-inspection",
+          "name": "정기점검",
+          "description": "정기점검",
+          "icon": "ri-camera-line",
+          "path": "/operations/periodic-inspection",
           "spa": true,
           "folder": "operations",
-          "component": "CCTVRoomConsent"
-        },
-        {
-          "id": "cctv-view-log",
-          "name": "CCTV 영상정보 열람대장",
-          "description": "영상 열람 기록",
-          "icon": "ri-eye-line",
-          "path": "/operations/cctv/view-log",
-          "spa": true,
-          "folder": "operations",
-          "component": "CCTVViewLog"
-        },
-        {
-          "id": "transport-service",
-          "name": "교통관리",
-          "description": "차량 운행 관리",
-          "icon": "ri-bus-line",
-          "path": "/operations/transport",
-          "spa": true,
-          "folder": "operations",
-          "component": "TransportService"
-        },
-        {
-          "id": "special-room",
-          "name": "특별침실 사용기록",
-          "description": "특별침실 관리",
-          "icon": "ri-hotel-bed-line",
-          "path": "/operations/special-room",
-          "spa": true,
-          "folder": "operations",
-          "component": "SpecialRoomUse"
-        },
-        {
-          "id": "grievance",
-          "name": "고충처리 관리",
-          "description": "고충 접수 및 처리",
-          "icon": "ri-customer-service-2-line",
-          "path": "/operations/grievance",
-          "spa": true,
-          "folder": "operations",
-          "component": "GrievanceManagement"
+          "component": "PeriodicInspection"
         }
       ]
     },
-
     {
-      "id": "staff",
+      "id": "employee",
       "name": "직원 관리",
       "description": "직원 정보 및 근무",
       "icon": "ri-team-line",
-      "path": "/staff",
+      "path": "/employee",
       "children": [
         {
-          "id": "staff-list",
-          "name": "직원 목록",
-          "description": "전체 직원 조회",
+          "id": "employee-list",
+          "name": "직원 인사 관리",
+          "description": "직원 정보 및 인사 관리",
           "icon": "ri-group-line",
-          "path": "/staff/list",
+          "path": "/employee/list",
           "spa": true,
-          "folder": "staff",
-          "component": "StaffManagement"
+          "folder": "employee",
+          "component": "EmployeeManagement"
         },
         {
           "id": "attendance",
           "name": "출퇴근 기록 관리",
           "description": "출퇴근 기록",
           "icon": "ri-time-line",
-          "path": "/staff/attendance",
+          "path": "/employee/attendance",
           "spa": true,
-          "folder": "staff",
+          "folder": "employee",
           "component": "AttendanceManagement"
         },
         {
@@ -242,37 +308,37 @@
           "name": "근무일정 관리",
           "description": "근무 스케줄 관리",
           "icon": "ri-calendar-line",
-          "path": "/staff/schedule",
+          "path": "/employee/schedule",
           "spa": true,
-          "folder": "staff",
+          "folder": "employee",
           "component": "WorkScheduleManagement"
         },
         {
-          "id": "staff-education",
+          "id": "employee-education",
           "name": "직원 교육",
           "description": "직원 교육 현황",
           "icon": "ri-graduation-cap-line",
-          "path": "/staff/education",
+          "path": "/employee/education",
           "spa": true,
-          "folder": "staff",
-          "component": "StaffEducation"
+          "folder": "employee",
+          "component": "EmployeeEducation"
         },
         {
-          "id": "staff-meeting",
+          "id": "employee-meeting",
           "name": "직원 회의",
           "description": "직원 회의 현황",
           "icon": "ri-team-line",
-          "path": "/staff/meeting",
+          "path": "/employee/meeting",
           "spa": true,
-          "folder": "staff",
-          "component": "StaffMeeting"
+          "folder": "employee",
+          "component": "EmployeeMeeting"
         }
       ]
     },
 
     {
       "id": "account",
-      "name": "회계/청구",
+      "name": "회계 / 청구",
       "description": "회계 및 급여 관리",
       "icon": "ri-money-dollar-circle-line",
       "path": "/accounting",
@@ -306,6 +372,26 @@
           "spa": true,
           "folder": "accounting",
           "component": "PayrollManagement"
+        },
+        {
+          "id": "monthly-payroll",
+          "name": "월별 급여대장",
+          "description": "월별 급여 내역 관리",
+          "icon": "ri-file-list-3-line",
+          "path": "/accounting/monthly-payroll",
+          "spa": true,
+          "folder": "accounting",
+          "component": "MonthlyPayroll"
+        },
+        {
+          "id": "retirement-fund",
+          "name": "퇴직적립금 관리",
+          "description": "직원 퇴직적립금 관리",
+          "icon": "ri-safe-2-line",
+          "path": "/accounting/retirement",
+          "spa": true,
+          "folder": "accounting",
+          "component": "RetirementManagement"
         }
       ]
     },
@@ -401,29 +487,18 @@
       "children": [
         {
           "id": "notification-dashboard",
-          "name": "알림 대시보드",
-          "description": "알림 현황 대시보드",
+          "name": "SNS 발송 관리",
+          "description": "SNS 발송 관리",
           "icon": "ri-dashboard-2-line",
-          "path": "/additional-services/notification/dashboard",
-          "parentGroup": "notification-management",
+          "path": "/additional-services/notification/sns",
+          "parentGroup": "sns-management",
           "spa": true,
-          "folder": "notifications",
-          "component": "NotificationDashboard"
-        },
-        {
-          "id": "inquiry-management",
-          "name": "문의사항 관리",
-          "description": "문의사항 관리",
-          "icon": "ri-question-answer-line",
-          "path": "/additional-services/inquiry",
-          "parentGroup": "inquiry-management",
-          "spa": true,
-          "folder": "inquiry",
-          "component": "InquiryManagement"
+          "folder": "sns",
+          "component": "SnsManagement"
         },
         {
           "id": "notification-send",
-          "name": "발송 작성/즉시발송",
+          "name": "즉시 알림 발송",
           "description": "즉시 알림 발송",
           "icon": "ri-send-plane-line",
           "path": "/additional-services/notification/send",
@@ -453,18 +528,8 @@
           "spa": true
         },
         {
-          "id": "notification-recipients",
-          "name": "대상자/수신자 그룹",
-          "description": "수신자 그룹 관리",
-          "icon": "ri-group-line",
-          "path": "/additional-services/notification/recipients",
-          "parentGroup": "notification-management",
-          "status": "pending",
-          "spa": true
-        },
-        {
           "id": "notification-logs",
-          "name": "발송 로그/이력 조회",
+          "name": "발송 이력 조회",
           "description": "발송 이력 조회",
           "icon": "ri-file-list-line",
           "path": "/additional-services/notification/logs",
@@ -474,15 +539,15 @@
           "component": "NotificationLogPage"
         },
         {
-          "id": "notification-settings",
-          "name": "채널 연동 설정",
-          "description": "SMS/Band/카카오 연동",
-          "icon": "ri-settings-3-line",
-          "path": "/additional-services/notification/settings",
-          "parentGroup": "notification-management",
+          "id": "library",
+          "name": "자료실",
+          "description": "자료실",
+          "icon": "ri-file-list-line",
+          "path": "/additional-services/library",
+          "parentGroup": "library",
           "spa": true,
-          "folder": "notifications",
-          "component": "NotificationSettingsPage"
+          "folder": "library",
+          "component": "LibraryPage"
         }
       ]
     },

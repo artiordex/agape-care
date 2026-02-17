@@ -29,6 +29,11 @@ export class ResidentController {
     return this.residentService.getResidentStats();
   }
 
+  @Get(residentContract.getRoomList.path)
+  async getRoomList() {
+    return this.residentService.getRoomList();
+  }
+
   @Get(residentContract.getResident.path.replace(':id', ':id'))
   async getResident(@Param('id') id: string) {
     return this.residentService.getResident(id);

@@ -25,6 +25,8 @@ export default function OutingManagementPage() {
   // 필터 상태
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('전체');
+  const [filterGrade, setFilterGrade] = useState('전체');
+  const [filterRoom, setFilterRoom] = useState('전체');
 
   // 📌 JSON 데이터를 기반으로 필터링된 리스트 계산
   const filteredResidents = useMemo(() => {
@@ -42,7 +44,9 @@ export default function OutingManagementPage() {
       .filter((resident: any) => {
         const matchesSearch = resident.name.includes(searchTerm) || resident.room.includes(searchTerm);
         const matchesStatus = filterStatus === '전체' || resident.status === filterStatus;
-        return matchesSearch && matchesStatus;
+        const matchesGrade = filterGrade === '전체' || resident.grade === filterGrade;
+        const matchesRoom = filterRoom === '전체' || resident.room === filterRoom;
+        return matchesSearch && matchesStatus && matchesGrade && matchesRoom;
       });
   }, [searchTerm, filterStatus]);
 
@@ -112,6 +116,10 @@ export default function OutingManagementPage() {
               onSearchChange={setSearchTerm}
               filterStatus={filterStatus}
               onFilterStatusChange={setFilterStatus}
+              filterGrade={filterGrade}
+              onFilterGradeChange={setFilterGrade}
+              filterRoom={filterRoom}
+              onFilterRoomChange={setFilterRoom}
             />
 
             <div className="flex flex-1 flex-col overflow-hidden bg-white">
