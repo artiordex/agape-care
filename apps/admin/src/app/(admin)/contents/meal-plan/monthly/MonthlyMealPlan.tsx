@@ -40,11 +40,26 @@ interface Props {
 }
 
 export default function MonthlyMealPlan({ selectedDate }: Props) {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  // 로컬 타임존 기준으로 현재 월의 1일로 초기화
+  // Intl.DateTimeFormat으로 로컬 연/월을 추출하여 UTC 오프셋 문제 방지
+  const [currentMonth, setCurrentMonth] = useState(() => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth(); // 0-indexed
+    return new Date(year, month, 1, 0, 0, 0, 0);
+  });
 
   useEffect(() => {
     if (selectedDate) {
-      setCurrentMonth(new Date(selectedDate));
+      // 'YYYY-MM-DD' 문자열은 UTC로 파싱되므로 로컬 타임존 기준으로 파싱
+      const parts = selectedDate.split('-');
+      if (parts.length === 3) {
+        const year = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1; // 0-indexed
+        setCurrentMonth(new Date(year, month, 1));
+      } else {
+        setCurrentMonth(new Date(selectedDate));
+      }
     }
   }, [selectedDate]);
   const [mealPlans, setMealPlans] = useState<MealPlan[]>([]);
@@ -77,19 +92,43 @@ export default function MonthlyMealPlan({ selectedDate }: Props) {
 
   // API: 식단표 목록 조회
   const mealMonth = currentMonth.getFullYear() * 100 + (currentMonth.getMonth() + 1);
-  const { data: mealPlansData, refetch } = api.meal.getMealPlans.useQuery(['mealPlans', mealMonth], {
-    query: {
-      page: 1,
-      limit: 100,
-      facilityCode: 'DEFAULT',
+  const { data: mealPlansData, refetch } = api.meal.getMealPlans.useQuery(
+    ['mealPlans', mealMonth],
+    {
+      query: {
+        page: 1,
+        limit: 100,
+        facilityCode: 'DEFAULT',
+      },
     },
-  });
+    {
+      staleTime: 0, // 항상 최신 데이터 사용 (캐시 우회)
+    },
+  );
 
   useEffect(() => {
-    if (mealPlansData) {
-      console.log('[DEBUG] MonthlyMealPlan - mealPlansData:', mealPlansData);
+    console.log('═══════════════════════════════════════════');
+    console.log('[MONTHLY MEAL-PLAN] Data state changed');
+    const localDateStr = `${currentMonth.getFullYear()}-${String(currentMonth.getMonth() + 1).padStart(2, '0')}-${String(currentMonth.getDate()).padStart(2, '0')}`;
+    console.log('[MONTHLY MEAL-PLAN] Current month (local):', localDateStr);
+    console.log('[MONTHLY MEAL-PLAN] Meal month (YYYYMM):', mealMonth);
+    console.log('[MONTHLY MEAL-PLAN] RAW mealPlansData (전체 구조):', mealPlansData);
+    console.log('[MONTHLY MEAL-PLAN] mealPlansData structure:', {
+      exists: !!mealPlansData,
+      status: mealPlansData?.status,
+      bodyKeys: mealPlansData?.body ? Object.keys(mealPlansData.body) : [],
+      dataKeys: mealPlansData?.body?.data ? Object.keys(mealPlansData.body.data) : [],
+      itemsCount: mealPlansData?.body?.data?.length || 0,
+      paginationTotal: mealPlansData?.body?.pagination?.total || 0,
+    });
+
+    if (mealPlansData?.body?.data && mealPlansData.body.data.length > 0) {
+      console.log('[MONTHLY MEAL-PLAN] First meal plan sample:', mealPlansData.body.data[0]);
+    } else {
+      console.warn('[MONTHLY MEAL-PLAN] ⚠️ No meal plans found in response');
     }
-  }, [mealPlansData]);
+    console.log('═══════════════════════════════════════════');
+  }, [mealPlansData, currentMonth, mealMonth]);
 
   // API: 식단 항목 조회
   const { data: mealItemsData } = api.meal.getMealPlanItems.useQuery(
@@ -134,9 +173,10 @@ export default function MonthlyMealPlan({ selectedDate }: Props) {
 
   // API 데이터를 로컬 상태로 변환
   useEffect(() => {
-    if (mealPlansData?.body?.data) {
+    if (mealPlansData?.status === 200 && Array.isArray(mealPlansData?.body?.data)) {
       const plans = mealPlansData.body.data;
-      console.log('[DEBUG] MonthlyMealPlan - searching for mealMonth:', mealMonth, 'in plans:', plans);
+      console.log('[DEBUG] MonthlyMealPlan - searching for mealMonth:', mealMonth, '(type:', typeof mealMonth, ')');
+      console.log('[DEBUG] MonthlyMealPlan - all plans mealMonths:', plans.map((p: any) => ({ id: p.id, mealMonth: p.mealMonth, type: typeof p.mealMonth })));
       const currentMonthPlan = plans.find((p: any) => p.mealMonth === mealMonth);
 
       if (currentMonthPlan) {

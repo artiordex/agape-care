@@ -234,8 +234,6 @@ model MealPlanItem {
   @@map("meal_plan_items")
 }
 
-
-
 /// 프로그램
 model Program {
   /// 프로그램 ID (Primary Key)

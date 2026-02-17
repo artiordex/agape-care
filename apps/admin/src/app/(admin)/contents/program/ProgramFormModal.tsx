@@ -50,7 +50,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
     maxParticipants: 20,
     description: '',
     status: '예정',
-    color: '#3B82F6',
+    color: '#5C8D5A',
   });
 
   const [selectedRecipients, setSelectedRecipients] = useState<string[]>([]);
@@ -59,7 +59,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
   const categories: ProgramCategory[] = ['인지활동', '여가활동', '물리치료', '음악치료', '미술활동', '특별행사'];
 
   const categoryColors: Record<string, string> = {
-    인지활동: '#3B82F6',
+    인지활동: '#5C8D5A',
     여가활동: '#10B981',
     물리치료: '#F59E0B',
     음악치료: '#8B5CF6',
@@ -84,7 +84,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
         maxParticipants: 20,
         description: '',
         status: '예정',
-        color: '#3B82F6',
+        color: '#5C8D5A',
       });
       setSelectedRecipients([]);
     }
@@ -94,7 +94,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
     setFormData({
       ...formData,
       category,
-      color: categoryColors[category] || '#3B82F6',
+      color: categoryColors[category] || '#5C8D5A',
     });
   };
 
@@ -148,7 +148,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
               type="text"
               value={formData.title}
               onChange={e => setFormData({ ...formData, title: e.target.value })}
-              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
               placeholder="예: 뇌건강 체조"
             />
           </div>
@@ -163,7 +163,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
                   onClick={() => handleCategoryChange(cat)}
                   className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                     formData.category === cat
-                      ? 'bg-blue-600 text-white'
+                      ? 'bg-emerald-600 text-white'
                       : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
                   }`}
                 >
@@ -181,7 +181,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
                 type="date"
                 value={formData.date}
                 onChange={e => setFormData({ ...formData, date: e.target.value })}
-                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500"
+                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-emerald-500"
               />
             </div>
             <div>
@@ -190,7 +190,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
                 type="time"
                 value={formData.time}
                 onChange={e => setFormData({ ...formData, time: e.target.value })}
-                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500"
+                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-emerald-500"
               />
             </div>
             <div>
@@ -199,7 +199,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
                 type="number"
                 value={formData.duration}
                 onChange={e => setFormData({ ...formData, duration: parseInt(e.target.value) || 60 })}
-                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500"
+                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-emerald-500"
               />
             </div>
           </div>
@@ -212,7 +212,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
                 type="text"
                 value={formData.instructor}
                 onChange={e => setFormData({ ...formData, instructor: e.target.value })}
-                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500"
+                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-emerald-500"
                 placeholder="예: 김영희"
               />
             </div>
@@ -222,7 +222,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
                 type="text"
                 value={formData.location}
                 onChange={e => setFormData({ ...formData, location: e.target.value })}
-                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500"
+                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-emerald-500"
               />
             </div>
           </div>
@@ -236,7 +236,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
               <button
                 type="button"
                 onClick={() => setShowRecipientModal(true)}
-                className="rounded-md border border-blue-600 bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600 hover:bg-blue-100"
+                className="rounded-md border border-emerald-600 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-600 hover:bg-emerald-100"
               >
                 수급자 선택
               </button>
@@ -282,7 +282,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
                 type="number"
                 value={formData.maxParticipants}
                 onChange={e => setFormData({ ...formData, maxParticipants: parseInt(e.target.value) || 20 })}
-                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500"
+                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-emerald-500"
               />
             </div>
             <div>
@@ -290,7 +290,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
               <select
                 value={formData.status}
                 onChange={e => setFormData({ ...formData, status: e.target.value as any })}
-                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500"
+                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-emerald-500"
               >
                 <option value="예정">예정</option>
                 <option value="진행중">진행중</option>
@@ -307,7 +307,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
               rows={4}
               value={formData.description}
               onChange={e => setFormData({ ...formData, description: e.target.value })}
-              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-blue-500"
+              className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none focus:border-emerald-500"
               placeholder="프로그램 내용을 상세히 입력해주세요"
             />
           </div>
@@ -323,7 +323,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
           </button>
           <button
             onClick={handleSubmit}
-            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            className="rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
           >
             {program ? '수정' : '등록'}
           </button>
@@ -354,7 +354,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
                     type="checkbox"
                     checked={selectedRecipients.length === RECIPIENTS.length}
                     onChange={handleSelectAll}
-                    className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
                   />
                   <span className="text-sm font-medium text-gray-900">전체 선택</span>
                 </label>
@@ -377,7 +377,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
                     <tr
                       key={recipient.id}
                       className={`transition-colors hover:bg-gray-50 ${
-                        selectedRecipients.includes(recipient.id) ? 'bg-blue-50' : ''
+                        selectedRecipients.includes(recipient.id) ? 'bg-emerald-50' : ''
                       }`}
                     >
                       <td className="px-3 py-3 text-center">
@@ -385,7 +385,7 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
                           type="checkbox"
                           checked={selectedRecipients.includes(recipient.id)}
                           onChange={() => handleToggleRecipient(recipient.id)}
-                          className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
                         />
                       </td>
                       <td className="px-3 py-3 text-sm font-medium text-gray-900">{recipient.name}</td>
@@ -401,11 +401,11 @@ export default function ProgramFormModal({ isOpen, onClose, onSave, program, ini
             {/* 모달 푸터 */}
             <div className="flex justify-between border-t border-gray-200 px-6 py-4">
               <div className="text-sm text-gray-600">
-                선택된 수급자: <span className="font-bold text-blue-600">{selectedRecipients.length}명</span>
+                선택된 수급자: <span className="font-bold text-emerald-600">{selectedRecipients.length}명</span>
               </div>
               <button
                 onClick={() => setShowRecipientModal(false)}
-                className="rounded-md bg-blue-600 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                className="rounded-md bg-emerald-600 px-6 py-2 text-sm font-medium text-white hover:bg-emerald-700"
               >
                 확인
               </button>

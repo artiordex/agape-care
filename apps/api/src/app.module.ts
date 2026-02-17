@@ -30,7 +30,7 @@ import { MyPageModule } from './modules/mypage/mypage.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { ResidentModule } from './modules/resident/resident.module';
 import { RoleModule } from './modules/role/role.module';
-import { SettingModule } from './modules/setting/setting.module';
+import { SettingsModule } from './modules/settings/settings.module';
 import { NoticesModule } from './modules/web-view/notices/notices.module';
 import { PopupModule } from './modules/web-view/popup/popup.module';
 
@@ -86,7 +86,7 @@ import { PopupModule } from './modules/web-view/popup/popup.module';
     CareModule,
     DashboardModule,
     MyPageModule,
-    SettingModule,
+    SettingsModule,
     NoticesModule,
     PopupModule,
     RoleModule,

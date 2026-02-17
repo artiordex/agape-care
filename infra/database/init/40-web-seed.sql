@@ -347,15 +347,15 @@ ON CONFLICT DO NOTHING;
 -- 4. 식단표 (MEAL_PLANS)
 -- ============================================
 
-INSERT INTO meal_plans (id, facility_code, week_start_date, created_by, nutrition_manager, status, notes) VALUES
+INSERT INTO meal_plans (id, facility_code, week_start_date, meal_month, created_by, nutrition_manager, status, notes) VALUES
   -- 이번 주 식단 (게시됨)
-  (1, 'DEFAULT', '2026-02-03', 6, '박영희 영양사', 'PUBLISHED', '설 연휴 대체 식단 포함'),
+  (1, 'DEFAULT', '2026-02-03', 202602, 6, '박영희 영양사', 'PUBLISHED', '설 연휴 대체 식단 포함'),
 
   -- 다음 주 식단 (게시됨)
-  (2, 'DEFAULT', '2026-02-10', 6, '박영희 영양사', 'PUBLISHED', '정상 식단'),
+  (2, 'DEFAULT', '2026-02-10', 202602, 6, '박영희 영양사', 'PUBLISHED', '정상 식단'),
 
   -- 다다음 주 식단 (작성중)
-  (3, 'DEFAULT', '2026-02-17', 6, '박영희 영양사', 'DRAFT', NULL)
+  (3, 'DEFAULT', '2026-02-17', 202602, 6, '박영희 영양사', 'DRAFT', NULL)
 ON CONFLICT (id) DO NOTHING;
 
 -- 식단 상세 항목 (1주차: 2026-02-03 ~ 2026-02-09)

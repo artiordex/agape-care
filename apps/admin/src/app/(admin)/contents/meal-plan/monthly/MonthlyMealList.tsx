@@ -86,15 +86,27 @@ export default function MonthlyMealList({ currentMonth, mealPlans, onEditClick, 
                 </td>
 
                 {/* 2~7. 식단 및 칼로리 수치 (Agape-Standard 컬러 적용) */}
-                <td className="border-r border-blue-200 p-2 text-[10px] leading-tight">{plan.breakfast.menu || '-'}</td>
+                <td className="border-r border-blue-200 p-2 text-[10px] leading-tight">
+                  {plan.breakfast.menu
+                    ? plan.breakfast.menu.split(',').map((item, i) => <div key={i}>{item.trim()}</div>)
+                    : '-'}
+                </td>
                 <td className="border-r border-blue-200 bg-yellow-50/30 p-2 text-center font-mono font-bold text-orange-700">
                   {plan.breakfast.calories ? `${plan.breakfast.calories} Kcal` : '-'}
                 </td>
-                <td className="border-r border-blue-200 p-2 text-[10px] leading-tight">{plan.lunch.menu || '-'}</td>
+                <td className="border-r border-blue-200 p-2 text-[10px] leading-tight">
+                  {plan.lunch.menu
+                    ? plan.lunch.menu.split(',').map((item, i) => <div key={i}>{item.trim()}</div>)
+                    : '-'}
+                </td>
                 <td className="border-r border-blue-200 bg-yellow-50/30 p-2 text-center font-mono font-bold text-orange-700">
                   {plan.lunch.calories ? `${plan.lunch.calories} Kcal` : '-'}
                 </td>
-                <td className="border-r border-blue-200 p-2 text-[10px] leading-tight">{plan.dinner.menu || '-'}</td>
+                <td className="border-r border-blue-200 p-2 text-[10px] leading-tight">
+                  {plan.dinner.menu
+                    ? plan.dinner.menu.split(',').map((item, i) => <div key={i}>{item.trim()}</div>)
+                    : '-'}
+                </td>
                 <td className="border-r border-blue-200 bg-yellow-50/30 p-2 text-center font-mono font-bold text-orange-700">
                   {plan.dinner.calories ? `${plan.dinner.calories} Kcal` : '-'}
                 </td>

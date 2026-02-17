@@ -9,6 +9,10 @@ export class MealPlanService {
    * 식단표 목록 조회
    */
   async findAll(query: any) {
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('[MEAL-PLAN SERVICE] findAll - ENTRY');
+    console.log('[MEAL-PLAN SERVICE] Input query:', JSON.stringify(query, null, 2));
+
     try {
       const { page = 1, limit = 20, facilityCode, status, startDate, endDate, sortOrder = 'desc' } = query;
       const skip = (page - 1) * limit;
@@ -29,10 +33,8 @@ export class MealPlanService {
         if (endDate) where.week_start_date.lte = new Date(endDate);
       }
 
-      console.log(
-        '[DEBUG] MealPlanService.findAll - Executing queries with where:',
-        JSON.stringify(where, (_, v) => (typeof v === 'bigint' ? v.toString() : v)),
-      );
+      console.log('[MEAL-PLAN SERVICE] Constructed where filter:', JSON.stringify(where, (_, v) => (typeof v === 'bigint' ? v.toString() : v)));
+      console.log('[MEAL-PLAN SERVICE] Executing Prisma queries...');
 
       const [total, data] = await Promise.all([
         this.prisma.mealPlan.count({ where }),
@@ -40,17 +42,25 @@ export class MealPlanService {
           where,
           skip,
           take: limit,
-          orderBy: { week_start_date: sortOrder },
-          include: {
-            creator: true,
-          },
+          orderBy: { mealMonth: sortOrder },
         }),
       ]);
 
-      console.log('[DEBUG] MealPlanService.findAll - Results found:', total, 'Starting serialization...');
+      console.log('[MEAL-PLAN SERVICE] Query results - Total count:', total);
+      console.log('[MEAL-PLAN SERVICE] Query results - Data length:', data.length);
+
+      if (total === 0) {
+        console.warn('[MEAL-PLAN SERVICE] ⚠️ No meal plans found in database');
+      }
+
+      console.log('[MEAL-PLAN SERVICE] Starting serialization for', data.length, 'items...');
+      console.log('[MEAL-PLAN SERVICE] Raw DB data[0]:', data[0] ? JSON.stringify(data[0], (_, v) => (typeof v === 'bigint' ? v.toString() : v)) : 'empty');
+
+      const serialized = data.map(mp => this.serializeMealPlan(mp));
+      console.log('[MEAL-PLAN SERVICE] Serialized[0]:', serialized[0] ? JSON.stringify(serialized[0]) : 'empty');
 
       const result = {
-        data: data.map(mp => this.serializeMealPlan(mp)),
+        data: serialized,
         pagination: {
           total,
           page,
@@ -59,10 +69,21 @@ export class MealPlanService {
         },
       };
 
-      console.log('[DEBUG] MealPlanService.findAll - Finished successfully');
+      console.log('[MEAL-PLAN SERVICE] findAll - RESPONSE:', {
+        dataCount: result.data.length,
+        total: result.pagination.total,
+        page: result.pagination.page,
+      });
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
       return result;
-    } catch (error) {
-      console.error('[ERROR] MealPlanService.findAll:', error);
+    } catch (error: any) {
+      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.error('[MEAL-PLAN SERVICE] ❌ ERROR in findAll');
+      console.error('[MEAL-PLAN SERVICE] Error message:', error.message);
+      console.error('[MEAL-PLAN SERVICE] Error stack:', error.stack);
+      console.error('[MEAL-PLAN SERVICE] Input query was:', query);
+      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       throw error;
     }
   }
@@ -87,6 +108,10 @@ export class MealPlanService {
    * 현재 주(월) 식단표 조회
    */
   async findCurrentWeek(query: any) {
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('[MEAL-PLAN SERVICE] findCurrentWeek - ENTRY');
+    console.log('[MEAL-PLAN SERVICE] Input query:', JSON.stringify(query, null, 2));
+
     try {
       const { facilityCode, date } = query;
       const targetDate = date ? new Date(date) : new Date();
@@ -94,6 +119,16 @@ export class MealPlanService {
       const year = targetDate.getFullYear();
       const month = targetDate.getMonth() + 1;
       const mealMonth = year * 100 + month;
+
+      console.log('[MEAL-PLAN SERVICE] Calculated values:', {
+        facilityCode: facilityCode || 'DEFAULT',
+        targetDate: targetDate.toISOString(),
+        year,
+        month,
+        mealMonth,
+      });
+
+      console.log('[MEAL-PLAN SERVICE] Executing findFirst query...');
 
       const mealPlan = await this.prisma.mealPlan.findFirst({
         where: {
@@ -106,7 +141,13 @@ export class MealPlanService {
         },
       });
 
-      if (!mealPlan) return null;
+      console.log('[MEAL-PLAN SERVICE] Query result:', mealPlan ? 'Found' : 'Not found');
+
+      if (!mealPlan) {
+        console.warn('[MEAL-PLAN SERVICE] ⚠️ No meal plan found for:', { facilityCode: facilityCode || 'DEFAULT', mealMonth });
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        return null;
+      }
 
       const groupedItems = this.groupMealPlanItemsByDate(mealPlan.mealPlanItems);
       const dailyMeals = groupedItems.map(item => ({
@@ -120,7 +161,7 @@ export class MealPlanService {
         totalCalories: null,
       }));
 
-      return {
+      const result = {
         mealPlan: this.serializeMealPlan(mealPlan),
         dailyMeals,
         weekStartDate: mealPlan.week_start_date.toISOString().split('T')[0],
@@ -128,8 +169,23 @@ export class MealPlanService {
           .toISOString()
           .split('T')[0],
       };
-    } catch (error) {
-      console.error('[ERROR] MealPlanService.findCurrentWeek:', error);
+
+      console.log('[MEAL-PLAN SERVICE] findCurrentWeek - RESPONSE:', {
+        hasMealPlan: !!result.mealPlan,
+        dailyMealsCount: dailyMeals.length,
+        weekStartDate: result.weekStartDate,
+        weekEndDate: result.weekEndDate,
+      });
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+      return result;
+    } catch (error: any) {
+      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.error('[MEAL-PLAN SERVICE] ❌ ERROR in findCurrentWeek');
+      console.error('[MEAL-PLAN SERVICE] Error message:', error.message);
+      console.error('[MEAL-PLAN SERVICE] Error stack:', error.stack);
+      console.error('[MEAL-PLAN SERVICE] Input query was:', query);
+      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       throw error;
     }
   }
@@ -250,7 +306,7 @@ export class MealPlanService {
         if (existing) {
           await this.prisma.mealPlanItem.update({
             where: { id: existing.id },
-            data: { mainMenu: m.menu },
+            data: { menuContent: m.menu } as any,
           });
         } else {
           await this.prisma.mealPlanItem.create({
@@ -258,8 +314,8 @@ export class MealPlanService {
               mealPlanId: planId,
               mealDate: mealDate,
               mealType: m.type,
-              mainMenu: m.menu,
-            },
+              menuContent: m.menu,
+            } as any,
           });
         }
       }
@@ -321,7 +377,7 @@ export class MealPlanService {
           if (existing) {
             await this.prisma.mealPlanItem.update({
               where: { id: existing.id },
-              data: { mainMenu: m.menu },
+              data: { menuContent: m.menu } as any,
             });
           } else {
             await this.prisma.mealPlanItem.create({
@@ -329,8 +385,8 @@ export class MealPlanService {
                 mealPlanId: planId,
                 mealDate: targetDate,
                 mealType: m.type,
-                mainMenu: m.menu,
-              },
+                menuContent: m.menu,
+              } as any,
             });
           }
         }
@@ -407,9 +463,7 @@ export class MealPlanService {
 
       const dailyMeal = grouped.get(dateStr)!;
 
-      // 메뉴 구성 요소를 모두 합쳐서 표시
-      const menuParts = [item.mainMenu, item.sideMenu, item.soup, item.dessert].filter(Boolean);
-      const menuStr = menuParts.join(', ');
+      const menuStr = item.menuContent || '';
 
       const type = item.mealType.toUpperCase();
       if (type === 'BREAKFAST') {

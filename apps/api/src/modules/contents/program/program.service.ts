@@ -247,6 +247,10 @@ export class ProgramService implements OnModuleInit {
    * 일정 상세 조회 (캘린더용 - Program + Schedule 결합)
    */
   async findSchedulesWithDetails(query: any): Promise<any> {
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('[PROGRAM SERVICE] findSchedulesWithDetails - ENTRY');
+    console.log('[PROGRAM SERVICE] Input params:', JSON.stringify(query, null, 2));
+
     const { page = 1, limit = 100, startDate, endDate, category, status } = query;
     const skip = (page - 1) * limit;
 
@@ -269,7 +273,11 @@ export class ProgramService implements OnModuleInit {
       where.program = { category };
     }
 
+    console.log('[PROGRAM SERVICE] Constructed where filter:', JSON.stringify(where, null, 2));
+    console.log('[PROGRAM SERVICE] Query params: skip=' + skip + ', take=' + limit);
+
     try {
+      console.log('[PROGRAM SERVICE] Executing count query...');
       const [totalCount, schedules] = await Promise.all([
         this.prisma.programSchedule.count({ where }),
         this.prisma.programSchedule.findMany({
@@ -296,9 +304,20 @@ export class ProgramService implements OnModuleInit {
         }),
       ]);
 
-      console.log('[DEBUG] ProgramService.findSchedulesWithDetails - where:', JSON.stringify(where), 'totalCount:', totalCount);
+      console.log('[PROGRAM SERVICE] Total schedule count:', totalCount);
+      console.log('[PROGRAM SERVICE] Raw schedules from DB:', {
+        count: schedules.length,
+        sample: schedules[0] ? {
+          id: schedules[0].id?.toString(),
+          hasProgram: !!schedules[0].program,
+          programTitle: schedules[0].program?.title,
+          startsAt: schedules[0].startsAt,
+        } : null,
+      });
 
       if (totalCount === 0) {
+        console.warn('[PROGRAM SERVICE] ⚠️ No schedules found in database');
+        console.log('[PROGRAM SERVICE] Attempting to seed sample data...');
         console.log('[DEBUG] No schedules found. Creating sample data...');
         try {
           let program = await this.prisma.program.findFirst();
@@ -362,14 +381,40 @@ export class ProgramService implements OnModuleInit {
         }
       }
 
-      return {
-        items: schedules.map(s => this.enrichScheduleWithProgram(s, s.program)),
+      console.log('[PROGRAM SERVICE] Starting enrichment for', schedules.length, 'schedules');
+      const items = schedules.map((s, index) => {
+        console.log('[PROGRAM SERVICE] Enriching schedule', (index + 1) + '/' + schedules.length, '- ID:', s.id?.toString());
+        return this.enrichScheduleWithProgram(s, s.program);
+      });
+
+      const result = {
+        items,
         totalCount,
         page: Number(page),
         limit: Number(limit),
       };
-    } catch (error) {
-      console.error('[ERROR] ProgramService.findSchedulesWithDetails failed:', error);
+
+      console.log('[PROGRAM SERVICE] findSchedulesWithDetails - RESPONSE:', {
+        itemsReturned: items.length,
+        totalCount,
+        page: Number(page),
+        limit: Number(limit),
+        firstItem: items[0] ? {
+          id: items[0].id,
+          title: items[0].title,
+          status: items[0].status,
+        } : null,
+      });
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+      return result;
+    } catch (error: any) {
+      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.error('[PROGRAM SERVICE] ❌ ERROR in findSchedulesWithDetails');
+      console.error('[PROGRAM SERVICE] Error message:', error.message);
+      console.error('[PROGRAM SERVICE] Error stack:', error.stack);
+      console.error('[PROGRAM SERVICE] Input params were:', query);
+      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       try {
         const fs = require('node:fs');
         fs.appendFileSync(
@@ -511,6 +556,17 @@ export class ProgramService implements OnModuleInit {
    * Schedule과 Program 데이터를 결합하여 frontend가 원하는 형태로 변환
    */
   private enrichScheduleWithProgram(schedule: any, program: any): EnrichedSchedule {
+    console.log('[PROGRAM SERVICE] enrichScheduleWithProgram - Input:', {
+      scheduleId: schedule.id?.toString(),
+      programId: program?.id?.toString(),
+      programTitle: program?.title,
+      startsAt: schedule.startsAt,
+    });
+
+    if (!program) {
+      console.warn('[PROGRAM SERVICE] ⚠️ No program data for schedule:', schedule.id?.toString());
+    }
+
     const meta = (program.meta as any) || {};
     const duration = schedule.endsAt ? Math.round((schedule.endsAt.getTime() - schedule.startsAt.getTime()) / (1000 * 60)) : 60; // 기본 60분
 
@@ -518,7 +574,7 @@ export class ProgramService implements OnModuleInit {
     const recipientIds =
       schedule.attendance?.filter((a: any) => a.role === 'PARTICIPANT' && a.residentId).map((a: any) => a.residentId.toString()) || [];
 
-    return {
+    const result = {
       id: schedule.id.toString(),
       title: program.title,
       category: program.category || '전체',
@@ -538,6 +594,16 @@ export class ProgramService implements OnModuleInit {
       programId: program.id.toString(),
       scheduleId: schedule.id.toString(),
     };
+
+    console.log('[PROGRAM SERVICE] enrichScheduleWithProgram - Output:', {
+      id: result.id,
+      title: result.title,
+      status: result.status,
+      date: result.date,
+      time: result.time,
+    });
+
+    return result;
   }
 
   /**

@@ -17,7 +17,7 @@ export default function ProgramList({ programs, onProgramClick, onEdit, onDelete
   const getStatusBadge = (status: string) => {
     switch (status) {
       case '예정':
-        return <span className="rounded bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800">예정</span>;
+        return <span className="rounded bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">예정</span>;
       case '진행중':
         return <span className="rounded bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">진행중</span>;
       case '완료':
@@ -81,7 +81,7 @@ export default function ProgramList({ programs, onProgramClick, onEdit, onDelete
                       e.stopPropagation();
                       onEdit(program);
                     }}
-                    className="text-gray-400 hover:text-blue-600"
+                    className="text-gray-400 hover:text-[#5C8D5A]"
                   >
                     <i className="ri-edit-line"></i>
                   </button>

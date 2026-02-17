@@ -164,6 +164,11 @@ BEGIN
         WHERE status = 'ACTIVE';
     RAISE NOTICE '  ✓ 직원 활성 상태 인덱스';
 
+    -- 직원 권한 인덱스
+    CREATE INDEX IF NOT EXISTS idx_employee_permissions_role
+        ON employee_permissions(role_id);
+    RAISE NOTICE '  ✓ 직원 권한 역할별 인덱스';
+
     RAISE NOTICE '';
     RAISE NOTICE 'Web-specific Indexes Created';
     RAISE NOTICE '';
@@ -179,49 +184,28 @@ BEGIN
     RAISE NOTICE 'Step 3: Updating Table Statistics';
     RAISE NOTICE '========================================';
 
-    -- Web 알림마당 관련 테이블만 분석
+    -- 관련 테이블 분석
     ANALYZE notices;
-    RAISE NOTICE '  ✓ notices';
-
     ANALYZE notice_files;
-    RAISE NOTICE '  ✓ notice_files';
-
     ANALYZE board_posts;
-    RAISE NOTICE '  ✓ board_posts';
-
     ANALYZE board_comments;
-    RAISE NOTICE '  ✓ board_comments';
-
     ANALYZE board_files;
-    RAISE NOTICE '  ✓ board_files';
-
     ANALYZE gallery_items;
-    RAISE NOTICE '  ✓ gallery_items';
-
     ANALYZE gallery_files;
-    RAISE NOTICE '  ✓ gallery_files';
-
     ANALYZE meal_plans;
-    RAISE NOTICE '  ✓ meal_plans';
-
     ANALYZE meal_plan_items;
-    RAISE NOTICE '  ✓ meal_plan_items';
-
     ANALYZE programs;
-    RAISE NOTICE '  ✓ programs';
-
     ANALYZE program_schedules;
-    RAISE NOTICE '  ✓ program_schedules';
-
     ANALYZE program_attendance;
-    RAISE NOTICE '  ✓ program_attendance';
-
     ANALYZE file_storage;
-    RAISE NOTICE '  ✓ file_storage';
-
     ANALYZE employees;
-    RAISE NOTICE '  ✓ employees';
+    ANALYZE facilities;
+    ANALYZE site_infos;
+    ANALYZE departments;
+    ANALYZE employee_roles;
+    ANALYZE employee_permissions;
 
+    RAISE NOTICE '  ✓ All tables analyzed';
     RAISE NOTICE '';
     RAISE NOTICE 'Statistics Updated';
     RAISE NOTICE '';
@@ -238,19 +222,18 @@ DECLARE
     error_count INT := 0;
 BEGIN
     RAISE NOTICE '========================================';
-    RAISE NOTICE 'Step 4: Verifying Web Views';
+    RAISE NOTICE 'Step 4: Verifying Views';
     RAISE NOTICE '========================================';
 
-    -- Web 알림마당 View 목록
+    -- Web/Admin View 목록 검증
     FOR view_record IN
         SELECT table_name
         FROM information_schema.views
         WHERE table_schema = 'public'
-          AND table_name LIKE 'v_web_%'
+          AND (table_name LIKE 'v_web_%' OR table_name LIKE 'v_admin_%')
         ORDER BY table_name
     LOOP
         BEGIN
-            -- View 쿼리 테스트 (LIMIT 1로 성능 확인)
             EXECUTE format('SELECT * FROM %I LIMIT 1', view_record.table_name);
             view_count := view_count + 1;
             RAISE NOTICE '  ✓ % (OK)', view_record.table_name;
@@ -281,19 +264,15 @@ BEGIN
         ALTER TABLE notices ADD CONSTRAINT chk_notices_category
         CHECK (category IS NULL OR category IN ('GENERAL', 'URGENT', 'EVENT', 'EDUCATION', 'MAINTENANCE'));
         RAISE NOTICE '  ✓ 공지사항 카테고리 제약조건';
-    EXCEPTION WHEN OTHERS THEN
-        RAISE NOTICE '  ✗ 공지사항 카테고리 제약조건 실패: %', SQLERRM;
-    END;
+    EXCEPTION WHEN OTHERS THEN RAISE NOTICE '  ✗ 공지사항 카테고리 제약조건 실패: %', SQLERRM; END;
 
-    -- 게시판 키 체크 (자유, 질문, 건의)
+    -- 게시판 키 체크
     BEGIN
         ALTER TABLE board_posts DROP CONSTRAINT IF EXISTS chk_board_posts_key;
         ALTER TABLE board_posts ADD CONSTRAINT chk_board_posts_key
         CHECK (board_key IN ('FREE', 'QNA', 'SUGGESTION', 'NOTICE'));
         RAISE NOTICE '  ✓ 게시판 키 제약조건';
-    EXCEPTION WHEN OTHERS THEN
-        RAISE NOTICE '  ✗ 게시판 키 제약조건 실패: %', SQLERRM;
-    END;
+    EXCEPTION WHEN OTHERS THEN RAISE NOTICE '  ✗ 게시판 키 제약조건 실패: %', SQLERRM; END;
 
     -- 갤러리 카테고리 체크
     BEGIN
@@ -301,9 +280,7 @@ BEGIN
         ALTER TABLE gallery_items ADD CONSTRAINT chk_gallery_category
         CHECK (category IS NULL OR category IN ('GENERAL', 'EVENT', 'DAILY'));
         RAISE NOTICE '  ✓ 갤러리 카테고리 제약조건';
-    EXCEPTION WHEN OTHERS THEN
-        RAISE NOTICE '  ✗ 갤러리 카테고리 제약조건 실패: %', SQLERRM;
-    END;
+    EXCEPTION WHEN OTHERS THEN RAISE NOTICE '  ✗ 갤러리 카테고리 제약조건 실패: %', SQLERRM; END;
 
     -- 식단표 상태 체크
     BEGIN
@@ -311,9 +288,7 @@ BEGIN
         ALTER TABLE meal_plans ADD CONSTRAINT chk_meal_plans_status
         CHECK (status IN ('DRAFT', 'PUBLISHED', 'ARCHIVED'));
         RAISE NOTICE '  ✓ 식단표 상태 제약조건';
-    EXCEPTION WHEN OTHERS THEN
-        RAISE NOTICE '  ✗ 식단표 상태 제약조건 실패: %', SQLERRM;
-    END;
+    EXCEPTION WHEN OTHERS THEN RAISE NOTICE '  ✗ 식단표 상태 제약조건 실패: %', SQLERRM; END;
 
     -- 식단 유형 체크
     BEGIN
@@ -321,9 +296,7 @@ BEGIN
         ALTER TABLE meal_plan_items ADD CONSTRAINT chk_meal_type
         CHECK (meal_type IN ('BREAKFAST', 'LUNCH', 'DINNER', 'SNACK'));
         RAISE NOTICE '  ✓ 식단 유형 제약조건';
-    EXCEPTION WHEN OTHERS THEN
-        RAISE NOTICE '  ✗ 식단 유형 제약조건 실패: %', SQLERRM;
-    END;
+    EXCEPTION WHEN OTHERS THEN RAISE NOTICE '  ✗ 식단 유형 제약조건 실패: %', SQLERRM; END;
 
     -- 프로그램 카테고리 체크
     BEGIN
@@ -331,9 +304,7 @@ BEGIN
         ALTER TABLE programs ADD CONSTRAINT chk_program_category
         CHECK (category IS NULL OR category IN ('EXERCISE', 'MUSIC', 'COGNITIVE', 'ART', 'CRAFT', 'SPORTS', 'RECREATION', 'OTHER'));
         RAISE NOTICE '  ✓ 프로그램 카테고리 제약조건';
-    EXCEPTION WHEN OTHERS THEN
-        RAISE NOTICE '  ✗ 프로그램 카테고리 제약조건 실패: %', SQLERRM;
-    END;
+    EXCEPTION WHEN OTHERS THEN RAISE NOTICE '  ✗ 프로그램 카테고리 제약조건 실패: %', SQLERRM; END;
 
     -- 프로그램 일정 상태 체크
     BEGIN
@@ -341,9 +312,7 @@ BEGIN
         ALTER TABLE program_schedules ADD CONSTRAINT chk_program_schedules_status
         CHECK (status IN ('PLANNED', 'CONFIRMED', 'ONGOING', 'DONE', 'CANCELLED'));
         RAISE NOTICE '  ✓ 프로그램 일정 상태 제약조건';
-    EXCEPTION WHEN OTHERS THEN
-        RAISE NOTICE '  ✗ 프로그램 일정 상태 제약조건 실패: %', SQLERRM;
-    END;
+    EXCEPTION WHEN OTHERS THEN RAISE NOTICE '  ✗ 프로그램 일정 상태 제약조건 실패: %', SQLERRM; END;
 
     RAISE NOTICE '';
     RAISE NOTICE 'Constraints Updated';
@@ -364,9 +333,13 @@ DECLARE
     program_count INT;
     schedule_count INT;
     file_count INT;
+    facility_count INT;
+    site_info_count INT;
+    dept_count INT;
+    role_count INT;
 BEGIN
     RAISE NOTICE '========================================';
-    RAISE NOTICE 'Step 6: Sample Data Statistics';
+    RAISE NOTICE 'Step 6: Data Statistics';
     RAISE NOTICE '========================================';
 
     SELECT COUNT(*) INTO notice_count FROM notices WHERE is_active = true;
@@ -377,6 +350,10 @@ BEGIN
     SELECT COUNT(*) INTO program_count FROM programs WHERE is_active = true;
     SELECT COUNT(*) INTO schedule_count FROM program_schedules;
     SELECT COUNT(*) INTO file_count FROM file_storage;
+    SELECT COUNT(*) INTO facility_count FROM facilities;
+    SELECT COUNT(*) INTO site_info_count FROM site_infos;
+    SELECT COUNT(*) INTO dept_count FROM departments;
+    SELECT COUNT(*) INTO role_count FROM employee_roles;
 
     RAISE NOTICE '공지사항: % 건', notice_count;
     RAISE NOTICE '게시글: % 건', board_count;
@@ -386,6 +363,10 @@ BEGIN
     RAISE NOTICE '프로그램: % 종', program_count;
     RAISE NOTICE '프로그램 일정: % 건', schedule_count;
     RAISE NOTICE '파일: % 건', file_count;
+    RAISE NOTICE '시설 정보: % 건', facility_count;
+    RAISE NOTICE '사이트 설정: % 건', site_info_count;
+    RAISE NOTICE '부서: % 건', dept_count;
+    RAISE NOTICE '직원 역할: % 건', role_count;
 
     RAISE NOTICE '';
 END$$;
@@ -402,7 +383,7 @@ DECLARE
     index_count INT;
     sequence_count INT;
     constraint_count INT;
-    web_view_count INT;
+    web_admin_view_count INT;
 BEGIN
     RAISE NOTICE '========================================';
     RAISE NOTICE 'Step 7: Final System Verification';
@@ -410,84 +391,32 @@ BEGIN
 
     SELECT current_database() INTO db_name;
 
-    -- 전체 테이블 수
-    SELECT COUNT(*) INTO table_count
-    FROM information_schema.tables
-    WHERE table_schema = 'public' AND table_type = 'BASE TABLE';
-
-    -- 전체 View 수
-    SELECT COUNT(*) INTO view_count
-    FROM information_schema.views
-    WHERE table_schema = 'public';
-
-    -- Web View 수
-    SELECT COUNT(*) INTO web_view_count
-    FROM information_schema.views
-    WHERE table_schema = 'public' AND table_name LIKE 'v_web_%';
-
-    -- 인덱스 수
-    SELECT COUNT(*) INTO index_count
-    FROM pg_indexes
-    WHERE schemaname = 'public';
-
-    -- 시퀀스 수
-    SELECT COUNT(*) INTO sequence_count
-    FROM information_schema.sequences
-    WHERE sequence_schema = 'public';
-
-    -- 제약조건 수
-    SELECT COUNT(*) INTO constraint_count
-    FROM information_schema.table_constraints
-    WHERE constraint_schema = 'public' AND constraint_type = 'CHECK';
+    SELECT COUNT(*) INTO table_count FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';
+    SELECT COUNT(*) INTO view_count FROM information_schema.views WHERE table_schema = 'public';
+    SELECT COUNT(*) INTO web_admin_view_count FROM information_schema.views WHERE table_schema = 'public' AND (table_name LIKE 'v_web_%' OR table_name LIKE 'v_admin_%');
+    SELECT COUNT(*) INTO index_count FROM pg_indexes WHERE schemaname = 'public';
+    SELECT COUNT(*) INTO sequence_count FROM information_schema.sequences WHERE sequence_schema = 'public';
+    SELECT COUNT(*) INTO constraint_count FROM information_schema.table_constraints WHERE constraint_schema = 'public' AND constraint_type = 'CHECK';
 
     RAISE NOTICE '';
     RAISE NOTICE '=================================================';
-    RAISE NOTICE '    Web 알림마당 초기화 완료!';
+    RAISE NOTICE '    Agape-Care Initialization Complete!';
     RAISE NOTICE '=================================================';
-    RAISE NOTICE '';
     RAISE NOTICE '데이터베이스: %', db_name;
     RAISE NOTICE '테이블: % 개', table_count;
     RAISE NOTICE 'View (전체): % 개', view_count;
-    RAISE NOTICE 'View (Web): % 개', web_view_count;
+    RAISE NOTICE 'View (Web/Admin): % 개', web_admin_view_count;
     RAISE NOTICE '인덱스: % 개', index_count;
     RAISE NOTICE '시퀀스: % 개', sequence_count;
     RAISE NOTICE '제약조건: % 개', constraint_count;
     RAISE NOTICE '';
     RAISE NOTICE '=================================================';
-    RAISE NOTICE '    사용 가능한 Web View';
+    RAISE NOTICE '    Available Admin Views';
     RAISE NOTICE '=================================================';
-    RAISE NOTICE '';
-    RAISE NOTICE '목록 조회:';
-    RAISE NOTICE '  • v_web_notices           - 공지사항 목록';
-    RAISE NOTICE '  • v_web_board_posts       - 게시판 목록';
-    RAISE NOTICE '  • v_web_board_comments    - 댓글 목록';
-    RAISE NOTICE '  • v_web_gallery_items     - 갤러리 목록';
-    RAISE NOTICE '  • v_web_meal_plans        - 식단표 목록';
-    RAISE NOTICE '  • v_web_meal_plan_items   - 식단 항목';
-    RAISE NOTICE '  • v_web_programs          - 프로그램 목록';
-    RAISE NOTICE '  • v_web_program_schedules - 프로그램 일정';
-    RAISE NOTICE '';
-    RAISE NOTICE '상세 조회:';
-    RAISE NOTICE '  • v_web_notice_detail     - 공지사항 상세';
-    RAISE NOTICE '  • v_web_board_post_detail - 게시판 상세';
-    RAISE NOTICE '  • v_web_gallery_detail    - 갤러리 상세';
-    RAISE NOTICE '  • v_web_meal_plan_detail  - 식단표 상세';
-    RAISE NOTICE '  • v_web_program_detail    - 프로그램 상세';
-    RAISE NOTICE '';
-    RAISE NOTICE '통합 조회:';
-    RAISE NOTICE '  • v_web_latest_contents   - 최신 콘텐츠 통합';
-    RAISE NOTICE '';
-    RAISE NOTICE '=================================================';
-    RAISE NOTICE '    시스템 준비 완료!';
-    RAISE NOTICE '=================================================';
-    RAISE NOTICE '';
-    RAISE NOTICE '다음 단계:';
-    RAISE NOTICE '  1. API 서버 연결';
-    RAISE NOTICE '  2. 프론트엔드 통합';
-    RAISE NOTICE '  3. 샘플 데이터 확인';
-    RAISE NOTICE '';
-    RAISE NOTICE 'SELECT * FROM v_web_notices LIMIT 5;';
-    RAISE NOTICE 'SELECT * FROM v_web_latest_contents LIMIT 10;';
+    RAISE NOTICE '  • v_admin_facilities           - 시설 정보';
+    RAISE NOTICE '  • v_admin_site_settings        - 사이트 설정';
+    RAISE NOTICE '  • v_admin_employees            - 직원 목록';
+    RAISE NOTICE '  • v_admin_employee_permissions - 직원 권한 상세';
     RAISE NOTICE '';
     RAISE NOTICE '=================================================';
 END$$;

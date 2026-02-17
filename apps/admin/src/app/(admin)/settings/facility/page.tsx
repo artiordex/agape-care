@@ -1,85 +1,152 @@
 'use client';
 
+import { api } from '@/lib/api';
+import { FacilitySchema } from '@agape-care/api-contract';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { z } from 'zod';
 
 import FacilityHeader from './FacilityHeader';
 import FacilityPreview from './FacilityPreview';
 import FacilitySettingsSection, { FacilitySettingsData } from './FacilitySettingsSection';
 
-const STORAGE_KEY = 'agape_facility_info';
+type FacilityAPIModel = z.infer<typeof FacilitySchema>;
 
 const DEFAULT_DATA: FacilitySettingsData = {
   basic: {
-    orgCode: 'F-2026-001',
-    facilityName: '아가페케어 요양센터',
-    facilityDesc: '어르신들의 존엄한 노후를 위한 프리미엄 케어 서비스를 제공합니다.',
+    orgCode: '',
+    facilityName: '',
+    facilityDesc: '',
     facilityType: '노인요양시설',
-    designatedDate: '2026-01-01',
-    director: '홍길동',
-    directorPhone: '010-1234-5678',
-    ceoName: '이아무개',
-    businessNo: '123-45-67890',
-    bizType: '사회복지서비스업',
-    staffCount: 35,
+    designatedDate: '',
+    director: '',
+    directorPhone: '',
+    ceoName: '',
+    businessNo: '',
+    bizType: '',
+    staffCount: 0,
   },
   contact: {
-    phone: '02-1234-5678',
-    fax: '02-1234-5679',
-    email: 'admin@agape-care.com',
-    homepage: 'https://agape-care.com',
+    phone: '',
+    fax: '',
+    email: '',
+    homepage: '',
   },
-  capacity: { total: 49, shortStay: 5, dayCare: 10 },
+  capacity: { total: 0, shortStay: 0, dayCare: 0 },
   address: {
-    zip: '06234',
-    addr1: '서울특별시 강남구 테헤란로 123',
-    addr2: '아카이브 빌딩 7층',
+    zip: '',
+    addr1: '',
+    addr2: '',
   },
   stampImage: '',
 };
 
+// API 모델 -> UI 모델 변환
+const mapAPIToUI = (apiData: FacilityAPIModel): FacilitySettingsData => {
+  return {
+    basic: {
+      orgCode: apiData.orgCode,
+      facilityName: apiData.facilityName,
+      facilityDesc: apiData.facilityDesc ?? '',
+      facilityType: apiData.facilityType ?? '노인요양시설',
+      designatedDate: apiData.designatedDate ? new Date(apiData.designatedDate).toISOString().split('T')[0] : '',
+      director: apiData.director,
+      directorPhone: apiData.directorPhone ?? '',
+      ceoName: apiData.ceoName,
+      businessNo: apiData.businessNo,
+      bizType: apiData.bizType ?? '',
+      staffCount: apiData.staffCount ?? 0,
+    },
+    contact: {
+      phone: apiData.phone,
+      fax: apiData.fax ?? '',
+      email: apiData.email ?? '',
+      homepage: apiData.homepage ?? '',
+    },
+    capacity: {
+      total: apiData.totalCapacity,
+      shortStay: apiData.shortStayCapacity ?? 0,
+      dayCare: apiData.dayCareCapacity ?? 0,
+    },
+    address: {
+      zip: apiData.zip ?? '',
+      address1: apiData.address1,
+      address2: apiData.address2 ?? '',
+    },
+    stampImage: apiData.stampImage ?? '',
+  };
+};
+
+// UI 모델 -> API 모델 변환 (업데이트용)
+const mapUIToAPI = (uiData: FacilitySettingsData) => {
+  return {
+    orgCode: uiData.basic.orgCode,
+    facilityName: uiData.basic.facilityName,
+    facilityDesc: uiData.basic.facilityDesc,
+    facilityType: uiData.basic.facilityType,
+    designatedDate: uiData.basic.designatedDate || null,
+    director: uiData.basic.director,
+    directorPhone: uiData.basic.directorPhone,
+    ceoName: uiData.basic.ceoName,
+    businessNo: uiData.basic.businessNo,
+    bizType: uiData.basic.bizType,
+    staffCount: uiData.basic.staffCount,
+    phone: uiData.contact.phone,
+    fax: uiData.contact.fax,
+    email: uiData.contact.email,
+    homepage: uiData.contact.homepage,
+    zip: uiData.address.zip,
+    address1: uiData.address.address1,
+    address2: uiData.address.address2,
+    totalCapacity: uiData.capacity.total,
+    shortStayCapacity: uiData.capacity.shortStay,
+    dayCareCapacity: uiData.capacity.dayCare,
+    stampImage: uiData.stampImage,
+  };
+};
+
 export default function FacilityManagementPage() {
   const [facilityData, setFacilityData] = useState<FacilitySettingsData>(DEFAULT_DATA);
-  const [isSaving, setIsSaving] = useState(false);
 
-  // 로컬 스토리지 데이터 로드
+  // 1. 데이터 조회 (API)
+  const { data: apiResponse, isLoading, refetch } = api.settings.getFacilityInfo.useQuery(['facilityInfo']);
+
+  // 2. 데이터 업데이트 (API)
+  const { mutateAsync: updateFacility, isPending: isSaving } = api.settings.updateFacilityInfo.useMutation();
+
+  // API 데이터 로드 시 UI 상태 업데이트
   useEffect(() => {
-    const savedData = localStorage.getItem(STORAGE_KEY);
-    if (savedData) {
-      try {
-        setFacilityData(JSON.parse(savedData));
-      } catch (e) {
-        console.error('데이터 파싱 오류:', e);
-        toast.error('저장된 데이터를 불러오는 데 실패했습니다.');
-      }
+    if (apiResponse?.status === 200 && apiResponse.body.success) {
+      setFacilityData(mapAPIToUI(apiResponse.body.data as any));
     }
-  }, []);
+  }, [apiResponse]);
 
   const handleSave = async () => {
-    setIsSaving(true);
     try {
-      // 실제 API 연동 시 fetch/axios 호출 영역
-      await new Promise(resolve => setTimeout(resolve, 800));
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(facilityData));
-      toast.success('시설 정보가 성공적으로 저장되었습니다.');
+      const response = await updateFacility({
+        body: mapUIToAPI(facilityData),
+      });
+
+      if (response.status === 200) {
+        toast.success('시설 정보가 성공적으로 저장되었습니다.');
+        refetch();
+      } else {
+        toast.error('저장 중 오류가 발생했습니다.');
+      }
     } catch (e) {
+      console.error('Save error:', e);
       toast.error('저장 중 오류가 발생했습니다.');
-    } finally {
-      setIsSaving(false);
     }
   };
 
   const handleReset = () => {
-    toast.warning('저장된 마지막 정보로 되돌리시겠습니까?', {
+    toast.warning('마지막 저장된 정보로 되돌리시겠습니까?', {
       action: {
         label: '되돌리기',
         onClick: () => {
-          const savedData = localStorage.getItem(STORAGE_KEY);
-          if (savedData) {
-            setFacilityData(JSON.parse(savedData));
-            toast.success('마지막 저장 상태로 복원되었습니다.');
-          } else {
-            toast.error('저장된 데이터가 없습니다.');
+          if (apiResponse?.status === 200 && apiResponse.body.success) {
+            setFacilityData(mapAPIToUI(apiResponse.body.data as any));
+            toast.success('저장 상태로 복원되었습니다.');
           }
         },
       },
@@ -90,11 +157,22 @@ export default function FacilityManagementPage() {
     });
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-[#f0f2f5]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-[#5C8D5A] border-t-transparent"></div>
+          <p className="font-black text-gray-500">시설 정보를 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <main className="flex h-screen flex-col overflow-hidden bg-[#f0f2f5]">
       {/* 컨트롤 헤더 */}
       <FacilityHeader
-        facilityName={facilityData.basic.facilityName}
+        facilityName={facilityData.basic.facilityName || '시설명 로딩 중...'}
         isSaving={isSaving}
         onSave={handleSave}
         onReset={handleReset}

@@ -35,7 +35,7 @@ export default function ProgramFilter({ activeCategory, onCategoryChange, viewMo
               onClick={() => onCategoryChange(category)}
               className={`px-4 py-3 text-sm font-medium transition-colors ${
                 activeCategory === category
-                  ? 'border-b-2 border-blue-600 text-blue-600'
+                  ? 'border-b-2 border-[#5C8D5A] text-[#5C8D5A]'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >

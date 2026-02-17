@@ -1,7 +1,7 @@
 /**
  * @description Settings API Contract
  * @author Agape Care Team
- * @date 2026-01-29
+ * @date 2026-02-17
  */
 
 import { z } from 'zod';
@@ -15,11 +15,13 @@ import {
   UpdateEmployeeRoleRequestSchema,
 } from '../schemas/employee/index.js';
 import {
-  FacilityInfoSchema,
-  SystemConfigSchema,
-  UpdateFacilityInfoSchema,
-  UpdateSystemConfigSchema,
-} from '../schemas/setting/setting.schema.js';
+  EmployeePermissionSchema,
+  FacilitySchema,
+  SiteInfoSchema,
+  UpdateEmployeePermissionRequestSchema,
+  UpdateFacilityRequestSchema,
+  UpdateSiteInfoRequestSchema,
+} from '../schemas/settings/settings.schema.js';
 
 const authHeader = z.object({
   authorization: z.string().describe('Bearer {token}'),
@@ -29,9 +31,9 @@ export const settingContract = {
   // ==================== Facility Info ====================
   getFacilityInfo: {
     method: 'GET' as const,
-    path: '/api/settings/facility',
+    path: '/settings/facility',
     responses: {
-      200: ApiResponseSchema(FacilityInfoSchema),
+      200: ApiResponseSchema(FacilitySchema),
     },
     summary: '시설 정보 조회',
     headers: authHeader,
@@ -39,41 +41,41 @@ export const settingContract = {
 
   updateFacilityInfo: {
     method: 'PATCH' as const,
-    path: '/api/settings/facility',
-    body: UpdateFacilityInfoSchema,
+    path: '/settings/facility',
+    body: UpdateFacilityRequestSchema,
     responses: {
-      200: ApiResponseSchema(FacilityInfoSchema),
+      200: ApiResponseSchema(FacilitySchema),
     },
     summary: '시설 정보 수정',
     headers: authHeader,
   },
 
-  // ==================== System Config ====================
-  getSystemConfig: {
+  // ==================== Site Info (System Config) ====================
+  getSiteInfo: {
     method: 'GET' as const,
-    path: '/api/settings/system',
+    path: '/settings/site',
     responses: {
-      200: ApiResponseSchema(z.array(SystemConfigSchema)),
+      200: ApiResponseSchema(SiteInfoSchema),
     },
-    summary: '시스템 설정 조회',
+    summary: '사이트 설정 조회',
     headers: authHeader,
   },
 
-  updateSystemConfig: {
+  updateSiteInfo: {
     method: 'PATCH' as const,
-    path: '/api/settings/system',
-    body: UpdateSystemConfigSchema,
+    path: '/settings/site',
+    body: UpdateSiteInfoRequestSchema,
     responses: {
-      200: ApiResponseSchema(z.array(SystemConfigSchema)),
+      200: ApiResponseSchema(SiteInfoSchema),
     },
-    summary: '시스템 설정 수정',
+    summary: '사이트 설정 수정',
     headers: authHeader,
   },
 
   // ==================== Roles (RBAC) ====================
   getRoles: {
     method: 'GET' as const,
-    path: '/api/settings/roles',
+    path: '/settings/roles',
     responses: {
       200: ApiResponseSchema(z.array(EmployeeRoleSchema)),
     },
@@ -83,7 +85,7 @@ export const settingContract = {
 
   createRole: {
     method: 'POST' as const,
-    path: '/api/settings/roles',
+    path: '/settings/roles',
     body: CreateEmployeeRoleRequestSchema,
     responses: {
       201: ApiResponseSchema(EmployeeRoleSchema),
@@ -94,7 +96,7 @@ export const settingContract = {
 
   updateRole: {
     method: 'PATCH' as const,
-    path: '/api/settings/roles/:id',
+    path: '/settings/roles/:id',
     body: UpdateEmployeeRoleRequestSchema,
     responses: {
       200: ApiResponseSchema(EmployeeRoleSchema),
@@ -105,7 +107,7 @@ export const settingContract = {
 
   deleteRole: {
     method: 'DELETE' as const,
-    path: '/api/settings/roles/:id',
+    path: '/settings/roles/:id',
     body: z.object({}),
     responses: {
       200: ApiResponseSchema(z.object({ message: z.string() })),
@@ -114,10 +116,32 @@ export const settingContract = {
     headers: authHeader,
   },
 
+  // ==================== Employee Permissions (RBAC Overrides) ====================
+  getEmployeePermission: {
+    method: 'GET' as const,
+    path: '/settings/permissions/:employeeId',
+    responses: {
+      200: ApiResponseSchema(EmployeePermissionSchema.nullable()), // Can be null if no override
+    },
+    summary: '직원 개인 권한 조회',
+    headers: authHeader,
+  },
+
+  updateEmployeePermission: {
+    method: 'PUT' as const,
+    path: '/settings/permissions/:employeeId',
+    body: UpdateEmployeePermissionRequestSchema,
+    responses: {
+      200: ApiResponseSchema(EmployeePermissionSchema),
+    },
+    summary: '직원 개인 권한 수정',
+    headers: authHeader,
+  },
+
   // ==================== Departments ====================
   getDepartments: {
     method: 'GET' as const,
-    path: '/api/settings/departments',
+    path: '/settings/departments',
     responses: {
       200: ApiResponseSchema(z.array(DepartmentSchema)),
     },
@@ -127,7 +151,7 @@ export const settingContract = {
 
   createDepartment: {
     method: 'POST' as const,
-    path: '/api/settings/departments',
+    path: '/settings/departments',
     body: CreateDepartmentRequestSchema,
     responses: {
       201: ApiResponseSchema(DepartmentSchema),
@@ -138,7 +162,7 @@ export const settingContract = {
 
   updateDepartment: {
     method: 'PATCH' as const,
-    path: '/api/settings/departments/:id',
+    path: '/settings/departments/:id',
     body: UpdateDepartmentRequestSchema,
     responses: {
       200: ApiResponseSchema(DepartmentSchema),
@@ -149,7 +173,7 @@ export const settingContract = {
 
   deleteDepartment: {
     method: 'DELETE' as const,
-    path: '/api/settings/departments/:id',
+    path: '/settings/departments/:id',
     body: z.object({}),
     responses: {
       200: ApiResponseSchema(z.object({ message: z.string() })),

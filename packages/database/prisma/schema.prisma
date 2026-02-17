@@ -223,14 +223,6 @@ model MealPlanItem {
   mealDate    DateTime @map("meal_date") @db.Date
   /// 식사 유형 (BREAKFAST, LUNCH, DINNER, SNACK)
   mealType    String   @map("meal_type")
-  /// 주 메뉴
-  mainMenu    String?  @map("main_menu")
-  /// 부 메뉴
-  sideMenu    String?  @map("side_menu")
-  /// 국/찌개
-  soup        String?
-  /// 디저트/김치
-  dessert     String?
   /// 이미지 URL
   imageUrl    String?  @map("image_url")
   /// 메뉴 내용
@@ -605,6 +597,104 @@ model PopupBanner {
 // ADMIN 시스템 설정 > 권한 관리, 시설 정보 관리, 사이트 설정
 // ============================================================================
 
+/// 시설 정보 (관리자 설정)
+model Facility {
+  /// 시설 ID (Primary Key)
+  id                BigInt   @id @default(autoincrement())
+  /// 기관기호 (고유값)
+  orgCode           String   @unique @map("org_code")
+  /// 시설명
+  facilityName      String   @map("facility_name")
+  /// 시설 설명
+  facilityDesc      String?  @map("facility_desc")
+  /// 시설 유형
+  facilityType      String   @map("facility_type")
+  /// 지정일자
+  designatedDate    DateTime? @map("designated_date") @db.Date
+  /// 시설장명
+  director          String
+  /// 시설장 연락처
+  directorPhone     String?  @map("director_phone")
+  /// 대표자명
+  ceoName           String   @map("ceo_name")
+  /// 사업자등록번호
+  businessNo        String   @map("business_no")
+  /// 업태/종목
+  bizType           String?  @map("biz_type")
+  /// 종사자 수
+  staffCount        Int?     @map("staff_count")
+  /// 대표 전화번호
+  phone             String
+  /// 팩스 번호
+  fax               String?
+  /// 이메일
+  email             String?
+  /// 홈페이지
+  homepage          String?
+  /// 우편번호
+  zip               String?
+  /// 주소
+  address1          String
+  /// 상세주소
+  address2          String?
+  /// 정원 (전체)
+  totalCapacity     Int?     @map("total_capacity")
+  /// 단기보호 정원
+  shortStayCapacity Int?     @map("short_stay_capacity")
+  /// 주야간보호 정원
+  dayCareCapacity   Int?     @map("day_care_capacity")
+  /// 직인 이미지 URL
+  stampImage        String?  @map("stamp_image")
+  /// 생성일시
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정일시
+  updatedAt         DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  @@map("facilities")
+}
+
+/// 사이트 정보 (시스템 설정)
+model SiteInfo {
+  /// 사이트 정보 ID (Primary Key)
+  id              BigInt   @id @default(autoincrement())
+  /// 서비스명 (사이트 제목)
+  serviceName     String   @map("service_name")
+  /// 서비스 설명
+  serviceDesc     String?  @map("service_desc")
+  /// 대표 연락처
+  contactPhone    String?  @map("contact_phone")
+  /// 대표 이메일
+  contactEmail    String?  @map("contact_email")
+  /// 고객센터 운영시간
+  customerHours   String?  @map("customer_hours")
+  /// 메타 제목 (SEO)
+  metaTitle       String?  @map("meta_title")
+  /// 메타 설명 (SEO)
+  metaDescription String?  @map("meta_description")
+  /// 메타 키워드 (SEO)
+  metaKeywords    String?  @map("meta_keywords")
+  /// 푸터 텍스트 (Copyright)
+  footerText      String?  @map("footer_text")
+  /// 법적 고지
+  legalNotice     String?  @map("legal_notice")
+  /// 수정자 ID (외래키)
+  updatedBy       BigInt?  @map("updated_by")
+  /// 생성일시
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정일시
+  updatedAt       DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  updater         Employee? @relation("SiteInfoUpdater", fields: [updatedBy], references: [id], onUpdate: NoAction)
+
+  @@map("site_infos")
+}
+
+
+
+
+
+
+
+
 /// 부서 정보
 model Department {
   /// 부서 ID (Primary Key)
@@ -643,8 +733,34 @@ model EmployeeRole {
   /// 수정일시
   updatedAt   DateTime   @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
   employees   Employee[]
+  employeePermissions EmployeePermission[]
 
   @@map("employee_roles")
+}
+
+/// 직원 개인 권한 (역할 외 추가/제거 권한)
+model EmployeePermission {
+  /// 권한 ID (Primary Key)
+  id          BigInt    @id @default(autoincrement())
+  /// 직원 ID (외래키)
+  employeeId  BigInt    @map("employee_id")
+  /// 역할 ID (외래키, 선택사항) - 특정 역할 기준 오버라이드일 경우
+  roleId      BigInt?   @map("role_id")
+  /// 권한 설정 (JSON) - { permissions: { ... } }
+  permissions Json      @default("{}")
+  /// 수정자 ID (외래키)
+  updatedBy   BigInt?   @map("updated_by")
+  /// 생성일시
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정일시
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  employee    Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  role        EmployeeRole? @relation(fields: [roleId], references: [id], onUpdate: NoAction)
+  updater     Employee? @relation("PermissionUpdater", fields: [updatedBy], references: [id], onUpdate: NoAction)
+
+  @@unique([employeeId], map: "employee_permissions_uniq")
+  @@map("employee_permissions")
 }
 
 /// 직원 정보
@@ -715,6 +831,9 @@ model Employee {
   transportRequestsCreated     TransportRequest[]      @relation("TransportCreator")
   transportRequestsAsDriver    TransportRequest[]      @relation("TransportDriver")
   websiteSettingsUpdated       WebsiteSetting[]        @relation("SettingUpdater")
+  siteInfosUpdated             SiteInfo[]              @relation("SiteInfoUpdater")
+  employeePermissions          EmployeePermission[]
+  permissionUpdates            EmployeePermission[]    @relation("PermissionUpdater")
 
   @@index([departmentId], map: "idx_employees_department")
   @@index([email], map: "idx_employees_email")

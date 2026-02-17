@@ -8,21 +8,40 @@ export interface Response<T> {
   timestamp: string;
 }
 
+// @TsRestHandler 데코레이터가 적용된 메서드에는 INTERCEPTORS_METADATA에 TsRestHandlerInterceptor가 포함됨
+// 이를 감지해서 TransformInterceptor가 ts-rest 응답을 이중 래핑하지 않도록 처리
+const TS_REST_HANDLER_INTERCEPTOR_NAME = 'TsRestHandlerInterceptor';
+const INTERCEPTORS_METADATA = '__interceptors__';
+
 @Injectable()
 export class TransformInterceptor<T> implements NestInterceptor<T, Response<T>> {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    // @TsRestHandler 라우트인지 확인: 해당 핸들러에 TsRestHandlerInterceptor가 등록되어 있음
+    const handler = context.getHandler();
+    const interceptors: any[] = Reflect.getMetadata(INTERCEPTORS_METADATA, handler) || [];
+    const isTsRestRoute = interceptors.some(
+      (i: any) =>
+        (typeof i === 'function' && i.name === TS_REST_HANDLER_INTERCEPTOR_NAME) ||
+        (typeof i === 'object' && i?.constructor?.name === TS_REST_HANDLER_INTERCEPTOR_NAME),
+    );
+
     return next.handle().pipe(
       map(data => {
+        // ts-rest 라우트는 TsRestHandlerInterceptor가 이미 res.status()를 설정하고
+        // body만 반환하므로 TransformInterceptor가 추가 래핑하지 않음
+        if (isTsRestRoute) {
+          return data;
+        }
+
         const serializedData = this.serializeBigInt(data);
 
-        // ts-rest responses have a { status, body } structure.
         // ApiResponseSchema responses have a { success, data } structure.
         // If we detect these, we return it as-is to prevent double-wrapping.
         if (
           serializedData &&
           typeof serializedData === 'object' &&
-          ((typeof serializedData.status === 'number' && 'body' in serializedData) ||
-            (serializedData.success === true && 'data' in serializedData))
+          serializedData.success === true &&
+          'data' in serializedData
         ) {
           return serializedData;
         }

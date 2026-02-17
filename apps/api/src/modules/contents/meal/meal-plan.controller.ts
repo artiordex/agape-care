@@ -12,13 +12,27 @@ export class MealPlanController {
   @TsRestHandler(mealContract.getMealPlans)
   async getMealPlans() {
     return tsRestHandler(mealContract.getMealPlans, async ({ query }) => {
+      console.log('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓');
+      console.log('┃ [MEAL-PLAN CONTROLLER] getMealPlans');
+      console.log('┃ Query params:', JSON.stringify(query, null, 2));
+      console.log('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛');
+
       try {
-        console.log('[DEBUG] MealPlanController.getMealPlans - query:', query);
         const result = await this.mealPlanService.findAll(query);
-        console.log('[DEBUG] MealPlanController.getMealPlans - Success, count:', result.data.length);
+
+        console.log('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓');
+        console.log('┃ [MEAL-PLAN CONTROLLER] Service response:');
+        console.log('┃ Data count:', result?.data?.length || 0);
+        console.log('┃ Total:', result?.pagination?.total || 0);
+        console.log('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛');
+
         return { status: 200, body: result };
       } catch (error: any) {
-        console.error('[ERROR] MealPlanController.getMealPlans:', error);
+        console.error('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓');
+        console.error('┃ [MEAL-PLAN CONTROLLER] ❌ ERROR');
+        console.error('┃ Message:', error.message);
+        console.error('┃ Query was:', JSON.stringify(query, null, 2));
+        console.error('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛');
         throw error;
       }
     });
@@ -38,14 +52,28 @@ export class MealPlanController {
   @TsRestHandler(mealContract.getCurrentWeekMealPlan)
   async getCurrentWeekMealPlan() {
     return tsRestHandler(mealContract.getCurrentWeekMealPlan, async ({ query }) => {
+      console.log('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓');
+      console.log('┃ [MEAL-PLAN CONTROLLER] getCurrentWeekMealPlan');
+      console.log('┃ Query params:', JSON.stringify(query, null, 2));
+      console.log('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛');
+
       try {
-        console.log('[DEBUG] MealPlanController.getCurrentWeekMealPlan - query:', query);
         const result = await this.mealPlanService.findCurrentWeek(query);
+
         if (!result) {
-          console.log('[DEBUG] MealPlanController.getCurrentWeekMealPlan - Result is null (404)');
+          console.warn('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓');
+          console.warn('┃ [MEAL-PLAN CONTROLLER] ⚠️ Not Found (404)');
+          console.warn('┃ Query was:', JSON.stringify(query, null, 2));
+          console.warn('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛');
           return { status: 404, body: { message: 'Meal plan not found', statusCode: 404 } };
         }
-        console.log('[DEBUG] MealPlanController.getCurrentWeekMealPlan - Success');
+
+        console.log('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓');
+        console.log('┃ [MEAL-PLAN CONTROLLER] Service response:');
+        console.log('┃ Has meal plan:', !!result.mealPlan);
+        console.log('┃ Daily meals count:', result.dailyMeals?.length || 0);
+        console.log('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛');
+
         return {
           status: 200,
           body: {
@@ -55,7 +83,11 @@ export class MealPlanController {
           },
         };
       } catch (error: any) {
-        console.error('[ERROR] MealPlanController.getCurrentWeekMealPlan:', error);
+        console.error('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓');
+        console.error('┃ [MEAL-PLAN CONTROLLER] ❌ ERROR');
+        console.error('┃ Message:', error.message);
+        console.error('┃ Query was:', JSON.stringify(query, null, 2));
+        console.error('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛');
         throw error;
       }
     });

@@ -62,7 +62,7 @@ export default function ProgramCalendar({ currentDate, programs, onDateClick, on
           <div
             key={day}
             className={`p-3 text-center text-sm font-medium ${
-              idx === 0 ? 'text-red-500' : idx === 6 ? 'text-blue-500' : 'text-gray-700'
+              idx === 0 ? 'text-red-500' : idx === 6 ? 'text-[#5C8D5A]' : 'text-gray-700'
             }`}
           >
             {day}
@@ -91,11 +91,11 @@ export default function ProgramCalendar({ currentDate, programs, onDateClick, on
                       <span
                         className={`text-sm font-medium ${
                           isToday(day)
-                            ? 'flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 text-white'
+                            ? 'flex h-6 w-6 items-center justify-center rounded-full bg-[#5C8D5A] text-white'
                             : dayIdx === 0
                               ? 'text-red-500'
                               : dayIdx === 6
-                                ? 'text-blue-500'
+                                ? 'text-[#5C8D5A]'
                                 : 'text-gray-700'
                         }`}
                       >

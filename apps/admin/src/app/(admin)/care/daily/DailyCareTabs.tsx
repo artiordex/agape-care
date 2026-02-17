@@ -55,18 +55,6 @@ export default function DailyCareTabs({ activeTab, onTabChange }: Props) {
           );
         })}
       </div>
-
-      {/* 하단 관제 상태 바 (데이터 무결성 강조) */}
-      <div className="flex items-center justify-end border-x border-b border-gray-200 bg-white px-4 py-1">
-        <div className="flex items-center gap-3 text-[8px] font-black uppercase tracking-widest text-gray-400">
-          <span className="flex items-center gap-1 text-[#5C8D5A]">
-            <span className="h-1 w-1 rounded-full bg-[#5C8D5A]"></span>
-            System Interface Optimized
-          </span>
-          <span className="h-2 w-[1px] bg-gray-200"></span>
-          <span>AgapeCare Nursing v4.2.1</span>
-        </div>
-      </div>
     </div>
   );
 }

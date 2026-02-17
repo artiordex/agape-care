@@ -27,7 +27,7 @@ export default function ProgramDetailModal({ isOpen, program, onClose, onEdit, o
   const getStatusBadge = (status: string) => {
     switch (status) {
       case '예정':
-        return <span className="rounded bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800">예정</span>;
+        return <span className="rounded bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-800">예정</span>;
       case '진행중':
         return <span className="rounded bg-green-100 px-3 py-1 text-sm font-medium text-green-800">진행중</span>;
       case '완료':
@@ -129,7 +129,7 @@ export default function ProgramDetailModal({ isOpen, program, onClose, onEdit, o
             </button>
             <button
               onClick={() => onEdit(program)}
-              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+              className="rounded-md bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
             >
               수정
             </button>

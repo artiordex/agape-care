@@ -431,6 +431,7 @@ SELECT
   mp.id,
   mp.facility_code,
   mp.week_start_date,
+  mp.meal_month,
   mp.status,
   mp.nutrition_manager,
   mp.notes,
@@ -483,6 +484,7 @@ SELECT
   mp.facility_code,
   mp.week_start_date,
   mp.week_start_date + INTERVAL '6 days' AS week_end_date,
+  mp.meal_month,
   mp.nutrition_manager,
   mp.notes,
   mp.created_at,
@@ -585,6 +587,7 @@ SELECT
   mpi.notes,
   -- 식단표 정보
   mp.week_start_date,
+  mp.meal_month,
   mp.facility_code,
   mp.nutrition_manager,
   -- 요일 정보 추가

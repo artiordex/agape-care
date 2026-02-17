@@ -121,25 +121,37 @@ export default function MonthlyCalendar({ currentMonth, mealPlans, onEditClick, 
                   <>
                     {meal.breakfast?.menu && (
                       <div className="flex gap-1.5 text-[10px] leading-tight text-gray-700">
-                        <span className="shrink-0 text-[9px] font-bold uppercase text-[#5C8D5A]">B</span>
-                        <span className="truncate">{meal.breakfast.menu}</span>
+                        <span className="shrink-0 text-[9px] font-bold text-[#5C8D5A]">아침</span>
+                        <div className="min-w-0 space-y-0.5">
+                          {meal.breakfast.menu.split(',').map((item, i) => (
+                            <div key={i} className="truncate">{item.trim()}</div>
+                          ))}
+                        </div>
                       </div>
                     )}
                     {meal.lunch?.menu && (
                       <div className="flex gap-1.5 text-[10px] leading-tight text-gray-700">
-                        <span className="shrink-0 text-[9px] font-bold uppercase text-[#5C8D5A]">L</span>
-                        <span className="truncate">{meal.lunch.menu}</span>
+                        <span className="shrink-0 text-[9px] font-bold text-[#5C8D5A]">점심</span>
+                        <div className="min-w-0 space-y-0.5">
+                          {meal.lunch.menu.split(',').map((item, i) => (
+                            <div key={i} className="truncate">{item.trim()}</div>
+                          ))}
+                        </div>
                       </div>
                     )}
                     {meal.dinner?.menu && (
                       <div className="flex gap-1.5 text-[10px] leading-tight text-gray-700">
-                        <span className="shrink-0 text-[9px] font-bold uppercase text-[#5C8D5A]">D</span>
-                        <span className="truncate">{meal.dinner.menu}</span>
+                        <span className="shrink-0 text-[9px] font-bold text-[#5C8D5A]">저녁</span>
+                        <div className="min-w-0 space-y-0.5">
+                          {meal.dinner.menu.split(',').map((item, i) => (
+                            <div key={i} className="truncate">{item.trim()}</div>
+                          ))}
+                        </div>
                       </div>
                     )}
                     {(meal.morningSnack || meal.afternoonSnack) && (
                       <div className="mt-1.5 flex gap-1.5 border-t border-dashed border-gray-100 pt-1.5 text-[10px] leading-tight text-gray-500">
-                        <span className="shrink-0 text-[9px] font-bold uppercase text-orange-400">S</span>
+                        <span className="shrink-0 text-[9px] font-bold text-orange-400">간식</span>
                         <span className="truncate">
                           {[meal.morningSnack, meal.afternoonSnack].filter(Boolean).join(', ')}
                         </span>

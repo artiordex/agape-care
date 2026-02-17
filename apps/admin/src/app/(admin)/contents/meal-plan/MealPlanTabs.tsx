@@ -46,18 +46,6 @@ export default function MealPlanTabs({ activeTab, onTabChange }: Props) {
           );
         })}
       </div>
-
-      {/* 2. 하단 시스템 인터페이스 상태 바 */}
-      <div className="flex items-center justify-end border-b border-gray-200 bg-white px-4 py-1">
-        <div className="flex items-center gap-3 text-[8px] font-black uppercase tracking-widest text-gray-400">
-          <span className="flex items-center gap-1 text-[#5C8D5A]">
-            <span className="h-1 w-1 rounded-full bg-[#5C8D5A]"></span>
-            System Interface Optimized
-          </span>
-          <span className="h-2 w-[1px] bg-gray-200"></span>
-          <span>AgapeCare Meal System v2.0</span>
-        </div>
-      </div>
     </div>
   );
 }

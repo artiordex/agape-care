@@ -1,6 +1,10 @@
 'use client';
 
+import { api } from '@/lib/api';
+import { SiteInfoSchema } from '@agape-care/api-contract';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
+import { z } from 'zod';
 
 // 컴포넌트 Import
 import SettingsHeader from './SettingsHeader';
@@ -23,6 +27,8 @@ export interface SiteSettingsData {
   legalNotice: string;
 }
 
+type SiteInfoAPIModel = z.infer<typeof SiteInfoSchema>;
+
 /**
  * [Main Page] 사이트 및 시스템 설정 관리
  * 실시간 프리뷰와 격자형 서식이 통합된 ERP 환경
@@ -30,48 +36,102 @@ export interface SiteSettingsData {
 export default function SiteSettingsPage() {
   // --- [1] 초기 기본 데이터 설정 ---
   const [settings, setSettings] = useState<SiteSettingsData>({
-    serviceName: '아가페케어 요양센터',
-    serviceDesc: '어르신들의 존엄한 노후를 위한 프리미엄 케어 서비스',
-    contactPhone: '02-1234-5678',
-    contactEmail: 'help@agape-care.com',
-    customerHours: '평일 09:00 ~ 18:00 (주말 및 공휴일 휴무)',
-    metaTitle: '아가페케어 요양센터 | 프리미엄 시니어 케어',
-    metaDescription: '2026년 최신 설비와 전문 인력을 갖춘 아가페케어에서 어르신들의 행복한 일상을 함께합니다.',
-    metaKeywords: '요양원, 노인복지, 주야간보호, 아가페케어',
-    footerText: '© 2026 Agape-Care. All rights reserved.',
-    legalNotice: '본 사이트의 모든 콘텐츠는 저작권법의 보호를 받습니다.',
+    serviceName: '',
+    serviceDesc: '',
+    contactPhone: '',
+    contactEmail: '',
+    customerHours: '',
+    metaTitle: '',
+    metaDescription: '',
+    metaKeywords: '',
+    footerText: '',
+    legalNotice: '',
   });
 
-  const [isSaving, setIsSaving] = useState(false);
+  // 1. 데이터 조회 (API)
+  const { data: apiResponse, isLoading, refetch } = api.settings.getSiteInfo.useQuery(['siteInfo']);
 
-  // --- [2] 로컬 스토리지 데이터 로드 ---
+  // 2. 데이터 업데이트 (API)
+  const { mutateAsync: updateSite, isPending: isSaving } = api.settings.updateSiteInfo.useMutation();
+
+  // API 모델 -> UI 모델 변환
+  const mapAPIToUI = (apiData: SiteInfoAPIModel): SiteSettingsData => ({
+    serviceName: apiData.serviceName,
+    serviceDesc: apiData.serviceDesc ?? '',
+    contactPhone: apiData.contactPhone ?? '',
+    contactEmail: apiData.contactEmail ?? '',
+    customerHours: apiData.customerHours ?? '',
+    metaTitle: apiData.metaTitle ?? '',
+    metaDescription: apiData.metaDescription ?? '',
+    metaKeywords: apiData.metaKeywords ?? '',
+    footerText: apiData.footerText ?? '',
+    legalNotice: apiData.legalNotice ?? '',
+  });
+
+  // UI 모델 -> API 모델 변환 (업데이트용)
+  const mapUIToAPI = (uiData: SiteSettingsData) => ({
+    serviceName: uiData.serviceName,
+    serviceDesc: uiData.serviceDesc,
+    contactPhone: uiData.contactPhone,
+    contactEmail: uiData.contactEmail,
+    customerHours: uiData.customerHours,
+    metaTitle: uiData.metaTitle,
+    metaDescription: uiData.metaDescription,
+    metaKeywords: uiData.metaKeywords,
+    footerText: uiData.footerText,
+    legalNotice: uiData.legalNotice,
+  });
+
+  // API 데이터 로드 시 UI 상태 업데이트
   useEffect(() => {
-    const saved = localStorage.getItem('agape_site_settings');
-    if (saved) {
-      try {
-        setSettings(JSON.parse(saved));
-      } catch (e) {
-        console.error('설정 로드 실패:', e);
-      }
+    if (apiResponse?.status === 200 && apiResponse.body.success) {
+      setSettings(mapAPIToUI(apiResponse.body.data as any));
     }
-  }, []);
+  }, [apiResponse]);
 
   // --- [3] 전역 액션 핸들러 ---
   const handleSave = async () => {
-    setIsSaving(true);
-    // 실제 운영 환경에서는 API를 통해 DB에 저장됩니다.
-    await new Promise(resolve => setTimeout(resolve, 800));
-    localStorage.setItem('agape_site_settings', JSON.stringify(settings));
-    setIsSaving(false);
-    alert('✅ 시스템 설정이 성공적으로 반영되었습니다.');
+    try {
+      const response = await updateSite({
+        body: mapUIToAPI(settings),
+      });
+
+      if (response.status === 200) {
+        toast.success('시스템 설정이 성공적으로 반영되었습니다.');
+        refetch();
+      } else {
+        toast.error('저장 중 오류가 발생했습니다.');
+      }
+    } catch (e) {
+      console.error('Save error:', e);
+      toast.error('저장 중 오류가 발생했습니다.');
+    }
   };
 
   const handleReset = () => {
-    if (confirm('모든 입력 값을 마지막 저장 상태로 되돌리시겠습니까?')) {
-      const saved = localStorage.getItem('agape_site_settings');
-      if (saved) setSettings(JSON.parse(saved));
-    }
+    toast.warning('모든 입력 값을 마지막 저장 상태로 되돌리시겠습니까?', {
+      action: {
+        label: '되돌리기',
+        onClick: () => {
+          if (apiResponse?.status === 200 && apiResponse.body.success) {
+            setSettings(mapAPIToUI(apiResponse.body.data as any));
+            toast.success('저장 상태로 복원되었습니다.');
+          }
+        },
+      },
+    });
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-[#f0f2f5]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 animate-spin rounded-full border-4 border-[#5C8D5A] border-t-transparent"></div>
+          <p className="font-black text-gray-500">사이트 설정을 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <main className="flex h-screen flex-col overflow-hidden bg-[#f0f2f5]">
@@ -95,15 +155,6 @@ export default function SiteSettingsPage() {
             <div className="hidden lg:block">
               <SettingsPreview settings={settings} />
             </div>
-          </div>
-
-          {/* 시스템 푸터 정보 */}
-          <div className="mt-8 flex items-center justify-between border-t border-gray-200 pb-8 pt-4 text-[12px] font-bold uppercase tracking-widest text-gray-400">
-            <div className="flex gap-4">
-              <span>● 서비스 상태: 정상 운영 중</span>
-              <span>● 최근 빌드: 2026.01.30</span>
-            </div>
-            <div className="text-[#5C8D5A]">Agape-Care Admin System v2.1.0</div>
           </div>
         </div>
       </div>

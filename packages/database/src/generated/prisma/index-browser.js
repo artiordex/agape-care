@@ -212,11 +212,10 @@ exports.Prisma.MealPlanItemScalarFieldEnum = {
   mealPlanId: 'mealPlanId',
   mealDate: 'mealDate',
   mealType: 'mealType',
-  mainMenu: 'mainMenu',
-  sideMenu: 'sideMenu',
-  soup: 'soup',
-  dessert: 'dessert',
+  imageUrl: 'imageUrl',
+  menuContent: 'menuContent',
   calories: 'calories',
+  notes: 'notes',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -243,6 +242,18 @@ exports.Prisma.ProgramScheduleScalarFieldEnum = {
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProgramAttendanceScalarFieldEnum = {
+  id: 'id',
+  scheduleId: 'scheduleId',
+  residentId: 'residentId',
+  employeeId: 'employeeId',
+  role: 'role',
+  attended: 'attended',
+  checkedAt: 'checkedAt',
+  notes: 'notes',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.VisitReservationScalarFieldEnum = {
@@ -304,6 +315,51 @@ exports.Prisma.PopupBannerScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.FacilityScalarFieldEnum = {
+  id: 'id',
+  orgCode: 'orgCode',
+  facilityName: 'facilityName',
+  facilityDesc: 'facilityDesc',
+  facilityType: 'facilityType',
+  designatedDate: 'designatedDate',
+  director: 'director',
+  directorPhone: 'directorPhone',
+  ceoName: 'ceoName',
+  businessNo: 'businessNo',
+  bizType: 'bizType',
+  staffCount: 'staffCount',
+  phone: 'phone',
+  fax: 'fax',
+  email: 'email',
+  homepage: 'homepage',
+  zip: 'zip',
+  address1: 'address1',
+  address2: 'address2',
+  totalCapacity: 'totalCapacity',
+  shortStayCapacity: 'shortStayCapacity',
+  dayCareCapacity: 'dayCareCapacity',
+  stampImage: 'stampImage',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SiteInfoScalarFieldEnum = {
+  id: 'id',
+  serviceName: 'serviceName',
+  serviceDesc: 'serviceDesc',
+  contactPhone: 'contactPhone',
+  contactEmail: 'contactEmail',
+  customerHours: 'customerHours',
+  metaTitle: 'metaTitle',
+  metaDescription: 'metaDescription',
+  metaKeywords: 'metaKeywords',
+  footerText: 'footerText',
+  legalNotice: 'legalNotice',
+  updatedBy: 'updatedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.DepartmentScalarFieldEnum = {
   id: 'id',
   code: 'code',
@@ -320,6 +376,16 @@ exports.Prisma.EmployeeRoleScalarFieldEnum = {
   name: 'name',
   description: 'description',
   permissions: 'permissions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EmployeePermissionScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  roleId: 'roleId',
+  permissions: 'permissions',
+  updatedBy: 'updatedBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -444,18 +510,6 @@ exports.Prisma.WebsiteSettingScalarFieldEnum = {
   updatedBy: 'updatedBy',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
-};
-
-exports.Prisma.ProgramAttendanceScalarFieldEnum = {
-  id: 'id',
-  scheduleId: 'scheduleId',
-  residentId: 'residentId',
-  employeeId: 'employeeId',
-  role: 'role',
-  attended: 'attended',
-  checkedAt: 'checkedAt',
-  notes: 'notes',
-  createdAt: 'createdAt'
 };
 
 exports.Prisma.CarePlanScalarFieldEnum = {
@@ -1096,11 +1150,15 @@ exports.Prisma.ModelName = {
   MealPlanItem: 'MealPlanItem',
   Program: 'Program',
   ProgramSchedule: 'ProgramSchedule',
+  ProgramAttendance: 'ProgramAttendance',
   VisitReservation: 'VisitReservation',
   WebInquiry: 'WebInquiry',
   PopupBanner: 'PopupBanner',
+  Facility: 'Facility',
+  SiteInfo: 'SiteInfo',
   Department: 'Department',
   EmployeeRole: 'EmployeeRole',
+  EmployeePermission: 'EmployeePermission',
   Employee: 'Employee',
   EmployeeEducation: 'EmployeeEducation',
   Resident: 'Resident',
@@ -1110,7 +1168,6 @@ exports.Prisma.ModelName = {
   ResidentMedication: 'ResidentMedication',
   ResidentVital: 'ResidentVital',
   WebsiteSetting: 'WebsiteSetting',
-  ProgramAttendance: 'ProgramAttendance',
   CarePlan: 'CarePlan',
   CarePlanItem: 'CarePlanItem',
   ConsultationRecord: 'ConsultationRecord',

@@ -41,7 +41,7 @@ export const contract = c.router({
   operations: operationsContract,
   program: programContract,
   resident: residentContract,
-  setting: settingContract,
+  settings: settingContract,
   webInquiry: webInquiryContract,
   webpage: webpageContract,
   webPopup: webPopupContract,

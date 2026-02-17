@@ -113,8 +113,29 @@ export class ProgramController {
   @TsRestHandler(programContract.getSchedulesEnriched)
   async getSchedulesEnriched() {
     return tsRestHandler(programContract.getSchedulesEnriched, async ({ query }) => {
-      const result = await this.programService.findSchedulesWithDetails(query);
-      return { status: 200, body: result };
+      console.log('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓');
+      console.log('┃ [PROGRAM CONTROLLER] getSchedulesEnriched');
+      console.log('┃ Query params:', JSON.stringify(query, null, 2));
+      console.log('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛');
+
+      try {
+        const result = await this.programService.findSchedulesWithDetails(query);
+
+        console.log('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓');
+        console.log('┃ [PROGRAM CONTROLLER] Service response:');
+        console.log('┃ Items count:', result?.items?.length || 0);
+        console.log('┃ Total:', result?.total || result?.totalCount || 0);
+        console.log('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛');
+
+        return { status: 200, body: result };
+      } catch (error: any) {
+        console.error('┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓');
+        console.error('┃ [PROGRAM CONTROLLER] ❌ ERROR');
+        console.error('┃ Message:', error.message);
+        console.error('┃ Query was:', JSON.stringify(query, null, 2));
+        console.error('┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛');
+        throw error;
+      }
     });
   }
 

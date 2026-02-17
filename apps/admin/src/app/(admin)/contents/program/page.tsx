@@ -42,18 +42,37 @@ export default function ProgramManagementPage() {
   });
 
   useEffect(() => {
-    console.log('=== [Program API Debug] ===');
-    console.log('Query Params:', queryParams);
-    console.log('Loading:', isLoading);
-    console.log('Error State:', isError);
-    if (error) console.error('API Error:', error);
-    if (programsData) console.log('API Data:', programsData);
-    console.log('===========================');
-  }, [isLoading, isError, error, programsData, activeCategory]);
+    console.log('═══════════════════════════════════════════');
+    console.log('[PROGRAM PAGE] Data state changed');
+    console.log('[PROGRAM PAGE] isLoading:', isLoading);
+    console.log('[PROGRAM PAGE] isError:', isError);
+    console.log('[PROGRAM PAGE] RAW programsData (전체 구조):', programsData);
+    console.log('[PROGRAM PAGE] programsData:', {
+      exists: !!programsData,
+      keys: programsData ? Object.keys(programsData) : [],
+      bodyKeys: programsData?.body ? Object.keys(programsData.body) : [],
+      dataKeys: programsData?.body ? Object.keys(programsData.body) : [],
+      itemsCount: programsData?.body?.items?.length || 0,
+      totalCount: programsData?.body?.totalCount || 0,
+    });
+    console.log('[PROGRAM PAGE] queryParams:', queryParams);
+    console.log('[PROGRAM PAGE] activeCategory:', activeCategory);
+
+    if (error) {
+      console.error('[PROGRAM PAGE] ❌ API Error:', error);
+    }
+
+    if (programsData?.body?.items && programsData.body.items.length > 0) {
+      console.log('[PROGRAM PAGE] First item sample:', programsData.body.items[0]);
+    } else if (programsData) {
+      console.warn('[PROGRAM PAGE] ⚠️ No items in programsData');
+    }
+    console.log('═══════════════════════════════════════════');
+  }, [isLoading, isError, error, programsData, activeCategory, queryParams]);
 
   const programs = (programsData?.body?.items || []) as Program[];
-  console.log('[DEBUG] Component Render - Programs Count:', programs.length);
-  console.log('[DEBUG] Component Render - Query Params:', queryParams);
+  console.log('[PROGRAM PAGE] Component Render - Programs Count:', programs.length);
+  console.log('[PROGRAM PAGE] Total Count:', programsData?.body?.totalCount || 0);
 
   // 생성 mutation
   const createProgramMutation = api.program.createProgram.useMutation({
@@ -138,7 +157,7 @@ export default function ProgramManagementPage() {
           maxParticipants: 20,
           description: '치매 예방을 위한 뇌 건강 체조 프로그램',
           status: '완료',
-          color: '#3B82F6',
+          color: '#5C8D5A',
           createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
           updatedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
         },
@@ -155,7 +174,7 @@ export default function ProgramManagementPage() {
           maxParticipants: 15,
           description: '옛날 가요를 함께 부르며 즐기는 음악 시간',
           status: '완료',
-          color: '#8B5CF6',
+          color: '#5C8D5A',
           createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
           updatedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
         },
