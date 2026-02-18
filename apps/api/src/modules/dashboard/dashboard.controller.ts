@@ -1,3 +1,9 @@
+/**
+ * Description : dashboard.controller.ts - ?? dashboard ??? API ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { dashboardContract } from '@agape-care/api-contract';
 import { Controller } from '@nestjs/common';
 import { TsRestHandler, tsRestHandler } from '@ts-rest/nest';

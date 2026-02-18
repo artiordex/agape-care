@@ -1,4 +1,10 @@
 /**
+ * Description : notice.type.ts - ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
+/**
  * [Type] 아가페 공지사항 데이터 프로토콜
  */
 export type NoticeCategory = '일반' | '긴급' | '교육' | '행사' | '점검';

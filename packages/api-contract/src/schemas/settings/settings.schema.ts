@@ -1,3 +1,9 @@
+/**
+ * Description : settings.schema.ts - ?? settings ??? ??? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { z } from 'zod';
 
 // ==========================================

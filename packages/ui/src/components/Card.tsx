@@ -1,5 +1,5 @@
 /**
- * Description : Card.tsx - 📌 카드 레이아웃 컴포넌트
+ * Description : Card.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

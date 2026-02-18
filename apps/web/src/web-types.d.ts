@@ -1,5 +1,5 @@
 /**
- * Description : web-types - 📌 WEB 컴포넌트 관련 타입 선언
+ * Description : web-types.d.ts - ?? web-types.d ?? ?? ??
  * Author : Shiwoo Min
  * Date : 2025-09-07
  */

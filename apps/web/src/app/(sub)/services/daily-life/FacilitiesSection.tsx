@@ -1,3 +1,9 @@
+/**
+ * Description : FacilitiesSection.tsx - ?? FacilitiesSection UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 export default function FacilitiesSection() {
   return (
     <section className="py-20">

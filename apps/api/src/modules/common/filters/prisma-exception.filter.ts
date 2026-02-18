@@ -1,3 +1,9 @@
+/**
+ * Description : prisma-exception.filter.ts - ?? prisma-exception.filter ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { Prisma } from '@agape-care/database';
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';

@@ -1,5 +1,5 @@
 /**
- * Description : useBoolean.ts - 📌 boolean 상태 토글 훅
+ * Description : useBoolean.ts - ?? ??? ?
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

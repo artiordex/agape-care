@@ -1,3 +1,9 @@
+/**
+ * Description : DailyLifeCTA.tsx - ?? DailyLifeCTA UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 export default function DailyLifeCTA() {
   return (
     <section className="bg-primary/5 py-20">

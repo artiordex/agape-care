@@ -1,3 +1,9 @@
+/**
+ * Description : care.module.ts - ?? care ?? ??? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { Module } from '@nestjs/common';
 import { CareController } from './care.controller';
 import { CareService } from './care.service';

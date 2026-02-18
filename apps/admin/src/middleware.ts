@@ -1,3 +1,9 @@
+/**
+ * Description : middleware.ts - ?? middleware ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 

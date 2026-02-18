@@ -1,5 +1,5 @@
 /**
- * Description : useMediaQuery.ts - 📌 CSS 미디어쿼리 매칭
+ * Description : useMediaQuery.ts - ?? ??? ?
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

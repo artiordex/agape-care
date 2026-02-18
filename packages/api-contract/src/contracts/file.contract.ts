@@ -4,10 +4,24 @@
  */
 
 import { z } from 'zod';
-import { FileStorageSchema } from '../schemas/common/file.schema.js';
+import { FileStorageListQuerySchema, FileStorageListResponseSchema, FileStorageSchema } from '../schemas/common/file.schema.js';
 import { ApiResponseSchema } from '../schemas/common/response.schema.js';
 
 export const fileContract = {
+  /**
+   * [파일] GET /files
+   * 파일 목록 조회
+   */
+  getFiles: {
+    method: 'GET' as const,
+    path: '/files',
+    query: FileStorageListQuerySchema,
+    responses: {
+      200: ApiResponseSchema(FileStorageListResponseSchema),
+    },
+    summary: '파일 목록 조회',
+  },
+
   /**
    * [파일] POST /files/upload
    * 단일 파일 업로드

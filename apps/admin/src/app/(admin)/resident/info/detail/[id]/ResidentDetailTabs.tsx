@@ -1,3 +1,9 @@
+/**
+ * Description : ResidentDetailTabs.tsx - ?? ResidentDetailTabs UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 const TABS = [
   { id: 'basic', label: '기본정보' },
   { id: 'care-plan', label: '이용계획서' },

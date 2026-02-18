@@ -1,5 +1,5 @@
 /**
- * Description : useIsMounted.ts - 📌 마운트 여부 조회 훅(비동기 안전)
+ * Description : useIsMounted.ts - ?? ??? ?
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

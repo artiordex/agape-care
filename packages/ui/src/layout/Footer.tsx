@@ -1,5 +1,5 @@
 /**
- * Description : Footer.tsx - 📌 ConnectWon UI 푸터 React 컴포넌트
+ * Description : Footer.tsx - ?? Footer UI ????
  * Author : Shiwoo Min
  * Date : 2025-10-07
  */

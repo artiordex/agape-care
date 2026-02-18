@@ -1,3 +1,9 @@
+/**
+ * Description : accounting.module.ts - ?? accounting ?? ??? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { Module } from '@nestjs/common';
 import { AccountService } from './account/account.service';
 import { AccountingController } from './accounting.controller';

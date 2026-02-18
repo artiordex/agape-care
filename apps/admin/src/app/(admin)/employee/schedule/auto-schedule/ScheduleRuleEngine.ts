@@ -1,4 +1,10 @@
 /**
+ * Description : ScheduleRuleEngine.ts - ?? ScheduleRuleEngine UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
+/**
  * [로직] 아가페 근무 규칙 검증 엔진 (Schedule Rule Engine)
  * 법정 근로 기준 및 시설 운영 지침 준수 여부 정밀 판정
  */

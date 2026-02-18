@@ -1,5 +1,5 @@
 /**
- * Description : useEventListener.ts - 📌 안전한 이벤트 리스너 훅(SSR 대응)
+ * Description : useEventListener.ts - ?? ??? ?
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

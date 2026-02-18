@@ -1,12 +1,11 @@
 /**
- * Description : ResidentTabs.tsx - 📌 입소자 상세 섹션 통합 탭 내비게이션
+ * Description : ResidentTabs.tsx - ?? ResidentTabs UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */
 
 'use client';
 
-import React from 'react';
 import clsx from 'clsx';
 
 /**
@@ -19,8 +18,7 @@ const TABS = [
   { id: 'consultation', label: '4. 상담일지' },
   { id: 'extra-cost', label: '5. 비급여/기타' },
   { id: 'copayment', label: '6. 본인부담금' },
-  { id: 'admission-history', label: '7. 입퇴소 이력' },
-  { id: 'documents', label: '8. 서류 관리' },
+  { id: 'documents', label: '7. 서류 관리' },
 ] as const;
 
 export type ResidentTabId = (typeof TABS)[number]['id'];

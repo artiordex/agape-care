@@ -1,5 +1,5 @@
 /**
- * Description : infra-types.ts - 📌 infra/ 모듈 타입정의
+ * Description : infra-types.ts - ?? infra-types ?? ?? ??
  * Author : Shiwoo Min
  * Date : 2026-01-22
  */

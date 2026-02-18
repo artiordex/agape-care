@@ -1,5 +1,5 @@
 /**
- * Description : metrics.ts - 📌Prometheus 메트릭 노출
+ * Description : metrics.ts - ?? ??? ??/?? ??
  * Author : Shiwoo Min
  * Date : 2025-09-22
  */

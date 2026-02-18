@@ -1,10 +1,21 @@
-import { CreateWebInquiry } from '@agape-care/api-contract';
+/**
+ * Description : contact-inquiry.service.ts - ?? web-view ??? ???? ?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
+import { CreateWebInquiry, InquiryJobData, QUEUE_NAMES } from '@agape-care/api-contract';
 import { PrismaService } from '@agape-care/database';
+import { InjectQueue } from '@nestjs/bullmq';
 import { Injectable } from '@nestjs/common';
+import { Queue } from 'bullmq';
 
 @Injectable()
 export class WebInquiryService {
-  constructor(private readonly db: PrismaService) {}
+  constructor(
+    private readonly db: PrismaService,
+    @InjectQueue(QUEUE_NAMES.INQUIRY) private readonly inquiryQueue: Queue<InquiryJobData>,
+  ) {}
 
   async create(data: CreateWebInquiry) {
     const inquiry = await this.db.webInquiry.create({
@@ -13,6 +24,14 @@ export class WebInquiryService {
         preferredDate: data.preferredDate ? new Date(data.preferredDate) : null,
         status: 'PENDING',
       },
+    });
+
+    await this.inquiryQueue.add('contact-inquiry', {
+      inquiryId: inquiry.id.toString(),
+      type: 'ADMISSION',
+      name: inquiry.name,
+      phone: inquiry.phone,
+      content: inquiry.message ?? undefined,
     });
 
     return this.serialize(inquiry);

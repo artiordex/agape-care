@@ -1,4 +1,4 @@
--- Description : 00-extensions.sql - 📌 PostgreSQL 초기화 시 가장 먼저 실행되는 스크립트
+-- Description : 00-extensions.sql - ?? ?????? DDL ? ?? ????
 -- Author : Shiwoo Min
 -- Date : 2026-01-22
 

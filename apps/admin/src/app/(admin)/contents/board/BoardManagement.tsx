@@ -1,3 +1,9 @@
+/**
+ * Description : BoardManagement.tsx - ?? BoardManagement UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { useState, useEffect } from 'react';
 
 interface Post {

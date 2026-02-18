@@ -1,5 +1,5 @@
 /**
- * Description : Select.tsx - 📌 선택 드롭다운 컴포넌트
+ * Description : Select.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

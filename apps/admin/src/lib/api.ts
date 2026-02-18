@@ -1,3 +1,9 @@
+/**
+ * Description : api.ts - ?? api ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { contract } from '@agape-care/api-contract';
 import { useAuthStore } from '@/stores/auth.store';
 import { initQueryClient } from '@ts-rest/react-query';

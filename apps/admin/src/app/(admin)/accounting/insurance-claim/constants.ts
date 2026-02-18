@@ -1,4 +1,10 @@
 /**
+ * Description : constants.ts - ?? constants ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
+/**
  * 장기요양보험 청구 관리용 상수 정의
  */
 

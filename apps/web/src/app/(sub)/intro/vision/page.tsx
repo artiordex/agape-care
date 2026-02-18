@@ -1,3 +1,9 @@
+/**
+ * Description : page.tsx - ?? intro/vision ??? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import OperationalGoalSection from './OperationalGoalSection';
 import PhilosophySection from './PhilosophySection';
 import VisionSection from './VisionSection';

@@ -1,5 +1,5 @@
 /**
- * Description : EmptyState.tsx - 📌 빈 상태 페이지
+ * Description : EmptyState.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

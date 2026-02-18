@@ -1,3 +1,9 @@
+/**
+ * Description : accounting.controller.ts - ?? accounting ??? API ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { accountingContract } from '@agape-care/api-contract';
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { ZodValidationPipe } from '../common/pipes/zod-validation.pipe';

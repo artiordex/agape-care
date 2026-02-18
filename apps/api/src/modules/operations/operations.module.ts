@@ -1,3 +1,9 @@
+/**
+ * Description : operations.module.ts - ?? operations ?? ??? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { Module } from '@nestjs/common';
 import { CctvService } from './cctv/cctv.service';
 import { GrievanceService } from './grievance/grievance.service';

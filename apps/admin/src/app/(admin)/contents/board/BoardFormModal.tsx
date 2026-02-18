@@ -1,3 +1,9 @@
+/**
+ * Description : BoardFormModal.tsx - ?? BoardFormModal UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { useEffect, useState } from 'react';
 import { FreeBoardFormValues, FreeBoardPost } from './board.type';
 

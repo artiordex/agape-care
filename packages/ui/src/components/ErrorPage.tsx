@@ -1,5 +1,5 @@
 /**
- * Description : ErrorPage.tsx - 📌 범용 에러 페이지
+ * Description : ErrorPage.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

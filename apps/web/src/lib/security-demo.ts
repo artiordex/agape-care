@@ -1,3 +1,9 @@
+/**
+ * Description : security-demo.ts - ?? security-demo ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { load, save, STORAGE_KEYS } from './security-store';
 
 export type LoginRow = {

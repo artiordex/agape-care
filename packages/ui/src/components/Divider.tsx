@@ -1,5 +1,5 @@
 /**
- * Description : Divider.tsx - 📌 구분선 컴포넌트
+ * Description : Divider.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

@@ -1,3 +1,9 @@
+/**
+ * Description : email.processor.ts - ?? processors ??? ? ?? ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { EmailJobData } from '@agape-care/api-contract';
 import { logger } from '@agape-care/logger';
 import { Job } from 'bullmq';

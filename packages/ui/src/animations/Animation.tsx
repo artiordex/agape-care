@@ -1,5 +1,5 @@
 /**
- * Description : Animation.tsx - 📌 ConnectWon UI 애니메이션 React 컴포넌트
+ * Description : Animation.tsx - ?? Animation UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-16
  */

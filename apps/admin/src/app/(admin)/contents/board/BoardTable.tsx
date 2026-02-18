@@ -1,3 +1,9 @@
+/**
+ * Description : BoardTable.tsx - ?? BoardTable UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { FreeBoardPost } from './board.type';
 import FreeBoardItem from './BoardItem';
 

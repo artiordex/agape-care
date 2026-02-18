@@ -1,3 +1,9 @@
+/**
+ * Description : program.service.ts - ?? contents ??? ???? ?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { Prisma, PrismaService } from '@agape-care/database';
 import { ConflictException, Injectable, OnModuleInit } from '@nestjs/common';
 

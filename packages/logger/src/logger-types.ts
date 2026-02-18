@@ -1,5 +1,5 @@
 /**
- * Description: logger-types.ts - 📌 요양원 ERP 로깅 타입
+ * Description : logger-types.ts - ?? logger-types ?? ?? ??
  * Author: Shiwoo Min
  * Date: 2026-01-24
  */

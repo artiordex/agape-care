@@ -1,5 +1,5 @@
 /**
- * Description : tailwind.config.mjs - 📌 TailwindCSS 설정 (UI 패키지)
+ * Description : tailwind.config.mjs - ?? ???? ?? ??
  * Author : Shiwoo Min
  * Date : 2026-01-22
  *

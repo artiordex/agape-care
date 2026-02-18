@@ -1,3 +1,9 @@
+/**
+ * Description : ProgramCalendar.tsx - ?? ProgramCalendar UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import { Program } from './program.type';

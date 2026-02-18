@@ -1,3 +1,11 @@
+/**
+ * Description : BathScheduleManagement.tsx - ?? BathScheduleManagement UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
+'use client';
+
 import { useState, useEffect } from 'react';
 import { supabase } from '../../../supabaseClient';
 

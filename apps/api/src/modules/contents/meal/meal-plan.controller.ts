@@ -1,3 +1,9 @@
+/**
+ * Description : meal-plan.controller.ts - ?? contents ??? API ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { mealContract } from '@agape-care/api-contract';
 import { Controller } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';

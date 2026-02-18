@@ -1,3 +1,9 @@
+/**
+ * Description : mypage.service.ts - ?? mypage ??? ???? ?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { MyProfileSchema, MyScheduleSchema } from '@agape-care/api-contract';
 import { Injectable } from '@nestjs/common';
 import { z } from 'zod';

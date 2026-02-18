@@ -1,5 +1,5 @@
 /**
- * Description : index.ts - 📌 내보내기
+ * Description : index.ts - ?? src ?? ???
  * Author : Shiwoo Min
  * Date : 2026-01-24
  */

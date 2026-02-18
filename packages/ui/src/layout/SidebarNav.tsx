@@ -1,5 +1,5 @@
 /**
- * Description : SidebarNav.tsx - 📌 ConnectWon UI 사이드바 내비게이션 React 컴포넌트
+ * Description : SidebarNav.tsx - ?? SidebarNav UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-19
  */

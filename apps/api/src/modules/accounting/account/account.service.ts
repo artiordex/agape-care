@@ -1,3 +1,9 @@
+/**
+ * Description : account.service.ts - ?? accounting ??? ???? ?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { Prisma, PrismaService } from '@agape-care/database';
 import { Injectable } from '@nestjs/common';
 

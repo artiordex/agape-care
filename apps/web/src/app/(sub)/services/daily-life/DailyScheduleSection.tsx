@@ -1,3 +1,9 @@
+/**
+ * Description : DailyScheduleSection.tsx - ?? DailyScheduleSection UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 export default function DailyScheduleSection() {
   const schedule = [
     { time: '07:00 - 09:00', activity: 'Breakfast & Morning Care' },

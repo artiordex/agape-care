@@ -1,5 +1,5 @@
 /**
- * Description : LoadingSpinner.tsx - 📌 재사용 가능한 스피너
+ * Description : LoadingPage.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-11
  */

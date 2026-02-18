@@ -1,3 +1,9 @@
+/**
+ * Description : attendance.module.ts - ?? attendance ?? ??? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { Module } from '@nestjs/common';
 import { AttendanceController } from './attendance.controller';
 import { AttendanceService } from './attendance.service';

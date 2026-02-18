@@ -1,3 +1,9 @@
+/**
+ * Description : schedule.type.ts - ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 // 근무 코드 타입
 export type WorkCode = 'S' | 'A' | 'D' | 'E' | 'N' | '연' | '휴' | '공' | 'O' | '교육' | '출장' | '회의';
 

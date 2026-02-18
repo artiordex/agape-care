@@ -1,3 +1,9 @@
+/**
+ * Description : page.tsx - ?? care/report/nursing ??? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import React, { useState, useMemo, useEffect } from 'react';

@@ -1,3 +1,9 @@
+/**
+ * Description : health.controller.ts - ?? health ??? API ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { Controller, Get } from '@nestjs/common';
 
 @Controller('health')

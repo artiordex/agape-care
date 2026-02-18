@@ -1,5 +1,5 @@
 /**
- * Description : useThrottle.ts - 📌 스로틀 값/콜백 훅 (leading/trailing)
+ * Description : useThrottle.ts - ?? ??? ?
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

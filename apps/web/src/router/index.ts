@@ -1,3 +1,9 @@
+/**
+ * Description : index.ts - ?? ??? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { useNavigate, type NavigateFunction } from "react-router-dom";
 import { useRoutes } from "react-router-dom";
 import { useEffect } from "react";

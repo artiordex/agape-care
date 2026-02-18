@@ -1,5 +1,5 @@
 /**
- * Description : Drawer.tsx - 📌 사이드 드로어 컴포넌트
+ * Description : Drawer.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

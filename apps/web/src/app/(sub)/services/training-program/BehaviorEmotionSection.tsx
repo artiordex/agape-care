@@ -1,3 +1,9 @@
+/**
+ * Description : BehaviorEmotionSection.tsx - ?? BehaviorEmotionSection UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 export default function BehaviorEmotionSection() {

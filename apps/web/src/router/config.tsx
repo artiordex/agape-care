@@ -1,3 +1,9 @@
+/**
+ * Description : config.tsx - ?? ??? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import AppShell from '@/components/AppShell';
 import { lazy } from 'react';
 import { Outlet, RouteObject } from 'react-router-dom';

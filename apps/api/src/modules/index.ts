@@ -1,5 +1,5 @@
 /**
- * Description : index.ts - 📌 도메인 모듈
+ * Description : index.ts - ?? index.ts ?? ???
  * Author : Shiwoo Min
  * Date : 2025-09-24
  */

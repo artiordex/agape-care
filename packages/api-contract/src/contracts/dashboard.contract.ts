@@ -19,7 +19,7 @@ export const dashboardContract = {
    */
   getDashboardStats: {
     method: 'GET' as const,
-    path: '/api/dashboard/stats',
+    path: '/dashboard/stats',
     responses: {
       200: ApiResponseSchema(DashboardStatsSchema),
     },
@@ -33,7 +33,7 @@ export const dashboardContract = {
    */
   getDashboardWidgets: {
     method: 'GET' as const,
-    path: '/api/dashboard/widgets',
+    path: '/dashboard/widgets',
     responses: {
       200: ApiResponseSchema(DashboardWidgetsSchema),
     },

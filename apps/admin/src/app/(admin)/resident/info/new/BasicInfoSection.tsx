@@ -1,3 +1,9 @@
+/**
+ * Description : BasicInfoSection.tsx - ?? BasicInfoSection UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { ResidentFormData } from './types';
 
 interface BasicInfoSectionProps {

@@ -1,3 +1,9 @@
+/**
+ * Description : VisitReservationTable.tsx - ?? VisitReservationTable UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import { VisitReservation } from './inquiry.type';

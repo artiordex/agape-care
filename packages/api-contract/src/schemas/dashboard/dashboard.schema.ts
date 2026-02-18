@@ -1,3 +1,9 @@
+/**
+ * Description : dashboard.schema.ts - ?? dashboard ??? ??? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { z } from 'zod';
 
 /**

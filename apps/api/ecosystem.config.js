@@ -1,5 +1,5 @@
 /**
- * Description : ecosystem.config.js - 📌 PM2 프로세스 매니저 설정 파일
+ * Description : ecosystem.config.js - ?? ???? ?? ??
  * Author : Shiwoo Min
  * Date : 2026-01-26
  */

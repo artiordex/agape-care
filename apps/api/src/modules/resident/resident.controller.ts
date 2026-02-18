@@ -1,3 +1,9 @@
+/**
+ * Description : resident.controller.ts - ?? resident ??? API ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { residentContract } from '@agape-care/api-contract';
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ZodValidationPipe } from '../common/pipes/zod-validation.pipe';

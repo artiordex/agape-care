@@ -1,3 +1,9 @@
+/**
+ * Description : page.tsx - ?? services/daily-life ??? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import DailyLifeCTA from './DailyLifeCTA';
 import DailyScheduleSection from './DailyScheduleSection';
 import FacilitiesSection from './FacilitiesSection';

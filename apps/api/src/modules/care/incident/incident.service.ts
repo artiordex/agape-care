@@ -1,3 +1,9 @@
+/**
+ * Description : incident.service.ts - ?? care ??? ???? ?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { Incident, careContract } from '@agape-care/api-contract';
 import { Prisma, PrismaService } from '@agape-care/database';
 import { Injectable } from '@nestjs/common';

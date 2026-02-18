@@ -1,4 +1,10 @@
 /**
+ * Description : meeting.type.ts - ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
+/**
  * [Type] 아가페 회의 관리 데이터 프로토콜
  */
 

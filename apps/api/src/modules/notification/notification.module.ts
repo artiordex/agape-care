@@ -1,3 +1,9 @@
+/**
+ * Description : notification.module.ts - ?? notification ?? ??? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { QUEUE_NAMES } from '@agape-care/api-contract';
 import { DatabaseModule } from '@agape-care/database';
 
@@ -16,6 +22,9 @@ import { NotificationService } from './notification.service';
     }),
     BullModule.registerQueue({
       name: QUEUE_NAMES.NOTIFICATION,
+    }),
+    BullModule.registerQueue({
+      name: QUEUE_NAMES.INQUIRY,
     }),
     DatabaseModule,
   ],

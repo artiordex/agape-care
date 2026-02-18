@@ -1,3 +1,9 @@
+/**
+ * Description : security-store.ts - ?? security-store ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 // 브라우저 전용: 서버에서 import 하지 않도록 주의
 export const STORAGE_KEYS = {
   LOGIN_HISTORY: 'sec:loginHistory',

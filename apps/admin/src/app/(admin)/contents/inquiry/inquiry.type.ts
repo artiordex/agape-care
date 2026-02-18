@@ -1,4 +1,10 @@
 /**
+ * Description : inquiry.type.ts - ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
+/**
  * [Type] 웹 상담 문의 데이터 프로토콜
  */
 

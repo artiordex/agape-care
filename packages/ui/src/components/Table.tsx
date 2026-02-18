@@ -1,3 +1,9 @@
+/**
+ * Description : Table.tsx - ?? ??? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import * as React from 'react';
 import { cn } from '../utils/cn.js';
 

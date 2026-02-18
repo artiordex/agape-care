@@ -1,5 +1,5 @@
 /**
- * Description : Modal.tsx - 📌 모달 다이얼로그 컴포넌트
+ * Description : Modal.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

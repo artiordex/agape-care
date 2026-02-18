@@ -1,3 +1,9 @@
+/**
+ * Description : BoardDetailModal.tsx - ?? BoardDetailModal UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { FreeBoardCategory, FreeBoardPost } from './board.type';
 
 interface FreeBoardDetailModalProps {

@@ -1,3 +1,9 @@
+/**
+ * Description : query-provider.tsx - ?? ?? Provider ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';

@@ -1,5 +1,5 @@
 /**
- * Description : .cz-config.cjs - 📌 Commitizen 커밋 메시지 규칙 정의 파일
+ * Description : .cz-config.cjs - ?? ???? ?? ??
  * Author : Shiwoo Min
  * Date : 2026-01-22
  * Note : ESM 프로젝트에서도 이 파일만 CommonJS(.cjs)를 사용

@@ -1,9 +1,10 @@
 /**
- * Description : next.config.mjs - 📌 Admin 앱 Next.js 설정 (Docker / Cloud Run 배포용)
+ * Description : next.config.mjs - ?? ???? ?? ??
  * Author : Shiwoo Min
  * Date : 2026-01-27
  */
 import 'dotenv/config';
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -27,12 +28,17 @@ const nextConfig = {
 
   webpack: config => {
     const packagesBase = path.resolve(__dirname, '../../packages');
+    const resolvePackageAlias = packageName => {
+      const distPath = path.join(packagesBase, packageName, 'dist');
+      const srcPath = path.join(packagesBase, packageName, 'src');
+      return fs.existsSync(distPath) ? distPath : srcPath;
+    };
 
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@agape-care/ui': path.join(packagesBase, 'ui/dist'),
-      '@agape-care/logger': path.join(packagesBase, 'logger/dist'),
-      '@agape-care/api-contract': path.join(packagesBase, 'api-contract/dist'),
+      '@agape-care/ui': resolvePackageAlias('ui'),
+      '@agape-care/logger': resolvePackageAlias('logger'),
+      '@agape-care/api-contract': resolvePackageAlias('api-contract'),
     };
 
     // ESM 스타일의 .js 확장을 .ts/.tsx로 해석하도록 설정

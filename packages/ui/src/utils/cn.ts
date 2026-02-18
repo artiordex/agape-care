@@ -1,5 +1,5 @@
 /**
- * Description : cn.ts - 📌 className 조합 및 조건부 적용 유틸리티
+ * Description : cn.ts - ?? cn ?? ?? ??
  * Author : Shiwoo Min
  * Date : 2025-09-21
  */

@@ -1,3 +1,9 @@
+/**
+ * Description : api-paginated-response.decorator.ts - ?? ?? ????? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { applyDecorators, Type } from '@nestjs/common';
 import { ApiExtraModels, ApiOkResponse, getSchemaPath } from '@nestjs/swagger';
 
