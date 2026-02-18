@@ -826,6 +826,10 @@ model Employee {
   siteInfosUpdated             SiteInfo[]              @relation("SiteInfoUpdater")
   employeePermissions          EmployeePermission[]
   permissionUpdates            EmployeePermission[]    @relation("PermissionUpdater")
+  contractsCreated             ResidentContract[]      @relation("ContractCreator")
+  assessmentsPerformed         ResidentAssessment[]    @relation("AssessmentAssessor")
+  extraCostsCreated            ResidentExtraCost[]     @relation("ExtraCostCreator")
+  documentsUploaded            ResidentDocument[]      @relation("DocumentUploader")
 
   @@index([departmentId], map: "idx_employees_department")
   @@index([email], map: "idx_employees_email")
@@ -867,50 +871,56 @@ model EmployeeEducation {
 /// 입소자 정보
 model Resident {
   /// 입소자 ID (Primary Key)
-  id                BigInt               @id @default(autoincrement())
+  id                 BigInt                     @id @default(autoincrement())
   /// 입소자 코드 (고유값)
-  code              String               @unique
+  code               String                     @unique
   /// 입소자명
-  name              String
+  name               String
   /// 생년월일
-  birthday          DateTime?            @db.Date
+  birthday           DateTime?                  @db.Date
   /// 성별
-  gender            String?
+  gender             String?
   /// 주민등록번호 해시
-  nationalIdHash    String?              @map("national_id_hash")
+  nationalIdHash     String?                    @map("national_id_hash")
   /// 입소일
-  admissionDate     DateTime?            @map("admission_date") @db.Date
+  admissionDate      DateTime?                  @map("admission_date") @db.Date
   /// 퇴소일
-  dischargeDate     DateTime?            @map("discharge_date") @db.Date
+  dischargeDate      DateTime?                  @map("discharge_date") @db.Date
   /// 입소 상태 (ADMITTED, DISCHARGED 등)
-  status            String               @default("ADMITTED")
+  status             String                     @default("ADMITTED")
   /// 보호자명
-  guardianName      String?              @map("guardian_name")
+  guardianName       String?                    @map("guardian_name")
   /// 보호자 연락처
-  guardianPhone     String?              @map("guardian_phone")
+  guardianPhone      String?                    @map("guardian_phone")
   /// 메모
-  memo              String?
+  memo               String?
   /// 추가 메타데이터 (JSON)
-  meta              Json                 @default("{}")
+  meta               Json                       @default("{}")
   /// 생성일시
-  createdAt         DateTime             @default(now()) @map("created_at") @db.Timestamptz(6)
+  createdAt          DateTime                   @default(now()) @map("created_at") @db.Timestamptz(6)
   /// 수정일시
-  updatedAt         DateTime             @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-  carePlans         CarePlan[]
-  careTasks         CareTask[]
-  consultations     ConsultationRecord[]
-  dailyCareRecords  DailyCareRecord[]
-  grievances        Grievance[]
-  incidents         Incident[]
-  insuranceClaims   InsuranceClaim[]
-  invoices          InvoiceHeader[]
-  programAttendance ProgramAttendance[]
-  contacts          ResidentContact[]
-  healthNotes       ResidentHealthNote[]
-  medications       ResidentMedication[]
-  rooms             ResidentRoom[]
-  vitals            ResidentVital[]
-  transportRequests TransportRequest[]
+  updatedAt          DateTime                   @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  carePlans          CarePlan[]
+  careTasks          CareTask[]
+  consultations      ConsultationRecord[]
+  dailyCareRecords   DailyCareRecord[]
+  grievances         Grievance[]
+  incidents          Incident[]
+  insuranceClaims    InsuranceClaim[]
+  invoices           InvoiceHeader[]
+  programAttendance  ProgramAttendance[]
+  contacts           ResidentContact[]
+  healthNotes        ResidentHealthNote[]
+  medications        ResidentMedication[]
+  rooms              ResidentRoom[]
+  vitals             ResidentVital[]
+  transportRequests  TransportRequest[]
+  admissionHistories ResidentAdmissionHistory[]
+  contracts          ResidentContract[]
+  assessments        ResidentAssessment[]
+  extraCosts         ResidentExtraCost[]
+  payments           ResidentPayment[]
+  documents          ResidentDocument[]
 
   @@index([admissionDate(sort: Desc)], map: "idx_residents_admission")
   @@index([name], map: "idx_residents_name")
@@ -974,23 +984,30 @@ model ResidentRoom {
 /// 입소자 연락처 (보호자 등)
 model ResidentContact {
   /// 연락처 ID (Primary Key)
-  id           BigInt   @id @default(autoincrement())
+  id            BigInt   @id @default(autoincrement())
   /// 입소자 ID (외래키)
-  residentId   BigInt   @map("resident_id")
+  residentId    BigInt   @map("resident_id")
   /// 연락처 이름
-  name         String
+  name          String
   /// 관계 (자녀, 배우자 등)
-  relationship String?
+  relationship  String?
   /// 전화번호
-  phoneNumber  String?  @map("phone_number")
+  phoneNumber   String?  @map("phone_number")
+  /// 이메일
+  email         String?
+  /// 주소
+  address       String?
   /// 주 연락처 여부
-  isPrimary    Boolean  @default(false) @map("is_primary")
+  isPrimary     Boolean  @default(false) @map("is_primary")
+  /// 알림 수신 여부
+  receiveNotice Boolean  @default(false) @map("receive_notice")
   /// 생성일시
-  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   /// 수정일시
-  updatedAt    DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
-  resident     Resident @relation(fields: [residentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  updatedAt     DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  resident      Resident @relation(fields: [residentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
+  @@index([residentId], map: "idx_resident_contacts_resident")
   @@map("resident_contacts")
 }
 
@@ -1075,6 +1092,25 @@ model ResidentVital {
 }
 
 /// 케어 플랜 (돌봄 계획)
+/// Resident admission/discharge history
+model ResidentAdmissionHistory {
+  id             BigInt    @id @default(autoincrement())
+  residentId     BigInt    @map("resident_id")
+  historyType    String    @map("history_type")
+  occurredAt     DateTime  @map("occurred_at") @db.Timestamptz(6)
+  reason         String?
+  adjustment     String?
+  reportDate     DateTime? @map("report_date") @db.Date
+  reportReason   String?   @map("report_reason")
+  reportProvided Boolean?  @map("report_provided")
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  resident       Resident  @relation(fields: [residentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([residentId, occurredAt(sort: Desc)], map: "idx_resident_admission_histories_resident_time")
+  @@map("resident_admission_histories")
+}
+
 model CarePlan {
   /// 케어 플랜 ID (Primary Key)
   id          BigInt         @id @default(autoincrement())
@@ -1977,9 +2013,176 @@ model Grievance {
   resident            Resident? @relation(fields: [residentId], references: [id], onUpdate: NoAction)
 
   @@index([residentId], map: "idx_grievances_resident")
-  @@index([status, receivedAt(sort: Desc)], map: "idx_grievances_status")
   @@index([status, receivedAt(sort: Desc)], map: "idx_grievances_status_received")
   @@map("grievances")
+}
+
+/// 입소자 표준약관/계약서
+model ResidentContract {
+  /// 계약 ID (Primary Key)
+  id           BigInt    @id @default(autoincrement())
+  /// 입소자 ID (외래키)
+  residentId   BigInt    @map("resident_id")
+  /// 작성자 ID (외래키)
+  createdBy    BigInt?   @map("created_by")
+  /// 계약일
+  contractDate DateTime  @map("contract_date") @db.Date
+  /// 계약 유형 (STANDARD, LONG_TERM, SHORT_TERM)
+  contractType String    @default("STANDARD") @map("contract_type")
+  /// 서명자명
+  signedBy     String?   @map("signed_by")
+  /// 동의일시
+  agreedAt     DateTime? @map("agreed_at") @db.Timestamptz(6)
+  /// 상태 (ACTIVE, EXPIRED, CANCELLED)
+  status       String    @default("ACTIVE")
+  /// 계약 내용 (전문)
+  content      String?   @db.Text
+  /// 첨부 파일 ID (외래키)
+  fileId       BigInt?   @map("file_id")
+  /// 생성일시
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정일시
+  updatedAt    DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  creator      Employee? @relation("ContractCreator", fields: [createdBy], references: [id], onUpdate: NoAction)
+  resident     Resident  @relation(fields: [residentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([residentId, status], map: "idx_resident_contracts_resident")
+  @@map("resident_contracts")
+}
+
+/// 입소자 기초평가 (낙상위험도, 욕창위험도, 인지기능 등)
+model ResidentAssessment {
+  /// 평가 ID (Primary Key)
+  id              BigInt    @id @default(autoincrement())
+  /// 입소자 ID (외래키)
+  residentId      BigInt    @map("resident_id")
+  /// 평가자 ID (외래키)
+  assessedBy      BigInt?   @map("assessed_by")
+  /// 평가 유형 (FALL_RISK, BEDSORE, COGNITIVE, NEEDS)
+  assessmentType  String    @map("assessment_type")
+  /// 평가 회차
+  assessmentRound Int       @default(1) @map("assessment_round")
+  /// 조사 사유 (INITIAL, REASSESSMENT, CONDITION_CHANGE)
+  reason          String    @default("REASSESSMENT")
+  /// 평가일
+  assessedAt      DateTime  @map("assessed_at") @db.Date
+  /// 평가 항목별 점수 (JSON)
+  scores          Json      @default("{}")
+  /// 합계 점수
+  totalScore      Int?      @map("total_score")
+  /// 위험 등급 (HIGH, MEDIUM, LOW 등)
+  riskLevel       String?   @map("risk_level")
+  /// 비고
+  notes           String?
+  /// 생성일시
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정일시
+  updatedAt       DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  assessor        Employee? @relation("AssessmentAssessor", fields: [assessedBy], references: [id], onUpdate: NoAction)
+  resident        Resident  @relation(fields: [residentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([residentId, assessmentType, assessedAt(sort: Desc)], map: "idx_resident_assessments_resident_type")
+  @@map("resident_assessments")
+}
+
+/// 입소자 비급여/기타 항목
+model ResidentExtraCost {
+  /// 비급여 항목 ID (Primary Key)
+  id          BigInt    @id @default(autoincrement())
+  /// 입소자 ID (외래키)
+  residentId  BigInt    @map("resident_id")
+  /// 등록자 ID (외래키)
+  createdBy   BigInt?   @map("created_by")
+  /// 해당 연월 (예: '2026-02')
+  yearMonth   String    @map("year_month")
+  /// 항목명 (예: 식재료비(석식))
+  itemName    String    @map("item_name")
+  /// 단가
+  unitPrice   Int       @map("unit_price")
+  /// 횟수/수량
+  quantity    Int       @default(1)
+  /// 총 금액
+  totalAmount Int       @map("total_amount")
+  /// 발생일자
+  occurredAt  DateTime  @map("occurred_at") @db.Date
+  /// 비고
+  notes       String?
+  /// 생성일시
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정일시
+  updatedAt   DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  creator     Employee? @relation("ExtraCostCreator", fields: [createdBy], references: [id], onUpdate: NoAction)
+  resident    Resident  @relation(fields: [residentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([residentId, yearMonth], map: "idx_resident_extra_costs_resident_month")
+  @@map("resident_extra_costs")
+}
+
+/// 입소자 본인부담금 (청구/입금)
+model ResidentPayment {
+  /// 납부 ID (Primary Key)
+  id            BigInt    @id @default(autoincrement())
+  /// 입소자 ID (외래키)
+  residentId    BigInt    @map("resident_id")
+  /// 급여제공월 (예: '2026-01')
+  paymentMonth  String    @map("payment_month")
+  /// 청구금액
+  claimAmount   Int       @default(0) @map("claim_amount")
+  /// 입금액
+  paidAmount    Int       @default(0) @map("paid_amount")
+  /// 미납액
+  unpaidAmount  Int       @default(0) @map("unpaid_amount")
+  /// 입금일
+  depositDate   DateTime? @map("deposit_date") @db.Date
+  /// 입금자명
+  depositorName String?   @map("depositor_name")
+  /// 결제 방법 (BANK_TRANSFER, CASH, CARD)
+  paymentMethod String?   @map("payment_method")
+  /// 영수증 번호
+  receiptNo     String?   @map("receipt_no")
+  /// 비고
+  notes         String?
+  /// 생성일시
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정일시
+  updatedAt     DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  resident      Resident  @relation(fields: [residentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([residentId, paymentMonth(sort: Desc)], map: "idx_resident_payments_resident_month")
+  @@map("resident_payments")
+}
+
+/// 입소자 서류 관리
+model ResidentDocument {
+  /// 서류 ID (Primary Key)
+  id               BigInt    @id @default(autoincrement())
+  /// 입소자 ID (외래키)
+  residentId       BigInt    @map("resident_id")
+  /// 업로드자 ID (외래키)
+  uploadedBy       BigInt?   @map("uploaded_by")
+  /// 서류명
+  documentName     String    @map("document_name")
+  /// 서류 카테고리 (REQUIRED, ID, HEALTH, OTHER)
+  documentCategory String    @default("OTHER") @map("document_category")
+  /// 파일 ID (외래키)
+  fileId           BigInt?   @map("file_id")
+  /// 상태 (SUBMITTED, PENDING, EXPIRED)
+  status           String    @default("SUBMITTED")
+  /// 업로드 일시
+  uploadedAt       DateTime  @default(now()) @map("uploaded_at") @db.Timestamptz(6)
+  /// 유효기간 만료일
+  expiresAt        DateTime? @map("expires_at") @db.Date
+  /// 비고
+  notes            String?
+  /// 생성일시
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정일시
+  updatedAt        DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz(6)
+  uploader         Employee? @relation("DocumentUploader", fields: [uploadedBy], references: [id], onUpdate: NoAction)
+  resident         Resident  @relation(fields: [residentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([residentId, documentCategory], map: "idx_resident_documents_resident_category")
+  @@map("resident_documents")
 }
 
 /// 시설 점검 기록
@@ -2180,4 +2383,225 @@ model NotificationQueue {
 
   @@index([status, scheduledAt], map: "idx_notification_queue_status_sched")
   @@map("notification_queue")
+}
+
+/// ===============================
+/// 알림 템플릿
+/// - 자주 사용하는 알림 메시지를 템플릿으로 저장
+/// ===============================
+model NotificationTemplate {
+  /// 템플릿 ID
+  id         BigInt   @id @default(autoincrement())
+  /// 템플릿 이름
+  name       String
+  /// 카테고리 (예: 입소안내, 투약알림, 긴급)
+  category   String
+  /// 발송 채널 (SMS | EMAIL | PUSH | KAKAO)
+  channel    String
+  /// 템플릿 내용
+  content    String   @db.Text
+  /// 치환 변수 목록 (JSON 배열, 예: ["{{name}}", "{{date}}"])
+  variables  Json     @default("[]")
+  /// 상태 (ACTIVE | INACTIVE)
+  status     String   @default("ACTIVE")
+  /// 사용 횟수
+  usageCount Int      @default(0) @map("usage_count")
+  /// 생성자 ID
+  createdBy  BigInt?  @map("created_by")
+  /// 생성일시
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정일시
+  updatedAt  DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  campaigns NotificationCampaign[]
+
+  @@index([category], map: "idx_notif_template_category")
+  @@index([channel], map: "idx_notif_template_channel")
+  @@map("notification_templates")
+}
+
+/// ===============================
+/// 알림 캠페인 (발송 단위)
+/// - 즉시 발송 및 예약 발송을 모두 관리
+/// ===============================
+model NotificationCampaign {
+  /// 캠페인 ID
+  id               BigInt    @id @default(autoincrement())
+  /// 캠페인 이름
+  campaignName     String    @map("campaign_name")
+  /// 발송 목적/제목
+  purpose          String?
+  /// 알림 제목
+  title            String?
+  /// 알림 내용
+  body             String?   @db.Text
+  /// 발송 채널 (SMS | EMAIL | PUSH | KAKAO)
+  channel          String
+  /// 발송 유형 (IMMEDIATE | SCHEDULED)
+  sendType         String    @map("send_type")
+  /// 예약 발송 시각
+  scheduledAt      DateTime? @map("scheduled_at") @db.Timestamptz(6)
+  /// 실제 발송 완료 시각
+  sentAt           DateTime? @map("sent_at") @db.Timestamptz(6)
+  /// 상태 (PENDING | SENT | CANCELLED | FAILED)
+  status           String    @default("PENDING")
+  /// 수신자 수
+  recipientCount   Int       @default(0) @map("recipient_count")
+  /// 추가 데이터 (JSON)
+  payload          Json      @default("{}")
+  /// 연결된 템플릿 ID
+  templateId       BigInt?   @map("template_id")
+  /// 연결된 수신자 그룹 ID
+  recipientGroupId BigInt?   @map("recipient_group_id")
+  /// 생성자 ID
+  createdBy        BigInt?   @map("created_by")
+  /// 생성일시
+  createdAt        DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정일시
+  updatedAt        DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  template   NotificationTemplate?           @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  recipients NotificationCampaignRecipient[]
+
+  @@index([status, scheduledAt], map: "idx_campaign_status_sched")
+  @@index([sendType, status], map: "idx_campaign_send_type_status")
+  @@index([createdAt(sort: Desc)], map: "idx_campaign_created")
+  @@map("notification_campaigns")
+}
+
+/// ===============================
+/// 캠페인 수신자
+/// - 캠페인별 개별 수신자 목록 및 발송 결과 기록
+/// ===============================
+model NotificationCampaignRecipient {
+  /// 수신자 레코드 ID
+  id            BigInt  @id @default(autoincrement())
+  /// 캠페인 ID
+  campaignId    BigInt  @map("campaign_id")
+  /// 수신자 타입 (RESIDENT | EMPLOYEE | GUARDIAN)
+  recipientType String  @map("recipient_type")
+  /// 수신자 엔티티 ID (선택)
+  recipientId   BigInt? @map("recipient_id")
+  /// 수신자 이름
+  name          String
+  /// 연락처
+  phone         String?
+  /// 발송 상태 (PENDING | SENT | FAILED)
+  status        String  @default("PENDING")
+
+  campaign NotificationCampaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId], map: "idx_campaign_recipient_campaign")
+  @@map("notification_campaign_recipients")
+}
+
+/// ===============================
+/// 수신자 그룹
+/// - 자주 사용하는 발송 대상을 그룹으로 관리
+/// ===============================
+model RecipientGroup {
+  /// 그룹 ID
+  id          BigInt    @id @default(autoincrement())
+  /// 그룹명
+  name        String
+  /// 그룹 설명
+  description String?
+  /// 그룹 유형 (RESIDENT | GUARDIAN | STAFF | MIXED)
+  type        String
+  /// 상태 (ACTIVE | INACTIVE)
+  status      String    @default("ACTIVE")
+  /// 멤버 수
+  memberCount Int       @default(0) @map("member_count")
+  /// 사용 횟수
+  usageCount  Int       @default(0) @map("usage_count")
+  /// 마지막 사용 시각
+  lastUsedAt  DateTime? @map("last_used_at") @db.Timestamptz(6)
+  /// 생성자 ID
+  createdBy   BigInt?   @map("created_by")
+  /// 생성일시
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  /// 수정일시
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  members RecipientGroupMember[]
+
+  @@index([type, status], map: "idx_recipient_group_type_status")
+  @@map("recipient_groups")
+}
+
+/// ===============================
+/// 수신자 그룹 멤버
+/// - 수신자 그룹에 속한 개별 멤버
+/// ===============================
+model RecipientGroupMember {
+  /// 멤버 레코드 ID
+  id            BigInt  @id @default(autoincrement())
+  /// 소속 그룹 ID
+  groupId       BigInt  @map("group_id")
+  /// 수신자 타입 (RESIDENT | EMPLOYEE | GUARDIAN)
+  recipientType String  @map("recipient_type")
+  /// 수신자 엔티티 ID (선택)
+  recipientId   BigInt? @map("recipient_id")
+  /// 이름
+  name          String
+  /// 연락처
+  phone         String?
+  /// 관계 (보호자인 경우: 자녀, 배우자 등)
+  relation      String?
+
+  group RecipientGroup @relation(fields: [groupId], references: [id], onDelete: Cascade)
+
+  @@index([groupId], map: "idx_recipient_group_member_group")
+  @@map("recipient_group_members")
+}
+
+/// ===============================
+/// 문자 크레딧 이력
+/// - 문자 발송 시 차감되는 크레딧 이력 관리
+/// ===============================
+model SmsCredit {
+  /// 이력 ID
+  id             BigInt   @id @default(autoincrement())
+  /// 차감 후 잔액
+  balance        Int
+  /// 차감량 (음수이면 충전)
+  deductedAmount Int      @map("deducted_amount")
+  /// 발송 방식 (SMS | LMS | MMS | KAKAO)
+  method         String
+  /// 관련 캠페인 ID (선택)
+  campaignId     BigInt?  @map("campaign_id")
+  /// 비고
+  description    String?
+  /// 이력 생성일시
+  createdAt      DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([createdAt(sort: Desc)], map: "idx_sms_credit_created")
+  @@map("sms_credits")
+}
+
+/// ===============================
+/// 시설 자료실
+/// - 운영 서식, 케어플랜, 교육자료 등 파일 관리
+/// ===============================
+model FacilityFile {
+  /// 파일 ID
+  id         BigInt   @id @default(autoincrement())
+  /// 파일명
+  name       String
+  /// 카테고리 (운영서식 | 케어플랜 | 행정서류 | 교육자료)
+  category   String
+  /// 파일 URL (S3 또는 로컬 경로)
+  fileUrl    String   @map("file_url")
+  /// 파일 타입 (pdf | xlsx | docx | png | zip)
+  fileType   String   @map("file_type")
+  /// 파일 크기 (bytes)
+  size       BigInt
+  /// 업로더 (이름 또는 Employee ID 문자열)
+  uploadedBy String   @map("uploaded_by")
+  /// 업로드 일시
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  @@index([category], map: "idx_facility_file_category")
+  @@index([createdAt(sort: Desc)], map: "idx_facility_file_created")
+  @@map("facility_files")
 }

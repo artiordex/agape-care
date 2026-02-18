@@ -1,3 +1,9 @@
+/**
+ * Description : FooterSection.tsx - ?? FooterSection UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 interface FooterData {
@@ -22,7 +28,7 @@ export default function FooterSection({ value, onChange }: Props) {
       {/* 섹션 헤더 */}
       <div className="flex items-center gap-2 border-b border-gray-300 bg-[#f8fafc] px-4 py-2">
         <div className="h-3 w-1 bg-[#5C8D5A]"></div>
-        <h3 className="font-black uppercase tracking-tighter text-gray-800">푸터 및 법적 고지 설정</h3>
+        <h3 className="font-black uppercase tracking-tighter text-gray-800">푸터 및 법적 고지</h3>
       </div>
 
       {/* 격자형 입력 폼 */}
@@ -36,9 +42,9 @@ export default function FooterSection({ value, onChange }: Props) {
                 value={value.footerText}
                 onChange={e => set('footerText', e.target.value)}
                 placeholder="© 2026 Agape-Care 요양센터. All rights reserved."
-                className="w-full resize-none rounded border border-gray-300 px-4 py-1.5 text-[10px] font-bold leading-relaxed text-[#5C8D5A] outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+                className="w-full resize-none rounded border border-gray-300 px-4 py-1.5 text-[10px] leading-relaxed text-[#5C8D5A] outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
-              <p className="text-[9px] font-medium italic leading-tight text-gray-400">
+              <p className="text-[9px] font-medium leading-tight text-gray-400">
                 홈페이지 최하단에 상시 노출되는 저작권 표기 문구입니다.
               </p>
             </div>
@@ -55,7 +61,7 @@ export default function FooterSection({ value, onChange }: Props) {
               placeholder="본 홈페이지의 무단 전재 및 재배포를 금지하며, 이메일 주소 무단 수집 거부 등 법적 고지 내용을 입력하세요."
               className="w-full resize-none rounded border border-gray-300 px-4 py-1.5 text-[12px] font-medium leading-relaxed text-gray-600 outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
             />
-            <div className="px-1 text-[9px] font-bold text-gray-400">
+            <div className="px-1 text-[9px] text-gray-400">
               <span>개인정보 처리방침과 별도로 노출되는 고지 사항입니다.</span>
             </div>
           </div>
@@ -69,7 +75,7 @@ export default function FooterSection({ value, onChange }: Props) {
 function InputRow({ label, children, required, full }: any) {
   return (
     <div className={`flex border-r border-gray-200 last:border-r-0 ${full ? 'md:col-span-2' : ''} group`}>
-      <div className="flex w-28 shrink-0 items-center border-r border-gray-100 bg-[#f8fafc] px-3 py-2.5 text-[12px] font-black uppercase tracking-tighter text-gray-500 transition-colors group-hover:bg-emerald-50/50">
+      <div className="flex w-28 shrink-0 items-center border-r border-gray-100 bg-[#f8fafc] px-3 py-2.5 text-[12px] font-black text-gray-500 transition-colors group-hover:bg-emerald-50/50">
         {label}
         {required && <span className="ml-1 text-red-500">*</span>}
       </div>

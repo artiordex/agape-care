@@ -1,187 +1,263 @@
+/**
+ * Description : page.tsx - ?? resident/consultation ??? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
-import React, { useState } from 'react';
-import ConsultationHeader from './ConsultationHeader';
-import ConsultationQuarterlyTable from './ConsultationQuarterlyTable';
-import ConsultationListTable from './ConsultationListTable';
-import ConsultationForm from './ConsultationForm';
+import clsx from 'clsx';
+import { useState } from 'react';
+import ConsultationLogModal from './modals/ConsultationLogModal';
 
 /**
- * [Main Page] 상담 및 면담 기록 통합 관제 센터
- * 아가페 그린(#5C8D5A) 테마 기반의 고밀도 품질 관리 화면
+ * [Page] 상담 및 면담 관리 (ConsultationManagement)
+ * 정기 상담 일지 및 신규 수급자 초기 면담 기록 관리
  */
 export default function ConsultationManagementPage() {
-  // 1. 상태 관리: 탭, 뷰모드, 선택된 데이터
   const [activeTab, setActiveTab] = useState<'consultation' | 'interview'>('consultation');
-  const [viewMode, setViewMode] = useState<'quarterly' | 'list' | 'create' | 'detail'>('quarterly');
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [isConsultationLogModalOpen, setIsConsultationLogModalOpen] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState<any>(null);
+  const [selectedResident, setSelectedResident] = useState<any>(null);
 
-  const [selectedRecipient, setSelectedRecipient] = useState<any>(null);
-  const [selectedConsultation, setSelectedConsultation] = useState<any>(null);
-
-  // 필터 및 검색 상태
-  const [selectedYear, setSelectedYear] = useState(2026);
-  const [searchTerm, setSearchTerm] = useState('');
-
-  // 2. 전문 상담 기록 폼 상태
-  const [formData, setFormData] = useState({
-    occurredAt: new Date().toISOString().slice(0, 16),
-    targetType: 'recipient',
-    guardianName: '',
-    guardianRelation: '',
-    guardianPhone: '',
-    categoryCode: '',
-    methodCode: '',
-    content: '',
-    actionContent: '',
-  });
-
-  // 3. 기초 행정 코드 데이터
-  const categories = [
-    { code: 'HEALTH', name: '건강상태' },
-    { code: 'MEAL', name: '식사/영양' },
-    { code: 'EMOTION', name: '정서/심리' },
-    { code: 'FAMILY', name: '가족관계' },
-    { code: 'ETC', name: '기타' },
-  ];
-
-  const methods = [
-    { code: 'FACE', name: '대면상담' },
-    { code: 'PHONE', name: '전화상담' },
-    { code: 'SNS', name: 'SNS상담' },
-  ];
-
-  // 4. 핸들러: 뷰 전환 및 데이터 저장
-  const handleSelectRecipient = (recipient: any) => {
-    setSelectedRecipient(recipient);
-    setViewMode('list');
+  const handleOpenConsultationModal = (row: any, quarterIdx: number) => {
+    // Only open if in consultation tab (or both if needed, but request specified quarterly)
+    setSelectedResident(row);
+    // You might want to pass which quarter was clicked
+    setSelectedRecord({ ...row, quarter: quarterIdx });
+    setIsConsultationLogModalOpen(true);
   };
 
-  const handleSave = () => {
-    setIsProcessing(true);
-    setTimeout(() => {
-      alert('✅ 상담 기록이 시스템에 확정 저장되었으며, 급여 제공 기록에 반영되었습니다.');
-      setViewMode('quarterly');
-      setIsProcessing(false);
-    }, 800);
-  };
+  // 모의 데이터 - 상담일지 (Tab 1)
+  const consultationData = [
+    {
+      id: 1,
+      status: '입소중',
+      name: '코코넛땅콩실',
+      displayDate: '1월3일',
+      room: '2호실',
+      grade: '2등급',
+      admissionDate: '2026.01.03',
+      q1: { status: 'COMPLETE', text: '입소 2026.01.03', date: '' },
+      q2: { status: 'UNWRITTEN', text: '미작성', date: '' },
+      q3: { status: 'UNWRITTEN', text: '미작성', date: '' },
+      q4: { status: 'UNWRITTEN', text: '미작성', date: '' },
+    },
+    // ... more data
+  ];
+
+  // 모의 데이터 - 신규 수급자 면담 (Tab 2)
+  const interviewData = [
+    {
+      id: 1,
+      status: '입소중',
+      name: '코코넛땅콩실',
+      displayDate: '1월3일',
+      grade: '2등급',
+      admissionDate: '2026.01.03',
+      s1: { status: 'UNWRITTEN', text: '미작성', period: '2026.01.03 ~ 2026.01.09' },
+      s2: { status: 'UNWRITTEN', text: '미작성', period: '2026.01.10 ~ 2026.01.16' },
+      s3: { status: 'UNWRITTEN', text: '미작성', period: '2026.01.17 ~ 2026.01.23' },
+      s4: { status: 'UNWRITTEN', text: '미작성', period: '2026.01.24 ~ 2026.01.30' },
+    },
+    {
+      id: 2,
+      status: '입소중',
+      name: 'ㅁㄴㅇㄹ', // Matching screenshot placeholder?
+      displayDate: 'ㅁㄴㅇㄹ',
+      grade: '등급외',
+      admissionDate: '2026.01.27',
+      s1: { status: 'UNWRITTEN', text: '미작성', period: '2026.01.27 ~ 2026.02.02' },
+      s2: { status: 'UNWRITTEN', text: '미작성', period: '2026.02.03 ~ 2026.02.09' },
+      s3: { status: 'UNWRITTEN', text: '미작성', period: '2026.02.10 ~ 2026.02.16' },
+      s4: { status: 'UNWRITTEN', text: '미작성', period: '2026.02.17 ~ 2026.02.23' },
+    },
+  ];
+
+  const currentData = activeTab === 'consultation' ? consultationData : interviewData;
+
+  // 스타일 클래스
+  const thClass =
+    'border border-[#B8D1E0] bg-[#E8F1F8] py-2 text-center text-[12px] font-bold text-[#333] tracking-tight';
+  const summaryThClass =
+    'border border-[#B8D1E0] bg-[#F1F8FF] py-1 text-center text-[11px] font-bold text-[#2E6A9E] tracking-tight';
+  const tdClass = 'border border-[#B8D1E0] px-2 py-1.5 text-center text-[12px] text-[#333]';
+  const unwrittenClass = 'bg-[#FFF9C4] text-gray-600'; // 노란 배경
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-[#f0f2f5] font-sans antialiased">
-      {/* [상단] 통합 제어 헤더 */}
-      <ConsultationHeader
-        activeTab={activeTab}
-        viewMode={viewMode}
-        isProcessing={isProcessing}
-        onAction={() => {
-          if (viewMode === 'quarterly') setViewMode('list');
-          else setViewMode('create');
-        }}
-        onBack={() => setViewMode('quarterly')}
-      />
-
-      {/* [중단] 메인 워크스페이스: 스크롤 영역 */}
-      <main className="custom-scrollbar flex-1 overflow-y-auto p-6">
-        <div className="animate-in fade-in mx-auto max-w-7xl space-y-6 duration-500">
-          {/* A. 탭 네비게이션 (Agape-Green Style) */}
-          {viewMode === 'quarterly' && (
-            <div className="flex rounded-t-xl border-b border-gray-300 bg-white px-6 shadow-sm">
-              <button
-                onClick={() => setActiveTab('consultation')}
-                className={`flex items-center gap-2 border-b-2 px-6 py-4 text-[13px] transition-all ${
-                  activeTab === 'consultation'
-                    ? 'border-[#5C8D5A] font-black text-[#5C8D5A]'
-                    : 'border-transparent font-bold text-gray-400 hover:text-gray-900'
-                }`}
-              >
-                <i className="ri-chat-voice-line text-lg"></i> 정기 상담 관리
-              </button>
-              <button
-                onClick={() => setActiveTab('interview')}
-                className={`flex items-center gap-2 border-b-2 px-6 py-4 text-[13px] transition-all ${
-                  activeTab === 'interview'
-                    ? 'border-[#5C8D5A] font-black text-[#5C8D5A]'
-                    : 'border-transparent font-bold text-gray-400 hover:text-gray-900'
-                }`}
-              >
-                <i className="ri-user-follow-line text-lg"></i> 초기 면담 기록
-              </button>
-            </div>
+    <div className="flex min-h-screen flex-col bg-white p-6 font-sans">
+      {/* 1. 탭 네비게이션 */}
+      <div className="flex border-b-[3px] border-[#57A5CE]">
+        <button
+          onClick={() => setActiveTab('consultation')}
+          className={clsx(
+            'px-6 py-2 text-[14px] font-bold transition-colors',
+            activeTab === 'consultation'
+              ? 'z-10 mb-[-3px] rounded-t-lg border-l-2 border-r-2 border-t-2 border-[#57A5CE] bg-white pb-3 text-[#57A5CE]'
+              : 'mb-[0px] ml-1 rounded-t-lg bg-[#57A5CE] text-white hover:bg-[#468db3]',
           )}
+        >
+          상담일지
+        </button>
+        <button
+          onClick={() => setActiveTab('interview')}
+          className={clsx(
+            'ml-1 px-6 py-2 text-[14px] font-bold transition-colors',
+            activeTab === 'interview'
+              ? 'z-10 mb-[-3px] rounded-t-lg border-l-2 border-r-2 border-t-2 border-[#57A5CE] bg-white pb-3 text-[#57A5CE]'
+              : 'mb-[0px] rounded-t-lg bg-[#57A5CE] text-white hover:bg-[#468db3]',
+          )}
+        >
+          신규 수급자 면담일지
+        </button>
+      </div>
 
-          {/* B. 뷰 모드별 콘텐츠 렌더링 */}
-          <div className="space-y-6">
-            {/* B-1. 분기별 이행 현황 뷰 */}
-            {viewMode === 'quarterly' && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2 rounded border border-emerald-100 bg-emerald-50 px-3 py-1">
-                      <span className="text-[11px] font-black uppercase tracking-widest text-[#5C8D5A]">
-                        Active Year
-                      </span>
-                      <span className="font-mono text-[14px] font-black text-[#5C8D5A]">{selectedYear}</span>
-                    </div>
-                    <input
-                      type="text"
-                      placeholder="수급자 성함으로 실시간 필터링..."
-                      className="w-64 rounded border border-gray-300 px-4 py-1.5 text-[12px] font-medium outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
-                    />
-                  </div>
-                  <div className="text-[11px] font-bold uppercase italic text-gray-400">Compliance Tracking Active</div>
-                </div>
-                <ConsultationQuarterlyTable
-                  data={[]} // API 데이터 바인딩
-                  onSelectRecipient={handleSelectRecipient}
-                />
-              </div>
-            )}
-
-            {/* B-2. 개별 상담 이력 리스트 뷰 */}
-            {viewMode === 'list' && (
-              <div className="space-y-4">
-                <ConsultationListTable
-                  data={[]} // 선택된 수급자의 이력 데이터
-                  onViewDetail={item => {
-                    setSelectedConsultation(item);
-                    setViewMode('detail');
-                  }}
-                />
-              </div>
-            )}
-
-            {/* B-3. 상담 기록 서식 (작성/조회) */}
-            {(viewMode === 'create' || viewMode === 'detail' || viewMode === 'edit') && (
-              <ConsultationForm
-                mode={viewMode as any}
-                activeTab={activeTab}
-                recipient={selectedRecipient}
-                formData={formData}
-                setFormData={setFormData}
-                categories={categories}
-                methods={methods}
-                onSave={handleSave}
-                onCancel={() => setViewMode(selectedRecipient ? 'list' : 'quarterly')}
-              />
-            )}
+      {/* 2. 컨트롤 바 */}
+      <div className="mt-4 flex items-center justify-between border-b border-[#B8D1E0] bg-[#E8F1F8] px-4 py-2">
+        <div className="flex items-center gap-2">
+          <button className="rounded border border-[#9CA3AF] bg-gradient-to-b from-[#7A8B9A] to-[#5F7183] px-3 py-1.5 text-[12px] font-bold text-white shadow-sm hover:from-[#6A7B8A] hover:to-[#4F6173]">
+            현황선택
+          </button>
+          <button className="rounded border border-[#9CA3AF] bg-gradient-to-b from-[#7A8B9A] to-[#5F7183] px-3 py-1.5 text-[12px] font-bold text-white shadow-sm hover:from-[#6A7B8A] hover:to-[#4F6173]">
+            생활실선택
+          </button>
+          <button className="rounded border border-[#9CA3AF] bg-gradient-to-b from-[#7A8B9A] to-[#5F7183] px-3 py-1.5 text-[12px] font-bold text-white shadow-sm hover:from-[#6A7B8A] hover:to-[#4F6173]">
+            등급선택
+          </button>
+          <div className="flex items-center rounded border border-[#B8D1E0] bg-white px-2 py-1">
+            <input type="text" placeholder="이름조회" className="w-24 text-[12px] outline-none" />
+            {/* <button><i className="ri-search-line text-gray-400"></i></button> */}
           </div>
         </div>
-      </main>
 
-      {/* [하단] 시스템 상태 정보 바 */}
-      <footer className="flex h-8 shrink-0 items-center justify-between border-t border-gray-200 bg-white px-6 shadow-[0_-1px_3px_rgba(0,0,0,0.05)]">
-        <div className="flex items-center gap-5 text-[9px] font-black uppercase tracking-widest text-gray-400">
-          <span className="flex items-center gap-2 text-[#5C8D5A]">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#5C8D5A]"></span>
-            Quality Assurance Monitor Active
-          </span>
-          <span className="h-3 w-[1px] bg-gray-200"></span>
-          <span>Security: Care Compliance Encryption</span>
+        {/* 날짜 네비게이터 */}
+        <div className="flex items-center gap-4">
+          <button className="flex h-6 w-6 items-center justify-center rounded bg-[#57A5CE] text-white hover:bg-[#468db3]">
+            <i className="ri-arrow-left-s-line"></i>
+          </button>
+          <span className="text-[16px] font-black text-[#333]">2026년</span>
+          <button className="flex h-6 w-6 items-center justify-center rounded bg-[#57A5CE] text-white hover:bg-[#468db3]">
+            <i className="ri-arrow-right-s-line"></i>
+          </button>
         </div>
-        <div className="text-[9px] font-black uppercase italic tracking-tighter text-[#5C8D5A]">
-          Agape-Care Record Management v3.2
-        </div>
-      </footer>
+
+        {/* 우측 버튼 (상담일지 탭일 때만) */}
+        {activeTab === 'consultation' ? (
+          <button className="rounded bg-[#57A5CE] px-4 py-1.5 text-[12px] font-bold text-white shadow-md hover:bg-[#468db3]">
+            전체 상담내역
+            <span className="block text-[10px] font-normal">(급여반영 4건)</span>
+          </button>
+        ) : (
+          <div className="w-[120px]"></div>
+        )}
+      </div>
+
+      {/* 3. 데이터 테이블 */}
+      <div className="overflow-x-auto border-t-2 border-[#5C8D5A]">
+        <table className="w-full table-fixed border-collapse">
+          <colgroup>
+            <col w-width="50px" style={{ width: '50px' }} />
+            <col w-width="70px" style={{ width: '70px' }} />
+            <col w-width="80px" style={{ width: '80px' }} />
+            <col w-width="100px" style={{ width: '100px' }} />
+            <col w-width="70px" style={{ width: '70px' }} />
+            {activeTab === 'interview' && <col w-width="100px" style={{ width: '100px' }} />}
+            <col />
+            <col />
+            <col />
+            <col />
+          </colgroup>
+          <thead>
+            <tr>
+              <th className={thClass}>연번</th>
+              <th className={thClass}>현황</th>
+              <th className={thClass}>수급자명</th>
+              <th className={thClass}>생활실</th>
+              <th className={thClass}>등급</th>
+              {activeTab === 'interview' && <th className={thClass}>입소일</th>}
+              <th className={thClass}>{activeTab === 'consultation' ? '1분기' : '1회차'}</th>
+              <th className={thClass}>{activeTab === 'consultation' ? '2분기' : '2회차'}</th>
+              <th className={thClass}>{activeTab === 'consultation' ? '3분기' : '3회차'}</th>
+              <th className={thClass}>{activeTab === 'consultation' ? '4분기' : '4회차'}</th>
+            </tr>
+            {/* Summary Row */}
+            <tr className="bg-[#F8FBFF]">
+              <td
+                className={summaryThClass}
+                colSpan={activeTab === 'interview' ? 6 : 5}
+                style={{ textAlign: 'center', paddingRight: '10px' }}
+              >
+                * 상담수급자수 / 대상자수
+              </td>
+              <td className={summaryThClass}>{activeTab === 'consultation' ? '12 / 105' : '0 / 40'}</td>
+              <td className={summaryThClass}>{activeTab === 'consultation' ? '2 / 138' : '0 / 40'}</td>
+              <td className={summaryThClass}>{activeTab === 'consultation' ? '0 / 138' : '0 / 40'}</td>
+              <td className={summaryThClass}>{activeTab === 'consultation' ? '0 / 137' : '0 / 39'}</td>
+            </tr>
+          </thead>
+          <tbody>
+            {currentData.map((row: any) => (
+              <tr key={row.id} className="h-[60px] hover:bg-gray-50">
+                <td className={tdClass}>{row.id}</td>
+                <td className={clsx(tdClass, 'font-bold')}>{row.status}</td>
+                <td className={tdClass}>
+                  {activeTab === 'consultation' ? (
+                    <div className="flex flex-col">
+                      <span>{row.displayDate}</span>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col">
+                      <span>{row.displayDate}</span>
+                      <span className="text-[11px] font-bold">{row.name}</span>
+                    </div>
+                  )}
+                </td>
+                <td className={tdClass}>
+                  {activeTab === 'consultation' ? (
+                    <div className="flex flex-col leading-tight">
+                      <span className="text-[11px]">{row.name}</span>
+                      <span className="text-[11px] text-gray-500">{row.room}</span>
+                    </div>
+                  ) : (
+                    row.room
+                  )}
+                </td>
+                <td className={tdClass}>{row.grade}</td>
+                {activeTab === 'interview' && <td className={tdClass}>{row.admissionDate}</td>}
+
+                {/* Dynamic Columns based on Tab */}
+                {[1, 2, 3, 4].map(idx => {
+                  const key = activeTab === 'consultation' ? `q${idx}` : `s${idx}`;
+                  const item = row[key];
+                  return (
+                    <td
+                      key={idx}
+                      className={clsx(
+                        tdClass,
+                        item.status === 'UNWRITTEN' && unwrittenClass,
+                        'cursor-pointer hover:bg-blue-50',
+                      )}
+                      onClick={() => handleOpenConsultationModal(row, idx)}
+                    >
+                      <div className="flex flex-col items-center justify-center">
+                        <span className="font-bold">{item.text}</span>
+                        {item.period && <span className="mt-1 text-[10px] text-gray-500">({item.period})</span>}
+                      </div>
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <ConsultationLogModal
+        isOpen={isConsultationLogModalOpen}
+        onClose={() => setIsConsultationLogModalOpen(false)}
+        resident={selectedResident}
+        record={selectedRecord}
+      />
     </div>
   );
 }

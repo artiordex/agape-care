@@ -1,3 +1,9 @@
+/**
+ * Description : FacilitySettingsSection.tsx - ?? FacilitySettingsSection UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import React, { useRef } from 'react';
@@ -138,14 +144,14 @@ export default function FacilitySettingsSection({ value, onChange }: Props) {
                 value={value.basic.orgCode}
                 onChange={e => setBasic('orgCode', e.target.value)}
                 placeholder="기관 고유 기호 입력"
-                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black text-[#5C8D5A] outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] text-[#5C8D5A] outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
             </InputRow>
             <InputRow label="시설명" required>
               <input
                 value={value.basic.facilityName}
                 onChange={e => setBasic('facilityName', e.target.value)}
-                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black text-gray-900 outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] text-gray-900 outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
             </InputRow>
           </div>
@@ -166,7 +172,7 @@ export default function FacilitySettingsSection({ value, onChange }: Props) {
               <select
                 value={value.basic.facilityType}
                 onChange={e => setBasic('facilityType', e.target.value)}
-                className="w-full cursor-pointer rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+                className="w-full cursor-pointer rounded border border-gray-300 px-4 py-1.5 text-[12px] outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               >
                 <option value="노인요양시설">노인요양시설</option>
                 <option value="주야간보호시설">주야간보호시설</option>
@@ -190,7 +196,7 @@ export default function FacilitySettingsSection({ value, onChange }: Props) {
               <input
                 value={value.basic.director}
                 onChange={e => setBasic('director', e.target.value)}
-                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
             </InputRow>
             <InputRow label="시설장 연락처">
@@ -207,7 +213,7 @@ export default function FacilitySettingsSection({ value, onChange }: Props) {
               <input
                 value={value.basic.ceoName}
                 onChange={e => setBasic('ceoName', e.target.value)}
-                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
             </InputRow>
             <InputRow label="사업자번호" required>
@@ -234,7 +240,7 @@ export default function FacilitySettingsSection({ value, onChange }: Props) {
                   type="number"
                   value={value.basic.staffCount}
                   onChange={e => setBasic('staffCount', Number(e.target.value))}
-                  className="w-24 rounded border border-gray-300 px-4 py-1.5 text-right text-[12px] font-black outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+                  className="w-24 rounded border border-gray-300 px-4 py-1.5 text-right text-[12px] outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
                 />
                 <span className="text-[12px] font-bold text-gray-400">명</span>
               </div>
@@ -257,7 +263,7 @@ export default function FacilitySettingsSection({ value, onChange }: Props) {
                   value={value.contact.phone}
                   onChange={e => setContact('phone', e.target.value)}
                   placeholder="02-1234-5678"
-                  className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black text-[#5C8D5A] outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+                  className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] text-[#5C8D5A] outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
                 />
               </div>
             </InputRow>
@@ -315,7 +321,7 @@ export default function FacilitySettingsSection({ value, onChange }: Props) {
                   value={value.address.zip}
                   onChange={e => setAddress({ zip: e.target.value })}
                   placeholder="00000"
-                  className="w-24 rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black text-[#5C8D5A] outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+                  className="w-24 rounded border border-gray-300 px-4 py-1.5 text-[12px] text-[#5C8D5A] outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
                 />
                 <button
                   type="button"
@@ -333,7 +339,7 @@ export default function FacilitySettingsSection({ value, onChange }: Props) {
                 value={value.address.addr1}
                 onChange={e => setAddress({ addr1: e.target.value })}
                 placeholder="도로명 주소 또는 지번 주소를 입력하세요."
-                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black text-gray-800 outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] text-gray-800 outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
             </InputRow>
           </div>
@@ -372,7 +378,7 @@ export default function FacilitySettingsSection({ value, onChange }: Props) {
                       type="number"
                       value={value.capacity[field]}
                       onChange={e => setCapacity(field, Number(e.target.value))}
-                      className={`w-full rounded border border-gray-300 px-4 py-1.5 text-right text-[12px] outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A] ${field === 'total' ? 'font-black text-[#5C8D5A]' : 'font-bold'}`}
+                      className={`w-full rounded border border-gray-300 px-4 py-1.5 text-right text-[12px] outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A] ${field === 'total' ? 'text-[#5C8D5A]' : ''}`}
                     />
                     <span className="shrink-0 font-bold text-gray-400">명</span>
                   </div>

@@ -1,14 +1,25 @@
+/**
+ * Description : settings.service.ts - ?? settings ??? ???? ?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { EmployeePermissionSchema, FacilitySchema, SiteInfoSchema } from '@agape-care/api-contract';
 import { PrismaService } from '@agape-care/database';
+import { AgapeCareLogger } from '@agape-care/logger';
 import { Injectable } from '@nestjs/common';
 import { z } from 'zod';
 
 @Injectable()
 export class SettingsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly logger: AgapeCareLogger,
+  ) {}
 
   // Facility Info
   async getFacilityInfo(): Promise<z.infer<typeof FacilitySchema>> {
+    this.logger.info('시설 정보 조회', { category: 'SYSTEM' });
     const facility = await this.prisma.facility.findFirst();
     if (!facility) {
       // 404 대신 기본값 반환
@@ -50,6 +61,7 @@ export class SettingsService {
   }
 
   async updateFacilityInfo(data: any) {
+    this.logger.info('시설 정보 수정', { category: 'SYSTEM' });
     const facility = await this.prisma.facility.findFirst();
 
     // Date conversion if needed (though Zod coerce handles it on request, Prisma might need Date object)
@@ -83,6 +95,7 @@ export class SettingsService {
 
   // Site Info
   async getSiteInfo(): Promise<z.infer<typeof SiteInfoSchema>> {
+    this.logger.info('사이트 정보 조회', { category: 'SYSTEM' });
     const siteInfo = await this.prisma.siteInfo.findFirst();
     if (!siteInfo) {
       // Return default empty object instead of 404
@@ -112,6 +125,7 @@ export class SettingsService {
   }
 
   async updateSiteInfo(data: any) {
+    this.logger.info('사이트 정보 수정', { category: 'SYSTEM' });
     const siteInfo = await this.prisma.siteInfo.findFirst();
     if (siteInfo) {
       const updated = await this.prisma.siteInfo.update({
@@ -153,6 +167,7 @@ export class SettingsService {
   }
 
   async createRole(data: any) {
+    this.logger.info('역할 생성', { category: 'SYSTEM' });
     const role = await this.prisma.employeeRole.create({
       data: {
         ...data,
@@ -169,6 +184,7 @@ export class SettingsService {
   }
 
   async updateRole(id: string, data: any) {
+    this.logger.info('역할 수정', { category: 'SYSTEM', metadata: { id } });
     const role = await this.prisma.employeeRole.update({
       where: { id: BigInt(id) },
       data,
@@ -183,6 +199,7 @@ export class SettingsService {
   }
 
   async deleteRole(id: string) {
+    this.logger.info('역할 삭제', { category: 'SYSTEM', metadata: { id } });
     await this.prisma.employeeRole.delete({ where: { id: BigInt(id) } });
     return { message: 'Deleted' };
   }
@@ -201,6 +218,7 @@ export class SettingsService {
   }
 
   async createDepartment(data: any) {
+    this.logger.info('부서 생성', { category: 'SYSTEM' });
     const dept = await this.prisma.department.create({ data });
     return {
       ...dept,
@@ -211,6 +229,7 @@ export class SettingsService {
   }
 
   async updateDepartment(id: string, data: any) {
+    this.logger.info('부서 수정', { category: 'SYSTEM', metadata: { id } });
     const dept = await this.prisma.department.update({
       where: { id: BigInt(id) },
       data,
@@ -224,6 +243,7 @@ export class SettingsService {
   }
 
   async deleteDepartment(id: string) {
+    this.logger.info('부서 삭제', { category: 'SYSTEM', metadata: { id } });
     await this.prisma.department.delete({ where: { id: BigInt(id) } });
     return { message: 'Deleted' };
   }
@@ -246,6 +266,7 @@ export class SettingsService {
   }
 
   async updateEmployeePermission(employeeId: string, data: any) {
+    this.logger.info('직원 권한 수정', { category: 'SYSTEM', metadata: { employeeId } });
     const perm = await this.prisma.employeePermission.upsert({
       where: { employeeId: BigInt(employeeId) },
       update: {
@@ -259,6 +280,7 @@ export class SettingsService {
       },
     });
 
+    this.logger.info('직원 권한 수정 완료', { category: 'SYSTEM', metadata: { employeeId } });
     return {
       ...perm,
       id: perm.id.toString(),

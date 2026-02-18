@@ -1,5 +1,5 @@
 /**
- * Description : page.tsx - 📌 알림마당 식단표 페이지
+ * Description : page.tsx - ?? notices/meal-plan ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */
@@ -83,7 +83,6 @@ export default function MealPlanPage() {
       });
     }
 
-    console.log('🔍 [DEBUG] MEAL_DATA constructed:', allDailyMeals);
     return allDailyMeals;
   }, [mealPlansData]);
 
@@ -186,7 +185,6 @@ export default function MealPlanPage() {
         };
       });
 
-      console.log('✅ 사진 업로드 성공 (임시):', mealType, imageUrl);
       alert('사진이 업로드되었습니다. (임시 - API 연결 필요)');
     } catch (error) {
       console.error('❌ 사진 업로드 실패:', error);
@@ -217,7 +215,6 @@ export default function MealPlanPage() {
         };
       });
 
-      console.log('✅ 사진 삭제 성공 (임시):', mealType);
       alert('사진이 삭제되었습니다. (임시 - API 연결 필요)');
     } catch (error) {
       console.error('❌ 사진 삭제 실패:', error);

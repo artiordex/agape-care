@@ -1,3 +1,9 @@
+/**
+ * Description : page.tsx - ?? settings/system/site ??? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import { api } from '@/lib/api';
@@ -127,7 +133,7 @@ export default function SiteSettingsPage() {
       <div className="flex h-screen items-center justify-center bg-[#f0f2f5]">
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-[#5C8D5A] border-t-transparent"></div>
-          <p className="font-black text-gray-500">사이트 설정을 불러오는 중...</p>
+          <p className="text-gray-500">사이트 설정을 불러오는 중...</p>
         </div>
       </div>
     );

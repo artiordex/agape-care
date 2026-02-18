@@ -43,7 +43,7 @@ export const notificationContract = {
    */
   sendNotification: {
     method: 'POST' as const,
-    path: '/api/notifications/send',
+    path: '/notifications/send',
     body: SendNotificationRequestSchema,
     responses: {
       201: z.object({
@@ -63,7 +63,7 @@ export const notificationContract = {
    */
   sendBulkNotification: {
     method: 'POST' as const,
-    path: '/api/notifications/send-bulk',
+    path: '/notifications/send-bulk',
     body: SendBulkNotificationRequestSchema,
     responses: {
       201: z.object({
@@ -83,7 +83,7 @@ export const notificationContract = {
    */
   getNotificationQueue: {
     method: 'GET' as const,
-    path: '/api/notifications/queue',
+    path: '/notifications/queue',
     query: GetNotificationQueueQuerySchema,
     responses: {
       200: GetNotificationQueueResponseSchema,
@@ -99,7 +99,7 @@ export const notificationContract = {
    */
   getMyNotifications: {
     method: 'GET' as const,
-    path: '/api/notifications/me',
+    path: '/notifications/me',
     query: GetUserNotificationsQuerySchema,
     responses: {
       200: GetUserNotificationsResponseSchema,
@@ -115,7 +115,7 @@ export const notificationContract = {
    */
   markNotificationsRead: {
     method: 'POST' as const,
-    path: '/api/notifications/mark-read',
+    path: '/notifications/mark-read',
     body: MarkNotificationReadRequestSchema,
     responses: {
       200: z.object({
@@ -134,7 +134,7 @@ export const notificationContract = {
    */
   markAllNotificationsRead: {
     method: 'POST' as const,
-    path: '/api/notifications/mark-all-read',
+    path: '/notifications/mark-all-read',
     body: z.object({}),
     responses: {
       200: z.object({
@@ -152,7 +152,7 @@ export const notificationContract = {
    */
   getRecipientGroups: {
     method: 'GET' as const,
-    path: '/api/notifications/recipients',
+    path: '/notifications/recipients',
     query: RecipientGroupListQuerySchema,
     responses: {
       200: RecipientGroupListResponseSchema,
@@ -168,7 +168,7 @@ export const notificationContract = {
    */
   createRecipientGroup: {
     method: 'POST' as const,
-    path: '/api/notifications/recipients',
+    path: '/notifications/recipients',
     body: CreateRecipientGroupRequestSchema,
     responses: {
       201: RecipientGroupSchema,
@@ -185,7 +185,7 @@ export const notificationContract = {
    */
   getRecipientGroup: {
     method: 'GET' as const,
-    path: '/api/notifications/recipients/:id',
+    path: '/notifications/recipients/:id',
     responses: {
       200: RecipientGroupSchema,
       404: errorResponse(404),
@@ -201,7 +201,7 @@ export const notificationContract = {
    */
   updateRecipientGroup: {
     method: 'PATCH' as const,
-    path: '/api/notifications/recipients/:id',
+    path: '/notifications/recipients/:id',
     body: UpdateRecipientGroupRequestSchema,
     responses: {
       200: RecipientGroupSchema,
@@ -218,7 +218,7 @@ export const notificationContract = {
    */
   deleteRecipientGroup: {
     method: 'DELETE' as const,
-    path: '/api/notifications/recipients/:id',
+    path: '/notifications/recipients/:id',
     body: z.object({}),
     responses: {
       200: z.object({ message: z.string() }),
@@ -235,7 +235,7 @@ export const notificationContract = {
    */
   getScheduledNotifications: {
     method: 'GET' as const,
-    path: '/api/notifications/scheduled',
+    path: '/notifications/scheduled',
     query: ScheduledNotificationListQuerySchema,
     responses: {
       200: ScheduledNotificationListResponseSchema,
@@ -251,7 +251,7 @@ export const notificationContract = {
    */
   createScheduledNotification: {
     method: 'POST' as const,
-    path: '/api/notifications/scheduled',
+    path: '/notifications/scheduled',
     body: CreateScheduledNotificationRequestSchema,
     responses: {
       201: ScheduledNotificationSchema,
@@ -268,7 +268,7 @@ export const notificationContract = {
    */
   cancelScheduledNotification: {
     method: 'POST' as const,
-    path: '/api/notifications/scheduled/:id/cancel',
+    path: '/notifications/scheduled/:id/cancel',
     body: z.object({}),
     responses: {
       200: ScheduledNotificationSchema,
@@ -285,7 +285,7 @@ export const notificationContract = {
    */
   deleteScheduledNotification: {
     method: 'DELETE' as const,
-    path: '/api/notifications/scheduled/:id',
+    path: '/notifications/scheduled/:id',
     body: z.object({}),
     responses: {
       200: z.object({ message: z.string() }),
@@ -302,7 +302,7 @@ export const notificationContract = {
    */
   getNotificationSettings: {
     method: 'GET' as const,
-    path: '/api/notifications/settings',
+    path: '/notifications/settings',
     responses: {
       200: NotificationConfigSchema,
     },
@@ -317,7 +317,7 @@ export const notificationContract = {
    */
   updateNotificationSettings: {
     method: 'PUT' as const,
-    path: '/api/notifications/settings',
+    path: '/notifications/settings',
     body: NotificationConfigSchema,
     responses: {
       200: NotificationConfigSchema,

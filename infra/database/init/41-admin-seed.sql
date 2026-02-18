@@ -1,4 +1,4 @@
--- Description : 41-admin-seed.sql - 📌 Admin 시스템 설정 및 권한(RBAC) 샘플 데이터
+-- Description : 41-admin-seed.sql - ?? ?????? DDL ? ?? ????
 -- Author : Shiwoo Min
 -- Date : 2026-02-17
 -- Note : 시설 정보, 사이트 설정, 직원 역할(Role) 및 권한(Permission) 초기 데이터
@@ -395,6 +395,213 @@ BEGIN
 
 END$$;
 
+-- ============================================
+-- 추가 서비스 샘플 데이터
+-- ============================================
+
+-- 알림 템플릿 샘플 데이터
+INSERT INTO notification_templates (name, category, channel, content, variables, status, usage_count) VALUES
+  ('입소 환영 안내', '입소안내', 'SMS', '안녕하세요, {{name}}님. 계양새일요양원에 오신 것을 환영합니다. 입소일: {{date}}', '["{{name}}", "{{date}}"]', 'ACTIVE', 12),
+  ('투약 알림', '투약알림', 'SMS', '{{name}}님의 {{time}} 투약 시간입니다. 담당 직원이 방문할 예정입니다.', '["{{name}}", "{{time}}"]', 'ACTIVE', 45),
+  ('면회 예약 확인', '면회안내', 'SMS', '{{guardian_name}}님, {{date}} {{time}} 면회 예약이 확인되었습니다. 방문 시 입구에서 방문자 등록을 해주세요.', '["{{guardian_name}}", "{{date}}", "{{time}}"]', 'ACTIVE', 8),
+  ('긴급 상황 알림', '긴급', 'SMS', '긴급 알림: {{resident_name}}님께서 {{situation}} 상황이 발생하였습니다. 즉시 연락 바랍니다. 연락처: {{phone}}', '["{{resident_name}}", "{{situation}}", "{{phone}}"]', 'ACTIVE', 3),
+  ('월간 생활 보고', '생활보고', 'EMAIL', '안녕하세요 {{guardian_name}}님, {{month}}월 {{resident_name}}님의 생활 보고서를 전달드립니다.\n\n건강상태: {{health_status}}\n주요 활동: {{activities}}', '["{{guardian_name}}", "{{month}}", "{{resident_name}}", "{{health_status}}", "{{activities}}"]', 'ACTIVE', 22),
+  ('연말 인사 템플릿', '기타', 'SMS', '{{name}}님, 한 해 동안 계양새일요양원을 믿고 맡겨주셔서 감사합니다. 새해 복 많이 받으세요!', '["{{name}}"]', 'INACTIVE', 1)
+ON CONFLICT DO NOTHING;
+
+-- 수신자 그룹 샘플 데이터
+INSERT INTO recipient_groups (name, description, type, status, member_count, usage_count) VALUES
+  ('전체 보호자', '모든 입소자의 보호자 그룹', 'GUARDIAN', 'ACTIVE', 29, 15),
+  ('전체 직원', '모든 재직 직원 그룹', 'STAFF', 'ACTIVE', 22, 8),
+  ('1층 보호자', '1층 생활실 입소자 보호자', 'GUARDIAN', 'ACTIVE', 15, 3),
+  ('2층 보호자', '2층 생활실 입소자 보호자', 'GUARDIAN', 'ACTIVE', 14, 2),
+  ('치매 입소자 보호자', '치매 진단 입소자 보호자 그룹', 'GUARDIAN', 'ACTIVE', 12, 5),
+  ('요양보호사팀', '요양보호사 직원 그룹', 'STAFF', 'ACTIVE', 15, 4)
+ON CONFLICT DO NOTHING;
+
+-- 문자 크레딧 샘플 데이터 (초기 충전 + 일부 차감)
+INSERT INTO sms_credits (balance, deducted_amount, method, description, created_at) VALUES
+  (1000, -1000, 'SMS', '초기 크레딧 충전', NOW() - INTERVAL '30 days'),
+  (998, 2, 'SMS', '테스트 발송', NOW() - INTERVAL '25 days'),
+  (985, 13, 'SMS', '입소 안내 발송 (13건)', NOW() - INTERVAL '20 days'),
+  (982, 3, 'LMS', '긴급 알림 발송 (1건)', NOW() - INTERVAL '15 days'),
+  (960, 22, 'SMS', '월간 보고 알림 (22건)', NOW() - INTERVAL '7 days'),
+  (957, 3, 'SMS', '면회 예약 확인 (3건)', NOW() - INTERVAL '2 days')
+ON CONFLICT DO NOTHING;
+
+-- 자료실 파일 샘플 데이터
+INSERT INTO facility_files (name, category, file_url, file_type, size, uploaded_by, created_at) VALUES
+  ('2026년 케어플랜 양식', '케어플랜', '/files/careplan-2026.xlsx', 'xlsx', 245760, '관리자', NOW() - INTERVAL '60 days'),
+  ('입소계약서 양식 (최신)', '운영서식', '/files/contract-form-v3.docx', 'docx', 163840, '관리자', NOW() - INTERVAL '45 days'),
+  ('장기요양급여 청구 가이드', '행정서류', '/files/insurance-claim-guide.pdf', 'pdf', 1048576, '원장', NOW() - INTERVAL '30 days'),
+  ('치매예방 프로그램 교재', '교육자료', '/files/dementia-prevention.pdf', 'pdf', 3145728, '사회복지사', NOW() - INTERVAL '20 days'),
+  ('직원 근무 수칙', '행정서류', '/files/staff-work-rules.docx', 'docx', 122880, '관리자', NOW() - INTERVAL '15 days'),
+  ('물리치료 안전 지침', '교육자료', '/files/physio-safety-guide.pdf', 'pdf', 819200, '물리치료사', NOW() - INTERVAL '10 days'),
+  ('2025년 결산 보고서', '행정서류', '/files/annual-report-2025.xlsx', 'xlsx', 491520, '원장', NOW() - INTERVAL '5 days'),
+  ('어르신 인지활동 프로그램', '교육자료', '/files/cognitive-program.pdf', 'pdf', 2097152, '사회복지사', NOW() - INTERVAL '3 days')
+ON CONFLICT DO NOTHING;
+
+-- ============================================
+-- 입소자 관련 샘플 데이터
+-- ============================================
+
+DO $$
+DECLARE
+  v_resident_1 BIGINT;
+  v_resident_2 BIGINT;
+  v_resident_3 BIGINT;
+  v_resident_4 BIGINT;
+  v_emp_id     BIGINT;
+BEGIN
+
+  -- 직원 ID 조회 (상담자/평가자용)
+  SELECT id INTO v_emp_id FROM employees LIMIT 1;
+
+  -- ========================================
+  -- 1. 입소자 (Residents) - 4명
+  -- ========================================
+  INSERT INTO residents (code, name, birthday, gender, admission_date, status, guardian_name, guardian_phone, memo, meta)
+  VALUES
+    ('R-2026-001', '가나다', '1945-01-15', 'F', '2026-01-23', 'ADMITTED', '가보호자', '010-1111-2222',
+     '관절염, 약간의 인지저하, 당뇨있음',
+     '{"grade":"3","gradeValidUntil":"2027-01-14","copayRate":15,"mainDiseases":["관절염","인지저하","당뇨"],"mobility":"보행기","cognition":"경도 인지저하","mealStatus":"부분 도움","toiletStatus":"부분 도움"}'
+    ),
+    ('R-2026-002', '나가다', '1938-07-22', 'M', '2026-01-15', 'ADMITTED', '나보호자', '010-2222-3333',
+     '뇌졸중 후유증, 편마비',
+     '{"grade":"2","gradeValidUntil":"2026-12-31","copayRate":12,"mainDiseases":["뇌졸중","편마비"],"mobility":"휠체어","cognition":"정상","mealStatus":"전적 도움","toiletStatus":"기저귀 사용"}'
+    ),
+    ('R-2026-003', '다가나', '1942-03-10', 'F', '2025-11-01', 'ADMITTED', '다보호자', '010-3333-4444',
+     '치매(중등도), 당뇨, 고혈압',
+     '{"grade":"4","gradeValidUntil":"2027-06-30","copayRate":0,"mainDiseases":["치매","당뇨","고혈압"],"mobility":"보행 가능","cognition":"중등도 인지저하","mealStatus":"부분 도움","toiletStatus":"부분 도움"}'
+    ),
+    ('R-2026-004', '라가나', '1950-09-05', 'M', '2026-02-01', 'OUTING', '라보호자', '010-4444-5555',
+     '파킨슨병, 우울증',
+     '{"grade":"2","gradeValidUntil":"2026-10-15","copayRate":8,"mainDiseases":["파킨슨병","우울증"],"mobility":"보행기","cognition":"경도 인지저하","mealStatus":"자립","toiletStatus":"자립"}'
+    )
+  ON CONFLICT (code) DO NOTHING;
+
+  -- ID 조회
+  SELECT id INTO v_resident_1 FROM residents WHERE code = 'R-2026-001';
+  SELECT id INTO v_resident_2 FROM residents WHERE code = 'R-2026-002';
+  SELECT id INTO v_resident_3 FROM residents WHERE code = 'R-2026-003';
+  SELECT id INTO v_resident_4 FROM residents WHERE code = 'R-2026-004';
+
+  -- 입소자가 생성된 경우에만 연관 데이터 삽입
+  IF v_resident_1 IS NOT NULL THEN
+
+    -- ========================================
+    -- 2. 입소자 방 배정 (Resident Rooms)
+    -- ========================================
+    INSERT INTO resident_rooms (resident_id, room_id, starts_at, is_primary)
+    SELECT v_resident_1, id, '2026-01-23', true FROM rooms WHERE room_name = '1층' LIMIT 1
+    ON CONFLICT DO NOTHING;
+
+    INSERT INTO resident_rooms (resident_id, room_id, starts_at, is_primary)
+    SELECT v_resident_2, id, '2026-01-15', true FROM rooms WHERE room_name = '2층' LIMIT 1
+    ON CONFLICT DO NOTHING;
+
+    INSERT INTO resident_rooms (resident_id, room_id, starts_at, is_primary)
+    SELECT v_resident_3, id, '2025-11-01', true FROM rooms WHERE room_name = '1층(4)' LIMIT 1
+    ON CONFLICT DO NOTHING;
+
+    INSERT INTO resident_rooms (resident_id, room_id, starts_at, is_primary)
+    SELECT v_resident_4, id, '2026-02-01', true FROM rooms WHERE room_name = '진달래개나리' LIMIT 1
+    ON CONFLICT DO NOTHING;
+
+    -- ========================================
+    -- 3. 보호자/연락처 (Resident Contacts)
+    -- ========================================
+    INSERT INTO resident_contacts (resident_id, name, relationship, phone_number, email, address, is_primary, receive_notice)
+    VALUES
+      (v_resident_1, '가보호자', '딸', '010-1111-2222', 'guardian1@email.com', '서울시 강남구 테헤란로 1길', true, true),
+      (v_resident_2, '나보호자', '아들', '010-2222-3333', 'guardian2@email.com', '서울시 서초구 반포대로 2길', true, true),
+      (v_resident_3, '다보호자', '아들', '010-3333-4444', 'guardian3@email.com', '인천시 부평구 부평대로 3길', true, false),
+      (v_resident_4, '라보호자', '배우자', '010-4444-5555', 'guardian4@email.com', '서울시 마포구 홍대입구로 4길', true, true)
+    ON CONFLICT DO NOTHING;
+
+    -- ========================================
+    -- 4. 투약 정보 (Resident Medications)
+    -- ========================================
+    INSERT INTO resident_medications (resident_id, prescribed_by, drug_name, dosage, schedule, start_date, end_date)
+    VALUES
+      (v_resident_1, '김내과', '메트포르민', '500mg', '아침·저녁 식후', '2026-01-23', NULL),
+      (v_resident_1, '이정형외과', '세레콕시브', '200mg', '저녁 식후', '2026-01-23', '2026-06-30'),
+      (v_resident_2, '박신경외과', '아스피린', '100mg', '아침 식후', '2026-01-15', NULL),
+      (v_resident_3, '최신경과', '도네페질', '10mg', '저녁 취침 전', '2025-11-01', NULL),
+      (v_resident_3, '최신경과', '메트포르민', '500mg', '아침·점심·저녁 식후', '2025-11-01', NULL),
+      (v_resident_4, '한신경과', '레보도파', '100mg', '아침·점심·저녁 식후 1시간 전', '2026-02-01', NULL)
+    ON CONFLICT DO NOTHING;
+
+    -- ========================================
+    -- 5. 기초평가 (Resident Assessments)
+    -- ========================================
+    -- assessed_by는 NULL 허용이지만 v_emp_id가 있는 경우에만 FK 값 설정
+    -- 낙상위험도 평가 (Huhn Scale) - 가나다, 나가다
+    INSERT INTO resident_assessments (resident_id, assessed_by, assessment_type, assessment_round, reason, assessed_at, scores, total_score, risk_level, notes)
+    VALUES
+      (v_resident_1, CASE WHEN v_emp_id IS NOT NULL THEN v_emp_id ELSE NULL END,
+       'FALL_RISK', 1, 'INITIAL', '2026-01-24',
+       '{"age":3,"mental":1,"elimination":2,"fall_history":0,"activity":2,"gait":2,"medication":1}',
+       11, '고위험', '낙상 경험 없으나 보행기 사용으로 주의 필요'),
+      (v_resident_2, CASE WHEN v_emp_id IS NOT NULL THEN v_emp_id ELSE NULL END,
+       'FALL_RISK', 1, 'INITIAL', '2026-01-16',
+       '{"age":4,"mental":0,"elimination":3,"fall_history":2,"activity":3,"gait":3,"medication":2}',
+       17, '고위험', '편마비로 낙상 위험 매우 높음, 1인 도움 필수'),
+      -- 욕창위험도 평가 (Braden Scale) - 나가다
+      (v_resident_2, CASE WHEN v_emp_id IS NOT NULL THEN v_emp_id ELSE NULL END,
+       'BEDSORE', 1, 'INITIAL', '2026-01-16',
+       '{"sensory":2,"moisture":2,"activity":1,"mobility":2,"nutrition":2,"friction":1}',
+       10, '고위험', '와상 상태로 2시간마다 체위 변경 필요')
+    ON CONFLICT DO NOTHING;
+
+    -- ========================================
+    -- 6. 상담일지 (Consultation Records)
+    -- ========================================
+    INSERT INTO consultation_records (resident_id, counselor_id, consulted_at, type, channel, summary, details, follow_up_date)
+    VALUES
+      (v_resident_1, CASE WHEN v_emp_id IS NOT NULL THEN v_emp_id ELSE NULL END,
+       NOW() - INTERVAL '30 days', 'FAMILY', '전화',
+       '입소 초기 적응 상담 - 보호자 면담',
+       '보호자(딸)와 전화 상담. 입소 후 초기 적응 상황 설명. 식사량 양호, 수면 패턴 안정 중. 관절 통증 약물 복용 중임을 확인.',
+       (CURRENT_DATE + INTERVAL '30 days')::DATE),
+      (v_resident_3, CASE WHEN v_emp_id IS NOT NULL THEN v_emp_id ELSE NULL END,
+       NOW() - INTERVAL '15 days', 'GENERAL', '대면',
+       '치매 증상 변화 상담 - 가족 직접 방문',
+       '보호자(아들)가 직접 방문하여 어머니의 최근 인지 상태 변화에 대해 상담. 야간 배회 증상이 일부 개선됨. 음악 프로그램 참여 후 정서 안정 효과 확인.',
+       NULL),
+      (v_resident_4, CASE WHEN v_emp_id IS NOT NULL THEN v_emp_id ELSE NULL END,
+       NOW() - INTERVAL '5 days', 'MEDICAL', '대면',
+       '파킨슨 증상 경과 및 투약 조정 상담',
+       '담당 의사 방문 진료 후 레보도파 복용 시간 조정. 최근 진전 증상 다소 악화되어 추적 관찰 필요. 보호자에게 약물 변경 사항 고지.',
+       (CURRENT_DATE + INTERVAL '14 days')::DATE)
+    ON CONFLICT DO NOTHING;
+
+    -- ========================================
+    -- 7. 비급여/기타 항목 (Resident Extra Costs)
+    -- ========================================
+    INSERT INTO resident_extra_costs (resident_id, created_by, year_month, item_name, unit_price, quantity, total_amount, occurred_at)
+    VALUES
+      (v_resident_1, CASE WHEN v_emp_id IS NOT NULL THEN v_emp_id ELSE NULL END, '2026-02', '식재료비(석식)', 3500, 25, 87500, '2026-02-28'),
+      (v_resident_2, CASE WHEN v_emp_id IS NOT NULL THEN v_emp_id ELSE NULL END, '2026-02', '식재료비(석식)', 3500, 25, 87500, '2026-02-28'),
+      (v_resident_2, CASE WHEN v_emp_id IS NOT NULL THEN v_emp_id ELSE NULL END, '2026-02', '물리치료비(개인)', 15000, 4, 60000, '2026-02-28'),
+      (v_resident_3, CASE WHEN v_emp_id IS NOT NULL THEN v_emp_id ELSE NULL END, '2026-02', '식재료비(석식)', 3500, 25, 87500, '2026-02-28')
+    ON CONFLICT DO NOTHING;
+
+    -- ========================================
+    -- 8. 본인부담금 (Resident Payments)
+    -- ========================================
+    INSERT INTO resident_payments (resident_id, payment_month, claim_amount, paid_amount, unpaid_amount, deposit_date, depositor_name, payment_method)
+    VALUES
+      (v_resident_1, '2026-01', 191690, 191690, 0, '2026-02-05', '가보호자', 'BANK_TRANSFER'),
+      (v_resident_2, '2026-01', 245780, 245780, 0, '2026-02-03', '나보호자', 'BANK_TRANSFER'),
+      (v_resident_3, '2026-01', 0, 0, 0, NULL, NULL, NULL),
+      (v_resident_4, '2026-01', 178900, 0, 178900, NULL, NULL, NULL)
+    ON CONFLICT DO NOTHING;
+
+  END IF;
+
+END$$;
+
 -- 완료 메시지
 DO $$
 BEGIN
@@ -405,5 +612,17 @@ BEGIN
   RAISE NOTICE '  - Employee Roles: 8건';
   RAISE NOTICE '  - Rooms: 생활실 데이터 (1층, 2층)';
   RAISE NOTICE '  - Resident Rooms: 입소자 배정 처리 완료';
+  RAISE NOTICE '  - Notification Templates: 6건';
+  RAISE NOTICE '  - Recipient Groups: 6건';
+  RAISE NOTICE '  - SMS Credits: 6건 (이력)';
+  RAISE NOTICE '  - Facility Files: 8건';
+  RAISE NOTICE '  [입소자 관련]';
+  RAISE NOTICE '  - Residents: 4명 (가나다, 나가다, 다가나, 라가나)';
+  RAISE NOTICE '  - Resident Contacts (보호자): 4건';
+  RAISE NOTICE '  - Resident Medications (투약): 6건';
+  RAISE NOTICE '  - Resident Assessments (기초평가): 3건';
+  RAISE NOTICE '  - Consultation Records (상담일지): 3건';
+  RAISE NOTICE '  - Resident Extra Costs (비급여): 4건';
+  RAISE NOTICE '  - Resident Payments (본인부담금): 4건';
   RAISE NOTICE '========================================';
 END$$;

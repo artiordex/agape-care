@@ -1,5 +1,5 @@
 /**
- * Description : file.service.ts - 📌 파일 업로드 및 관리 서비스
+ * Description : file.service.ts - ?? common ??? ???? ?? ???
  * Author : Agape Care AI
  */
 
@@ -55,11 +55,60 @@ export class FileService implements OnModuleInit {
     return results;
   }
 
+  async getFiles(query: {
+    page: number;
+    limit: number;
+    search?: string;
+    bucket?: string;
+    mimeType?: string;
+    order?: 'asc' | 'desc';
+  }) {
+    const { page, limit, search, bucket, mimeType, order = 'desc' } = query;
+    const skip = (page - 1) * limit;
+
+    const where: any = {};
+
+    if (search) {
+      where.OR = [
+        { originalName: { contains: search } },
+        { path: { contains: search } },
+      ];
+    }
+
+    if (bucket) where.bucket = bucket;
+    if (mimeType) where.mimeType = { contains: mimeType };
+
+    const [total, items] = await Promise.all([
+      this.prisma.fileStorage.count({ where }),
+      this.prisma.fileStorage.findMany({
+        where,
+        orderBy: { createdAt: order },
+        skip,
+        take: limit,
+      }),
+    ]);
+
+    return {
+      items: items.map(item => ({
+        ...this.serialize(item),
+        uploaderName: item.createdBy?.toString() ?? null,
+      })),
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
+  }
+
   private serialize(record: any) {
     return {
-      ...record,
       id: record.id.toString(),
-      sizeBytes: Number(record.sizeBytes),
+      bucket: record.bucket,
+      path: record.path,
+      originalName: record.originalName ?? null,
+      mimeType: record.mimeType ?? null,
+      sizeBytes: record.sizeBytes != null ? Number(record.sizeBytes) : null,
+      checksum: record.checksum ?? null,
       createdBy: record.createdBy?.toString() || null,
       createdAt: record.createdAt.toISOString(),
     };

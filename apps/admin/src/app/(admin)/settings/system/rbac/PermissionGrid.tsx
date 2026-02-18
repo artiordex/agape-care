@@ -1,3 +1,9 @@
+/**
+ * Description : PermissionGrid.tsx - ?? PermissionGrid UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 // 액션별 한글 레이블 및 보안 등급 색상
@@ -178,7 +184,7 @@ export default function PermissionGrid({
             {/* 메뉴 및 화면 그리드 */}
             {expandedCategories.has(category.categoryId) && (
               <div className="divide-y divide-gray-100">
-                {category.menus.map(menu => (
+                {category.menus.map((menu: any) => (
                   <div key={menu.menuId} className="bg-white">
                     {/* 메뉴 헤더 */}
                     <div className="flex items-center border-b border-gray-100 bg-gray-50/50 px-10 py-2">
@@ -202,7 +208,7 @@ export default function PermissionGrid({
                     {/* 화면별 액션 그리드 */}
                     {expandedMenus.has(menu.menuId) && (
                       <div className="divide-y divide-gray-50">
-                        {menu.screens.map(screen => (
+                        {menu.screens.map((screen: any) => (
                           <div
                             key={screen.screenId}
                             className="flex items-center px-16 py-3 transition-colors hover:bg-blue-50/20"
@@ -224,7 +230,7 @@ export default function PermissionGrid({
 
                             {/* 액션 태그 그룹 */}
                             <div className="ml-4 flex flex-wrap gap-1.5">
-                              {screen.actions.map(action => {
+                              {screen.actions.map((action: string) => {
                                 const isActive =
                                   permissions[selectedEmployee]?.permissions[category.categoryId]?.menus[
                                     menu.menuId

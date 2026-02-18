@@ -1,3 +1,9 @@
+/**
+ * Description : page.tsx - ?? care/needs-assessment ??? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import { useState } from 'react';
@@ -94,20 +100,7 @@ export default function NeedsAssessmentPage() {
   // 저장 핸들러
   const handleSave = () => {
     alert('욕구사정평가가 임시저장되었습니다.');
-    console.log({
-      residentInfo,
-      generalStatus,
-      diseaseStatus,
-      physicalStatus,
-      rehabilitation,
-      nursingCare,
-      cognitive,
-      communication,
-      familyEnvironment,
-      resourceUsage,
-      subjectiveNeeds,
-      summary,
-    });
+    // TODO: 욕구사정평가 저장 API 연동
   };
 
   // 제출 핸들러

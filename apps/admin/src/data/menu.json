@@ -48,17 +48,6 @@
           "component": "OutingManagement"
         },
         {
-          "id": "billing-copay",
-          "name": "청구·본인부담금",
-          "description": "청구 및 본인부담금 관리",
-          "icon": "ri-bill-line",
-          "path": "/resident/billing",
-          "status": "pending",
-          "spa": true,
-          "folder": "resident",
-          "component": "BillingCopay"
-        },
-        {
           "id": "consultation-management",
           "name": "상담일지·면담일지",
           "description": "상담 및 면담 기록",

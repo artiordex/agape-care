@@ -25,44 +25,44 @@ export const NotificationStatusSchema = z.enum(['PENDING', 'SENT', 'FAILED', 'CA
  * 알림 큐 정보
  */
 export const NotificationQueueSchema = z.object({
-  id: z.string(),
-  channel: NotificationChannelSchema,
-  targetType: NotificationTargetTypeSchema,
-  targetId: z.string().nullable(),
-  title: z.string().nullable(),
-  body: z.string().nullable(),
-  payload: z.record(z.unknown()),
-  scheduledAt: z.string(), // ISO datetime
-  sentAt: z.string().nullable(),
-  status: NotificationStatusSchema,
-  errorMessage: z.string().nullable(),
-  createdAt: z.string(),
+  id: z.string().describe('알림 큐 ID'),
+  channel: NotificationChannelSchema.describe('발송 채널 (PUSH, SMS, EMAIL 등)'),
+  targetType: NotificationTargetTypeSchema.describe('대상 타입 (입소자, 직원, 보호자)'),
+  targetId: z.string().nullable().describe('대상 고유 ID'),
+  title: z.string().nullable().describe('알림 제목'),
+  body: z.string().nullable().describe('알림 본문'),
+  payload: z.record(z.unknown()).describe('추가 데이터 (JSON)'),
+  scheduledAt: z.string().describe('발송 예정 시간 (ISO 8601)'),
+  sentAt: z.string().nullable().describe('실제 발송 시간 (ISO 8601)'),
+  status: NotificationStatusSchema.describe('알림 상태 (PENDING, SENT, FAILED, CANCELLED)'),
+  errorMessage: z.string().nullable().describe('발송 실패 시 에러 메시지'),
+  createdAt: z.string().describe('생성 일시'),
 });
 
 /**
  * 알림 전송 요청
  */
 export const SendNotificationRequestSchema = z.object({
-  channel: NotificationChannelSchema,
-  targetType: NotificationTargetTypeSchema,
-  targetId: z.string().optional(),
-  title: z.string().optional(),
-  body: z.string().min(1, '내용은 필수입니다'),
-  payload: z.record(z.unknown()).optional(),
-  scheduledAt: z.string().optional(), // 기본값: 즉시 발송
+  channel: NotificationChannelSchema.describe('발송 채널'),
+  targetType: NotificationTargetTypeSchema.describe('대상 타입'),
+  targetId: z.string().optional().describe('대상 ID (개별 발송 시)'),
+  title: z.string().optional().describe('알림 제목'),
+  body: z.string().min(1, '내용은 필수입니다').describe('알림 본문'),
+  payload: z.record(z.unknown()).optional().describe('추가 데이터'),
+  scheduledAt: z.string().optional().describe('예약 발송 시간 (미입력 시 즉시 발송)'),
 });
 
 /**
  * 대량 알림 전송 요청
  */
 export const SendBulkNotificationRequestSchema = z.object({
-  channel: NotificationChannelSchema,
-  targetType: NotificationTargetTypeSchema,
-  targetIds: z.array(z.string()).min(1, '대상은 최소 1명 이상이어야 합니다'),
-  title: z.string().optional(),
-  body: z.string().min(1, '내용은 필수입니다'),
-  payload: z.record(z.unknown()).optional(),
-  scheduledAt: z.string().optional(),
+  channel: NotificationChannelSchema.describe('발송 채널'),
+  targetType: NotificationTargetTypeSchema.describe('대상 타입'),
+  targetIds: z.array(z.string()).min(1, '대상은 최소 1명 이상이어야 합니다').describe('대상 ID 목록'),
+  title: z.string().optional().describe('알림 제목'),
+  body: z.string().min(1, '내용은 필수입니다').describe('알림 본문'),
+  payload: z.record(z.unknown()).optional().describe('추가 데이터'),
+  scheduledAt: z.string().optional().describe('예약 발송 시간'),
 });
 
 /**
@@ -165,27 +165,33 @@ export type GetUserNotificationsQuery = z.infer<typeof GetUserNotificationsQuery
 export type GetUserNotificationsResponse = z.infer<typeof GetUserNotificationsResponseSchema>;
 export type MarkNotificationReadRequest = z.infer<typeof MarkNotificationReadRequestSchema>;
 export const NotificationConfigSchema = z.object({
-  sms: z.object({
-    enabled: z.boolean().default(false),
-    senderPhone: z.string().optional(),
-    // API keys are usually env vars, but we allow overriding here if needed
-    apiKey: z.string().optional(),
-  }),
-  email: z.object({
-    enabled: z.boolean().default(false),
-    senderName: z.string().optional(),
-    senderEmail: z.string().email().optional(),
-  }),
-  push: z.object({
-    enabled: z.boolean().default(false),
-  }),
+  sms: z
+    .object({
+      enabled: z.boolean().default(false).describe('SMS 사용 여부'),
+      senderPhone: z.string().optional().describe('발신 번호'),
+      apiKey: z.string().optional().describe('SMS API 키'),
+    })
+    .describe('SMS 설정'),
+  email: z
+    .object({
+      enabled: z.boolean().default(false).describe('이메일 사용 여부'),
+      senderName: z.string().optional().describe('발신자 이름'),
+      senderEmail: z.string().email().optional().describe('발신 이메일 주소'),
+    })
+    .describe('이메일 설정'),
+  push: z
+    .object({
+      enabled: z.boolean().default(false).describe('푸시 알림 사용 여부'),
+    })
+    .describe('푸시 알림 설정'),
   kakao: z
     .object({
-      enabled: z.boolean().default(false),
-      senderKey: z.string().optional(),
+      enabled: z.boolean().default(false).describe('카카오 알림톡 사용 여부'),
+      senderKey: z.string().optional().describe('카카오 발신 키'),
     })
-    .optional(),
-  dailyLimit: z.number().int().nonnegative().optional(),
+    .optional()
+    .describe('카카오 알림톡 설정'),
+  dailyLimit: z.number().int().nonnegative().optional().describe('일일 발송 제한량'),
 });
 
 export type NotificationConfig = z.infer<typeof NotificationConfigSchema>;

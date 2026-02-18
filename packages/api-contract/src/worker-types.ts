@@ -1,3 +1,9 @@
+/**
+ * Description : worker-types.ts - ?? worker-types ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 export type EmailJobData = {
   to: string;
   subject: string;
@@ -22,8 +28,20 @@ export type NotificationJobData = {
   logId?: string;
 };
 
+export type InquiryJobData = {
+  inquiryId: string;
+  type: 'ADMISSION' | 'VISIT';
+  name: string;
+  phone: string;
+  content?: string;
+  visitDate?: string;
+  visitTime?: string;
+  logId?: string;
+};
+
 export const QUEUE_NAMES = {
   EMAIL: 'email',
   SMS: 'sms',
   NOTIFICATION: 'notification',
+  INQUIRY: 'inquiry',
 } as const;

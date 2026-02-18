@@ -2,7 +2,6 @@
 
 interface SeoData {
   metaTitle: string;
-  metaDescription: string;
   metaKeywords: string;
 }
 
@@ -36,7 +35,7 @@ export default function SeoSection({ value, onChange }: Props) {
                 value={value.metaTitle}
                 onChange={e => set('metaTitle', e.target.value)}
                 placeholder="검색 결과 상단에 노출될 제목을 입력하세요 (권장 15~30자)"
-                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black text-[#5C8D5A] outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] text-[#5C8D5A] outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
               <p className="text-[9px] font-medium text-gray-400">
                 브라우저 탭 및 검색 결과의 메인 제목으로 사용됩니다.
@@ -56,7 +55,7 @@ export default function SeoSection({ value, onChange }: Props) {
                 placeholder="검색 결과 제목 하단에 노출될 요약 문구를 입력하세요 (권장 70~150자)"
                 className="w-full resize-none rounded border border-gray-300 px-4 py-1.5 text-[12px] leading-relaxed text-gray-700 outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
-              <div className="flex justify-between px-1 text-[9px] font-bold text-gray-400">
+              <div className="flex justify-between px-1 text-[9px] text-gray-400">
                 <span>현재 글자 수: {value.metaDescription.length}자</span>
                 <span>가장 중요한 키워드를 앞쪽에 배치하세요.</span>
               </div>
@@ -73,7 +72,7 @@ export default function SeoSection({ value, onChange }: Props) {
               placeholder="쉼표(,)로 구분하여 핵심 단어를 입력하세요. (예: 요양원, 노인복지, 프리미엄케어)"
               className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-medium text-gray-800 outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
             />
-            <p className="text-[9px] font-medium italic text-gray-400">
+            <p className="text-[9px] font-medium text-gray-400">
               내부 검색 및 검색 로봇의 수집 보조 자료로 활용됩니다.
             </p>
           </div>
@@ -87,7 +86,7 @@ export default function SeoSection({ value, onChange }: Props) {
 function InputRow({ label, children, required, full }: any) {
   return (
     <div className={`flex border-r border-gray-200 last:border-r-0 ${full ? 'md:col-span-2' : ''} group`}>
-      <div className="flex w-28 shrink-0 items-center border-r border-gray-100 bg-[#f8fafc] px-3 py-2.5 text-[12px] font-black uppercase tracking-tighter text-gray-500 transition-colors group-hover:bg-emerald-50/50">
+      <div className="flex w-28 shrink-0 items-center border-r border-gray-100 bg-[#f8fafc] px-3 py-2.5 text-[12px] font-black text-gray-500 transition-colors group-hover:bg-emerald-50/50">
         {label}
         {required && <span className="ml-1 text-red-500">*</span>}
       </div>

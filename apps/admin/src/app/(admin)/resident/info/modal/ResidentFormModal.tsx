@@ -1,5 +1,5 @@
 /**
- * Description : ResidentFormModal.tsx - 📌 수급자 등록/수정 통합 모달
+ * Description : ResidentFormModal.tsx - ?? ?? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-18
  */
@@ -119,6 +119,12 @@ export default function ResidentFormModal({ isOpen, mode, initialData, onClose, 
     }
   }, [isOpen, mode, initialData]);
 
+  const birthDateRef = React.useRef<HTMLInputElement>(null);
+  const admissionDateRef = React.useRef<HTMLInputElement>(null);
+  const gradeFromRef = React.useRef<HTMLInputElement>(null);
+  const gradeToRef = React.useRef<HTMLInputElement>(null);
+  const birthTypeDateRef = React.useRef<HTMLInputElement>(null);
+
   if (!isOpen) return null;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -132,7 +138,7 @@ export default function ResidentFormModal({ isOpen, mode, initialData, onClose, 
   };
 
   const labelClass =
-    'bg-[#E8F1F8] border border-[#B8D1E0] px-2 py-1.5 text-center text-[12px] font-bold text-gray-700 w-[100px] shrink-0 flex items-center justify-center';
+    'bg-[#E8F1F8] border border-[#B8D1E0] px-2 py-1.5 text-center text-[12px] font-bold text-gray-700 w-full h-full flex items-center justify-center';
   const inputClass = 'border border-[#B8D1E0] px-2 py-1 text-[12px] outline-none focus:border-blue-400 w-full h-[28px]';
   const selectClass = 'border border-[#B8D1E0] px-1 py-1 text-[12px] outline-none focus:border-blue-400 h-[28px]';
   const checkboxLabelClass = 'flex items-center gap-1 text-[12px] cursor-pointer';
@@ -211,21 +217,27 @@ export default function ResidentFormModal({ isOpen, mode, initialData, onClose, 
                 </div>
                 <div className="col-span-4 flex items-center gap-2 border border-[#B8D1E0] p-1">
                   <input
-                    type="text"
-                    placeholder="YYYY.MM.DD"
+                    ref={birthDateRef}
+                    type="date"
                     className={clsx(inputClass, 'w-[120px]')}
                     value={formData.birthDate}
                     name="birthDate"
                     onChange={handleInputChange}
                   />
-                  <i className="ri-calendar-event-line text-gray-400"></i>
+                  <i
+                    className="ri-calendar-event-line cursor-pointer text-gray-400 hover:text-blue-500"
+                    onClick={() => birthDateRef.current?.showPicker()}
+                  ></i>
                 </div>
 
                 {/* Row: Birthday Type attached to Row 1 logic in image */}
                 <div className={clsx(labelClass, 'col-span-2')}>생신일</div>
                 <div className="col-span-10 flex items-center gap-3 border border-[#B8D1E0] p-1">
-                  <input type="text" placeholder="YYYY.MM.DD" className={clsx(inputClass, 'w-[120px]')} />
-                  <i className="ri-calendar-event-line text-gray-400"></i>
+                  <input ref={birthTypeDateRef} type="date" className={clsx(inputClass, 'w-[120px]')} />
+                  <i
+                    className="ri-calendar-event-line cursor-pointer text-gray-400 hover:text-blue-500"
+                    onClick={() => birthTypeDateRef.current?.showPicker()}
+                  ></i>
                   <div className="ml-2 flex items-center gap-3">
                     <label className={checkboxLabelClass}>
                       <input
@@ -285,18 +297,18 @@ export default function ResidentFormModal({ isOpen, mode, initialData, onClose, 
                 </div>
                 <div className="col-span-4 flex items-center gap-1 border border-[#B8D1E0] p-1">
                   <input
-                    type="text"
-                    placeholder="YYYY.MM.DD"
-                    className={clsx(inputClass, 'w-[100px]')}
+                    ref={gradeFromRef}
+                    type="date"
+                    className={clsx(inputClass, 'w-[120px]')}
                     value={formData.gradeFrom}
                     name="gradeFrom"
                     onChange={handleInputChange}
                   />
                   <span>~</span>
                   <input
-                    type="text"
-                    placeholder="YYYY.MM.DD"
-                    className={clsx(inputClass, 'w-[100px]')}
+                    ref={gradeToRef}
+                    type="date"
+                    className={clsx(inputClass, 'w-[120px]')}
                     value={formData.gradeTo}
                     name="gradeTo"
                     onChange={handleInputChange}
@@ -318,13 +330,17 @@ export default function ResidentFormModal({ isOpen, mode, initialData, onClose, 
                 </div>
                 <div className="col-span-4 flex items-center gap-2 border border-[#B8D1E0] p-1">
                   <input
-                    type="text"
-                    className={clsx(inputClass, 'w-[100px]')}
+                    ref={admissionDateRef}
+                    type="date"
+                    className={clsx(inputClass, 'w-[120px]')}
                     value={formData.admissionDate}
                     name="admissionDate"
                     onChange={handleInputChange}
                   />
-                  <i className="ri-calendar-event-line text-gray-400"></i>
+                  <i
+                    className="ri-calendar-event-line cursor-pointer text-gray-400 hover:text-blue-500"
+                    onClick={() => admissionDateRef.current?.showPicker()}
+                  ></i>
                   <input
                     type="text"
                     className={clsx(inputClass, 'w-10')}
@@ -376,7 +392,7 @@ export default function ResidentFormModal({ isOpen, mode, initialData, onClose, 
                   />
                 </div>
                 <div className={labelClass + ' col-span-2'}>연락처</div>
-                <div className="col-span-4 flex items-center gap-1 border border-[#B8D1E0] p-1">
+                <div className="col-span-4 grid grid-cols-2 gap-1 border border-[#B8D1E0] p-1">
                   <input
                     type="text"
                     placeholder="휴대폰번호"
@@ -396,26 +412,30 @@ export default function ResidentFormModal({ isOpen, mode, initialData, onClose, 
                 </div>
 
                 {/* Row 5: 주소 */}
-                <div className={clsx(labelClass, 'col-span-2 h-16')}>주소</div>
+                <div className={clsx(labelClass, 'col-span-2', 'h-auto')}>주소</div>
                 <div className="col-span-6 flex flex-col gap-1 border border-[#B8D1E0] p-1">
                   <div className="flex gap-1">
-                    <input type="text" className={clsx(inputClass, 'w-20')} value={formData.zipCode} readOnly />
-                    <button className="rounded-sm bg-[#8FA1B0] px-2 py-1 text-[11px] text-white">우편번호</button>
-                    <input type="text" className={clsx(inputClass, 'flex-1')} value={formData.address} readOnly />
-                  </div>
-                  <div className="flex gap-1">
+                    <input type="text" className={clsx(inputClass, 'w-20', 'h-8')} value={formData.zipCode} readOnly />
+                    <button className="h-8 shrink-0 rounded-sm bg-[#8FA1B0] px-3 py-1 text-[11px] text-white">
+                      우편번호
+                    </button>
                     <input
                       type="text"
-                      placeholder="상세주소"
-                      className={inputClass}
-                      value={formData.addressDetail}
-                      name="addressDetail"
-                      onChange={handleInputChange}
+                      className={clsx(inputClass, 'flex-1', 'h-8')}
+                      value={formData.address}
+                      readOnly
                     />
-                    <button className="shrink-0 rounded-sm bg-gray-400 px-2 py-1 text-[11px] text-white">지움</button>
                   </div>
+                  <input
+                    type="text"
+                    placeholder="상세주소"
+                    className={clsx(inputClass, 'h-8')}
+                    value={formData.addressDetail}
+                    name="addressDetail"
+                    onChange={handleInputChange}
+                  />
                 </div>
-                <div className={clsx(labelClass, 'col-span-2 h-16')}>주요질환</div>
+                <div className={clsx(labelClass, 'col-span-2', 'h-auto')}>주요질환</div>
                 <div className="col-span-2 border border-[#B8D1E0] p-1">
                   <textarea
                     className="h-full w-full resize-none border-none text-[12px] outline-none"
@@ -462,7 +482,6 @@ export default function ResidentFormModal({ isOpen, mode, initialData, onClose, 
                 </div>
 
                 {/* Row 7: 비고 */}
-                <div className={clsx(labelClass, 'col-span-12 h-6 justify-start bg-[#F8FAFC] px-4')}> </div>
                 <div className={clsx(labelClass, 'col-span-2')}>비고</div>
                 <div className="col-span-10 border border-[#B8D1E0] p-1">
                   <textarea

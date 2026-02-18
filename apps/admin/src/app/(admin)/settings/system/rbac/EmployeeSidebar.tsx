@@ -1,3 +1,9 @@
+/**
+ * Description : EmployeeSidebar.tsx - ?? EmployeeSidebar UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 interface Employee {
@@ -88,7 +94,7 @@ export default function EmployeeBar({
             placeholder={activeTab === 'employee' ? '성명 또는 직위 검색...' : '역할 명칭 검색...'}
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="w-full rounded-sm border border-gray-300 py-2 pl-9 pr-3 font-bold outline-none transition-all placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+            className="w-full rounded-sm border border-gray-300 py-2 pl-9 pr-3 outline-none transition-all placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
           />
           <i className="ri-search-2-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#5C8D5A]"></i>
         </div>
@@ -111,50 +117,52 @@ export default function EmployeeBar({
                   </div>
                 ))
               : filteredEmployees.map(emp => {
-              const isSelected = selectedEmployee === emp.id;
-              const activePerms = countActivePermissions(emp.id);
+                  const isSelected = selectedEmployee === emp.id;
+                  const activePerms = countActivePermissions(emp.id);
 
-              return (
-                <div
-                  key={emp.id}
-                  onClick={() => setSelectedEmployee(emp.id)}
-                  className={`cursor-pointer border-l-4 px-4 py-3 transition-all ${
-                    isSelected
-                      ? 'border-[#5C8D5A] bg-[#F1F6F1] shadow-[inset_0_0_10px_rgba(92,141,90,0.05)]'
-                      : 'group border-transparent hover:bg-white hover:pl-5'
-                  } `}
-                >
-                  <div className="mb-1.5 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <h4 className={`font-black tracking-tighter ${isSelected ? 'text-[#5C8D5A]' : 'text-gray-700'}`}>
-                        {emp.name}
-                      </h4>
-                      <span className="rounded-[2px] border border-gray-200 bg-white px-1.5 py-0.5 text-[9px] font-bold text-gray-400">
-                        {emp.position}
-                      </span>
-                    </div>
-                    <span className="font-mono text-[9px] uppercase text-gray-300">{emp.id}</span>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <div className="h-1 w-20 overflow-hidden rounded-full bg-gray-200">
-                        <div
-                          className="h-full bg-[#5C8D5A] opacity-50 transition-all"
-                          style={{ width: `${(activePerms / totalScreens) * 100}%` }}
-                        ></div>
+                  return (
+                    <div
+                      key={emp.id}
+                      onClick={() => setSelectedEmployee(emp.id)}
+                      className={`cursor-pointer border-l-4 px-4 py-3 transition-all ${
+                        isSelected
+                          ? 'border-[#5C8D5A] bg-[#F1F6F1] shadow-[inset_0_0_10px_rgba(92,141,90,0.05)]'
+                          : 'group border-transparent hover:bg-white hover:pl-5'
+                      } `}
+                    >
+                      <div className="mb-1.5 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <h4
+                            className={`font-black tracking-tighter ${isSelected ? 'text-[#5C8D5A]' : 'text-gray-700'}`}
+                          >
+                            {emp.name}
+                          </h4>
+                          <span className="rounded-[2px] border border-gray-200 bg-white px-1.5 py-0.5 text-[9px] font-bold text-gray-400">
+                            {emp.position}
+                          </span>
+                        </div>
+                        <span className="font-mono text-[9px] uppercase text-gray-300">{emp.id}</span>
                       </div>
-                      <span className="text-[9px] font-black text-[#5C8D5A]/70">
-                        {activePerms}/{totalScreens}
-                      </span>
+
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                          <div className="h-1 w-20 overflow-hidden rounded-full bg-gray-200">
+                            <div
+                              className="h-full bg-[#5C8D5A] opacity-50 transition-all"
+                              style={{ width: `${(activePerms / totalScreens) * 100}%` }}
+                            ></div>
+                          </div>
+                          <span className="text-[9px] font-black text-[#5C8D5A]/70">
+                            {activePerms}/{totalScreens}
+                          </span>
+                        </div>
+                        <i
+                          className={`ri-arrow-right-s-line transition-transform ${isSelected ? 'translate-x-1 text-[#5C8D5A]' : 'text-gray-200'}`}
+                        ></i>
+                      </div>
                     </div>
-                    <i
-                      className={`ri-arrow-right-s-line transition-transform ${isSelected ? 'translate-x-1 text-[#5C8D5A]' : 'text-gray-200'}`}
-                    ></i>
-                  </div>
-                </div>
-              );
-            })}
+                  );
+                })}
           </div>
         ) : (
           /* 역할 템플릿 리스트 */

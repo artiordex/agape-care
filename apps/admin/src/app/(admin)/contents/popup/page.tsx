@@ -1,3 +1,9 @@
+/**
+ * Description : page.tsx - ?? contents/popup ??? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import { api } from '@/lib/api';
@@ -36,10 +42,6 @@ export default function PopupManagementPage() {
   });
 
   const popups = popupsData?.body?.data || [];
-
-  // 디버깅
-  console.log('[DEBUG] popupsData:', popupsData);
-  console.log('[DEBUG] popups:', popups);
 
   // 생성 mutation
   const createMutation = api.content.createPopup.useMutation({
@@ -131,8 +133,6 @@ export default function PopupManagementPage() {
           updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
         },
       ];
-  console.log('[INFO] Sample data available for reference:', sampleData.length);
-
   // 필터링된 데이터
   const filteredData = useMemo(() => {
     let result = popups;

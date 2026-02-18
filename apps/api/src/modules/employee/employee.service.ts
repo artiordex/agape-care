@@ -1,13 +1,24 @@
+/**
+ * Description : employee.service.ts - ?? employee ??? ???? ?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { ChangeEmployeePasswordRequest, CreateEmployeeRequest, GetEmployeesQuery, UpdateEmployeeRequest } from '@agape-care/api-contract';
 import { PrismaService } from '@agape-care/database';
+import { AgapeCareLogger } from '@agape-care/logger';
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class EmployeeService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly logger: AgapeCareLogger,
+  ) {}
 
   async getEmployees(query: GetEmployeesQuery) {
+    this.logger.info('직원 목록 조회', { category: 'SYSTEM', metadata: { page: query.page, limit: query.limit } });
     const { page, limit, search, status, departmentId, roleId } = query;
     const skip = (page - 1) * limit;
 
@@ -57,6 +68,7 @@ export class EmployeeService {
   }
 
   async getEmployee(id: string) {
+    this.logger.info('직원 상세 조회', { category: 'SYSTEM', metadata: { id } });
     const employee = await this.prisma.employee.findUnique({
       where: { id: BigInt(id) },
       include: {
@@ -77,12 +89,14 @@ export class EmployeeService {
   }
 
   async createEmployee(data: CreateEmployeeRequest) {
+    this.logger.info('직원 등록 요청', { category: 'SYSTEM', metadata: { email: data.email } });
     // Check if email exists
     if (data.email) {
       const existing = await this.prisma.employee.findUnique({
         where: { email: data.email },
       });
       if (existing) {
+        this.logger.warn('직원 등록 실패 - 이메일 중복', { category: 'SYSTEM', metadata: { email: data.email } });
         throw new ConflictException('Email already exists');
       }
     }
@@ -110,10 +124,12 @@ export class EmployeeService {
       },
     });
 
+    this.logger.info('직원 등록 완료', { category: 'SYSTEM', metadata: { id: employee.id.toString() } });
     return this.serializeEmployee(employee);
   }
 
   async updateEmployee(id: string, data: UpdateEmployeeRequest) {
+    this.logger.info('직원 정보 수정 요청', { category: 'SYSTEM', metadata: { id } });
     const employee = await this.prisma.employee.findUnique({
       where: { id: BigInt(id) },
     });
@@ -154,15 +170,18 @@ export class EmployeeService {
       },
     });
 
+    this.logger.info('직원 정보 수정 완료', { category: 'SYSTEM', metadata: { id } });
     return this.serializeEmployee(updatedEmployee);
   }
 
   async deleteEmployee(id: string) {
+    this.logger.info('직원 삭제 요청', { category: 'SYSTEM', metadata: { id } });
     const employee = await this.prisma.employee.findUnique({
       where: { id: BigInt(id) },
     });
 
     if (!employee) {
+      this.logger.warn('직원 삭제 실패 - 사용자 없음', { category: 'SYSTEM', metadata: { id } });
       throw new NotFoundException(`Employee with ID ${id} not found`);
     }
 
@@ -170,10 +189,12 @@ export class EmployeeService {
       where: { id: BigInt(id) },
     });
 
+    this.logger.info('직원 삭제 완료', { category: 'SYSTEM', metadata: { id } });
     return { message: 'Employee deleted successfully' };
   }
 
   async changePassword(id: string, data: ChangeEmployeePasswordRequest) {
+    this.logger.info('비밀번호 변경 요청', { category: 'AUTH', metadata: { id } });
     const employee = await this.prisma.employee.findUnique({
       where: { id: BigInt(id) },
     });
@@ -189,6 +210,7 @@ export class EmployeeService {
       data: { passwordHash },
     });
 
+    this.logger.info('비밀번호 변경 완료', { category: 'AUTH', metadata: { id } });
     return { message: 'Password changed successfully' };
   }
 

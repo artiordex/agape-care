@@ -469,7 +469,10 @@ exports.Prisma.ResidentContactScalarFieldEnum = {
   name: 'name',
   relationship: 'relationship',
   phoneNumber: 'phoneNumber',
+  email: 'email',
+  address: 'address',
   isPrimary: 'isPrimary',
+  receiveNotice: 'receiveNotice',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -509,6 +512,20 @@ exports.Prisma.ResidentVitalScalarFieldEnum = {
   respiratoryRate: 'respiratoryRate',
   spo2: 'spo2',
   notes: 'notes'
+};
+
+exports.Prisma.ResidentAdmissionHistoryScalarFieldEnum = {
+  id: 'id',
+  residentId: 'residentId',
+  historyType: 'historyType',
+  occurredAt: 'occurredAt',
+  reason: 'reason',
+  adjustment: 'adjustment',
+  reportDate: 'reportDate',
+  reportReason: 'reportReason',
+  reportProvided: 'reportProvided',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.CarePlanScalarFieldEnum = {
@@ -916,6 +933,83 @@ exports.Prisma.GrievanceScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ResidentContractScalarFieldEnum = {
+  id: 'id',
+  residentId: 'residentId',
+  createdBy: 'createdBy',
+  contractDate: 'contractDate',
+  contractType: 'contractType',
+  signedBy: 'signedBy',
+  agreedAt: 'agreedAt',
+  status: 'status',
+  content: 'content',
+  fileId: 'fileId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ResidentAssessmentScalarFieldEnum = {
+  id: 'id',
+  residentId: 'residentId',
+  assessedBy: 'assessedBy',
+  assessmentType: 'assessmentType',
+  assessmentRound: 'assessmentRound',
+  reason: 'reason',
+  assessedAt: 'assessedAt',
+  scores: 'scores',
+  totalScore: 'totalScore',
+  riskLevel: 'riskLevel',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ResidentExtraCostScalarFieldEnum = {
+  id: 'id',
+  residentId: 'residentId',
+  createdBy: 'createdBy',
+  yearMonth: 'yearMonth',
+  itemName: 'itemName',
+  unitPrice: 'unitPrice',
+  quantity: 'quantity',
+  totalAmount: 'totalAmount',
+  occurredAt: 'occurredAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ResidentPaymentScalarFieldEnum = {
+  id: 'id',
+  residentId: 'residentId',
+  paymentMonth: 'paymentMonth',
+  claimAmount: 'claimAmount',
+  paidAmount: 'paidAmount',
+  unpaidAmount: 'unpaidAmount',
+  depositDate: 'depositDate',
+  depositorName: 'depositorName',
+  paymentMethod: 'paymentMethod',
+  receiptNo: 'receiptNo',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ResidentDocumentScalarFieldEnum = {
+  id: 'id',
+  residentId: 'residentId',
+  uploadedBy: 'uploadedBy',
+  documentName: 'documentName',
+  documentCategory: 'documentCategory',
+  fileId: 'fileId',
+  status: 'status',
+  uploadedAt: 'uploadedAt',
+  expiresAt: 'expiresAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.FacilityInspectionScalarFieldEnum = {
   id: 'id',
   inspectionDate: 'inspectionDate',
@@ -991,6 +1085,95 @@ exports.Prisma.NotificationQueueScalarFieldEnum = {
   sentAt: 'sentAt',
   status: 'status',
   errorMessage: 'errorMessage',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.NotificationTemplateScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  category: 'category',
+  channel: 'channel',
+  content: 'content',
+  variables: 'variables',
+  status: 'status',
+  usageCount: 'usageCount',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationCampaignScalarFieldEnum = {
+  id: 'id',
+  campaignName: 'campaignName',
+  purpose: 'purpose',
+  title: 'title',
+  body: 'body',
+  channel: 'channel',
+  sendType: 'sendType',
+  scheduledAt: 'scheduledAt',
+  sentAt: 'sentAt',
+  status: 'status',
+  recipientCount: 'recipientCount',
+  payload: 'payload',
+  templateId: 'templateId',
+  recipientGroupId: 'recipientGroupId',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationCampaignRecipientScalarFieldEnum = {
+  id: 'id',
+  campaignId: 'campaignId',
+  recipientType: 'recipientType',
+  recipientId: 'recipientId',
+  name: 'name',
+  phone: 'phone',
+  status: 'status'
+};
+
+exports.Prisma.RecipientGroupScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  type: 'type',
+  status: 'status',
+  memberCount: 'memberCount',
+  usageCount: 'usageCount',
+  lastUsedAt: 'lastUsedAt',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RecipientGroupMemberScalarFieldEnum = {
+  id: 'id',
+  groupId: 'groupId',
+  recipientType: 'recipientType',
+  recipientId: 'recipientId',
+  name: 'name',
+  phone: 'phone',
+  relation: 'relation'
+};
+
+exports.Prisma.SmsCreditScalarFieldEnum = {
+  id: 'id',
+  balance: 'balance',
+  deductedAmount: 'deductedAmount',
+  method: 'method',
+  campaignId: 'campaignId',
+  description: 'description',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.FacilityFileScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  category: 'category',
+  fileUrl: 'fileUrl',
+  fileType: 'fileType',
+  size: 'size',
+  uploadedBy: 'uploadedBy',
   createdAt: 'createdAt'
 };
 
@@ -1167,6 +1350,7 @@ exports.Prisma.ModelName = {
   ResidentHealthNote: 'ResidentHealthNote',
   ResidentMedication: 'ResidentMedication',
   ResidentVital: 'ResidentVital',
+  ResidentAdmissionHistory: 'ResidentAdmissionHistory',
   CarePlan: 'CarePlan',
   CarePlanItem: 'CarePlanItem',
   ConsultationRecord: 'ConsultationRecord',
@@ -1199,12 +1383,24 @@ exports.Prisma.ModelName = {
   CctvDevice: 'CctvDevice',
   CctvViewLog: 'CctvViewLog',
   Grievance: 'Grievance',
+  ResidentContract: 'ResidentContract',
+  ResidentAssessment: 'ResidentAssessment',
+  ResidentExtraCost: 'ResidentExtraCost',
+  ResidentPayment: 'ResidentPayment',
+  ResidentDocument: 'ResidentDocument',
   FacilityInspection: 'FacilityInspection',
   SmsSendLog: 'SmsSendLog',
   FileStorage: 'FileStorage',
   AuditLog: 'AuditLog',
   SystemSetting: 'SystemSetting',
   NotificationQueue: 'NotificationQueue',
+  NotificationTemplate: 'NotificationTemplate',
+  NotificationCampaign: 'NotificationCampaign',
+  NotificationCampaignRecipient: 'NotificationCampaignRecipient',
+  RecipientGroup: 'RecipientGroup',
+  RecipientGroupMember: 'RecipientGroupMember',
+  SmsCredit: 'SmsCredit',
+  FacilityFile: 'FacilityFile',
   WebNotice: 'WebNotice',
   WebNoticeDetail: 'WebNoticeDetail',
   WebBoardPost: 'WebBoardPost',
