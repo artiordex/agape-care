@@ -16,8 +16,7 @@
     "declarationMap": true,
     "sourceMap": true,
 
-    "isolatedModules": false,
-    "paths": {}
+    "isolatedModules": false
   },
 
   "include": ["src/**/*"],
