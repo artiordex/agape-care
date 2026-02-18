@@ -18,7 +18,7 @@ const nextConfig = {
   // NX monorepo 구조에서 빌드 출력 경로 명시
   distDir: '../../dist/apps/admin/.next',
 
-  transpilePackages: ['@agape-care/ui'],
+  transpilePackages: ['@agape-care/ui', '@agape-care/logger', '@agape-care/api-contract'],
 
   // 메모리 최적화 (추가)
   experimental: {
@@ -29,9 +29,14 @@ const nextConfig = {
   webpack: config => {
     const packagesBase = path.resolve(__dirname, '../../packages');
     const resolvePackageAlias = packageName => {
-      const distPath = path.join(packagesBase, packageName, 'dist');
-      const srcPath = path.join(packagesBase, packageName, 'src');
-      return fs.existsSync(distPath) ? distPath : srcPath;
+      const candidates = [
+        path.join(packagesBase, packageName, 'dist'),
+        path.join(__dirname, '../../dist/packages', packageName),
+        path.join(__dirname, '../../dist/packages', packageName, 'src'),
+        path.join(packagesBase, packageName, 'src'),
+      ];
+      const found = candidates.find(p => fs.existsSync(p));
+      return found ?? candidates[candidates.length - 1];
     };
 
     config.resolve.alias = {

@@ -928,10 +928,10 @@ importers:
     devDependencies:
       '@nestjs/cli':
         specifier: ^11.0.0
-        version: 11.0.16(@swc/cli@0.7.10(@swc/core@1.15.11)(chokidar@4.0.3))(@swc/core@1.15.11)(@types/node@24.10.11)(esbuild@0.25.12)
+        version: 11.0.16(@swc/cli@0.7.10(@swc/core@1.15.11)(chokidar@4.0.3))(@swc/core@1.15.11)(@types/node@20.19.32)(esbuild@0.25.12)
       '@types/node':
-        specifier: ^24.3.1
-        version: 24.10.11
+        specifier: ^20.11.0
+        version: 20.19.32
       '@types/nodemailer':
         specifier: ^6.4.19
         version: 6.4.22
@@ -940,7 +940,7 @@ importers:
     dependencies:
       '@ts-rest/core':
         specifier: ^3.52.1
-        version: 3.52.1(@types/node@24.10.11)(zod@3.25.76)
+        version: 3.52.1(@types/node@20.19.32)(zod@3.25.76)
       swagger-ui-dist:
         specifier: ^5.29.0
         version: 5.31.0
@@ -949,8 +949,8 @@ importers:
         version: 3.25.76
     devDependencies:
       '@types/node':
-        specifier: ^24.3.1
-        version: 24.10.11
+        specifier: ^20.11.0
+        version: 20.19.32
       openapi-types:
         specifier: ^12.1.3
         version: 12.1.3
@@ -1010,12 +1010,15 @@ importers:
         specifier: ^4.9.0
         version: 4.9.0
     devDependencies:
+      '@nestjs/common':
+        specifier: ^10.4.22
+        version: 10.4.22(class-transformer@0.5.1)(class-validator@0.14.3)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@types/express':
         specifier: ^4.17.23
         version: 4.17.25
       '@types/node':
-        specifier: ^24.3.1
-        version: 24.10.11
+        specifier: ^20.11.0
+        version: 20.19.32
       eslint:
         specifier: ^9.36.0
         version: 9.39.2(jiti@2.6.1)
@@ -16434,7 +16437,7 @@ snapshots:
       '@jest/transform': 30.2.0
       '@jest/types': 30.2.0
       '@jridgewell/trace-mapping': 0.3.31
-      '@types/node': 20.19.32
+      '@types/node': 24.10.11
       chalk: 4.1.2
       collect-v8-coverage: 1.0.3
       exit-x: 0.2.2
@@ -17236,35 +17239,6 @@ snapshots:
       '@angular-devkit/schematics': 19.2.19(chokidar@4.0.3)
       '@angular-devkit/schematics-cli': 19.2.19(@types/node@20.19.32)(chokidar@4.0.3)
       '@inquirer/prompts': 7.10.1(@types/node@20.19.32)
-      '@nestjs/schematics': 11.0.9(chokidar@4.0.3)(typescript@5.9.3)
-      ansis: 4.2.0
-      chokidar: 4.0.3
-      cli-table3: 0.6.5
-      commander: 4.1.1
-      fork-ts-checker-webpack-plugin: 9.1.0(typescript@5.9.3)(webpack@5.104.1(@swc/core@1.15.11)(esbuild@0.25.12))
-      glob: 13.0.0
-      node-emoji: 1.11.0
-      ora: 5.4.1
-      tsconfig-paths: 4.2.0
-      tsconfig-paths-webpack-plugin: 4.2.0
-      typescript: 5.9.3
-      webpack: 5.104.1(@swc/core@1.15.11)(esbuild@0.25.12)
-      webpack-node-externals: 3.0.0
-    optionalDependencies:
-      '@swc/cli': 0.7.10(@swc/core@1.15.11)(chokidar@4.0.3)
-      '@swc/core': 1.15.11(@swc/helpers@0.5.15)
-    transitivePeerDependencies:
-      - '@types/node'
-      - esbuild
-      - uglify-js
-      - webpack-cli
-
-  '@nestjs/cli@11.0.16(@swc/cli@0.7.10(@swc/core@1.15.11)(chokidar@4.0.3))(@swc/core@1.15.11)(@types/node@24.10.11)(esbuild@0.25.12)':
-    dependencies:
-      '@angular-devkit/core': 19.2.19(chokidar@4.0.3)
-      '@angular-devkit/schematics': 19.2.19(chokidar@4.0.3)
-      '@angular-devkit/schematics-cli': 19.2.19(@types/node@24.10.11)(chokidar@4.0.3)
-      '@inquirer/prompts': 7.10.1(@types/node@24.10.11)
       '@nestjs/schematics': 11.0.9(chokidar@4.0.3)(typescript@5.9.3)
       ansis: 4.2.0
       chokidar: 4.0.3
@@ -20564,7 +20538,7 @@ snapshots:
 
   '@types/jsonwebtoken@9.0.5':
     dependencies:
-      '@types/node': 20.19.32
+      '@types/node': 24.10.11
 
   '@types/lodash@4.17.23': {}
 
@@ -20638,7 +20612,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 20.19.32
+      '@types/node': 24.10.11
       pg-protocol: 1.11.0
       pg-types: 2.2.0
 
@@ -20741,7 +20715,7 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 20.19.32
+      '@types/node': 24.10.11
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -22864,7 +22838,7 @@ snapshots:
   engine.io@6.6.5:
     dependencies:
       '@types/cors': 2.8.19
-      '@types/node': 20.19.32
+      '@types/node': 24.10.11
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
@@ -25132,7 +25106,7 @@ snapshots:
   jest-util@30.2.0:
     dependencies:
       '@jest/types': 30.2.0
-      '@types/node': 20.19.32
+      '@types/node': 24.10.11
       chalk: 4.1.2
       ci-info: 4.4.0
       graceful-fs: 4.2.11

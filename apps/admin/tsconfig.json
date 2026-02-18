@@ -20,7 +20,10 @@
       "@/hooks/*": ["src/hooks/*"],
       "@/styles/*": ["src/styles/*"],
       "@/stores/*": ["src/stores/*"],
-      "@/providers/*": ["src/providers/*"]
+      "@/providers/*": ["src/providers/*"],
+      "@providers/*": ["src/providers/*"],
+      "@agape-care/api-contract": ["../../packages/api-contract/src/index.ts"],
+      "@agape-care/ui": ["../../packages/ui/src/index.ts"]
     },
     // Next.js incremental build
     "tsBuildInfoFile": "./.next/tsconfig.tsbuildinfo"

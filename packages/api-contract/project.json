@@ -6,15 +6,11 @@
 
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "nx:run-commands",
       "options": {
-        "main": "packages/api-contract/src/index.ts",
-        "outputPath": "dist/packages/api-contract",
-        "tsConfig": "packages/api-contract/tsconfig.json",
-        "assets": [
-          "packages/api-contract/package.json"
-        ]
-      }
+        "command": "pnpm exec node -e \"const fs=require('fs');fs.rmSync('dist/packages/api-contract',{recursive:true,force:true});fs.mkdirSync('dist/packages/api-contract',{recursive:true});\" && pnpm exec tsc -p packages/api-contract/tsconfig.json --outDir dist/packages/api-contract --declarationDir dist/packages/api-contract --tsBuildInfoFile dist/packages/api-contract/.tsbuildinfo && pnpm exec node -e \"require('fs').copyFileSync('packages/api-contract/package.json','dist/packages/api-contract/package.json')\""
+      },
+      "outputs": ["{workspaceRoot}/dist/packages/api-contract"]
     },
 
     "gen:openapi": {

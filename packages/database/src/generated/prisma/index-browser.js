@@ -398,6 +398,12 @@ exports.Prisma.EmployeeScalarFieldEnum = {
   passwordHash: 'passwordHash',
   name: 'name',
   phoneNumber: 'phoneNumber',
+  birth: 'birth',
+  gender: 'gender',
+  education: 'education',
+  position: 'position',
+  address: 'address',
+  photo: 'photo',
   hireDate: 'hireDate',
   resignDate: 'resignDate',
   status: 'status',
@@ -432,6 +438,21 @@ exports.Prisma.ResidentScalarFieldEnum = {
   admissionDate: 'admissionDate',
   dischargeDate: 'dischargeDate',
   status: 'status',
+  recognitionNumber: 'recognitionNumber',
+  grade: 'grade',
+  gradeValidFrom: 'gradeValidFrom',
+  gradeValidUntil: 'gradeValidUntil',
+  copaymentRate: 'copaymentRate',
+  photo: 'photo',
+  phone: 'phone',
+  address: 'address',
+  admissionTime: 'admissionTime',
+  cognition: 'cognition',
+  mobility: 'mobility',
+  mealStatus: 'mealStatus',
+  toiletStatus: 'toiletStatus',
+  mainDiagnosis: 'mainDiagnosis',
+  allergies: 'allergies',
   guardianName: 'guardianName',
   guardianPhone: 'guardianPhone',
   memo: 'memo',
@@ -738,9 +759,13 @@ exports.Prisma.PayrollRecordScalarFieldEnum = {
   periodStart: 'periodStart',
   periodEnd: 'periodEnd',
   baseSalary: 'baseSalary',
+  totalPay: 'totalPay',
   totalAllowance: 'totalAllowance',
   totalDeduction: 'totalDeduction',
   netPay: 'netPay',
+  workDays: 'workDays',
+  totalWorkHours: 'totalWorkHours',
+  reflectedToAccounting: 'reflectedToAccounting',
   paidAt: 'paidAt',
   status: 'status',
   createdAt: 'createdAt',
@@ -785,6 +810,10 @@ exports.Prisma.InsuranceClaimScalarFieldEnum = {
   residentId: 'residentId',
   claimMonth: 'claimMonth',
   claimType: 'claimType',
+  grade: 'grade',
+  serviceDays: 'serviceDays',
+  copayAmount: 'copayAmount',
+  insuranceAmount: 'insuranceAmount',
   totalAmount: 'totalAmount',
   approvedAmount: 'approvedAmount',
   submittedAt: 'submittedAt',
@@ -856,6 +885,10 @@ exports.Prisma.VehicleScalarFieldEnum = {
   id: 'id',
   vehicleNo: 'vehicleNo',
   vehicleType: 'vehicleType',
+  purpose: 'purpose',
+  ownership: 'ownership',
+  driver: 'driver',
+  insuranceCompany: 'insuranceCompany',
   model: 'model',
   manufacturer: 'manufacturer',
   year: 'year',
@@ -898,6 +931,8 @@ exports.Prisma.CctvDeviceScalarFieldEnum = {
   lastCheckDate: 'lastCheckDate',
   status: 'status',
   notes: 'notes',
+  consentRequired: 'consentRequired',
+  roomId: 'roomId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -1014,12 +1049,17 @@ exports.Prisma.FacilityInspectionScalarFieldEnum = {
   id: 'id',
   inspectionDate: 'inspectionDate',
   inspectionType: 'inspectionType',
+  title: 'title',
+  frequency: 'frequency',
   inspectorId: 'inspectorId',
   location: 'location',
   checklist: 'checklist',
+  checkResult: 'checkResult',
+  photos: 'photos',
   findings: 'findings',
   correctiveActions: 'correctiveActions',
   status: 'status',
+  completedDate: 'completedDate',
   nextInspectionDate: 'nextInspectionDate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -1173,7 +1213,220 @@ exports.Prisma.FacilityFileScalarFieldEnum = {
   fileUrl: 'fileUrl',
   fileType: 'fileType',
   size: 'size',
+  description: 'description',
+  tags: 'tags',
+  downloadCount: 'downloadCount',
   uploadedBy: 'uploadedBy',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PayrollSettingScalarFieldEnum = {
+  id: 'id',
+  employeeId: 'employeeId',
+  baseWage: 'baseWage',
+  hourlyRate: 'hourlyRate',
+  wageType: 'wageType',
+  mealAllowance: 'mealAllowance',
+  transportAllowance: 'transportAllowance',
+  positionAllowance: 'positionAllowance',
+  riskAllowance: 'riskAllowance',
+  longevityAllowance: 'longevityAllowance',
+  overtimeRate: 'overtimeRate',
+  nightBonusRate: 'nightBonusRate',
+  insuranceFlags: 'insuranceFlags',
+  taxFlags: 'taxFlags',
+  allowances: 'allowances',
+  deductions: 'deductions',
+  effectiveFrom: 'effectiveFrom',
+  effectiveUntil: 'effectiveUntil',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PayrollBatchScalarFieldEnum = {
+  id: 'id',
+  payMonth: 'payMonth',
+  status: 'status',
+  totalAmount: 'totalAmount',
+  employeeCount: 'employeeCount',
+  processedBy: 'processedBy',
+  processedAt: 'processedAt',
+  memo: 'memo',
+  reflectedToAccounting: 'reflectedToAccounting',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MedicationScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  genericName: 'genericName',
+  manufacturer: 'manufacturer',
+  form: 'form',
+  strength: 'strength',
+  unit: 'unit',
+  stockQty: 'stockQty',
+  minStockQty: 'minStockQty',
+  category: 'category',
+  storageCondition: 'storageCondition',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MedicationScheduleScalarFieldEnum = {
+  id: 'id',
+  residentId: 'residentId',
+  medicationId: 'medicationId',
+  dosage: 'dosage',
+  frequency: 'frequency',
+  timing: 'timing',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  prescribedBy: 'prescribedBy',
+  memo: 'memo',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MedicationRecordScalarFieldEnum = {
+  id: 'id',
+  scheduleId: 'scheduleId',
+  medicationId: 'medicationId',
+  residentId: 'residentId',
+  administeredAt: 'administeredAt',
+  administeredBy: 'administeredBy',
+  status: 'status',
+  skipReason: 'skipReason',
+  memo: 'memo',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.NeedsAssessmentScalarFieldEnum = {
+  id: 'id',
+  residentId: 'residentId',
+  assessmentDate: 'assessmentDate',
+  assessorId: 'assessorId',
+  period: 'period',
+  generalStatus: 'generalStatus',
+  physicalNeeds: 'physicalNeeds',
+  cognitiveNeeds: 'cognitiveNeeds',
+  socialNeeds: 'socialNeeds',
+  environmentNeeds: 'environmentNeeds',
+  summary: 'summary',
+  status: 'status',
+  confirmedAt: 'confirmedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CctvConsentScalarFieldEnum = {
+  id: 'id',
+  residentId: 'residentId',
+  deviceId: 'deviceId',
+  consentType: 'consentType',
+  consentDate: 'consentDate',
+  consentBy: 'consentBy',
+  relationship: 'relationship',
+  conditions: 'conditions',
+  fileUrl: 'fileUrl',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CctvWeeklyCheckScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  checkDate: 'checkDate',
+  checkedBy: 'checkedBy',
+  imageQuality: 'imageQuality',
+  recording: 'recording',
+  nightVision: 'nightVision',
+  storage: 'storage',
+  issues: 'issues',
+  resolvedAt: 'resolvedAt',
+  memo: 'memo',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ScheduleGenerationRuleScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  departmentId: 'departmentId',
+  ruleType: 'ruleType',
+  config: 'config',
+  shiftTemplateIds: 'shiftTemplateIds',
+  isActive: 'isActive',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MeetingRecordScalarFieldEnum = {
+  id: 'id',
+  category: 'category',
+  year: 'year',
+  quarter: 'quarter',
+  title: 'title',
+  meetingDate: 'meetingDate',
+  location: 'location',
+  attendeeCount: 'attendeeCount',
+  attendanceRate: 'attendanceRate',
+  status: 'status',
+  summary: 'summary',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MeetingMinuteScalarFieldEnum = {
+  id: 'id',
+  meetingId: 'meetingId',
+  topic: 'topic',
+  discussion: 'discussion',
+  decision: 'decision',
+  actionItems: 'actionItems',
+  owner: 'owner',
+  dueDate: 'dueDate',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BathScheduleScalarFieldEnum = {
+  id: 'id',
+  residentId: 'residentId',
+  frequency: 'frequency',
+  frequencyPeriod: 'frequencyPeriod',
+  preferredDay: 'preferredDay',
+  scheduledTime: 'scheduledTime',
+  bathMethod: 'bathMethod',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  memo: 'memo',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VehicleRunLogScalarFieldEnum = {
+  id: 'id',
+  vehicleId: 'vehicleId',
+  runDate: 'runDate',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  departure: 'departure',
+  destination: 'destination',
+  purpose: 'purpose',
+  passengers: 'passengers',
+  distance: 'distance',
+  fuelCost: 'fuelCost',
+  tollCost: 'tollCost',
+  parkingCost: 'parkingCost',
+  receipt: 'receipt',
+  notes: 'notes',
+  createdBy: 'createdBy',
   createdAt: 'createdAt'
 };
 
@@ -1401,6 +1654,19 @@ exports.Prisma.ModelName = {
   RecipientGroupMember: 'RecipientGroupMember',
   SmsCredit: 'SmsCredit',
   FacilityFile: 'FacilityFile',
+  PayrollSetting: 'PayrollSetting',
+  PayrollBatch: 'PayrollBatch',
+  Medication: 'Medication',
+  MedicationSchedule: 'MedicationSchedule',
+  MedicationRecord: 'MedicationRecord',
+  NeedsAssessment: 'NeedsAssessment',
+  CctvConsent: 'CctvConsent',
+  CctvWeeklyCheck: 'CctvWeeklyCheck',
+  ScheduleGenerationRule: 'ScheduleGenerationRule',
+  MeetingRecord: 'MeetingRecord',
+  MeetingMinute: 'MeetingMinute',
+  BathSchedule: 'BathSchedule',
+  VehicleRunLog: 'VehicleRunLog',
   WebNotice: 'WebNotice',
   WebNoticeDetail: 'WebNoticeDetail',
   WebBoardPost: 'WebBoardPost',
