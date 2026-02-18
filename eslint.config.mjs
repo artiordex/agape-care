@@ -14,7 +14,6 @@ import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import unusedImports from 'eslint-plugin-unused-imports';
-
 export default [
   eslint.configs.recommended,
 
@@ -224,7 +223,6 @@ export default [
   {
     files: ['**/*.js', '**/*.cjs', '**/*.mjs'],
     languageOptions: {
-      parser: null,
       parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
     },
     rules: {
