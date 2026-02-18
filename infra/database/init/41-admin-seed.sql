@@ -474,7 +474,7 @@ BEGIN
      '치매(중등도), 당뇨, 고혈압',
      '{"grade":"4","gradeValidUntil":"2027-06-30","copayRate":0,"mainDiseases":["치매","당뇨","고혈압"],"mobility":"보행 가능","cognition":"중등도 인지저하","mealStatus":"부분 도움","toiletStatus":"부분 도움"}'
     ),
-    ('R-2026-004', '라가나', '1950-09-05', 'M', '2026-02-01', 'OUTING', '라보호자', '010-4444-5555',
+    ('R-2026-004', '라가나', '1950-09-05', 'M', '2026-02-01', 'ON_LEAVE', '라보호자', '010-4444-5555',
      '파킨슨병, 우울증',
      '{"grade":"2","gradeValidUntil":"2026-10-15","copayRate":8,"mainDiseases":["파킨슨병","우울증"],"mobility":"보행기","cognition":"경도 인지저하","mealStatus":"자립","toiletStatus":"자립"}'
     )
