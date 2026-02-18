@@ -16,29 +16,31 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   test: {
     globals: true,
-    environment: 'jsdom',
+    // 환경별 테스트 설정 (Deprecated environmentMatchGlobs 대신 workspace/projects 사용 권장)
+    passWithNoTests: true,
 
-    environmentOptions: {
-      jsdom: {
-        url: 'http://localhost:3000',
-        resources: 'usable',
+    workspace: [
+      {
+        extends: true,
+        test: {
+          name: 'node',
+          environment: 'node',
+          include: ['apps/api/**/*.{test,spec}.{ts,js}', 'apps/worker/**/*.{test,spec}.{ts,js}'],
+        },
       },
-    },
-
-    // 환경별 테스트 설정
-    environmentMatchGlobs: [
-      ['apps/api/**/*.{test,spec}.{ts,js}', 'node'],
-      ['apps/worker/**/*.{test,spec}.{ts,js}', 'node'],
-      ['apps/admin/**/*.{test,spec}.{ts,tsx}', 'jsdom'],
-      ['apps/web/**/*.{test,spec}.{ts,tsx}', 'jsdom'],
-      ['src/**/*.{test,spec}.{ts,tsx}', 'jsdom'],
+      {
+        extends: true,
+        test: {
+          name: 'jsdom',
+          environment: 'jsdom',
+          include: [
+            'apps/admin/**/*.{test,spec}.{ts,tsx}',
+            'apps/web/**/*.{test,spec}.{ts,tsx}',
+            'packages/ui/**/*.{test,spec}.{ts,tsx}',
+          ],
+        },
+      },
     ],
-
-    // 테스트 설정 파일
-    setupFiles: ['./src/test/setup.ts'],
-
-    // 포함 범위
-    include: ['src/**/*.{test,spec}.{ts,tsx}', 'apps/**/*.{test,spec}.{ts,tsx}'],
 
     // 제외 범위
     exclude: [
