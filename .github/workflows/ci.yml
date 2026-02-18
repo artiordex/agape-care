@@ -1,9 +1,6 @@
-# Description : ci.yml - 📌 Agape-Care CI 파이프라인
+# Description : ci.yml - CI pipeline for Agape Care monorepo
 # Author : Shiwoo Min
-# Date : 2026-01-27
-# - Agape-Care monorepo 구조(apps/*, packages/*) 대응
-# - pnpm + Vitest 기반 테스트
-# - Nx 선택 사용 가능, 없어도 동작하도록 구성
+# Updated : 2026-02-18
 
 name: CI
 
@@ -15,74 +12,52 @@ on:
 
 env:
   NODE_VERSION: '22.x'
+  PNPM_VERSION: '9.15.4'
 
 jobs:
   ci:
     runs-on: ubuntu-latest
 
     steps:
-      # 레포 체크아웃
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Node 설치
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          cache: pnpm
 
-      # pnpm 설치 (v2가 최신)
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 9
-          run_install: false
-
-      # pnpm store path 조회
-      - name: Get pnpm store path
-        id: pnpm_store
-        run: echo "path=$(pnpm store path)" >> "$GITHUB_OUTPUT"
-
-      # pnpm 캐시
-      - name: Cache pnpm store
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pnpm_store.outputs.path }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
-
-      # 의존성 설치
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # 타입 체크
       - name: Type check
         run: pnpm type-check
 
-      # Lint
       - name: Lint
         run: pnpm lint
 
-      # Unit Test
       - name: Test
-        run: pnpm test
+        run: pnpm test:run
 
-      # Build
       - name: Build
-        run: |
-          pnpm --filter ./apps/web build
-          pnpm --filter ./apps/admin build
+        run: pnpm nx run-many -t build -p @agape-care/web @agape-care/admin @agape-care/api @agape-care/worker --skip-nx-cache
 
-      # 아티팩트 업로드
       - name: Upload build artifacts
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: build-output
           path: |
-            apps/web/.next
-            apps/admin/.next
-            apps/**/out
+            dist/apps/web
+            dist/apps/admin
+            dist/apps/api
+            dist/apps/worker
           retention-days: 1
+          if-no-files-found: warn
