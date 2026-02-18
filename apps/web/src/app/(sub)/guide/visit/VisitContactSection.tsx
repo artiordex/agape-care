@@ -1,5 +1,5 @@
 /**
- * Description : VisitContactSection.tsx - 📌 면회 및 상담 문의 섹션 (외부 모달 팝업 연동)
+ * Description : VisitContactSection.tsx - ?? VisitContactSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

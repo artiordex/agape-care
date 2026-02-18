@@ -1,5 +1,5 @@
 /**
- * Description : Input.tsx - 📌 입력 필드 컴포넌트
+ * Description : Input.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

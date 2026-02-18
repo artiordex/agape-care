@@ -1,5 +1,5 @@
 /**
- * Description : inquiry.controller.ts - 📌 상담 및 면회 문의 통합 API Controller
+ * Description : inquiry.controller.ts - ?? contents ??? API ????
  * Author : (User)
  * Date : 2026-02-16
  */

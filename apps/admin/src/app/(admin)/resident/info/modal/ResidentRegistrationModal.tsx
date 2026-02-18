@@ -1,5 +1,5 @@
 /**
- * Description : ResidentRegistrationModal.tsx - 📌 수급자 신규등록 모달
+ * Description : ResidentRegistrationModal.tsx - ?? ?? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-18
  */
@@ -56,6 +56,13 @@ export default function ResidentRegistrationModal({ isOpen, onClose, onSave }: P
     ],
   });
 
+  const birthDateRef = React.useRef<HTMLInputElement>(null);
+  const admissionDateRef = React.useRef<HTMLInputElement>(null);
+  const gradeFromRef = React.useRef<HTMLInputElement>(null);
+  const gradeToRef = React.useRef<HTMLInputElement>(null);
+  const birthTypeDateRef = React.useRef<HTMLInputElement>(null);
+  const guardianBirthDateRef = React.useRef<HTMLInputElement>(null);
+
   if (!isOpen) return null;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -69,7 +76,7 @@ export default function ResidentRegistrationModal({ isOpen, onClose, onSave }: P
   };
 
   const labelClass =
-    'bg-[#E8F1F8] border border-[#B8D1E0] px-2 py-1.5 text-center text-[12px] font-bold text-gray-700 w-[100px] shrink-0 flex items-center justify-center';
+    'bg-[#E8F1F8] border border-[#B8D1E0] px-2 py-1.5 text-center text-[12px] font-bold text-gray-700 w-full h-full flex items-center justify-center';
   const inputClass = 'border border-[#B8D1E0] px-2 py-1 text-[12px] outline-none focus:border-blue-400 w-full h-[28px]';
   const selectClass = 'border border-[#B8D1E0] px-1 py-1 text-[12px] outline-none focus:border-blue-400 h-[28px]';
   const checkboxLabelClass = 'flex items-center gap-1 text-[12px] cursor-pointer';
@@ -125,15 +132,28 @@ export default function ResidentRegistrationModal({ isOpen, onClose, onSave }: P
                   생년월일<span className="ml-0.5 text-red-500">*</span>
                 </div>
                 <div className="col-span-4 flex items-center gap-2 border border-[#B8D1E0] p-1">
-                  <input type="text" placeholder="YYYY.MM.DD" className={clsx(inputClass, 'w-[120px]')} />
-                  <i className="ri-calendar-event-line text-gray-400"></i>
+                  <input
+                    ref={birthDateRef}
+                    type="date"
+                    className={clsx(inputClass, 'w-[120px]')}
+                    value={formData.birthDate}
+                    name="birthDate"
+                    onChange={handleInputChange}
+                  />
+                  <i
+                    className="ri-calendar-event-line cursor-pointer text-gray-400 hover:text-blue-500"
+                    onClick={() => birthDateRef.current?.showPicker()}
+                  ></i>
                 </div>
 
                 {/* Row: Birthday Type attached to Row 1 logic in image */}
                 <div className={clsx(labelClass, 'col-span-2')}>생신일</div>
                 <div className="col-span-10 flex items-center gap-3 border border-[#B8D1E0] p-1">
-                  <input type="text" placeholder="YYYY.MM.DD" className={clsx(inputClass, 'w-[120px]')} />
-                  <i className="ri-calendar-event-line text-gray-400"></i>
+                  <input ref={birthTypeDateRef} type="date" className={clsx(inputClass, 'w-[120px]')} />
+                  <i
+                    className="ri-calendar-event-line cursor-pointer text-gray-400 hover:text-blue-500"
+                    onClick={() => birthTypeDateRef.current?.showPicker()}
+                  ></i>
                   <div className="ml-2 flex items-center gap-3">
                     <label className={checkboxLabelClass}>
                       <input type="radio" name="birthType" /> 양력
@@ -160,9 +180,23 @@ export default function ResidentRegistrationModal({ isOpen, onClose, onSave }: P
                   인정기간<span className="ml-0.5 text-red-500">*</span>
                 </div>
                 <div className="col-span-4 flex items-center gap-1 border border-[#B8D1E0] p-1">
-                  <input type="text" placeholder="YYYY.MM.DD" className={clsx(inputClass, 'w-[100px]')} />
+                  <input
+                    ref={gradeFromRef}
+                    type="date"
+                    className={clsx(inputClass, 'w-[120px]')}
+                    value={formData.gradeFrom}
+                    name="gradeFrom"
+                    onChange={handleInputChange}
+                  />
                   <span>~</span>
-                  <input type="text" placeholder="YYYY.MM.DD" className={clsx(inputClass, 'w-[100px]')} />
+                  <input
+                    ref={gradeToRef}
+                    type="date"
+                    className={clsx(inputClass, 'w-[120px]')}
+                    value={formData.gradeTo}
+                    name="gradeTo"
+                    onChange={handleInputChange}
+                  />
                   <select className={clsx(selectClass, 'w-16')}>
                     <option>2년</option>
                   </select>
@@ -173,8 +207,18 @@ export default function ResidentRegistrationModal({ isOpen, onClose, onSave }: P
                   입소일시<span className="ml-0.5 text-red-500">*</span>
                 </div>
                 <div className="col-span-4 flex items-center gap-2 border border-[#B8D1E0] p-1">
-                  <input type="text" defaultValue="2026.02.18" className={clsx(inputClass, 'w-[100px]')} />
-                  <i className="ri-calendar-event-line text-gray-400"></i>
+                  <input
+                    ref={admissionDateRef}
+                    type="date"
+                    className={clsx(inputClass, 'w-[120px]')}
+                    value={formData.admissionDate}
+                    name="admissionDate"
+                    onChange={handleInputChange}
+                  />
+                  <i
+                    className="ri-calendar-event-line cursor-pointer text-gray-400 hover:text-blue-500"
+                    onClick={() => admissionDateRef.current?.showPicker()}
+                  ></i>
                   <input type="text" className={clsx(inputClass, 'w-10')} /> :{' '}
                   <input type="text" className={clsx(inputClass, 'w-10')} />
                 </div>
@@ -196,24 +240,24 @@ export default function ResidentRegistrationModal({ isOpen, onClose, onSave }: P
                   <input type="text" className={clsx(inputClass, 'w-32')} />
                 </div>
                 <div className={labelClass + ' col-span-2'}>연락처</div>
-                <div className="col-span-4 flex items-center gap-1 border border-[#B8D1E0] p-1">
+                <div className="col-span-4 grid grid-cols-2 gap-1 border border-[#B8D1E0] p-1">
                   <input type="text" placeholder="휴대폰번호" className={inputClass} />
                   <input type="text" placeholder="전화번호" className={inputClass} />
                 </div>
 
                 {/* Row 5: 주소 */}
-                <div className={clsx(labelClass, 'col-span-2 h-16')}>주소</div>
+                <div className={clsx(labelClass, 'col-span-2', 'h-auto')}>주소</div>
                 <div className="col-span-6 flex flex-col gap-1 border border-[#B8D1E0] p-1">
                   <div className="flex gap-1">
-                    <input type="text" className={clsx(inputClass, 'w-20')} readOnly />
-                    <button className="rounded-sm bg-[#8FA1B0] px-2 py-1 text-[11px] text-white">우편번호</button>
+                    <input type="text" className={clsx(inputClass, 'w-20', 'h-8')} readOnly />
+                    <button className="h-8 shrink-0 rounded-sm bg-[#8FA1B0] px-3 py-1 text-[11px] text-white">
+                      우편번호
+                    </button>
+                    <input type="text" className={clsx(inputClass, 'flex-1', 'h-8')} readOnly />
                   </div>
-                  <div className="flex gap-1">
-                    <input type="text" placeholder="상세주소" className={inputClass} />
-                    <button className="shrink-0 rounded-sm bg-gray-400 px-2 py-1 text-[11px] text-white">지움</button>
-                  </div>
+                  <input type="text" placeholder="상세주소" className={clsx(inputClass, 'h-8')} />
                 </div>
-                <div className={clsx(labelClass, 'col-span-2 h-16')}>주요질환</div>
+                <div className={clsx(labelClass, 'col-span-2', 'h-auto')}>주요질환</div>
                 <div className="col-span-2 border border-[#B8D1E0] p-1">
                   <textarea className="h-full w-full resize-none border-none text-[12px] outline-none"></textarea>
                 </div>
@@ -236,10 +280,7 @@ export default function ResidentRegistrationModal({ isOpen, onClose, onSave }: P
                   </label>
                 </div>
 
-                {/* Row 7: 비고 (Bottom Row span across disease/notes column in image) */}
-                <div className={clsx(labelClass, 'col-span-12 h-6 justify-start bg-[#F8FAFC] px-4')}> </div>
-                {/* Note: The image layout has "비고" as a vertical block at the end of the Basic Info table or spanning rows.
-                    I'll add it as a full width row at bottom to match the visual weight. */}
+                {/* Row 7: 비고 */}
                 <div className={clsx(labelClass, 'col-span-2')}>비고</div>
                 <div className="col-span-10 border border-[#B8D1E0] p-1">
                   <textarea
@@ -263,137 +304,135 @@ export default function ResidentRegistrationModal({ isOpen, onClose, onSave }: P
               </span>
             </div>
 
-            <div className="overflow-hidden border border-[#B8D1E0]">
-              <table className="w-full border-collapse">
-                <tbody>
-                  {/* Guardian Row 1 */}
-                  <tr className="border-b border-[#B8D1E0]">
-                    <th className={clsx(labelClass, 'h-auto w-[120px]')}>
-                      보호자명
-                      <br />
-                      (주보호자)
-                    </th>
-                    <td className="border-r border-[#B8D1E0] p-1">
-                      <input type="text" className={inputClass} />
-                    </td>
-                    <th className={labelClass}>관계</th>
-                    <td className="border-r border-[#B8D1E0] p-1">
-                      <input type="text" className={inputClass} />
-                    </td>
-                    <th className={labelClass}>휴대폰번호</th>
-                    <td className="flex items-center gap-2 border-r border-[#B8D1E0] p-1">
-                      <input type="text" placeholder="010-1234-5678" className={inputClass} />
-                      <div className="flex shrink-0 items-center gap-1">
-                        <label className={checkboxLabelClass}>
-                          <input type="checkbox" /> 급여
-                        </label>
-                        <label className={checkboxLabelClass}>
-                          <input type="checkbox" defaultChecked /> 청구
-                        </label>
-                      </div>
-                    </td>
-                    <th className={clsx(labelClass, 'w-[100px]')}>비고</th>
-                  </tr>
-                  {/* Guardian Row 2 */}
-                  <tr className="border-b border-[#B8D1E0]">
-                    <th className={labelClass}>생년월일</th>
-                    <td className="flex items-center gap-1 border-r border-[#B8D1E0] p-1">
-                      <input type="text" placeholder="YYYY.MM.DD" className={inputClass} />
-                      <i className="ri-calendar-event-line text-gray-400"></i>
-                      <button className="rounded-sm bg-gray-400 px-1 py-0.5 text-[10px] text-white">지움</button>
-                    </td>
-                    <th className={labelClass}>전화번호</th>
-                    <td className="border-r border-[#B8D1E0] p-1">
-                      <input type="text" className={inputClass} />
-                    </td>
-                    <th className={labelClass}>이메일</th>
-                    <td className="flex items-center gap-1 border-r border-[#B8D1E0] p-1">
-                      <input type="text" className={inputClass} />
-                      <span>@</span>
-                      <input type="text" className={inputClass} />
-                      <select className={clsx(selectClass, 'w-24')}>
-                        <option>직접입력</option>
-                      </select>
-                    </td>
-                    <td rowSpan={5} className="p-1 align-top">
-                      <textarea
-                        placeholder="보호자 비고"
-                        className="h-full w-full resize-none border-none text-[12px] outline-none"
-                      ></textarea>
-                    </td>
-                  </tr>
-                  {/* Billing Method Row */}
-                  <tr className="border-b border-[#B8D1E0]">
-                    <th className={labelClass}>청구서수신</th>
-                    <td colSpan={5} className="flex items-center gap-6 p-1">
-                      <label className={checkboxLabelClass}>
-                        <input type="checkbox" defaultChecked /> 문자,알림톡
-                      </label>
-                      <label className={checkboxLabelClass}>
-                        <input type="checkbox" /> 이메일
-                      </label>
-                      <label className={checkboxLabelClass}>
-                        <input type="checkbox" /> 우편
-                      </label>
-                    </td>
-                  </tr>
-                  {/* Billing Address Row */}
-                  <tr className="border-b border-[#B8D1E0]">
-                    <th className={labelClass}>청구지주소</th>
-                    <td colSpan={5} className="flex items-center gap-2 p-1">
-                      <input type="text" className={clsx(inputClass, 'w-20')} readOnly />
-                      <button className="rounded-sm bg-[#8FA1B0] px-2 py-1 text-[11px] text-white">우편번호</button>
-                      <input type="text" className={clsx(inputClass, 'flex-1')} />
-                      <button className="shrink-0 rounded-sm bg-gray-400 px-2 py-1 text-[11px] text-white">지움</button>
-                    </td>
-                  </tr>
-                  {/* Family Members Rows */}
-                  <tr className="border-b border-[#B8D1E0]">
-                    <th className={labelClass}>가족이름1</th>
-                    <td className="border-r border-[#B8D1E0] p-1">
-                      <input type="text" className={inputClass} />
-                    </td>
-                    <th className={labelClass}>관계1</th>
-                    <td className="border-r border-[#B8D1E0] p-1">
-                      <input type="text" className={inputClass} />
-                    </td>
-                    <th className={labelClass}>휴대폰번호1</th>
-                    <td className="flex items-center gap-2 p-1">
-                      <input type="text" placeholder="010-1234-5678" className={inputClass} />
-                      <div className="flex shrink-0 items-center gap-1">
-                        <label className={checkboxLabelClass}>
-                          <input type="checkbox" /> 급여
-                        </label>
-                        <label className={checkboxLabelClass}>
-                          <input type="checkbox" /> 청구
-                        </label>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="border-b border-[#B8D1E0]">
-                    <th className={labelClass}>가족이름2</th>
-                    <td className="border-r border-[#B8D1E0] p-1">
-                      <input type="text" className={inputClass} />
-                    </td>
-                    <th className={labelClass}>관계2</th>
-                    <td className="border-r border-[#B8D1E0] p-1">
-                      <input type="text" className={inputClass} />
-                    </td>
-                    <th className={labelClass}>휴대폰번호1</th>
-                    <td className="flex items-center gap-2 p-1">
-                      <input type="text" placeholder="010-1234-5678" className={inputClass} />
-                      <div className="flex shrink-0 items-center gap-1">
-                        <label className={checkboxLabelClass}>
-                          <input type="checkbox" /> 급여
-                        </label>
-                        <label className={checkboxLabelClass}>
-                          <input type="checkbox" /> 청구
-                        </label>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div className="grid grid-cols-12">
+              {/* Guardian Row 1 */}
+              <div className={clsx(labelClass, 'col-span-2')}>
+                보호자명
+                <br />
+                (주보호자)
+              </div>
+              <div className="col-span-2 flex items-center border border-[#B8D1E0] p-1">
+                <input type="text" className={inputClass} />
+              </div>
+              <div className={clsx(labelClass, 'col-span-2')}>관계</div>
+              <div className="col-span-2 flex items-center border border-[#B8D1E0] p-1">
+                <input type="text" className={inputClass} />
+              </div>
+              <div className={clsx(labelClass, 'col-span-2')}>휴대폰번호</div>
+              <div className="col-span-2 flex flex-col justify-center gap-1 border border-[#B8D1E0] p-1">
+                <input type="text" placeholder="010-1234-5678" className={inputClass} />
+                <div className="flex shrink-0 items-center gap-1">
+                  <label className={checkboxLabelClass}>
+                    <input type="checkbox" /> 급여
+                  </label>
+                  <label className={checkboxLabelClass}>
+                    <input type="checkbox" defaultChecked /> 청구
+                  </label>
+                </div>
+              </div>
+
+              {/* Guardian Row 2 */}
+              <div className={clsx(labelClass, 'col-span-2')}>생년월일</div>
+              <div className="col-span-2 flex items-center gap-1 border border-[#B8D1E0] p-1">
+                <input ref={guardianBirthDateRef} type="date" className={inputClass} />
+                <i
+                  className="ri-calendar-event-line cursor-pointer text-gray-400 hover:text-blue-500"
+                  onClick={() => guardianBirthDateRef.current?.showPicker()}
+                ></i>
+              </div>
+              <div className={clsx(labelClass, 'col-span-2')}>전화번호</div>
+              <div className="col-span-2 flex items-center border border-[#B8D1E0] p-1">
+                <input type="text" className={inputClass} />
+              </div>
+              <div className={clsx(labelClass, 'col-span-2')}>이메일</div>
+              <div className="col-span-2 flex flex-col justify-center gap-1 border border-[#B8D1E0] p-1">
+                <div className="flex w-full items-center gap-1">
+                  <input className={clsx(inputClass, 'w-full')} />@<input className={clsx(inputClass, 'w-full')} />
+                </div>
+                <select className={clsx(selectClass, 'w-full')}>
+                  <option>직접입력</option>
+                </select>
+              </div>
+
+              {/* Memo */}
+              <div className={clsx(labelClass, 'col-span-2')}>비고</div>
+              <div className="col-span-10 border border-[#B8D1E0] p-1">
+                <textarea
+                  placeholder="보호자 비고"
+                  className="h-10 w-full resize-none border-none text-[12px] outline-none"
+                ></textarea>
+              </div>
+
+              {/* Billing Method */}
+              <div className={clsx(labelClass, 'col-span-2')}>청구서수신</div>
+              <div className="col-span-10 flex items-center gap-6 border border-[#B8D1E0] p-1">
+                <label className={checkboxLabelClass}>
+                  <input type="checkbox" defaultChecked /> 문자,알림톡
+                </label>
+                <label className={checkboxLabelClass}>
+                  <input type="checkbox" /> 이메일
+                </label>
+                <label className={checkboxLabelClass}>
+                  <input type="checkbox" /> 우편
+                </label>
+              </div>
+
+              {/* Billing Address */}
+              <div className={clsx(labelClass, 'col-span-2 h-auto')}>청구지주소</div>
+              <div className="col-span-10 flex flex-col gap-1 border border-[#B8D1E0] p-1">
+                <div className="flex gap-1">
+                  <input type="text" className={clsx(inputClass, 'w-20', 'h-8')} readOnly />
+                  <button className="h-8 shrink-0 rounded-sm bg-[#8FA1B0] px-3 py-1 text-[11px] text-white">
+                    우편번호
+                  </button>
+                  <input type="text" className={clsx(inputClass, 'flex-1', 'h-8')} readOnly />
+                </div>
+                <input type="text" placeholder="상세주소" className={clsx(inputClass, 'h-8')} />
+              </div>
+
+              {/* Family 1 */}
+              <div className={clsx(labelClass, 'col-span-2')}>가족이름1</div>
+              <div className="col-span-2 flex items-center border border-[#B8D1E0] p-1">
+                <input type="text" className={inputClass} />
+              </div>
+              <div className={clsx(labelClass, 'col-span-2')}>관계1</div>
+              <div className="col-span-2 flex items-center border border-[#B8D1E0] p-1">
+                <input type="text" className={inputClass} />
+              </div>
+              <div className={clsx(labelClass, 'col-span-2')}>휴대폰번호1</div>
+              <div className="col-span-2 flex flex-col justify-center gap-1 border border-[#B8D1E0] p-1">
+                <input type="text" placeholder="010-1234-5678" className={inputClass} />
+                <div className="flex shrink-0 items-center gap-1">
+                  <label className={checkboxLabelClass}>
+                    <input type="checkbox" /> 급여
+                  </label>
+                  <label className={checkboxLabelClass}>
+                    <input type="checkbox" /> 청구
+                  </label>
+                </div>
+              </div>
+
+              {/* Family 2 */}
+              <div className={clsx(labelClass, 'col-span-2')}>가족이름2</div>
+              <div className="col-span-2 flex items-center border border-[#B8D1E0] p-1">
+                <input type="text" className={inputClass} />
+              </div>
+              <div className={clsx(labelClass, 'col-span-2')}>관계2</div>
+              <div className="col-span-2 flex items-center border border-[#B8D1E0] p-1">
+                <input type="text" className={inputClass} />
+              </div>
+              <div className={clsx(labelClass, 'col-span-2')}>휴대폰번호2</div>
+              <div className="col-span-2 flex flex-col justify-center gap-1 border border-[#B8D1E0] p-1">
+                <input type="text" placeholder="010-1234-5678" className={inputClass} />
+                <div className="flex shrink-0 items-center gap-1">
+                  <label className={checkboxLabelClass}>
+                    <input type="checkbox" /> 급여
+                  </label>
+                  <label className={checkboxLabelClass}>
+                    <input type="checkbox" /> 청구
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
         </div>

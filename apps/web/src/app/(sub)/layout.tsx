@@ -1,5 +1,5 @@
 /**
- * Description : layout.tsx - 📌 Agape-Care 서브 페이지 레이아웃
+ * Description : layout.tsx - ?? home ???? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

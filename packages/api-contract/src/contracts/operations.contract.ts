@@ -25,7 +25,7 @@ export const operationsContract = {
    */
   getVehicles: {
     method: 'GET' as const,
-    path: '/api/operations/vehicles',
+    path: '/operations/vehicles',
     query: z.object({
       page: z.coerce.number().default(1),
       limit: z.coerce.number().default(20),
@@ -45,7 +45,7 @@ export const operationsContract = {
    */
   getInventoryItems: {
     method: 'GET' as const,
-    path: '/api/operations/inventory/items',
+    path: '/operations/inventory/items',
     query: z.object({
       page: z.coerce.number().default(1),
       limit: z.coerce.number().default(20),
@@ -66,7 +66,7 @@ export const operationsContract = {
    */
   getCctvDevices: {
     method: 'GET' as const,
-    path: '/api/operations/cctv/devices',
+    path: '/operations/cctv/devices',
     query: z.object({
       page: z.coerce.number().default(1),
       limit: z.coerce.number().default(20),
@@ -85,7 +85,7 @@ export const operationsContract = {
    */
   getCctvViewLogs: {
     method: 'GET' as const,
-    path: '/api/operations/cctv/view-logs',
+    path: '/operations/cctv/view-logs',
     query: z.object({
       page: z.coerce.number().default(1),
       limit: z.coerce.number().default(20),
@@ -106,7 +106,7 @@ export const operationsContract = {
    */
   getGrievances: {
     method: 'GET' as const,
-    path: '/api/operations/grievances',
+    path: '/operations/grievances',
     query: z.object({
       page: z.coerce.number().default(1),
       limit: z.coerce.number().default(20),
@@ -127,7 +127,7 @@ export const operationsContract = {
    */
   sendSms: {
     method: 'POST' as const,
-    path: '/api/operations/sms/send',
+    path: '/operations/sms/send',
     body: z.object({
       recipientPhone: z.string(),
       message: z.string(),
@@ -149,7 +149,7 @@ export const operationsContract = {
    */
   getSmsLogs: {
     method: 'GET' as const,
-    path: '/api/operations/sms/logs',
+    path: '/operations/sms/logs',
     query: z.object({
       page: z.coerce.number().default(1),
       limit: z.coerce.number().default(20),

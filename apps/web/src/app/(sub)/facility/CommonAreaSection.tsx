@@ -1,5 +1,5 @@
 /**
- * Description : CommonAreaSection.tsx - 📌 공용 공간 섹션
+ * Description : CommonAreaSection.tsx - ?? CommonAreaSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

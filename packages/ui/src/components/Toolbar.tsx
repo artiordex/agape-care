@@ -1,5 +1,5 @@
 /**
- * Description : Toolbar.tsx - 📌 툴바 레이아웃 컴포넌트
+ * Description : Toolbar.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

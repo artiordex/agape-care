@@ -1,5 +1,5 @@
 /**
- * Description : ResidentList.tsx - 📌 입소자 관리 입소자 리스트 섹션
+ * Description : ResidentList.tsx - ?? ResidentList UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

@@ -1,5 +1,5 @@
 /**
- * Description : page.tsx - 건물 및 생활실 설정 (Facility & Room Management)
+ * Description : page.tsx - ?? operations/facility ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-18
  */

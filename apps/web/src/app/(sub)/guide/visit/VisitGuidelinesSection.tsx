@@ -1,5 +1,5 @@
 /**
- * Description : VisitGuidelinesSection.tsx - 📌 면회 가이드라인 섹션
+ * Description : VisitGuidelinesSection.tsx - ?? VisitGuidelinesSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

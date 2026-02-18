@@ -1,5 +1,5 @@
 /**
- * Description : eslint.config.mjs - 📌 Agape-Care 모노레포 ESLint Flat Config 설정
+ * Description : eslint.config.mjs - ?? ???? ?? ??
  * Author : Shiwoo Min
  * Date : 2026-01-22
  */

@@ -1,4 +1,4 @@
--- Description : 40-web-seed.sql - 📌 Web 알림마당 Seed Data
+-- Description : 40-web-seed.sql - ?? ?????? DDL ? ?? ????
 -- Author : Shiwoo Min
 -- Date : 2025-02-09
 -- Purpose : Web 알림마당 view 테스트용 샘플 데이터

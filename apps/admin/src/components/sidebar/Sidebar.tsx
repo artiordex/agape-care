@@ -1,5 +1,5 @@
 /**
- * Description : Sidebar.tsx - 📌 관리자 애플리케이션의 사이드바 컴포넌트
+ * Description : Sidebar.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

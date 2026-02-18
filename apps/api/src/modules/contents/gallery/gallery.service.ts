@@ -1,5 +1,5 @@
 /**
- * Description : GalleryService.ts - 📌 갤러리 관리 서비스
+ * Description : gallery.service.ts - ?? contents ??? ???? ?? ???
  * Author : (User)
  * Date : 2026-02-16
  */

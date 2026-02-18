@@ -1,5 +1,5 @@
 /**
- * Description : BoardMobileList.tsx - 📌 게시판 모바일 리스트
+ * Description : BoardMobileList.tsx - ?? BoardMobileList UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

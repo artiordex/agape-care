@@ -1,5 +1,5 @@
 /**
- * Description : ui-types.ts - 📌 ConnectWon UI 타입 정의
+ * Description : ui-types.ts - ?? ui-types ?? ?? ??
  * Author : Shiwoo Min
  * Date : 2025-09-16
  */

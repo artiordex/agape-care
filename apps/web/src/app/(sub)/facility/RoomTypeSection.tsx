@@ -1,5 +1,5 @@
 /**
- * Description : RoomTypeSection.tsx - 📌 객실 안내 섹션
+ * Description : RoomTypeSection.tsx - ?? RoomTypeSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

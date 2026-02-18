@@ -1,5 +1,5 @@
 /**
- * Description : GalleryHeader.tsx - 📌 갤러리 헤더 (날짜 네비게이션 + 뷰 모드)
+ * Description : GalleryHeader.tsx - ?? GalleryHeader UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

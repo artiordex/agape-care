@@ -1,5 +1,5 @@
 /**
- * Description : TemplateTable.tsx - 템플릿 목록 테이블
+ * Description : TemplateTable.tsx - ?? TemplateTable UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-18
  */

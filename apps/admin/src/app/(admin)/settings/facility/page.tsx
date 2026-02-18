@@ -1,3 +1,9 @@
+/**
+ * Description : page.tsx - ?? settings/facility ??? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import { api } from '@/lib/api';
@@ -162,7 +168,7 @@ export default function FacilityManagementPage() {
       <div className="flex h-screen items-center justify-center bg-[#f0f2f5]">
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-[#5C8D5A] border-t-transparent"></div>
-          <p className="font-black text-gray-500">시설 정보를 불러오는 중...</p>
+          <p className="text-gray-500">시설 정보를 불러오는 중...</p>
         </div>
       </div>
     );
@@ -194,7 +200,7 @@ export default function FacilityManagementPage() {
           </div>
 
           {/* 하단 보조 정보 */}
-          <div className="mt-8 flex items-center justify-between border-t border-gray-200 pb-8 pt-4 text-[12px] font-bold uppercase tracking-widest text-gray-400">
+          <div className="mt-8 flex items-center justify-between border-t border-gray-200 pb-8 pt-4 text-[12px] uppercase tracking-widest text-gray-400">
             <span>아가페케어 시설 관리 모듈</span>
             <span>보안 등급: 레벨 2 관리자 권한</span>
           </div>

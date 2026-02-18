@@ -1,5 +1,5 @@
 /**
- * Description : GalleryNoticeSection.tsx - 📌 공지사항 + 갤러리 + 게시판 + 알림마당 섹션
+ * Description : NotificationSection.tsx - ?? NotificationSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

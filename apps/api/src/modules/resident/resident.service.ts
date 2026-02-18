@@ -1,3 +1,9 @@
+/**
+ * Description : resident.service.ts - ?? resident ??? ???? ?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import {
   CreateResidentRequest,
   Gender,
@@ -8,13 +14,18 @@ import {
   UpdateResidentRequest,
 } from '@agape-care/api-contract';
 import { Prisma, PrismaService } from '@agape-care/database';
+import { AgapeCareLogger } from '@agape-care/logger';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class ResidentService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly logger: AgapeCareLogger,
+  ) {}
 
   async getResidents(query: GetResidentsQuery) {
+    this.logger.info('입소자 목록 조회', { category: 'RESIDENT', metadata: { page: query.page, status: query.status } });
     const { page, limit, status, search, sort, order } = query;
     const skip = (page - 1) * limit;
 
@@ -45,11 +56,13 @@ export class ResidentService {
   }
 
   async getResident(id: string) {
+    this.logger.info('입소자 상세 조회', { category: 'RESIDENT', metadata: { id } });
     const resident = await this.prisma.resident.findUnique({
       where: { id: BigInt(id) },
     });
 
     if (!resident) {
+      this.logger.warn('입소자 조회 실패 - 데이터 없음', { category: 'RESIDENT', metadata: { id } });
       throw new NotFoundException(`Resident with ID ${id} not found`);
     }
 
@@ -57,6 +70,7 @@ export class ResidentService {
   }
 
   async createResident(data: CreateResidentRequest) {
+    this.logger.info('입소자 등록 요청', { category: 'RESIDENT', metadata: { name: data.name, code: data.code } });
     const resident = await this.prisma.resident.create({
       data: {
         code: data.code,
@@ -71,10 +85,12 @@ export class ResidentService {
       },
     });
 
+    this.logger.info('입소자 등록 완료', { category: 'RESIDENT', metadata: { id: resident.id.toString() } });
     return this.serializeResident(resident);
   }
 
   async updateResident(id: string, data: UpdateResidentRequest) {
+    this.logger.info('입소자 정보 수정 요청', { category: 'RESIDENT', metadata: { id } });
     const resident = await this.prisma.resident.update({
       where: { id: BigInt(id) },
       data: {
@@ -85,13 +101,16 @@ export class ResidentService {
       },
     });
 
+    this.logger.info('입소자 정보 수정 완료', { category: 'RESIDENT', metadata: { id } });
     return this.serializeResident(resident);
   }
 
   async deleteResident(id: string) {
+    this.logger.info('입소자 삭제 요청', { category: 'RESIDENT', metadata: { id } });
     await this.prisma.resident.delete({
       where: { id: BigInt(id) },
     });
+    this.logger.info('입소자 삭제 완료', { category: 'RESIDENT', metadata: { id } });
     return { message: 'Resident deleted successfully' };
   }
 
@@ -151,7 +170,7 @@ export class ResidentService {
       orderBy: [{ floor: 'asc' }, { roomName: 'asc' }],
     });
 
-    return rooms.map(room => ({
+    return rooms.map((room: any) => ({
       id: room.id.toString(),
       facilityId: room.facilityId.toString(),
       floor: room.floor,

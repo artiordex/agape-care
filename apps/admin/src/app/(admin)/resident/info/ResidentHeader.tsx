@@ -1,5 +1,5 @@
 /**
- * Description : ResidentHeader.tsx - 📌 입소자 정보 통합 관리 헤더
+ * Description : ResidentHeader.tsx - ?? ResidentHeader UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

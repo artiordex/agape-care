@@ -8,7 +8,6 @@ interface Props {
     readonly contactEmail: string;
     readonly customerHours: string;
     readonly metaTitle: string;
-    readonly metaDescription: string;
     readonly footerText: string;
   };
 }

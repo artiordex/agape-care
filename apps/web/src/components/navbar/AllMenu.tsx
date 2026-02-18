@@ -1,5 +1,5 @@
 /**
- * Description : AllMenu.tsx - 📌 Agape-Care 전체 메뉴 컴포넌트
+ * Description : AllMenu.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

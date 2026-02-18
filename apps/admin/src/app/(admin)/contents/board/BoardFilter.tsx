@@ -1,3 +1,9 @@
+/**
+ * Description : BoardFilter.tsx - ?? BoardFilter UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { useState } from 'react';
 import { FreeBoardFilter as FilterType, FreeBoardCategory } from './board.type';
 

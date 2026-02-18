@@ -1,5 +1,5 @@
 /**
- * Description : AppShell.tsx - 📌 ConnectWon UI 애플리케이션 공통 레이아웃 컴포넌트
+ * Description : AppShell.tsx - ?? AppShell UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-19
  */

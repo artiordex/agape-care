@@ -1,3 +1,9 @@
+/**
+ * Description : contact-inquiry.controller.ts - ?? web-view ??? API ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { contract } from '@agape-care/api-contract';
 import { Controller } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';

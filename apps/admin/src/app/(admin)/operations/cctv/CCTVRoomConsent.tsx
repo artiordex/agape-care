@@ -1,3 +1,9 @@
+/**
+ * Description : CCTVRoomConsent.tsx - ?? CCTVRoomConsent UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import { useState } from 'react';

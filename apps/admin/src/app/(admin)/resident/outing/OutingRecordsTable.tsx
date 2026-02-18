@@ -1,5 +1,5 @@
 /**
- * Description : OutingRecordsTable.tsx - 📌 이미지(image_81aa93.png) 기반 외출·외박 이력 관리 그리드
+ * Description : OutingRecordsTable.tsx - ?? OutingRecordsTable UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

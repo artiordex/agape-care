@@ -1,5 +1,5 @@
 /**
- * Description : NoticesService.ts - 📌 알림마당 서비스
+ * Description : notices.service.ts - ?? web-view ??? ???? ?? ???
  * Author : Shiwoo Min
  * Date : 2026-02-09
  */

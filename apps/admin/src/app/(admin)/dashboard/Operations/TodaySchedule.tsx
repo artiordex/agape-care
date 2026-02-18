@@ -1,5 +1,5 @@
 /**
- * Description : TodaySchedule.tsx - 📌 대시보드 일일 운영 일정 섹션
+ * Description : TodaySchedule.tsx - ?? TodaySchedule UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

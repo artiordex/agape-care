@@ -1,5 +1,5 @@
 /**
- * Description : HealthAlerts.tsx - 📌 대시보드 건강 및 비상 모니터링 섹션
+ * Description : HealthAlerts.tsx - ?? HealthAlerts UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

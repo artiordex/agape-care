@@ -1,3 +1,9 @@
+/**
+ * Description : types.ts - ?? types ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 export interface ResidentFormData {
   // 기본정보
   photo: string;

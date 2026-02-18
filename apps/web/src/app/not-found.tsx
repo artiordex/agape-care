@@ -1,5 +1,5 @@
 /**
- * Description : not-found.tsx - 📌 Agape-Care 404 페이지
+ * Description : not-found.tsx - ?? not-found ?? ?? ??
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

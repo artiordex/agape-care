@@ -1,5 +1,5 @@
 /**
- * Description : Textarea.tsx - 📌 텍스트 영역 컴포넌트
+ * Description : Textarea.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

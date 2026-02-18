@@ -1,5 +1,5 @@
-/**
- * Description : AssessmentTab.tsx - 📊 기초평가 관리 및 낙상위험도 평가 모달 연동
+﻿/**
+ * Description : AssessmentTab.tsx - ?? ? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */
@@ -8,42 +8,39 @@
 
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import FallRiskModal from './modals/FallRiskModal'; // 낙상위험도 모달 임포트
-import BedSoreRiskModal from './modals/BedSoreRiskModal'; // 욕창위험도 모달 임포트
-import CognitiveEvalModal from './modals/CognitiveEvalModal'; // 인지기능 모달 임포트
-// import NeedsAssessmentModal from './modals/NeedsAssessmentModal'; // 욕구사정 모달 임포트
-// import CarePlanModal from './modals/CarePlanModal'; // 급여제공 계획 모달 임포트
-// import CarePlanResultModal from './modals/CarePlanResultModal'; // 급여제공 결과평가 모달 임포트
-
+import FallRiskModal from './modals/FallRiskModal'; // ?숈긽?꾪뿕??紐⑤떖 ?꾪룷??
+import BedsoreRiskModal from './modals/BedsoreRiskModal'; // ?뺤갹?꾪뿕??紐⑤떖 ?꾪룷??
+import CognitiveEvalModal from './modals/CognitiveEvalModal'; // ?몄?湲곕뒫 紐⑤떖 ?꾪룷??
+// import NeedsAssessmentModal from './modals/NeedsAssessmentModal'; // ?뺢뎄?ъ젙 紐⑤떖 ?꾪룷??
+// import CarePlanModal from './modals/CarePlanModal'; // 湲됱뿬?쒓났 怨꾪쉷 紐⑤떖 ?꾪룷??
+// import CarePlanResultModal from './modals/CarePlanResultModal'; // 湲됱뿬?쒓났 寃곌낵?됯? 紐⑤떖 ?꾪룷??
 export default function AssessmentTab() {
   const [selectedYear, setSelectedYear] = useState('2026');
   const [isFallRiskModalOpen, setFallRiskModalOpen] = useState(false);
-  const [isBedSoreRiskModalOpen, setBedSoreRiskModalOpen] = useState(false);
+  const [isBedsoreRiskModalOpen, setBedsoreRiskModalOpen] = useState(false);
   const [isCognitionModalOpen, setCognitionModalOpen] = useState(false);
   const [isNeedsAssessmentModalOpen, setNeedsAssessmentModalOpen] = useState(false);
   const [isCarePlanModalOpen, setCarePlanModalOpen] = useState(false);
   const [isCarePlanResultModalOpen, setCarePlanResultModalOpen] = useState(false);
 
-  // 연도 리스트
-  const years = ['2026', '2025', '2024', '2023', '2022', '2021'];
+  // ?곕룄 由ъ뒪??  const years = ['2026', '2025', '2024', '2023', '2022', '2021'];
 
-  // 테이블 스타일
-  const thClass = 'bg-[#E8F1F8] border border-[#B8D1E0] px-2 py-1 text-center text-[12px] font-bold text-gray-700';
+  // ?뚯씠釉??ㅽ???  const thClass = 'bg-[#E8F1F8] border border-[#B8D1E0] px-2 py-1 text-center text-[12px] font-bold text-gray-700';
   const tdClass = 'border border-[#B8D1E0] p-0 text-center text-[12px] min-h-[80px]';
 
-  // 하단 버튼 구성 (이미지 하단 버튼 바 재현)
+  // ?섎떒 踰꾪듉 援ъ꽦 (?대?吏 ?섎떒 踰꾪듉 諛??ы쁽)
   const ACTION_BUTTONS = [
-    { id: 'fall', label: '낙상위험도\n신규작성', onClick: () => setFallRiskModalOpen(true) },
-    { id: 'bedsore', label: '욕창위험도\n신규작성', onClick: () => setBedSoreRiskModalOpen(true) },
-    { id: 'cognition', label: '인지기능\n신규작성', onClick: () => setCognitionModalOpen(true) },
-    { id: 'needs', label: '욕구사정\n신규작성', onClick: () => setNeedsAssessmentModalOpen(true) },
-    { id: 'eval', label: '급여제공 결과평가\n신규작성', onClick: () => setCarePlanResultModalOpen(true) },
-    { id: 'plan', label: '급여제공 계획\n신규작성', onClick: () => setCarePlanModalOpen(true) },
+    { id: 'fall', label: '?숈긽?꾪뿕??n?좉퇋?묒꽦', onClick: () => setFallRiskModalOpen(true) },
+    { id: 'bedsore', label: '?뺤갹?꾪뿕??n?좉퇋?묒꽦', onClick: () => setBedsoreRiskModalOpen(true) },
+    { id: 'cognition', label: '?몄?湲곕뒫\n?좉퇋?묒꽦', onClick: () => setCognitionModalOpen(true) },
+    { id: 'needs', label: '?뺢뎄?ъ젙\n?좉퇋?묒꽦', onClick: () => setNeedsAssessmentModalOpen(true) },
+    { id: 'eval', label: '湲됱뿬?쒓났 寃곌낵?됯?\n?좉퇋?묒꽦', onClick: () => setCarePlanResultModalOpen(true) },
+    { id: 'plan', label: '湲됱뿬?쒓났 怨꾪쉷\n?좉퇋?묒꽦', onClick: () => setCarePlanModalOpen(true) },
   ];
 
   return (
     <div className="flex flex-col gap-2 bg-white p-4 font-sans antialiased">
-      {/* 1. 상단 제어 바 */}
+      {/* 1. ?곷떒 ?쒖뼱 諛?*/}
       <div className="mb-1 flex items-center justify-between">
         <div className="flex gap-1">
           {years.map(year => (
@@ -57,53 +54,50 @@ export default function AssessmentTab() {
                   : 'border-gray-300 bg-white text-gray-600 hover:bg-gray-50',
               )}
             >
-              {year}년
-            </button>
+              {year}??            </button>
           ))}
         </div>
         <label className="flex cursor-pointer items-center gap-1">
           <input type="checkbox" defaultChecked className="h-4 w-4 rounded-none accent-[#E67E22]" />
-          <span className="text-[12px] font-black text-gray-800">회차순으로 정렬</span>
+          <span className="text-[12px] font-black text-gray-800">?뚯감?쒖쑝濡??뺣젹</span>
         </label>
       </div>
 
-      {/* 2. 메인 매트릭스 테이블 */}
+      {/* 2. 硫붿씤 留ㅽ듃由?뒪 ?뚯씠釉?*/}
       <div className="overflow-x-auto border-t-2 border-[#57A5CE]">
         <table className="w-full table-fixed border-collapse border border-[#B8D1E0]">
           <thead>
             <tr className="bg-[#E8F1F8]">
               <th rowSpan={2} className={clsx(thClass, 'w-10')}>
-                회차
+                ?뚯감
               </th>
               <th className={thClass}>
-                낙상위험도
-                <br />
-                <span className="text-[10px] font-normal">(반기 1회)</span>
+                ?숈긽?꾪뿕??                <br />
+                <span className="text-[10px] font-normal">(諛섍린 1??</span>
               </th>
               <th className={thClass}>
-                욕창위험도
-                <br />
-                <span className="text-[10px] font-normal">(반기 1회)</span>
+                ?뺤갹?꾪뿕??                <br />
+                <span className="text-[10px] font-normal">(諛섍린 1??</span>
               </th>
               <th className={thClass}>
-                인지기능
+                ?몄?湲곕뒫
                 <br />
-                <span className="text-[10px] font-normal">(반기 1회)</span>
+                <span className="text-[10px] font-normal">(諛섍린 1??</span>
               </th>
               <th className={thClass}>
-                욕구사정
+                ?뺢뎄?ъ젙
                 <br />
-                <span className="text-[10px] font-normal">(반기 1회)</span>
+                <span className="text-[10px] font-normal">(諛섍린 1??</span>
               </th>
               <th className={thClass}>
-                급여제공 결과평가
+                湲됱뿬?쒓났 寃곌낵?됯?
                 <br />
-                <span className="text-[10px] font-normal">(반기 1회)</span>
+                <span className="text-[10px] font-normal">(諛섍린 1??</span>
               </th>
               <th colSpan={2} className={thClass}>
-                급여제공 계획
+                湲됱뿬?쒓났 怨꾪쉷
                 <br />
-                <span className="text-[10px] font-normal">(반기 1회)</span>
+                <span className="text-[10px] font-normal">(諛섍린 1??</span>
               </th>
             </tr>
             <tr className="bg-[#F8FAFC]">
@@ -112,8 +106,8 @@ export default function AssessmentTab() {
                 .map((_, i) => (
                   <th key={i} className="border border-[#B8D1E0]"></th>
                 ))}
-              <th className={thClass}>급여제공 계획</th>
-              <th className={thClass}>안내(설명)</th>
+              <th className={thClass}>湲됱뿬?쒓났 怨꾪쉷</th>
+              <th className={thClass}>?덈궡(?ㅻ챸)</th>
             </tr>
           </thead>
           <tbody>
@@ -124,10 +118,10 @@ export default function AssessmentTab() {
                 onClick={() => setFallRiskModalOpen(true)}
               >
                 <div className="flex flex-col gap-0.5 p-2 text-gray-700">
-                  <span>신규(16점)</span>
+                  <span>?좉퇋(16??</span>
                   <span className="font-mono text-[11px] text-gray-500">2026.01.23</span>
                   <div className="flex items-center justify-center gap-1">
-                    <span>최인경</span>
+                    <span>최종결과</span>
                     <span className="rounded-sm bg-red-600 px-1 text-[9px] font-black text-white">고위험</span>
                   </div>
                 </div>
@@ -143,7 +137,7 @@ export default function AssessmentTab() {
         </table>
       </div>
 
-      {/* 3. 하단 버튼 바 */}
+      {/* 3. ?섎떒 踰꾪듉 諛?*/}
       <div className="mt-4 flex justify-center gap-1">
         {ACTION_BUTTONS.map(btn => (
           <button
@@ -156,9 +150,9 @@ export default function AssessmentTab() {
         ))}
       </div>
 
-      {/* 낙상위험도 평가 모달 */}
+      {/* ?숈긽?꾪뿕???됯? 紐⑤떖 */}
       <FallRiskModal isOpen={isFallRiskModalOpen} onClose={() => setFallRiskModalOpen(false)} />
-      <BedSoreRiskModal isOpen={isBedSoreRiskModalOpen} onClose={() => setBedSoreRiskModalOpen(false)} />
+      <BedsoreRiskModal isOpen={isBedsoreRiskModalOpen} onClose={() => setBedsoreRiskModalOpen(false)} />
       <CognitiveEvalModal isOpen={isCognitionModalOpen} onClose={() => setCognitionModalOpen(false)} />
       {/* <NeedsAssessmentModal isOpen={isNeedsAssessmentModalOpen} onClose={() => setNeedsAssessmentModalOpen(false)} />
       <CarePlanModal isOpen={isCarePlanModalOpen} onClose={() => setCarePlanModalOpen(false)} />
@@ -166,3 +160,4 @@ export default function AssessmentTab() {
     </div>
   );
 }
+

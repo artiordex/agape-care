@@ -1,3 +1,9 @@
+/**
+ * Description : not-found.tsx - ?? not-found ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import Link from 'next/link';
 
 export default function NotFound() {

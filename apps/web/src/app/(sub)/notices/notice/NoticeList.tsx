@@ -1,5 +1,5 @@
 /**
- * Description : NoticeList.tsx - 📌 공지사항 리스트
+ * Description : NoticeList.tsx - ?? NoticeList UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

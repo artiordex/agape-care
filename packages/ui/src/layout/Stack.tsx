@@ -1,5 +1,5 @@
 /**
- * Description : Stack.tsx - 📌 스택 레이아웃 컴포넌트
+ * Description : Stack.tsx - ?? Stack UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-25
  */

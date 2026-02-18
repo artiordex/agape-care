@@ -1,3 +1,9 @@
+/**
+ * Description : dashboard.service.ts - ?? dashboard ??? ???? ?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { DashboardStatsSchema, DashboardWidgetsSchema } from '@agape-care/api-contract';
 import { PrismaService } from '@agape-care/database';
 import { Injectable } from '@nestjs/common';

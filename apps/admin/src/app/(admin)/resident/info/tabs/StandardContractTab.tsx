@@ -1,5 +1,5 @@
 /**
- * Description : StandardContractTab.tsx - 📌 탭 2. 표준약관
+ * Description : StandardContractTab.tsx - ?? ? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */
@@ -15,14 +15,14 @@ export default function StandardContractTab() {
   const sectionTitleClass = 'flex items-center gap-1 text-[#2E6A9E] font-black text-[14px] mb-2';
 
   return (
-    <div className="flex flex-col gap-6 bg-white p-4 font-sans antialiased">
+    <div className="flex flex-col gap-6 font-sans text-[#333] antialiased">
       {/* 1. 표준약관 정보 섹션 */}
       <section>
-        <div className="mb-2 flex items-center justify-between">
+        <div className="mb-2 flex items-center justify-between border-b-2 border-[#2E6A9E] pb-1">
           <div className={sectionTitleClass}>
-            <i className="ri-checkbox-indeterminate-line"></i> 표준약관 정보
+            <i className="ri-file-list-3-line"></i> 표준약관 정보
           </div>
-          <button className="rounded border border-[#57A5CE] bg-[#E8F1F8] px-3 py-1 text-[11px] font-bold text-[#2E6A9E] shadow-sm">
+          <button className="rounded bg-[#57A5CE] px-3 py-1 text-[11px] font-bold text-white hover:bg-[#468db3]">
             표준약관 조회
           </button>
         </div>
@@ -31,43 +31,49 @@ export default function StandardContractTab() {
           <thead>
             <tr>
               <th
-                colSpan={2}
-                className="border border-[#B8D1E0] bg-[#E8F1F8] py-1.5 text-[12px] font-black text-[#2E6A9E]"
+                colSpan={4}
+                className="border border-[#B8D1E0] bg-[#E8F1F8] py-1.5 text-center text-[12px] font-bold text-gray-700"
               >
                 계약 정보
               </th>
               <th
                 colSpan={4}
-                className="border border-[#B8D1E0] bg-[#E8F1F8] py-1.5 text-[12px] font-black text-[#2E6A9E]"
+                className="border border-[#B8D1E0] bg-[#E8F1F8] py-1.5 text-center text-[12px] font-bold text-gray-700"
               >
                 본인부담금 정보 (세부내역 - 30일 기준)
+                <span className="float-right mr-2 text-[11px] font-normal text-gray-500">※ 시설비급여수가</span>
               </th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <th className={thClass}>계약일</th>
-              <td className={clsx(tdClass, 'text-center')}>2026.01.23</td>
-              <th className={thClass}>본인부담금(20%)</th>
-              <td className={clsx(tdClass, 'text-right')}>576,300 원</td>
+              <td colSpan={3} className={clsx(tdClass, 'text-center')}>
+                2026.01.23
+              </td>
+              <th className={thClass}>본인부담금(12%)</th>
+              <td className={clsx(tdClass, 'text-right')}>293,540 원</td>
               <th className={thClass}>식사재료비(1식)</th>
               <td className={clsx(tdClass, 'text-right')}>3,500 원</td>
             </tr>
             <tr>
               <th className={thClass}>계약기간</th>
-              <td className={clsx(tdClass, 'text-center')}>2026.01.23 ~ 2031.01.22</td>
+              <td colSpan={3} className={clsx(tdClass, 'text-center')}>
+                2026.01.23 ~ 2031.01.22
+              </td>
               <th className={thClass}>간식비(1식)</th>
-              <td className={clsx(tdClass, 'text-right')}>1,200 원 (1 회)</td>
+              <td className={clsx(tdClass, 'text-right')}>1,200 원 (2 회)</td>
               <th className={thClass}>경관유동식(1개월)</th>
               <td className={clsx(tdClass, 'text-right')}>0 원</td>
             </tr>
             <tr>
               <th className={thClass}>수급자</th>
-              <td className={tdClass}>
-                <div className="flex items-center justify-between">
-                  <span>가나다</span>
-                  <span className="text-[10px] font-normal italic text-gray-400">가나다</span>
-                </div>
+              <td className={clsx(tdClass, 'text-center')}>
+                가나당 <span className="text-[10px] text-gray-400">가나당</span>
+              </td>
+              <th className={thClass}>보호자</th>
+              <td className={clsx(tdClass, 'text-center')}>
+                김가나 <span className="text-[10px] text-gray-400">김가나</span>
               </td>
               <th className={thClass}>상급침실비(1박)</th>
               <td className={clsx(tdClass, 'text-right')}>0 원</td>
@@ -76,14 +82,23 @@ export default function StandardContractTab() {
             </tr>
             <tr>
               <th className={thClass}>인정등급</th>
-              <td className={clsx(tdClass, 'text-center font-bold')}>4등급</td>
+              <td colSpan={1} className={clsx(tdClass, 'text-center')}>
+                3등급
+              </td>
               <th className={thClass}>본인부담률</th>
-              <td className={clsx(tdClass, 'text-center')}>20% (일반)</td>
-              <th className="border border-[#B8D1E0] bg-[#FEFCE8] px-2 py-1.5 text-center text-[12px] font-bold text-gray-700">
+              <td className={clsx(tdClass, 'text-center text-[11px]')}>
+                12% (40%
+                <br />
+                감경대상자)
+              </td>
+              <th className="border border-[#B8D1E0] bg-[#E8F1F8] px-2 py-1.5 text-center text-[12px] font-bold text-gray-700">
                 본인부담금 합계
               </th>
-              <td className="border border-[#B8D1E0] bg-[#FEFCE8] px-3 py-1.5 text-right text-[14px] font-black text-gray-900">
-                928,300 원
+              <td
+                colSpan={3}
+                className="border border-[#B8D1E0] bg-[#FEFCE8] px-3 py-1.5 text-right text-[14px] font-black text-gray-900"
+              >
+                681,540 원
               </td>
             </tr>
           </tbody>
@@ -91,13 +106,15 @@ export default function StandardContractTab() {
 
         {/* 중앙 액션 버튼 */}
         <div className="mt-4 flex justify-center gap-2">
-          <button className="rounded bg-[#57A5CE] px-4 py-2 text-[12px] font-bold text-white shadow-md hover:bg-[#468db3]">
+          <button className="rounded bg-[#2E9FAE] px-6 py-2 text-[13px] font-bold text-white shadow-md hover:bg-[#25828e]">
             표준약관 신규등록
           </button>
-          <button className="rounded bg-[#57A5CE] px-4 py-2 text-[12px] font-bold text-white shadow-md hover:bg-[#468db3]">
+          <button className="rounded bg-[#57A5CE] px-6 py-2 text-[13px] font-bold text-white shadow-md hover:bg-[#468db3]">
             표준약관 발송 및 전자서명
+            <br />
+            <span className="text-[11px] font-normal">(서명완료)</span>
           </button>
-          <button className="rounded bg-[#7A8B9A] px-4 py-2 text-[12px] font-bold text-white shadow-md hover:bg-[#647481]">
+          <button className="rounded bg-[#7A8B9A] px-6 py-2 text-[13px] font-bold text-white shadow-md hover:bg-[#647481]">
             표준약관 출력
           </button>
         </div>
@@ -107,36 +124,56 @@ export default function StandardContractTab() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* 2. 표준약관 이력 섹션 */}
         <section>
-          <div className={sectionTitleClass}>
+          <div className="mb-2 flex items-center gap-1 border-b-2 border-[#B8D1E0] pb-1 text-[14px] font-black text-[#2E6A9E]">
             <i className="ri-checkbox-indeterminate-line"></i> 표준약관 이력
           </div>
           <table className="w-full border-collapse border border-[#B8D1E0]">
             <thead>
-              <tr className="bg-[#E8F1F8]">
-                <th className={clsx(thClass, 'w-12')}>연번</th>
-                <th className={thClass}>계약일</th>
-                <th className={thClass}>계약기간</th>
-                <th className={thClass}>수급자 서명</th>
-                <th className={thClass}>보호자 서명</th>
-                <th className={clsx(thClass, 'w-16')}>조회</th>
+              <tr className="bg-[#E8F1F8] text-[12px] text-gray-700">
+                <th className="w-10 border border-[#B8D1E0] py-1.5 font-bold">연번</th>
+                <th className="w-24 border border-[#B8D1E0] py-1.5 font-bold">계약일</th>
+                <th className="border border-[#B8D1E0] py-1.5 font-bold">계약기간</th>
+                <th className="w-16 border border-[#B8D1E0] py-1.5 font-bold">
+                  수급자
+                  <br />
+                  서명
+                </th>
+                <th className="w-16 border border-[#B8D1E0] py-1.5 font-bold">
+                  보호자
+                  <br />
+                  서명
+                </th>
+                <th className="w-16 border border-[#B8D1E0] py-1.5 font-bold">조회</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="bg-[#89C168]/20 transition-colors">
-                <td className={clsx(tdClass, 'text-center font-bold')}>1</td>
-                <td className={clsx(tdClass, 'bg-[#89C168] text-center font-black text-white')}>2026.01.23</td>
-                <td className={tdClass}>
-                  <div className="flex items-center gap-2">
-                    <span className="rounded bg-[#89C168] px-1 text-[10px] text-white">현재</span>
-                    <span className="font-bold text-[#4A7548]">2026.01.23 ~ 2031.01.22</span>
-                  </div>
+              {/* Row 1 (Active) */}
+              <tr className="bg-[#89C168]">
+                <td className="border border-[#B8D1E0] py-1 text-center text-[12px] font-bold text-white">2</td>
+                <td className="border border-[#B8D1E0] py-1 text-center text-[12px] font-bold text-white">
+                  2026.01.23
                 </td>
-                <td className={clsx(tdClass, 'text-center italic text-gray-400')}>가나다</td>
-                <td className={clsx(tdClass, 'text-center italic text-gray-400')}>김사랑</td>
-                <td className={tdClass}>
-                  <button className="w-full rounded bg-[#57A5CE] py-0.5 text-[11px] text-white shadow-inner">
-                    조회
-                  </button>
+                <td className="border border-[#B8D1E0] px-2 py-1 text-[12px] text-white">
+                  <span className="mr-1 rounded-sm bg-white px-1 text-[10px] font-bold text-[#89C168]">현재</span>
+                  <span className="font-bold">2026.01.23 ~ 2031.01.22</span>
+                </td>
+                <td className="border border-[#B8D1E0] py-1 text-center text-[12px] text-[#333]">가나당</td>
+                <td className="border border-[#B8D1E0] py-1 text-center text-[12px] text-[#333]">김가나</td>
+                <td className="border border-[#B8D1E0] py-1 text-center">
+                  <button className="rounded bg-[#57A5CE] px-2 py-0.5 text-[11px] text-white">조회</button>
+                </td>
+              </tr>
+              {/* Row 2 */}
+              <tr className="bg-white">
+                <td className="border border-[#B8D1E0] py-1 text-center text-[12px] text-gray-700">1</td>
+                <td className="border border-[#B8D1E0] py-1 text-center text-[12px] text-gray-700">2026.01.23</td>
+                <td className="border border-[#B8D1E0] px-2 py-1 text-center text-[12px] text-gray-700">
+                  2026.01.23 ~ 2031.01.22
+                </td>
+                <td className="border border-[#B8D1E0] py-1 text-center text-[12px] text-gray-700">미등록</td>
+                <td className="border border-[#B8D1E0] py-1 text-center text-[12px] text-gray-700">미등록</td>
+                <td className="border border-[#B8D1E0] py-1 text-center">
+                  <button className="rounded bg-[#57A5CE] px-2 py-0.5 text-[11px] text-white">조회</button>
                 </td>
               </tr>
             </tbody>
@@ -145,30 +182,46 @@ export default function StandardContractTab() {
 
         {/* 3. 입소시 제공(안내)문서 섹션 */}
         <section>
-          <div className={sectionTitleClass}>
+          <div className="mb-2 flex items-center gap-1 border-b-2 border-[#B8D1E0] pb-1 text-[14px] font-black text-[#2E6A9E]">
             <i className="ri-checkbox-indeterminate-line"></i> 입소시 제공(안내)문서
           </div>
-          <div className="grid grid-cols-4 border border-[#B8D1E0]">
-            {[
-              { label: '개인정보 동의서 (입소시)', date: '2026.01.23' },
-              { label: '노인인권 보호지침 (입소시)', date: '2026.01.23' },
-              { label: '직원인권 보호지침 (입소시)', date: '2026.01.23' },
-              { label: '연명의료 결정제도 (필요시)', date: '2026.01.23' },
-            ].map(doc => (
-              <div key={doc.label} className="flex flex-col border-r border-[#B8D1E0] last:border-r-0">
-                <div className="flex min-h-[60px] items-center justify-center bg-[#E8F1F8] p-3 text-center text-[11px] font-bold leading-tight text-gray-700">
-                  {doc.label} <i className="ri-question-line ml-1 text-gray-400"></i>
-                </div>
-                <div className="border-t border-[#B8D1E0] bg-white p-2">
-                  <button className="mb-2 w-full rounded bg-[#7A8B9A] py-1 text-[11px] text-white">출력</button>
-                  <div className="rounded border border-[#B8D1E0] bg-[#DCF2D8] p-2 text-center">
-                    <p className="text-[10px] font-bold text-[#4A7548]">작성완료</p>
-                    <p className="text-[10px] text-[#4A7548]">({doc.date})</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <table className="w-full border-collapse border border-[#B8D1E0]">
+            <thead>
+              <tr className="bg-[#E8F1F8] text-[12px] text-gray-700">
+                {[
+                  '개인정보\n동의서\n(입소시)',
+                  '노인인권\n보호지침\n(입소시)',
+                  '직원인권\n보호지침\n(입소시)',
+                  '연명의료\n결정제도\n(필요시)',
+                ].map((title, i) => (
+                  <th key={i} className="border border-[#B8D1E0] py-2 text-center font-bold leading-tight">
+                    {title.split('\n').map((line, j) => (
+                      <div key={j}>{line}</div>
+                    ))}
+                    {i < 3 && <i className="ri-question-fill ml-1 text-gray-500"></i>}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {[1, 2, 3, 4].map((_, i) => (
+                  <td key={i} className="border border-[#B8D1E0] bg-white p-2 text-center align-top">
+                    <button className="mb-2 w-full rounded bg-[#7A8B9A] py-1 text-[12px] font-bold text-white shadow-sm hover:bg-[#647481]">
+                      출력
+                    </button>
+
+                    <div className="rounded bg-[#EEF9E6] py-2 text-center">
+                      <div className="text-[12px] font-bold text-[#3E6B36]">
+                        {i === 3 ? '안내완료' : i === 0 ? '작성완료' : '제공완료'}
+                      </div>
+                      <div className="text-[11px] text-[#3E6B36]">(2026.01.23)</div>
+                    </div>
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
         </section>
       </div>
     </div>

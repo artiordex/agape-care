@@ -1,5 +1,5 @@
 /**
- * Description : src/index.ts - 📌 ConnectWon UI 전체 barrel export
+ * Description : index.ts - ?? src ?? ???
  * Author : Shiwoo Min
  * Date : 2025-09-28
  */

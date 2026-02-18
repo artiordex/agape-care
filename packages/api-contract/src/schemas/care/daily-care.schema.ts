@@ -1,3 +1,9 @@
+/**
+ * Description : daily-care.schema.ts - ?? care ??? ??? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { z } from 'zod';
 import { IdSchema, TimestampSchema } from '../../api-contract-types.js';
 

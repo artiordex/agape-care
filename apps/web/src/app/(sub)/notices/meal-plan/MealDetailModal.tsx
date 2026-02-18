@@ -1,5 +1,5 @@
 /**
- * Description : MealDetailModal.tsx - 📌 알림마당 식단표 상세 모달 (사진 업로드 기능 포함)
+ * Description : MealDetailModal.tsx - ?? MealDetailModal UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  * Updated : 2026-02-16 - 사진 업로드/수정/삭제 기능 추가

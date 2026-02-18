@@ -1,3 +1,9 @@
+/**
+ * Description : OtherAssessmentSection.tsx - ?? OtherAssessmentSection UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 // 4. 재활상태

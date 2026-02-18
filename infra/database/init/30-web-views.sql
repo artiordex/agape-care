@@ -1,4 +1,4 @@
--- Description : 30-web-views.sql - 📌 Web 알림마당 조회용 View
+-- Description : 30-web-views.sql - ?? ?????? DDL ? ?? ????
 -- Author : Shiwoo Min
 -- Date : 2025-02-09
 -- Purpose : Web에서 알림마당 콘텐츠를 효율적으로 조회하기 위한 가상 뷰

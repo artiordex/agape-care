@@ -1,5 +1,5 @@
 /**
- * Description : NoticesController.ts - 📌 알림마당 API Controller
+ * Description : notices.controller.ts - ?? web-view ??? API ????
  * Author : Shiwoo Min
  * Date : 2026-02-09
  */

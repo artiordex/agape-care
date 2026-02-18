@@ -1,5 +1,5 @@
 /**
- * Description : server.ts - 📌 Next.js 커스텀 서버 (TypeScript) - Admin Dashboard
+ * Description : server.ts - ?? server ?? ?? ??
  * Author : Shiwoo Min
  * Date : 2025-09-16
  */

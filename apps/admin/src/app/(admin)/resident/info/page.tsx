@@ -1,5 +1,5 @@
 /**
- * Description : page.tsx - 📌 입소자 정보 관리 페이지
+ * Description : page.tsx - ?? resident/info ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */
@@ -10,14 +10,13 @@ import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import React, { useMemo, useState } from 'react';
 import ResidentFormModal from './modal/ResidentFormModal';
+import ResidentRegistrationModal from './modal/ResidentRegistrationModal';
 import ResidentHeader from './ResidentHeader';
 import ResidentList from './ResidentList';
 import ResidentProfile from './ResidentProfile';
-import ResidentRegistrationModal from './modal/ResidentRegistrationModal';
 import ResidentTabs from './ResidentTabs';
 
 /* 11개 상세 관리 탭 컴포넌트 임포트 */
-import AdmissionHistoryTab from './tabs/AdmissionHistoryTab';
 import AssessmentTab from './tabs/AssessmentTab';
 import BasicInfoTab from './tabs/BasicInfoTab';
 import CareSummaryTab from './tabs/CareSummaryTab';
@@ -183,8 +182,6 @@ export default function ResidentManagementPage() {
         return <CopaymentTab />;
       case 'guardians':
         return <GuardiansTab guardians={selectedResident.guardians} />;
-      case 'admission-history':
-        return <AdmissionHistoryTab />;
       case 'documents':
         return <DocumentsTab />;
       case 'medication':
@@ -293,8 +290,7 @@ export default function ResidentManagementPage() {
       <ResidentRegistrationModal
         isOpen={isRegistrationModalOpen}
         onClose={() => setIsRegistrationModalOpen(false)}
-        onSave={data => {
-          console.log('New Resident Data:', data);
+        onSave={() => {
           alert('신규 입소자 등록이 완료되었습니다.');
           setIsRegistrationModalOpen(false);
         }}
@@ -306,8 +302,7 @@ export default function ResidentManagementPage() {
         mode="edit"
         initialData={selectedResident}
         onClose={() => setIsEditModalOpen(false)}
-        onSave={data => {
-          console.log('Updated Resident Data:', data);
+        onSave={() => {
           alert('정보 수정이 완료되었습니다.');
           setIsEditModalOpen(false);
         }}

@@ -1,3 +1,9 @@
+/**
+ * Description : InquiryDetailModal.tsx - ?? InquiryDetailModal UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import { WebInquiry } from './inquiry.type';

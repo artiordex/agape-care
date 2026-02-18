@@ -21,7 +21,10 @@ RUN pnpm install --frozen-lockfile
 ENV DATABASE_URL="postgresql://dummy:dummy@dummy:5432/dummy"
 RUN pnpm --filter @agape-care/database generate
 
-# API 빌드
+# Explicitly build dependencies to ensure local dist folders are populated
+RUN pnpm --filter @agape-care/api-contract build
+RUN pnpm --filter @agape-care/logger build
+RUN pnpm --filter @agape-care/database build
 # API 빌드
 RUN pnpm nx build @agape-care/api --skip-nx-cache
 
@@ -34,22 +37,25 @@ RUN if [ -d "/app/dist/apps/api/src" ]; then \
       echo "Structure is already flat."; \
     fi
 
+# ESM relative imports without extension can fail in Node runtime.
+# Normalize local relative imports to explicit ".js" in compiled output.
+RUN node -e "const fs=require('fs');const path=require('path');const root='/app/dist/apps/api';const exts=new Set(['.js','.mjs','.cjs','.json']);const files=[];const walk=d=>{if(!fs.existsSync(d))return;for(const n of fs.readdirSync(d)){const p=path.join(d,n);const s=fs.statSync(p);if(s.isDirectory())walk(p);else if(p.endsWith('.js'))files.push(p);}};const fix=(code,base)=>code.replace(/(from\\s+['\"])(\\.{1,2}\\/[^'\"\\n]+)(['\"])/g,(m,a,s,c)=>{if(path.extname(s))return m;const abs=path.resolve(base,s);if(fs.existsSync(abs+'.js'))return a+s+'.js'+c;if(fs.existsSync(path.join(abs,'index.js')))return a+s+'/index.js'+c;return m;}).replace(/(import\\s*\\(\\s*['\"])(\\.{1,2}\\/[^'\"\\n]+)(['\"]\\s*\\))/g,(m,a,s,c)=>{if(path.extname(s))return m;const abs=path.resolve(base,s);if(fs.existsSync(abs+'.js'))return a+s+'.js'+c;if(fs.existsSync(path.join(abs,'index.js')))return a+s+'/index.js'+c;return m;});walk(root);for(const f of files){const base=path.dirname(f);const src=fs.readFileSync(f,'utf8');const out=fix(src,base);if(out!==src)fs.writeFileSync(f,out);}console.log('patched files:',files.length);"
+
 # Production Dependencies Stage
 FROM node:22-alpine AS deps
 WORKDIR /app
 
 RUN npm install -g pnpm
 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-COPY apps/api/package.json ./apps/api/
-COPY packages/database/package.json ./packages/database/
-COPY packages/logger/package.json ./packages/logger/
-COPY packages/api-contract/package.json ./packages/api-contract/
+# Copy workspace config and full package artifacts (including dist) from builder
+COPY --from=builder /app/package.json /app/pnpm-lock.yaml /app/pnpm-workspace.yaml ./
+COPY --from=builder /app/apps/api/package.json ./apps/api/
+COPY --from=builder /app/packages ./packages
 
 RUN pnpm --filter @agape-care/api --prod --ignore-scripts deploy /tmp/api-deploy
 
 WORKDIR /tmp/api-deploy
-RUN pnpm exec prisma generate || true
+RUN npx prisma generate || true
 
 # Runtime Stage
 FROM node:22-alpine AS runner
@@ -58,12 +64,18 @@ ENV NODE_ENV=production
 
 RUN apk add --no-cache cairo pango libjpeg-turbo giflib pixman
 
-COPY --from=deps /tmp/api-deploy/node_modules ./node_modules
-COPY --from=deps /tmp/api-deploy/package.json ./package.json
+# Deployed standalone version
+COPY --from=deps /tmp/api-deploy/ ./
+
+# 로컬 패키지 참조 대응을 위해 packages 폴더도 복사 (심볼릭 링크 대비)
+COPY --from=builder /app/packages ./packages
 
 # 빌드 결과물 복사
-COPY --from=builder /app/dist/apps/api ./dist
+RUN rm -rf /app/dist
+COPY --from=builder /app/dist/apps/api/ ./dist/
+RUN node -e "const fs=require('fs');const path=require('path');const root='/app/dist';const files=[];const walk=d=>{if(!fs.existsSync(d))return;for(const n of fs.readdirSync(d)){const p=path.join(d,n);const s=fs.statSync(p);if(s.isDirectory())walk(p);else if(p.endsWith('.js'))files.push(p);}};const hasKnownExt=s=>/\\.(js|mjs|cjs|json)$/.test(s);const fix=code=>code.replace(/(from\\s+['\"])(\\.{1,2}\\/[^'\"\\n]+)(['\"])/g,(m,a,s,c)=>hasKnownExt(s)?m:a+s+'.js'+c).replace(/(import\\s*\\(\\s*['\"])(\\.{1,2}\\/[^'\"\\n]+)(['\"]\\s*\\))/g,(m,a,s,c)=>hasKnownExt(s)?m:a+s+'.js'+c);walk(root);let changed=0;for(const f of files){const src=fs.readFileSync(f,'utf8');const out=fix(src);if(out!==src){fs.writeFileSync(f,out);changed++;}}console.log('runtime patched files:',changed,'/',files.length);"
+RUN printf '%s\n' '#!/bin/sh' 'set -eu' 'echo [api-debug] node: $(node -v)' 'echo [api-debug] pwd: $(pwd)' 'ls -la /app || true' 'ls -la /app/dist || true' 'find /app/dist -maxdepth 4 -type f | head -n 120 || true' 'echo [api-debug] main.js imports:' 'grep -n "from " /app/dist/main.js | head -n 120 || true' 'exec node --trace-warnings --experimental-specifier-resolution=node /app/dist/main.js' > /app/entrypoint-api.sh && chmod +x /app/entrypoint-api.sh
 
 EXPOSE 8000
 
-CMD ["node", "dist/main.js"]
+CMD ["sh", "-c", "node -e \"const fs=require('fs');const p='/app/dist/main.js';if(fs.existsSync(p)){let s=fs.readFileSync(p,'utf8');s=s.replace(/(from\\s+['\\\"])(\\.{1,2}\\/[^'\\\"\\n]+)(['\\\"])/g,(m,a,b,c)=>/\\.(js|mjs|cjs|json)$/.test(b)?m:a+b+'.js'+c);fs.writeFileSync(p,s);console.log('[api-debug] startup patch applied');}\" && /app/entrypoint-api.sh"]

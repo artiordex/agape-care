@@ -1,5 +1,5 @@
 /**
- * Description : serialization.utils.ts - 📌 게시판/공지사항 데이터 직렬화 유틸리티
+ * Description : serialization.utils.ts - ?? ?? ???? ??
  * Author : Shiwoo Min
  * Date : 2026-02-09
  */

@@ -1,3 +1,10 @@
+/**
+ * Description : route.ts - ?? route ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
+import { logger } from '@agape-care/logger';
 import { NextRequest, NextResponse } from 'next/server';
 
 const API_URL = process.env.API_URL || 'http://localhost:8000/api';
@@ -29,7 +36,7 @@ export async function GET(request: NextRequest) {
       accessToken: token,
     });
   } catch (error) {
-    console.error('[API/auth/me] Error:', error);
+    logger.error('[API/auth/me] 사용자 정보 조회 중 오류 발생', { category: 'AUTH', error });
     return NextResponse.json({ success: false, message: '서버 오류가 발생했습니다.' }, { status: 500 });
   }
 }

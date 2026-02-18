@@ -1,5 +1,5 @@
 /**
- * Description : GeneralStatusSection.tsx - 📌 일반현황 섹션
+ * Description : GeneralStatusSection.tsx - ?? GeneralStatusSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

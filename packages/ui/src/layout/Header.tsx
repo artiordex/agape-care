@@ -1,5 +1,5 @@
 /**
- * Description : Header.tsx - 📌 ConnectWon UI 헤더 컴포넌트 (Next.js 비의존형)
+ * Description : Header.tsx - ?? Header UI ????
  * Author : Shiwoo Min
  * Date : 2025-10-07
  */

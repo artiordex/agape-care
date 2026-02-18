@@ -1,5 +1,5 @@
 /**
- * Description : MedicationStatus.tsx - 📌 대시보드 일일 투약 통제 섹션
+ * Description : MedicationStatus.tsx - ?? MedicationStatus UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

@@ -1,3 +1,9 @@
+/**
+ * Description : IndividualCalendar.tsx - ?? IndividualCalendar UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import React, { useEffect, useState, useMemo } from 'react';

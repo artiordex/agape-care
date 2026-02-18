@@ -1,5 +1,5 @@
 /**
- * Description : MobileNavbar.tsx - 📌 Agape-Care 모바일 메뉴 컴포넌트
+ * Description : MobileNavbar.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

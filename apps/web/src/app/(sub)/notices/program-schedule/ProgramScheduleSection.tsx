@@ -1,5 +1,5 @@
 /**
- * Description : ProgramScheduleSection.tsx - 📌 프로그램 통합 일정 관리 섹션
+ * Description : ProgramScheduleSection.tsx - ?? ProgramScheduleSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

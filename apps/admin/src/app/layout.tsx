@@ -1,5 +1,5 @@
 /**
- * Description : (admin)/layout.tsx - 📌 아가페 요양원 관리자 Main Layout
+ * Description : layout.tsx - ?? home ???? UI ????
  * Author : Shiwoo Min
  * Date : 2026-01-29
  */

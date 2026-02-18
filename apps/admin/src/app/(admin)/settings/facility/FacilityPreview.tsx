@@ -1,5 +1,5 @@
 /**
- * Description : FacilityPreview.tsx - 📌 시설 정보 관리 페이지 프리뷰
+ * Description : FacilityPreview.tsx - ?? FacilityPreview UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

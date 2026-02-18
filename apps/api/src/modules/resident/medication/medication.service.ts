@@ -1,3 +1,9 @@
+/**
+ * Description : medication.service.ts - ?? resident ??? ???? ?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { CreateMedicationRequest, GetMedicationsQuery, UpdateMedicationRequest } from '@agape-care/api-contract';
 import { PrismaService } from '@agape-care/database';
 import { Injectable, NotFoundException } from '@nestjs/common';

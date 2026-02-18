@@ -1,5 +1,5 @@
 /**
- * Description : DashboardPage.tsx - 📌 대시보드 메인 페이지
+ * Description : page.tsx - ?? dashboard ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-18
  */
@@ -39,7 +39,7 @@ export default function DashboardPage() {
   const handleQuickAction = (action: any) => {
     if (action.path) router.push(action.path);
     if (action.action === 'addSchedule') {
-      console.log('일정 추가 모달 활성화');
+      // TODO: 일정 추가 모달 구현
     }
     if (action.action === 'showFullMenu') {
       setIsFullMenuOpen(true);
@@ -100,7 +100,7 @@ export default function DashboardPage() {
               {/* 오늘의 일정 (1/3 영역 차지) */}
               <TodaySchedule
                 schedules={data.schedules}
-                onAdd={() => console.log('Show Schedule Modal')}
+                onAdd={() => {/* TODO: 일정 추가 모달 */}}
               />
             </>
           )}

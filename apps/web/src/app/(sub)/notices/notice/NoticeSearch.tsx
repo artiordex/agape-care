@@ -1,5 +1,5 @@
 /**
- * Description : NoticeSearchSection.tsx - 📌 공지사항 검색 섹션
+ * Description : NoticeSearch.tsx - ?? NoticeSearch UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

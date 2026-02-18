@@ -1,5 +1,5 @@
 /**
- * Description : ContactSection.tsx - 📌 연락 방법 섹션
+ * Description : ContactSection.tsx - ?? ContactSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

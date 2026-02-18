@@ -1,5 +1,5 @@
 /**
- * Description : inquiry.service.ts - 📌 상담 및 면회 문의 통합 서비스
+ * Description : inquiry.service.ts - ?? contents ??? ???? ?? ???
  * Author : (User)
  * Date : 2026-02-16
  */

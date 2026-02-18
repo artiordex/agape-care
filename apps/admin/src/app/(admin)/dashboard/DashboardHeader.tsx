@@ -1,5 +1,5 @@
 /**
- * Description : DashboardHeader.tsx - 📌 통합 운영 대시보드 헤더 컴포넌트
+ * Description : DashboardHeader.tsx - ?? DashboardHeader UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

@@ -1,3 +1,9 @@
+/**
+ * Description : WorkScheduleCalendar.tsx - ?? WorkScheduleCalendar UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';

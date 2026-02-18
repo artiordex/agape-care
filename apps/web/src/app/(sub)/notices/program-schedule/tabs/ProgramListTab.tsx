@@ -1,5 +1,5 @@
 /**
- * Description : ProgramListTab.tsx - 📌 프로그램 일정 목록 탭
+ * Description : ProgramListTab.tsx - ?? ? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

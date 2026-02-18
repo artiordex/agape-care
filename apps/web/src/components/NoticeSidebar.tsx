@@ -1,5 +1,5 @@
 /**
- * Description : NoticeSidebar.tsx - 📌 Agape-Care 알림마당 사이드바 컴포넌트
+ * Description : NoticeSidebar.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

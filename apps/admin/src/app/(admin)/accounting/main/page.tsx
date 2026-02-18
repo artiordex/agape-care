@@ -1,3 +1,9 @@
+/**
+ * Description : page.tsx - ?? accounting/main ??? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -84,12 +90,12 @@ export default function AccountingPage() {
 
   // --- [2] 액션 핸들러 ---
   const handleExcelDownload = () => alert(`${selectedMonth} 회계 데이터를 엑셀로 추출합니다.`);
-  const handleSaveTransaction = (data: any) => {
-    console.log('거래 저장:', data);
+  const handleSaveTransaction = (_data: any) => {
+    // TODO: 거래 저장 API 연동
     setModalState({ type: null });
   };
-  const handleSaveAccount = (data: any) => {
-    console.log('계정 저장:', data);
+  const handleSaveAccount = (_data: any) => {
+    // TODO: 계정 저장 API 연동
     setModalState({ type: null });
   };
 

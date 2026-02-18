@@ -1,5 +1,5 @@
 /**
- * Description : Button.tsx - 📌 재사용 가능한 버튼 컴포넌트
+ * Description : Button.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

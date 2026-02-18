@@ -1,5 +1,5 @@
 /**
- * Description : PopupController.ts - 📌 팝업 API Controller
+ * Description : popup.controller.ts - ?? web-view ??? API ????
  * Author : Shiwoo Min
  * Date : 2026-02-16
  */

@@ -1,3 +1,9 @@
+/**
+ * Description : auth.store.ts - ?? auth.store ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { create } from 'zustand';
 
 export interface AuthUser {

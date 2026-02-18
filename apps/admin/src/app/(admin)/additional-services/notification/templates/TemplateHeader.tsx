@@ -1,5 +1,5 @@
 /**
- * Description : TemplateHeader.tsx - 템플릿 관리 통합 헤더
+ * Description : TemplateHeader.tsx - ?? TemplateHeader UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-18
  */

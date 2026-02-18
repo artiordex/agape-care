@@ -1,5 +1,5 @@
 /**
- * Description : DirectorMessageSection.tsx - 📌 인사말
+ * Description : DirectorMessageSection.tsx - ?? DirectorMessageSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

@@ -1,4 +1,4 @@
--- Description : 99-web-final-setup.sql - 📱 Web 알림마당 Final Initialization Script
+-- Description : 99-final-setup.sql - ?? ?????? DDL ? ?? ????
 -- Author : Shiwoo Min
 -- Date : 2025-02-09
 -- Purpose : Web 알림마당 view 및 인덱스 최적화
@@ -185,6 +185,9 @@ BEGIN
     RAISE NOTICE '========================================';
 
     -- 관련 테이블 분석
+    ANALYZE residents;
+    ANALYZE rooms;
+    ANALYZE resident_rooms;
     ANALYZE notices;
     ANALYZE notice_files;
     ANALYZE board_posts;
@@ -204,8 +207,32 @@ BEGIN
     ANALYZE departments;
     ANALYZE employee_roles;
     ANALYZE employee_permissions;
+    -- 방문예약 / 웹문의 / 팝업 테이블
+    ANALYZE visit_reservations;
+    ANALYZE web_inquiries;
+    ANALYZE popup_banners;
+    -- 추가 서비스 테이블
+    ANALYZE notification_templates;
+    ANALYZE notification_campaigns;
+    ANALYZE notification_campaign_recipients;
+    ANALYZE recipient_groups;
+    ANALYZE recipient_group_members;
+    ANALYZE sms_credits;
+    ANALYZE facility_files;
+    -- 입소자 관리 테이블
+    ANALYZE resident_contacts;
+    ANALYZE resident_medications;
+    ANALYZE resident_contracts;
+    ANALYZE resident_assessments;
+    ANALYZE resident_extra_costs;
+    ANALYZE resident_payments;
+    ANALYZE resident_documents;
+    ANALYZE consultation_records;
+    ANALYZE consultation_files;
+    ANALYZE care_plans;
+    ANALYZE care_plan_items;
 
-    RAISE NOTICE '  ✓ All tables analyzed';
+    RAISE NOTICE '  ✓ All tables analyzed (including notification, additional-services, resident-care)';
     RAISE NOTICE '';
     RAISE NOTICE 'Statistics Updated';
     RAISE NOTICE '';
@@ -413,10 +440,41 @@ BEGIN
     RAISE NOTICE '=================================================';
     RAISE NOTICE '    Available Admin Views';
     RAISE NOTICE '=================================================';
-    RAISE NOTICE '  • v_admin_facilities           - 시설 정보';
-    RAISE NOTICE '  • v_admin_site_settings        - 사이트 설정';
-    RAISE NOTICE '  • v_admin_employees            - 직원 목록';
-    RAISE NOTICE '  • v_admin_employee_permissions - 직원 권한 상세';
+    RAISE NOTICE '  • v_admin_facilities                - 시설 정보';
+    RAISE NOTICE '  • v_admin_site_settings             - 사이트 설정';
+    RAISE NOTICE '  • v_admin_employees                 - 직원 목록';
+    RAISE NOTICE '  • v_admin_employee_permissions      - 직원 권한 상세';
+    RAISE NOTICE '  • v_admin_notification_templates    - 알림 템플릿';
+    RAISE NOTICE '  • v_admin_notification_campaigns    - 알림 캠페인';
+    RAISE NOTICE '  • v_admin_recipient_groups          - 수신자 그룹';
+    RAISE NOTICE '  • v_admin_facility_files            - 자료실 파일';
+    RAISE NOTICE '  • v_admin_residents                 - 입소자 목록 (방+보호자)';
+    RAISE NOTICE '  • v_admin_resident_assessments      - 기초평가 이력';
+    RAISE NOTICE '  • v_admin_consultation_records      - 상담일지';
+    RAISE NOTICE '  • v_admin_resident_extra_costs      - 비급여/기타 내역';
     RAISE NOTICE '';
+    RAISE NOTICE '=================================================';
+    RAISE NOTICE '    Additional Tables Added';
+    RAISE NOTICE '=================================================';
+    RAISE NOTICE '  [알림/추가서비스]';
+    RAISE NOTICE '  + notification_templates';
+    RAISE NOTICE '  + notification_campaigns';
+    RAISE NOTICE '  + notification_campaign_recipients';
+    RAISE NOTICE '  + recipient_groups';
+    RAISE NOTICE '  + recipient_group_members';
+    RAISE NOTICE '  + sms_credits';
+    RAISE NOTICE '  + facility_files';
+    RAISE NOTICE '  [입소자 관리]';
+    RAISE NOTICE '  + resident_contacts';
+    RAISE NOTICE '  + resident_medications';
+    RAISE NOTICE '  + resident_contracts';
+    RAISE NOTICE '  + resident_assessments';
+    RAISE NOTICE '  + resident_extra_costs';
+    RAISE NOTICE '  + resident_payments';
+    RAISE NOTICE '  + resident_documents';
+    RAISE NOTICE '  + consultation_records';
+    RAISE NOTICE '  + consultation_files';
+    RAISE NOTICE '  + care_plans';
+    RAISE NOTICE '  + care_plan_items';
     RAISE NOTICE '=================================================';
 END$$;

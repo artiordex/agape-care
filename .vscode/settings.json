@@ -196,7 +196,13 @@
     "smhd",
     "huggingface",
     "Vite",
-    "Pretendard"
+    "Pretendard",
+    "ioredis",
+    "PGDATA",
+    "pg_isready",
+    "REDIS_MAXMEMORY",
+    "redisinsight",
+    "POSTGRESDB"
   ],
 
   // 파일을 새 탭에서 열기

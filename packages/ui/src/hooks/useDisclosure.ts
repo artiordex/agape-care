@@ -1,5 +1,5 @@
 /**
- * Description : useDisclosure.ts - 📌 모달/드롭다운 열림 상태 관리
+ * Description : useDisclosure.ts - ?? ??? ?
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

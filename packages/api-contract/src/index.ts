@@ -1,3 +1,9 @@
+/**
+ * Description : index.ts - ?? src ?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { initContract } from '@ts-rest/core';
 import {
   accountingContract,

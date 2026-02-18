@@ -1,5 +1,5 @@
 /**
- * Description : page.tsx - 📌 Agape-Care 조직 및 시설 현황 통합 페이지
+ * Description : page.tsx - ?? intro/facility-overview ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

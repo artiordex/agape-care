@@ -1,3 +1,9 @@
+/**
+ * Description : HistoryCardView.tsx - ?? HistoryCardView UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import React from 'react';

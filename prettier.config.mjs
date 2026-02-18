@@ -1,5 +1,5 @@
 /**
- * Description : prettier.config.mjs - 📌 Agape-Care Prettier 설정
+ * Description : prettier.config.mjs - ?? ???? ?? ??
  * Author : Shiwoo Min
  * Date : 2026-01-22
  * Note :

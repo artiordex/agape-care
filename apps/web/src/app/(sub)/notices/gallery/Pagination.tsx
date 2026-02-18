@@ -1,5 +1,5 @@
 /**
- * Description : Pagination.tsx - 📌 갤러리 페이지네이션
+ * Description : Pagination.tsx - ?? Pagination UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

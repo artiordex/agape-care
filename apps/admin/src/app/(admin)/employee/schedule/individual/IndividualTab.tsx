@@ -1,3 +1,9 @@
+/**
+ * Description : IndividualTab.tsx - ?? IndividualTab UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import React, { useState, useEffect } from 'react';

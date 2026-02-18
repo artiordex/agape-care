@@ -1,5 +1,5 @@
 /**
- * Description : StatsCards.tsx - 📌 대시보드 핵심 운영 지표 카드 그룹
+ * Description : StatsCards.tsx - ?? StatsCards UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

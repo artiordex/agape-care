@@ -1,3 +1,9 @@
+/**
+ * Description : accounting.service.ts - ?? accounting ??? ???? ?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

@@ -1,5 +1,5 @@
 /**
- * Description : VisitRulesSection.tsx - 📌 면회 규정 섹션
+ * Description : VisitRulesSection.tsx - ?? VisitRulesSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

@@ -6,19 +6,9 @@
 
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "nx:run-commands",
       "options": {
-        "main": "apps/worker/src/main.ts",
-        "tsConfig": "apps/worker/tsconfig.json",
-        "outputPath": "dist/apps/worker",
-        "assets": [
-          "apps/worker/src/**/*.json",
-          {
-            "input": "apps/worker",
-            "glob": "package.json",
-            "output": "."
-          }
-        ]
+        "command": "pnpm exec node -e \"const fs=require('fs');fs.rmSync('dist/apps/worker',{recursive:true,force:true});fs.mkdirSync('dist/apps/worker',{recursive:true});\" && pnpm exec tsc -p apps/worker/tsconfig.json --outDir dist/apps/worker --tsBuildInfoFile dist/apps/worker/.tsbuildinfo && pnpm exec node -e \"require('fs').copyFileSync('apps/worker/package.json','dist/apps/worker/package.json')\""
       },
       "outputs": ["{workspaceRoot}/dist/apps/worker"]
     },

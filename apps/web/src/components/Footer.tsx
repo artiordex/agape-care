@@ -1,5 +1,5 @@
 /**
- * Description : Footer.tsx - 📌 아가페 요양원 푸터 컴포넌트
+ * Description : Footer.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

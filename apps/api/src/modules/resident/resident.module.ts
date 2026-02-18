@@ -1,3 +1,9 @@
+/**
+ * Description : resident.module.ts - ?? resident ?? ??? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { Module } from '@nestjs/common';
 import { ContactService } from './contact/contact.service';
 import { HealthService } from './health/health.service';

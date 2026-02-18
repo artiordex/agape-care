@@ -14,16 +14,15 @@ ENV HUSKY=0
 
 RUN npm install -g pnpm
 
-# Root workspace files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
-    tsconfig.json tsconfig.base.json ./
+# Copy everything
+COPY . .
 
-# Workspace packages
-COPY apps ./apps
-COPY packages ./packages
-
-# 전체 workspace 의존성 설치 (필터 제거)
 RUN pnpm install --frozen-lockfile
+
+# Explicitly build dependencies to ensure local dist folders are populated
+RUN pnpm --filter @agape-care/api-contract build
+RUN pnpm --filter @agape-care/ui build
+RUN pnpm --filter @agape-care/logger build
 
 # Build admin (Next.js standalone)
 RUN pnpm nx build @agape-care/admin --skip-nx-cache
@@ -42,6 +41,10 @@ COPY --from=build /app/dist/apps/admin/.next/standalone ./
 # Next.js static assets
 COPY --from=build /app/dist/apps/admin/.next/static ./.next/static
 COPY --from=build /app/dist/apps/admin/.next/static ./apps/admin/.next/static
+COPY --from=build /app/dist/apps/admin/.next/static ./dist/apps/admin/.next/static
+
+# Next.js public assets
+COPY --from=build /app/apps/admin/public ./apps/admin/public
 
 # public 폴더가 비어있을 경우를 대비해 빈 폴더 생성
 RUN mkdir -p ./apps/admin/public

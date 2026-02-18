@@ -1,5 +1,5 @@
 /**
- * Description : VisionSection.tsx - 📌 기관의 가치와 목표 섹션
+ * Description : VisionSection.tsx - ?? VisionSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

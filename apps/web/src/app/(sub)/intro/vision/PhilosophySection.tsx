@@ -1,5 +1,5 @@
 /**
- * Description : PhilosophySection.tsx - 📌 운영 철학
+ * Description : PhilosophySection.tsx - ?? PhilosophySection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

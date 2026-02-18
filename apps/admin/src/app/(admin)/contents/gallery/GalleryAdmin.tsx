@@ -1,5 +1,5 @@
 /**
- * Description : GalleryAdmin.tsx - 📌 갤러리 관리 통합 시스템
+ * Description : GalleryAdmin.tsx - ?? GalleryAdmin UI ????
  * Author : (User)
  * Date : 2026-02-16
  */

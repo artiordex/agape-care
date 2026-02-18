@@ -1,3 +1,9 @@
+/**
+ * Description : MedicationManagementAdvanced.tsx - ?? MedicationManagementAdvanced UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import React, { useState } from 'react';
 
 interface Medication {

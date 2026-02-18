@@ -1,4 +1,10 @@
 /**
+ * Description : ScheduleValidator.ts - ?? ScheduleValidator UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
+/**
  * [로직] 아가페 근무 유효성 정밀 검증 엔진 (Schedule Validator)
  * 법정 근로 기준 및 시설 운영 지침 준수 여부 최종 감사 프로토콜
  */

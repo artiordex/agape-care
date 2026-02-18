@@ -1,5 +1,5 @@
 /**
- * Description : FloatingSidebar.tsx - 📌 Agape-Care 플로팅 사이드바 컴포넌트
+ * Description : FloatingSidebar.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

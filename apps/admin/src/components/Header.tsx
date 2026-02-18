@@ -1,5 +1,5 @@
 /**
- * Description : Header.tsx - 📌 관리자 페이지 헤더
+ * Description : Header.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

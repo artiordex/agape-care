@@ -1,5 +1,5 @@
 /**
- * Description : main.ts - 📌 Minimal NestJS API bootstrap
+ * Description : main.ts - ?? src ?????? ???
  * Author : Shiwoo Min
  * Date : 2026-01-25
  * Updated : 2026-01-26

@@ -1,5 +1,5 @@
 /**
- * Description : OutingMonthlyReport.tsx - 📊 이미지(image_8205c3.png) 기반 수급자 외출·외박 목록
+ * Description : OutingAllReport.tsx - ?? OutingAllReport UI ????
  */
 
 'use client';

@@ -1,5 +1,5 @@
 /**
- * Description: console.ts - 📌 콘솔 트랜스포트 (개선 버전)
+ * Description : console.ts - ?? console ?? ?? ??
  * Author: Shiwoo Min
  * Date: 2026-01-24
  */

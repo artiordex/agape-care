@@ -1,5 +1,5 @@
 /**
- * Description : web-types - 📌 WEB 컴포넌트 관련 타입정의
+ * Description : web-types.ts - ?? web-types ?? ?? ??
  * Author : Shiwoo Min
  * Date : 2025-09-07
  */

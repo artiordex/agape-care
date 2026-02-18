@@ -1,3 +1,9 @@
+/**
+ * Description : page.tsx - ?? resident/info/edit/[id] ??? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import { api } from '@/lib/api';

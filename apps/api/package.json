@@ -1,7 +1,7 @@
 {
   "name": "@agape-care/api",
   "version": "1.0.0",
-  "type": "commonjs",
+  "type": "module",
   "description": "Agape-Care REST-API 기반 백엔드",
   "private": true,
   "scripts": {

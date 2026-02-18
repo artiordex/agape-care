@@ -1,5 +1,5 @@
 /**
- * Description : Grid.tsx - 📌 그리드 레이아웃 컴포넌트
+ * Description : Grid.tsx - ?? Grid UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-25
  */

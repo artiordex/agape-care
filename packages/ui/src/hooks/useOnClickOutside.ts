@@ -1,5 +1,5 @@
 /**
- * Description : useOnClickOutside.ts - 📌 특정 요소 바깥 클릭 감지
+ * Description : useOnClickOutside.ts - ?? ??? ?
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

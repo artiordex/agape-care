@@ -1,5 +1,5 @@
 /**
- * Description : RadioGroup.tsx - 📌 라디오 버튼 그룹 컴포넌트
+ * Description : RadioGroup.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

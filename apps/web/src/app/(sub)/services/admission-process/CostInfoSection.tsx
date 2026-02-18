@@ -1,3 +1,9 @@
+/**
+ * Description : CostInfoSection.tsx - ?? CostInfoSection UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import { motion } from 'framer-motion';

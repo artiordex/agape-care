@@ -7,32 +7,12 @@
 
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "nx:run-commands",
       "options": {
-        "main": "packages/ui/src/index.ts",
-        "outputPath": "dist/packages/ui",
-        "tsConfig": "packages/ui/tsconfig.json",
-        "assets": [
-          "packages/ui/package.json",
-          {
-            "glob": "*.css",
-            "input": "packages/ui/src/styles",
-            "output": "styles"
-          },
-          {
-            "glob": "tailwind.config.*",
-            "input": "packages/ui",
-            "output": "."
-          },
-          {
-            "glob": "**/*",
-            "input": "packages/ui/public",
-            "output": "public"
-          }
-        ]
+        "command": "pnpm exec node -e \"const fs=require('fs');fs.rmSync('dist/packages/ui',{recursive:true,force:true});fs.mkdirSync('dist/packages/ui',{recursive:true});\" && pnpm exec tsc -p packages/ui/tsconfig.json --outDir dist/packages/ui --declarationDir dist/packages/ui --tsBuildInfoFile dist/packages/ui/.tsbuildinfo && pnpm exec node -e \"const fs=require('fs');fs.copyFileSync('packages/ui/package.json','dist/packages/ui/package.json');fs.copyFileSync('packages/ui/tailwind.config.mjs','dist/packages/ui/tailwind.config.mjs');fs.cpSync('packages/ui/public','dist/packages/ui/public',{recursive:true,force:true});fs.cpSync('packages/ui/src/styles','dist/packages/ui/styles',{recursive:true,force:true});\""
       },
       "dependsOn": ["^build"],
-      "outputs": ["{options.outputPath}"]
+      "outputs": ["{workspaceRoot}/dist/packages/ui"]
     },
 
     "type-check": {

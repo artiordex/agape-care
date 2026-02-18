@@ -1,5 +1,5 @@
 /**
- * Description : layout.tsx - 📌 알림마당 레이아웃
+ * Description : layout.tsx - ?? notices ???? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

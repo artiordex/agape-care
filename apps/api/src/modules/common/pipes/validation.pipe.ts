@@ -1,3 +1,9 @@
+/**
+ * Description : validation.pipe.ts - ?? ?? ??? ??/?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { BadRequestException, Injectable, ValidationPipe as NestValidationPipe } from '@nestjs/common';
 
 @Injectable()

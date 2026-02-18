@@ -1,5 +1,5 @@
 /**
- * Description : MonthHeader.tsx - 📌 월 제어 헤더
+ * Description : ProgramHeader.tsx - ?? ProgramHeader UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

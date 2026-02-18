@@ -1,5 +1,5 @@
 /**
- * Description : OutingManagementPage.tsx - 📌 뷰 전환(관제/보고서) 기능이 추가된 통합 페이지
+ * Description : page.tsx - ?? resident/outing ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

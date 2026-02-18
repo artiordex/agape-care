@@ -1,3 +1,9 @@
+/**
+ * Description : TemplateDetailModal.tsx - ?? TemplateDetailModal UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import type { Template } from './TemplateTable';

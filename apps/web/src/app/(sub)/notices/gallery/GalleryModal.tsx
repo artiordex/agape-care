@@ -1,5 +1,5 @@
 /**
- * Description : GalleryModal.tsx - 📌 갤러리 이미지 슬라이드 모달
+ * Description : GalleryModal.tsx - ?? GalleryModal UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

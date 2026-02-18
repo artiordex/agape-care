@@ -1,3 +1,9 @@
+/**
+ * Description : route.ts - ?? route ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { NextResponse } from 'next/server';
 
 export async function POST() {

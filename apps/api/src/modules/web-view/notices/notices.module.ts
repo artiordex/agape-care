@@ -1,5 +1,5 @@
 /**
- * Description : NoticesModule.ts - 📌 알림마당 모듈
+ * Description : notices.module.ts - ?? web-view ?? ??? ?? ??
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

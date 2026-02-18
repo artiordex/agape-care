@@ -1,5 +1,5 @@
 /**
- * Description : LifeRuleSection.tsx - 📌 생활 규칙 안내
+ * Description : LifeRuleSection.tsx - ?? LifeRuleSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

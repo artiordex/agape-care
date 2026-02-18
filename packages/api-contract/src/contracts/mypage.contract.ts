@@ -19,7 +19,7 @@ export const myPageContract = {
    */
   getMyProfile: {
     method: 'GET' as const,
-    path: '/api/mypage/profile',
+    path: '/mypage/profile',
     responses: {
       200: ApiResponseSchema(MyProfileSchema),
     },
@@ -33,7 +33,7 @@ export const myPageContract = {
    */
   updateMyProfile: {
     method: 'PATCH' as const,
-    path: '/api/mypage/profile',
+    path: '/mypage/profile',
     body: UpdateMyProfileSchema,
     responses: {
       200: ApiResponseSchema(MyProfileSchema),
@@ -48,7 +48,7 @@ export const myPageContract = {
    */
   getMySchedules: {
     method: 'GET' as const,
-    path: '/api/mypage/schedules',
+    path: '/mypage/schedules',
     query: z.object({
       startDate: z.string().optional(),
       endDate: z.string().optional(),

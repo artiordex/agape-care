@@ -1,5 +1,5 @@
 /**
- * Description : ExtraCostModal.tsx - 📌 케어포 스타일 기타 비용(비급여) 등록 모달
+ * Description : ExtraCostModal.tsx - ?? ?? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

@@ -51,10 +51,12 @@ test
 # Allowed (whitelist)
 !packages/*/src
 !packages/*/package.json
+!packages/*/project.json
 !packages/*/tsconfig.json
 !packages/*/*.ts
 !packages/*/*.d.ts
 !packages/*/prisma/**
+!packages/*/public
 # Tailwind / PostCSS / Config 허용
 !packages/*/tailwind.config.*
 !packages/*/postcss.config.*
@@ -64,6 +66,7 @@ test
 !apps/*/src
 !apps/*/public
 !apps/*/package.json
+!apps/*/project.json
 !apps/*/next.config.*
 !apps/*/tailwind.config.*
 !apps/*/postcss.config.*

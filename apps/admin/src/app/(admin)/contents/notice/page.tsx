@@ -1,3 +1,9 @@
+/**
+ * Description : page.tsx - ?? contents/notice ??? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import { api } from '@/lib/api';
@@ -69,9 +75,7 @@ export default function NoticeManagementPage() {
 
   // 데이터 매핑 (API -> UI)
   useEffect(() => {
-    console.log('Notice Page - noticesData:', noticesData);
     if (noticesData?.status === 200) {
-      console.log('Notice Page - noticesData.body.data:', noticesData.body.data);
       const mapped: Notice[] = noticesData.body.data.map((notice: any) => ({
         id: notice.id,
         category: categoryToKor(notice.category),

@@ -1,3 +1,9 @@
+/**
+ * Description : page.tsx - ?? contents/board ??? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import FreeBoardAdmin from './BoardAdmin';

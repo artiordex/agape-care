@@ -1,10 +1,21 @@
-import { CreateVisitReservation } from '@agape-care/api-contract';
+/**
+ * Description : visit-inquiry.service.ts - ?? web-view ??? ???? ?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
+import { CreateVisitReservation, InquiryJobData, QUEUE_NAMES } from '@agape-care/api-contract';
 import { PrismaService } from '@agape-care/database';
+import { InjectQueue } from '@nestjs/bullmq';
 import { Injectable } from '@nestjs/common';
+import { Queue } from 'bullmq';
 
 @Injectable()
 export class VisitReservationService {
-  constructor(private readonly db: PrismaService) {}
+  constructor(
+    private readonly db: PrismaService,
+    @InjectQueue(QUEUE_NAMES.INQUIRY) private readonly inquiryQueue: Queue<InquiryJobData>,
+  ) {}
 
   async create(data: CreateVisitReservation) {
     const reservation = await this.db.visitReservation.create({
@@ -13,6 +24,16 @@ export class VisitReservationService {
         visitDate: data.visitDate ? new Date(data.visitDate) : new Date(),
         status: 'PENDING',
       },
+    });
+
+    await this.inquiryQueue.add('visit-inquiry', {
+      inquiryId: reservation.id.toString(),
+      type: 'VISIT',
+      name: reservation.visitorName,
+      phone: reservation.visitorPhone,
+      content: reservation.notes ?? undefined,
+      visitDate: reservation.visitDate.toISOString().split('T')[0],
+      visitTime: reservation.visitTime,
     });
 
     return this.serialize(reservation);

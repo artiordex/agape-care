@@ -6,14 +6,11 @@
 
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "nx:run-commands",
       "options": {
-        "main": "packages/database/src/index.ts",
-        "outputPath": "dist/packages/database",
-        "tsConfig": "packages/database/tsconfig.json",
-        "assets": ["packages/database/package.json", "packages/database/prisma/schema.prisma"]
+        "command": "pnpm exec node -e \"const fs=require('fs');fs.rmSync('dist/packages/database',{recursive:true,force:true});fs.mkdirSync('dist/packages/database/prisma',{recursive:true});\" && pnpm exec tsc -p packages/database/tsconfig.json --outDir dist/packages/database --declarationDir dist/packages/database --tsBuildInfoFile dist/packages/database/.tsbuildinfo && pnpm exec node -e \"const fs=require('fs');fs.copyFileSync('packages/database/package.json','dist/packages/database/package.json');fs.copyFileSync('packages/database/prisma/schema.prisma','dist/packages/database/prisma/schema.prisma')\""
       },
-      "outputs": ["{options.outputPath}"]
+      "outputs": ["{workspaceRoot}/dist/packages/database"]
     },
 
     "prisma:generate": {

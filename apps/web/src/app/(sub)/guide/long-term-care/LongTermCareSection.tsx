@@ -1,5 +1,5 @@
 /**
- * Description : LongTermCareSection.tsx - 📌 원형 배경 제거 및 굵은 화살표 디자인 적용
+ * Description : LongTermCareSection.tsx - ?? LongTermCareSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

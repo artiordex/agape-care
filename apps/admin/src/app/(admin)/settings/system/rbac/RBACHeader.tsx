@@ -1,3 +1,9 @@
+/**
+ * Description : RBACHeader.tsx - ?? RBACHeader UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 interface Props {
@@ -40,7 +46,7 @@ export default function RBACHeader({ selectedName, activeTab, isSaving, onSave }
       <div className="flex items-center gap-2">
         {/* 권한 변경 이력 (Audit Log) */}
         <button className="flex items-center gap-1.5 border border-gray-300 bg-white px-4 py-2 text-[12px] font-bold text-gray-600 shadow-sm transition-all hover:bg-gray-50">
-          <i className="ri-history-line"></i>보안 변경 이력
+          <i className="ri-history-line"></i> 보안 변경 이력
         </button>
 
         {/* 저장 버튼 (Main Action - Agape Green) */}
@@ -51,13 +57,11 @@ export default function RBACHeader({ selectedName, activeTab, isSaving, onSave }
         >
           {isSaving ? (
             <>
-              <i className="ri-loader-4-line animate-spin text-sm"></i>
-              보안 정책 동기화 중...
+              <i className="ri-loader-4-line animate-spin text-sm"></i> 보안 정책 동기화 중...
             </>
           ) : (
             <>
-              <i className="ri-shield-check-line text-sm"></i>
-              보안 설정 즉시 반영
+              <i className="ri-shield-check-line text-sm"></i> 보안 설정 즉시 반영
             </>
           )}
         </button>

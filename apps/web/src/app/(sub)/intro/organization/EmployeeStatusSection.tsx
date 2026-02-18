@@ -1,5 +1,5 @@
 /**
- * Description : EmployeeStatusSection.tsx - 📌 JSON 데이터 연동 및 자동 인원 합산 구현
+ * Description : EmployeeStatusSection.tsx - ?? EmployeeStatusSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

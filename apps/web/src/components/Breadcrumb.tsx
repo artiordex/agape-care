@@ -1,5 +1,5 @@
 /**
- * Description : Breadcrumb.tsx - 📌 Agape-Care 브레드크럼 컴포넌트
+ * Description : Breadcrumb.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

@@ -1,4 +1,10 @@
 /**
+ * Description : gallery.type.ts - ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
+/**
  * [Type] 갤러리 카테고리 정의
  */
 export type GalleryCategory = '활동' | '시설' | '행사' | '기타' | string;

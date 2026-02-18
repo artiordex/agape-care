@@ -1,16 +1,19 @@
 /**
- * Description : main.ts - 📌 Agape-Care Background Worker (BullMQ Consumer)
+ * Description : main.ts - ?? src ?????? ???
  * Author : Shiwoo Min
- * Updated : 2026-01-26
+ * Updated : 2026-02-18
  */
 
-import { QUEUE_NAMES } from '@agape-care/api-contract';
+import { EmailJobData, NotificationJobData, QUEUE_NAMES, SmsJobData } from '@agape-care/api-contract';
 import { logger } from '@agape-care/logger';
-import { Worker } from 'bullmq';
+import { Queue, Worker } from 'bullmq';
 import * as dotenv from 'dotenv';
 import { Redis } from 'ioredis';
 import path from 'node:path';
-import { emailProcessor } from './processors/email.processor';
+import { emailProcessor } from './processors/email.processor.js';
+import { createInquiryProcessor } from './processors/inquiry.processor.js';
+import { notificationProcessor } from './processors/notification.processor.js';
+import { smsProcessor } from './processors/sms.processor.js';
 
 // .env 로드
 dotenv.config();
@@ -19,12 +22,6 @@ dotenv.config({ path: path.resolve(process.cwd(), '../../.env'), override: true 
 // 서비스명 설정
 logger.setLogLevel((process.env.LOG_LEVEL as any) || 'info');
 const category = 'SYSTEM';
-
-// 디버깅용 로그
-logger.info('Environment Variables Check:', { category });
-logger.info(`REDIS_HOST: ${process.env.REDIS_HOST}`, { category });
-logger.info(`REDIS_PORT: ${process.env.REDIS_PORT}`, { category });
-logger.info(`REDIS_PASSWORD: ${process.env.REDIS_PASSWORD ? '***' : 'undefined'}`, { category });
 
 // Redis 연결 (BullMQ용 설정)
 const connection = new Redis({
@@ -35,56 +32,41 @@ const connection = new Redis({
   maxRetriesPerRequest: null,
 });
 
-// 알림 처리
-const notificationWorker = new Worker(
-  QUEUE_NAMES.NOTIFICATION,
-  async job => {
-    logger.info(`[Notification] Job: ${job.name}`, {
-      category: 'SYSTEM',
-      metadata: { jobData: job.data },
-    });
-  },
-  { connection },
-);
+// 큐 인스턴스 (워커에서 다른 큐에 작업을 추가하기 위함)
+const emailQueue = new Queue<EmailJobData>(QUEUE_NAMES.EMAIL, { connection });
+const smsQueue = new Queue<SmsJobData>(QUEUE_NAMES.SMS, { connection });
+const notificationQueue = new Queue<NotificationJobData>(QUEUE_NAMES.NOTIFICATION, { connection });
 
-// SMS 처리
-const smsWorker = new Worker(
-  QUEUE_NAMES.SMS,
-  async job => {
-    logger.info(`[SMS] Job: ${job.name}`, {
-      category: 'SYSTEM',
-      metadata: { jobData: job.data },
-    });
-  },
-  { connection },
-);
-
-// 이메일 처리
+// 워커 등록
+const notificationWorker = new Worker(QUEUE_NAMES.NOTIFICATION, notificationProcessor, { connection });
+const smsWorker = new Worker(QUEUE_NAMES.SMS, smsProcessor, { connection });
 const emailWorker = new Worker(QUEUE_NAMES.EMAIL, emailProcessor, { connection });
+const inquiryWorker = new Worker(QUEUE_NAMES.INQUIRY, createInquiryProcessor(smsQueue, notificationQueue, emailQueue), { connection });
 
 // 에러 핸들러
-notificationWorker.on('failed', (job, err) => {
-  logger.error(`Notification Job Failed (${job?.id})`, { category: 'SYSTEM', error: err });
-});
-smsWorker.on('failed', (job, err) => {
-  logger.error(`SMS Job Failed (${job?.id})`, { category: 'SYSTEM', error: err });
-});
-emailWorker.on('failed', (job, err) => {
-  logger.error(`Email Job Failed (${job?.id})`, { category: 'SYSTEM', error: err });
+[notificationWorker, smsWorker, emailWorker, inquiryWorker].forEach(worker => {
+  worker.on('failed', (job, err) => {
+    logger.error(`${worker.name} Job Failed (${job?.id})`, { category, error: err });
+  });
 });
 
 // 종료 처리
-process.on('SIGTERM', async () => {
+const cleanup = async () => {
   logger.info('Worker shutting down...', { category });
-  await Promise.all([notificationWorker.close(), smsWorker.close(), emailWorker.close()]);
+  await Promise.all([
+    notificationWorker.close(),
+    smsWorker.close(),
+    emailWorker.close(),
+    inquiryWorker.close(),
+    emailQueue.close(),
+    smsQueue.close(),
+    notificationQueue.close(),
+  ]);
   process.exit(0);
-});
+};
 
-process.on('SIGINT', async () => {
-  logger.info('Worker interrupted...', { category });
-  await Promise.all([notificationWorker.close(), smsWorker.close(), emailWorker.close()]);
-  process.exit(0);
-});
+process.on('SIGTERM', cleanup);
+process.on('SIGINT', cleanup);
 
 // 시작 로그
 logger.info(

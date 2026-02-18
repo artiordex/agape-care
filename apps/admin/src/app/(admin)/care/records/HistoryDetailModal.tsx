@@ -1,3 +1,9 @@
+/**
+ * Description : HistoryDetailModal.tsx - ?? HistoryDetailModal UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 export default function HistoryDetailModal({ record, onClose }: any) {

@@ -1,3 +1,9 @@
+/**
+ * Description : ServiceSection.tsx - ?? ServiceSection UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 interface ServiceData {
@@ -36,7 +42,7 @@ export default function ServiceSection({ value, onChange }: Props) {
               value={value.serviceName}
               onChange={e => set('serviceName', e.target.value)}
               placeholder="예: 아가페케어 요양센터"
-              className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-black text-gray-900 outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+              className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] text-gray-900 outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
             />
           </InputRow>
           <InputRow label="운영시간 가이드">
@@ -44,7 +50,7 @@ export default function ServiceSection({ value, onChange }: Props) {
               value={value.customerHours}
               onChange={e => set('customerHours', e.target.value)}
               placeholder="예: 평일 09:00 ~ 18:00 (주말 휴무)"
-              className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-bold text-[#5C8D5A] outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+              className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] text-[#5C8D5A] outline-none focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
             />
           </InputRow>
         </div>
@@ -57,7 +63,7 @@ export default function ServiceSection({ value, onChange }: Props) {
                 value={value.contactPhone}
                 onChange={e => set('contactPhone', e.target.value)}
                 placeholder="02-1234-5678"
-                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-bold outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
             </div>
           </InputRow>
@@ -69,7 +75,7 @@ export default function ServiceSection({ value, onChange }: Props) {
                 value={value.contactEmail}
                 onChange={e => set('contactEmail', e.target.value)}
                 placeholder="help@agape-care.com"
-                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] font-medium outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
+                className="w-full rounded border border-gray-300 px-4 py-1.5 text-[12px] outline-none placeholder:text-gray-300 focus:border-[#5C8D5A] focus:ring-1 focus:ring-[#5C8D5A]"
               />
             </div>
           </InputRow>
@@ -94,7 +100,7 @@ export default function ServiceSection({ value, onChange }: Props) {
 function InputRow({ label, children, required, full }: any) {
   return (
     <div className={`flex border-r border-gray-200 last:border-r-0 ${full ? 'md:col-span-2' : ''} group`}>
-      <div className="flex w-28 shrink-0 items-center border-r border-gray-100 bg-[#f8fafc] px-3 py-2.5 text-[12px] font-black uppercase tracking-tighter text-gray-500 transition-colors group-hover:bg-emerald-50/50">
+      <div className="flex w-28 shrink-0 items-center border-r border-gray-100 bg-[#f8fafc] px-3 py-2.5 text-[12px] font-black text-gray-500 transition-colors group-hover:bg-emerald-50/50">
         {label}
         {required && <span className="ml-1 text-red-500">*</span>}
       </div>

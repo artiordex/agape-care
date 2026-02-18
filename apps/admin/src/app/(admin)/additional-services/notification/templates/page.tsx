@@ -1,5 +1,5 @@
 /**
- * Description : page.tsx - 템플릿 관리 (Agape Care ERP Theme)
+ * Description : page.tsx - ?? additional-services/notification/templates ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-18
  */
@@ -7,10 +7,10 @@
 'use client';
 
 import { useState } from 'react';
+import Header from './Header';
 import TemplateDetailModal from './TemplateDetailModal';
 import TemplateFilters from './TemplateFilters';
 import TemplateFormModal from './TemplateFormModal';
-import TemplateHeader from './TemplateHeader';
 import TemplateStats from './TemplateStats';
 import TemplateTable, { type Template } from './TemplateTable';
 
@@ -172,62 +172,60 @@ export default function TemplatePage() {
   };
 
   return (
-    <div className="flex h-screen flex-col gap-4 overflow-hidden bg-[#f0f2f5] p-4 font-sans text-gray-800 antialiased">
-      {/* 1. 커스텀 헤더 (Accounting 스타일) */}
-      <TemplateHeader
-        onOpenCreate={() => setIsFormModalOpen(true)}
-        onExcelDownload={() => alert('데이터 출력 준비 중')}
-      />
+    <div className="flex h-screen flex-col overflow-hidden bg-[#f0f2f5] font-sans text-gray-800 antialiased">
+      <Header onCreate={() => setIsFormModalOpen(true)} />
 
-      {/* 2. 통계 카드 */}
-      <TemplateStats
-        totalTemplates={totalTemplates}
-        activeTemplates={activeTemplates}
-        smsTemplates={smsTemplates}
-        kakaoTemplates={kakaoTemplates}
-      />
-
-      {/* 3. 필터 바 */}
-      <TemplateFilters
-        categoryFilter={categoryFilter}
-        onCategoryChange={setCategoryFilter}
-        channelFilter={channelFilter}
-        onChannelChange={setChannelFilter}
-        statusFilter={statusFilter}
-        onStatusChange={setStatusFilter}
-        searchKeyword={searchKeyword}
-        onSearchChange={setSearchKeyword}
-      />
-
-      {/* 4. 리스트 테이블 */}
-      <TemplateTable
-        templates={templates}
-        onView={handleView}
-        onEdit={handleEdit}
-        onCopy={handleCopy}
-        onToggleStatus={handleToggleStatus}
-        onDelete={handleDelete}
-      />
-
-      {/* 모달 시스템 */}
-      <TemplateFormModal
-        isOpen={isFormModalOpen}
-        onClose={() => setIsFormModalOpen(false)}
-        onSave={handleSave}
-        template={editingTemplate}
-      />
-
-      {isDetailModalOpen && (
-        <TemplateDetailModal
-          template={selectedTemplate}
-          onClose={() => setIsDetailModalOpen(false)}
-          onEdit={() => {
-            setIsDetailModalOpen(false);
-            setEditingTemplate(selectedTemplate);
-            setIsFormModalOpen(true);
-          }}
+      <div className="flex flex-1 flex-col gap-4 overflow-hidden p-4 pt-4">
+        {/* 2. 통계 카드 */}
+        <TemplateStats
+          totalTemplates={totalTemplates}
+          activeTemplates={activeTemplates}
+          smsTemplates={smsTemplates}
+          kakaoTemplates={kakaoTemplates}
         />
-      )}
+
+        {/* 3. 필터 바 */}
+        <TemplateFilters
+          categoryFilter={categoryFilter}
+          onCategoryChange={setCategoryFilter}
+          channelFilter={channelFilter}
+          onChannelChange={setChannelFilter}
+          statusFilter={statusFilter}
+          onStatusChange={setStatusFilter}
+          searchKeyword={searchKeyword}
+          onSearchChange={setSearchKeyword}
+        />
+
+        {/* 4. 리스트 테이블 */}
+        <TemplateTable
+          templates={templates}
+          onView={handleView}
+          onEdit={handleEdit}
+          onCopy={handleCopy}
+          onToggleStatus={handleToggleStatus}
+          onDelete={handleDelete}
+        />
+
+        {/* 모달 시스템 */}
+        <TemplateFormModal
+          isOpen={isFormModalOpen}
+          onClose={() => setIsFormModalOpen(false)}
+          onSave={handleSave}
+          template={editingTemplate}
+        />
+
+        {isDetailModalOpen && (
+          <TemplateDetailModal
+            template={selectedTemplate}
+            onClose={() => setIsDetailModalOpen(false)}
+            onEdit={() => {
+              setIsDetailModalOpen(false);
+              setEditingTemplate(selectedTemplate);
+              setIsFormModalOpen(true);
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 }

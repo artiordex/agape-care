@@ -1,5 +1,5 @@
 /**
- * Description : Checkbox.tsx - 📌 체크박스 컴포넌트
+ * Description : Checkbox.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */

@@ -1,5 +1,5 @@
 /**
- * Description : app.module.ts - 📌 Agape-Care Minimal Auth API
+ * Description : app.module.ts - ?? src ?? ??? ?? ??
  * Author : Shiwoo Min
  * Date : 2026-01-26
  */

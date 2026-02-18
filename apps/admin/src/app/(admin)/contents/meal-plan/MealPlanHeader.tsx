@@ -1,3 +1,9 @@
+/**
+ * Description : MealPlanHeader.tsx - ?? MealPlanHeader UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 interface Props {

@@ -1,5 +1,5 @@
 /**
- * Description : error.tsx - 📌 Agape-Care 500 페이지
+ * Description : error.tsx - ?? home ?? ?? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

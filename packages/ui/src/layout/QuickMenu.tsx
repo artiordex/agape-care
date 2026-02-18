@@ -1,5 +1,5 @@
 /**
- * Description : QuickMenu.tsx - 📌 ConnectWon UI 플로팅 퀵메뉴 React 컴포넌트
+ * Description : QuickMenu.tsx - ?? QuickMenu UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-19
  */

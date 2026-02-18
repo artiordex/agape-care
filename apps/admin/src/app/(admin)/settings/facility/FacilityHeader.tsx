@@ -1,5 +1,5 @@
 /**
- * Description : FacilityHeader.tsx - 📌 시설 정보 관리 페이지 헤더
+ * Description : FacilityHeader.tsx - ?? FacilityHeader UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

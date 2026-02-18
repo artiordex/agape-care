@@ -1,4 +1,10 @@
 /**
+ * Description : ScheduleGenerator.ts - ?? ScheduleGenerator UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
+/**
  * [로직] 아가페 지능형 근무 배정 엔진 (Schedule Generator)
  * 고딕체 기반 ERP 시스템의 핵심 배정 프로토콜
  */

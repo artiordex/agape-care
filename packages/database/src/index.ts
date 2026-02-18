@@ -1,5 +1,5 @@
 /**
- * Description : index.ts - 📌 Database 패키지 Export Entry
+ * Description : index.ts - ?? src ?? ???
  * Author : Shiwoo Min
  * Date : 2026-01-26
  */

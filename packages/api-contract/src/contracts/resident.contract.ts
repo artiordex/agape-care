@@ -47,7 +47,7 @@ export const residentContract = {
    */
   getResidents: {
     method: 'GET' as const,
-    path: '/api/residents',
+    path: '/residents',
     query: GetResidentsQuerySchema,
     responses: {
       200: GetResidentsResponseSchema,
@@ -63,7 +63,7 @@ export const residentContract = {
    */
   getRoomList: {
     method: 'GET' as const,
-    path: '/api/residents/rooms/list',
+    path: '/residents/rooms/list',
     responses: {
       200: GetRoomListResponseSchema,
     },
@@ -78,7 +78,7 @@ export const residentContract = {
    */
   getResident: {
     method: 'GET' as const,
-    path: '/api/residents/:id',
+    path: '/residents/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -97,7 +97,7 @@ export const residentContract = {
    */
   createResident: {
     method: 'POST' as const,
-    path: '/api/residents',
+    path: '/residents',
     body: CreateResidentRequestSchema,
     responses: {
       201: ResidentSchema,
@@ -115,7 +115,7 @@ export const residentContract = {
    */
   updateResident: {
     method: 'PATCH' as const,
-    path: '/api/residents/:id',
+    path: '/residents/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -136,7 +136,7 @@ export const residentContract = {
    */
   deleteResident: {
     method: 'DELETE' as const,
-    path: '/api/residents/:id',
+    path: '/residents/:id',
     pathParams: z.object({
       id: z.string(),
     }),
@@ -153,7 +153,7 @@ export const residentContract = {
 
   getResidentStats: {
     method: 'GET' as const,
-    path: '/api/residents/stats',
+    path: '/residents/stats',
     responses: {
       200: ResidentStatsSchema,
     },
@@ -168,7 +168,7 @@ export const residentContract = {
    */
   getContacts: {
     method: 'GET' as const,
-    path: '/api/residents/:residentId/contacts',
+    path: '/residents/:residentId/contacts',
     pathParams: z.object({
       residentId: z.string(),
     }),
@@ -187,7 +187,7 @@ export const residentContract = {
    */
   createContact: {
     method: 'POST' as const,
-    path: '/api/residents/:residentId/contacts',
+    path: '/residents/:residentId/contacts',
     pathParams: z.object({
       residentId: z.string(),
     }),
@@ -208,7 +208,7 @@ export const residentContract = {
    */
   updateContact: {
     method: 'PATCH' as const,
-    path: '/api/residents/contacts/:contactId',
+    path: '/residents/contacts/:contactId',
     pathParams: z.object({
       contactId: z.string(),
     }),
@@ -229,7 +229,7 @@ export const residentContract = {
    */
   deleteContact: {
     method: 'DELETE' as const,
-    path: '/api/residents/contacts/:contactId',
+    path: '/residents/contacts/:contactId',
     pathParams: z.object({
       contactId: z.string(),
     }),
@@ -250,7 +250,7 @@ export const residentContract = {
    */
   getHealthNotes: {
     method: 'GET' as const,
-    path: '/api/residents/:residentId/health-notes',
+    path: '/residents/:residentId/health-notes',
     pathParams: z.object({
       residentId: z.string(),
     }),
@@ -270,7 +270,7 @@ export const residentContract = {
    */
   createHealthNote: {
     method: 'POST' as const,
-    path: '/api/residents/:residentId/health-notes',
+    path: '/residents/:residentId/health-notes',
     pathParams: z.object({
       residentId: z.string(),
     }),
@@ -291,7 +291,7 @@ export const residentContract = {
    */
   updateHealthNote: {
     method: 'PATCH' as const,
-    path: '/api/residents/health-notes/:noteId',
+    path: '/residents/health-notes/:noteId',
     pathParams: z.object({
       noteId: z.string(),
     }),
@@ -312,7 +312,7 @@ export const residentContract = {
    */
   deleteHealthNote: {
     method: 'DELETE' as const,
-    path: '/api/residents/health-notes/:noteId',
+    path: '/residents/health-notes/:noteId',
     pathParams: z.object({
       noteId: z.string(),
     }),
@@ -333,7 +333,7 @@ export const residentContract = {
    */
   getMedications: {
     method: 'GET' as const,
-    path: '/api/residents/:residentId/medications',
+    path: '/residents/:residentId/medications',
     pathParams: z.object({
       residentId: z.string(),
     }),
@@ -353,7 +353,7 @@ export const residentContract = {
    */
   createMedication: {
     method: 'POST' as const,
-    path: '/api/residents/:residentId/medications',
+    path: '/residents/:residentId/medications',
     pathParams: z.object({
       residentId: z.string(),
     }),
@@ -374,7 +374,7 @@ export const residentContract = {
    */
   updateMedication: {
     method: 'PATCH' as const,
-    path: '/api/residents/medications/:medicationId',
+    path: '/residents/medications/:medicationId',
     pathParams: z.object({
       medicationId: z.string(),
     }),
@@ -395,7 +395,7 @@ export const residentContract = {
    */
   deleteMedication: {
     method: 'DELETE' as const,
-    path: '/api/residents/medications/:medicationId',
+    path: '/residents/medications/:medicationId',
     pathParams: z.object({
       medicationId: z.string(),
     }),

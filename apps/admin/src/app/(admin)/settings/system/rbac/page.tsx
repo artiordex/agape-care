@@ -1,3 +1,9 @@
+/**
+ * Description : page.tsx - ?? settings/system/rbac ??? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import { api } from '@/lib/api';
@@ -103,23 +109,6 @@ export default function RBACManagementPage() {
     departmentName: emp.department?.name ?? emp.departmentName ?? '미지정', // 중첩 객체 department.name
     role: emp.role?.code?.toLowerCase() ?? emp.role?.name?.toLowerCase() ?? 'general-staff',
   }));
-
-  /* ===== [DEBUG] 직원 데이터 로딩 상태 콘솔 출력 ===== */
-  useEffect(() => {
-    console.log('[RBAC] ══════════════════════════════════════');
-    console.log('[RBAC] isInitialized   :', isInitialized);
-    console.log('[RBAC] accessToken     :', accessToken ? `${accessToken.slice(0, 20)}...` : 'null');
-    console.log('[RBAC] query enabled   :', isInitialized && !!accessToken);
-    console.log('[RBAC] isLoadingEmp    :', isLoadingEmployees);
-    console.log('[RBAC] employeesError  :', employeesError);
-    console.log('[RBAC] employeesData   :', employeesData);
-    console.log('[RBAC] body keys       :', employeesData?.body ? Object.keys(employeesData.body) : []);
-    console.log('[RBAC] employees count :', employees.length);
-    if (employees.length > 0) {
-      console.log('[RBAC] employees[0]    :', employees[0]);
-    }
-    console.log('[RBAC] ══════════════════════════════════════');
-  }, [isInitialized, accessToken, isLoadingEmployees, employeesData, employeesError, employees.length]);
 
   /* ===== API: 선택된 직원의 권한 조회 (useQuery 조건부 실행) ===== */
   const { data: permissionData, isLoading: isLoadingPermission } = api.settings.getEmployeePermission.useQuery(

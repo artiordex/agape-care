@@ -1,5 +1,5 @@
 /**
- * Description : ImageModal.tsx - 📌 알림마당 식단표 이미지 모달
+ * Description : ImageModal.tsx - ?? ImageModal UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

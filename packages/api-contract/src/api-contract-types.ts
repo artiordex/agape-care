@@ -1,5 +1,5 @@
 /**
- * Description : api-contract-types.ts - 📌 공통 API 타입 정의 (DB DDL 기반)
+ * Description : api-contract-types.ts - ?? api-contract-types ?? ?? ??
  * Author: Shiwoo Min
  * Date: 2025-09-10
  * 09-21 - 주석 보강

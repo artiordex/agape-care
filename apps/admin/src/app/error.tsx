@@ -1,3 +1,9 @@
+/**
+ * Description : error.tsx - ?? home ?? ?? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import { useEffect, useState } from 'react';

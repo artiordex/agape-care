@@ -1,3 +1,9 @@
+/**
+ * Description : CertificateTab.tsx - ?? ? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 interface Props {

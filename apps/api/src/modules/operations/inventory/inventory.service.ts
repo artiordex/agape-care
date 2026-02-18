@@ -1,3 +1,9 @@
+/**
+ * Description : inventory.service.ts - ?? operations ??? ???? ?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { PrismaService } from '@agape-care/database';
 import { Injectable } from '@nestjs/common';
 

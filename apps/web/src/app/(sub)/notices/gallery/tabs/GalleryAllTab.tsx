@@ -1,5 +1,5 @@
 /**
- * Description : GalleryAllTab.tsx - 📌 갤러리 전체 그리드 보기
+ * Description : GalleryAllTab.tsx - ?? ? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

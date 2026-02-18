@@ -1,5 +1,5 @@
 /**
- * Description : OutingModals.tsx - 📌 이미지(image_81aeae.png) 기반 행정 서식 모달
+ * Description : OutingModal.tsx - ?? OutingModal UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

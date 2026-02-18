@@ -1,5 +1,5 @@
 /**
- * Description : LocationMap.tsx - 📌 위치 지도 섹션
+ * Description : LocationMap.tsx - ?? LocationMap UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

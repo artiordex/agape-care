@@ -1,5 +1,5 @@
 /**
- * Description : error.ts - 📌 error
+ * Description : error.tsx - ?? src/templates ?? ?? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-11
  */

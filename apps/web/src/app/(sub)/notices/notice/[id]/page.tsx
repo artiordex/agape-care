@@ -1,5 +1,5 @@
 /**
- * Description : page.tsx - 📌 공지사항 상세 페이지
+ * Description : page.tsx - ?? notices/notice/[id] ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */
@@ -28,8 +28,6 @@ export default function NoticeDetailPage() {
     },
     enabled: !!noticeId,
   });
-
-  console.log('NOTICE RESULT:', noticeResult);
 
   // All Notices for Prev/Next navigation
   const { data: allNoticesResult } = api.webpage.getNotices.useQuery(['webpage-notices-nav'], {

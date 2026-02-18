@@ -1,5 +1,5 @@
 /**
- * Description : loading.tsx - 📌 Agape-Care 로딩 페이지
+ * Description : loading.tsx - ?? home ?? ?? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

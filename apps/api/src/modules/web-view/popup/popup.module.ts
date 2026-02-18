@@ -1,5 +1,5 @@
 /**
- * Description : PopupModule.ts - 📌 팝업 모듈
+ * Description : popup.module.ts - ?? web-view ?? ??? ?? ??
  * Author : Shiwoo Min
  * Date : 2026-02-16
  */

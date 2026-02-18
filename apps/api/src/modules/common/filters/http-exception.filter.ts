@@ -1,3 +1,9 @@
+/**
+ * Description : http-exception.filter.ts - ?? http-exception.filter ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
 

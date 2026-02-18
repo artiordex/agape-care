@@ -1,5 +1,5 @@
 /**
- * Description : HeroCarousel.tsx - 📌 ConnectWon UI 히어로 캐러셀 React 컴포넌트
+ * Description : HeroCarousel.tsx - ?? HeroCarousel UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-19
  */

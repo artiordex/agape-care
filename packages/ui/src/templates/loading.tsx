@@ -1,5 +1,5 @@
 /**
- * Description : loading.tsx - 📌 로딩 페이지 컴포넌트
+ * Description : loading.tsx - ?? src/templates ?? ?? UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-11
  */

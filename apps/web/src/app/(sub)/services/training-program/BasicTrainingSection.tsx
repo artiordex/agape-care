@@ -1,3 +1,9 @@
+/**
+ * Description : BasicTrainingSection.tsx - ?? BasicTrainingSection UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 export default function BasicTrainingSection() {

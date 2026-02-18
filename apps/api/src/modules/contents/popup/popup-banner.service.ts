@@ -1,3 +1,9 @@
+/**
+ * Description : popup-banner.service.ts - ?? contents ??? ???? ?? ???
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { Prisma, PrismaService } from '@agape-care/database';
 import { Injectable, NotFoundException } from '@nestjs/common';
 

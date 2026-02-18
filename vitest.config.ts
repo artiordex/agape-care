@@ -1,5 +1,5 @@
 /**
- * Description : vitest.config.ts - 📌 Agape-Care 테스트 환경 설정
+ * Description : vitest.config.ts - ?? ???? ?? ??
  * Author : Shiwoo Min
  * Date : 2026-01-22
  */

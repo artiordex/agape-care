@@ -1,5 +1,5 @@
 /**
- * Description : SearchBar.tsx - 📌 갤러리 검색 바
+ * Description : SearchBar.tsx - ?? SearchBar UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

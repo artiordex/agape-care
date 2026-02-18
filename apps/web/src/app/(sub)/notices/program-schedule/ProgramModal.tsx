@@ -1,5 +1,5 @@
 /**
- * Description : ProgramModal.tsx - 📌 프로그램 일정 상세 모달
+ * Description : ProgramModal.tsx - ?? ProgramModal UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

@@ -1,4 +1,10 @@
 /**
+ * Description : board.type.ts - ?? ?? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
+/**
  * 자유게시판 카테고리 정의
  */
 export type FreeBoardCategory = '일반' | '질문' | '정보' | '잡담';

@@ -1,7 +1,7 @@
 # Description : Dockerfile.worker - 📌 Agape Care Worker (NestJS)
 # Author : Shiwoo Min
 # Date : 2026-01-27
-# docker build --no-cache -f infra/docker/Dockerfile.worker -t agape-care-worker .
+# docker build --no-cache -f infra/docker/Dockerfile.worker -t agape-care-worker . --progress=plain
 # docker run -it --entrypoint sh agape-care-worker:latest
 
 # Build Stage
@@ -12,12 +12,8 @@ ENV HUSKY=0
 RUN npm install -g pnpm
 RUN apk add --no-cache python3 make g++ pkgconfig cairo-dev pango-dev libjpeg-turbo-dev giflib-dev pixman-dev
 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
-    tsconfig.json tsconfig.base.json ./
-
-COPY apps/worker ./apps/worker
-COPY packages ./packages
-COPY infra/database ./infra/database
+# Copy everything
+COPY . .
 
 RUN pnpm install --frozen-lockfile
 
@@ -25,7 +21,21 @@ RUN pnpm install --frozen-lockfile
 ENV DATABASE_URL="postgresql://dummy:dummy@dummy:5432/dummy"
 RUN pnpm db:generate || true
 
+# Build shared packages first so package-local dist exists
+RUN pnpm --filter @agape-care/api-contract build
+RUN pnpm --filter @agape-care/database build
+RUN pnpm --filter @agape-care/logger build
+
 RUN pnpm nx build @agape-care/worker
+
+# 견고한 처리: src가 존재하면 평탄화 (Local/Docker 차이 대응)
+RUN if [ -d "/app/dist/apps/worker/src" ]; then \
+      echo "Flattening nested structure..."; \
+      cp -r /app/dist/apps/worker/src/. /app/dist/apps/worker/; \
+      rm -rf /app/dist/apps/worker/src; \
+    else \
+      echo "Structure is already flat."; \
+    fi
 
 # Production Dependencies Stage (pnpm deploy 사용)
 FROM node:22-alpine AS deps
@@ -36,16 +46,15 @@ RUN npm install -g pnpm
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY apps/worker/package.json ./apps/worker/
-COPY packages/database/package.json ./packages/database/
-COPY packages/logger/package.json ./packages/logger/
-COPY packages/api-contract/package.json ./packages/api-contract/
+# Copy built packages from builder to include 'dist' folders for deployment
+COPY --from=builder /app/packages ./packages
 
 # pnpm deploy로 worker에 필요한 것만 추출
 RUN pnpm --filter @agape-care/worker --prod --ignore-scripts deploy /tmp/worker-deploy
 
 # Prisma Generate (deploy된 폴더에서)
 WORKDIR /tmp/worker-deploy
-RUN pnpm exec prisma generate || true
+RUN npx prisma generate || true
 
 # Runtime Stage
 FROM node:22-alpine AS runner
@@ -54,13 +63,16 @@ ENV NODE_ENV=production
 
 RUN apk add --no-cache cairo pango libjpeg-turbo giflib pixman
 
-# Deploy된 node_modules만 복사 (Prisma client 포함됨)
-COPY --from=deps /tmp/worker-deploy/node_modules ./node_modules
+# Deploy된 전체 폴더 복사
+COPY --from=deps /tmp/worker-deploy/ ./
+
+# 로컬 패키지 참조 대응을 위해 packages 폴더도 복사 (심볼릭 링크 대비)
+COPY --from=builder /app/packages ./packages
 
 # 빌드 결과물 복사
-COPY --from=builder /app/dist/apps/worker/ ./dist
+COPY --from=builder /app/dist/apps/worker/ ./dist/
 
-# package.json 복사
-COPY --from=deps /tmp/worker-deploy/package.json ./package.json
+RUN node -e "const fs=require('fs');const path=require('path');const root='/app/dist';const files=[];const walk=d=>{if(!fs.existsSync(d))return;for(const n of fs.readdirSync(d)){const p=path.join(d,n);const s=fs.statSync(p);if(s.isDirectory())walk(p);else if(p.endsWith('.js'))files.push(p);}};const hasKnownExt=s=>/\\.(js|mjs|cjs|json)$/.test(s);const fix=code=>code.replace(/(from\\s+['\"])(\\.{1,2}\\/[^'\"\\n]+)(['\"])/g,(m,a,s,c)=>hasKnownExt(s)?m:a+s+'.js'+c).replace(/(import\\s*\\(\\s*['\"])(\\.{1,2}\\/[^'\"\\n]+)(['\"]\\s*\\))/g,(m,a,s,c)=>hasKnownExt(s)?m:a+s+'.js'+c);walk(root);let changed=0;for(const f of files){const src=fs.readFileSync(f,'utf8');const out=fix(src);if(out!==src){fs.writeFileSync(f,out);changed++;}}console.log('worker runtime patched files:',changed,'/',files.length);"
+RUN printf '%s\n' '#!/bin/sh' 'set -eu' 'echo [worker-debug] node: $(node -v)' 'echo [worker-debug] pwd: $(pwd)' 'ls -la /app || true' 'ls -la /app/dist || true' 'echo [worker-debug] main.js imports:' 'grep -n "from " /app/dist/main.js | head -n 80 || true' 'exec node --trace-warnings --experimental-specifier-resolution=node /app/dist/main.js' > /app/entrypoint-worker.sh && chmod +x /app/entrypoint-worker.sh
 
-CMD ["node", "dist/main.js"]
+CMD ["/app/entrypoint-worker.sh"]

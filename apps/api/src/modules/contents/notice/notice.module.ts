@@ -1,5 +1,5 @@
 /**
- * Description : NoticeModule.ts - 📌 공지사항 모듈
+ * Description : notice.module.ts - ?? contents ?? ??? ?? ??
  * Author : Shiwoo Min
  * Date : 2026-02-16
  */

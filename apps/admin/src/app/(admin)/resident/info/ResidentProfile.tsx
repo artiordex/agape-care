@@ -1,5 +1,5 @@
 /**
- * Description : ResidentProfile.tsx - 📌 입소자 정보 관리 프로필 섹션
+ * Description : ResidentProfile.tsx - ?? ResidentProfile UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

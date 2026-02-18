@@ -1,3 +1,9 @@
+/**
+ * Description : page.tsx - ?? contents/program ??? UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 'use client';
 
 import { api } from '@/lib/api';
@@ -57,44 +63,11 @@ export default function ProgramManagementPage() {
     } as any,
   );
 
-  useEffect(() => {
-    console.log('═══════════════════════════════════════════');
-    console.log('[PROGRAM PAGE] Data state changed');
-    console.log('[PROGRAM PAGE] isLoading:', isLoading);
-    console.log('[PROGRAM PAGE] isError:', isError);
-    console.log('[PROGRAM PAGE] isError:', isError);
-    console.log('[PROGRAM PAGE] programsData:', {
-      exists: !!programsData,
-      keys: programsData ? Object.keys(programsData) : [],
-      bodyKeys: programsData?.body ? Object.keys(programsData.body) : [],
-      dataKeys: programsData?.body ? Object.keys(programsData.body) : [],
-      itemsCount: programsData?.body?.items?.length || 0,
-      totalCount: programsData?.body?.totalCount || 0,
-    });
-    console.log('[PROGRAM PAGE] queryParams:', queryParams);
-    console.log('[PROGRAM PAGE] activeCategory:', activeCategory);
-
-    if (error) {
-      console.error('[PROGRAM PAGE] ❌ API Error:', error);
-      console.error('[PROGRAM PAGE] ❌ API Error Body:', JSON.stringify((error as any)?.body || 'No body'));
-    }
-
-    if (programsData?.body?.items && programsData.body?.items?.length > 0) {
-      console.log('[PROGRAM PAGE] First item sample:', programsData.body?.items?.[0]);
-    } else if (programsData) {
-      console.warn('[PROGRAM PAGE] ⚠️ No items in programsData');
-    }
-    console.log('═══════════════════════════════════════════');
-  }, [isLoading, isError, error, programsData, activeCategory, queryParams]);
-
   const programs = (programsData?.body?.items || []) as Program[];
-  console.log('[PROGRAM PAGE] Component Render - Programs Count:', programs.length);
-  console.log('[PROGRAM PAGE] Total Count:', programsData?.body?.totalCount || 0);
 
   // 생성 mutation
   const createProgramMutation = api.program.createProgram.useMutation({
-    onSuccess: async program => {
-      console.log('[DEBUG] Program created:', program);
+    onSuccess: async () => {
       // 프로그램 생성 후 일정도 생성해야 함 (다음 단계에서 처리)
       refetch();
     },
@@ -122,7 +95,7 @@ export default function ProgramManagementPage() {
   // 프로그램 수정 mutation
   const updateProgramMutation = api.program.updateProgram.useMutation({
     onSuccess: () => {
-      console.log('[DEBUG] Program updated');
+      refetch();
     },
     onError: error => {
       console.error('[ERROR] Failed to update program:', error);
@@ -230,7 +203,6 @@ export default function ProgramManagementPage() {
           updatedAt: new Date().toISOString(),
         },
       ];
-      console.log('[INFO] No programs found, sample data available:', samplePrograms.length);
       // 필요시 샘플 데이터를 API로 생성할 수 있음
     }
   }, [isLoading, programs.length]);

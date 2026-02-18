@@ -1,5 +1,5 @@
 /**
- * Description : BoardService.ts - 📌 게시판 서비스
+ * Description : board.service.ts - ?? contents ??? ???? ?? ???
  * Author : (User)
  * Date : 2026-02-16
  */

@@ -1,3 +1,9 @@
+/**
+ * Description : AdminGuard.tsx - ?? ??? ??
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 import { getSecurityState } from '@/lib/security-demo';
 import { useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';

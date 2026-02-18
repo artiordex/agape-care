@@ -1,3 +1,9 @@
+/**
+ * Description : FamilySupportSection.tsx - ?? FamilySupportSection UI ????
+ * Author : Shiwoo Min
+ * Date : 2026-02-18
+ */
+
 export default function FamilySupportSection() {
   return (
     <section>

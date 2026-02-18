@@ -1,5 +1,5 @@
 /**
- * Description : LocationInfoBox.tsx - 📌 위치 정보 박스 섹션
+ * Description : LocationInfoBox.tsx - ?? LocationInfoBox UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */
