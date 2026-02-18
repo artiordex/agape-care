@@ -185,6 +185,7 @@ export default [
       'docs/assets/**',
       'infra/**/*.ts',
       'infra/**/*.tsx',
+      '**/generated/**',
     ],
   },
 

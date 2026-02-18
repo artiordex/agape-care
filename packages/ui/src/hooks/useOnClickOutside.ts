@@ -3,11 +3,10 @@
  * Author : Shiwoo Min
  * Date : 2025-09-09
  */
-"use client";
+'use client';
 
-import { type RefObject, useCallback } from 'react';
+import { type RefObject, useCallback, useEffect } from 'react';
 import type { MaybeRef } from '../ui-types.js';
-import { useEventListener } from './useEventListener.js';
 
 // 여러 요소 중 하나라도 타겟에 포함되는지 확인
 function includesTarget(els: MaybeRef<HTMLElement>[], target: EventTarget | null): boolean {
@@ -15,10 +14,7 @@ function includesTarget(els: MaybeRef<HTMLElement>[], target: EventTarget | null
   // composedPath로 Shadow DOM도 대응
   const path = (target as any).composedPath?.() as EventTarget[] | undefined;
   for (const el of els) {
-    const node =
-      el && 'current' in (el as any)
-        ? (el as RefObject<HTMLElement>).current
-        : (el as HTMLElement | null);
+    const node = el && 'current' in (el as any) ? (el as RefObject<HTMLElement>).current : (el as HTMLElement | null);
     if (!node) continue;
     if (node === target || (target instanceof Node && node.contains(target))) return true;
     if (path && path.includes(node)) return true;
@@ -47,12 +43,21 @@ export function useOnClickOutside(
     [arr, handler],
   );
 
-  for (const e of events) {
-    useEventListener(typeof document !== 'undefined' ? document : null, e, onEvent, {
-      capture: true,
-    });
-  }
+  useEffect(() => {
+    if (!enabled) return;
+    const t = typeof document !== 'undefined' ? document : null;
+    if (!t) return;
 
-  // 간단한 enable 토글
-  useEventListener(enabled ? null : document, 'noop', () => {});
+    const handlerInner = (ev: Event) => onEvent(ev);
+
+    for (const e of events) {
+      t.addEventListener(e, handlerInner, { capture: true });
+    }
+
+    return () => {
+      for (const e of events) {
+        t.removeEventListener(e, handlerInner, { capture: true });
+      }
+    };
+  }, [enabled, events, onEvent]);
 }

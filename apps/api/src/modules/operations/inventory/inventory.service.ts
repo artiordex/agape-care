@@ -33,7 +33,7 @@ export class InventoryService {
       this.prisma.inventoryItem.count({ where }),
     ]);
 
-    let resultItems = items;
+    const resultItems = items;
     if (lowStock) {
       // Simple in-memory filter if dataset is small enough per page?
       // No, pagination breaks.

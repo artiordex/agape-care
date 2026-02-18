@@ -1,0 +1,31 @@
+
+D:\agape-care\agape-care\apps\admin\server.ts
+  50:7   warning  Unused eslint-disable directive (no problems were reported from 'no-console')
+  56:7   warning  Unused eslint-disable directive (no problems were reported from 'no-console')
+  61:11  warning  Unused eslint-disable directive (no problems were reported from 'no-console')
+  70:9   warning  Unused eslint-disable directive (no problems were reported from 'no-console')
+  80:5   warning  Unused eslint-disable directive (no problems were reported from 'no-console')
+
+D:\agape-care\agape-care\apps\admin\src\app\(admin)\employee\list\tabs\ManagementTab.tsx
+  18:51  warning  React Hook "useState" is called conditionally. React Hooks must be called in the exact same order in every component render  react-hooks/rules-of-hooks
+
+D:\agape-care\agape-care\apps\api\src\modules\operations\inventory\inventory.service.ts
+  36:9  warning  'resultItems' is never reassigned. Use 'const' instead  prefer-const
+
+D:\agape-care\agape-care\apps\web\server.ts
+  69:7  warning  Unused eslint-disable directive (no problems were reported from 'no-console')
+
+D:\agape-care\agape-care\packages\ui\src\hooks\useOnClickOutside.ts
+  51:5  warning  React Hook "useEventListener" may be executed more than once. Possibly because it is called in a loop. React Hooks must be called in the exact same order in every component render  react-hooks/rules-of-hooks
+
+D:\agape-care\agape-care\packages\ui\src\layout\Grid.tsx
+  6:28  warning  'D:\agape-care\agape-care\node_modules\.pnpm\@types+react@18.3.28\node_modules\@types\react\index.d.ts' imported multiple times  import/no-duplicates
+  9:19  warning  'D:\agape-care\agape-care\node_modules\.pnpm\@types+react@18.3.28\node_modules\@types\react\index.d.ts' imported multiple times  import/no-duplicates
+
+D:\agape-care\agape-care\packages\ui\src\layout\HeroCarousel.tsx
+  33:3  warning  React Hook "useEffect" is called conditionally. React Hooks must be called in the exact same order in every component render  react-hooks/rules-of-hooks
+  44:3  warning  React Hook "useEffect" is called conditionally. React Hooks must be called in the exact same order in every component render  react-hooks/rules-of-hooks
+
+✖ 13 problems (0 errors, 13 warnings)
+  0 errors and 7 warnings potentially fixable with the `--fix` option.
+

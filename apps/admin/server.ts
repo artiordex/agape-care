@@ -3,8 +3,8 @@
  * Author : Shiwoo Min
  * Date : 2025-09-16
  */
-import next from 'next';
 import http, { IncomingMessage, ServerResponse } from 'http';
+import next from 'next';
 
 const PORT = Number(process.env.PORT || process.env.ADMIN_PORT || 3001);
 const HOST = process.env.HOST || '0.0.0.0';
@@ -47,18 +47,15 @@ app
 
     server.listen(PORT, HOST, () => {
       isReady = true;
-      // eslint-disable-next-line no-console
       console.log(`[admin] Next server running on http://${HOST}:${PORT} (env=${NODE_ENV})`);
     });
 
     // 그레이스풀 셧다운
     const shutdown = (signal: string) => {
-      // eslint-disable-next-line no-console
       console.log(`[admin] received ${signal}, shutting down...`);
       isReady = false;
       server.close(err => {
         if (err) {
-          // eslint-disable-next-line no-console
           console.error('[admin] close error:', err);
           process.exit(1);
         }
@@ -67,7 +64,6 @@ app
 
       // 안전장치: 10초 후 강제 종료
       setTimeout(() => {
-        // eslint-disable-next-line no-console
         console.warn('[admin] force exit after timeout');
         process.exit(1);
       }, 10_000).unref();

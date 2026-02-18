@@ -13,9 +13,9 @@ interface Props {
 }
 
 export default function ManagementTab({ staff }: Props) {
-  if (!staff) return null;
-
   const [selectedCategory, setSelectedCategory] = useState('근로계약서');
+
+  if (!staff) return null;
 
   const categories = [
     '근로계약서',

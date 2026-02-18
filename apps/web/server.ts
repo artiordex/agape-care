@@ -22,10 +22,10 @@ const DEPLOY_ENV =
   process.env['FIREBASE'] === 'true'
     ? 'firebase'
     : process.env['CLOUD_RUN'] === 'true'
-    ? 'cloud-run'
-    : process.env['DOCKER'] === 'true'
-    ? 'docker'
-    : 'local';
+      ? 'cloud-run'
+      : process.env['DOCKER'] === 'true'
+        ? 'docker'
+        : 'local';
 
 const app = next({ dev: isDev });
 const handle = app.getRequestHandler();
@@ -66,10 +66,7 @@ app
 
     server.listen(PORT, HOST, () => {
       isReady = true;
-      // eslint-disable-next-line no-console
-      console.log(
-        `[web] Next server running on http://${HOST}:${PORT} (env=${NODE_ENV}, deploy=${DEPLOY_ENV})`
-      );
+      console.log(`[web] Next server running on http://${HOST}:${PORT} (env=${NODE_ENV}, deploy=${DEPLOY_ENV})`);
     });
 
     // Cloud Run / Docker friendly shutdown

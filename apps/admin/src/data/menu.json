@@ -517,15 +517,15 @@
           "spa": true
         },
         {
-          "id": "notification-logs",
+          "id": "notification-record",
           "name": "발송 이력 조회",
           "description": "발송 이력 조회",
           "icon": "ri-file-list-line",
-          "path": "/additional-services/notification/logs",
+          "path": "/additional-services/notification/record",
           "parentGroup": "notification-management",
           "spa": true,
           "folder": "notifications",
-          "component": "NotificationLogPage"
+          "component": "NotificationRecord"
         },
         {
           "id": "library",

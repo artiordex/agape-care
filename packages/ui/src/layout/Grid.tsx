@@ -3,10 +3,9 @@
  * Author : Shiwoo Min
  * Date : 2025-09-25
  */
-import { forwardRef } from 'react';
-import type { GridProps } from '../ui-types.js';
 import { cva } from 'class-variance-authority';
-import React from 'react';
+import React, { forwardRef } from 'react';
+import type { GridProps } from '../ui-types.js';
 
 const gridVariants = cva('grid', {
   variants: {

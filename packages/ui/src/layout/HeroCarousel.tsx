@@ -26,9 +26,6 @@ export default function HeroCarousel({
   const idBase = useMemo(() => `hero-carousel-${Math.random().toString(36).slice(2, 8)}`, []);
   const timerRef = useRef<number | null>(null);
 
-  // 슬라이드 없으면 그리기 생략
-  if (len === 0) return null;
-
   // 자동재생
   useEffect(() => {
     if (!autoPlay || paused || len <= 1) return;
@@ -44,6 +41,9 @@ export default function HeroCarousel({
   useEffect(() => {
     onSlideChange?.(current);
   }, [current, onSlideChange]);
+
+  // 슬라이드 없으면 그리기 생략
+  if (len === 0) return null;
 
   // 키보드 내비게이션
   const onKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
@@ -76,7 +76,7 @@ export default function HeroCarousel({
           <img
             src={s.image}
             alt={s.alt ?? ''}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover"
             loading={i === 0 ? 'eager' : 'lazy'}
             decoding="async"
           />
@@ -89,14 +89,12 @@ export default function HeroCarousel({
       <div className="relative z-10">
         <div className={`${maxWidthClass} mx-auto px-4 sm:px-6 lg:px-8`}>
           <div className={`w-full ${align === 'left' ? 'text-left' : 'text-center'} text-white`}>
-            <h1 className="text-4xl lg:text-6xl font-bold mb-6" aria-live="polite">
+            <h1 className="mb-6 text-4xl font-bold lg:text-6xl" aria-live="polite">
               {cur.title}
               <br />
               {cur.highlight && <span className="text-yellow-400">{cur.highlight}</span>}
             </h1>
-            {cur.description && (
-              <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">{cur.description}</p>
-            )}
+            {cur.description && <p className="mx-auto mb-8 max-w-3xl text-xl text-blue-100">{cur.description}</p>}
             {renderCtas?.(current)}
           </div>
         </div>
@@ -104,15 +102,13 @@ export default function HeroCarousel({
 
       {/* 인디케이터 */}
       {showIndicators && len > 1 && (
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 z-20">
+        <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 space-x-2">
           {slides.map((_, i) => (
             <button
               key={`${idBase}-dot-${i}`}
               type="button"
               onClick={() => setCurrent(i)}
-              className={`w-3 h-3 rounded-full transition-colors ${
-                i === current ? 'bg-white' : 'bg-white/50'
-              }`}
+              className={`h-3 w-3 rounded-full transition-colors ${i === current ? 'bg-white' : 'bg-white/50'}`}
               aria-label={`슬라이드 ${i + 1}로 이동`}
               aria-controls={`${idBase}-track`}
               aria-current={i === current ? 'true' : undefined}
@@ -127,24 +123,18 @@ export default function HeroCarousel({
           <button
             type="button"
             onClick={() => setCurrent(p => (p - 1 + len) % len)}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-colors z-20"
+            className="absolute left-4 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-white transition-colors hover:bg-white/30"
             aria-label="이전 슬라이드"
           >
-            <i
-              aria-hidden
-              className="ri-arrow-left-line w-6 h-6 flex items-center justify-center"
-            />
+            <i aria-hidden className="ri-arrow-left-line flex h-6 w-6 items-center justify-center" />
           </button>
           <button
             type="button"
             onClick={() => setCurrent(p => (p + 1) % len)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center text-white transition-colors z-20"
+            className="absolute right-4 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-white transition-colors hover:bg-white/30"
             aria-label="다음 슬라이드"
           >
-            <i
-              aria-hidden
-              className="ri-arrow-right-line w-6 h-6 flex items-center justify-center"
-            />
+            <i aria-hidden className="ri-arrow-right-line flex h-6 w-6 items-center justify-center" />
           </button>
         </>
       )}
