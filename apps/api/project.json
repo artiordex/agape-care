@@ -9,7 +9,7 @@
       "dependsOn": ["^build"],
       "outputs": ["{workspaceRoot}/dist/apps/api"],
       "options": {
-        "command": "nest build",
+        "command": "nest build && node -e \"const fs=require('fs');const path=require('path');const src=path.resolve('../../dist/apps/api/src');const dst=path.resolve('../../dist/apps/api');if(fs.existsSync(src)){for(const name of fs.readdirSync(src)){fs.cpSync(path.join(src,name),path.join(dst,name),{recursive:true,force:true});}fs.rmSync(src,{recursive:true,force:true});}\"",
         "cwd": "apps/api"
       }
     },

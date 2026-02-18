@@ -16,15 +16,15 @@ ENV HUSKY=0
 
 RUN npm install -g pnpm
 
-# Root workspace files
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml nx.json \
-    tsconfig.json tsconfig.base.json ./
+# Copy everything
+COPY . .
 
-COPY apps ./apps
-COPY packages ./packages
-
-# 전체 workspace 의존성 설치 (필터 제거)
 RUN pnpm install --frozen-lockfile
+
+# Explicitly build dependencies to ensure local dist folders are populated
+RUN pnpm --filter @agape-care/api-contract build
+RUN pnpm --filter @agape-care/ui build
+RUN pnpm --filter @agape-care/logger build
 
 # Build web (Next.js standalone)
 RUN pnpm nx build @agape-care/web

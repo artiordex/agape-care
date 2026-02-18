@@ -15,7 +15,9 @@
     "externalHelpers": true
   },
   "module": {
-    "type": "commonjs",
+    "type": "es6",
+    "resolveFully": true,
+    "outFileExtension": "js",
     "strict": false,
     "strictMode": false,
     "noInterop": false

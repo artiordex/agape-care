@@ -10,10 +10,10 @@ import { Queue, Worker } from 'bullmq';
 import * as dotenv from 'dotenv';
 import { Redis } from 'ioredis';
 import path from 'node:path';
-import { emailProcessor } from './processors/email.processor';
-import { createInquiryProcessor } from './processors/inquiry.processor';
-import { notificationProcessor } from './processors/notification.processor';
-import { smsProcessor } from './processors/sms.processor';
+import { emailProcessor } from './processors/email.processor.js';
+import { createInquiryProcessor } from './processors/inquiry.processor.js';
+import { notificationProcessor } from './processors/notification.processor.js';
+import { smsProcessor } from './processors/sms.processor.js';
 
 // .env 로드
 dotenv.config();

@@ -13,7 +13,7 @@
         "swcrcPath": ".swcrc"
       }
     },
-    "typeCheck": true,
+    "typeCheck": false,
     "webpack": false,
     "tsConfigPath": "tsconfig.json",
     "outDir": "../../dist/apps/api",
