@@ -1,5 +1,5 @@
 /**
- * Description : GalleryController.ts - 📌 갤러리 관리 API Controller
+ * Description : gallery.controller.ts - ?? contents ??? API ????
  * Author : (User)
  * Date : 2026-02-16
  */

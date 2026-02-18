@@ -1,5 +1,5 @@
 /**
- * Description : FAQSection.tsx - 📌 자주 묻는 질문 (상세 답변 및 너비 90% 적용)
+ * Description : FAQSection.tsx - ?? FAQSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

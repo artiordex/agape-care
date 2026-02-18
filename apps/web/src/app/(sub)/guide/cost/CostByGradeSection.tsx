@@ -1,5 +1,5 @@
 /**
- * Description : CostByGradeSection.tsx - 📌 2026년 기준 등급별 비용 안내 (너비 90%)
+ * Description : CostByGradeSection.tsx - ?? CostByGradeSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

@@ -1,5 +1,5 @@
 /**
- * Description : GalleryFilter.tsx - 📌 갤러리 카테고리 필터
+ * Description : GalleryFilter.tsx - ?? GalleryFilter UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

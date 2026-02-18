@@ -1,5 +1,5 @@
 /**
- * Description : page.tsx - 📌 갤러리 메인 페이지
+ * Description : page.tsx - ?? notices/gallery ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

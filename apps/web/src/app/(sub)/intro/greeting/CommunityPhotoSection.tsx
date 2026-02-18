@@ -1,5 +1,5 @@
 /**
- * Description : CommunityPhotoSection.tsx - 📌 회색 이중 프레임 및 간격 최적화 버전
+ * Description : CommunityPhotoSection.tsx - ?? CommunityPhotoSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

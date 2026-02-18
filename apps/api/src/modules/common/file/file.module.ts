@@ -1,5 +1,5 @@
 /**
- * Description : file.module.ts - 📌 파일 관리 모듈
+ * Description : file.module.ts - ?? common ?? ??? ?? ??
  * Author : Agape Care AI
  */
 

@@ -1,5 +1,5 @@
 /**
- * Description : ProcessSection.tsx - 📌 입소 절차 섹션
+ * Description : ProcessSection.tsx - ?? ProcessSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

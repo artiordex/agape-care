@@ -1,5 +1,5 @@
 /**
- * Description : PreparationSection.tsx - 📌 입소 준비물 섹션
+ * Description : PreparationSection.tsx - ?? PreparationSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

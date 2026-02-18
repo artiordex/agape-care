@@ -1,5 +1,5 @@
 /**
- * Description : WeekTab.tsx - 📌 알림마당 식단표 주간 탭
+ * Description : WeekTab.tsx - ?? ? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

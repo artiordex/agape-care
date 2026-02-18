@@ -1,5 +1,5 @@
 /**
- * Description : useSidebarUser.ts - 📌 관리자 애플리케이션의 사용자 정보 관리 훅
+ * Description : useSidebarUser.ts - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

@@ -1,5 +1,5 @@
 /**
- * Description : FullMenuModal.tsx - 📌 전체보기 모달
+ * Description : FullMenuModal.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

@@ -1,5 +1,5 @@
 /**
- * Description : NoticeController.ts - 📌 공지사항 API Controller
+ * Description : notice.controller.ts - ?? contents ??? API ????
  * Author : Shiwoo Min
  * Date : 2026-02-16
  */

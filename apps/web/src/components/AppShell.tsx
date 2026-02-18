@@ -1,5 +1,5 @@
 /**
- * Description : AppShell.tsx - 📌 Agape-Care 앱 쉘 컴포넌트
+ * Description : AppShell.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

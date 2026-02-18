@@ -1,5 +1,5 @@
 /**
- * Description : FloorGuideSection.tsx - 📌 층별 구조 안내 섹션
+ * Description : FloorGuideSection.tsx - ?? FloorGuideSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

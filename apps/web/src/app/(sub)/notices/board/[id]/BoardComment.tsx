@@ -1,5 +1,5 @@
 /**
- * Description : BoardComment.tsx - 📌 게시판 댓글 컴포넌트
+ * Description : BoardComment.tsx - ?? BoardComment UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-08
  */

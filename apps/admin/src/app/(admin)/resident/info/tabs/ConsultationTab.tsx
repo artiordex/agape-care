@@ -1,5 +1,5 @@
 /**
- * Description : ConsultationTab.tsx - 📊 케어포 스타일 상담일지 목록 및 작성 페이지
+ * Description : ConsultationTab.tsx - ?? ? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

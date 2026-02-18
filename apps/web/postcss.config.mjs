@@ -1,5 +1,5 @@
 /**
- * Description : postcss.config.mjs - 📌 Web 앱 PostCSS 설정
+ * Description : postcss.config.mjs - ?? ???? ?? ??
  * Author : Shiwoo Min
  * Date : 2025-09-25
  *

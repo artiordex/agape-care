@@ -1,5 +1,5 @@
 /**
- * Description : IntroSection.tsx - 📌 센터 소개 섹션 (80% 너비)
+ * Description : IntroSection.tsx - ?? IntroSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

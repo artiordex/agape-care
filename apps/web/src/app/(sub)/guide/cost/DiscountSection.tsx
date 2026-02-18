@@ -1,5 +1,5 @@
 /**
- * Description : DiscountSection.tsx - 📌 본인부담금 감면 혜택 안내 섹션
+ * Description : DiscountSection.tsx - ?? DiscountSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

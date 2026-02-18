@@ -1,5 +1,5 @@
 /**
- * Description : postcss.config.ts - 📌 Agape-Care PostCSS 설정 (최종 안정화 버전)
+ * Description : postcss.config.ts - ?? ???? ?? ??
  * Author : Shiwoo Min
  * Date : 2026-01-22
  * Note:

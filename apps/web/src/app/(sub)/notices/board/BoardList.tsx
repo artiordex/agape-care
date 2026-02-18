@@ -1,5 +1,5 @@
 /**
- * Description : BoardTable.tsx - 📌 게시판 테이블 (데스크톱)
+ * Description : BoardList.tsx - ?? BoardList UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

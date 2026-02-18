@@ -1,5 +1,5 @@
 /**
- * Description : GalleryModule.ts - 📌 갤러리 관리 모듈
+ * Description : gallery.module.ts - ?? contents ?? ??? ?? ??
  * Author : (User)
  * Date : 2026-02-16
  */

@@ -1,5 +1,5 @@
 /**
- * Description : page.tsx - 📌 Agape-Care 조직도 및 구성원 소개
+ * Description : page.tsx - ?? intro/organization ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

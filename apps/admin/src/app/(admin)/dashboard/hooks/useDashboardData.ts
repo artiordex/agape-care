@@ -1,5 +1,5 @@
 /**
- * Description : useDashboardData.ts - 📌 대시보드 데이터 훅 (Mock → API 전환 준비)
+ * Description : useDashboardData.ts - ?? ??? ?
  * Author : Shiwoo Min
  * Date : 2026-02-18
  *

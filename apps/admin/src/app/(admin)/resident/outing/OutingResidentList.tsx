@@ -1,5 +1,5 @@
 /**
- * Description : OutingResidentPanel.tsx - 📌 이미지(image_81915e.png) 스타일이 적용된 외출·외박 대상자 리스트
+ * Description : OutingResidentList.tsx - ?? OutingResidentList UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

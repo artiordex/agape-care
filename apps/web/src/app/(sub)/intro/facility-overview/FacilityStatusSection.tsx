@@ -1,5 +1,5 @@
 /**
- * Description : FacilityStatusSection.tsx - 📌 시설현황 섹션
+ * Description : FacilityStatusSection.tsx - ?? FacilityStatusSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

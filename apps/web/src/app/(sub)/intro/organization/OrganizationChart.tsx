@@ -1,5 +1,5 @@
 /**
- * Description : OrganizationChart.tsx - 📌 조직구성도
+ * Description : OrganizationChart.tsx - ?? OrganizationChart UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

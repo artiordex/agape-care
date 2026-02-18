@@ -1,5 +1,5 @@
 /**
- * Description : page.tsx - 📌 Agape-Care 상담 문의 페이지
+ * Description : page.tsx - ?? guide/contact ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

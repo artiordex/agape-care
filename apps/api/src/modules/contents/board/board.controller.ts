@@ -1,5 +1,5 @@
 /**
- * Description : BoardController.ts - 📌 게시판 API Controller
+ * Description : board.controller.ts - ?? contents ??? API ????
  * Author : (User)
  * Date : 2026-02-16
  */

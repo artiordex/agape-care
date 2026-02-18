@@ -1,5 +1,5 @@
 /**
- * Description : PopupBanner.tsx - 📌 개별 팝업 배너 컴포넌트
+ * Description : PopupBanner.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-16
  */

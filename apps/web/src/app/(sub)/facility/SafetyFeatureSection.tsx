@@ -1,5 +1,5 @@
 /**
- * Description : SafetyFeatureSection.tsx - 📌 안전시설 안내 섹션
+ * Description : SafetyFeatureSection.tsx - ?? SafetyFeatureSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

@@ -1,5 +1,5 @@
 /**
- * Description : FallRiskModal.tsx - 📌 인터랙티브 낙상위험도 평가 모달 (Huhn 척도)
+ * Description : FallRiskModal.tsx - ?? ?? UI ????
  * 이미지 데이터(생활실, 주요질환) 및 실시간 점수 산출 로직 통합
  * Author : Shiwoo Min
  * Date : 2026-02-06

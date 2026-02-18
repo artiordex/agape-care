@@ -1,5 +1,5 @@
 /**
- * Description : page.tsx - 📌 공지사항 목록 페이지
+ * Description : page.tsx - ?? notices/notice ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-10
  */

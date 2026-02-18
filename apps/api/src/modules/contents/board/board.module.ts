@@ -1,5 +1,5 @@
 /**
- * Description : BoardModule.ts - 📌 게시판 모듈
+ * Description : board.module.ts - ?? contents ?? ??? ?? ??
  * Author : (User)
  * Date : 2026-02-16
  */

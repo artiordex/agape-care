@@ -1,5 +1,5 @@
 /**
- * Description : page.tsx - 📌 Agape-Care 면회 안내 페이지
+ * Description : page.tsx - ?? guide/visit ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

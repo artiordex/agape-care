@@ -1,5 +1,5 @@
 /**
- * Description : AgapeSystemSection.tsx - 📌 안심 케어 시스템 섹션
+ * Description : AgapeSystemSection.tsx - ?? AgapeSystemSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

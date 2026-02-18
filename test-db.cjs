@@ -1,5 +1,5 @@
 /**
- * Description: test-db.cjs - 📌 요양원 ERP 데이터베이스 연동 테스트
+ * Description : test-db.cjs - ?? test-db ?? ?? ??
  * Author: Shiwoo Min
  * Date: 2026-01-24
  */

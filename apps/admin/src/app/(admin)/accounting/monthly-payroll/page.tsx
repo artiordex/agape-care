@@ -1,5 +1,5 @@
 /**
- * Description : page.tsx - 월별 급여대장 페이지
+ * Description : page.tsx - ?? accounting/monthly-payroll ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-18
  */

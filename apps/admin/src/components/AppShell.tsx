@@ -1,5 +1,5 @@
 /**
- * Description : AppShell.tsx - 📌 관리자 애플리케이션의 레이아웃 컴포넌트
+ * Description : AppShell.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

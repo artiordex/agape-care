@@ -1,5 +1,5 @@
 /**
- * Description : SidebarFooter.tsx - 📌 관리자 애플리케이션의 사이드바 하단 사용자 프로필 및 시스템 관제 제어 영역 컴포넌트
+ * Description : SidebarFooter.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

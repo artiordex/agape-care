@@ -1,5 +1,5 @@
 /**
- * Description : api.ts - 📌 Agape-Care API 설정
+ * Description : api.ts - ?? api ?? ?? ??
  * Author : Shiwoo Min
  * Date : 2026-02-10
  */

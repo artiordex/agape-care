@@ -1,5 +1,5 @@
 /**
- * Description : GalleryMonthTab.tsx - 📌 갤러리 월간 달력 보기
+ * Description : GalleryMonthTab.tsx - ?? ? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

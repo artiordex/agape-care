@@ -1,5 +1,5 @@
 /**
- * Description : HeroSection.tsx - 📌 Agape-Care 메인 섹션 컴포넌트
+ * Description : HeroSection.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

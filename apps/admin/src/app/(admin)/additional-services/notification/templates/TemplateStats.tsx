@@ -1,5 +1,5 @@
 /**
- * Description : TemplateStats.tsx - 템플릿 현황 통계 위젯
+ * Description : TemplateStats.tsx - ?? TemplateStats UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-18
  */

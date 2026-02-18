@@ -1,5 +1,5 @@
 /**
- * Description : ProgramFilter.tsx - 📌 프로그램 일정 카테고리 필터
+ * Description : ProgramFilter.tsx - ?? ProgramFilter UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

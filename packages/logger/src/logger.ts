@@ -1,5 +1,5 @@
 /**
- * Description: logger.ts - 📌 요양원 ERP 로거
+ * Description : logger.ts - ?? logger ?? ?? ??
  * Author: Shiwoo Min
  * Date: 2026-01-24
  */

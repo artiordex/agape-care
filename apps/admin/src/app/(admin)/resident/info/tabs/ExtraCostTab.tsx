@@ -1,5 +1,5 @@
 /**
- * Description : NonBenefitTab.tsx - 💰 비급여 및 기타 비용 관리 화면
+ * Description : ExtraCostTab.tsx - ?? ? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

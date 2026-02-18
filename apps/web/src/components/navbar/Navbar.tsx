@@ -1,5 +1,5 @@
 /**
- * Description : Navbar.tsx - 📌 Agape-Care 메인 네비게이션 컴포넌트
+ * Description : Navbar.tsx - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

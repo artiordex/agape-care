@@ -1,5 +1,5 @@
 /**
- * Description : FacilityBannerSection.tsx - 📌 시설 안내 히어로 배너
+ * Description : FacilityBannerSection.tsx - ?? FacilityBannerSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

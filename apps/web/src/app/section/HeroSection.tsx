@@ -1,5 +1,5 @@
 /**
- * Description : HeroSection.tsx - 📌 메인 히어로 섹션 (높이 축소 버전)
+ * Description : HeroSection.tsx - ?? HeroSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

@@ -1,5 +1,5 @@
 /**
- * Description : HistoryPage.tsx - 📌 Agape-Care 요양원 연혁 페이지
+ * Description : page.tsx - ?? intro/history ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

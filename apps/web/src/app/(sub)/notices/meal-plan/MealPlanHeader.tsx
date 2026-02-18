@@ -1,5 +1,5 @@
 /**
- * Description : MealPlanHeader.tsx - 📌 식단표 헤더
+ * Description : MealPlanHeader.tsx - ?? MealPlanHeader UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

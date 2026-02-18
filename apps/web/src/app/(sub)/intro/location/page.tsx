@@ -1,5 +1,5 @@
 /**
- * Description : page.tsx - 📌 위치 페이지
+ * Description : page.tsx - ?? intro/location ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

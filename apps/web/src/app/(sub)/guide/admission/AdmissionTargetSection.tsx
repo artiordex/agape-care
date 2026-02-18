@@ -1,5 +1,5 @@
 /**
- * Description : AdmissionTargetSection.tsx - 📌 입소 대상 안내 섹션
+ * Description : AdmissionTargetSection.tsx - ?? AdmissionTargetSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

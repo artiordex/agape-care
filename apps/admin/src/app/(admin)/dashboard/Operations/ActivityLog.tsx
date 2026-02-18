@@ -1,5 +1,5 @@
 /**
- * Description : ActivityLog.tsx - 📌 대시보드 최근 운영 활동 로그 섹션
+ * Description : ActivityLog.tsx - ?? ActivityLog UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

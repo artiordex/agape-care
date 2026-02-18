@@ -1,5 +1,5 @@
 /**
- * Description : CopaymentTab.tsx - 📌 본인부담금 관리 (데이터 연동 및 입금 처리 모달 연결)
+ * Description : CopaymentTab.tsx - ?? ? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

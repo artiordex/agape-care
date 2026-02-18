@@ -1,5 +1,5 @@
 /**
- * Description : CognitiveEvalModal.tsx - 📌 CIST 인지기능 평가 (최종 수정본)
+ * Description : CognitiveEvalModal.tsx - ?? ?? UI ????
  * 모든 세부 항목 점수 산출 로직 및 스타일 에러 수정 완료
  * Author : Shiwoo Min
  * Date : 2026-02-06

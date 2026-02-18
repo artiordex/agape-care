@@ -1,5 +1,5 @@
 /**
- * Description : HistoryTimeline.tsx - 📌 타임라인 축 개별 위치 보정
+ * Description : HistoryTimeline.tsx - ?? HistoryTimeline UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

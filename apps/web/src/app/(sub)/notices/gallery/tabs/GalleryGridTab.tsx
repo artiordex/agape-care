@@ -1,5 +1,5 @@
 /**
- * Description : GalleryGridTab.tsx - 📌 갤러리 밀착 그리드 보기
+ * Description : GalleryGridTab.tsx - ?? ? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

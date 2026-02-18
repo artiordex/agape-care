@@ -1,5 +1,5 @@
 /**
- * Description : BoardSearch.tsx - 📌 게시판 검색 섹션
+ * Description : BoardSearch.tsx - ?? BoardSearch UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

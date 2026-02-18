@@ -1,5 +1,5 @@
 /**
- * Description : QuickLinkGrid.tsx - 📌 대시보드 퀵 링크 그리드 섹션
+ * Description : QuickLinkGrid.tsx - ?? QuickLinkGrid UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-02
  */

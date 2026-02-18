@@ -1,5 +1,5 @@
 /**
- * Description : detail-page.tsx - 📌 게시판 상세 페이지
+ * Description : page.tsx - ?? notices/board/[id] ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-08
  */

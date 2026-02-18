@@ -1,5 +1,5 @@
 /**
- * Description : DepositProcessingModal.tsx - 📌 입금 처리 및 수납 관리 모달
+ * Description : DepositProcessingModal.tsx - ?? ?? UI ????
  * 이미지(image_76c682.png)의 3단 레이아웃(정보/청구서선택/상세내역) 완벽 재현
  * Author : Shiwoo Min
  * Date : 2026-02-06

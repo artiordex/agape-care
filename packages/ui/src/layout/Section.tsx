@@ -1,5 +1,5 @@
 /**
- * Description : Section.tsx - 📌 섹션 레이아웃 컴포넌트
+ * Description : Section.tsx - ?? Section UI ????
  * Author : Shiwoo Min
  * Date : 2025-09-25
  */

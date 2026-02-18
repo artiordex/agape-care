@@ -1,5 +1,5 @@
 /**
- * Description : inquiry.module.ts - 📌 상담 및 면회 문의 통합 모듈
+ * Description : inquiry.module.ts - ?? contents ?? ??? ?? ??
  * Author : (User)
  * Date : 2026-02-16
  */

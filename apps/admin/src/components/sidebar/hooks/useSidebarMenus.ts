@@ -1,5 +1,5 @@
 /**
- * Description : useSidebarMenus.ts - 📌 관리자 사이드바의 메뉴 상태 및 아코디언 로직 관리 훅
+ * Description : useSidebarMenus.ts - ?? ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

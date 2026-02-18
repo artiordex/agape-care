@@ -1,5 +1,5 @@
 /**
- * Description : popup-serialization.utils.ts - 📌 팝업 데이터 직렬화 유틸리티
+ * Description : popup-serialization.utils.ts - ?? ?? ???? ??
  * Author : Shiwoo Min
  * Date : 2026-02-16
  */

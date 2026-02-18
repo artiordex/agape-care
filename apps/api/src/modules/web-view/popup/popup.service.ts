@@ -1,5 +1,5 @@
 /**
- * Description : PopupService.ts - 📌 팝업 서비스
+ * Description : popup.service.ts - ?? web-view ??? ???? ?? ???
  * Author : Shiwoo Min
  * Date : 2026-02-16
  */

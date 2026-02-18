@@ -1,5 +1,5 @@
 /**
- * Description : NoticeService.ts - 📌 공지사항 서비스
+ * Description : notice.service.ts - ?? contents ??? ???? ?? ???
  * Author : Shiwoo Min
  * Date : 2026-02-16
  */

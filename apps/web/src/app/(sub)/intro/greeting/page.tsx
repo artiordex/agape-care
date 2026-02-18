@@ -1,5 +1,5 @@
 /**
- * Description : page.tsx - 📌 Agape-Care 요양원 인사말 페이지
+ * Description : page.tsx - ?? intro/greeting ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

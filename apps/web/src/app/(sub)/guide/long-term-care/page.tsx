@@ -1,5 +1,5 @@
 /**
- * Description : page.tsx - 📌 장기요양보험 안내 통합 페이지 (너비 90%)
+ * Description : page.tsx - ?? guide/long-term-care ??? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

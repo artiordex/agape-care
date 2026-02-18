@@ -1,5 +1,5 @@
 /**
- * Description : DocumentsTab.tsx - 📂 케어포 스타일 서류 관리 및 여백 유지 리스트
+ * Description : DocumentsTab.tsx - ?? ? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */

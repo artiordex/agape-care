@@ -1,5 +1,5 @@
 /**
- * Description : RootProvider.tsx - 📌 Web 전용 Provider Wrapper
+ * Description : RootProvider.tsx - ?? ?? Provider ??
  * Author : Shiwoo Min
  * Date : 2025-10-07
  */

@@ -1,5 +1,5 @@
 /**
- * Description : CostInfoSection.tsx - 📌 비용 안내 테이블 섹션
+ * Description : CostInfoSection.tsx - ?? CostInfoSection UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-01
  */

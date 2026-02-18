@@ -1,5 +1,5 @@
 /**
- * Description : AssessmentTab.tsx - 📊 기초평가 관리 및 낙상위험도 평가 모달 연동
+ * Description : AssessmentTab.tsx - ?? ? UI ????
  * Author : Shiwoo Min
  * Date : 2026-02-06
  */
