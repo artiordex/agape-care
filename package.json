@@ -26,7 +26,7 @@
     "build": "pnpm -r build",
     "build:web": "pnpm --filter @agape-care/web build",
     "build:web:export": "pnpm --filter @agape-care/web build:export",
-    "deploy:web:cf": "pnpm build:web:export && pnpm dlx wrangler pages deploy apps/web/out --project-name=agape-care-web",
+    "deploy:web:cf": "pnpm build:web:export && npx wrangler deploy --config apps/web/wrangler.toml",
     "build:admin": "pnpm --filter @agape-care/admin build",
     "build:api": "pnpm --filter @agape-care/api build",
     "preview": "vite preview",

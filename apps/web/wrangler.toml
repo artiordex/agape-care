@@ -1,0 +1,3 @@
+name = "agape-care-web"
+compatibility_date = "2026-02-18"
+assets = { directory = "out" }
