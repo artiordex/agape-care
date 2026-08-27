@@ -25,6 +25,8 @@
     "dev:worker": "pnpm --filter @agape-care/worker dev",
     "build": "pnpm -r build",
     "build:web": "pnpm --filter @agape-care/web build",
+    "build:web:export": "pnpm --filter @agape-care/web build:export",
+    "deploy:web:cf": "pnpm build:web:export && pnpm dlx wrangler pages deploy apps/web/out --project-name=agape-care-web",
     "build:admin": "pnpm --filter @agape-care/admin build",
     "build:api": "pnpm --filter @agape-care/api build",
     "preview": "vite preview",
@@ -237,6 +239,7 @@
     "overrides": {
       "react": "^18.3.1",
       "react-dom": "^18.3.1",
+      "react-player": "2.16.0",
       "nx": "22.4.1",
       "prisma": "^7.3.0",
       "graceful-fs": "^4.2.11"

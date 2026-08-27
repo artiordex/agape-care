@@ -80,7 +80,8 @@ export default function ResidentList({
       try {
         const res = await fetch('/api/residents/rooms/list');
         if (res.ok) {
-          const data: RoomMaster[] = await res.json();
+          const json = await res.json();
+          const data: RoomMaster[] = json?.data ?? json;
           setRooms(data);
           // 층 정보가 있다면 첫 번째 층을 기본 선택
           const uniqueFloors = Array.from(new Set(data.map(r => r.floor))).sort((a, b) => a.localeCompare(b));

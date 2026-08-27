@@ -1,8 +1,9 @@
--- Description : 99-final-setup.sql - ?? ?????? DDL ? ?? ????
+-- Description : 99-final-setup.sql - 최종 설정 및 검증
 -- Author : Shiwoo Min
 -- Date : 2025-02-09
--- Purpose : Web 알림마당 view 및 인덱스 최적화
--- Note: 30-web-views.sql과 40-web-seed.sql 실행 후 마지막에 실행
+-- Purpose : 인덱스 추가, 통계 갱신, View 검증, 제약조건 추가
+-- Note: 실행 순서: 00 → 20 → 30 → 31 → 40 → 99
+--       40-seed.sql (기존 40-web-seed.sql 통합) 실행 후 마지막에 실행
 
 -- ============================================
 -- 1. 시퀀스 초기화 (Seed 데이터 충돌 방지)
@@ -184,10 +185,106 @@ BEGIN
     RAISE NOTICE 'Step 3: Updating Table Statistics';
     RAISE NOTICE '========================================';
 
-    -- 관련 테이블 분석
-    ANALYZE residents;
+    -- 기본 인프라
+    ANALYZE facilities;
+    ANALYZE site_infos;
+    ANALYZE departments;
+    ANALYZE employee_roles;
+    ANALYZE employees;
+    ANALYZE employee_permissions;
+    ANALYZE employee_educations;
+    -- 공간/방
     ANALYZE rooms;
+    -- 입소자 기본
+    ANALYZE residents;
     ANALYZE resident_rooms;
+    ANALYZE resident_contacts;
+    ANALYZE resident_contracts;
+    ANALYZE resident_medications;
+    ANALYZE resident_assessments;
+    ANALYZE resident_extra_costs;
+    ANALYZE resident_payments;
+    ANALYZE resident_documents;
+    ANALYZE resident_health_notes;
+    ANALYZE resident_vitals;
+    ANALYZE resident_admission_histories;
+    -- 상담
+    ANALYZE consultation_records;
+    ANALYZE consultation_files;
+    -- 케어플랜
+    ANALYZE care_plans;
+    ANALYZE care_plan_items;
+    -- 케어 업무
+    ANALYZE incidents;
+    ANALYZE incident_files;
+    ANALYZE care_tasks;
+    ANALYZE daily_care_records;
+    -- 인사/근무
+    ANALYZE attendance_records;
+    ANALYZE shift_templates;
+    ANALYZE shift_assignments;
+    ANALYZE leave_requests;
+    ANALYZE leave_approvals;
+    -- 급여
+    ANALYZE payroll_settings;
+    ANALYZE payroll_batches;
+    ANALYZE payroll_records;
+    ANALYZE payroll_items;
+    -- 회계
+    ANALYZE account_categories;
+    ANALYZE accounts;
+    ANALYZE suppliers;
+    ANALYZE transactions;
+    ANALYZE transaction_items;
+    ANALYZE invoice_headers;
+    ANALYZE invoice_items;
+    -- 보험청구
+    ANALYZE insurance_claims;
+    ANALYZE insurance_claim_items;
+    ANALYZE insurance_claim_history;
+    -- 재고
+    ANALYZE inventory_items;
+    ANALYZE inventory_transactions;
+    -- 차량
+    ANALYZE vehicles;
+    ANALYZE transport_requests;
+    ANALYZE vehicle_run_logs;
+    -- CCTV
+    ANALYZE cctv_devices;
+    ANALYZE cctv_view_logs;
+    ANALYZE cctv_consents;
+    ANALYZE cctv_weekly_checks;
+    -- 시설 운영
+    ANALYZE grievances;
+    ANALYZE facility_inspections;
+    -- 시스템
+    ANALYZE sms_send_logs;
+    ANALYZE audit_logs;
+    ANALYZE system_settings;
+    ANALYZE notification_queue;
+    -- 알림 서비스
+    ANALYZE notification_templates;
+    ANALYZE notification_campaigns;
+    ANALYZE notification_campaign_recipients;
+    ANALYZE recipient_groups;
+    ANALYZE recipient_group_members;
+    ANALYZE sms_credits;
+    -- 자료실
+    ANALYZE facility_files;
+    -- 투약
+    ANALYZE medications;
+    ANALYZE medication_schedules;
+    ANALYZE medication_records;
+    -- 욕구사정
+    ANALYZE needs_assessments;
+    -- 간담회
+    ANALYZE meeting_records;
+    ANALYZE meeting_minutes;
+    -- 목욕
+    ANALYZE bath_schedules;
+    -- 근무 스케줄 생성 규칙
+    ANALYZE schedule_generation_rules;
+    -- Web 알림마당
     ANALYZE notices;
     ANALYZE notice_files;
     ANALYZE board_posts;
@@ -201,38 +298,11 @@ BEGIN
     ANALYZE program_schedules;
     ANALYZE program_attendance;
     ANALYZE file_storage;
-    ANALYZE employees;
-    ANALYZE facilities;
-    ANALYZE site_infos;
-    ANALYZE departments;
-    ANALYZE employee_roles;
-    ANALYZE employee_permissions;
-    -- 방문예약 / 웹문의 / 팝업 테이블
     ANALYZE visit_reservations;
     ANALYZE web_inquiries;
     ANALYZE popup_banners;
-    -- 추가 서비스 테이블
-    ANALYZE notification_templates;
-    ANALYZE notification_campaigns;
-    ANALYZE notification_campaign_recipients;
-    ANALYZE recipient_groups;
-    ANALYZE recipient_group_members;
-    ANALYZE sms_credits;
-    ANALYZE facility_files;
-    -- 입소자 관리 테이블
-    ANALYZE resident_contacts;
-    ANALYZE resident_medications;
-    ANALYZE resident_contracts;
-    ANALYZE resident_assessments;
-    ANALYZE resident_extra_costs;
-    ANALYZE resident_payments;
-    ANALYZE resident_documents;
-    ANALYZE consultation_records;
-    ANALYZE consultation_files;
-    ANALYZE care_plans;
-    ANALYZE care_plan_items;
 
-    RAISE NOTICE '  ✓ All tables analyzed (including notification, additional-services, resident-care)';
+    RAISE NOTICE '  ✓ All 93 tables analyzed';
     RAISE NOTICE '';
     RAISE NOTICE 'Statistics Updated';
     RAISE NOTICE '';
@@ -438,8 +508,9 @@ BEGIN
     RAISE NOTICE '제약조건: % 개', constraint_count;
     RAISE NOTICE '';
     RAISE NOTICE '=================================================';
-    RAISE NOTICE '    Available Admin Views';
+    RAISE NOTICE '    Available Admin Views (32개)';
     RAISE NOTICE '=================================================';
+    RAISE NOTICE '  [시설/알림/직원]';
     RAISE NOTICE '  • v_admin_facilities                - 시설 정보';
     RAISE NOTICE '  • v_admin_site_settings             - 사이트 설정';
     RAISE NOTICE '  • v_admin_employees                 - 직원 목록';
@@ -448,33 +519,83 @@ BEGIN
     RAISE NOTICE '  • v_admin_notification_campaigns    - 알림 캠페인';
     RAISE NOTICE '  • v_admin_recipient_groups          - 수신자 그룹';
     RAISE NOTICE '  • v_admin_facility_files            - 자료실 파일';
+    RAISE NOTICE '  [입소자 관리]';
     RAISE NOTICE '  • v_admin_residents                 - 입소자 목록 (방+보호자)';
     RAISE NOTICE '  • v_admin_resident_assessments      - 기초평가 이력';
     RAISE NOTICE '  • v_admin_consultation_records      - 상담일지';
     RAISE NOTICE '  • v_admin_resident_extra_costs      - 비급여/기타 내역';
+    RAISE NOTICE '  [급여]';
+    RAISE NOTICE '  • v_admin_payroll_records           - 급여 대장';
+    RAISE NOTICE '  • v_admin_payroll_batches           - 급여 배치';
+    RAISE NOTICE '  • v_admin_payroll_settings          - 급여 설정';
+    RAISE NOTICE '  [인사/근무]';
+    RAISE NOTICE '  • v_admin_attendance_records        - 근태 기록';
+    RAISE NOTICE '  • v_admin_leave_requests            - 휴가 신청';
+    RAISE NOTICE '  • v_admin_shift_assignments         - 근무 배정';
+    RAISE NOTICE '  [투약]';
+    RAISE NOTICE '  • v_admin_medication_schedules      - 투약 스케줄';
+    RAISE NOTICE '  • v_admin_medication_records        - 투약 기록';
+    RAISE NOTICE '  [차량]';
+    RAISE NOTICE '  • v_admin_vehicles                  - 차량 목록';
+    RAISE NOTICE '  • v_admin_vehicle_run_logs          - 차량 운행 일지';
+    RAISE NOTICE '  [CCTV]';
+    RAISE NOTICE '  • v_admin_cctv_devices              - CCTV 장치';
+    RAISE NOTICE '  • v_admin_cctv_consents             - CCTV 동의 현황';
+    RAISE NOTICE '  [시설점검/간담회/욕구사정]';
+    RAISE NOTICE '  • v_admin_facility_inspections      - 시설 점검 이력';
+    RAISE NOTICE '  • v_admin_meeting_records           - 간담회 기록';
+    RAISE NOTICE '  • v_admin_needs_assessments         - 욕구사정';
+    RAISE NOTICE '  [회계/보험청구/민원/목욕/재고]';
+    RAISE NOTICE '  • v_admin_insurance_claims          - 보험청구';
+    RAISE NOTICE '  • v_admin_transactions              - 회계 거래내역';
+    RAISE NOTICE '  • v_admin_grievances                - 민원 처리';
+    RAISE NOTICE '  • v_admin_bath_schedules            - 목욕 스케줄';
+    RAISE NOTICE '  • v_admin_inventory_items           - 재고 현황';
     RAISE NOTICE '';
     RAISE NOTICE '=================================================';
-    RAISE NOTICE '    Additional Tables Added';
+    RAISE NOTICE '    DB 구성 요약 (schema.prisma 기준 93개 테이블)';
     RAISE NOTICE '=================================================';
-    RAISE NOTICE '  [알림/추가서비스]';
-    RAISE NOTICE '  + notification_templates';
-    RAISE NOTICE '  + notification_campaigns';
-    RAISE NOTICE '  + notification_campaign_recipients';
-    RAISE NOTICE '  + recipient_groups';
-    RAISE NOTICE '  + recipient_group_members';
-    RAISE NOTICE '  + sms_credits';
-    RAISE NOTICE '  + facility_files';
-    RAISE NOTICE '  [입소자 관리]';
-    RAISE NOTICE '  + resident_contacts';
-    RAISE NOTICE '  + resident_medications';
-    RAISE NOTICE '  + resident_contracts';
-    RAISE NOTICE '  + resident_assessments';
-    RAISE NOTICE '  + resident_extra_costs';
-    RAISE NOTICE '  + resident_payments';
-    RAISE NOTICE '  + resident_documents';
-    RAISE NOTICE '  + consultation_records';
-    RAISE NOTICE '  + consultation_files';
-    RAISE NOTICE '  + care_plans';
-    RAISE NOTICE '  + care_plan_items';
+    RAISE NOTICE '  [기본 인프라]          facilities, site_infos, departments';
+    RAISE NOTICE '                         employee_roles, employees, employee_permissions';
+    RAISE NOTICE '                         employee_educations, rooms';
+    RAISE NOTICE '  [입소자]               residents, resident_rooms, resident_contacts';
+    RAISE NOTICE '                         resident_contracts, resident_medications';
+    RAISE NOTICE '                         resident_assessments, resident_extra_costs';
+    RAISE NOTICE '                         resident_payments, resident_documents';
+    RAISE NOTICE '                         resident_health_notes, resident_vitals';
+    RAISE NOTICE '                         resident_admission_histories';
+    RAISE NOTICE '  [상담/케어플랜]        consultation_records, consultation_files';
+    RAISE NOTICE '                         care_plans, care_plan_items';
+    RAISE NOTICE '  [케어 업무]            incidents, incident_files';
+    RAISE NOTICE '                         care_tasks, daily_care_records';
+    RAISE NOTICE '  [인사/근무]            attendance_records, shift_templates';
+    RAISE NOTICE '                         shift_assignments, leave_requests, leave_approvals';
+    RAISE NOTICE '  [급여]                 payroll_settings, payroll_batches';
+    RAISE NOTICE '                         payroll_records, payroll_items';
+    RAISE NOTICE '  [회계]                 account_categories, accounts, suppliers';
+    RAISE NOTICE '                         transactions, transaction_items';
+    RAISE NOTICE '                         invoice_headers, invoice_items';
+    RAISE NOTICE '  [보험청구]             insurance_claims, insurance_claim_items';
+    RAISE NOTICE '                         insurance_claim_history';
+    RAISE NOTICE '  [재고]                 inventory_items, inventory_transactions';
+    RAISE NOTICE '  [차량]                 vehicles, transport_requests, vehicle_run_logs';
+    RAISE NOTICE '  [CCTV]                 cctv_devices, cctv_view_logs';
+    RAISE NOTICE '                         cctv_consents, cctv_weekly_checks';
+    RAISE NOTICE '  [시설운영]             grievances, facility_inspections';
+    RAISE NOTICE '  [투약]                 medications, medication_schedules, medication_records';
+    RAISE NOTICE '  [욕구사정/간담회/목욕] needs_assessments, meeting_records, meeting_minutes';
+    RAISE NOTICE '                         bath_schedules, schedule_generation_rules';
+    RAISE NOTICE '  [시스템]               sms_send_logs, audit_logs';
+    RAISE NOTICE '                         system_settings, notification_queue';
+    RAISE NOTICE '  [알림 서비스]          notification_templates, notification_campaigns';
+    RAISE NOTICE '                         notification_campaign_recipients';
+    RAISE NOTICE '                         recipient_groups, recipient_group_members';
+    RAISE NOTICE '                         sms_credits, facility_files';
+    RAISE NOTICE '  [Web 알림마당]         notices, notice_files, board_posts, board_comments';
+    RAISE NOTICE '                         board_files, gallery_items, gallery_files';
+    RAISE NOTICE '                         meal_plans, meal_plan_items, programs';
+    RAISE NOTICE '                         program_schedules, program_attendance';
+    RAISE NOTICE '                         file_storage, visit_reservations';
+    RAISE NOTICE '                         web_inquiries, popup_banners';
     RAISE NOTICE '=================================================';
 END$$;

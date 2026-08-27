@@ -1,0 +1,3 @@
+# Cloudflare Pages SPA & Dynamic Routes Fallback
+/notices/board/*  /notices/board/1.html  200
+/notices/notice/* /notices/notice/1.html 200

@@ -14,7 +14,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // 배포 환경 감지
-const IS_FIREBASE = process.env.FIREBASE === 'true';
+const IS_STATIC_EXPORT =
+  process.env.STATIC_EXPORT === 'true' ||
+  process.env.CLOUDFLARE === 'true' ||
+  process.env.FIREBASE === 'true';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -22,10 +25,10 @@ const nextConfig = {
   //  appDir: true,
   //},
 
-  output: IS_FIREBASE ? 'export' : 'standalone',
+  output: IS_STATIC_EXPORT ? 'export' : (process.env.VERCEL ? undefined : 'standalone'),
 
   images: {
-    unoptimized: IS_FIREBASE,
+    unoptimized: IS_STATIC_EXPORT,
     domains: ['localhost', 'your-domain.com', 'api.dicebear.com'],
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [

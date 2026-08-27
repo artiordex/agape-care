@@ -84,7 +84,8 @@ export default function OutingResidentPanel({
       try {
         const res = await fetch('/api/residents/rooms/list');
         if (res.ok) {
-          const data: RoomMaster[] = await res.json();
+          const json = await res.json();
+          const data: RoomMaster[] = json?.data ?? json;
           setRooms(data);
           const uniqueFloors = Array.from(new Set(data.map(r => r.floor))).sort((a, b) =>
             a.localeCompare(b),

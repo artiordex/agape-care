@@ -19,10 +19,6 @@
     "outDir": "../../dist/apps/api",
     "assets": [
       {
-        "include": "package.json",
-        "outDir": "../../dist/apps/api"
-      },
-      {
         "include": "src/**/*.json",
         "outDir": "../../dist/apps/api"
       },

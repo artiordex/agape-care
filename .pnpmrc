@@ -31,6 +31,7 @@ public-hoist-pattern[]=playwright*
 
 # NestJS (선택 사항 – 현재 구조에서는 OK)
 public-hoist-pattern[]=@nestjs/*
+public-hoist-pattern[]=@agape-care/*
 
 # 공용 유틸리티
 public-hoist-pattern[]=zod

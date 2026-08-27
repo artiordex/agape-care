@@ -23,9 +23,11 @@ export default function AssessmentTab() {
   const [isCarePlanModalOpen, setCarePlanModalOpen] = useState(false);
   const [isCarePlanResultModalOpen, setCarePlanResultModalOpen] = useState(false);
 
-  // ?곕룄 由ъ뒪??  const years = ['2026', '2025', '2024', '2023', '2022', '2021'];
+  // 연도 리스트
+  const years = ['2026', '2025', '2024', '2023', '2022', '2021'];
 
-  // ?뚯씠釉??ㅽ???  const thClass = 'bg-[#E8F1F8] border border-[#B8D1E0] px-2 py-1 text-center text-[12px] font-bold text-gray-700';
+  // 테이블 스타일
+  const thClass = 'bg-[#E8F1F8] border border-[#B8D1E0] px-2 py-1 text-center text-[12px] font-bold text-gray-700';
   const tdClass = 'border border-[#B8D1E0] p-0 text-center text-[12px] min-h-[80px]';
 
   // ?섎떒 踰꾪듉 援ъ꽦 (?대?吏 ?섎떒 踰꾪듉 諛??ы쁽)

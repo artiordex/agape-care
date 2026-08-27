@@ -245,5 +245,6 @@
   "terminal.integrated.copyOnSelection": true,
 
   // Git 저장소 변경사항 자동 가져오기
-  "git.autofetch": true
+  "git.autofetch": true,
+  "i18n-ally.localesPaths": []
 }

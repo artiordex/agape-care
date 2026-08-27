@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev --port 3000",
     "build": "next build",
+    "build:export": "cross-env STATIC_EXPORT=true next build",
     "start": "next start",
     "lint": "next lint",
     "type-check": "pnpm -w exec tsc --noEmit -p tsconfig.json",
